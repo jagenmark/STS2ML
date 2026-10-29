@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "run_id": "synthetic-0",
+  "decision_id": "0",
+  "source": "synthetic_demo",
+  "game_version": "synthetic-not-game-data",
+  "split_group": "synthetic-seed-0",
+  "observation": {
+    "character": "DEMO",
+    "ascension": 10,
+    "decision_type": "card_reward",
+    "act": 1,
+    "floor": 1,
+    "hp": 20,
+    "max_hp": 80,
+    "gold": 38,
+    "deck": [
+      {
+        "id": "DEMO_BLUE",
+        "upgrades": 0
+      }
+    ],
+    "relics": [],
+    "potions": [],
+    "state_quality": "synthetic"
+  },
+  "candidates": [
+    {
+      "action_id": "red",
+      "kind": "pick_card",
+      "entity_id": "DEMO_RED",
+      "upgrades": 0,
+      "price": null
+    },
+    {
+      "action_id": "blue",
+      "kind": "pick_card",
+      "entity_id": "DEMO_BLUE",
+      "upgrades": 0,
+      "price": null
+    },
+    {
+      "action_id": "skip",
+      "kind": "skip",
+      "entity_id": null,
+      "upgrades": null,
+      "price": null
+    }
+  ],
+  "chosen_action_id": null,
+  "outcome": null,
+  "metadata": {
+    "purpose": "plumbing and learnability check only"
+  }
+}
