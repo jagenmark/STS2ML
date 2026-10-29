@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "observed_date": "2026-10-29",
+  "target": {
+    "first_character": "SILENT",
+    "ascension": 10,
+    "long_term": "all five characters"
+  },
+  "probe_repo_revision": "80e9d59d1dabc352f6b78ac71beab8adced1a758",
+  "sampling_note": "16 convenience-selected journals (8 listed beta, 8 stable; 4 listed wins and 4 non-abandoned losses each); not a representative estimate of global acceptance",
+  "source_counts": {
+    "v0.111.0": {
+      "reported_total": 1716,
+      "total_is_lower_bound": true
+    },
+    "v0.107.1": {
+      "reported_total": 448,
+      "total_is_lower_bound": true
+    }
+  },
+  "probe_by_listed_patch": {
+    "v0.107.1": {
+      "files": 8,
+      "accepted_runs": 2,
+      "accepted_decisions": 45,
+      "strict_timing_decisions": 1,
+      "header_builds": {
+        "v0.107.1": 8
+      },
+      "run_exclusion_flags": {
+        "reloaded_run": 5,
+        "multiple_headers": 4,
+        "gameplay_or_unknown_mod": 4
+      },
+      "outcomes": {
+        "0.0": 1,
+        "None": 1
+      }
+    },
+    "v0.111.0": {
+      "files": 8,
+      "accepted_runs": 2,
+      "accepted_decisions": 28,
+      "strict_timing_decisions": 0,
+      "header_builds": {
+        "v0.111.0": 6,
+        "0.1.0": 2
+      },
+      "run_exclusion_flags": {
+        "gameplay_or_unknown_mod": 3,
+        "reloaded_run": 5,
+        "multiple_headers": 3,
+        "console_command_used": 1
+      },
+      "outcomes": {
+        "None": 1,
+        "0.0": 1
+      }
+    }
+  },
+  "sample_provenance": [
+    {
+      "url": "https://spire-codex.com/api/runs/09d53281c854f106/replay",
+      "sha256": "e279a8b4b21c8cea16d08f3fc1645f7345d626286404c0c17bf9c7beac8c3181",
+      "bytes": 109455,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/22c209f6a15021b7/replay",
+      "sha256": "9aea0999842410bae6a8148da452de4708457d0ab5b5eccc861b7ae819667690",
+      "bytes": 180987,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/35a21a97be9613dc/replay",
+      "sha256": "182052de9883060e60c0f526c9ec5b1354d6b2131e607b2f4e40af19470ae528",
+      "bytes": 271702,
+      "listed_game_version": "v0.111.0"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/43c97afcd83c2321/replay",
+      "sha256": "54c986924bff21453e217b355a11626de31a8e0f0eac17d13b9ec18e1312dd0c",
+      "bytes": 392245,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/6638c2685840b15b/replay",
+      "sha256": "3c6b6cf1ea71b678d14f173d3f24dc21820eb31d5a870a64814c600fe26b7777",
+      "bytes": 28670,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/6d71b39ad1b4d49b/replay",
+      "sha256": "093cccfc1ddaa6d926bea946345bd0358b1aa96ee4b20dcfab46d43602cfc459",
+      "bytes": 340271,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/7df365eb52429f78/replay",
+      "sha256": "1b168fbe550679c1c6bd450adf67f6fc3c5b9b0ee294c19521c02ddfbfc6a3a1",
+      "bytes": 75512,
+      "listed_game_version": "v0.111.0"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/a2b452c332527413/replay",
+      "sha256": "5f60cf9f1dc4ab3a51fc638942b18ee91991e460d48c7adcf9a737274d9c85b8",
+      "bytes": 260199,
+      "listed_game_version": "v0.111.0"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/aefcb5da415e7be9/replay",
+      "sha256": "4f77585d121368211c9958e53cc48064124e2a06add83455423e91951b9afd9d",
+      "bytes": 103108,
+      "listed_game_version": "v0.111.0"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/af6e11a3c53b54a0/replay",
+      "sha256": "9df9c00a401f0d60bbd8005f58ef62317d8632abef3e93f5ddb81fd3c028b569",
+      "bytes": 300767,
+      "listed_game_version": "v0.111.0"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/b0813c27703bbbde/replay",
+      "sha256": "196f6d9f787226bfffaf09d4afe3f49e756e6d14a8387497a4665a124028258a",
+      "bytes": 310977,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/b3a9f6050e230ed5/replay",
+      "sha256": "984d603a574fef280e30bf6621db4dd771c08f11c363d5d9cf5680c3a9466250",
+      "bytes": 93139,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/cfc6c18599d2ed63/replay",
+      "sha256": "4059e6e554db2f83249ce26e93b9721abad92c3d1007cf9ba9be965e1415bcd9",
+      "bytes": 296000,
+      "listed_game_version": "v0.111.0"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/d5086c1f93e7f4a6/replay",
+      "sha256": "10ecdcfad9352c1a693c4044b8fec238eb331e14243edbb74a3d38bb844eaa48",
+      "bytes": 311975,
+      "listed_game_version": "v0.111.0"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/e487311f5f2c5cba/replay",
+      "sha256": "3c5658cc4b60307e0e87f276641d3885a3f6abc4a5742181fb2b3df91c0c11f8",
+      "bytes": 259363,
+      "listed_game_version": "v0.107.1"
+    },
+    {
+      "url": "https://spire-codex.com/api/runs/e7f4c913a68d8735/replay",
+      "sha256": "3e63980d7382e530bc9a7f414850d33b0c2d16cf582e6c5ad691cebe76c99f3f",
+      "bytes": 35216,
+      "listed_game_version": "v0.111.0"
+    }
+  ],
+  "limitations": [
+    "Do not add counts across websites without deduplication",
+    "Do not use final decks or later upgrades as decision-time features",
+    "Listable replay is not necessarily complete, unmodified or independent",
+    "Global run counts do not prove policy learnability or native win-rate gains"
+  ],
+  "working_recommendation": "Keep installed v0.111.0 as first candidate, inventory a larger patch-specific clean replay set and resolve observation timing/outcome joins before training. No evidence yet that switching to stable increases usable demonstrations."
+}

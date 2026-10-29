@@ -2,6 +2,14 @@
 
 ## Scope of milestone 0.1
 
+The selected first experiment is **Silent A10 on v0.111.0 public beta**.
+All characters are a later goal. Models, vocabularies and evaluation results are
+kept separate for each exact game version. Training rejects mixed versions,
+checkpoint loading requires one identifiable version, prediction checks the
+decision's version, and output-directory reuse cannot cross that boundary.
+The former mixed-version training override has been removed. Legacy v1
+checkpoints remain readable only when their saved audit identifies one version.
+
 The eventual agent combines a learned macro policy/value model with tactical
 search. This milestone provides the learning and observation boundary first.
 Only card rewards are imported/projected by the supplied adapters. The schema
@@ -68,7 +76,8 @@ Any comparison after repeated inspection of test data needs a fresh held-out set
 ## Artifacts and reproducibility
 
 `best.pt` stores model weights, architecture, vocabulary, training configuration,
-training audit, split manifest and fitted baselines. Loading uses PyTorch's
+training audit, exact game version, split manifest and fitted baselines.
+`experiment.json` reserves the output directory for that game version. Loading uses PyTorch's
 `weights_only=True` deserializer. `report.json` records every epoch's training and
 validation metrics, final test metrics and limitations. `split.json` stores the
 dataset digest and component assignments. No test labels determine vocabulary

@@ -157,3 +157,45 @@ def test_no_labels_are_rejected_and_zero_value_weight_has_no_probability(tmp_pat
     result = predict(tmp_path / "no_outcomes/best.pt", records[0])
     assert result["value_head_trained"] is False
     assert result["outcome_probability"] is None
+
+
+def test_mixed_patches_cannot_train_even_when_each_run_is_consistent(tmp_path):
+    records = make_demo_records(runs=48)
+    for record in records:
+        record["game_version"] = "v0.111.0" if record["run_id"] == records[0]["run_id"] else "v0.107.1"
+    with pytest.raises(ValueError, match="exactly one game version"):
+        train(records, tmp_path / "mixed", tiny_config(epochs=1))
+    assert not (tmp_path / "mixed").exists()
+
+
+def test_patch_identity_blocks_inference_and_output_reuse_and_loads_legacy(tmp_path):
+    records = make_demo_records(runs=48)
+    for record in records:
+        record["game_version"] = "v0.111.0"
+    folder = tmp_path / "beta"
+    train(records, folder, tiny_config(epochs=1))
+    assert predict(folder / "best.pt", records[0])["game_version"] == "v0.111.0"
+    other_patch = deepcopy(records)
+    for record in other_patch:
+        record["game_version"] = "v0.107.1"
+    with pytest.raises(ValueError, match="does not match"):
+        predict(folder / "best.pt", other_patch[0])
+    original = {p.name: p.read_bytes() for p in folder.iterdir()}
+    with pytest.raises(ValueError, match="different game version"):
+        train(other_patch, folder, tiny_config(epochs=1))
+    assert original == {p.name: p.read_bytes() for p in folder.iterdir()}
+    # Existing v1 checkpoints can recover their exact patch from the saved audit.
+    checkpoint = torch.load(folder / "best.pt", weights_only=True)
+    checkpoint.pop("game_version")
+    torch.save(checkpoint, tmp_path / "legacy.pt")
+    assert load_checkpoint(tmp_path / "legacy.pt")[2]["game_version"] == "v0.111.0"
+    # A copied legacy checkpoint must also protect a directory without a scope file.
+    legacy_folder = tmp_path / "legacy-output"
+    legacy_folder.mkdir()
+    torch.save(checkpoint, legacy_folder / "best.pt")
+    with pytest.raises(ValueError, match="different game version"):
+        train(other_patch, legacy_folder, tiny_config(epochs=1))
+    checkpoint["training_audit"]["versions"]["v0.107.1"] = 1
+    torch.save(checkpoint, tmp_path / "mixed.pt")
+    with pytest.raises(ValueError, match="exactly one game version"):
+        load_checkpoint(tmp_path / "mixed.pt")

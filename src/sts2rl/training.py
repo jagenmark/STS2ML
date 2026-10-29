@@ -32,7 +32,6 @@ class TrainConfig:
     dropout: float = 0.0
     device: str = "cpu"
     threads: int = 2
-    allow_mixed_versions: bool = False
 
     def __post_init__(self) -> None:
         if min(self.epochs, self.batch_size, self.threads) < 1:
@@ -157,10 +156,29 @@ def evaluate(
 
 def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> dict:
     validate_dataset(records)
-    if len({r["game_version"] for r in records}) > 1 and not config.allow_mixed_versions:
-        raise ValueError(
-            "mixed game versions: filter one version or explicitly enable mixed-version training"
-        )
+    versions = {r["game_version"] for r in records}
+    if len(versions) != 1:
+        raise ValueError("training requires exactly one game version; keep patch models separate")
+    game_version = next(iter(versions))
+    output_dir = Path(output_dir)
+    scope_path = output_dir / "experiment.json"
+    if scope_path.exists():
+        previous_version = json.loads(scope_path.read_text(encoding="utf-8")).get("game_version")
+        if previous_version != game_version:
+            raise ValueError("output directory belongs to a different game version")
+    if (output_dir / "best.pt").exists():
+        previous = torch.load(output_dir / "best.pt", map_location="cpu", weights_only=True)
+        if _checkpoint_game_version(previous) != game_version:
+            raise ValueError("output directory contains a checkpoint for a different game version")
+    if (output_dir / "report.json").exists():
+        previous_report = json.loads((output_dir / "report.json").read_text(encoding="utf-8"))
+        previous_version = previous_report.get("game_version")
+        if previous_version is None:
+            previous_version = _checkpoint_game_version(
+                {"training_audit": previous_report.get("dataset")}
+            )
+        if previous_version != game_version:
+            raise ValueError("output directory contains a report for a different game version")
     partitions, manifest = grouped_split(records, seed=config.seed)
     # Preserve transitive run/seed links BEFORE discarding unlabelled records.
     # Otherwise an unlabelled bridge can cause connected labelled runs to leak.
@@ -196,8 +214,11 @@ def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> d
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay
     )
-    output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    scope_path.write_text(
+        json.dumps({"schema_version": 1, "game_version": game_version}, indent=2) + "\n",
+        encoding="utf-8",
+    )
     baselines = fit_baselines(partitions["train"])
     history, best_score, best_epoch = [], float("inf"), -1
     for epoch in range(1, config.epochs + 1):
@@ -226,6 +247,7 @@ def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> d
             best_score, best_epoch = score, epoch
             checkpoint = {
                 "checkpoint_version": 1,
+                "game_version": game_version,
                 "model_config": asdict(model_config),
                 "vocabulary": vocab.to_dict(),
                 "model_state": {
@@ -241,6 +263,7 @@ def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> d
     best_model, _, _ = load_checkpoint(output_dir / "best.pt", device=config.device)
     report = {
         "status": "offline_baseline",
+        "game_version": game_version,
         "training": asdict(config),
         "model": asdict(model_config),
         "parameter_count": model.parameter_count,
@@ -266,6 +289,20 @@ def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> d
     return report
 
 
+def _checkpoint_game_version(checkpoint: dict) -> str:
+    """Read both new and legacy v1 checkpoints without accepting mixed patches."""
+    audit = checkpoint.get("training_audit")
+    versions = audit.get("versions") if isinstance(audit, dict) else None
+    if not isinstance(versions, dict) or len(versions) != 1:
+        raise ValueError("checkpoint must identify exactly one game version")
+    version = next(iter(versions))
+    if not isinstance(version, str) or not version:
+        raise ValueError("checkpoint game version is missing")
+    if checkpoint.get("game_version", version) != version:
+        raise ValueError("checkpoint game version disagrees with its training audit")
+    return version
+
+
 def load_checkpoint(
     path: str | Path, *, device: str = "cpu"
 ) -> tuple[MacroPolicyValue, Vocabulary, dict]:
@@ -273,6 +310,7 @@ def load_checkpoint(
     checkpoint = torch.load(path, map_location="cpu", weights_only=True)
     if checkpoint.get("checkpoint_version") != 1:
         raise ValueError("unsupported checkpoint version")
+    checkpoint["game_version"] = _checkpoint_game_version(checkpoint)
     vocab = Vocabulary.from_dict(checkpoint["vocabulary"])
     config = ModelConfig(**checkpoint["model_config"])
     if config.vocab_size != len(vocab):
@@ -287,6 +325,11 @@ def load_checkpoint(
 def predict(checkpoint_path: str | Path, record: dict, *, device: str = "cpu") -> dict:
     validate_record(record)
     model, vocab, checkpoint = load_checkpoint(checkpoint_path, device=device)
+    if record["game_version"] != checkpoint["game_version"]:
+        raise ValueError(
+            f"decision game version {record['game_version']!r} does not match "
+            f"checkpoint game version {checkpoint['game_version']!r}"
+        )
     outputs = model(collate_records([record], vocab, device))
     probabilities = outputs["policy_logits"][0].softmax(-1).cpu().tolist()
     ranked = sorted(
@@ -302,6 +345,7 @@ def predict(checkpoint_path: str | Path, record: dict, *, device: str = "cpu") -
         and checkpoint["train_config"]["value_weight"] > 0
     )
     return {
+        "game_version": checkpoint["game_version"],
         "ranked_actions": ranked,
         "outcome_probability": float(outputs["value_logits"].sigmoid()[0])
         if value_trained

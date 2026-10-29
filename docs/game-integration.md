@@ -1,5 +1,13 @@
 # Game integration: what exists and what is still unverified
 
+The active target is **v0.111.0 Silent A10**. The [headless comparison](headless-options.md)
+recommends qualifying the pinned sts2-cli beta host first. The adapter described
+below remains an experimental **stable v0.107.1** binding; it has not been ported
+by changing fingerprints. The [beta assessment](divine-beta-assessment.md) also
+records the unimplemented full-app ascension request and hard-coded handshake.
+Use [the Windows workstation guide](windows-workstation.md) and read-only
+`sts2rl doctor` to record the desktop environment before backend work.
+
 The Python learning pipeline can run without Slay the Spire 2. The optional game
 adapter below is **experimental and source-inspected**. It has not been run
 against a game installation in this project. Its tests use invented protocol

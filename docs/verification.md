@@ -2,6 +2,41 @@
 
 This document distinguishes code verification from game-playing evaluation.
 
+## Beta and Windows handoff update — 2026-10-29
+
+The follow-up implementation selects v0.111.0 / Silent / A10, adds a read-only
+`doctor`, exact-patch collection defaults, and mandatory patch boundaries for
+training, checkpoint loading, output-directory reuse, and inference. A whole
+dataset's run consistency is checked before CLI target filtering. Linux/Windows
+CI jobs now cover Python 3.11 and 3.12; their hosted results must be checked in
+Actions rather than inferred from the workflow definition.
+
+Local verification used Python **3.12.16**, PyTorch **2.15.0+cpu**, pytest **9.2.0**,
+and Ruff **0.17.3**:
+
+```bash
+ruff check src tests
+pytest -q
+sts2rl demo --output artifacts/verification-beta-handoff/demo --runs 64 --epochs 2
+sts2rl doctor --game-root "<local Steam game directory>" --output artifacts/environment/doctor-linux-beta.json
+```
+
+**94 tests passed**, lint passed, and the synthetic demo completed training,
+checkpoint selection and prediction. PyTorch emitted an optional missing-NumPy
+warning; these checks did not use NumPy. This short demo's metric is not a game
+result or the earlier eight-epoch synthetic experiment below.
+
+The local doctor identified v0.111.0 / commit `41cef1ea`, Steam build `24724944`,
+branch `public-beta`, and the [recorded Linux game hashes](divine-beta-assessment.md).
+Its CPU matmul/backward check passed. It correctly reported that the existing
+stable divine adapter does not admit these files. This operation read game
+metadata/files without launching the game, bridge, or headless candidate.
+
+The [public-data audit](public-data-audit.md), [headless comparison](headless-options.md)
+and [Windows guide](windows-workstation.md) preserve the research and next steps.
+No headless backend, beta A10 game transition, Windows GPU installation, complete
+native run, or RL playing-strength improvement has been executed here.
+
 ## Environment and commands
 
 The initial implementation was checked on Linux with Python 3.12.14,

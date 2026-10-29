@@ -6,10 +6,12 @@ import argparse
 from dataclasses import asdict
 import json
 from pathlib import Path
+import re
 import sys
 import time
 
 from .data import audit_records, deduplicate_records, load_records, validate_dataset, write_records
+from .target import ASCENSION, CHARACTER, GAME_VERSION
 
 
 def _print(value: object) -> None:
@@ -19,6 +21,11 @@ def _print(value: object) -> None:
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="sts2rl", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    doctor = commands.add_parser("doctor", help="read game fingerprints and check the Python device")
+    doctor.add_argument("--game-root")
+    doctor.add_argument("--device", default="cpu")
+    doctor.add_argument("--skip-torch", action="store_true")
+    doctor.add_argument("--output", help="save the JSON report for desktop handoff")
     demo = commands.add_parser("demo", help="run a synthetic end-to-end learning check")
     demo.add_argument("--output", default="artifacts/demo")
     demo.add_argument("--runs", type=int, default=96)
@@ -39,11 +46,12 @@ def _parser() -> argparse.ArgumentParser:
     fetch = commands.add_parser(
         "fetch-replays", help="download one bounded page of public replay journals"
     )
-    fetch.add_argument("--character", default="IRONCLAD")
-    fetch.add_argument("--ascension", type=int, default=10)
+    fetch.add_argument("--character", default=CHARACTER)
+    fetch.add_argument("--ascension", type=int, default=ASCENSION)
+    fetch.add_argument("--game-version", default=GAME_VERSION)
     fetch.add_argument("--limit", type=int, default=20)
     fetch.add_argument("--page", type=int, default=1)
-    fetch.add_argument("--output", default="data/raw")
+    fetch.add_argument("--output", help="defaults to data/<patch>/<character>-a<ascension>/raw")
     inspect = commands.add_parser("inspect-model", help="measure model size without training")
     inspect.add_argument("--vocab-size", type=int, default=1024)
     train = commands.add_parser(
@@ -51,9 +59,9 @@ def _parser() -> argparse.ArgumentParser:
     )
     train.add_argument("data")
     train.add_argument("--output", default="artifacts/train")
-    train.add_argument("--character")
-    train.add_argument("--ascension", type=int)
-    train.add_argument("--game-version")
+    train.add_argument("--character", default=CHARACTER)
+    train.add_argument("--ascension", type=int, default=ASCENSION)
+    train.add_argument("--game-version", default=GAME_VERSION)
     train.add_argument("--epochs", type=int, default=10)
     train.add_argument("--batch-size", type=int, default=32)
     train.add_argument("--learning-rate", type=float, default=3e-4)
@@ -63,7 +71,6 @@ def _parser() -> argparse.ArgumentParser:
     train.add_argument("--n-layers", type=int, default=3)
     train.add_argument("--threads", type=int, default=2)
     train.add_argument("--device", default="cpu")
-    train.add_argument("--allow-mixed-versions", action="store_true")
     infer = commands.add_parser("predict", help="rank candidates in one canonical JSON decision")
     infer.add_argument("checkpoint")
     infer.add_argument("decision")
@@ -81,7 +88,27 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _run(args: argparse.Namespace) -> int:
-    if args.command == "audit":
+    if args.command == "doctor":
+        from .diagnostics import inspect_environment
+
+        report = inspect_environment(
+            args.game_root, device=args.device, check_torch=not args.skip_torch
+        )
+        if args.output:
+            path = Path(args.output)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+        _print(report)
+        if (
+            report["runtime"]["smoke_test"]["status"] == "failed"
+            or report["game"]["status"] == "invalid"
+            or (
+                report["game"]["status"] == "not_found"
+                and report["game"].get("path_source", "discovered") != "discovered"
+            )
+        ):
+            return 2
+    elif args.command == "audit":
         rows = load_records(args.data)
         validate_dataset(rows)
         _print(audit_records(rows))
@@ -132,10 +159,17 @@ def _run(args: argparse.Namespace) -> int:
         listing = list_replays(
             character=args.character.upper(),
             ascension=args.ascension,
+            game_version=args.game_version,
             limit=args.limit,
             page=args.page,
         )
-        folder = Path(args.output)
+        if any(row.get("build_id") != args.game_version for row in listing.get("runs", [])):
+            raise ValueError("replay listing returned a different game version; no files downloaded")
+        if not args.output and not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+-]*", args.game_version):
+            raise ValueError("use an explicit --output for a game version containing path characters")
+        folder = Path(args.output) if args.output else (
+            Path("data") / args.game_version / f"{args.character.lower()}-a{args.ascension}" / "raw"
+        )
         folder.mkdir(parents=True, exist_ok=True)
         downloads = []
         for row in listing.get("runs", []):
@@ -152,7 +186,9 @@ def _run(args: argparse.Namespace) -> int:
                 {
                     "character": args.character.upper(),
                     "ascension": args.ascension,
+                    "game_version": args.game_version,
                     "page": args.page,
+                    "listing": listing,
                     "downloads": downloads,
                 },
                 indent=2,
@@ -190,6 +226,9 @@ def _run(args: argparse.Namespace) -> int:
         from .training import TrainConfig, train
 
         rows = load_records(args.data)
+        # Validate before filtering: a contradictory run cannot be repaired by
+        # hiding its other patch/character/ascension behind a target filter.
+        validate_dataset(rows)
         rows = [
             r
             for r in rows
@@ -197,6 +236,8 @@ def _run(args: argparse.Namespace) -> int:
             and (args.ascension is None or r["observation"]["ascension"] == args.ascension)
             and (args.game_version is None or r["game_version"] == args.game_version)
         ]
+        if not rows:
+            raise ValueError("no records match the requested character, ascension and game version")
         config = TrainConfig(
             epochs=args.epochs,
             batch_size=args.batch_size,
@@ -207,7 +248,6 @@ def _run(args: argparse.Namespace) -> int:
             n_layers=args.n_layers,
             device=args.device,
             threads=args.threads,
-            allow_mixed_versions=args.allow_mixed_versions,
         )
         report = train(rows, args.output, config)
         _print(

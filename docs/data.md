@@ -64,7 +64,7 @@ Base URL: <https://spire-codex.com>.
 | --- | --- |
 | `/api/exports/runs/manifest` | Dump timestamp, counts, byte lengths, SHA-256 and per-version exports |
 | `/api/exports/runs?limit=1000` | A bounded page of raw `.run` objects, gzipped JSONL |
-| `/api/replays?character=IRONCLAD&ascension=10&players=single&game_mode=standard` | Discover actual public replay hashes |
+| `/api/replays?character=SILENT&ascension=10&players=single&game_mode=standard&build_id=v0.111.0` | Discover target-patch public replay hashes |
 | `/api/runs/{run_hash}/replay` | A public replay journal; gzip bytes with `Content-Encoding: gzip` |
 
 `list_replays()` returns the service's listing. Its `replay_url` field is a
@@ -76,12 +76,18 @@ from sts2rl.adapters.spire_codex import (
     download_replay, import_replay, list_replays,
 )
 
-listing = list_replays(character="IRONCLAD", ascension=10, limit=10)
+listing = list_replays(character="SILENT", ascension=10, game_version="v0.111.0", limit=10)
 run_id = listing["runs"][0]["run_hash"]
 download_replay(run_id, "data/raw/replay.jsonl.gz")
 examples, report = import_replay("data/raw/replay.jsonl.gz", run_id=run_id)
 print(report)  # Inspect exclusions and accepted decisions before training.
 ```
+
+The helper and collection CLI default to Silent A10 on v0.111.0. The helper
+accepts `game_version=None` for explicit cross-patch discovery, not mixed-patch
+training. The CLI passes this filter as the API's `build_id`, preserves the
+listing in its download manifest, and rejects rows for another listed patch.
+Always inspect the journal header as well; listing metadata is not a fingerprint.
 
 The API may have no matching replays. Check `listing["runs"]` before selecting a
 row in production. Live dataset sizes are not assumed from earlier discussions.
@@ -144,8 +150,9 @@ the eventual strong policy. A passing import is not proof of simulator fidelity.
 Hidden `draw_order` records, final decks/relics, future encounters and RNG state
 are not imported as observations. Seed is used only to group train/evaluation
 splits. All decisions sharing a seed belong to the same split, even across
-patches. A later evaluation should additionally report player-disjoint and
-patch-disjoint results; the replay itself does not always carry a player token.
+patches. A later evaluation should additionally report player-disjoint results;
+preserve the listing's `player_token` when available, since the replay itself
+may omit it. Different patches have separate models and evaluation reports.
 
 Imitation accuracy measures agreement with recorded players. Win-label training
 estimates outcomes under the historical players' policy, not the causal value

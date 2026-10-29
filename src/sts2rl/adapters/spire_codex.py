@@ -21,6 +21,7 @@ from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 
 from sts2rl.schema import SchemaError, validate_record
+from sts2rl.target import ASCENSION, CHARACTER, GAME_VERSION
 
 BASE_URL = "https://spire-codex.com"
 SOURCE_REVISION = "2af6543ca7a6c76acfde6be582651c7c05e88e50"
@@ -80,8 +81,9 @@ def get_export_manifest(*, base_url: str = BASE_URL, timeout: float = 30) -> dic
 
 def list_replays(
     *,
-    character: str = "IRONCLAD",
-    ascension: int = 10,
+    character: str = CHARACTER,
+    ascension: int = ASCENSION,
+    game_version: str | None = GAME_VERSION,
     page: int = 1,
     limit: int = 20,
     base_url: str = BASE_URL,
@@ -90,16 +92,19 @@ def list_replays(
     """List public solo, standard replays. The returned replay_url is a UI URL."""
     if not 1 <= limit <= 100 or page < 1 or not 0 <= ascension <= 10:
         raise ValueError("Invalid replay page, limit, or ascension")
-    query = urlencode(
-        dict(
-            character=character,
-            ascension=ascension,
-            page=page,
-            limit=limit,
-            players="single",
-            game_mode="standard",
-        )
+    if game_version is not None and (not isinstance(game_version, str) or not game_version.strip()):
+        raise ValueError("game_version must be a nonempty string or None")
+    params = dict(
+        character=character,
+        ascension=ascension,
+        page=page,
+        limit=limit,
+        players="single",
+        game_mode="standard",
     )
+    if game_version is not None:
+        params["build_id"] = game_version
+    query = urlencode(params)
     return _json_get(f"{base_url.rstrip('/')}/api/replays?{query}", timeout)
 
 
