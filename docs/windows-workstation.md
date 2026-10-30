@@ -59,10 +59,28 @@ misleading "final full-dataset" model. `collection-summary.json` records coverag
 The 2026-10-30 census reported **at least 2,180** Silent A10 solo standard replays
 across patches, and **at least 1,717** listed for v0.111.0. Both responses had
 `total_is_lower_bound=true`; these are not exact corpus sizes or usable-run counts.
-The full job launched locally at
+The full job completed at **19:45 Europe/Stockholm on 2026-10-30**, with artifacts at
 `artifacts/v0.111.0/silent-a10/workstation-20261030-172303-775/`.
 
-It collects at most ten pages of 50 listed replays with request pacing, imports
+Two discovery passes covered **2,181 unique listed journals** before the fixed
+cutoff. **2,156 files** were available (1,757 new downloads plus 399 reused);
+25 listed journals returned unavailable. Import/filtering retained **275 runs /
+2,640 v0.111.0 card-reward decisions**. The train/validation/test split was
+187/51/37 runs and 1,844/451/345 decisions. Thirty GPU epochs took **86.88 seconds**;
+validation again selected epoch 2. The saved checkpoint was reloaded and its
+candidate probabilities checked on a held-out decision on RX 9070 XT.
+
+On the **345 held-out decisions from 37 runs**, imitation accuracy was **49.28%**,
+versus **47.10%** for the pick-frequency baseline and **25%** for uniform choice.
+This small descriptive advantage is not a native game win rate or strong evidence
+of playing strength. The held-out dataset differs from the earlier 79-run fit, so
+39.3% versus 49.3% is not a controlled same-test comparison. Overfitting remained
+strong after the early best epoch. All 167 known retained outcomes were defeats;
+108 runs had unknown outcomes, and value training stayed disabled. This job did
+not train a combat policy or run RL. See the
+[sanitized final evidence](evidence/replay-training-windows-2026-10-30.json).
+
+The bounded-page mode collects at most ten pages of 50 listed replays with request pacing, imports
 conservatively, and filters the actual replay header to Silent/A10/v0.111.0.
 Existing journals are reused and hashed. Each completed download updates its
 provenance manifest, so an interruption preserves the listing and hashes.
@@ -94,6 +112,8 @@ Early results may contain very few independent runs and are pipeline checks.
 The launcher prints its unique experiment directory. Inside it, `status.json`
 records the process ID, stage and completed models; `pipeline.log` records
 collection/import stages; `training.log` records download and epoch progress.
+Recovered transient errors are kept under `last_retry`, rather than appearing as
+an active error on a successful completion.
 Each model's `progress.json`, `best.pt`, `choices.jsonl`, `split.json` and
 `report.json` preserve its progress, checkpoint, exact data and evaluation.
 

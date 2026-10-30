@@ -1,0 +1,110 @@
+{
+  "source_commit": "2a81d252a7aa771f44c7b5f51a3e20406a11e3b9",
+  "started_at_utc": "2026-10-30T16:23:05.246193+00:00",
+  "completed_at_utc": "2026-10-30T18:45:22.325226+00:00",
+  "target": {
+    "game_version": "v0.111.0",
+    "character": "SILENT",
+    "ascension": 10
+  },
+  "collection": {
+    "cutoff_utc": "2026-10-30T16:23:05.250199+00:00",
+    "discovery_complete": true,
+    "discovered": 2181,
+    "counts": {
+      "downloaded": 1757,
+      "reused": 399,
+      "unavailable": 25
+    },
+    "discovery_pass": 2,
+    "new_ids": 0
+  },
+  "files_imported": 2156,
+  "overlapping_run_exclusions": {
+    "gameplay_or_unknown_mod": 435,
+    "reloaded_run": 1266,
+    "multiple_headers": 1064,
+    "unsupported_replay_version": 474,
+    "console_enabled": 171,
+    "console_command_used": 73,
+    "not_standard_unmodified_run": 16,
+    "noncontiguous_sequence": 1
+  },
+  "dataset": {
+    "decisions": 2640,
+    "runs": 275,
+    "split_groups": 275,
+    "policy_labels": 2640,
+    "value_labels": 1526,
+    "versions": {
+      "v0.111.0": 2640
+    },
+    "characters": {
+      "SILENT": 2640
+    },
+    "state_quality": {
+      "partial_replay": 2640
+    },
+    "sources": {
+      "spire_codex_replay": 2640
+    },
+    "decision_types": {
+      "card_reward": 2640
+    },
+    "dataset_sha256": "8929029baee4ba755aac5d76b151a2397f634c31cfecd3dd54abf5f2e37c2fc1"
+  },
+  "split_decisions": {
+    "train": 1844,
+    "validation": 451,
+    "test": 345
+  },
+  "split_runs": {
+    "train": 187,
+    "test": 37,
+    "validation": 51
+  },
+  "run_outcomes": {
+    "0.0": 167,
+    "None": 108
+  },
+  "training": {
+    "epochs": 30,
+    "batch_size": 32,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "value_weight": 0.0,
+    "seed": 42,
+    "d_model": 128,
+    "n_heads": 4,
+    "n_layers": 3,
+    "dropout": 0.0,
+    "device": "cuda:0",
+    "threads": 2
+  },
+  "elapsed_training_seconds": 86.88,
+  "best_epoch": 2,
+  "checkpoint_sha256": "eba42703ef9515c7fba35feae8bbc3b4eed773f5c3797c37909020b7039858ca",
+  "test": {
+    "decisions": 345,
+    "runs": 37,
+    "policy_accuracy": 0.4927536231884058,
+    "policy_nll": 1.1766274161960768,
+    "policy_accuracy_run_mean": 0.4959940099413783,
+    "uniform_policy_accuracy": 0.25,
+    "frequency_baseline_accuracy": 0.47101449275362317
+  },
+  "checkpoint_prediction_verification": {
+    "device": "cuda:0",
+    "passed": true,
+    "legal_candidate_probabilities_sum_to_one": true,
+    "untrained_outcome_is_null": true
+  },
+  "limitations": [
+    "Offline card-reward imitation, not measured game win rate",
+    "37 held-out runs; small baseline advantage is descriptive",
+    "Different held-out dataset from the earlier 79-run fit",
+    "All known retained outcomes are defeats; value head disabled",
+    "Reloaded/modded/incomplete journals excluded by current importer",
+    "No combat policy or RL training in this job"
+  ]
+}

@@ -66,6 +66,13 @@ def main() -> int:
     }
 
     def status(stage: str, **details) -> None:
+        if stage == "retrying":
+            state["last_retry"] = {"at": datetime.now(timezone.utc).isoformat(), **details}
+        else:
+            for key in ("request", "attempt", "wait_seconds"):
+                state.pop(key, None)
+            if stage not in {"failed", "collection_failed"}:
+                state.pop("error", None)
         state.update(details, stage=stage, updated_at=datetime.now(timezone.utc).isoformat())
         write_json(output / "status.json", state)
         print(f"[{state['updated_at']}] {stage}: {details}", flush=True)

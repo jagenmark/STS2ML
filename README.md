@@ -26,6 +26,11 @@ it is not yet a trained micro policy. See the
 Use `./scripts/start-training.ps1 -AllReplays -AllPatches` for complete replay
 collection followed by a target-patch GPU fit. It resumes downloads, retries
 transient failures, and follows the listing beyond lower-bound page counts.
+The completed 2026-10-30 collection obtained 2,156 journals from 2,181 listed IDs;
+the filtered dataset contains 275 runs and 2,640 card-reward decisions. Held-out
+imitation accuracy is **49.3%**, versus **47.1%** for the frequency baseline on
+37 test runs. This is not a measured game win rate.
+[Final result and limitations](docs/windows-workstation.md#verified-desktop-setup-and-background-training).
 
 ## What works now
 

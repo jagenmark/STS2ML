@@ -32,6 +32,9 @@ def test_all_replays_collects_before_training_and_filters_header_versions(tmp_pa
         calls.append("collect")
         assert kwargs["game_version"] is None
         assert folder == Path("data/replays/silent-a10/raw")
+        kwargs["progress"]("retrying", request="listing page 2", attempt=1,
+                           wait_seconds=15, error="temporary timeout")
+        kwargs["progress"]("collected", discovery_complete=True)
         return {"status": "collected", "discovery_complete": True, "records": {}}
 
     def cli(args):
@@ -53,6 +56,8 @@ def test_all_replays_collects_before_training_and_filters_header_versions(tmp_pa
     assert calls == ["collect", "import", "train"]
     state = json.loads((tmp_path / "result/status.json").read_text(encoding="utf-8"))
     assert state["stage"] == "complete"
+    assert not {"error", "request", "attempt", "wait_seconds"} & state.keys()
+    assert state["last_retry"]["error"] == "temporary timeout"
     audit = json.loads((tmp_path / "result/audit.json").read_text(encoding="utf-8"))
     assert audit["target_filter_excluded_decisions"] == 1
 
