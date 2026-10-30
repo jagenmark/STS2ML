@@ -451,5 +451,60 @@
   "dense_vegetation_fix": {
     "native_heal_and_mandatory_fight_verified": true,
     "suppressed": "Two audio Play calls, one audio Stop and one screen shake; no gameplay changes."
+  },
+  "large_collection_fit": {
+    "sampler": "silent-a10-act1-mc-v2",
+    "dataset_sha256": "39d7f9a49c0a08c06682b1664f50b4fbd2854b4b05efebc02a3f59e4786a3bc4",
+    "decisions": 3090,
+    "split_groups": {
+      "test": 6,
+      "validation": 6,
+      "train": 52
+    },
+    "split_decisions": {
+      "train": 2548,
+      "validation": 241,
+      "test": 301
+    },
+    "epochs": 20,
+    "best_epoch": 12,
+    "device": "cuda:0",
+    "seconds": 114.92807829999947,
+    "test": {
+      "decisions": 301,
+      "teacher_cross_entropy": 1.6077053158782248,
+      "teacher_best_action_agreement": 0.7574750830564784,
+      "mean_estimated_regret": 3.169313871534957
+    }
+  },
+  "large_collection_partial_evaluation": {
+    "recorded_utc": "2026-10-30T23:07:51.640593+00:00",
+    "held_out_seed_prefix": "ACT1TRAIN002EVAL",
+    "teacher_status": "running",
+    "policies": {
+      "heuristic": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 8.6875,
+        "mean_seconds": 1.8151495875001729,
+        "median_seconds": 1.5992513000001054,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "micro": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 8.25,
+        "mean_seconds": 9.24370576249953,
+        "median_seconds": 8.352578200001517,
+        "search_errors": 0,
+        "run_errors": []
+      }
+    },
+    "note": "Teacher arm pending. No student improvement demonstrated. Separate collection clears cannot substitute for paired held-out teacher outcomes."
   }
 }

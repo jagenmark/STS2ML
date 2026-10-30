@@ -226,8 +226,22 @@ floor 17 in at least one run. The student has not demonstrated improvement.
 The larger A10 collection completed **64/64 valid runs**, **403 fights**,
 **3,090 teacher decisions**, and **61,848 rollout branches**, after retrying
 the quarantined engine failures. It had no search errors and **3 Act 1 clears
-by the MC-assisted collection policy**. GPU fitting and a new 32-seed three-way
-evaluation follow automatically. Collection clears are not student results.
+by the MC-assisted collection policy**. The 20-epoch GPU fit took **114.9 seconds**;
+validation selected epoch 12. The split contains 52/6/6 run groups and
+2,548/241/301 train/validation/test decisions. Test teacher-best agreement is
+**75.75%**, an offline imitation metric.
+
+On the next **32 fresh A10 seeds**, the student and heuristic again each cleared
+**0/32**, with no engine errors. Mean furthest floor was **8.25 for the student
+vs 8.6875 for the heuristic**. The teacher arm of that same comparison is still
+running; do not interpret collection clears as a paired teacher result. The
+student has not demonstrated an improvement. Timing from concurrently running
+jobs should not be compared as a controlled throughput benchmark.
+
+A separate **32-run A7** job is now collecting with two workers, four samples,
+twelve roots per fight and query probability 0.5, followed automatically by
+20 GPU epochs and 32 held-out seeds per policy. It runs against the isolated
+Curriculum host while the A10 comparison retains its original Release host.
 See the [sanitized evidence](evidence/act1-training-windows-2026-10-30.json).
 
 Qualification commands:

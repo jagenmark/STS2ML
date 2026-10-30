@@ -111,5 +111,29 @@
     "The broad hidden-state sampler remains experimental.",
     "The macro weights were trained on A10 replay choices; A7 transfer is unproven.",
     "No A7-trained player result yet."
-  ]
+  ],
+  "first_a7_experiment": {
+    "git_revision": "74c482f5f66830609228e74cfcecde970f5fe2b3",
+    "started": "2026-10-30T23:05:54.386555+00:00",
+    "ascension": 7,
+    "sampler": "silent-act1-ascension-mc-v3",
+    "condition_ascension": true,
+    "runs": 32,
+    "workers": 2,
+    "samples": 4,
+    "roots_per_fight": 12,
+    "query_probability": 0.5,
+    "epochs": 20,
+    "evaluate": 32,
+    "device": "cuda:0",
+    "prefix": "A7ACT1TRAIN001",
+    "macro_sha256": "eba42703ef9515c7fba35feae8bbc3b4eed773f5c3797c37909020b7039858ca",
+    "runtime_sha256": {
+      "artifacts\\upstreams\\sts2-cli\\lib\\sts2.dll": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+      "artifacts\\upstreams\\sts2-cli\\src\\Sts2Headless\\bin\\Curriculum\\net9.0\\Sts2Headless.dll": "b171643a5f6da0da7690a488cb4d8f661ef04a9ebae1ac076d18cd0a5fd9b078",
+      "artifacts\\upstreams\\sts2-cli\\src\\Sts2Headless\\bin\\Curriculum\\net9.0\\GodotSharp.dll": "b629ab58eb46725db16047430324459746c7958f3389967fb26167603017bfe8"
+    },
+    "status": "collecting; first two runs passed floor 6 and emitted teacher roots without search errors at the observation time",
+    "observed_utc": "2026-10-30T23:07:51.650592+00:00"
+  }
 }
