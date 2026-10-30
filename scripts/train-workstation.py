@@ -1,4 +1,4 @@
-"""Bounded replay collection and GPU training, with persistent local status.
+"""Replay collection and GPU training, with persistent local status.
 
 Run from the repository root with its installed Python environment. Re-running
 with a new output directory reuses downloaded journals. This is offline
@@ -36,6 +36,10 @@ def main() -> int:
     parser.add_argument("--start-page", type=int, default=1)
     parser.add_argument("--cached-only", action="store_true",
                         help="train once on retained downloads without network requests")
+    parser.add_argument("--all-replays", action="store_true",
+                        help="collect through an empty page and reconcile; no page-count cap")
+    parser.add_argument("--all-patches", action="store_true",
+                        help="collect every patch, but still train only on the target patch")
     parser.add_argument("--page-size", type=int, default=50)
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--device", default="cuda:0")
@@ -44,11 +48,17 @@ def main() -> int:
         parser.error("pages/page-size must be 1..100 and epochs must be positive")
     if not 1 <= args.start_page <= args.pages:
         parser.error("start-page must be between 1 and pages")
+    if args.all_replays and args.cached_only:
+        parser.error("choose all-replays or cached-only, not both")
+    if args.all_patches and not (args.all_replays or args.cached_only):
+        parser.error("all-patches requires all-replays or cached-only")
     output = Path(args.output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     if (output / "status.json").exists():
         parser.error("choose a new output directory; raw downloads will still be reused")
     raw = Path("data") / GAME_VERSION / f"{CHARACTER.lower()}-a{ASCENSION}" / "raw"
+    if args.all_patches:
+        raw = Path("data/replays") / f"{CHARACTER.lower()}-a{ASCENSION}" / "raw"
     state = {
         "pid": os.getpid(), "started_at": datetime.now(timezone.utc).isoformat(),
         "target": {"game_version": GAME_VERSION, "character": CHARACTER, "ascension": ASCENSION},
@@ -68,12 +78,27 @@ def main() -> int:
 
     try:
         status("starting")
+        if args.all_replays:
+            from sts2rl.collection import CollectionStopped, collect_all_replays
+            try:
+                collection = collect_all_replays(
+                    raw, game_version=None if args.all_patches else GAME_VERSION,
+                    cache_folders=list(Path("data").glob(f"*/{CHARACTER.lower()}-a{ASCENSION}/raw")),
+                    progress=status, stopped=stopped,
+                )
+            except CollectionStopped:
+                status("stopped", reason="STOP file requested a stop during collection")
+                return 0
+            write_json(output / "collection-summary.json", {
+                k: v for k, v in collection.items() if k != "records"
+            })
         initial_trained = False
-        pages = [None] if args.cached_only else range(args.start_page, args.pages + 1)
+        local_import = args.cached_only or args.all_replays
+        pages = [None] if local_import else range(args.start_page, args.pages + 1)
         for page in pages:
             if stopped():
                 return 0
-            if not args.cached_only:
+            if not local_import:
                 status("collecting", page=page, pages=args.pages)
                 command = ["fetch-replays", "--limit", str(args.page_size), "--page", str(page)]
                 if cli(command) != 0:
@@ -81,7 +106,7 @@ def main() -> int:
             if stopped():
                 return 0
             last_page = True
-            if not args.cached_only:
+            if not local_import:
                 manifest = json.loads((raw / f"downloads-page-{page}.json").read_text())
                 last_page = page == args.pages or not manifest["listing"].get("runs")
             status("importing", page=page)
@@ -90,13 +115,18 @@ def main() -> int:
                 if last_page:
                     raise RuntimeError("no accepted replay decisions; inspect the import report")
                 continue
+            all_rows = load_records(imported)
             rows = [
-                row for row in load_records(imported)
+                row for row in all_rows
                 if row["game_version"] == GAME_VERSION
                 and row["observation"]["character"] == CHARACTER
                 and row["observation"]["ascension"] == ASCENSION
             ]
             audit = audit_records(rows)
+            audit["imported_decisions_by_header_version"] = dict(Counter(
+                row["game_version"] for row in all_rows
+            ))
+            audit["target_filter_excluded_decisions"] = len(all_rows) - len(rows)
             partitions, split = grouped_split(rows)
             outcome_counts = Counter(
                 {row["run_id"]: row["outcome"] for row in partitions["train"]

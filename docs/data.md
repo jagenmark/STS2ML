@@ -113,6 +113,31 @@ not automatically pace or retry requests. The collection CLI supplies pacing.
 Defaults are bounded and downloads are atomic,
 do not overwrite an existing destination, and clean failed temporary files.
 
+### Complete replay collection
+
+`scripts/start-training.ps1 -AllReplays -AllPatches` collects the full public
+Silent A10 solo standard replay listing and trains on the target patch after
+collection. This uses individual replay journals; the bulk `.run` export is
+still not a substitute for decision-time state. The complete collector is in
+`sts2rl.collection`, with persistent inventory, cached downloads, checksums,
+transient retries, rate-limit backoff, and a single-writer lock.
+
+Pagination ends only at an empty page and is reconciled to a fixed submission
+cutoff. A short page or `total_pages` is insufficient: the live API documents
+`total_is_lower_bound` when its exact count times out. Collection does not imply
+every replay can be trained on. Original headers, reloads, gameplay mods,
+sequence integrity, and decision resolution still undergo the import checks
+below. The final audit reports imported decision counts by header version and
+how many decisions the target filter excluded.
+
+On the first 399-file local sample, 83 journals emitted any decisions and 79
+emitted target-patch decisions. Exclusion reasons overlapped: 276 journals had
+reload/resume evidence, 221 had multiple headers, 112 had gameplay or unknown
+mods, 34 enabled the console, 14 used console commands, and 5 were nonstandard.
+The small first training set was therefore a combination of an incomplete
+download and conservative import exclusions, not evidence that only 79 public
+Silent A10 replays existed.
+
 The response bytes are retained exactly, including gzip. Import detects gzip by
 its magic bytes, so a server's filename or content type cannot silently turn a
 compressed journal into plain-text input. Imports cap both compressed and

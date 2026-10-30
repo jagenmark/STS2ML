@@ -28,11 +28,45 @@ From the repository root, start one bounded background job:
 ./scripts/start-training.ps1 -Pages 10 -Epochs 30 -Device cuda:0
 ```
 
+To collect **every available Silent A10 replay**, then automatically train once
+on all importable target-patch decisions:
+
+```powershell
+./scripts/start-training.ps1 -AllReplays -AllPatches -Epochs 30 -Device cuda:0
+```
+
+`-AllReplays` ignores the page-count cap. `-AllPatches` collects every listed
+version into `data/replays/silent-a10/raw/`; the training stage still filters
+actual journal headers to v0.111.0. Other patches are retained, never silently
+mixed into that model. Existing downloads are reused from the earlier raw folder.
+Omit `-AllPatches` to collect only the target patch. For an offline fit on the
+all-patch cache, use `-CachedOnly -AllPatches`.
+
+The full collector follows pages until an empty page, then reconciles them until
+a complete pass discovers no new IDs before its recorded UTC cutoff. Reported
+`total` and `total_pages` can be lower bounds and do not stop collection. The
+cutoff prevents the job chasing an endless live feed. A restart retains that
+same cutoff and inventory. Each completed journal records its checksum; an OS
+file lock refuses simultaneous full collectors writing the same directory.
+
+Requests are spaced at least 4.1 seconds apart, use a 90-second timeout, and
+retry transient failures up to 12 attempts with backoff. Server `Retry-After`
+values are respected, including HTTP dates. A STOP file interrupts backoff.
+Listed journals returning 404/410 remain explicitly unavailable; other exhausted
+errors stop the job with retained progress. A failed collection cannot produce a
+misleading "final full-dataset" model. `collection-summary.json` records coverage.
+
+The 2026-10-30 census reported **at least 2,180** Silent A10 solo standard replays
+across patches, and **at least 1,717** listed for v0.111.0. Both responses had
+`total_is_lower_bound=true`; these are not exact corpus sizes or usable-run counts.
+The full job launched locally at
+`artifacts/v0.111.0/silent-a10/workstation-20261030-172303-775/`.
+
 It collects at most ten pages of 50 listed replays with request pacing, imports
 conservatively, and filters the actual replay header to Silent/A10/v0.111.0.
 Existing journals are reused and hashed. Each completed download updates its
 provenance manifest, so an interruption preserves the listing and hashes.
-A request failure stops the job; inspect the log before restarting. Use
+A request failure stops the bounded-page job; inspect the log before restarting. Use
 `-StartPage 9` to resume collection at page 9, or `-CachedOnly` to import and
 train once on already downloaded files without any network calls:
 
@@ -208,7 +242,7 @@ Use `-GameRoot` when Steam is installed elsewhere. Both runners isolate save
 paths and retain their logs under `artifacts/headless/`. The
 [headless evidence](headless-options.md) records Silent A10 early-loss episodes,
 deterministic observations, and explicit relic counter / pile transitions.
-The CPU suite now passes 110 tests, and the new combat-state encoder also passed
+The CPU suite now passes 122 tests, and the new combat-state encoder also passed
 a forward/backward check on RX 9070 XT with real native observations.
 
 Whole-run parity, a legal-action adapter, hidden-state sampling, Monte Carlo

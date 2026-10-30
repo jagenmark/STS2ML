@@ -23,6 +23,9 @@ The local observation extension now exports visible relic counters and full
 unordered combat piles. A separate neural combat-state encoder consumes them;
 it is not yet a trained micro policy. See the
 [native counter and pile checks](docs/headless-options.md#public-combat-observations-v2).
+Use `./scripts/start-training.ps1 -AllReplays -AllPatches` for complete replay
+collection followed by a target-patch GPU fit. It resumes downloads, retries
+transient failures, and follows the listing beyond lower-bound page counts.
 
 ## What works now
 
