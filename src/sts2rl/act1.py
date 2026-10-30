@@ -156,7 +156,7 @@ def existing_act1_results(output, runs, prefix):
 
 
 def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macro_checkpoint=None,
-             micro_policy=None, teacher=True, query_probability=.35, max_branches=96):
+             micro_policy=None, teacher=True, query_probability=.35, max_branches=96, stop_file=None):
     folder = output / f"run-{index:05d}"
     folder.mkdir(parents=True, exist_ok=False)
     seed, group = f"{prefix}{index:06d}", digest(f"{prefix}{index:06d}")
@@ -183,7 +183,7 @@ def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macr
             if end is not None:
                 result.update(status="complete", **end)
                 break
-            if (output / "STOP").exists():
+            if Path(stop_file or output / "STOP").exists():
                 result["status"] = "stopped"
                 break
             repeated[digest(state)] += 1

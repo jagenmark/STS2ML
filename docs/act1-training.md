@@ -116,10 +116,52 @@ The broad model uses 0.1 dropout and weight decay. Validation cross-entropy sele
 the checkpoint. Reports include coverage per split, offline agreement and regret.
 Old starter data cannot be silently mixed with the broad return scale.
 
-Final evaluation runs the student and heuristic on the same new seed family,
-with the same macro model/configuration. It reports actual Act 1 clears, floors,
-coverage and errors separately. Their trajectories can diverge because combat
-outcomes change later choices. Offline imitation accuracy is not an Act 1 win rate.
+Final evaluation now runs **heuristic, student and MC-assisted teacher** on the
+same new seed family, with the same macro checkpoint, exploration settings and
+per-seed macro RNG. The teacher uses the collection's chance-sample/root/query
+budgets and heuristic continuation. Its assistance is sparse, not a claim of
+full search at every decision. Evaluation uses the configured worker count.
+
+`evaluation-protocol.json` records seed prefix, budgets and model/runtime/source
+fingerprints. `policy-comparison.json` reports clears, mean furthest floor and
+mean/median runtime per policy, plus paired differences. A pair is excluded if
+any arm has a run error; errors are not counted as defeats. Search failures and
+fallbacks remain visible in the per-run results. All three arms are attempted
+before evaluation errors are reported. Matching completed arms may be reused on
+resume; a changed protocol archives and reruns them. A root `STOP` file applies
+to all evaluation arms. Held-out teacher rows are stored under evaluation folders
+and are excluded from the training glob.
+
+Trajectories can diverge because combat outcomes change later macro choices;
+the policy is fixed, not the entire sequence of choices. Offline imitation
+accuracy and collection clears are not evidence of the student's Act 1 strength.
+
+## Next decisions after the paired comparison
+
+Overfitting is a hypothesis, not an established explanation of the current gap.
+Four chance samples can leave action rankings noisy; heuristic continuations
+can also make values systematically misleading. Even a low-noise estimate can
+be an accurate estimate of a poor continuation policy.
+
+1. If MC assistance consistently improves held-out outcomes but the student
+   does not, investigate coverage, optimization and action binding. Then collect
+   teacher labels from the student's own visited states, including its mistakes.
+   This follows the iterative data-collection principle of
+   [DAgger](https://proceedings.mlr.press/v15/ross11a.html).
+2. If MC assistance does not improve outcomes, first test a larger search budget
+   and a better continuation policy on a separate diagnostic seed set. Measure
+   action-ranking stability across independent chance samples as well as live
+   outcomes. More epochs on unchanged labels will not repair a weak teacher.
+3. Test a difficulty curriculum with the same comparison protocol. In this
+   installed patch A8 increases enemy durability, A9 makes attacks deadlier,
+   and A10 adds the second Act 3 boss. A7 is therefore a useful proposed Act 1
+   step down while retaining the curse, potion-slot and economic restrictions.
+   A7 support is not implemented yet: native identity checks, data metadata and
+   neural ascension inputs must be explicit before mixing difficulties.
+4. Keep some A10 data and separate A10 evaluation while progressing A7 → A8 →
+   A10. Keep the macro policy fixed during each micro comparison. Diagnostic
+   results used to choose an approach must not be presented as an untouched
+   final test; reserve fresh seeds for later confirmation.
 
 ## Initial broad pilot, 2026-10-30
 

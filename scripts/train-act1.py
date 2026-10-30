@@ -10,6 +10,7 @@ import subprocess
 import time
 
 from sts2rl.act1 import existing_act1_results, run_act1, save_json
+from sts2rl.act1_evaluation import evaluate_three_way
 from sts2rl.native import ACT1_SAMPLER
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -128,24 +129,16 @@ def main():
                 fit_micro(sorted(output.glob("run-*/teacher.jsonl")), model, epochs=args.epochs, device=args.device)
             if args.evaluate:
                 save_json(output / "status.json", {**status, "stage": "evaluating"})
-                policies = {"heuristic": None, "micro": load_micro(output / "model/best.pt", device=args.device)}
-                for name, policy in policies.items():
-                    evaluation_folder = output / ("evaluation-" + name)
-                    report_path = output / (name + "-evaluation.json")
-                    if report_path.exists():
-                        prior_evaluation = json.loads(report_path.read_text(encoding="utf-8"))
-                        if len(prior_evaluation["runs"]) == args.evaluate and all(r["status"] == "complete" for r in prior_evaluation["runs"]):
-                            continue
-                    if evaluation_folder.exists():
-                        if not evaluation_folder.resolve().is_relative_to(output):
-                            raise ValueError("Evaluation folder resolves outside the experiment")
-                        evaluation_folder.rename(output / f"incomplete-evaluation-{name}-{time.time_ns()}")
-                    evaluation = [run_act1(ROOT, output / ("evaluation-" + name), i,
-                        prefix=args.prefix + "EVAL", teacher=False, micro_policy=policy,
-                        macro_checkpoint=args.macro_checkpoint) for i in range(args.evaluate)]
-                    save_json(output / (name + "-evaluation.json"), {"summary": summary(evaluation), "runs": evaluation})
-                    if any(r["status"] != "complete" for r in evaluation):
-                        raise RuntimeError("Incomplete live evaluation; engine errors are not defeats")
+                comparison = evaluate_three_way(ROOT, output, episodes=args.evaluate,
+                    prefix=args.prefix + "EVAL", macro_checkpoint=args.macro_checkpoint,
+                    micro_policy=load_micro(model / "best.pt", device=args.device), samples=args.samples,
+                    roots_per_fight=args.roots_per_fight, query_probability=args.query_probability,
+                    workers=args.workers, protocol={
+                        "macro_sha256": config["macro_sha256"], "runtime_sha256": config["runtime_sha256"],
+                        "source_hashes": config["source_hashes"],
+                        "micro_sha256": hashlib.sha256((model / "best.pt").read_bytes()).hexdigest()})
+                if any(r["run_errors"] for r in comparison["policies"].values()):
+                    raise RuntimeError("Incomplete live evaluation; inspect policy-comparison.json; errors are not defeats")
         save_json(output / "status.json", {**status, "stage": "complete", "seconds": time.perf_counter() - started})
     except BaseException as exc:
         save_json(output / "status.json", {"stage": "failed", **summary(results), "error": f"{type(exc).__name__}: {exc}"})

@@ -416,5 +416,23 @@
       "suppressed": "Jungle Maze debug audio only"
     },
     "deployment": "queued after current collection exits; old loaded DLLs unchanged"
+  },
+  "three_way_evaluation_added": {
+    "policies": [
+      "heuristic",
+      "micro",
+      "teacher"
+    ],
+    "planned_held_out_seeds": 32,
+    "same_macro_and_seed_prefix": true,
+    "teacher_budget": "same samples, roots per fight and query probability as collection",
+    "unit_tests": 149,
+    "native_smoke": {
+      "runs_per_policy": 2,
+      "complete_paired_seed_groups": 2,
+      "run_errors": 0,
+      "purpose": "Integration only, not evidence of relative playing strength"
+    },
+    "interpretation": "Teacher vs heuristic diagnoses search utility; teacher vs student helps direct investigation but does not prove overfitting."
   }
 }
