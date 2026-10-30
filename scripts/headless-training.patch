@@ -71,7 +71,46 @@
              LocPatches._bundleSimRef = this;
  
              var savedRoom = _runState.CurrentRoom;
-@@ -2949,6 +2949,8 @@
+@@ -992,6 +992,8 @@
+         // AnyEnemy cards: use target_index or auto-pick first alive enemy
+         Creature? target = null;
+         var cardTargetType = card.TargetType;
++        // This host creates exactly one player. AnyPlayer resolves to its owner.
++        if (cardTargetType == TargetType.AnyPlayer) target = player.Creature;
+         if (cardTargetType == TargetType.AnyEnemy)
+         {
+             // Use caller's target_index if provided
+@@ -1426,7 +1428,7 @@
+ 
+         // Self-targeting potions (Flex, Fortifier, etc.) ALWAYS target the player
+         // regardless of any target_index the caller provides
+-        if (potionTargetType == TargetType.Self || potionTargetType == TargetType.TargetedNoCreature)
++        if (potionTargetType == TargetType.Self || potionTargetType == TargetType.TargetedNoCreature || potionTargetType == TargetType.AnyPlayer)
+         {
+             target = player.Creature;
+         }
+@@ -1474,17 +1476,13 @@
+             var afterPotions = player.Potions?.ToList() ?? new();
+             if (afterPotions.Contains(potion))
+             {
+-                // Potion wasn't consumed — manually discard it
+-                Log("Potion not consumed by action, manually discarding");
+-                MegaCrit.Sts2.Core.Commands.PotionCmd.Discard(potion).GetAwaiter().GetResult();
+-                _syncCtx.Pump();
++                // Do not turn a failed effect into an apparently successful action.
++                return Error($"Potion not consumed by native action: {potion.Id}");
+             }
+         }
+         catch (Exception ex)
+         {
+-            Log($"Use potion failed: {ex.Message}");
+-            // Try manual discard as fallback
+-            try { MegaCrit.Sts2.Core.Commands.PotionCmd.Discard(potion).GetAwaiter().GetResult(); } catch { }
++            return ErrorWithTrace("Use potion failed", ex);
+         }
+ 
+         return DetectDecisionPoint();
+@@ -2949,6 +2947,8 @@
                      ["description"] = _loc.Bilingual("potions", p.Id.Entry + ".description"),
                      ["vars"] = pvars.Count > 0 ? pvars : null,
                      ["target_type"] = p.TargetType.ToString(),
@@ -80,7 +119,7 @@
                  };
              }).Where(x => x != null).ToList(),
              ["deck_size"] = player.Deck?.Cards?.Count(c => c != null) ?? 0,
-@@ -3864,6 +3866,10 @@
+@@ -3864,6 +3864,10 @@
  
      public void CleanUp()
      {

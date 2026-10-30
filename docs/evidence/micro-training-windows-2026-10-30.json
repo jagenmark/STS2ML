@@ -1,0 +1,145 @@
+{
+  "scope": "Silent A10 v0.111.0 starter deck, Ring of the Snake, no potions, Shrinker Beetle Weak; scenario HP 15/25/40/70",
+  "collection": {
+    "episodes": 64,
+    "decisions": 1372,
+    "branches": 36112,
+    "errors": 0,
+    "seconds": 972.810308
+  },
+  "fit": {
+    "sampler": "silent-a10-starter-beetle-v1",
+    "dataset_sha256": "0c8e63142ce9a5a3555a38ce6bfa1e451acb86c37412c24741455c7edcd77ed3",
+    "decisions": 1372,
+    "split_groups": {
+      "test": 6,
+      "validation": 6,
+      "train": 52
+    },
+    "split_decisions": {
+      "train": 1105,
+      "validation": 137,
+      "test": 130
+    },
+    "epochs": 20,
+    "best_epoch": 20,
+    "device": "cuda:0",
+    "seconds": 51.41665579999972,
+    "limitations": [
+      "Starter-beetle scenarios, not Act 1 clear rate",
+      "Monte Carlo values under a heuristic continuation, not optimal values",
+      "Value predicts local fight return, not whole-run victory"
+    ]
+  },
+  "original_offline_test": {
+    "decisions": 130,
+    "teacher_cross_entropy": 1.326373525766226,
+    "teacher_best_action_agreement": 0.8769230769230769,
+    "mean_estimated_regret": 0.4519230769230769,
+    "action_selection": "individual-copy argmax v1; superseded at inference"
+  },
+  "checkpoint_sha256": "edc19f5beda1be69051125932c683799b6e58cce0dd9b37d0ad12bc3f2013423",
+  "original_live_test_v1": {
+    "heuristic": {
+      "episodes": 100,
+      "wins": 100,
+      "mean_hp_loss": 4.33,
+      "scope": "silent-a10-starter-beetle-v1"
+    },
+    "micro": {
+      "episodes": 100,
+      "wins": 93,
+      "mean_hp_loss": 10.18,
+      "scope": "silent-a10-starter-beetle-v1"
+    }
+  },
+  "fresh_live_test_v2": {
+    "action_selection": "aggregate-equivalent-action-probabilities-v2",
+    "seed_family": "MICROEVAL002",
+    "heuristic": {
+      "episodes": 100,
+      "wins": 100,
+      "mean_hp_loss": 4.82,
+      "scope": "silent-a10-starter-beetle-v1"
+    },
+    "micro": {
+      "episodes": 100,
+      "wins": 99,
+      "mean_hp_loss": 4.98,
+      "scope": "silent-a10-starter-beetle-v1"
+    }
+  },
+  "teacher_validation": {
+    "seed_family": "MICROVALID001",
+    "heuristic": {
+      "sampler": "silent-a10-starter-beetle-v1",
+      "policy": "heuristic",
+      "episodes": 16,
+      "wins": 16,
+      "mean_hp_loss": 4.75
+    },
+    "teacher": {
+      "sampler": "silent-a10-starter-beetle-v1",
+      "policy": "teacher",
+      "episodes": 16,
+      "wins": 16,
+      "mean_hp_loss": 2.0
+    },
+    "mean_hp_saved": 2.75,
+    "teacher_better": 11,
+    "tied": 5,
+    "teacher_worse": 0
+  },
+  "native_qualification": {
+    "passed": true,
+    "sampler": "silent-a10-starter-beetle-v1",
+    "root_actions_executed": 8,
+    "hidden_order_invariance": true,
+    "chance_variation": true,
+    "sibling_isolation": true,
+    "pending_selection_replay": true,
+    "repeated_restores": 50,
+    "restore_and_step_seconds": 3.258162699999957,
+    "stale_action_rejected": true,
+    "any_player_potion_effect_verified": true,
+    "unqualified_teacher_root_rejected": true,
+    "trace_hashes": [
+      "3930fae8c22f926ed006a0d70ce24498b36121d5ddb02963c4044e0df492dc28",
+      "3930fae8c22f926ed006a0d70ce24498b36121d5ddb02963c4044e0df492dc28",
+      "0f9823a3db191ca5263580d1025c77ff8f99bf123661bbf29d64acbd564d5bdd"
+    ]
+  },
+  "notes": [
+    "Original collection ran while implementation was being finalized; raw artifacts preserved.",
+    "The inference correction aggregates probabilities assigned to identical hand copies; weights are unchanged.",
+    "Fresh v2 test seeds differ from the original 100-test-seed family.",
+    "This does not establish high-level play or whole-run victory."
+  ],
+  "act1_integration": {
+    "seed_family": "MICROACT1TEST001",
+    "fixed_macro": "first available choice; heal at rests",
+    "scope": "outside training distribution",
+    "heuristic": {
+      "training_scope": "silent-a10-starter-beetle-v1",
+      "evaluation_scope": "act1",
+      "policy": "heuristic",
+      "episodes": 32,
+      "completed": 32,
+      "errors": 0,
+      "wins": 0,
+      "mean_hp_loss": 56.0,
+      "interpretation": "Act 1 outcomes use fixed macro choices and are outside the model's training distribution"
+    },
+    "micro": {
+      "training_scope": "silent-a10-starter-beetle-v1",
+      "evaluation_scope": "act1",
+      "policy": "micro",
+      "episodes": 32,
+      "completed": 32,
+      "errors": 0,
+      "wins": 0,
+      "mean_hp_loss": 56.0,
+      "interpretation": "Act 1 outcomes use fixed macro choices and are outside the model's training distribution"
+    }
+  }
+}

@@ -7,8 +7,10 @@
   "sibling_isolation": true,
   "pending_selection_replay": true,
   "repeated_restores": 50,
-  "restore_and_step_seconds": 3.4230495000010706,
+  "restore_and_step_seconds": 3.258162699999957,
   "stale_action_rejected": true,
+  "any_player_potion_effect_verified": true,
+  "unqualified_teacher_root_rejected": true,
   "trace_hashes": [
     "3930fae8c22f926ed006a0d70ce24498b36121d5ddb02963c4044e0df492dc28",
     "3930fae8c22f926ed006a0d70ce24498b36121d5ddb02963c4044e0df492dc28",

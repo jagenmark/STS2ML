@@ -44,6 +44,9 @@ reward/bundle choices are represented for integration; shopping currently only
 supports leaving. This is not a claim of complete game-action coverage. Actions
 are bound to an observation hash; stale and forged actions are rejected locally.
 Potion actions are exposed but are outside the qualified teacher curriculum.
+For this single-player host, `AnyPlayer` targets resolve to the owner. Potion
+execution failures are surfaced as errors instead of silently discarding the
+potion and reporting success.
 
 The network consumes hand, unordered draw/discard/exhaust/play piles, deck,
 relic counters, visible enemy intents/powers, player state and selection context.
@@ -77,6 +80,45 @@ regret. Live evaluation reports fight wins and HP loss against the heuristic
 on the same unseen seeds and starting HP. It must show actual improvement before
 claiming the learned policy is stronger.
 
+At inference, probabilities of interchangeable card copies are **summed before
+choosing the action effect**. Taking the highest-probability physical copy would
+favor a unique end-turn over several good attack copies. A regression test
+covers this distinction; the first evaluation exposed the inconsistency and a
+new seed family was used after correcting inference.
+
+## First measured fit, 2026-10-30
+
+The [sanitized evidence](evidence/micro-training-windows-2026-10-30.json) records
+64 collected scenario episodes, **1,372 decisions and 36,112 rollout branches**,
+with no collection errors. Collection took 16.2 minutes with four workers.
+The RX 9070 XT fit took 51.4 seconds for 20 epochs; validation selected epoch 20.
+The split is 52/6/6 independent seed groups, with 1,105/137/130 decisions.
+
+On 16 separate paired validation scenarios, both the Monte Carlo teacher and
+heuristic won every fight. The teacher lost **2.00 HP** on average versus
+**4.75 HP** for the heuristic: better on 11 seeds and tied on five. This is a
+small, narrow encounter comparison, not general game-playing strength.
+
+After the inference correction, a **fresh 100-seed** evaluation gave:
+
+| Policy | Fight wins | Mean HP lost |
+| --- | ---: | ---: |
+| Heuristic | 100/100 | 4.82 |
+| Learned micro | 99/100 | 4.98 |
+
+The student is close to the heuristic here and **has not demonstrated superiority**.
+The original inference result (93/100, 10.18 HP lost on an earlier seed family)
+is retained in the evidence; it is not directly comparable to the new seed set.
+Weights were unchanged by the inference fix. The archived offline test metrics
+also retain their original physical-copy selection interpretation.
+
+Both policies were additionally executed through **32 ordinary Act 1 starts**
+on identical seeds with fixed noncombat choices. Both cleared **0/32**, with
+**zero engine errors** after the target-handling fix. The micro policy encounters
+untrained enemies/cards/relics there. This confirms that the first encounter
+curriculum does not yet produce an Act 1 player; broader teacher coverage and
+macro integration are required.
+
 ## Qualification and next expansion
 
 ```powershell
@@ -89,6 +131,19 @@ replay, rejected a stale action, preserved sibling isolation, and verified that
 the same sampled world produces identical full trajectories after deliberately
 changing the actual hidden draw order. Different sample seeds produced different
 trajectories. Fifty alternating restores with a subsequent action passed.
+
+For a paired teacher/heuristic comparison on a separate validation seed family:
+
+```powershell
+& .venv/cpu/Scripts/python.exe scripts/evaluate-micro.py --output artifacts/micro/teacher-validation --policy teacher --episodes 16 --workers 2 --samples 8
+& .venv/cpu/Scripts/python.exe scripts/evaluate-micro.py --output artifacts/micro/heuristic-validation --policy heuristic --episodes 16 --workers 2
+```
+
+The same evaluator accepts `--scope act1` for heuristic or checkpoint policies.
+It fixes noncombat decisions (first available choice, heal at rests), ends on
+death or entry into Act 2, and reports errors separately from defeats. These
+runs test integration/generalization outside the starter training distribution;
+the qualified teacher itself cannot yet search arbitrary Act 1 states.
 
 Expansion requires more audited Act 1 encounters and decks, tests for remembered
 visible draw order, and native-vs-rendered transition comparisons. Whole-Act-1

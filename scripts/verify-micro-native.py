@@ -64,11 +64,27 @@ def main():
             raise AssertionError("Stale action accepted")
         except NativeError as exc:
             assert "Stale" in str(exc)
+        # Test-only fixture: AnyPlayer must resolve to this solo player and the
+        # native effect must actually happen before consumption is accepted.
+        fixture = game._request({"cmd": "set_player", "potions": ["BLOCK_POTION"]})
+        game.state["player"] = fixture["player"]
+        block = game.state["player"]["block"]
+        potion = next(a for a in legal_actions(game.state) if a.kind == "use_potion")
+        game.step(potion)
+        assert game.state["player"]["block"] == block + 12
+        assert not game.state["player"]["potions"]
+        worker._request({"cmd": "set_player", "potions": ["BLOCK_POTION"]})
+        try:
+            worker._request({"cmd": "training_sample", "sample_seed": 10})
+            raise AssertionError("Unqualified potion root admitted to teacher")
+        except NativeError as exc:
+            assert "outside qualified" in str(exc)
     report = {"passed": True, "sampler": SAMPLER, "root_actions_executed": len(actions),
               "hidden_order_invariance": True, "chance_variation": True,
               "sibling_isolation": True, "pending_selection_replay": True,
               "repeated_restores": 50, "restore_and_step_seconds": restore_seconds,
-              "stale_action_rejected": True, "trace_hashes": traces}
+              "stale_action_rejected": True, "any_player_potion_effect_verified": True,
+              "unqualified_teacher_root_rejected": True, "trace_hashes": traces}
     (folder / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))
 

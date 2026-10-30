@@ -227,3 +227,10 @@ The [Act 1 micro curriculum](docs/micro-training.md) now connects native combat
 actions, verified replay branching, sampled Monte Carlo teacher labels and a
 trainable combat policy/value head. The first admitted scope is Silent A10 with
 the starter deck against Shrinker Beetle; this is not yet whole-Act-1 play.
+
+The first GPU fit used 1,372 decisions from 36,112 native rollout branches.
+On 100 fresh encounter seeds the micro won 99 fights with 4.98 mean HP loss,
+versus 100 wins and 4.82 HP loss for the heuristic. The separate MC teacher
+comparison saved HP on 11 of 16 paired seeds and tied on five. Ordinary Act 1
+evaluation remains 0/32 clears for both learned and heuristic policies.
+[Measured results and scope](docs/micro-training.md#first-measured-fit-2026-10-30).

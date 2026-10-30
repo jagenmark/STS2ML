@@ -61,7 +61,7 @@ def legal_actions(state: dict) -> list[Action]:
             for enemy in state["enemies"]:
                 if enemy["hp"] > 0:
                     add(kind, **args, target_index=enemy["index"])
-        elif target in ("Self", "None", "All", "AllEnemies", "RandomEnemy", "TargetedNoCreature"):
+        elif target in ("Self", "AnyPlayer", "None", "All", "AllEnemies", "RandomEnemy", "TargetedNoCreature"):
             add(kind, **args)
         else:
             raise NativeError(f"Unsupported target type: {target}")

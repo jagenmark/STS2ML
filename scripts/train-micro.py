@@ -138,15 +138,20 @@ def main():
         save(output / "status.json", {**summary, "stage": "collection_incomplete"})
         raise SystemExit("Collection incomplete; no final fit")
     if not args.collect_only:
-        from sts2rl.micro import fit_micro, load_micro
-        save(output / "status.json", {**summary, "stage": "training"})
-        fit_micro(sorted(output.glob("episodes/*/teacher.jsonl")), output / "model",
-                  epochs=args.epochs, device=args.device)
-        if args.evaluate:
-            save(output / "status.json", {**summary, "stage": "evaluating"})
-            evaluate_policy(output / "heuristic-evaluation", episodes=args.evaluate)
-            evaluate_policy(output / "micro-evaluation",
-                            load_micro(output / "model/best.pt", device=args.device), episodes=args.evaluate)
+        try:
+            from sts2rl.micro import fit_micro, load_micro
+            save(output / "status.json", {**summary, "stage": "training"})
+            fit_micro(sorted(output.glob("episodes/*/teacher.jsonl")), output / "model",
+                      epochs=args.epochs, device=args.device)
+            if args.evaluate:
+                save(output / "status.json", {**summary, "stage": "evaluating"})
+                evaluate_policy(output / "heuristic-evaluation", episodes=args.evaluate)
+                evaluate_policy(output / "micro-evaluation",
+                                load_micro(output / "model/best.pt", device=args.device), episodes=args.evaluate)
+        except Exception as exc:
+            save(output / "status.json", {**summary, "stage": "failed",
+                                          "error": f"{type(exc).__name__}: {exc}"})
+            raise
     save(output / "status.json", {**summary, "stage": "complete",
                                   "elapsed_seconds": time.perf_counter() - started})
 

@@ -6,7 +6,7 @@ import pytest
 import torch
 
 from sts2rl.combat import combat_entities
-from sts2rl.micro import MicroPolicy, collate_micro, load_micro, micro_vocabulary, partition_records, teacher_targets
+from sts2rl.micro import MicroPolicy, choose_micro_action, collate_micro, load_micro, micro_vocabulary, partition_records, teacher_targets
 from sts2rl.native import ASSEMBLY_VERSION, SAMPLER, NativeError, NativeSession, digest, legal_actions
 from sts2rl.teacher import equivalent_groups, heuristic, teach_root
 from test_combat import observation
@@ -30,12 +30,14 @@ def test_native_targets_cost_checks_and_potions():
     obs = state()
     obs["enemies"].append({**obs["enemies"][0], "index": 1})
     obs["hand"].append({**obs["hand"][0], "index": 1, "can_play": False})
-    obs["player"]["potions"] = [{"index": 0, "target_type": "Self", "can_use": False},
+    obs["player"]["potions"] = [{"index": 0, "target_type": "AnyPlayer", "can_use": False},
                                  {"index": 1, "target_type": "AnyEnemy", "can_use": True}]
     actions = legal_actions(obs)
     assert len(actions) == 5
     assert [a.args["target_index"] for a in actions if a.kind == "play_card"] == [0, 1]
     assert all(a.args.get("potion_index", 1) == 1 for a in actions)
+    obs["player"]["potions"][0]["can_use"] = True
+    assert next(a for a in legal_actions(obs) if a.args.get("potion_index") == 0).args == {"potion_index": 0}
 
 
 def test_native_rejects_stale_and_forged_actions_before_sending():
@@ -74,6 +76,15 @@ def test_duplicates_share_targets_without_probability_inflation():
     second, _ = teacher_targets([record(double)])
     torch.testing.assert_close(first[0, 0], second[0, :2].sum())
     torch.testing.assert_close(first[0, 1], second[0, 2])
+
+
+def test_inference_aggregates_duplicate_mass_before_choosing_action():
+    obs = state()
+    obs["hand"].append({**obs["hand"][0], "index": 1})
+    # Neither physical copy beats end_turn alone; their shared effect does.
+    action = choose_micro_action(obs, torch.tensor([0.3, 0.3, 0.4]).log())
+    assert action.kind == "play_card"
+    assert choose_micro_action(obs, torch.tensor([0.1, 0.1, 0.8]).log()).kind == "end_turn"
 
 
 def test_model_binds_targets_masks_padding_and_backpropagates():

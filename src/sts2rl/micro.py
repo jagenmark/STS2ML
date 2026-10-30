@@ -102,6 +102,20 @@ def partition_records(records):
     return {s: [r for r in records if split[r["group"]] == s] for s in ("train", "validation", "test")}, split
 
 
+def choose_micro_action(state, logits):
+    """Choose the most probable effect, then one of its interchangeable copies.
+
+    Teacher targets divide mass among duplicates. Argmax over individual copies
+    would incorrectly favor a unique end_turn over several equally good attacks.
+    """
+    actions = legal_actions(state)
+    indices = {a.id: i for i, a in enumerate(actions)}
+    groups = equivalent_groups(state, actions)
+    best = max(groups, key=lambda group: float(torch.logsumexp(
+        logits[[indices[a.id] for a in group]], dim=0)))
+    return max(best, key=lambda a: float(logits[indices[a.id]]))
+
+
 @torch.inference_mode()
 def evaluate_micro(model, records, vocab, device):
     model.eval()
@@ -111,7 +125,9 @@ def evaluate_micro(model, records, vocab, device):
         logits, _ = model(collate_micro([r["observation"] for r in rows], vocab, device))
         targets, _ = teacher_targets(rows, device)
         total += float(-(targets * F.log_softmax(logits, -1)).sum())
-        for row, chosen in zip(rows, logits.argmax(-1).tolist(), strict=True):
+        for i, row in enumerate(rows):
+            action = choose_micro_action(row["observation"], logits[i])
+            chosen = next(j for j, a in enumerate(row["actions"]) if a["id"] == action.id)
             q = [row["estimates"][a["id"]]["mean_return"] for a in row["actions"]]
             regret += max(q) - q[chosen]
             correct += q[chosen] >= max(q) - 1e-6
@@ -172,6 +188,7 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
               "split_groups": dict(Counter(split.values())), "split": split,
               "split_decisions": {k: len(v) for k, v in partitions.items()},
               "epochs": epochs, "best_epoch": checkpoint["best_epoch"], "device": device,
+              "action_selection": "aggregate-equivalent-action-probabilities-v2",
               "seconds": time.perf_counter() - started, "history": history,
               "test": evaluate_micro(model, partitions["test"], vocab, device),
               "limitations": ["Starter-beetle scenarios, not Act 1 clear rate",
@@ -199,6 +216,6 @@ def load_micro(path, *, device="cpu"):
                                              "assembly_version": ASSEMBLY_VERSION}:
             raise ValueError("Micro policy requires its qualified native runtime identity")
         logits, _ = model(collate_micro([state], vocab, device))
-        return legal_actions(state)[int(logits[0].argmax())]
+        return choose_micro_action(state, logits[0])
 
     return policy
