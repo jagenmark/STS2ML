@@ -107,6 +107,11 @@ def test_training_checkpoint_prediction_and_unlabelled_split_bridge(tmp_path):
     assert math.isfinite(report["test"]["policy_nll"])
     assert math.isfinite(report["test"]["value_bce"])
     assert json.loads((tmp_path / "run/report.json").read_text())["best_epoch"] == report["best_epoch"]
+    progress = json.loads((tmp_path / "run/progress.json").read_text())
+    assert progress["status"] == "complete"
+    assert progress["epoch"] == progress["epochs"] == 2
+    assert progress["best_epoch"] == report["best_epoch"]
+    assert progress["history"] == json.loads((tmp_path / "run/report.json").read_text())["history"]
     model, vocab, checkpoint = load_checkpoint(tmp_path / "run/best.pt")
     assert model.parameter_count == report["parameter_count"]
     assert "entity:HELDOUT_ONLY" not in vocab.token_to_id

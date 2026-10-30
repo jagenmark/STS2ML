@@ -8,6 +8,8 @@ import json
 import math
 from pathlib import Path
 import random
+import sys
+import time
 
 import torch
 from torch.nn import functional as F
@@ -221,6 +223,25 @@ def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> d
     )
     baselines = fit_baselines(partitions["train"])
     history, best_score, best_epoch = [], float("inf"), -1
+    started = time.monotonic()
+
+    def save_progress(status: str) -> None:
+        temporary = output_dir / "progress.json.tmp"
+        temporary.write_text(json.dumps({
+            "status": status,
+            "game_version": game_version,
+            "device": config.device,
+            "epoch": len(history),
+            "epochs": config.epochs,
+            "elapsed_seconds": round(time.monotonic() - started, 2),
+            "best_epoch": best_epoch,
+            "split": manifest["labelled_counts"],
+            "history": history,
+        }, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+        temporary.replace(output_dir / "progress.json")
+
+    (output_dir / "split.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    save_progress("training")
     for epoch in range(1, config.epochs + 1):
         model.train()
         rows = list(partitions["train"])
@@ -260,6 +281,15 @@ def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> d
                 "training_audit": audit_records(partitions["train"]),
             }
             torch.save(checkpoint, output_dir / "best.pt")
+        save_progress("training")
+        print(
+            f"epoch {epoch}/{config.epochs} "
+            f"train_nll={train_metrics['policy_nll']:.4f} "
+            f"validation_nll={score:.4f} "
+            f"validation_accuracy={validation['policy_accuracy']:.3f} "
+            f"best_epoch={best_epoch}",
+            file=sys.stderr, flush=True,
+        )
     best_model, _, _ = load_checkpoint(output_dir / "best.pt", device=config.device)
     report = {
         "status": "offline_baseline",
@@ -286,6 +316,7 @@ def train(records: list[dict], output_dir: str | Path, config: TrainConfig) -> d
         json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8"
     )
     (output_dir / "split.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    save_progress("complete")
     return report
 
 

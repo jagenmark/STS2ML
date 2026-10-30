@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import asdict
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -172,30 +173,41 @@ def _run(args: argparse.Namespace) -> int:
         )
         folder.mkdir(parents=True, exist_ok=True)
         downloads = []
-        for row in listing.get("runs", []):
+        manifest = {
+            "character": args.character.upper(), "ascension": args.ascension,
+            "game_version": args.game_version, "page": args.page,
+            "listing": listing, "downloads": downloads,
+        }
+        manifest_path = folder / f"downloads-page-{args.page}.json"
+
+        def save_downloads() -> None:
+            temporary = manifest_path.with_suffix(".json.tmp")
+            temporary.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+            temporary.replace(manifest_path)
+
+        # Preserve discovery provenance even if a later request is interrupted.
+        save_downloads()
+        for index, row in enumerate(listing.get("runs", []), start=1):
             run_id = row["run_hash"]
+            if not re.fullmatch(r"[A-Za-z0-9_-]+", run_id):
+                raise ValueError("invalid run hash in replay listing")
             path = folder / f"{run_id}.jsonl.gz"
             if path.exists():
-                downloads.append({"run_id": run_id, "status": "existing", "path": str(path)})
-                continue
-            downloads.append({"run_id": run_id, **download_replay(run_id, path)})
-            # Respect the general anonymous 15/minute tier as well as route caps.
-            time.sleep(4.1)
-        (folder / f"downloads-page-{args.page}.json").write_text(
-            json.dumps(
-                {
-                    "character": args.character.upper(),
-                    "ascension": args.ascension,
-                    "game_version": args.game_version,
-                    "page": args.page,
-                    "listing": listing,
-                    "downloads": downloads,
-                },
-                indent=2,
+                with path.open("rb") as stream:
+                    digest = hashlib.file_digest(stream, "sha256").hexdigest()
+                downloads.append({
+                    "run_id": run_id, "status": "existing", "path": str(path),
+                    "bytes": path.stat().st_size, "sha256": digest,
+                })
+            else:
+                # Include the listing request in pacing, and persist every completed file.
+                time.sleep(4.1)
+                downloads.append({"run_id": run_id, **download_replay(run_id, path)})
+            save_downloads()
+            print(
+                f"page {args.page}: {index}/{len(listing.get('runs', []))} {run_id}",
+                file=sys.stderr, flush=True,
             )
-            + "\n",
-            encoding="utf-8",
-        )
         _print(
             {
                 "listed": len(listing.get("runs", [])),

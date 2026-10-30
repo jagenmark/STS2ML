@@ -5,8 +5,61 @@ target. Start with the CPU check below. This small offline model does not need a
 GPU to validate its data, tests, or training pipeline.
 
 The GPU information was checked against AMD and PyTorch documentation on
-**2026-10-29**. Vendor support is verified; installation, performance, and game
-integration on this particular RX 9070 XT desktop have **not** been tested.
+**2026-10-29**, and the offline pipeline was executed on this RX 9070 XT desktop
+on **2026-10-30**. Game integration remains a separate, unqualified milestone.
+
+## Verified desktop setup and background training
+
+The local environments use Python **3.11.15**, CPU PyTorch **2.14.0+cpu** and
+AMD PyTorch **2.14.0+rocm10.1.0** with the `device-gfx1201` extra. Both environment
+test runs passed **95 tests**. GPU enumeration selects **RX 9070 XT at cuda:0**;
+the integrated Radeon is device 1. Matmul/autograd and a complete synthetic
+model training/evaluation run passed. The existing driver **32.0.32015.7029**
+worked in these tests; no driver or Windows security setting was changed.
+This is a tested local configuration, not a claim about all driver versions.
+
+The installed Steam game identifies as **v0.111.0**, public-beta, build
+**24724944**. Local fingerprints and resolved package lists are under
+`artifacts/environment/`. Generated data and weights remain Git-ignored.
+
+From the repository root, start one bounded background job:
+
+```powershell
+./scripts/start-training.ps1 -Pages 10 -Epochs 30 -Device cuda:0
+```
+
+It collects at most ten pages of 50 listed replays with request pacing, imports
+conservatively, and filters the actual replay header to Silent/A10/v0.111.0.
+Existing journals are reused and hashed. Each completed download updates its
+provenance manifest, so an interruption preserves the listing and hashes.
+A request failure stops the job; inspect the log before restarting.
+
+The first dataset with imitation labels in all three run/seed-grouped partitions
+triggers an initial model. After collection, a final model is trained on the
+expanded dataset. Both use 30 epochs with validation-selected checkpoints.
+These are separate fits from initialization, not optimizer-resumed training.
+The outcome head is disabled when the training partition has fewer than two
+outcome classes; unknown terminal results are never relabeled as losses.
+Early results may contain very few independent runs and are pipeline checks.
+
+The launcher prints its unique experiment directory. Inside it, `status.json`
+records the process ID, stage and completed models; `pipeline.log` records
+collection/import stages; `training.log` records download and epoch progress.
+Each model's `progress.json`, `best.pt`, `choices.jsonl`, `split.json` and
+`report.json` preserve its progress, checkpoint, exact data and evaluation.
+
+```powershell
+$Sts2Run = Get-ChildItem artifacts/v0.111.0/silent-a10/workstation-* -Directory |
+    Sort-Object Name -Descending | Select-Object -First 1
+Get-Content (Join-Path $Sts2Run.FullName 'status.json')
+Get-Content (Join-Path $Sts2Run.FullName 'training.log') -Tail 20 -Wait
+# Request a stop after the current page or training stage:
+New-Item (Join-Path $Sts2Run.FullName 'STOP') -ItemType File
+```
+
+The background process survives closing this terminal, but not shutdown or
+sign-out. Re-running the launcher creates a new experiment and reuses raw data.
+Avoid starting overlapping jobs against the same raw-data directory.
 
 ## Get the code and verify the CPU path
 
@@ -93,7 +146,7 @@ the CPU demo:
 ```
 
 A successful tensor check alone does not validate the entire training pipeline.
-If this profile fails, select the existing CPU environment and continue with
+If this profile fails on another setup, select the existing CPU environment and continue with
 `--device cpu`; no GPU troubleshooting is required to make data-pipeline progress.
 
 ## Native Windows and WSL2 are separate installations

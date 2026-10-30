@@ -1,6 +1,7 @@
 """Offline checks for the selected collection target and diagnostic handoff."""
 
 import json
+import hashlib
 from copy import deepcopy
 from urllib.parse import parse_qs, urlparse
 from unittest.mock import patch
@@ -52,6 +53,27 @@ def test_doctor_saves_failure_report_for_handoff(tmp_path):
     with patch("sts2rl.diagnostics.inspect_environment", return_value=report):
         assert main(["doctor", "--output", str(target)]) == 2
     assert json.loads(target.read_text()) == report
+
+
+def test_fetch_preserves_listing_and_download_hash_after_interruption(tmp_path):
+    listing = {"runs": [
+        {"run_hash": "first", "build_id": "v0.111.0"},
+        {"run_hash": "second", "build_id": "v0.111.0"},
+    ]}
+    raw = tmp_path / "raw"
+    raw.mkdir()
+    (raw / "first.jsonl.gz").write_bytes(b"existing-replay")
+    with (
+        patch("sts2rl.adapters.spire_codex.list_replays", return_value=listing),
+        patch("sts2rl.adapters.spire_codex.download_replay", side_effect=OSError("interrupted")),
+        patch("sts2rl.cli.time.sleep"),
+    ):
+        assert main(["fetch-replays", "--output", str(raw)]) == 2
+    manifest = json.loads((raw / "downloads-page-1.json").read_text())
+    assert manifest["listing"] == listing
+    assert len(manifest["downloads"]) == 1
+    assert manifest["downloads"][0]["sha256"] == hashlib.sha256(b"existing-replay").hexdigest()
+    assert not (raw / "second.jsonl.gz").exists()
 
 
 def test_train_validates_run_identity_before_target_filtering(tmp_path):
