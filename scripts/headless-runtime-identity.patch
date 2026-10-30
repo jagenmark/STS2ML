@@ -1,0 +1,32 @@
+diff --git a/src/Sts2Headless/Program.cs b/src/Sts2Headless/Program.cs
+index 68d74ca..e3b331a 100644
+--- a/src/Sts2Headless/Program.cs
++++ b/src/Sts2Headless/Program.cs
+@@ -98,6 +98,7 @@ class Program
+ 
+             if (result != null)
+             {
++                result["runtime_identity"] = sim.RuntimeIdentity();
+                 WriteLine(result);
+                 if (result.TryGetValue("type", out var resultTypeObj) &&
+                     string.Equals(resultTypeObj as string, "quit_result", StringComparison.Ordinal))
+diff --git a/src/Sts2Headless/RunSimulator.cs b/src/Sts2Headless/RunSimulator.cs
+index 1b2c41e..5e05468 100644
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -294,6 +294,15 @@ public class RunSimulator
+         }
+     }
+ 
++    // Diagnostic metadata only: report loaded native state, not request arguments.
++    public Dictionary<string, object?> RuntimeIdentity() => new()
++    {
++        ["character"] = _runState?.Players[0].Character.Id.Entry,
++        ["ascension"] = _runState?.AscensionLevel,
++        ["assembly_version"] = typeof(RunState).Assembly.GetCustomAttribute<
++            System.Reflection.AssemblyInformationalVersionAttribute>()?.InformationalVersion,
++    };
++
+     // ─── Test/Debug commands ───
+ 
+     private static readonly System.Reflection.BindingFlags NonPublic =

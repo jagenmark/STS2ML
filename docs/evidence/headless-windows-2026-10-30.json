@@ -1,0 +1,75 @@
+{
+  "started_at": "2026-10-30T15:34:10.361971+00:00",
+  "completed_at": "2026-10-30T15:35:20.453863+00:00",
+  "upstream_revision": "fec723a21741a1a33a4f54dc9b28c50df31d6e45",
+  "ascension": 10,
+  "policy": "first-playable/first-reward/heal/random-route-v1; no search or ML",
+  "timing": "fresh process per episode; includes startup/reset/JSON/logging/shutdown",
+  "host_sha256": "34003646939a94e41b8b323f7bccf84e1e4a8fdfffd91e2330549fc6fdee5db7",
+  "engine_sha256": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+  "original_engine_sha256": "0861bfa1df347538d932f22d580e75420f08082792eb914e53b4882764acdbe9",
+  "machine": {
+    "cpu": "AMD Ryzen 7 9800X3D",
+    "physical_cores": 8,
+    "logical_processors": 16,
+    "ram_gib": 32,
+    "os": "Windows 11 25H2",
+    "dotnet_sdk": "9.0.320"
+  },
+  "character": "SILENT",
+  "game_version": "v0.111.0",
+  "episodes_total": 128,
+  "seed_count": 16,
+  "repetitions_per_concurrency": 2,
+  "errors": 0,
+  "victories": 0,
+  "terminal_act": 1,
+  "terminal_floor_range": [
+    4,
+    12
+  ],
+  "same_seed_observations_identical": true,
+  "full_game_parity_certified": false,
+  "results": [
+    {
+      "workers": 1,
+      "episodes": 32,
+      "mean_episode_seconds": 1.1148097749999692,
+      "median_episode_seconds": 1.0785359999999855,
+      "extrapolated_terminal_episodes_per_hour": 3220.430077422524,
+      "peak_sum_process_rss_mib": 143.66796875
+    },
+    {
+      "workers": 2,
+      "episodes": 32,
+      "mean_episode_seconds": 1.1139112656248926,
+      "median_episode_seconds": 1.066736249999849,
+      "extrapolated_terminal_episodes_per_hour": 6219.8232613463115,
+      "peak_sum_process_rss_mib": 284.86328125
+    },
+    {
+      "workers": 4,
+      "episodes": 32,
+      "mean_episode_seconds": 1.148977425000055,
+      "median_episode_seconds": 1.109748650000256,
+      "extrapolated_terminal_episodes_per_hour": 11601.32108432528,
+      "peak_sum_process_rss_mib": 548.79296875
+    },
+    {
+      "workers": 8,
+      "episodes": 32,
+      "mean_episode_seconds": 1.3085117312500358,
+      "median_episode_seconds": 1.277924499999699,
+      "extrapolated_terminal_episodes_per_hour": 19725.92268773701,
+      "peak_sum_process_rss_mib": 1092.83984375
+    }
+  ],
+  "limitations": [
+    "All episodes are Act 1 defeats, not three-act completions.",
+    "Fixed weak heuristic; no trained policy or tactical search.",
+    "Short batches; hourly throughput is extrapolated, not a sustained one-hour run.",
+    "Memory is sampled sum of worker RSS, not unique physical memory.",
+    "The managed native-engine host has presentation/lifecycle patches; observed determinism does not certify native-game parity.",
+    "Replay download pipeline was running concurrently."
+  ]
+}

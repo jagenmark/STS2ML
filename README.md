@@ -14,6 +14,12 @@ characters remain the longer-term goal. Each patch has its own data, vocabulary,
 checkpoints and evaluation results; training and inference enforce that boundary.
 Start on the desktop with the [Windows / RX 9070 XT guide](docs/windows-workstation.md).
 
+**Windows continuation (2026-10-30):** CPU and RX 9070 XT offline training now
+execute locally. The pinned native-engine headless host also completed a
+[1/2/4/8-process benchmark](docs/headless-options.md#windows-measurements-2026-10-30):
+128 deterministic Silent A10 episodes, all early Act 1 losses with a weak fixed
+policy. This validates a bounded execution path, not a winning agent or full-game parity.
+
 ## What works now
 
 | Component | Implemented behavior |

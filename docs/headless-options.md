@@ -2,8 +2,54 @@
 
 Source review: 2026-10-29. Target: installed Steam public beta `v0.111.0`,
 game commit `41cef1ea`, initially Silent A10 and later all five characters.
-This review inspected public source and documentation; it did not launch a
-game, build a candidate, reproduce benchmarks, or certify Linux/Windows parity.
+The original review inspected public source and documentation. On 2026-10-30,
+the pinned sts2-cli host was built and benchmarked on Windows as described below.
+These bounded episodes do not certify full-game or cross-platform parity.
+
+## Windows measurements, 2026-10-30
+
+Hardware: Ryzen 7 9800X3D (8 cores / 16 threads), 32 GB RAM, Windows 11 25H2.
+The managed engine uses CPU; the RX 9070 XT was not used by this benchmark.
+The profile pins .NET SDK 9.0.320 and upstream revision `fec723a` above.
+A diagnostic-only patch reports **actual RunState ascension, character, and
+loaded assembly informational version** on every response. Each episode checked
+Silent/A10 and `0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32`.
+
+Sixteen identical seeds were run twice at each concurrency, in forward then
+reverse concurrency order: **128 normal terminal episodes, zero infrastructure
+errors, identical per-seed observation sequences**. Every episode was a defeat
+in Act 1, floors 4–12. The policy plays the first playable card, takes the first
+reward, prefers healing, skips shops, and uses seeded random routing.
+
+| Processes | Mean episode incl. startup | Extrapolated terminal episodes/hour | Peak sum of worker RSS |
+| --- | ---: | ---: | ---: |
+| 1 | 1.115 s | 3,220 | 144 MiB |
+| 2 | 1.114 s | 6,220 | 285 MiB |
+| 4 | 1.149 s | 11,601 | 549 MiB |
+| 8 | 1.309 s | 19,726 | 1,093 MiB |
+
+These are **early-loss episode** measurements, not timings for three acts,
+winning runs, a learned combat policy, or Monte Carlo search. The short batches
+do not establish sustained hourly throughput. Eight processes gave 6.1x the
+single-process throughput; higher concurrency was not tested. New-process
+startup plus run reset averaged 0.70 s at one worker. Persistent resets could
+reduce that cost, but reset isolation has not been qualified.
+
+The [sanitized evidence](evidence/headless-windows-2026-10-30.json) records hashes,
+method and limitations. Full traces remain local under `artifacts/headless/`.
+The replay downloader remained running during the measurement.
+
+```powershell
+./scripts/setup-headless.ps1
+uv pip install --python .venv/cpu/Scripts/python.exe -e '.[dev,benchmark]'
+& .venv/cpu/Scripts/python.exe scripts/benchmark-headless.py --output artifacts/headless/new-benchmark --runs 16 --workers 1 2 4 8 --repeats 2
+```
+
+Setup copies and patches only ignored local game-library copies. Each worker
+gets its own working directory and application-data paths. Episode wall time
+includes process start, reset, JSON, trace logging and shutdown. Timeouts,
+identity mismatches and engine errors remain errors, never defeat labels.
+This runner is a measurement harness, not yet the STS2ML training environment.
 
 ## Decision
 
