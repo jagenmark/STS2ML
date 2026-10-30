@@ -8,9 +8,11 @@ from __future__ import annotations
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 import random
+import subprocess
 import time
 
 from sts2rl.native import NativeSession, SAMPLER, digest, legal_actions
@@ -114,7 +116,10 @@ def main():
     if (output / "config.json").exists():
         parser.error("Use a fresh output folder; experiments are immutable")
     save(output / "config.json", {**vars(args), "output": str(output), "sampler": SAMPLER,
-                                  "started": datetime.now(timezone.utc).isoformat()})
+        "started": datetime.now(timezone.utc).isoformat(),
+        "git_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "source_sha256": {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                           for p in (ROOT / "src/sts2rl").glob("*.py")}})
     results = []
     started = time.perf_counter()
     with ThreadPoolExecutor(max_workers=args.workers) as executor:

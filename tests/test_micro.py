@@ -6,8 +6,8 @@ import pytest
 import torch
 
 from sts2rl.combat import combat_entities
-from sts2rl.micro import MicroPolicy, collate_micro, micro_vocabulary, partition_records, teacher_targets
-from sts2rl.native import NativeError, NativeSession, digest, legal_actions
+from sts2rl.micro import MicroPolicy, collate_micro, load_micro, micro_vocabulary, partition_records, teacher_targets
+from sts2rl.native import ASSEMBLY_VERSION, SAMPLER, NativeError, NativeSession, digest, legal_actions
 from sts2rl.teacher import equivalent_groups, heuristic, teach_root
 from test_combat import observation
 
@@ -142,4 +142,18 @@ def test_heuristic_uses_current_intent_and_surplus_block():
 
 def test_teacher_records_round_trip_without_native_secrets():
     row = record(state())
-    assert teacher_targets([json.loads(json.dumps(row))])[0].sum() == pytest.approx(1)
+    assert teacher_targets([json.loads(json.dumps(row))])[0].sum().item() == pytest.approx(1)
+
+
+def test_saved_micro_requires_runtime_match_and_returns_bound_action(tmp_path):
+    obs = state()
+    vocab = micro_vocabulary([obs])
+    model = MicroPolicy(len(vocab), width=16)
+    path = tmp_path / "policy.pt"
+    torch.save({"micro_version": 1, "sampler": SAMPLER, "assembly_version": ASSEMBLY_VERSION,
+                "vocabulary": vocab.to_dict(), "width": 16, "state_dict": model.state_dict()}, path)
+    policy = load_micro(path)
+    with pytest.raises(ValueError, match="runtime identity"):
+        policy(obs)
+    obs["runtime_identity"] = {"character": "SILENT", "ascension": 10, "assembly_version": ASSEMBLY_VERSION}
+    assert policy(obs) in legal_actions(obs)

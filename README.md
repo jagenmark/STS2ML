@@ -227,4 +227,3 @@ The [Act 1 micro curriculum](docs/micro-training.md) now connects native combat
 actions, verified replay branching, sampled Monte Carlo teacher labels and a
 trainable combat policy/value head. The first admitted scope is Silent A10 with
 the starter deck against Shrinker Beetle; this is not yet whole-Act-1 play.
-

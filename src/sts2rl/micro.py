@@ -195,6 +195,9 @@ def load_micro(path, *, device="cpu"):
 
     @torch.inference_mode()
     def policy(state):
+        if state.get("runtime_identity") != {"character": "SILENT", "ascension": 10,
+                                             "assembly_version": ASSEMBLY_VERSION}:
+            raise ValueError("Micro policy requires its qualified native runtime identity")
         logits, _ = model(collate_micro([state], vocab, device))
         return legal_actions(state)[int(logits[0].argmax())]
 
