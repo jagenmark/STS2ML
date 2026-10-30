@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-30",
+  "game_version": "v0.111.0",
+  "upstream_revision": "fec723a21741a1a33a4f54dc9b28c50df31d6e45",
+  "original_engine_sha256": "0861bfa1df347538d932f22d580e75420f08082792eb914e53b4882764acdbe9",
+  "host_sha256": "baf6ace9ac0375649706fb8ea4ae6edb44cc7194ac844771d50229c85a819ccf",
+  "native_probe": {
+    "status": "passed",
+    "runtime": {
+      "character": "SILENT",
+      "ascension": 10,
+      "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+    },
+    "checks": [
+      "nunchaku_9_to_0_energy_refund",
+      "pen_nib_9_to_0_double_damage",
+      "happy_flower_2_to_0_energy",
+      "unknown_rule_is_null",
+      "repeat_observation_no_mutation",
+      "draw_order_invariance_modified_duplicates",
+      "discard_movement",
+      "ethereal_exhaust_movement",
+      "pile_count_conservation"
+    ]
+  },
+  "gpu_encoder": {
+    "device": "AMD Radeon RX 9070 XT",
+    "observations": 5,
+    "vocabulary_size": 103,
+    "entity_tensor_shape": [
+      5,
+      33,
+      64
+    ],
+    "counter_input_gradient_l1": 0.0674009844660759,
+    "forward_backward": "passed",
+    "training_claim": "untrained combat state encoder only"
+  },
+  "python_suite": {
+    "passed": 110,
+    "lint": "passed"
+  },
+  "clean_patch_application": "exact_source_match",
+  "observation_v2_episodes": {
+    "runs": 16,
+    "errors": 0,
+    "wins": 0,
+    "workers": [
+      1,
+      4
+    ],
+    "same_seed_observations_match": true,
+    "original_action_trajectories_match": 8,
+    "batches": [
+      {
+        "workers": 1,
+        "repeat": 1,
+        "wall_seconds": 9.953098899999532,
+        "completed": 8,
+        "errors": 0,
+        "wins": 0,
+        "terminal_runs_per_hour": 2893.571167066506,
+        "mean_episode_seconds": 1.2414391374998104,
+        "median_episode_seconds": 1.1980905999998868,
+        "actions_per_second": 97.15567078310109,
+        "peak_total_rss_mib": 141.4609375,
+        "identical_observations_across_workers": true
+      },
+      {
+        "workers": 4,
+        "repeat": 1,
+        "wall_seconds": 3.0910572999991928,
+        "completed": 8,
+        "errors": 0,
+        "wins": 0,
+        "terminal_runs_per_hour": 9317.200299071623,
+        "mean_episode_seconds": 1.222038750000138,
+        "median_episode_seconds": 1.1593605000002754,
+        "actions_per_second": 312.83794059730064,
+        "peak_total_rss_mib": 546.8984375,
+        "identical_observations_across_workers": true
+      }
+    ]
+  },
+  "source_sha256": {
+    "scripts/headless-public-observation.patch": "46bf6ddfa0eecf40cadb755a59bfae4f55be8c460e63887e8dccee0307e018b9",
+    "scripts/headless/ObservationExport.cs": "61e17c5f819737c474d14f3ab302e0908a5ddfbc32e6ca0e7abd341ca01f51d7",
+    "tests/native/Program.cs": "4d91034e1daf589da11f3784c53b040ea9fe5bf4f0b4303875acd64a954885b0",
+    "src/sts2rl/combat.py": "946141184dd6ceb2f143e95f209073051f453a419f37e19cdaaf1ec0404c7fc6"
+  },
+  "limitations": [
+    "Only three explicit counter rules qualified",
+    "No rendered-game parity comparison",
+    "No trained combat policy or combat RL job",
+    "Known ordering from card effects is not represented",
+    "Original throughput benchmark used the smaller observation schema"
+  ]
+}

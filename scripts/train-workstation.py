@@ -33,12 +33,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True)
     parser.add_argument("--pages", type=int, default=10)
+    parser.add_argument("--start-page", type=int, default=1)
+    parser.add_argument("--cached-only", action="store_true",
+                        help="train once on retained downloads without network requests")
     parser.add_argument("--page-size", type=int, default=50)
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--device", default="cuda:0")
     args = parser.parse_args()
     if not 1 <= args.pages <= 100 or not 1 <= args.page_size <= 100 or args.epochs < 1:
         parser.error("pages/page-size must be 1..100 and epochs must be positive")
+    if not 1 <= args.start_page <= args.pages:
+        parser.error("start-page must be between 1 and pages")
     output = Path(args.output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     if (output / "status.json").exists():
@@ -64,17 +69,21 @@ def main() -> int:
     try:
         status("starting")
         initial_trained = False
-        for page in range(1, args.pages + 1):
+        pages = [None] if args.cached_only else range(args.start_page, args.pages + 1)
+        for page in pages:
             if stopped():
                 return 0
-            status("collecting", page=page, pages=args.pages)
-            command = ["fetch-replays", "--limit", str(args.page_size), "--page", str(page)]
-            if cli(command) != 0:
-                raise RuntimeError(f"replay collection failed on page {page}; files retained")
+            if not args.cached_only:
+                status("collecting", page=page, pages=args.pages)
+                command = ["fetch-replays", "--limit", str(args.page_size), "--page", str(page)]
+                if cli(command) != 0:
+                    raise RuntimeError(f"replay collection failed on page {page}; files retained")
             if stopped():
                 return 0
-            manifest = json.loads((raw / f"downloads-page-{page}.json").read_text())
-            last_page = page == args.pages or not manifest["listing"].get("runs")
+            last_page = True
+            if not args.cached_only:
+                manifest = json.loads((raw / f"downloads-page-{page}.json").read_text())
+                last_page = page == args.pages or not manifest["listing"].get("runs")
             status("importing", page=page)
             imported = output / "imported.jsonl"
             if cli(["import-replay", str(raw), "--output", str(imported)]) != 0:

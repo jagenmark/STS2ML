@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- Match the host's localization lookup without copying game content. -->
+    <OutputPath>../../artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/$(Configuration)/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../artifacts/upstreams/sts2-cli/src/Sts2Headless/Sts2Headless.csproj" />
+    <Reference Include="sts2">
+      <HintPath>../../artifacts/upstreams/sts2-cli/lib/sts2.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

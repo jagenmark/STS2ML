@@ -19,6 +19,10 @@ execute locally. The pinned native-engine headless host also completed a
 [1/2/4/8-process benchmark](docs/headless-options.md#windows-measurements-2026-10-30):
 128 deterministic Silent A10 episodes, all early Act 1 losses with a weak fixed
 policy. This validates a bounded execution path, not a winning agent or full-game parity.
+The local observation extension now exports visible relic counters and full
+unordered combat piles. A separate neural combat-state encoder consumes them;
+it is not yet a trained micro policy. See the
+[native counter and pile checks](docs/headless-options.md#public-combat-observations-v2).
 
 ## What works now
 
@@ -31,6 +35,7 @@ policy. This validates a bounded execution path, not a winning agent or full-gam
 | Prediction | Load a checkpoint and rank the legal candidates in one canonical JSON observation |
 | Diagnostics | Read-only game/Steam fingerprints and an explicit CPU or GPU forward/backward check |
 | Monte Carlo | Backend-independent root-sampled rollout evaluator with a player-visible continuation-policy boundary |
+| Combat inputs | Native relic counters/status, three qualified counter rules, full hand/draw/discard/exhaust/play piles, modifier state, and a tested set-attention state encoder |
 | Optional bridge | Source-inspected, explicitly partial card-reward adapter to a pinned `divine-sts2` full-app interface |
 | Checks | Unit/integration tests, a synthetic learnability demo, GitHub Actions for Linux/Windows on Python 3.11 and 3.12 |
 
@@ -163,8 +168,9 @@ The actual game integration requires the user's installed game and a verified
 compatible bridge. The [headless source review](docs/headless-options.md) selects
 the pinned **sts2-cli** beta host as the first qualification candidate, with
 **STS2-headless** as a reference for observation and compatibility boundaries.
-Neither is installed or launched by this repository. Windows Silent A10 and
-complete-run parity still need verification.
+The Windows setup script now builds and launches the pinned sts2-cli using local
+game files. Bounded Silent A10 episodes and selected counter/pile transitions
+are verified; complete-run parity still needs verification.
 
 The existing experimental `divine-sts2` adapter targets **v0.107.1**; this
 does not establish compatibility with the beta. Its
@@ -176,21 +182,25 @@ See [game integration](docs/game-integration.md) for exact pinned revisions,
 fingerprints, setup and missing fields, and the [divine beta assessment](docs/divine-beta-assessment.md)
 for its concrete blockers. `sts2rl doctor --game-root "<Steam game directory>"`
 only reads identity and hashes; it never starts the game or certifies a backend.
-CPU is enough for the offline milestone. The Windows guide contains a separately
-verified vendor GPU profile; desktop execution and performance remain untested.
+CPU is enough for the offline milestone. Offline training and the new combat
+encoder's forward/backward pass have also run on the desktop RX 9070 XT.
 
 ## Next milestones
 
 1. Grow and audit a clean **v0.111.0 Silent A10** replay collection. Add held-out
    player evaluation and measure against simple card-frequency baselines.
-2. Qualify the pinned beta headless candidate on Windows: actual Silent/A10,
-   legal transitions, full-run lifecycle and player-visible observations. Expand
-   the observation bridge with upgrades/enchantments, relic state and route context.
-3. Implement and validate the tactical simulator adapter with hidden-state
-   sampling; check transitions against the real game on fixed seeds.
-4. Run paired, unseen-seed whole-run evaluations with an unchanged combat policy.
-5. Add macro reinforcement learning with explicit semi-Markov decision boundaries,
-   correct terminal/truncation handling and the win objective.
+2. Continue native qualification: legal transitions, selections, route context,
+   remaining relic mechanics, and full-run lifecycle. Counter/pile checks are a
+   bounded subset, not proof that every visible mechanic is represented.
+3. Implement and validate tactical branching with hidden-state sampling. Generate
+   Monte Carlo action-value targets, then imitate the search teacher with a micro
+   policy using the new combat encoder; improve rollouts through expert iteration.
+4. Start with an **Act 1 curriculum**, logging unique fight/act completions and
+   held-out seed success separately. Increase the horizon as measured success
+   improves; a completed Act 1 is not a full-run win.
+5. Add macro reinforcement learning with fight/act rewards, explicit semi-Markov
+   boundaries, correct terminal/truncation handling, and paired unseen-seed
+   evaluation of the ultimate whole-run win objective.
 6. Expand to every character, preserving separate patch models and per-character
    evaluation. Prefer imitation of reliable players before whole-run RL; retain
    both wins and losses from those players.

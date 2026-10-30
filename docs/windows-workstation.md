@@ -32,7 +32,22 @@ It collects at most ten pages of 50 listed replays with request pacing, imports
 conservatively, and filters the actual replay header to Silent/A10/v0.111.0.
 Existing journals are reused and hashed. Each completed download updates its
 provenance manifest, so an interruption preserves the listing and hashes.
-A request failure stops the job; inspect the log before restarting.
+A request failure stops the job; inspect the log before restarting. Use
+`-StartPage 9` to resume collection at page 9, or `-CachedOnly` to import and
+train once on already downloaded files without any network calls:
+
+```powershell
+./scripts/start-training.ps1 -CachedOnly -Epochs 30 -Device cuda:0
+```
+
+The 2026-10-30 collection reached 399 replay files before read timeouts. A retry
+of page 9 also timed out, so a cached-only GPU fit completed on **79 accepted
+runs / 774 card-reward decisions**. The split contained 50 training, 13 validation
+and 16 test groups. Validation selected epoch 2 of 30; test pick accuracy was
+39.3%, versus 42.6% for the pick-frequency baseline. This is not yet a strong
+card-choice policy or a game win-rate result. All known training outcomes were
+defeats, so outcome training remained disabled. The completed local experiment is
+`artifacts/v0.111.0/silent-a10/workstation-20261030-165649-028/final/`.
 
 The first dataset with imitation labels in all three run/seed-grouped partitions
 triggers an initial model. After collection, a final model is trained on the
@@ -177,46 +192,28 @@ Doctor saves device and game-fingerprint diagnostics. A successful report does
 not certify beta compatibility or a working game bridge; that requires the
 separate checks in [game integration](game-integration.md).
 
-## Next headless qualification on Windows
+## Native headless setup and qualification on Windows
 
-The first candidate is the source-pinned native-engine host from the
-[headless comparison](headless-options.md), not the existing stable divine
-adapter. Install the **.NET 9 SDK x64** and Git Bash separately; a runtime alone
-cannot build this host. This setup has been source-reviewed, not run here.
-
-From this repository root in PowerShell:
+The PowerShell wrapper installs a checksum-verified local .NET 9.0.320 SDK,
+pins the sts2-cli checkout, validates the installed game hash, copies/patches
+only local ignored libraries, and builds Release. Git Bash is not required.
 
 ```powershell
-git clone https://github.com/wuhao21/sts2-cli.git artifacts/upstreams/sts2-cli
-git -C artifacts/upstreams/sts2-cli checkout --detach fec723a21741a1a33a4f54dc9b28c50df31d6e45
+./scripts/setup-headless.ps1
+& .venv/cpu/Scripts/python.exe scripts/benchmark-headless.py --output artifacts/headless/new-check --runs 8 --workers 1 4
+& artifacts/tools/dotnet/dotnet.exe run --project tests/native/Observations.csproj -c Release -- (Get-Location).Path
 ```
 
-Open **Git Bash**, not WSL Bash, inside that checkout. Confirm `dotnet --list-sdks`
-includes .NET 9 and `python3 --version` resolves to an installed Python. Its
-[setup script](https://github.com/wuhao21/sts2-cli/blob/fec723a21741a1a33a4f54dc9b28c50df31d6e45/setup.sh)
-copies and patches local game assemblies under the ignored upstream checkout;
-it does not need game assemblies in STS2ML's Git history. Use the actual Steam
-library path, for example:
+Use `-GameRoot` when Steam is installed elsewhere. Both runners isolate save
+paths and retain their logs under `artifacts/headless/`. The
+[headless evidence](headless-options.md) records Silent A10 early-loss episodes,
+deterministic observations, and explicit relic counter / pile transitions.
+The CPU suite now passes 110 tests, and the new combat-state encoder also passed
+a forward/backward check on RX 9070 XT with real native observations.
 
-```bash
-bash ./setup.sh "D:/SteamLibrary/steamapps/common/Slay the Spire 2"
-```
-
-The projects target `net9.0` and the Python launchers expect the default Debug
-build. A manual rebuild is `dotnet build src/Sts2Headless/Sts2Headless.csproj`.
-After setup, Bash is not required for direct runtime control. From the STS2ML
-root in PowerShell, the JSON command host can be started with:
-
-```powershell
-dotnet run --no-build --project artifacts/upstreams/sts2-cli/src/Sts2Headless/Sts2Headless.csproj
-```
-
-Before connecting a policy, verify the actual observed build, character and
-ascension after an explicit Silent A10 reset, legal actions, bounded terminal
-runs, and act transitions against the same patch. Existing A0 Act 1 losses do
-not establish these properties. Active-combat branching also needs a verified
-replay contract. Preserve the logs outside upstream automatic cleanup and keep
-the managed host's debug/scenario commands outside the policy interface.
+Whole-run parity, a legal-action adapter, hidden-state sampling, Monte Carlo
+teacher integration and a trained combat policy remain open. Debug/scenario
+controls are test infrastructure, never policy actions.
 
 ## Data and artifact handoff
 

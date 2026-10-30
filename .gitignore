@@ -6,6 +6,8 @@ __pycache__/
 .ruff_cache/
 .coverage
 build/
+**/bin/
+**/obj/
 dist/
 data/
 artifacts/

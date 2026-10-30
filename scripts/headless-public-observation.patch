@@ -1,0 +1,92 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -203,7 +203,7 @@
+ /// through map navigation, combat, events, rest sites, shops, and act transitions.
+ /// Drives the engine forward until it hits a "decision point" requiring external input.
+ /// </summary>
+-public class RunSimulator
++public partial class RunSimulator
+ {
+     private static int? _expectedSaveSchemaVersion;
+     private static bool _expectedSaveSchemaVersionReady;
+@@ -2115,6 +2115,7 @@
+             }
+             if (damageByTarget != null && damageByTarget.Count > 0)
+                 cardInfo["damage_by_target"] = damageByTarget;
++            AddPublicCardDetails(c, cardInfo);
+             return cardInfo;
+         }).ToList() ?? new();
+ 
+@@ -2169,6 +2170,7 @@
+                 // Enemy powers
+                 var ePowers = e.Powers?.Select(pw => new Dictionary<string, object?>
+                 {
++                    ["id"] = pw.Id.ToString(),
+                     ["name"] = _loc.Power(pw.Id.Entry),
+                     ["description"] = _loc.Bilingual("powers", pw.Id.Entry + ".description"),
+                     ["amount"] = pw.Amount,
+@@ -2177,6 +2179,7 @@
+                 return new Dictionary<string, object?>
+                 {
+                     ["index"] = i,
++                    ["id"] = e.Monster?.Id.ToString() ?? "MONSTER.UNKNOWN",
+                     ["name"] = _loc.Monster(e.Monster?.Id.Entry ?? "UNKNOWN"),
+                     ["hp"] = e.CurrentHp,
+                     ["max_hp"] = e.MaxHp,
+@@ -2190,6 +2193,7 @@
+         // Player powers/buffs
+         var playerPowers = player.Creature?.Powers?.Select(pw => new Dictionary<string, object?>
+         {
++            ["id"] = pw.Id.ToString(),
+             ["name"] = _loc.Power(pw.Id.Entry),
+             ["description"] = _loc.Bilingual("powers", pw.Id.Entry + ".description"),
+             ["amount"] = pw.Amount,
+@@ -2209,6 +2213,13 @@
+             ["player_powers"] = playerPowers?.Count > 0 ? playerPowers : null,
+             ["draw_pile_count"] = pcs?.DrawPile?.Cards?.Count ?? 0,
+             ["discard_pile_count"] = pcs?.DiscardPile?.Cards?.Count ?? 0,
++            ["observation_version"] = 2,
++            ["draw_pile"] = PublicPile(pcs?.DrawPile?.Cards),
++            ["discard_pile"] = PublicPile(pcs?.DiscardPile?.Cards),
++            ["exhaust_pile"] = PublicPile(pcs?.ExhaustPile?.Cards),
++            ["play_pile"] = PublicPile(pcs?.PlayPile?.Cards),
++            ["pile_order"] = "unordered",
++            ["exhaust_pile_count"] = pcs?.ExhaustPile?.Cards?.Count ?? 0,
+         };
+ 
+         // Character-specific mechanics
+@@ -2924,17 +2935,7 @@
+             ["max_hp"] = player.Creature?.MaxHp ?? 0,
+             ["block"] = player.Creature?.Block ?? 0,
+             ["gold"] = player.Gold,
+-            ["relics"] = player.Relics?.Select(r =>
+-            {
+-                var vars = new Dictionary<string, object?>();
+-                try { foreach (var dv in r.DynamicVars.Values) vars[dv.Name] = (int)dv.BaseValue; } catch { }
+-                return new Dictionary<string, object?>
+-                {
+-                    ["name"] = _loc.Relic(r.Id.Entry),
+-                    ["description"] = _loc.Bilingual("relics", r.Id.Entry + ".description"),
+-                    ["vars"] = vars.Count > 0 ? vars : null,
+-                };
+-            }).ToList(),
++            ["relics"] = player.Relics?.Select(PublicRelic).ToList(),
+             ["potions"] = player.Potions?.Select((p, i) =>
+             {
+                 if (p == null) return null;
+@@ -2943,6 +2944,7 @@
+                 return new Dictionary<string, object?>
+                 {
+                     ["index"] = i,
++                    ["id"] = p.Id.ToString(),
+                     ["name"] = _loc.Potion(p.Id.Entry),
+                     ["description"] = _loc.Bilingual("potions", p.Id.Entry + ".description"),
+                     ["vars"] = pvars.Count > 0 ? pvars : null,
+@@ -2979,6 +2981,7 @@
+                     dcard["affliction"] = _loc.Bilingual("afflictions", c.Affliction.Id.Entry + ".title");
+                     try { if (c.Affliction.Amount != 0) dcard["affliction_amount"] = c.Affliction.Amount; } catch { }
+                 }
++                AddPublicCardDetails(c, dcard);
+                 return dcard;
+             }).ToList(),
+         };

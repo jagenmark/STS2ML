@@ -39,15 +39,18 @@ if (-not (Test-Path -LiteralPath $Sts2Upstream)) {
     if ($LASTEXITCODE) { throw 'Pinned checkout failed.' }
 }
 if ((git -C $Sts2Upstream rev-parse HEAD).Trim() -ne $Sts2Revision) { throw 'Wrong upstream revision.' }
-$Sts2Patch = Join-Path $PSScriptRoot 'headless-runtime-identity.patch'
-git -C $Sts2Upstream apply --check $Sts2Patch 2>$null
-if ($LASTEXITCODE -eq 0) {
-    git -C $Sts2Upstream apply $Sts2Patch
-    if ($LASTEXITCODE) { throw 'Identity patch failed.' }
-} else {
-    git -C $Sts2Upstream apply --reverse --check $Sts2Patch 2>$null
-    if ($LASTEXITCODE) { throw 'Unexpected upstream edits prevent the diagnostic patch.' }
+foreach ($Sts2PatchName in @('headless-runtime-identity.patch', 'headless-public-observation.patch')) {
+    $Sts2Patch = Join-Path $PSScriptRoot $Sts2PatchName
+    git -C $Sts2Upstream apply --check $Sts2Patch 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        git -C $Sts2Upstream apply $Sts2Patch
+        if ($LASTEXITCODE) { throw "Patch failed: $Sts2PatchName" }
+    } else {
+        git -C $Sts2Upstream apply --reverse --check $Sts2Patch 2>$null
+        if ($LASTEXITCODE) { throw "Unexpected upstream edits prevent patch: $Sts2PatchName" }
+    }
 }
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'headless/ObservationExport.cs') -Destination (Join-Path $Sts2Upstream 'src/Sts2Headless/ObservationExport.cs')
 $Sts2Lib = Join-Path $Sts2Upstream 'lib'
 New-Item -ItemType Directory -Force $Sts2Lib,artifacts/tools/sts2-patcher | Out-Null
 $Sts2Dlls = @('sts2.dll','SmartFormat.dll','SmartFormat.ZString.dll','Sentry.dll','Sentry.Godot.dll','Steamworks.NET.dll','MonoMod.Backports.dll','MonoMod.ILHelpers.dll','0Harmony.dll','System.IO.Hashing.dll')

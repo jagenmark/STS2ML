@@ -1,6 +1,8 @@
 param(
     [ValidateRange(1, 100)][int]$Pages = 10,
+    [ValidateRange(1, 100)][int]$StartPage = 1,
     [ValidateRange(1, 10000)][int]$Epochs = 30,
+    [switch]$CachedOnly,
     [string]$Device = 'cuda:0'
 )
 $ErrorActionPreference = 'Stop'
@@ -11,7 +13,8 @@ if (-not (Test-Path -LiteralPath $Sts2Python)) { throw "Missing environment: $St
 $Sts2Run = Join-Path $Sts2Repo ('artifacts/v0.111.0/silent-a10/workstation-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
 New-Item -ItemType Directory -Path $Sts2Run | Out-Null
 $Sts2Arguments = @('-u', 'scripts/train-workstation.py', '--output', ('"' + $Sts2Run + '"'),
-    '--pages', $Pages, '--epochs', $Epochs, '--device', $Device)
+    '--pages', $Pages, '--start-page', $StartPage, '--epochs', $Epochs, '--device', $Device)
+if ($CachedOnly) { $Sts2Arguments += '--cached-only' }
 $Sts2Process = Start-Process -FilePath $Sts2Python -ArgumentList $Sts2Arguments -WorkingDirectory $Sts2Repo -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $Sts2Run 'pipeline.log') -RedirectStandardError (Join-Path $Sts2Run 'training.log')
 @{ launcher_pid = $Sts2Process.Id; output = $Sts2Run } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $Sts2Run 'launcher.json') -Encoding utf8
 Write-Output "Started: $Sts2Run"

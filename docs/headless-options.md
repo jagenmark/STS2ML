@@ -51,6 +51,70 @@ includes process start, reset, JSON, trace logging and shutdown. Timeouts,
 identity mismatches and engine errors remain errors, never defeat labels.
 This runner is a measurement harness, not yet the STS2ML training environment.
 
+## Public combat observations v2
+
+The additive `headless-public-observation.patch` and
+`scripts/headless/ObservationExport.cs` extend the pinned host. Setup applies
+both patches idempotently; the original benchmark above used only the identity
+patch, so its timing does not include the larger v2 observations.
+
+Every owned relic exports its stable ID, actual UI `show_counter` / `counter`,
+status, used-up flag, stack count, description template and numeric variables.
+No counter is invented when the game does not show one. Explicit counter rules
+are currently qualified for **Nunchaku**, **Happy Flower**, and **Pen Nib** only.
+For example Nunchaku at nine attacks has `counter=9`, `threshold=10`,
+`remaining=1`, `unit=attack_played`, `effect=gain_energy`, `effect_amount=1`.
+Other relics retain their real counter/description/variables and a null rule.
+This does not infer mechanics by reflecting arbitrary private or saved fields.
+
+Combat observations include every card in hand, draw, discard, exhaust and play
+piles, including duplicates, upgrade levels, current costs, X-cost flags,
+temporary retain/exhaust/Sly flags, enchantments and afflictions. Non-hand piles
+are sorted by the complete exported representation, so even differently upgraded
+copies cannot leak draw order. Their stats are explicitly base values; existing
+hand damage previews remain target-sensitive. Enemy and power IDs are stable.
+
+`sts2rl.combat` projects an explicit field allowlist into neural tensors and a
+set-attention state encoder. Relic counters, threshold, distance to trigger and
+effect amount are numeric features with missing-value indicators. Pile membership,
+modified duplicates, enemy intents, player powers, potions and the permanent deck
+are represented. Unknown categorical entities map to UNK in a train-only vocabulary.
+The existing replay macro model/checkpoints are unchanged. **There is no trained
+combat action head, MC teacher integration or combat RL job yet.** The state
+encoder can read the information; strategic use requires training.
+
+Local native tests execute actual game code from the pinned assembly:
+
+* Nunchaku at 9 wraps to 0 and refunds one energy after a one-energy attack.
+* Pen Nib at 9 doubles a Strike's damage from 6 to 12 and wraps to 0.
+* Happy Flower at 2 grants one extra energy at the next turn and wraps to 0.
+* Playing a card moves it to discard; Ascender's Bane moves to exhaust on turn end.
+* Pile counts conserve the starter cards. Re-reading observations has no visible
+  side effects; reversing the true draw pile including modified duplicates leaves
+  the entire public observation unchanged.
+
+```powershell
+./scripts/setup-headless.ps1
+& artifacts/tools/dotnet/dotnet.exe run --project tests/native/Observations.csproj -c Release -- (Get-Location).Path
+& .venv/cpu/Scripts/python.exe -m pytest tests/test_combat.py -q
+```
+
+Tests inject counter fixtures only inside a separate test executable and isolated
+save directory. They add no privileged policy commands. Native observations also
+passed an RX 9070 XT encoder forward/backward check with nonzero gradients through
+the counter inputs. Sanitized results are in
+[observation evidence](evidence/observations-windows-2026-10-30.json); full local
+observations stay under `artifacts/headless/observation-tests/`.
+
+Remaining information limits: description templates are not a pretrained wiki;
+the encoder does not understand arbitrary description text. Enemy intents are the
+current visible intents, not a guaranteed future sequence. Special effects that
+reveal or fix upcoming draws still need an explicit public-history representation;
+the unordered pile intentionally cannot preserve those known ordering facts yet.
+Selection prompts, other relic trigger rules and several character-specific
+mechanics still need qualification. These probes are native-engine tests, not a
+side-by-side comparison with the rendered game.
+
 ## Decision
 
 There are credible existing native-engine headless projects. Start by
