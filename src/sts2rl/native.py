@@ -201,6 +201,8 @@ class NativeSession:
                                         "seconds": time.perf_counter() - started}) + "\n")
             self.trace.flush()
             if result.get("type") in ("error", "save_error"):
+                self.errors.write("\n[RPC ERROR] " + json.dumps(result) + "\n")
+                self.errors.flush()
                 raise NativeError(result.get("message", str(result)))
             if result.get("runtime_identity") != {"character": "SILENT", "ascension": 10,
                                                    "assembly_version": ASSEMBLY_VERSION}:

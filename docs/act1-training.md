@@ -33,6 +33,38 @@ progress, floors, fights, distinct enemy/card/relic identities and search errors
 coverage report is not evidence that a mechanic was learned. All traces, raw
 observations and weights remain ignored under `artifacts/`.
 
+Short Windows reader/antivirus locks are retried when atomically replacing JSON.
+Persistent locks may skip a progress update; they must not terminate a game.
+Durable result/configuration writes still report failures. After a failed runner
+exits, rerun its exact arguments with `--resume` to reuse complete episodes and
+archive/retry incomplete episodes. Worker count can change. Do not resume a
+live runner. A `STOP` file remains authoritative. Original and resume source/
+runtime manifests are retained. Game-assembly and macro-weight changes are
+rejected; an audited presentation-only host fix additionally requires
+`--allow-host-update`. `scripts/resume-act1.ps1` can wait for the old runner,
+build the fixed host, verify the event effects, and perform this recovery.
+
+## Measured runtime and concurrency
+
+With four collection workers on this Ryzen 9800X3D, early-loss teacher episodes
+took roughly **67–117 seconds** in the larger four-sample experiment. One run
+that reached floor 15 took **768 seconds**. The first actual **Act 1 clear by
+the MC-assisted collection policy** took **862 seconds (14m22s)**, with 58
+teacher roots and 1,368 rollout branches. These are examples, not a stable
+estimate for every run. Later roots repeatedly replay longer action histories.
+
+Without search, the earlier paired evaluation averaged **1.57 seconds** for the
+heuristic and **3.58 seconds** for the student, including process startup. Most
+of those runs died early; these are not times for successful full-Act-1 clears.
+
+Each collection worker owns two native processes; its real game waits while
+the search process evaluates branches sequentially. Different runs already
+execute in parallel. Independent sampled branches could also be parallelized,
+but that is not implemented yet. More workers are configurable. Earlier simple
+headless tests measured 8-process throughput at 1.7 times 4-process throughput;
+that does not establish the scaling of this heavier MC workload. Measure valid
+teacher decisions per minute and memory use before increasing concurrency.
+
 ## Search and information boundary
 
 Monte Carlo still searches **to the end of the current fight**, using a public
@@ -124,3 +156,10 @@ The native fixtures additionally verify actual Rolling Boulder damage, relic/
 potion/card purchase effects, low-HP resting and rejection of unsupported draw
 knowledge. The starter regression verifies deterministic forks, pending
 selections, fifty repeated restores, potion effects and sibling isolation.
+
+The larger collection exposed an unguarded debug-audio call in Jungle Maze's
+Join Forces option. `PresentationFix.cs` removes only that call; native gold,
+HP and event-completion code remains intact. The separate native event probe
+checks both options' exact gold/HP effects. It can test the proposed fix while
+older host DLLs remain loaded by an existing collection; deployment waits until
+that runner exits. Invalid episodes remain quarantined until their rerun succeeds.

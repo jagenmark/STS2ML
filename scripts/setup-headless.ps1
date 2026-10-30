@@ -43,6 +43,7 @@ if ((git -C $Sts2Upstream rev-parse HEAD).Trim() -ne $Sts2Revision) { throw 'Wro
 if ($LASTEXITCODE) { throw 'Pinned headless patch validation failed.' }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'headless/ObservationExport.cs') -Destination (Join-Path $Sts2Upstream 'src/Sts2Headless/ObservationExport.cs')
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'headless/TrainingSupport.cs') -Destination (Join-Path $Sts2Upstream 'src/Sts2Headless/TrainingSupport.cs')
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'headless/PresentationFix.cs') -Destination (Join-Path $Sts2Upstream 'src/Sts2Headless/PresentationFix.cs')
 $Sts2Lib = Join-Path $Sts2Upstream 'lib'
 New-Item -ItemType Directory -Force $Sts2Lib,artifacts/tools/sts2-patcher | Out-Null
 $Sts2Dlls = @('sts2.dll','SmartFormat.dll','SmartFormat.ZString.dll','Sentry.dll','Sentry.Godot.dll','Steamworks.NET.dll','MonoMod.Backports.dll','MonoMod.ILHelpers.dll','0Harmony.dll','System.IO.Hashing.dll')

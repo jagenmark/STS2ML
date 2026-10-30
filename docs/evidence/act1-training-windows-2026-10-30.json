@@ -390,5 +390,31 @@
     "Pilot student cleared 0/32 and reached a lower mean floor than the heuristic. No improvement claim.",
     "Known draw-order risks and excessive branch budgets are skipped and counted.",
     "A map save/reload optimization failed future-room replay and was removed."
-  ]
+  ],
+  "first_mc_assisted_act1_clear": {
+    "index": 3,
+    "group": "2244976170727046046ef8b121389924b7b5268a6a7f95f42bb7a57e3ad2a79a",
+    "status": "complete",
+    "cleared_act1": true,
+    "seconds": 862.3041733999999,
+    "steps": 252,
+    "decisions": 58,
+    "branches": 1368,
+    "fights": 7,
+    "max_floor": 17,
+    "hp": 59,
+    "note": "Collection policy uses Monte Carlo at sampled roots and heuristic otherwise, with replay macro. This is not a learned-micro clear or a final win-rate estimate."
+  },
+  "recovery_fix": {
+    "recorded_utc": "2026-10-30T21:32:59.084671+00:00",
+    "unit_tests": 145,
+    "native_resume_probe": "complete episode hash and mtime unchanged; incomplete episode archived and retried successfully",
+    "event_probe": {
+      "passed": true,
+      "options": 2,
+      "native_gold_and_hp_verified": true,
+      "suppressed": "Jungle Maze debug audio only"
+    },
+    "deployment": "queued after current collection exits; old loaded DLLs unchanged"
+  }
 }

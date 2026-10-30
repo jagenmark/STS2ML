@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputPath>../../artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/EventProbe/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../scripts/headless/PresentationFix.cs" Link="PresentationFix.cs" />
+    <!-- Use the built host without rebuilding DLLs held by training workers. -->
+    <Reference Include="Sts2Headless"><HintPath>../../artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll</HintPath></Reference>
+    <Reference Include="GodotSharp"><HintPath>../../artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/GodotSharp.dll</HintPath></Reference>
+    <Reference Include="sts2"><HintPath>../../artifacts/upstreams/sts2-cli/lib/sts2.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>../../artifacts/upstreams/sts2-cli/lib/0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

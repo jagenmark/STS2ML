@@ -185,7 +185,15 @@
                  };
              }).Where(x => x != null).ToList(),
              ["deck_size"] = player.Deck?.Cards?.Count(c => c != null) ?? 0,
-@@ -3864,6 +3872,10 @@
+@@ -3071,6 +3079,7 @@
+         // Patch TalkCmd.Play to a no-op (issue #64). Monster speech-bubble VFX during
+         // moves (e.g. BygoneEffigy.WakeMove) NRE in headless and break the enemy turn.
+         PatchTalkCmd();
++        PresentationFix.Install();
+ 
+         // Initialize localization system (needed for events, cards, etc.)
+         InitLocManager();
+@@ -3864,6 +3873,10 @@
  
      public void CleanUp()
      {

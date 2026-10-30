@@ -106,11 +106,53 @@ class MacroPolicy:
         return self.rng.choice(actions)
 
 
-def save_json(path, data):
+def save_json(path, data, *, best_effort=False):
+    """Atomically replace JSON, tolerating short Windows reader/AV file locks.
+
+    Telemetry can skip a write; durable results/configuration must still fail
+    explicitly if the lock persists. Never truncate the last readable result.
+    """
     path = Path(path)
     temporary = path.with_suffix(".tmp")
-    temporary.write_text(json.dumps(data, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    temporary.replace(path)
+    payload = json.dumps(data, indent=2, allow_nan=False) + "\n"
+    for attempt in range(8):
+        try:
+            temporary.write_text(payload, encoding="utf-8")
+            temporary.replace(path)
+            return True
+        except PermissionError:
+            if attempt == 7:
+                if best_effort:
+                    return False
+                raise
+            time.sleep(.01 * 2 ** attempt)
+
+
+def existing_act1_results(output, runs, prefix):
+    """Reuse complete episodes; archive incomplete attempts before retrying.
+
+    Call only after the previous runner exits. Archives stay inside this
+    experiment; no partial teacher rows are mixed with their replacement run.
+    """
+    output = Path(output).resolve()
+    complete, pending = [], []
+    archive = output / "previous-attempts" / str(time.time_ns())
+    for index in range(runs):
+        folder = output / f"run-{index:05d}"
+        if folder.exists():
+            if not folder.resolve().is_relative_to(output):
+                raise ValueError("Run folder resolves outside the experiment")
+            result_file = folder / "result.json"
+            result = json.loads(result_file.read_text(encoding="utf-8")) if result_file.exists() else {}
+            if result.get("status") == "complete" and (folder / "teacher.jsonl").exists():
+                if result.get("group") != digest(f"{prefix}{index:06d}") or result.get("index") != index:
+                    raise ValueError("Existing run belongs to another seed/index")
+                complete.append(result)
+                continue
+            archive.mkdir(parents=True, exist_ok=True)
+            folder.rename(archive / folder.name)
+        pending.append(index)
+    return complete, pending
 
 
 def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macro_checkpoint=None,
@@ -197,7 +239,8 @@ def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macr
                 action = macro(state)
             state = game.step(action)
             if step % 5 == 0 or (combat_choice and fight_roots):
-                save_json(folder / "progress.json", {**result, "seconds": time.perf_counter() - started})
+                if not save_json(folder / "progress.json", {**result, "seconds": time.perf_counter() - started}, best_effort=True):
+                    result["progress_write_failures"] = result.get("progress_write_failures", 0) + 1
         else:
             result["status"] = "truncated"
     except Exception as exc:

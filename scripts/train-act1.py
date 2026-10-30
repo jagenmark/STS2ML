@@ -9,7 +9,7 @@ from pathlib import Path
 import subprocess
 import time
 
-from sts2rl.act1 import run_act1, save_json
+from sts2rl.act1 import existing_act1_results, run_act1, save_json
 from sts2rl.native import ACT1_SAMPLER
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,14 +44,34 @@ def main():
     p.add_argument("--epochs", type=int, default=20)
     p.add_argument("--device", default="cuda:0")
     p.add_argument("--evaluate", type=int, default=32)
+    p.add_argument("--resume", action="store_true", help="After a failed runner exits, keep complete runs and retry archived incomplete runs")
+    p.add_argument("--allow-host-update", action="store_true", help="During resume, permit an audited headless-host fix; game assembly and macro weights must match")
     args = p.parse_args()
+    if args.allow_host_update and not args.resume:
+        p.error("Host updates only apply to an explicitly resumed experiment")
     if min(args.runs, args.workers, args.roots_per_fight, args.epochs) < 1 or args.samples < 2 or args.evaluate < 0 or not 0 <= args.query_probability <= 1:
         p.error("Invalid run/search budget")
     if not args.collect_only and args.runs < 10:
         p.error("Fitting requires at least ten independent run seeds")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
-    if (output / "config.json").exists():
+    previous = None
+    if args.resume:
+        if not (output / "config.json").exists() or not (output / "status.json").exists():
+            p.error("Resume requires an existing configuration and terminal status")
+        if (output / "STOP").exists():
+            p.error("STOP is present; resume must not override a requested stop")
+        previous = json.loads((output / "config.json").read_text(encoding="utf-8"))
+        previous_status = json.loads((output / "status.json").read_text(encoding="utf-8"))
+        if previous_status.get("stage") != "failed":
+            p.error("Resume only after a failed runner has exited; do not run concurrently")
+        for key in ("runs", "samples", "roots_per_fight", "query_probability", "prefix", "collect_only", "epochs", "evaluate"):
+            if previous[key] != getattr(args, key):
+                p.error("Resume configuration mismatch: " + key)
+        old_macro = previous.get("macro_checkpoint")
+        if (Path(old_macro).resolve() if old_macro else None) != (args.macro_checkpoint.resolve() if args.macro_checkpoint else None):
+            p.error("Resume macro checkpoint mismatch")
+    elif (output / "config.json").exists():
         p.error("Use a fresh experiment folder")
     config = {**vars(args), "output": str(output), "macro_checkpoint": str(args.macro_checkpoint) if args.macro_checkpoint else None,
               "sampler": ACT1_SAMPLER, "started": datetime.now(timezone.utc).isoformat(),
@@ -64,21 +84,33 @@ def main():
                             ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll",
                             ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/GodotSharp.dll"]},
               "macro_sha256": hashlib.sha256(args.macro_checkpoint.read_bytes()).hexdigest() if args.macro_checkpoint else None}
-    save_json(output / "config.json", config)
+    if previous:
+        old_runtime, new_runtime = previous["runtime_sha256"], config["runtime_sha256"]
+        game_key = "artifacts/upstreams/sts2-cli/lib/sts2.dll"
+        if old_runtime[game_key] != new_runtime[game_key] or previous["macro_sha256"] != config["macro_sha256"]:
+            p.error("Resume cannot mix native builds or macro weights")
+        if old_runtime != new_runtime and not args.allow_host_update:
+            p.error("Headless host changed; audit the fix before using --allow-host-update")
+        save_json(output / f"resume-config-{time.time_ns()}.json", config)
+    else:
+        save_json(output / "config.json", config)
     if args.macro_checkpoint:
         import torch
         torch.set_num_threads(1)
-    started, results = time.perf_counter(), []
+    started = time.perf_counter()
+    results, pending = existing_act1_results(output, args.runs, args.prefix) if args.resume else ([], range(args.runs))
+    status = {"stage": "collecting", "total": args.runs, **summary(results), "seconds": 0}
+    save_json(output / "status.json", status)
     try:
         with ThreadPoolExecutor(max_workers=args.workers) as executor:
             futures = [executor.submit(run_act1, ROOT, output, i, prefix=args.prefix,
                 samples=args.samples, roots_per_fight=args.roots_per_fight,
-                query_probability=args.query_probability, macro_checkpoint=args.macro_checkpoint) for i in range(args.runs)]
+                query_probability=args.query_probability, macro_checkpoint=args.macro_checkpoint) for i in pending]
             for future in as_completed(futures):
                 results.append(future.result())
                 status = {"stage": "collecting", "total": args.runs, **summary(results),
                           "seconds": time.perf_counter() - started}
-                save_json(output / "status.json", status)
+                save_json(output / "status.json", status, best_effort=True)
                 print(json.dumps({k: status[k] for k in ("completed", "total", "decisions", "fights", "max_floor", "act1_clears", "search_errors")}), flush=True)
         save_json(output / "collection.json", results)
         if status["run_errors"]:
@@ -86,11 +118,27 @@ def main():
         if not args.collect_only:
             from sts2rl.micro import fit_micro, load_micro
             save_json(output / "status.json", {**status, "stage": "training"})
-            fit_micro(sorted(output.glob("run-*/teacher.jsonl")), output / "model", epochs=args.epochs, device=args.device)
+            model = output / "model"
+            if model.exists() and (pending or not (model / "report.json").exists()):
+                if not model.resolve().is_relative_to(output):
+                    raise ValueError("Model folder resolves outside the experiment")
+                model.rename(output / f"incomplete-model-{time.time_ns()}")
+            if not (model / "report.json").exists():
+                fit_micro(sorted(output.glob("run-*/teacher.jsonl")), model, epochs=args.epochs, device=args.device)
             if args.evaluate:
                 save_json(output / "status.json", {**status, "stage": "evaluating"})
                 policies = {"heuristic": None, "micro": load_micro(output / "model/best.pt", device=args.device)}
                 for name, policy in policies.items():
+                    evaluation_folder = output / ("evaluation-" + name)
+                    report_path = output / (name + "-evaluation.json")
+                    if report_path.exists():
+                        prior_evaluation = json.loads(report_path.read_text(encoding="utf-8"))
+                        if len(prior_evaluation["runs"]) == args.evaluate and all(r["status"] == "complete" for r in prior_evaluation["runs"]):
+                            continue
+                    if evaluation_folder.exists():
+                        if not evaluation_folder.resolve().is_relative_to(output):
+                            raise ValueError("Evaluation folder resolves outside the experiment")
+                        evaluation_folder.rename(output / f"incomplete-evaluation-{name}-{time.time_ns()}")
                     evaluation = [run_act1(ROOT, output / ("evaluation-" + name), i,
                         prefix=args.prefix + "EVAL", teacher=False, micro_policy=policy,
                         macro_checkpoint=args.macro_checkpoint) for i in range(args.evaluate)]
