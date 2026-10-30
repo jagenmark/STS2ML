@@ -99,6 +99,19 @@ relic sets included 42 card identities and 18 relic identities. The furthest run
 reached floor 15. **0/12 cleared Act 1**, so boss coverage and clear rate still
 need improvement. This pilot validates the broader pipeline, not a strong agent.
 
+The pilot GPU fit took 18.9 seconds for 20 epochs; validation selected epoch 7.
+Ten/one/one run groups produced 205/16/16 train/validation/test decisions. The
+test split agreed with a tied teacher-best action on 68.75% of its 16 decisions;
+that very small test is only a pipeline check. On **32 fresh paired Act 1 seeds**,
+both the student and heuristic cleared **0/32**, with zero engine errors. Mean
+furthest floor was **6.56 for the student vs 7.59 for the heuristic**. Both reached
+floor 17 in at least one run. The student has not demonstrated improvement.
+
+A larger 64-run job was launched with four workers, four chance samples and up
+to twelve queried roots per fight, followed automatically by a GPU fit and new
+paired evaluation. Its outputs remain local; this launch is not a completed
+training result. See the [sanitized evidence](evidence/act1-training-windows-2026-10-30.json).
+
 Qualification commands:
 
 ```powershell

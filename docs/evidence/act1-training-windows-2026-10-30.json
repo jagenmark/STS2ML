@@ -1,0 +1,394 @@
+{
+  "recorded_utc": "2026-10-30T21:12:49.762841+00:00",
+  "implementation_revision": "407bfdf5adec69eaca4098f5076ae745ab8750b7",
+  "runtime": {
+    "game_version": "v0.111.0",
+    "character": "SILENT",
+    "ascension": 10,
+    "sampler": "silent-a10-act1-mc-v2"
+  },
+  "collection": {
+    "completed": 12,
+    "successful_runs": 12,
+    "act1_clears": 0,
+    "decisions": 237,
+    "branches": 2524,
+    "fights": 61,
+    "max_floor": 15,
+    "search_errors": 0,
+    "seconds": 179.28313290000006,
+    "monsters": {
+      "MONSTER.NIBBIT": 12,
+      "MONSTER.FUZZY_WURM_CRAWLER": 12,
+      "MONSTER.TWIG_SLIME_S": 8,
+      "MONSTER.TWIG_SLIME_M": 4,
+      "MONSTER.LEAF_SLIME_S": 8,
+      "MONSTER.PHROG_PARASITE": 2,
+      "MONSTER.SHRINKER_BEETLE": 12,
+      "MONSTER.BYRDONIS": 2,
+      "MONSTER.CROSSBOW_RUBY_RAIDER": 2,
+      "MONSTER.AXE_RUBY_RAIDER": 1,
+      "MONSTER.TRACKER_RUBY_RAIDER": 3,
+      "MONSTER.INKLET": 9,
+      "MONSTER.BYGONE_EFFIGY": 3,
+      "MONSTER.SNAPPING_JAXFRUIT": 2,
+      "MONSTER.FLYCONID": 3,
+      "MONSTER.LEAF_SLIME_M": 7,
+      "MONSTER.BRUTE_RUBY_RAIDER": 1,
+      "MONSTER.ASSASSIN_RUBY_RAIDER": 2,
+      "MONSTER.MAWLER": 2,
+      "MONSTER.FOGMOG": 1,
+      "MONSTER.CUBEX_CONSTRUCT": 1
+    },
+    "teacher_monsters": {
+      "MONSTER.NIBBIT": 44,
+      "MONSTER.FUZZY_WURM_CRAWLER": 46,
+      "MONSTER.TWIG_SLIME_S": 11,
+      "MONSTER.TWIG_SLIME_M": 13,
+      "MONSTER.LEAF_SLIME_S": 24,
+      "MONSTER.PHROG_PARASITE": 8,
+      "MONSTER.SHRINKER_BEETLE": 48,
+      "MONSTER.BYRDONIS": 8,
+      "MONSTER.CROSSBOW_RUBY_RAIDER": 6,
+      "MONSTER.AXE_RUBY_RAIDER": 2,
+      "MONSTER.TRACKER_RUBY_RAIDER": 12,
+      "MONSTER.INKLET": 25,
+      "MONSTER.BYGONE_EFFIGY": 12,
+      "MONSTER.SNAPPING_JAXFRUIT": 7,
+      "MONSTER.FLYCONID": 12,
+      "MONSTER.LEAF_SLIME_M": 26,
+      "MONSTER.BRUTE_RUBY_RAIDER": 4,
+      "MONSTER.ASSASSIN_RUBY_RAIDER": 8,
+      "MONSTER.MAWLER": 8,
+      "MONSTER.FOGMOG": 4,
+      "MONSTER.CUBEX_CONSTRUCT": 4
+    },
+    "cards": {
+      "CARD.STRIKE_SILENT": 300,
+      "CARD.DEFEND_SILENT": 286,
+      "CARD.NEUTRALIZE": 60,
+      "CARD.SURVIVOR": 61,
+      "CARD.ASCENDERS_BANE": 61,
+      "CARD.CLOAK_AND_DAGGER": 14,
+      "CARD.TACTICIAN": 7,
+      "CARD.LEG_SWEEP": 8,
+      "CARD.AUTOMATION": 4,
+      "CARD.PREPARED": 5,
+      "CARD.EXPERTISE": 3,
+      "CARD.INFINITE_BLADES": 3,
+      "CARD.BACKFLIP": 10,
+      "CARD.GUILTY": 10,
+      "CARD.LEADING_STRIKE": 14,
+      "CARD.RICOCHET": 4,
+      "CARD.EXPOSE": 8,
+      "CARD.CALCULATED_GAMBLE": 2,
+      "CARD.SNAKEBITE": 1,
+      "CARD.UNTOUCHABLE": 5,
+      "CARD.PIERCING_WAIL": 9,
+      "CARD.POUNCE": 18,
+      "CARD.DAGGER_SPRAY": 5,
+      "CARD.BLUR": 3,
+      "CARD.POISONED_STAB": 6,
+      "CARD.DAGGER_THROW": 3,
+      "CARD.HIDDEN_DAGGERS": 7,
+      "CARD.PRECISE_CUT": 1,
+      "CARD.PECK": 1,
+      "CARD.DEADLY_POISON": 5,
+      "CARD.ACCELERANT": 8,
+      "CARD.ACCURACY": 8,
+      "CARD.FLICK_FLACK": 6,
+      "CARD.PHANTOM_BLADES": 3,
+      "CARD.PROWESS": 3,
+      "CARD.FOOTWORK": 2,
+      "CARD.FLECHETTES": 4,
+      "CARD.SLICE": 3,
+      "CARD.DODGE_AND_ROLL": 4,
+      "CARD.JACK_OF_ALL_TRADES": 3,
+      "CARD.FINISHER": 1,
+      "CARD.INJURY": 7
+    },
+    "relics": {
+      "RELIC.RING_OF_THE_SNAKE": 61,
+      "RELIC.NUTRITIOUS_OYSTER": 16,
+      "RELIC.HORN_CLEAT": 1,
+      "RELIC.LEAD_PAPERWEIGHT": 4,
+      "RELIC.BAG_OF_PREPARATION": 3,
+      "RELIC.NEOWS_SACRIFICE": 6,
+      "RELIC.SCROLL_BOXES": 5,
+      "RELIC.SWORD_OF_STONE": 4,
+      "RELIC.PRECARIOUS_SHEARS": 4,
+      "RELIC.LOST_COFFER": 10,
+      "RELIC.SILVER_CRUCIBLE": 12,
+      "RELIC.NEW_LEAF": 5,
+      "RELIC.PRECISE_SCISSORS": 6,
+      "RELIC.WAR_PAINT": 4,
+      "RELIC.LANTERN": 3,
+      "RELIC.LETTER_OPENER": 3,
+      "RELIC.MUMMIFIED_HAND": 2,
+      "RELIC.NEOWS_BONES": 7
+    },
+    "floors": {
+      "2": 12,
+      "4": 8,
+      "6": 8,
+      "8": 5,
+      "5": 9,
+      "7": 6,
+      "3": 8,
+      "9": 1,
+      "12": 2,
+      "14": 1,
+      "15": 1
+    },
+    "skipped_roots": {}
+  },
+  "collection_run_errors": 0,
+  "pilot_config": {
+    "runs": 12,
+    "samples": 2,
+    "workers": 4,
+    "roots_per_fight": 4,
+    "query_probability": 0.3,
+    "ordinary_runs": true,
+    "forced_scenarios": false
+  },
+  "fit": {
+    "dataset_sha256": "70cfa6f41473c4ebb0b5548247b75b8bdab5bb3957b6f9de0b243cbfd0b5868c",
+    "decisions": 237,
+    "split_groups": {
+      "test": 1,
+      "validation": 1,
+      "train": 10
+    },
+    "split_decisions": {
+      "train": 205,
+      "validation": 16,
+      "test": 16
+    },
+    "epochs": 20,
+    "best_epoch": 7,
+    "device": "cuda:0",
+    "seconds": 18.8734000000004,
+    "test": {
+      "decisions": 16,
+      "teacher_cross_entropy": 1.6712805032730103,
+      "teacher_best_action_agreement": 0.6875,
+      "mean_estimated_regret": 1.6348379629629601
+    },
+    "limitations": [
+      "Offline imitation metrics, not Act 1 clear rate",
+      "Monte Carlo values under a heuristic continuation, not optimal values",
+      "Value predicts local fight return, not whole-run victory"
+    ],
+    "coverage_by_split": {
+      "train": {
+        "teacher_monsters": {
+          "MONSTER.SHRINKER_BEETLE": 44,
+          "MONSTER.FUZZY_WURM_CRAWLER": 38,
+          "MONSTER.NIBBIT": 40,
+          "MONSTER.BYRDONIS": 8,
+          "MONSTER.CROSSBOW_RUBY_RAIDER": 6,
+          "MONSTER.AXE_RUBY_RAIDER": 2,
+          "MONSTER.TRACKER_RUBY_RAIDER": 8,
+          "MONSTER.INKLET": 25,
+          "MONSTER.BYGONE_EFFIGY": 12,
+          "MONSTER.SNAPPING_JAXFRUIT": 7,
+          "MONSTER.FLYCONID": 12,
+          "MONSTER.TWIG_SLIME_S": 8,
+          "MONSTER.LEAF_SLIME_M": 22,
+          "MONSTER.LEAF_SLIME_S": 18,
+          "MONSTER.PHROG_PARASITE": 4,
+          "MONSTER.ASSASSIN_RUBY_RAIDER": 4,
+          "MONSTER.MAWLER": 8,
+          "MONSTER.TWIG_SLIME_M": 9,
+          "MONSTER.FOGMOG": 4,
+          "MONSTER.CUBEX_CONSTRUCT": 4
+        },
+        "floors": {
+          "2": 38,
+          "5": 36,
+          "6": 24,
+          "7": 23,
+          "3": 26,
+          "4": 23,
+          "8": 15,
+          "9": 4,
+          "12": 8,
+          "14": 4,
+          "15": 4
+        }
+      },
+      "validation": {
+        "teacher_monsters": {
+          "MONSTER.LEAF_SLIME_S": 2,
+          "MONSTER.LEAF_SLIME_M": 4,
+          "MONSTER.TWIG_SLIME_S": 1,
+          "MONSTER.FUZZY_WURM_CRAWLER": 4,
+          "MONSTER.SHRINKER_BEETLE": 4,
+          "MONSTER.BRUTE_RUBY_RAIDER": 4,
+          "MONSTER.TRACKER_RUBY_RAIDER": 4,
+          "MONSTER.ASSASSIN_RUBY_RAIDER": 4
+        },
+        "floors": {
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "6": 4
+        }
+      },
+      "test": {
+        "teacher_monsters": {
+          "MONSTER.NIBBIT": 4,
+          "MONSTER.FUZZY_WURM_CRAWLER": 4,
+          "MONSTER.TWIG_SLIME_S": 2,
+          "MONSTER.TWIG_SLIME_M": 4,
+          "MONSTER.LEAF_SLIME_S": 4,
+          "MONSTER.PHROG_PARASITE": 4
+        },
+        "floors": {
+          "2": 4,
+          "4": 4,
+          "6": 4,
+          "8": 4
+        }
+      }
+    }
+  },
+  "model_sha256": "68309030b15ca0e21a0be89c9c46f7152245bf1419bba2664dcbe6c32e98e384",
+  "fresh_paired_act1_evaluation": {
+    "heuristic": {
+      "successful_runs": 32,
+      "act1_clears": 0,
+      "fights": 155,
+      "max_floor": 17,
+      "search_errors": 0,
+      "monsters": {
+        "MONSTER.NIBBIT": 42,
+        "MONSTER.LEAF_SLIME_S": 25,
+        "MONSTER.TWIG_SLIME_M": 15,
+        "MONSTER.TWIG_SLIME_S": 25,
+        "MONSTER.FUZZY_WURM_CRAWLER": 28,
+        "MONSTER.SHRINKER_BEETLE": 25,
+        "MONSTER.SNAPPING_JAXFRUIT": 4,
+        "MONSTER.FLYCONID": 6,
+        "MONSTER.LEAF_SLIME_M": 15,
+        "MONSTER.BYGONE_EFFIGY": 3,
+        "MONSTER.BYRDONIS": 2,
+        "MONSTER.CUBEX_CONSTRUCT": 10,
+        "MONSTER.MAWLER": 5,
+        "MONSTER.FOGMOG": 6,
+        "MONSTER.VANTOM": 1,
+        "MONSTER.SLITHERING_STRANGLER": 1,
+        "MONSTER.INKLET": 9,
+        "MONSTER.PHROG_PARASITE": 3,
+        "MONSTER.CROSSBOW_RUBY_RAIDER": 3,
+        "MONSTER.TRACKER_RUBY_RAIDER": 2,
+        "MONSTER.BRUTE_RUBY_RAIDER": 3,
+        "MONSTER.VINE_SHAMBLER": 2,
+        "MONSTER.ASSASSIN_RUBY_RAIDER": 2,
+        "MONSTER.AXE_RUBY_RAIDER": 2
+      },
+      "run_errors": 0,
+      "mean_max_floor": 7.59375
+    },
+    "micro": {
+      "successful_runs": 32,
+      "act1_clears": 0,
+      "fights": 135,
+      "max_floor": 17,
+      "search_errors": 0,
+      "monsters": {
+        "MONSTER.NIBBIT": 36,
+        "MONSTER.LEAF_SLIME_S": 21,
+        "MONSTER.TWIG_SLIME_M": 11,
+        "MONSTER.TWIG_SLIME_S": 21,
+        "MONSTER.FUZZY_WURM_CRAWLER": 28,
+        "MONSTER.SHRINKER_BEETLE": 25,
+        "MONSTER.FLYCONID": 4,
+        "MONSTER.LEAF_SLIME_M": 12,
+        "MONSTER.BYRDONIS": 2,
+        "MONSTER.CUBEX_CONSTRUCT": 6,
+        "MONSTER.MAWLER": 5,
+        "MONSTER.PHROG_PARASITE": 3,
+        "MONSTER.FOGMOG": 5,
+        "MONSTER.SNAPPING_JAXFRUIT": 3,
+        "MONSTER.VANTOM": 1,
+        "MONSTER.SLITHERING_STRANGLER": 1,
+        "MONSTER.VINE_SHAMBLER": 1,
+        "MONSTER.ASSASSIN_RUBY_RAIDER": 2,
+        "MONSTER.BRUTE_RUBY_RAIDER": 2,
+        "MONSTER.CROSSBOW_RUBY_RAIDER": 2,
+        "MONSTER.AXE_RUBY_RAIDER": 2,
+        "MONSTER.INKLET": 3,
+        "MONSTER.BYGONE_EFFIGY": 1,
+        "MONSTER.TRACKER_RUBY_RAIDER": 1
+      },
+      "run_errors": 0,
+      "mean_max_floor": 6.5625
+    }
+  },
+  "native_qualification": {
+    "passed": true,
+    "profile": "silent-a10-act1-mc-v2",
+    "fixtures": [
+      {
+        "encounter": "SHRINKER_BEETLE_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "NIBBITS_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "FUZZY_WURM_CRAWLER_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "SLIMES_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "INKLETS_NORMAL",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "PHROG_PARASITE_ELITE",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      }
+    ],
+    "rolling_boulder_native_damage": true,
+    "shop_effects": [
+      "buy_relic",
+      "buy_potion",
+      "buy_card"
+    ],
+    "low_hp_rest": true,
+    "unsupported_draw_knowledge_rejected": true,
+    "limitation": "Finite regression fixtures; broad sampler is experimental, not a proof for every Act 1 mechanic"
+  },
+  "unit_tests": 142,
+  "larger_experiment": {
+    "path": "artifacts/act1/full-20261030-221105",
+    "runs": 64,
+    "samples": 4,
+    "workers": 4,
+    "roots_per_fight": 12,
+    "query_probability": 0.5,
+    "status_at_recording": "collecting",
+    "scheduled_followup": "20 GPU epochs and 32 fresh paired evaluation seeds"
+  },
+  "limitations": [
+    "Broad sampler remains experimental; finite fixture coverage is not full hidden-state or rendered-engine parity.",
+    "Sparse MC rollout horizon ends at current fight; training collection spans ordinary Act 1 runs.",
+    "The collection pilot reached floor 15 without boss coverage or Act 1 clears.",
+    "Pilot student cleared 0/32 and reached a lower mean floor than the heuristic. No improvement claim.",
+    "Known draw-order risks and excessive branch budgets are skipped and counted.",
+    "A map save/reload optimization failed future-room replay and was removed."
+  ]
+}
