@@ -30,10 +30,7 @@ class Program
     [MethodImpl(MethodImplOptions.NoInlining)]
     static void Run(string sandbox)
     {
-        // Allows testing the proposed presentation-only patch while the previous
-        // host remains loaded by a long collection job. Updated hosts install it.
-        if (typeof(RunSimulator).Assembly.GetType("Sts2Headless.PresentationFix") == null)
-            PresentationFix.Install();
+        Check(typeof(RunSimulator).Assembly.GetType("Sts2Headless.PresentationFix") != null, "Build the current patched host first");
         var observations = new List<object>();
         for (int option = 0; option < 2; option++)
         {
@@ -54,8 +51,26 @@ class Program
             }
             finally { sim.CleanUp(); }
         }
+        var dense = new RunSimulator();
+        try
+        {
+            dense.StartRun("Silent", 10, "DENSEEVENTQUALIFY001", "en");
+            dense.SetPlayer(new() { ["hp"] = Json(20) });
+            var before = Json(dense.EnterRoom("event", null, "DENSE_VEGETATION"));
+            var option = before.GetProperty("options").EnumerateArray().Single(o => o.GetProperty("text_key").GetString()!.EndsWith(".REST"));
+            var heal = option.GetProperty("vars").GetProperty("Heal").GetInt32();
+            var after = Json(dense.ExecuteAction("choose_option", new() { ["option_index"] = option.GetProperty("index").GetInt32() }));
+            Check(after.GetProperty("type").GetString() != "error", after.ToString());
+            Check(after.GetProperty("player").GetProperty("hp").GetInt32() == 20 + heal, "Native Dense Vegetation heal mismatch");
+            Check(after.GetProperty("options")[0].GetProperty("text_key").GetString()!.EndsWith(".FIGHT"), "Rest must still require the event fight");
+            var fight = Json(dense.ExecuteAction("choose_option", new() { ["option_index"] = 0 }));
+            Check(fight.GetProperty("decision").GetString() == "combat_play", "Rest must enter the native fight");
+            observations.Add(new { event_name = "DenseVegetation", before, after, fight });
+        }
+        finally { dense.CleanUp(); }
         File.WriteAllText(Path.Combine(sandbox, "observations.json"), Json(observations).GetRawText());
-        var result = new { passed = true, options = 2, native_gold_and_hp_verified = true, suppressed = "Jungle Maze debug audio only" };
+        var result = new { passed = true, jungle_options = 2, native_gold_and_hp_verified = true,
+            dense_native_heal_and_fight_verified = true, suppressed = "Inspected event audio and screen shake only" };
         File.WriteAllText(Path.Combine(sandbox, "result.json"), Json(result).GetRawText());
         Console.WriteLine(Json(result));
         Console.WriteLine("Artifacts: " + sandbox);

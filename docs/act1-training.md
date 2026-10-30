@@ -199,9 +199,11 @@ potion/card purchase effects, low-HP resting and rejection of unsupported draw
 knowledge. The starter regression verifies deterministic forks, pending
 selections, fifty repeated restores, potion effects and sibling isolation.
 
-The larger collection exposed an unguarded debug-audio call in Jungle Maze's
-Join Forces option. `PresentationFix.cs` removes only that call; native gold,
-HP and event-completion code remains intact. The separate native event probe
-checks both options' exact gold/HP effects. It can test the proposed fix while
-older host DLLs remain loaded by an existing collection; deployment waits until
-that runner exits. Invalid episodes remain quarantined until their rerun succeeds.
+The larger collection exposed unguarded presentation calls in Jungle Maze's
+Join Forces option and Dense Vegetation's Rest option. `PresentationFix.cs`
+removes only inspected audio/screen-shake calls; native gold, HP, event completion
+and subsequent combat remain intact. The native event probe verifies both Jungle
+Maze options' exact gold/HP effects and Dense Vegetation's healing followed by
+its mandatory fight. The transpiler rejects unexpected call counts. Deployment
+and qualification use the rebuilt host after its previous runner exits.
+Invalid episodes remain quarantined until their rerun succeeds.
