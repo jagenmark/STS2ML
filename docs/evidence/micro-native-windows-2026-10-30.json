@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "sampler": "silent-a10-starter-beetle-v1",
+  "root_actions_executed": 8,
+  "hidden_order_invariance": true,
+  "chance_variation": true,
+  "sibling_isolation": true,
+  "pending_selection_replay": true,
+  "repeated_restores": 50,
+  "restore_and_step_seconds": 3.4230495000010706,
+  "stale_action_rejected": true,
+  "trace_hashes": [
+    "3930fae8c22f926ed006a0d70ce24498b36121d5ddb02963c4044e0df492dc28",
+    "3930fae8c22f926ed006a0d70ce24498b36121d5ddb02963c4044e0df492dc28",
+    "0f9823a3db191ca5263580d1025c77ff8f99bf123661bbf29d64acbd564d5bdd"
+  ]
+}

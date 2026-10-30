@@ -1,0 +1,93 @@
+--- a/src/Sts2Headless/Program.cs
++++ b/src/Sts2Headless/Program.cs
+@@ -85,7 +85,15 @@
+             try
+             {
+                 var cmd = JsonSerializer.Deserialize<JsonElement>(line);
+-                result = HandleCommand(sim, cmd);
++                if (cmd.GetProperty("cmd").GetString() == "training_restore")
++                {
++                    if (Environment.GetEnvironmentVariable("STS2_TRAINING") != "1")
++                        throw new InvalidOperationException("Training controls disabled");
++                    sim.CleanUp();
++                    sim = new RunSimulator();
++                    result = sim.TrainingRestore(cmd);
++                }
++                else result = HandleCommand(sim, cmd);
+             }
+             catch (JsonException ex)
+             {
+@@ -98,6 +106,7 @@
+ 
+             if (result != null)
+             {
++                sim.AddTrainingDecisionDetails(result);
+                 result["runtime_identity"] = sim.RuntimeIdentity();
+                 WriteLine(result);
+                 if (result.TryGetValue("type", out var resultTypeObj) &&
+@@ -159,6 +168,10 @@
+                 var loadLang = cmd.TryGetProperty("lang", out var le) ? (le.GetString() ?? "en") : "en";
+                 return sim.LoadSave(saveJson, loadLang);
+             }
++            case "training_sample":
++                if (Environment.GetEnvironmentVariable("STS2_TRAINING") != "1")
++                    throw new InvalidOperationException("Training controls disabled");
++                return sim.TrainingSample(cmd.GetProperty("sample_seed").GetUInt64());
+             case "get_map":
+                 return sim.GetFullMap();
+ 
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -270,8 +270,8 @@
+             Log("Run launched");
+ 
+             // Register event handlers for combat turn transitions
+-            CombatManager.Instance.TurnStarted += _ => _turnStarted.Set();
+-            CombatManager.Instance.CombatEnded += _ => _combatEnded.Set();
++            CombatManager.Instance.TurnStarted += OnHeadlessTurn;
++            CombatManager.Instance.CombatEnded += OnHeadlessCombatEnd;
+ 
+             // Finalize starting relics
+             RunManager.Instance.FinalizeStartingRelics().GetAwaiter().GetResult();
+@@ -282,7 +282,7 @@
+             Log("Entered Act 0");
+ 
+             // Register card selector for cards that need player choice
+-            CardSelectCmd.UseSelector(_cardSelector);
++            _headlessSelectorScope = CardSelectCmd.UseSelector(_cardSelector);
+             LocPatches._bundleSimRef = this;
+ 
+             // Now we should be at the map — detect decision point
+@@ -533,9 +533,9 @@
+             RunManager.Instance.SetUpSavedSingleplayer(_runState, save).GetAwaiter().GetResult();
+             LocalContext.NetId = netService.NetId;
+ 
+-            CombatManager.Instance.TurnStarted += _ => _turnStarted.Set();
+-            CombatManager.Instance.CombatEnded += _ => _combatEnded.Set();
+-            CardSelectCmd.UseSelector(_cardSelector);
++            CombatManager.Instance.TurnStarted += OnHeadlessTurn;
++            CombatManager.Instance.CombatEnded += OnHeadlessCombatEnd;
++            _headlessSelectorScope = CardSelectCmd.UseSelector(_cardSelector);
+             LocPatches._bundleSimRef = this;
+ 
+             var savedRoom = _runState.CurrentRoom;
+@@ -2949,6 +2949,8 @@
+                     ["description"] = _loc.Bilingual("potions", p.Id.Entry + ".description"),
+                     ["vars"] = pvars.Count > 0 ? pvars : null,
+                     ["target_type"] = p.TargetType.ToString(),
++                    ["can_use"] = player.CanUseOrRemovePotions && !p.IsQueued && p.PassesCustomUsabilityCheck
++                        && (p.Usage.ToString() == "AnyTime" || (p.Usage.ToString() == "CombatOnly" && CombatManager.Instance.IsInProgress)),
+                 };
+             }).Where(x => x != null).ToList(),
+             ["deck_size"] = player.Deck?.Cards?.Count(c => c != null) ?? 0,
+@@ -3864,6 +3866,10 @@
+ 
+     public void CleanUp()
+     {
++        _headlessSelectorScope?.Dispose();
++        _headlessSelectorScope = null;
++        CombatManager.Instance.TurnStarted -= OnHeadlessTurn;
++        CombatManager.Instance.CombatEnded -= OnHeadlessCombatEnd;
+         try
+         {
+             if (RunManager.Instance.IsInProgress)

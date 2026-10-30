@@ -46,6 +46,18 @@ def combat_entities(state: dict) -> list[Entity]:
     Hand/enemy indices bind selectable targets; unordered piles have no indices.
     Unknown rule/counter values stay null, distinct from known zero.
     """
+    if state.get("decision") == "card_select":
+        entities = combat_entities(state["combat_state"])
+        entities.append(Entity("selection", state.get("prompt") or "unknown", {
+            "min_select": state["min_select"], "max_select": state["max_select"],
+        }))
+        for card in state["cards"]:
+            attrs = {k: card.get(k) for k in (*CARD_FIELDS, "index", "upgraded")}
+            _scalars(attrs, "stats", card.get("stats"))
+            entities.append(Entity("selection_card", card["id"], attrs))
+        if len(entities) > MAX_ENTITIES:
+            raise ValueError("Selection exceeds explicit entity limit")
+        return entities
     if state.get("decision") != "combat_play" or state.get("observation_version") != 2:
         raise ValueError("Requires a v2 native combat_play observation")
     player = state["player"]

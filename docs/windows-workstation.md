@@ -265,9 +265,11 @@ deterministic observations, and explicit relic counter / pile transitions.
 The CPU suite now passes 122 tests, and the new combat-state encoder also passed
 a forward/backward check on RX 9070 XT with real native observations.
 
-Whole-run parity, a legal-action adapter, hidden-state sampling, Monte Carlo
-teacher integration and a trained combat policy remain open. Debug/scenario
-controls are test infrastructure, never policy actions.
+The [first micro curriculum](micro-training.md) now adds combat actions, verified
+replay forks, hidden-state sampling and Monte Carlo distillation for starter
+Silent A10 against Shrinker Beetle. Whole-run parity and broader hidden-state
+qualification remain open. Debug/scenario controls are experiment infrastructure,
+never policy actions.
 
 ## Data and artifact handoff
 
