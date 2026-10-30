@@ -85,7 +85,8 @@ def main():
                             ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/GodotSharp.dll"]},
               "macro_sha256": hashlib.sha256(args.macro_checkpoint.read_bytes()).hexdigest() if args.macro_checkpoint else None}
     if previous:
-        old_runtime, new_runtime = previous["runtime_sha256"], config["runtime_sha256"]
+        old_runtime = {k.replace("\\", "/"): v for k, v in previous["runtime_sha256"].items()}
+        new_runtime = {k.replace("\\", "/"): v for k, v in config["runtime_sha256"].items()}
         game_key = "artifacts/upstreams/sts2-cli/lib/sts2.dll"
         if old_runtime[game_key] != new_runtime[game_key] or previous["macro_sha256"] != config["macro_sha256"]:
             p.error("Resume cannot mix native builds or macro weights")
