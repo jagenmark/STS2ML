@@ -9,7 +9,8 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM = ROOT / "artifacts/upstreams/sts2-cli"
-FILES = ("src/Sts2Headless/Program.cs", "src/Sts2Headless/RunSimulator.cs")
+FILES = ("src/Sts2Headless/Program.cs", "src/Sts2Headless/RunSimulator.cs",
+         "src/GodotStubs/Core.cs")
 PATCHES = ("headless-runtime-identity.patch", "headless-public-observation.patch",
            "headless-training.patch")
 

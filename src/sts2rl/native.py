@@ -20,6 +20,7 @@ from typing import Any
 
 ASSEMBLY_VERSION = "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
 SAMPLER = "silent-a10-starter-beetle-v1"
+ACT1_SAMPLER = "silent-a10-act1-mc-v2"
 
 
 def digest(value: Any) -> str:
@@ -110,7 +111,15 @@ def legal_actions(state: dict) -> list[Action]:
         for i, _ in enumerate(state["bundles"]):
             add("select_bundle", bundle_index=i)
     elif decision == "shop":
-        # Macro shopping is outside the first combat curriculum.
+        gold = state["player"]["gold"]
+        for category, kind, index in (("cards", "buy_card", "card_index"),
+                                      ("relics", "buy_relic", "relic_index"),
+                                      ("potions", "buy_potion", "potion_index")):
+            if category == "potions" and len(state["player"]["potions"]) >= 2:
+                continue
+            for item in state.get(category, []):
+                if item.get("is_stocked") and item.get("cost", gold + 1) <= gold:
+                    add(kind, **{index: item["index"]})
         add("leave_room")
     elif decision == "game_over":
         return []
@@ -236,9 +245,9 @@ class NativeSession:
         self.history, self.sampled = list(deepcopy(fork.history)), False
         return deepcopy(state)
 
-    def sample(self, seed: int):
+    def sample(self, seed: int, *, profile: str = SAMPLER):
         before = digest(self.state)
-        state = self._request({"cmd": "training_sample", "sample_seed": seed})
+        state = self._request({"cmd": "training_sample", "sample_seed": seed, "profile": profile})
         if digest(state) != before:
             self.close()
             raise NativeError("Chance sampling changed the public root")

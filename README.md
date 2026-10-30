@@ -5,8 +5,9 @@ system learns macro decisions from player observations and later improves throug
 whole-run reinforcement learning, with search handling tactical combat.
 
 **Current milestone:** replay-trained card-reward choices plus a native combat
-adapter, verified replay branching and Monte Carlo distillation for a first
-Act 1 encounter curriculum. Whole-run play and win rate remain unqualified.
+adapter, verified replay branching and Monte Carlo distillation from ordinary
+**whole Act 1 runs**, with replay-trained reward choices. The broad sampler is
+experimental; the learned player has not yet demonstrated reliable Act 1 clears.
 
 **Active target:** Steam public beta **v0.111.0**, **Silent A10**. All five
 characters remain the longer-term goal. Each patch has its own data, vocabulary,
@@ -20,7 +21,8 @@ execute locally. The pinned native-engine headless host also completed a
 policy. This validates a bounded execution path, not a winning agent or full-game parity.
 The local observation extension now exports visible relic counters and full
 unordered combat piles. A separate combat encoder and action/value heads consume
-them in the [first micro curriculum](docs/micro-training.md). See the
+them in [whole-Act-1 micro training](docs/act1-training.md). The
+[single-encounter experiment](docs/micro-training.md) remains historical evidence. See the
 [native counter and pile checks](docs/headless-options.md#public-combat-observations-v2).
 Use `./scripts/start-training.ps1 -AllReplays -AllPatches` for complete replay
 collection followed by a target-patch GPU fit. It resumes downloads, retries
@@ -41,8 +43,8 @@ imitation accuracy is **49.3%**, versus **47.1%** for the frequency baseline on
 | Evaluation | Connected run/seed grouped train/validation/test splits; train-only vocabulary; uniform and pick-frequency baselines |
 | Prediction | Load a checkpoint and rank the legal candidates in one canonical JSON observation |
 | Diagnostics | Read-only game/Steam fingerprints and an explicit CPU or GPU forward/backward check |
-| Monte Carlo | Generic evaluator plus native, sampled rollouts for a qualified Silent A10 starter encounter |
-| Micro training | Snapshot-bound combat actions, replay forks, soft teacher distillation, local fight-value head and paired live evaluation |
+| Monte Carlo | Native fight rollouts, a qualified starter profile and an experimental broad Act 1 sampler with explicit exclusions |
+| Micro training | Whole Act 1 collection, replay-trained macro rewards, coverage reports, run-group splits, soft teacher distillation and paired Act 1 evaluation |
 | Combat inputs | Native relic counters/status, three qualified counter rules, full hand/draw/discard/exhaust/play piles, modifier state, and a tested set-attention state encoder |
 | Optional bridge | Source-inspected, explicitly partial card-reward adapter to a pinned `divine-sts2` full-app interface |
 | Checks | Unit/integration tests, a synthetic learnability demo, GitHub Actions for Linux/Windows on Python 3.11 and 3.12 |

@@ -1,5 +1,8 @@
 # Native micro training: first Act 1 curriculum
 
+This page preserves the starter experiment. Current development uses
+[whole-Act-1 collection and evaluation](act1-training.md) to broaden training.
+
 The native combat adapter and Monte Carlo teacher run on the pinned Windows
 v0.111.0 engine. The first admitted training distribution is **Silent A10,
 starter deck and Ring of the Snake, no potions, Shrinker Beetle Weak**. Initial
@@ -40,8 +43,9 @@ fixing selector-scope disposal and combat event subscriptions in the host.
 Combat actions include playable cards with explicit targets, usable potions,
 end-turn and bounded card-selection combinations. Unsupported target types,
 unknown phases and selection sets above 1,024 fail explicitly. Map/event/rest/
-reward/bundle choices are represented for integration; shopping currently only
-supports leaving. This is not a claim of complete game-action coverage. Actions
+reward/bundle choices are represented for integration; the initial experiment
+only left shops. The current Act 1 adapter also supports purchases. This is not
+a claim of complete game-action coverage. Actions
 are bound to an observation hash; stale and forged actions are rejected locally.
 Potion actions are exposed but are outside the qualified teacher curriculum.
 For this single-player host, `AnyPlayer` targets resolve to the owner. Potion
@@ -145,7 +149,7 @@ death or entry into Act 2, and reports errors separately from defeats. These
 runs test integration/generalization outside the starter training distribution;
 the qualified teacher itself cannot yet search arbitrary Act 1 states.
 
-Expansion requires more audited Act 1 encounters and decks, tests for remembered
-visible draw order, and native-vs-rendered transition comparisons. Whole-Act-1
-clear rate, broad combat parity, shops, macro integration and full-run RL remain
+The broader experimental sampler, shopping, macro integration and Act 1 runner
+are now described in the [Act 1 guide](act1-training.md). Broad combat parity,
+remembered draw-order beliefs, strong Act 1 clear rate and full-run RL remain
 separate milestones. Existing replay-trained macro checkpoints are unchanged.

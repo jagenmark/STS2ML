@@ -46,12 +46,22 @@ def combat_entities(state: dict) -> list[Entity]:
     Hand/enemy indices bind selectable targets; unordered piles have no indices.
     Unknown rule/counter values stay null, distinct from known zero.
     """
-    if state.get("decision") == "card_select":
-        entities = combat_entities(state["combat_state"])
-        entities.append(Entity("selection", state.get("prompt") or "unknown", {
-            "min_select": state["min_select"], "max_select": state["max_select"],
-        }))
-        for card in state["cards"]:
+    if state.get("decision") in ("card_select", "card_reward", "bundle_select"):
+        base = {**state["combat_state"]}
+        if "public_combat_history" in state:
+            base["public_combat_history"] = state["public_combat_history"]
+        entities = combat_entities(base)
+        selection = {"min_select": state.get("min_select"), "max_select": state.get("max_select")}
+        if state["decision"] != "card_select" or "public_combat_history" in state or "selection_source" in state:
+            selection["decision"] = state["decision"]
+        entities.append(Entity("selection", state.get("prompt") or "unknown", selection))
+        if state.get("selection_source"):
+            source = state["selection_source"]
+            entities.append(Entity("selection_origin", source.get("id", "unknown"), {"kind": source.get("kind")}))
+        cards = state.get("cards", [])
+        if state["decision"] == "bundle_select":
+            cards = [{**c, "index": i} for i, b in enumerate(state["bundles"]) for c in b["cards"]]
+        for card in cards:
             attrs = {k: card.get(k) for k in (*CARD_FIELDS, "index", "upgraded")}
             _scalars(attrs, "stats", card.get("stats"))
             entities.append(Entity("selection_card", card["id"], attrs))
@@ -115,6 +125,14 @@ def combat_entities(state: dict) -> list[Entity]:
         entities.append(Entity("orb", orb["type"], {k: orb.get(k) for k in ("index", "passive", "evoke")}))
     if state.get("osty"):
         entities.append(Entity("ally", "osty", {k: state["osty"].get(k) for k in ("hp", "max_hp", "block")}))
+    for turn in state.get("public_combat_history", []):
+        for enemy in turn["enemies"]:
+            attrs = {k: enemy.get(k) for k in ("index", "hp", "max_hp", "block")}
+            attrs["round"] = turn["round"]
+            for i, intent in enumerate(enemy.get("intents") or []):
+                for key in ("type", "damage", "hits", "total_damage"):
+                    attrs[f"intent.{i}.{key}"] = intent.get(key)
+            entities.append(Entity("enemy_history", enemy["id"], attrs))
     if len(entities) > MAX_ENTITIES or any(len(e.attributes) > MAX_ATTRIBUTES for e in entities):
         raise ValueError("Combat state exceeds explicit limits; no silent truncation")
     return entities
@@ -176,7 +194,7 @@ class CombatStateEncoder(nn.Module):
     gold are distinct features. Piles retain multiplicity without positions.
     Existing macro checkpoints are deliberately not loaded into this module.
     """
-    def __init__(self, vocab_size: int, width: int = 64):
+    def __init__(self, vocab_size: int, width: int = 64, dropout: float = 0):
         super().__init__()
         if width < 4 or width % 4:
             raise ValueError("width must be a positive multiple of four")
@@ -185,7 +203,7 @@ class CombatStateEncoder(nn.Module):
         self.attribute = nn.Sequential(nn.Linear(width, width), nn.GELU(), nn.Linear(width, width))
         self.cls = nn.Parameter(torch.zeros(1, 1, width))
         self.encoder = nn.TransformerEncoder(nn.TransformerEncoderLayer(
-            width, 4, width * 4, dropout=0, batch_first=True, norm_first=True,
+            width, 4, width * 4, dropout=dropout, batch_first=True, norm_first=True,
         ), 2, norm=nn.LayerNorm(width), enable_nested_tensor=False)
 
     def forward(self, batch: dict[str, torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor]:

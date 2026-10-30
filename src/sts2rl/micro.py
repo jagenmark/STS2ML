@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from copy import deepcopy
 import json
 import math
 from pathlib import Path
@@ -14,10 +15,11 @@ from torch.nn import functional as F
 
 from .combat import CombatStateEncoder, collate_combat, combat_entities, combat_vocabulary
 from .encoding import Vocabulary
-from .native import ASSEMBLY_VERSION, SAMPLER, digest, legal_actions
+from .native import ACT1_SAMPLER, ASSEMBLY_VERSION, SAMPLER, digest, legal_actions
 from .teacher import equivalent_groups
 
-KINDS = ("play_card", "end_turn", "use_potion", "select_cards", "skip_select")
+KINDS = ("play_card", "end_turn", "use_potion", "select_cards", "skip_select",
+         "select_card_reward", "skip_card_reward", "select_bundle")
 
 
 def micro_vocabulary(states):
@@ -44,9 +46,11 @@ def collate_micro(states, vocab, device="cpu"):
             selected = set(map(int, args["indices"].split(","))) if "indices" in args else set()
             for k, entity in enumerate(entities):
                 index = entity.attributes.get("index")
-                source = ((entity.zone == "hand" and "card_index" in args and index == args["card_index"])
+                source = ((entity.zone == "hand" and action.kind == "play_card" and index == args["card_index"])
                           or (entity.zone == "potion" and "potion_index" in args and index == args["potion_index"])
                           or (entity.zone == "selection_card" and index in selected))
+                if entity.zone == "selection_card" and action.kind in ("select_card_reward", "select_bundle"):
+                    source = index == args.get("card_index", args.get("bundle_index"))
                 target = entity.zone == "enemy" and "target_index" in args and index == args["target_index"]
                 batch["source"][row, j, k] = float(source)
                 batch["target"][row, j, k] = float(target)
@@ -54,9 +58,9 @@ def collate_micro(states, vocab, device="cpu"):
 
 
 class MicroPolicy(nn.Module):
-    def __init__(self, vocab_size, width=64):
+    def __init__(self, vocab_size, width=64, dropout=0):
         super().__init__()
-        self.encoder = CombatStateEncoder(vocab_size, width)
+        self.encoder = CombatStateEncoder(vocab_size, width, dropout)
         self.scorer = nn.Sequential(nn.Linear(width * 4 + 1, width), nn.GELU(), nn.Linear(width, 1))
         self.value = nn.Sequential(nn.Linear(width, width), nn.GELU(), nn.Linear(width, 1), nn.Sigmoid())
 
@@ -82,14 +86,15 @@ def teacher_targets(records, device="cpu", temperature=2.0):
             raise ValueError("Teacher actions do not match the native action contract")
         estimates = row["estimates"]
         q = torch.tensor([estimates[a.id]["mean_return"] for a in actions], dtype=torch.float32)
-        if not bool(torch.isfinite(q).all()) or bool(((q < 0) | (q > 170)).any()):
-            raise ValueError("Invalid starter-curriculum return")
+        scale = 200 if row.get("sampler") == ACT1_SAMPLER else 170
+        if not bool(torch.isfinite(q).all()) or bool(((q < 0) | (q > scale + 1e-5)).any()):
+            raise ValueError("Invalid curriculum return")
         multiplicity = {a.id: len(group) for group in equivalent_groups(row["observation"], actions) for a in group}
         # Equal physical copies share probability rather than multiplying the
         # probability of an action's effect merely because more copies are held.
         logits = q / temperature - torch.tensor([math.log(multiplicity[a.id]) for a in actions])
         targets[i, :len(actions)] = logits.softmax(0)
-        values.append(float((targets[i, :len(actions)] * q).sum()) / 170)
+        values.append(float((targets[i, :len(actions)] * q).sum()) / scale)
     return targets.to(device), torch.tensor(values, device=device)
 
 
@@ -143,11 +148,14 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
     torch.manual_seed(42)
     rng = random.Random(42)
     records = [json.loads(line) for path in paths for line in path.read_text(encoding="utf-8").splitlines()]
-    if any(r.get("sampler") != SAMPLER or r.get("schema_version") != 1 for r in records):
+    profiles = {r.get("sampler") for r in records}
+    if len(profiles) != 1 or not profiles <= {SAMPLER, ACT1_SAMPLER} or any(r.get("schema_version") != 1 for r in records):
         raise ValueError("Unqualified or incompatible teacher data")
+    profile = next(iter(profiles))
     partitions, split = partition_records(records)
     vocab = micro_vocabulary([r["observation"] for r in partitions["train"]])
-    model = MicroPolicy(len(vocab), width).to(device)
+    dropout = 0.1 if profile == ACT1_SAMPLER else 0
+    model = MicroPolicy(len(vocab), width, dropout).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=0.01)
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
@@ -176,7 +184,8 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
         history.append({"epoch": epoch, **metrics})
         if metrics["teacher_cross_entropy"] < best:
             best = metrics["teacher_cross_entropy"]
-            checkpoint = {"micro_version": 1, "sampler": SAMPLER, "assembly_version": ASSEMBLY_VERSION,
+            checkpoint = {"micro_version": 2, "sampler": profile, "assembly_version": ASSEMBLY_VERSION,
+                          "dropout": dropout,
                           "vocabulary": vocab.to_dict(), "width": width, "best_epoch": epoch,
                           "state_dict": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}}
             torch.save(checkpoint, output / "best.pt")
@@ -184,14 +193,18 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
         print(json.dumps(history[-1]), flush=True)
     checkpoint = torch.load(output / "best.pt", map_location="cpu", weights_only=True)
     model.load_state_dict(checkpoint["state_dict"])
-    report = {"sampler": SAMPLER, "dataset_sha256": digest(records), "decisions": len(records),
+    report = {"sampler": profile, "dataset_sha256": digest(records), "decisions": len(records),
               "split_groups": dict(Counter(split.values())), "split": split,
               "split_decisions": {k: len(v) for k, v in partitions.items()},
+              "coverage_by_split": {k: {
+                  "teacher_monsters": dict(Counter(m for r in rows for m in r.get("monster_ids", []))),
+                  "floors": dict(Counter(str(r["floor"]) for r in rows if "floor" in r))}
+                  for k, rows in partitions.items()},
               "epochs": epochs, "best_epoch": checkpoint["best_epoch"], "device": device,
               "action_selection": "aggregate-equivalent-action-probabilities-v2",
               "seconds": time.perf_counter() - started, "history": history,
               "test": evaluate_micro(model, partitions["test"], vocab, device),
-              "limitations": ["Starter-beetle scenarios, not Act 1 clear rate",
+              "limitations": ["Offline imitation metrics, not Act 1 clear rate",
                               "Monte Carlo values under a heuristic continuation, not optimal values",
                               "Value predicts local fight return, not whole-run victory"]}
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
@@ -201,12 +214,12 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
 def load_micro(path, *, device="cpu"):
     torch.set_num_threads(2)
     checkpoint = torch.load(path, map_location="cpu", weights_only=True)
-    if checkpoint.get("micro_version") != 1 or checkpoint.get("assembly_version") != ASSEMBLY_VERSION:
+    if checkpoint.get("micro_version") not in (1, 2) or checkpoint.get("assembly_version") != ASSEMBLY_VERSION:
         raise ValueError("Incompatible micro checkpoint")
-    if checkpoint.get("sampler") != SAMPLER:
+    if checkpoint.get("sampler") not in (SAMPLER, ACT1_SAMPLER):
         raise ValueError("Unqualified micro training scope")
     vocab = Vocabulary.from_dict(checkpoint["vocabulary"])
-    model = MicroPolicy(len(vocab), checkpoint["width"]).to(device)
+    model = MicroPolicy(len(vocab), checkpoint["width"], checkpoint.get("dropout", 0)).to(device)
     model.load_state_dict(checkpoint["state_dict"], strict=True)
     model.eval()
 
@@ -215,7 +228,12 @@ def load_micro(path, *, device="cpu"):
         if state.get("runtime_identity") != {"character": "SILENT", "ascension": 10,
                                              "assembly_version": ASSEMBLY_VERSION}:
             raise ValueError("Micro policy requires its qualified native runtime identity")
-        logits, _ = model(collate_micro([state], vocab, device))
+        inputs = state
+        if checkpoint["micro_version"] == 1:
+            inputs = deepcopy(state)
+            inputs.pop("public_combat_history", None)
+            inputs.pop("selection_source", None)
+        logits, _ = model(collate_micro([inputs], vocab, device))
         return choose_micro_action(state, logits[0])
 
     return policy
