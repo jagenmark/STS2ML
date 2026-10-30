@@ -7,12 +7,17 @@ from pathlib import Path
 import random
 import time
 
-from .native import ACT1_SAMPLER, NativeError, NativeSession, digest, legal_actions
+from .native import ACT1_SAMPLER, CURRICULUM_SAMPLER, NativeError, NativeSession, digest, legal_actions, runtime_identity
 from .teacher import equivalent_groups, heuristic, teach_root
 
 
 def is_combat_choice(state):
     return state.get("decision") == "combat_play" or "combat_state" in state
+
+
+def act1_profile(ascension=10, condition_ascension=False):
+    runtime_identity(ascension)
+    return CURRICULUM_SAMPLER if condition_ascension or ascension != 10 else ACT1_SAMPLER
 
 
 def act1_result(state):
@@ -38,7 +43,7 @@ def macro_record(state):
             "price": None})
     return {"schema_version": 1, "run_id": "native", "decision_id": digest(state),
         "source": "native", "game_version": "v0.111.0", "split_group": "native",
-        "observation": {"character": "SILENT", "ascension": 10, "decision_type": "card_reward",
+        "observation": {"character": "SILENT", "ascension": state["runtime_identity"]["ascension"], "decision_type": "card_reward",
             "act": context.get("act"), "floor": context.get("floor"),
             **{k: player.get(k) for k in ("hp", "max_hp", "gold")},
             "deck": [{"id": strip(c["id"]), "upgrades": c.get("upgrades", int(c.get("upgraded", False)))} for c in player["deck"]],
@@ -128,7 +133,7 @@ def save_json(path, data, *, best_effort=False):
             time.sleep(.01 * 2 ** attempt)
 
 
-def existing_act1_results(output, runs, prefix):
+def existing_act1_results(output, runs, prefix, *, ascension=10, condition_ascension=False):
     """Reuse complete episodes; archive incomplete attempts before retrying.
 
     Call only after the previous runner exits. Archives stay inside this
@@ -147,6 +152,8 @@ def existing_act1_results(output, runs, prefix):
             if result.get("status") == "complete" and (folder / "teacher.jsonl").exists():
                 if result.get("group") != digest(f"{prefix}{index:06d}") or result.get("index") != index:
                     raise ValueError("Existing run belongs to another seed/index")
+                if result.get("ascension", 10) != ascension or result.get("sampler", ACT1_SAMPLER) != act1_profile(ascension, condition_ascension):
+                    raise ValueError("Existing run belongs to another ascension/profile")
                 complete.append(result)
                 continue
             archive.mkdir(parents=True, exist_ok=True)
@@ -156,7 +163,9 @@ def existing_act1_results(output, runs, prefix):
 
 
 def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macro_checkpoint=None,
-             micro_policy=None, teacher=True, query_probability=.35, max_branches=96, stop_file=None):
+             micro_policy=None, teacher=True, query_probability=.35, max_branches=96, stop_file=None,
+             ascension=10, condition_ascension=False, host_path=None):
+    profile = act1_profile(ascension, condition_ascension)
     folder = output / f"run-{index:05d}"
     folder.mkdir(parents=True, exist_ok=False)
     seed, group = f"{prefix}{index:06d}", digest(f"{prefix}{index:06d}")
@@ -164,6 +173,7 @@ def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macr
     macro = MacroPolicy(7103 + index, macro_checkpoint)
     started = time.perf_counter()
     result = {"index": index, "group": group, "status": "running", "cleared_act1": False,
+              "ascension": ascension, "sampler": profile,
               "steps": 0, "decisions": 0, "branches": 0, "fights": 0, "max_floor": 0,
               "skipped_roots": {}, "search_errors": []}
     monsters, cards, relics, floors, taught = Counter(), Counter(), Counter(), Counter(), Counter()
@@ -171,9 +181,10 @@ def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macr
     game, search = None, None
     fight_key, fight_roots, turn_roots, search_number = None, 0, Counter(), 0
     try:
-        game = NativeSession(root, folder / "game")
+        native_args = {"ascension": ascension, "host_path": host_path}
+        game = NativeSession(root, folder / "game", **native_args)
         if teacher:
-            search = NativeSession(root, folder / "search-0")
+            search = NativeSession(root, folder / "search-0", **native_args)
         state = game.reset(seed)
         repeated = Counter()
         for step in range(2048):
@@ -217,11 +228,11 @@ def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macr
                     else:
                         if search is None or search.closed:
                             search_number += 1
-                            search = NativeSession(root, folder / f"search-{search_number}")
+                            search = NativeSession(root, folder / f"search-{search_number}", **native_args)
                         try:
                             record = teach_root(search, game.fork(), state, samples=samples,
-                                seed=81000000 + index * 10000 + step, profile=ACT1_SAMPLER)
-                            record.update(group=group, decision_index=step, floor=key[0],
+                                seed=81000000 + index * 10000 + step, profile=profile)
+                            record.update(group=group, ascension=ascension, decision_index=step, floor=key[0],
                                           monster_ids=[e["id"] for e in view["enemies"]])
                             records.append(record)
                             action = next(a for a in actions if a.id == record["chosen_action_id"])

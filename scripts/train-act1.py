@@ -1,4 +1,4 @@
-"""Collect ordinary Silent A10 Act 1 runs, audit coverage, fit and evaluate micro."""
+"""Collect ordinary Silent Act 1 runs, audit coverage, fit and evaluate micro."""
 import argparse
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -9,9 +9,9 @@ from pathlib import Path
 import subprocess
 import time
 
-from sts2rl.act1 import existing_act1_results, run_act1, save_json
+from sts2rl.act1 import act1_profile, existing_act1_results, run_act1, save_json
 from sts2rl.act1_evaluation import evaluate_three_way
-from sts2rl.native import ACT1_SAMPLER
+from sts2rl.native import CURRICULUM_ASCENSIONS
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -41,6 +41,9 @@ def main():
     p.add_argument("--query-probability", type=float, default=.35)
     p.add_argument("--prefix", default="ACT1TRAIN001")
     p.add_argument("--macro-checkpoint", type=Path)
+    p.add_argument("--ascension", type=int, choices=CURRICULUM_ASCENSIONS, default=10)
+    p.add_argument("--condition-ascension", action="store_true", help="Use the v3 difficulty-conditioned profile (automatic below A10)")
+    p.add_argument("--host-path", type=Path, help="An isolated qualified host DLL; default is the Release host")
     p.add_argument("--collect-only", action="store_true")
     p.add_argument("--epochs", type=int, default=20)
     p.add_argument("--device", default="cuda:0")
@@ -48,6 +51,10 @@ def main():
     p.add_argument("--resume", action="store_true", help="After a failed runner exits, keep complete runs and retry archived incomplete runs")
     p.add_argument("--allow-host-update", action="store_true", help="During resume, permit an audited headless-host fix; game assembly and macro weights must match")
     args = p.parse_args()
+    args.condition_ascension |= args.ascension != 10
+    args.host_path = str(args.host_path.resolve()) if args.host_path else None
+    if args.host_path and not Path(args.host_path).is_relative_to(ROOT):
+        p.error("Host DLL must be inside this repository's isolated artifacts")
     if args.allow_host_update and not args.resume:
         p.error("Host updates only apply to an explicitly resumed experiment")
     if min(args.runs, args.workers, args.roots_per_fight, args.epochs) < 1 or args.samples < 2 or args.evaluate < 0 or not 0 <= args.query_probability <= 1:
@@ -69,21 +76,24 @@ def main():
         for key in ("runs", "samples", "roots_per_fight", "query_probability", "prefix", "collect_only", "epochs", "evaluate"):
             if previous[key] != getattr(args, key):
                 p.error("Resume configuration mismatch: " + key)
+        for key, default in (("ascension", 10), ("condition_ascension", False), ("host_path", None)):
+            if previous.get(key, default) != getattr(args, key):
+                p.error("Resume configuration mismatch: " + key)
         old_macro = previous.get("macro_checkpoint")
         if (Path(old_macro).resolve() if old_macro else None) != (args.macro_checkpoint.resolve() if args.macro_checkpoint else None):
             p.error("Resume macro checkpoint mismatch")
     elif (output / "config.json").exists():
         p.error("Use a fresh experiment folder")
     config = {**vars(args), "output": str(output), "macro_checkpoint": str(args.macro_checkpoint) if args.macro_checkpoint else None,
-              "sampler": ACT1_SAMPLER, "started": datetime.now(timezone.utc).isoformat(),
+              "sampler": act1_profile(args.ascension, args.condition_ascension), "started": datetime.now(timezone.utc).isoformat(),
               "git_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
               "source_hashes": {str(f.relative_to(ROOT)): hashlib.sha256(f.read_bytes()).hexdigest()
                                 for f in [*ROOT.glob("src/sts2rl/*.py"), Path(__file__),
                                     *ROOT.glob("scripts/headless/*.cs"), *ROOT.glob("scripts/headless-*.patch")]},
               "runtime_sha256": {str(f.relative_to(ROOT)): hashlib.sha256(f.read_bytes()).hexdigest()
                   for f in [ROOT / "artifacts/upstreams/sts2-cli/lib/sts2.dll",
-                            ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll",
-                            ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/GodotSharp.dll"]},
+                            Path(args.host_path) if args.host_path else ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll",
+                            Path(args.host_path).with_name("GodotSharp.dll") if args.host_path else ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/GodotSharp.dll"]},
               "macro_sha256": hashlib.sha256(args.macro_checkpoint.read_bytes()).hexdigest() if args.macro_checkpoint else None}
     if previous:
         old_runtime = {k.replace("\\", "/"): v for k, v in previous["runtime_sha256"].items()}
@@ -100,14 +110,16 @@ def main():
         import torch
         torch.set_num_threads(1)
     started = time.perf_counter()
-    results, pending = existing_act1_results(output, args.runs, args.prefix) if args.resume else ([], range(args.runs))
+    native_args = {"ascension": args.ascension, "condition_ascension": args.condition_ascension, "host_path": args.host_path}
+    results, pending = existing_act1_results(output, args.runs, args.prefix,
+        ascension=args.ascension, condition_ascension=args.condition_ascension) if args.resume else ([], range(args.runs))
     status = {"stage": "collecting", "total": args.runs, **summary(results), "seconds": 0}
     save_json(output / "status.json", status)
     try:
         with ThreadPoolExecutor(max_workers=args.workers) as executor:
             futures = [executor.submit(run_act1, ROOT, output, i, prefix=args.prefix,
                 samples=args.samples, roots_per_fight=args.roots_per_fight,
-                query_probability=args.query_probability, macro_checkpoint=args.macro_checkpoint) for i in pending]
+                query_probability=args.query_probability, macro_checkpoint=args.macro_checkpoint, **native_args) for i in pending]
             for future in as_completed(futures):
                 results.append(future.result())
                 status = {"stage": "collecting", "total": args.runs, **summary(results),
@@ -133,7 +145,7 @@ def main():
                     prefix=args.prefix + "EVAL", macro_checkpoint=args.macro_checkpoint,
                     micro_policy=load_micro(model / "best.pt", device=args.device), samples=args.samples,
                     roots_per_fight=args.roots_per_fight, query_probability=args.query_probability,
-                    workers=args.workers, protocol={
+                    workers=args.workers, **native_args, protocol={
                         "macro_sha256": config["macro_sha256"], "runtime_sha256": config["runtime_sha256"],
                         "source_hashes": config["source_hashes"],
                         "micro_sha256": hashlib.sha256((model / "best.pt").read_bytes()).hexdigest()})

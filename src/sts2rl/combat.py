@@ -16,6 +16,7 @@ import torch
 from torch import nn
 
 from .encoding import PAD, UNK, Vocabulary
+from .native import runtime_identity
 
 PILES = ("hand", "draw_pile", "discard_pile", "exhaust_pile", "play_pile")
 CARD_FIELDS = (
@@ -39,18 +40,26 @@ def _scalars(target: dict, prefix: str, source: dict | None) -> None:
         target[f"{prefix}.{name}"] = value
 
 
-def combat_entities(state: dict) -> list[Entity]:
+def combat_entities(state: dict, *, condition_ascension=False) -> list[Entity]:
     """Project only inspected public fields; reject incomplete old exports.
 
     Pile membership is explicit, with one entity per card including duplicates.
     Hand/enemy indices bind selectable targets; unordered piles have no indices.
     Unknown rule/counter values stay null, distinct from known zero.
     """
+    if condition_ascension:
+        identity = state.get("runtime_identity", {})
+        if identity != runtime_identity(identity.get("ascension")):
+            raise ValueError("Conditioned combat input requires the qualified runtime identity")
     if state.get("decision") in ("card_select", "card_reward", "bundle_select"):
         base = {**state["combat_state"]}
+        if condition_ascension:
+            if "runtime_identity" in base and base["runtime_identity"] != identity:
+                raise ValueError("Nested combat runtime identity differs from its decision")
+            base["runtime_identity"] = identity
         if "public_combat_history" in state:
             base["public_combat_history"] = state["public_combat_history"]
-        entities = combat_entities(base)
+        entities = combat_entities(base, condition_ascension=condition_ascension)
         selection = {"min_select": state.get("min_select"), "max_select": state.get("max_select")}
         if state["decision"] != "card_select" or "public_combat_history" in state or "selection_source" in state:
             selection["decision"] = state["decision"]
@@ -74,6 +83,8 @@ def combat_entities(state: dict) -> list[Entity]:
     context = {k: state.get(k) for k in ("round", "energy", "max_energy", "stars", "orb_slots")}
     context.update({k: player.get(k) for k in ("hp", "max_hp", "block", "gold")})
     context.update({k: state.get("context", {}).get(k) for k in ("act", "floor", "room_type")})
+    if condition_ascension:
+        context["ascension"] = identity["ascension"]
     entities = [Entity("context", "player", context)]
     for zone in (*PILES, "deck"):
         cards = player.get("deck") if zone == "deck" else state.get(zone)
@@ -138,11 +149,11 @@ def combat_entities(state: dict) -> list[Entity]:
     return entities
 
 
-def combat_vocabulary(training_observations: list[dict]) -> Vocabulary:
+def combat_vocabulary(training_observations: list[dict], *, condition_ascension=False) -> Vocabulary:
     """Fit on training seeds only; held-out symbols map to UNK."""
     tokens = set()
     for state in training_observations:
-        for entity in combat_entities(state):
+        for entity in combat_entities(state, condition_ascension=condition_ascension):
             tokens.update((f"zone:{entity.zone}", f"entity:{entity.identity}"))
             for key, value in entity.attributes.items():
                 tokens.add(f"field:{key}")
@@ -151,10 +162,10 @@ def combat_vocabulary(training_observations: list[dict]) -> Vocabulary:
     return Vocabulary((PAD, UNK, *sorted(tokens)))
 
 
-def collate_combat(states: list[dict], vocab: Vocabulary, device: str = "cpu") -> dict[str, torch.Tensor]:
+def collate_combat(states: list[dict], vocab: Vocabulary, device: str = "cpu", *, condition_ascension=False) -> dict[str, torch.Tensor]:
     if not states:
         raise ValueError("Empty combat batch")
-    rows = [combat_entities(state) for state in states]
+    rows = [combat_entities(state, condition_ascension=condition_ascension) for state in states]
     shape = (len(rows), max(map(len, rows)))
     attr_shape = (*shape, max(len(e.attributes) for row in rows for e in row))
     batch = {

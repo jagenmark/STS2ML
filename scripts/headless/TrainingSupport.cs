@@ -89,7 +89,12 @@ public partial class RunSimulator
 
     public Dictionary<string, object?> TrainingRestore(JsonElement request)
     {
-        var result = StartRun("Silent", 10, request.GetProperty("seed").GetString(), "en");
+        var ascension = request.TryGetProperty("ascension", out var requestedAscension) ? requestedAscension.GetInt32() : 10;
+        if (ascension != 7 && ascension != 8 && ascension != 10)
+            return Error("Qualified training ascensions are 7, 8 and 10");
+        if (request.TryGetProperty("encounter", out _) && ascension != 10)
+            return Error("Starter fixture requires ascension 10");
+        var result = StartRun("Silent", ascension, request.GetProperty("seed").GetString(), "en");
         if (result.GetValueOrDefault("type") as string == "error") return result;
         if (request.TryGetProperty("encounter", out var encounter))
         {
@@ -134,9 +139,14 @@ public partial class RunSimulator
             || player.Relics.Any(r => r.Id.Entry != "RING_OF_THE_SNAKE")
             || player.Potions.Any() || combat.Enemies.Any(e => e.Monster?.Id.Entry != "SHRINKER_BEETLE")))
             return Error("Root outside qualified starter-beetle sampler; no teacher label emitted");
-        if (profile != "silent-a10-starter-beetle-v1" && profile != "silent-a10-act1-mc-v2")
+        var broad = profile == "silent-a10-act1-mc-v2" || profile == "silent-act1-ascension-mc-v3";
+        if (profile != "silent-a10-starter-beetle-v1" && !broad)
             return Error("Unknown sampler profile");
-        if (profile == "silent-a10-act1-mc-v2" && (_runState.CurrentActIndex != 0
+        if (profile != "silent-act1-ascension-mc-v3" && _runState.AscensionLevel != 10)
+            return Error("Legacy sampler requires ascension 10");
+        if (_runState.AscensionLevel != 7 && _runState.AscensionLevel != 8 && _runState.AscensionLevel != 10)
+            return Error("Unsupported sampler ascension");
+        if (broad && (_runState.CurrentActIndex != 0
             || _drawKnowledgeRisks.Count > 0 || _publicCombatHistory.Count >= 64))
             return Error("Unsupported Act 1 draw knowledge/history; no teacher label emitted");
 
@@ -157,7 +167,7 @@ public partial class RunSimulator
             _runState.Rng.GetRng(kind).LoadFromSerializable(new Rng(master.NextUnsignedLong()).ToSerializable());
         foreach (var kind in Enum.GetValues<PlayerRngType>())
             player.PlayerRng.GetRng(kind).LoadFromSerializable(new Rng(master.NextUnsignedLong()).ToSerializable());
-        if (profile == "silent-a10-act1-mc-v2")
+        if (broad)
         {
             // Monster-local RNG is separate from RunRngSet.MonsterAi. Preserve
             // current telegraphed intent and state-machine history; replace future rolls.

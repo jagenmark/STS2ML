@@ -9,7 +9,8 @@ adapter, verified replay branching and Monte Carlo distillation from ordinary
 **whole Act 1 runs**, with replay-trained reward choices. The broad sampler is
 experimental; the learned player has not yet demonstrated reliable Act 1 clears.
 
-**Active target:** Steam public beta **v0.111.0**, **Silent A10**. All five
+**Active target:** Steam public beta **v0.111.0**, **Silent A10**, with an explicit
+**A7 Act 1 curriculum** for combat learning. All five
 characters remain the longer-term goal. Each patch has its own data, vocabulary,
 checkpoints and evaluation results; training and inference enforce that boundary.
 Start on the desktop with the [Windows / RX 9070 XT guide](docs/windows-workstation.md).
@@ -225,10 +226,16 @@ weights are not committed. Source revisions and API terms are linked in the docs
 This is independent research software, unaffiliated with Mega Crit.
 ## Native micro training
 
-The [Act 1 micro curriculum](docs/micro-training.md) now connects native combat
+The [initial micro curriculum](docs/micro-training.md) connected native combat
 actions, verified replay branching, sampled Monte Carlo teacher labels and a
-trainable combat policy/value head. The first admitted scope is Silent A10 with
-the starter deck against Shrinker Beetle; this is not yet whole-Act-1 play.
+trainable combat policy/value head. Its initial scope was Silent A10 with
+the starter deck against Shrinker Beetle. The current
+[whole-Act-1 pipeline](docs/act1-training.md) collects ordinary runs and compares
+heuristic, student and MC-assisted policies on paired held-out seeds. The larger
+A10 collection contains 64 valid runs and 3,090 teacher decisions; its three
+collection clears are teacher-assisted, not evidence of student strength.
+A7/A8 support includes native identity checks, ascension-conditioned inputs and
+checkpoints that enforce the difficulties on which they were trained.
 
 The first GPU fit used 1,372 decisions from 36,112 native rollout branches.
 On 100 fresh encounter seeds the micro won 99 fights with 4.98 mean HP loss,

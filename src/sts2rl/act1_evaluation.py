@@ -19,6 +19,8 @@ def compare_act1(arms):
     for index in indices:
         if len({rows[index]["group"] for rows in indexed.values()}) != 1:
             raise ValueError("Evaluation seed groups differ between policies")
+        if len({rows[index].get("ascension", 10) for rows in indexed.values()}) != 1:
+            raise ValueError("Evaluation ascensions differ between policies")
     paired = sorted(i for i in indices if all(rows[i]["status"] == "complete" for rows in indexed.values()))
 
     def stats(rows):
@@ -56,7 +58,8 @@ def compare_act1(arms):
 
 
 def evaluate_three_way(root, output, *, episodes, prefix, macro_checkpoint, micro_policy,
-                       samples, roots_per_fight, query_probability, workers, protocol):
+                       samples, roots_per_fight, query_probability, workers, protocol,
+                       ascension=10, condition_ascension=False, host_path=None):
     """Run all three policies before reporting failures. Never train on these rows."""
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
@@ -64,6 +67,8 @@ def evaluate_three_way(root, output, *, episodes, prefix, macro_checkpoint, micr
     protocol = {**protocol, "prefix": prefix, "episodes": episodes, "samples": samples,
                 "roots_per_fight": roots_per_fight, "query_probability": query_probability,
                 "workers": workers, "roles": list(roles), "held_out": True}
+    protocol.update(ascension=ascension, condition_ascension=condition_ascension,
+                    host_path=str(Path(host_path).resolve()) if host_path else None)
     save_json(output / "evaluation-protocol.json", protocol)
     arms = {}
     for name, policy in roles.items():
@@ -86,7 +91,8 @@ def evaluate_three_way(root, output, *, episodes, prefix, macro_checkpoint, micr
             futures = [executor.submit(run_act1, root, folder, i, prefix=prefix,
                 teacher=name == "teacher", micro_policy=policy, macro_checkpoint=macro_checkpoint,
                 samples=samples, roots_per_fight=roots_per_fight, query_probability=query_probability,
-                stop_file=output / "STOP") for i in range(episodes)]
+                stop_file=output / "STOP", ascension=ascension,
+                condition_ascension=condition_ascension, host_path=host_path) for i in range(episodes)]
             for future in as_completed(futures):
                 results.append(future.result())
                 save_json(output / "evaluation-progress.json", {"policy": name, "completed": len(results),

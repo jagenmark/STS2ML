@@ -12,7 +12,7 @@ import random
 import statistics
 import time
 
-from .native import ACT1_SAMPLER, Action, NativeError, NativeSession, ReplayFork, SAMPLER, digest, legal_actions
+from .native import ACT1_PROFILES, Action, NativeError, NativeSession, ReplayFork, SAMPLER, digest, legal_actions
 
 
 def incoming(enemy: dict) -> float:
@@ -136,7 +136,7 @@ def rollout(worker: NativeSession, first: Action, *, horizon: int = 256, profile
     for step in range(1, horizon + 1):
         result = combat_result(worker.state, profile=profile)
         if result is not None:
-            if profile == ACT1_SAMPLER:
+            if profile in ACT1_PROFILES:
                 result["return"] = max(0, result["return"] - 3 * potions - (100 if escaped else 0))
                 result["won"] &= not escaped
             return {**result, "steps": step}

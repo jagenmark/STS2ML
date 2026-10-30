@@ -1,6 +1,7 @@
 # Whole Act 1 training
 
-The current collection target is an ordinary **Silent A10, v0.111.0 Act 1 run**:
+The collection target is an ordinary **Silent, v0.111.0 Act 1 run** (A10 by default,
+with explicit A7/A8 difficulty support):
 start at Neow, make map/event/reward/shop/rest decisions, and stop on death or
 entry into Act 2. No encounter, HP, deck or relic is forced in these episodes.
 The earlier single-beetle curriculum was a bridge qualification experiment; it
@@ -43,6 +44,47 @@ runtime manifests are retained. Game-assembly and macro-weight changes are
 rejected; an audited presentation-only host fix additionally requires
 `--allow-host-update`. `scripts/resume-act1.ps1` can wait for the old runner,
 build the fixed host, verify the event effects, and perform this recovery.
+
+## Difficulty curriculum
+
+`--ascension 7` starts the real native game at A7, retaining the entire act and
+its normal rewards, events and deck progression. A7 keeps the curse, potion-slot
+and economic constraints but removes A8 durability and A9 attack increases.
+A10's extra boss is in Act 3, so moving only from A10 to A9 would not help Act 1.
+These thresholds are taken from this installed patch's ascension localization,
+and native fixtures verify the actual HP/damage changes.
+
+Below A10, the runner automatically selects `silent-act1-ascension-mc-v3` and
+checkpoint version 3. Ascension is validated against the native identity, saved
+on each episode/teacher record, and passed as a numeric combat input, including
+nested card choices. Checkpoints record their trained ascensions and reject
+inference at unseen difficulties. Existing A10 v1/v2 checkpoints retain their
+original inputs and A10-only runtime guard. The macro still uses the same
+A10-replay-trained weights; it receives the actual ascension rather than a false
+A10 label. Its transfer to A7 is unproven and held fixed across evaluation arms.
+
+Use `--condition-ascension --ascension 10` to collect A10 data in the same v3
+format for a later mixture. Legacy v2 data cannot be silently mixed into v3.
+Seed groups remain together across difficulties, and every difficulty must be
+represented in train, validation and test. The fitter reports coverage by
+difficulty and rejects missing coverage instead of silently evaluating a
+different mixture. The first A7 experiment is separate; mixed training is not
+yet a measured result.
+
+Example after rebuilding the host:
+
+```powershell
+& .venv/rocm/Scripts/python.exe scripts/train-act1.py --output artifacts/act1/new-a7 --ascension 7 --runs 32 --workers 2 --samples 4 --roots-per-fight 12 --query-probability 0.5 --epochs 20 --evaluate 32 --macro-checkpoint artifacts/v0.111.0/silent-a10/workstation-20261030-172303-775/final/best.pt
+```
+
+When an older experiment has the Release DLL open, build a separate host with
+`dotnet build .../Sts2Headless.csproj -c Curriculum -p:Optimize=true` and pass
+`--host-path artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll`.
+The runtime manifest fingerprints that host and its Godot stub. Do not replace
+the host of a live experiment. `verify-curriculum-native.py --output <fresh>
+--host-path <dll>` checks A7/A8/A10 replay/sampling and difficulty effects;
+`verify-act1-native.py --ascension 7 --output <fresh> --host-path <dll>` checks
+the broad fixtures at A7. Both are regression checks, not playing-strength data.
 
 ## Measured runtime and concurrency
 
@@ -156,8 +198,8 @@ be an accurate estimate of a poor continuation policy.
    installed patch A8 increases enemy durability, A9 makes attacks deadlier,
    and A10 adds the second Act 3 boss. A7 is therefore a useful proposed Act 1
    step down while retaining the curse, potion-slot and economic restrictions.
-   A7 support is not implemented yet: native identity checks, data metadata and
-   neural ascension inputs must be explicit before mixing difficulties.
+   A7/A8 support now has explicit native identity checks, data metadata and
+   neural ascension inputs. Evaluate its separate pilot before mixing difficulties.
 4. Keep some A10 data and separate A10 evaluation while progressing A7 → A8 →
    A10. Keep the macro policy fixed during each micro comparison. Diagnostic
    results used to choose an approach must not be presented as an untouched
@@ -181,10 +223,12 @@ both the student and heuristic cleared **0/32**, with zero engine errors. Mean
 furthest floor was **6.56 for the student vs 7.59 for the heuristic**. Both reached
 floor 17 in at least one run. The student has not demonstrated improvement.
 
-A larger 64-run job was launched with four workers, four chance samples and up
-to twelve queried roots per fight, followed automatically by a GPU fit and new
-paired evaluation. Its outputs remain local; this launch is not a completed
-training result. See the [sanitized evidence](evidence/act1-training-windows-2026-10-30.json).
+The larger A10 collection completed **64/64 valid runs**, **403 fights**,
+**3,090 teacher decisions**, and **61,848 rollout branches**, after retrying
+the quarantined engine failures. It had no search errors and **3 Act 1 clears
+by the MC-assisted collection policy**. GPU fitting and a new 32-seed three-way
+evaluation follow automatically. Collection clears are not student results.
+See the [sanitized evidence](evidence/act1-training-windows-2026-10-30.json).
 
 Qualification commands:
 

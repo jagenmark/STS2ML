@@ -434,5 +434,22 @@
       "purpose": "Integration only, not evidence of relative playing strength"
     },
     "interpretation": "Teacher vs heuristic diagnoses search utility; teacher vs student helps direct investigation but does not prove overfitting."
+  },
+  "completed_large_collection": {
+    "recorded_utc": "2026-10-30T23:05:07.264622+00:00",
+    "recovery_revision": "d9018f113fa960becbc96f715502fbc4540ffba3",
+    "completed": 64,
+    "successful_runs": 64,
+    "act1_clears": 3,
+    "decisions": 3090,
+    "branches": 61848,
+    "fights": 403,
+    "max_floor": 17,
+    "search_errors": 0,
+    "note": "64 complete episodes after quarantined retries. Clears belong to the MC-assisted collector, not the learned micro. GPU fit and three-way evaluation follow."
+  },
+  "dense_vegetation_fix": {
+    "native_heal_and_mandatory_fight_verified": true,
+    "suppressed": "Two audio Play calls, one audio Stop and one screen shake; no gameplay changes."
   }
 }

@@ -3,8 +3,8 @@ import argparse
 import json
 from pathlib import Path
 
-from sts2rl.act1 import MacroPolicy
-from sts2rl.native import ACT1_SAMPLER, NativeError, NativeSession, digest, legal_actions
+from sts2rl.act1 import MacroPolicy, act1_profile
+from sts2rl.native import CURRICULUM_ASCENSIONS, NativeError, NativeSession, digest, legal_actions
 from sts2rl.teacher import combat_result, heuristic
 
 
@@ -20,15 +20,20 @@ def fixture(game, encounter, *, deck=None, potions=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--ascension", type=int, choices=CURRICULUM_ASCENSIONS, default=10)
+    parser.add_argument("--condition-ascension", action="store_true")
+    parser.add_argument("--host-path", type=Path)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     output = args.output.resolve()
+    profile = act1_profile(args.ascension, args.condition_ascension)
+    native_args = {"ascension": args.ascension, "host_path": args.host_path}
     results = []
     deck = ["STRIKE_SILENT"] * 4 + ["DEFEND_SILENT"] * 4 + ["NEUTRALIZE", "SURVIVOR",
             "ASCENDERS_BANE", "CLOAK_AND_DAGGER", "BACKFLIP", "LEG_SWEEP"]
     encounters = ("SHRINKER_BEETLE_WEAK", "NIBBITS_WEAK", "FUZZY_WURM_CRAWLER_WEAK",
                   "SLIMES_WEAK", "INKLETS_NORMAL", "PHROG_PARASITE_ELITE")
-    with NativeSession(root, output / "sampling") as game:
+    with NativeSession(root, output / "sampling", **native_args) as game:
         for encounter in encounters:
             traces = []
             for repeat, sample in enumerate((17, 17, 91)):
@@ -37,12 +42,12 @@ def main():
                 if repeat == 1:
                     game._request({"cmd": "set_draw_order", "cards": [
                         c["id"].split(".", 1)[1] for c in reversed(state["draw_pile"])]})
-                game.sample(sample, profile=ACT1_SAMPLER)
+                game.sample(sample, profile=profile)
                 assert digest(game.state) == before
                 trace = []
                 for _ in range(256):
                     trace.append(digest(game.state))
-                    if combat_result(game.state, profile=ACT1_SAMPLER) is not None:
+                    if combat_result(game.state, profile=profile) is not None:
                         break
                     game.step(heuristic(game.state))
                 else:
@@ -58,7 +63,7 @@ def main():
         game.step(next(a for a in legal_actions(game.state) if a.kind == "end_turn"))
         assert sum(e["hp"] for e in game.state["enemies"]) < before, "Native boulder damage must execute"
         assert game.state["round"] == 2
-    with NativeSession(root, output / "shop-rest") as game:
+    with NativeSession(root, output / "shop-rest", **native_args) as game:
         game.reset("ACT1SHOPQUALIFY001")
         game._request({"cmd": "set_player", "gold": 999})
         game.state = game._request({"cmd": "enter_room", "type": "shop"})
@@ -77,15 +82,15 @@ def main():
         action = MacroPolicy(1)(game.state)
         game.step(action)
         assert game.state["player"]["hp"] > 10, "Low-HP macro must actually rest"
-    with NativeSession(root, output / "draw-knowledge") as game:
+    with NativeSession(root, output / "draw-knowledge", **native_args) as game:
         state = fixture(game, "SHRINKER_BEETLE_WEAK", potions=["DISTILLED_CHAOS"])
         assert not state["act1_search_support"]["supported"]
         try:
-            game.sample(1, profile=ACT1_SAMPLER)
+            game.sample(1, profile=profile)
             raise AssertionError("Remembered draw-order risk accepted")
         except NativeError as exc:
             assert "draw knowledge" in str(exc)
-    report = {"passed": True, "profile": ACT1_SAMPLER, "fixtures": results,
+    report = {"passed": True, "profile": profile, "ascension": args.ascension, "fixtures": results,
               "rolling_boulder_native_damage": True, "shop_effects": purchased,
               "low_hp_rest": True, "unsupported_draw_knowledge_rejected": True,
               "limitation": "Finite regression fixtures; broad sampler is experimental, not a proof for every Act 1 mechanic"}

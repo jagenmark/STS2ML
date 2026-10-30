@@ -29,9 +29,11 @@ def test_act1_finishes_at_act2_and_does_not_count_fights_as_clears():
 
 def test_macro_reward_projection_matches_replay_entity_ids():
     obs = state()
+    obs["runtime_identity"] = {"ascension": 7}
     obs.update(decision="card_reward", cards=obs["hand"], can_skip=True)
     projected = validate_record(macro_record(obs))
     assert projected["candidates"][0]["entity_id"] == "STRIKE_SILENT"
+    assert projected["observation"]["ascension"] == 7
     assert projected["observation"]["relics"] == ["NUNCHAKU"]
     assert projected["observation"]["deck"][0]["id"] == "STRIKE_SILENT"
     assert [c["action_id"] for c in projected["candidates"]] == [a.id for a in legal_actions(obs)]

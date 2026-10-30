@@ -21,6 +21,15 @@ from typing import Any
 ASSEMBLY_VERSION = "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
 SAMPLER = "silent-a10-starter-beetle-v1"
 ACT1_SAMPLER = "silent-a10-act1-mc-v2"
+CURRICULUM_SAMPLER = "silent-act1-ascension-mc-v3"
+ACT1_PROFILES = (ACT1_SAMPLER, CURRICULUM_SAMPLER)
+CURRICULUM_ASCENSIONS = (7, 8, 10)
+
+
+def runtime_identity(ascension):
+    if type(ascension) is not int or ascension not in CURRICULUM_ASCENSIONS:
+        raise ValueError("Qualified ascensions are 7, 8 and 10")
+    return {"character": "SILENT", "ascension": ascension, "assembly_version": ASSEMBLY_VERSION}
 
 
 def digest(value: Any) -> str:
@@ -138,12 +147,13 @@ class ReplayFork:
 
 
 class NativeSession:
-    def __init__(self, root: Path, folder: Path, *, timeout: float = 30):
+    def __init__(self, root: Path, folder: Path, *, timeout: float = 30, ascension=10, host_path=None):
+        self.identity = runtime_identity(ascension)
         self.root, self.folder = root.resolve(), folder.resolve()
         self.folder.mkdir(parents=True, exist_ok=False)
         dotnet = self.root / "artifacts/tools/dotnet/dotnet.exe"
         upstream = self.root / "artifacts/upstreams/sts2-cli"
-        host = upstream / "src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll"
+        host = Path(host_path).resolve() if host_path else upstream / "src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll"
         env = os.environ.copy()
         env.update(DOTNET_ROOT=str(dotnet.parent), STS2_LIB=str(upstream / "lib"),
                    STS2_GAME_DIR=str(upstream / "lib"), STS2_TRAINING="1",
@@ -204,8 +214,7 @@ class NativeSession:
                 self.errors.write("\n[RPC ERROR] " + json.dumps(result) + "\n")
                 self.errors.flush()
                 raise NativeError(result.get("message", str(result)))
-            if result.get("runtime_identity") != {"character": "SILENT", "ascension": 10,
-                                                   "assembly_version": ASSEMBLY_VERSION}:
+            if result.get("runtime_identity") != self.identity:
                 raise NativeError("Native runtime identity mismatch")
             return result
         except BaseException:
@@ -214,7 +223,7 @@ class NativeSession:
             raise
 
     def reset(self, seed: str, *, encounter: str | None = None, hp: int = 70):
-        spec = {"seed": seed}
+        spec = {"seed": seed, "ascension": self.identity["ascension"]}
         if encounter is not None:
             spec.update(encounter=encounter, hp=hp)
         self.state = self._request({"cmd": "training_restore", **spec, "history": []})
@@ -238,6 +247,8 @@ class NativeSession:
         return ReplayFork(deepcopy(self.specification), tuple(deepcopy(self.history)), digest(self.state))
 
     def restore(self, fork: ReplayFork):
+        if fork.specification.get("ascension", 10) != self.identity["ascension"]:
+            raise NativeError("Replay ascension does not match the native session")
         state = self._request({"cmd": "training_restore", **fork.specification,
                                "history": list(fork.history)})
         if digest(state) != fork.expected_digest:
@@ -248,6 +259,10 @@ class NativeSession:
         return deepcopy(state)
 
     def sample(self, seed: int, *, profile: str = SAMPLER):
+        if profile not in (SAMPLER, *ACT1_PROFILES):
+            raise NativeError("Unknown sampler profile")
+        if profile != CURRICULUM_SAMPLER and self.identity["ascension"] != 10:
+            raise NativeError("Legacy sampler requires ascension 10")
         before = digest(self.state)
         state = self._request({"cmd": "training_sample", "sample_seed": seed, "profile": profile})
         if digest(state) != before:

@@ -1,0 +1,115 @@
+{
+  "recorded_utc": "2026-10-30T23:05:07.265625+00:00",
+  "unit_tests": 154,
+  "native_identity_and_difficulty": {
+    "passed": true,
+    "profile": "silent-act1-ascension-mc-v3",
+    "ascensions": {
+      "7": {
+        "identity": {
+          "character": "SILENT",
+          "ascension": 7,
+          "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+        },
+        "replay_and_sampling": true,
+        "stat_fixture": "NIBBITS_WEAK",
+        "enemies": [
+          {
+            "id": "MONSTER.NIBBIT",
+            "hp": 45,
+            "damage": 12
+          }
+        ]
+      },
+      "8": {
+        "identity": {
+          "character": "SILENT",
+          "ascension": 8,
+          "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+        },
+        "replay_and_sampling": true,
+        "stat_fixture": "NIBBITS_WEAK",
+        "enemies": [
+          {
+            "id": "MONSTER.NIBBIT",
+            "hp": 47,
+            "damage": 12
+          }
+        ]
+      },
+      "10": {
+        "identity": {
+          "character": "SILENT",
+          "ascension": 10,
+          "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+        },
+        "replay_and_sampling": true,
+        "stat_fixture": "NIBBITS_WEAK",
+        "enemies": [
+          {
+            "id": "MONSTER.NIBBIT",
+            "hp": 47,
+            "damage": 13
+          }
+        ]
+      }
+    }
+  },
+  "a7_native_fixtures": {
+    "passed": true,
+    "profile": "silent-act1-ascension-mc-v3",
+    "ascension": 7,
+    "fixtures": [
+      {
+        "encounter": "SHRINKER_BEETLE_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "NIBBITS_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "FUZZY_WURM_CRAWLER_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "SLIMES_WEAK",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "INKLETS_NORMAL",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      },
+      {
+        "encounter": "PHROG_PARASITE_ELITE",
+        "hidden_order_invariance": true,
+        "chance_variation": true
+      }
+    ],
+    "rolling_boulder_native_damage": true,
+    "shop_effects": [
+      "buy_relic",
+      "buy_potion",
+      "buy_card"
+    ],
+    "low_hp_rest": true,
+    "unsupported_draw_knowledge_rejected": true,
+    "limitation": "Finite regression fixtures; broad sampler is experimental, not a proof for every Act 1 mechanic"
+  },
+  "ordinary_a7_smoke": {
+    "completed": 2,
+    "run_errors": 0,
+    "purpose": "Integration only; no strength conclusion"
+  },
+  "conditioned_checkpoint": "Version 3; explicit trained ascensions; old A10 models remain A10-only.",
+  "limitations": [
+    "The broad hidden-state sampler remains experimental.",
+    "The macro weights were trained on A10 replay choices; A7 transfer is unproven.",
+    "No A7-trained player result yet."
+  ]
+}
