@@ -42,5 +42,26 @@
     "old_split_unchanged": true,
     "gpu_epochs": 1,
     "purpose": "Integration only; smoke rows and model excluded from the real experiment."
+  },
+  "launched_experiment": {
+    "recorded_utc": "2026-10-31T09:10:26.484220+00:00",
+    "experiment": "a7-dagger-20261031-100933",
+    "git_revision": "0b036b07c2a59c70888fe4c4be41f4b714a260fe",
+    "started": "2026-10-31T09:09:33.923689+00:00",
+    "prefix": "A7DAGGER001",
+    "sampler": "silent-act1-ascension-mc-v3",
+    "ascension": 7,
+    "runs": 64,
+    "workers": 4,
+    "samples": 4,
+    "roots_per_fight": 12,
+    "query_probability": 0.5,
+    "epochs": 20,
+    "evaluate": 32,
+    "macro_sha256": "eba42703ef9515c7fba35feae8bbc3b4eed773f5c3797c37909020b7039858ca",
+    "student_sha256": "d53a432a22f9890cde9eb348ba42f38ac3c1f94ff00ed0774f4e05c8d015e2f6",
+    "status": "collecting",
+    "prior_labels": 1934,
+    "prior_split_groups": 32
   }
 }
