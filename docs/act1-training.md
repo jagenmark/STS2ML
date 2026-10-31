@@ -258,7 +258,7 @@ See the [sanitized evidence](evidence/act1-training-windows-2026-10-30.json).
 
 ## Student-state labeling and aggregation
 
-The next A7 iteration follows the data-aggregation principle of
+The first aggregated A7 iteration follows the data-aggregation principle of
 [DAgger](https://proceedings.mlr.press/v15/ross11a.html): run a frozen student,
 query the teacher on sampled states it visits, and fit on old plus new labels.
 The teacher still uses the same four-sample heuristic continuation, so this
@@ -292,6 +292,31 @@ Previously inspected online evaluation seeds are not recycled into collection.
 trajectory with and without advisory MC queries. Qualification passed with
 four labels and three teacher disagreements, identical actual trajectories and
 zero overrides. These fixture labels are excluded from training.
+
+The completed iteration collected **64/64 runs, 331 fights, 2,707 new labels and
+53,276 rollout branches**, with no run/search errors or teacher overrides.
+The frozen collection student cleared 0/64. Fitting used **4,641 old+new labels**;
+validation selected epoch 12 and GPU fitting took 253.2 seconds. All 32 prior
+split assignments were preserved. One new run emitted no labels, so the fitted
+dataset contains 95 seed groups (77/9/9 train/validation/test), not 96.
+
+Final results on **32 complete paired fresh A7 seeds**, with no run/search errors:
+
+| Policy | Act 1 clears | Mean furthest floor |
+| --- | ---: | ---: |
+| Previous student | 0/32 | 8.50 |
+| New student | 0/32 | 10.75 |
+| Heuristic | 1/32 | 10.09375 |
+| MC-assisted teacher | 9/32 | 14.09375 |
+
+The new student reached **2.25 more floors on average** than its predecessor in
+this sample. It still did not clear Act 1, and the 32-seed sample does not establish
+the cause or generality of the difference. The teacher is unchanged; its 9/32
+result on these seeds should not be interpreted as an improvement from 5/32 on
+the earlier different seed set. Total collection/fit/evaluation time was
+**2h21m59s** with four workers. The experiment is complete; these results do not
+launch another experiment automatically.
+See [final DAgger evidence](evidence/dagger-windows-2026-10-31.json).
 
 Qualification commands:
 

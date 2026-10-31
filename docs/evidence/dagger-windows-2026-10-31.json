@@ -60,8 +60,166 @@
     "evaluate": 32,
     "macro_sha256": "eba42703ef9515c7fba35feae8bbc3b4eed773f5c3797c37909020b7039858ca",
     "student_sha256": "d53a432a22f9890cde9eb348ba42f38ac3c1f94ff00ed0774f4e05c8d015e2f6",
-    "status": "collecting",
+    "status": "complete",
     "prior_labels": 1934,
     "prior_split_groups": 32
-  }
+  },
+  "final_result_recorded_utc": "2026-10-31T11:43:34.049718+00:00",
+  "collection": {
+    "stage": "complete",
+    "completed": 64,
+    "successful_runs": 64,
+    "act1_clears": 0,
+    "decisions": 2707,
+    "branches": 53276,
+    "fights": 331,
+    "search_errors": 0,
+    "teacher_overrides": 0,
+    "teacher_disagreements": 2217,
+    "queried_actor_positive_regret": 742,
+    "queried_actor_regret_sum": 9207.004310897966,
+    "seconds": 8519.053797400004,
+    "unlabeled_runs": [
+      "run-00004"
+    ]
+  },
+  "fit": {
+    "decisions": 4641,
+    "dataset_sha256": "21dacd3bebd286d7e6daf20861ebd11d7b0c69175f6828de6893d30d38cebc49",
+    "best_epoch": 12,
+    "epochs": 20,
+    "seconds": 253.23227100000076,
+    "inherited_split_groups": 32,
+    "split_groups": {
+      "test": 9,
+      "validation": 9,
+      "train": 77
+    },
+    "split_decisions": {
+      "train": 3667,
+      "validation": 516,
+      "test": 458
+    },
+    "test": {
+      "decisions": 458,
+      "teacher_cross_entropy": 1.6455216969985629,
+      "teacher_best_action_agreement": 0.7052401746724891,
+      "mean_estimated_regret": 2.8947160855006038
+    },
+    "prior_split_assignments_verified_unchanged": true
+  },
+  "final_evaluation": {
+    "attempted_seed_groups": 32,
+    "complete_paired_seed_groups": 32,
+    "excluded_pair_indices": [],
+    "policies": {
+      "heuristic": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 1,
+        "clear_rate_over_completed": 0.03125,
+        "mean_max_floor": 10.09375,
+        "mean_seconds": 1.9801118749992384,
+        "median_seconds": 1.8249983999994583,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "previous_micro": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 8.5,
+        "mean_seconds": 11.756961828124986,
+        "median_seconds": 10.43251969999983,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "micro": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 10.75,
+        "mean_seconds": 16.36645954999858,
+        "median_seconds": 14.798921350004093,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "teacher": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 9,
+        "clear_rate_over_completed": 0.28125,
+        "mean_max_floor": 14.09375,
+        "mean_seconds": 490.90076558124974,
+        "median_seconds": 424.49922640000295,
+        "search_errors": 0,
+        "run_errors": []
+      }
+    },
+    "comparisons": {
+      "heuristic_vs_previous_micro": {
+        "paired_runs": 32,
+        "left_only_clears": 1,
+        "right_only_clears": 0,
+        "both_clear": 0,
+        "neither_clears": 31,
+        "mean_floor_difference_left_minus_right": 1.59375,
+        "mean_seconds_difference_left_minus_right": -9.776849953125748
+      },
+      "heuristic_vs_micro": {
+        "paired_runs": 32,
+        "left_only_clears": 1,
+        "right_only_clears": 0,
+        "both_clear": 0,
+        "neither_clears": 31,
+        "mean_floor_difference_left_minus_right": -0.65625,
+        "mean_seconds_difference_left_minus_right": -14.386347674999342
+      },
+      "heuristic_vs_teacher": {
+        "paired_runs": 32,
+        "left_only_clears": 1,
+        "right_only_clears": 9,
+        "both_clear": 0,
+        "neither_clears": 22,
+        "mean_floor_difference_left_minus_right": -4.0,
+        "mean_seconds_difference_left_minus_right": -488.9206537062505
+      },
+      "previous_micro_vs_micro": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 0,
+        "both_clear": 0,
+        "neither_clears": 32,
+        "mean_floor_difference_left_minus_right": -2.25,
+        "mean_seconds_difference_left_minus_right": -4.609497721873595
+      },
+      "previous_micro_vs_teacher": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 9,
+        "both_clear": 0,
+        "neither_clears": 23,
+        "mean_floor_difference_left_minus_right": -5.59375,
+        "mean_seconds_difference_left_minus_right": -479.14380375312476
+      },
+      "micro_vs_teacher": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 9,
+        "both_clear": 0,
+        "neither_clears": 23,
+        "mean_floor_difference_left_minus_right": -3.34375,
+        "mean_seconds_difference_left_minus_right": -474.53430603125116
+      }
+    },
+    "limitations": [
+      "Errors are not defeats; paired comparisons exclude a seed if any policy failed.",
+      "MC policy searches only configured roots, with heuristic continuation and fallback.",
+      "Same macro policy and random seed, but combat outcomes can change later choices.",
+      "Small paired sample; these metrics do not establish the cause of a performance gap."
+    ]
+  },
+  "conclusion": "New student improved mean furthest floor by 2.25 versus its predecessor on 32 paired seeds, but neither cleared Act 1. Small sample; the cause and generality of the difference are not established."
 }

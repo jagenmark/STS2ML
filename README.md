@@ -239,9 +239,12 @@ checkpoints that enforce the difficulties on which they were trained.
 
 Completed paired tests show **5/32 A7 clears for the MC-assisted teacher** and
 **0/32 for both the student and heuristic**; at A10 the teacher clears 2/32 and
-both others 0/32. The next iteration collects teacher labels on the frozen
-student's own trajectories, retains previous data without moving held-out
-groups into training, and evaluates old/new students on the same fresh seeds.
+both others 0/32. The first student-state aggregation iteration has also finished:
+on 32 new paired A7 seeds, the new student reached mean floor **10.75 vs 8.50**
+for its predecessor, but both cleared **0/32**. The heuristic cleared 1/32 and
+the MC-assisted teacher 9/32 on those same seeds. This is improved mean progression
+in a small sample, not demonstrated Act 1 success. Earlier held-out groups stayed
+out of training. See [the complete results](docs/act1-training.md).
 
 The first GPU fit used 1,372 decisions from 36,112 native rollout branches.
 On 100 fresh encounter seeds the micro won 99 fights with 4.98 mean HP loss,
