@@ -109,8 +109,9 @@
   "conditioned_checkpoint": "Version 3; explicit trained ascensions; old A10 models remain A10-only.",
   "limitations": [
     "The broad hidden-state sampler remains experimental.",
-    "The macro weights were trained on A10 replay choices; A7 transfer is unproven.",
-    "No A7-trained player result yet."
+    "Macro weights remain A10-replay-trained.",
+    "The student still has no demonstrated Act 1 improvement.",
+    "A7 and A10 evaluation seed sets differ; this is not a paired causal estimate of the ascension effect."
   ],
   "first_a7_experiment": {
     "git_revision": "74c482f5f66830609228e74cfcecde970f5fe2b3",
@@ -133,7 +134,115 @@
       "artifacts\\upstreams\\sts2-cli\\src\\Sts2Headless\\bin\\Curriculum\\net9.0\\Sts2Headless.dll": "b171643a5f6da0da7690a488cb4d8f661ef04a9ebae1ac076d18cd0a5fd9b078",
       "artifacts\\upstreams\\sts2-cli\\src\\Sts2Headless\\bin\\Curriculum\\net9.0\\GodotSharp.dll": "b629ab58eb46725db16047430324459746c7958f3389967fb26167603017bfe8"
     },
-    "status": "collecting; first two runs passed floor 6 and emitted teacher roots without search errors at the observation time",
-    "observed_utc": "2026-10-30T23:07:51.650592+00:00"
+    "status": "complete",
+    "observed_utc": "2026-10-31T09:05:36.565265+00:00"
+  },
+  "completed_collection": {
+    "completed": 32,
+    "successful_runs": 32,
+    "act1_clears": 3,
+    "decisions": 1934,
+    "branches": 39584,
+    "fights": 247,
+    "search_errors": 0,
+    "seconds": 15690.0740353
+  },
+  "fit": {
+    "decisions": 1934,
+    "dataset_sha256": "6e6d2c415c857e44b177862fb2dd11498ae18c64ce2afe080a6ef3e2458c6afe",
+    "split_groups": {
+      "test": 3,
+      "validation": 3,
+      "train": 26
+    },
+    "split_decisions": {
+      "train": 1535,
+      "validation": 213,
+      "test": 186
+    },
+    "epochs": 20,
+    "best_epoch": 8,
+    "seconds": 93.91129720000026,
+    "test": {
+      "decisions": 186,
+      "teacher_cross_entropy": 1.64526242081837,
+      "teacher_best_action_agreement": 0.6612903225806451,
+      "mean_estimated_regret": 2.6751152073732705
+    }
+  },
+  "final_evaluation": {
+    "attempted_seed_groups": 32,
+    "complete_paired_seed_groups": 32,
+    "excluded_pair_indices": [],
+    "policies": {
+      "heuristic": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 11.15625,
+        "mean_seconds": 1.9205882937510523,
+        "median_seconds": 1.6894304500056023,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "micro": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 10.40625,
+        "mean_seconds": 5.14950205625064,
+        "median_seconds": 4.816688550003164,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "teacher": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 5,
+        "clear_rate_over_completed": 0.15625,
+        "mean_max_floor": 14.34375,
+        "mean_seconds": 532.4087179124999,
+        "median_seconds": 581.7770400500012,
+        "search_errors": 0,
+        "run_errors": []
+      }
+    },
+    "comparisons": {
+      "heuristic_vs_micro": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 0,
+        "both_clear": 0,
+        "neither_clears": 32,
+        "mean_floor_difference_left_minus_right": 0.75,
+        "mean_seconds_difference_left_minus_right": -3.2289137624995874
+      },
+      "heuristic_vs_teacher": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 5,
+        "both_clear": 0,
+        "neither_clears": 27,
+        "mean_floor_difference_left_minus_right": -3.1875,
+        "mean_seconds_difference_left_minus_right": -530.4881296187489
+      },
+      "micro_vs_teacher": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 5,
+        "both_clear": 0,
+        "neither_clears": 27,
+        "mean_floor_difference_left_minus_right": -3.9375,
+        "mean_seconds_difference_left_minus_right": -527.2592158562493
+      }
+    },
+    "limitations": [
+      "Errors are not defeats; paired comparisons exclude a seed if any policy failed.",
+      "MC policy searches only configured roots, with heuristic continuation and fallback.",
+      "Same macro policy and random seed, but combat outcomes can change later choices.",
+      "Small paired sample; these metrics do not establish the cause of a performance gap."
+    ]
   }
 }

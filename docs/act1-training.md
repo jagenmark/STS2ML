@@ -233,16 +233,65 @@ validation selected epoch 12. The split contains 52/6/6 run groups and
 
 On the next **32 fresh A10 seeds**, the student and heuristic again each cleared
 **0/32**, with no engine errors. Mean furthest floor was **8.25 for the student
-vs 8.6875 for the heuristic**. The teacher arm of that same comparison is still
-running; do not interpret collection clears as a paired teacher result. The
-student has not demonstrated an improvement. Timing from concurrently running
-jobs should not be compared as a controlled throughput benchmark.
+vs 8.6875 for the heuristic**. The completed teacher arm cleared **2/32** and
+reached mean floor **11.40625**. Against the heuristic it reached a higher floor
+on 21 seeds, tied on nine and reached a lower floor on two. The student has not
+demonstrated an improvement. Timing from concurrently running jobs should not be
+compared as a controlled throughput benchmark.
 
-A separate **32-run A7** job is now collecting with two workers, four samples,
-twelve roots per fight and query probability 0.5, followed automatically by
-20 GPU epochs and 32 held-out seeds per policy. It runs against the isolated
-Curriculum host while the A10 comparison retains its original Release host.
+A separate **32-run A7** experiment completed without game/search errors:
+**247 fights, 1,934 labels, 39,584 branches and 3 collection clears**. The GPU fit
+took **93.9 seconds**, selecting epoch 8 of 20. On 32 fresh paired A7 seeds:
+
+| Policy | Act 1 clears | Mean furthest floor |
+| --- | ---: | ---: |
+| Heuristic | 0/32 | 11.15625 |
+| Student | 0/32 | 10.40625 |
+| MC-assisted teacher | 5/32 | 14.34375 |
+
+The A7 teacher reached a higher floor than the heuristic on 21 seeds and tied
+on 11, with none lower. This supports investigating the imitation gap, without
+proving overfitting or a particular cause. A7 and A10 used different seed sets;
+their raw clear rates are not a paired estimate of the ascension effect.
+The entire A7 collection/fit/evaluation took **4h21m30s** with two workers.
 See the [sanitized evidence](evidence/act1-training-windows-2026-10-30.json).
+
+## Student-state labeling and aggregation
+
+The next A7 iteration follows the data-aggregation principle of
+[DAgger](https://proceedings.mlr.press/v15/ross11a.html): run a frozen student,
+query the teacher on sampled states it visits, and fit on old plus new labels.
+The teacher still uses the same four-sample heuristic continuation, so this
+tests state coverage without simultaneously changing the teacher/architecture.
+
+`--student-checkpoint` changes collection behavior: every actual combat action
+comes from that student, including when teacher and student disagree. Search
+runs in the other native process and only supplies labels. Records retain the
+actor, teacher and executed action IDs, plus estimated actor regret. Result
+files count disagreements and overrides; student collection must have **zero
+teacher overrides**. Inference or engine failures remain errors, not losses.
+
+`--aggregate-from` verifies a completed source experiment against its fitted
+dataset hash and reads only `run-*/teacher.jsonl`. Evaluation and quarantine
+folders are excluded. Earlier train/validation/test assignments are frozen;
+new seed groups get their own 80/10/10 allocation. The vocabulary is rebuilt
+from training rows only, and the policy is refitted from scratch. Source rows,
+split assignments and the frozen student's weights are fingerprinted in the
+new manifest. Resume rejects changes. The first implementation accepts a
+non-aggregated source; a further generation needs explicit ancestor handling.
+
+The final comparison includes **heuristic, previous student, new student and
+MC-assisted teacher**, all on the same new seeds with fixed macro weights.
+Previously inspected online evaluation seeds are not recycled into collection.
+
+```powershell
+& .venv/rocm/Scripts/python.exe scripts/train-act1.py --output artifacts/act1/new-a7-dagger --ascension 7 --runs 64 --workers 4 --samples 4 --roots-per-fight 12 --query-probability 0.5 --epochs 20 --evaluate 32 --prefix A7DAGGER001 --student-checkpoint artifacts/act1/a7-20261031-000554/model/best.pt --aggregate-from artifacts/act1/a7-20261031-000554 --macro-checkpoint artifacts/v0.111.0/silent-a10/workstation-20261030-172303-775/final/best.pt --host-path artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll
+```
+
+`verify-dagger-native.py` checks a student's entire native command/observation
+trajectory with and without advisory MC queries. Qualification passed with
+four labels and three teacher disagreements, identical actual trajectories and
+zero overrides. These fixture labels are excluded from training.
 
 Qualification commands:
 

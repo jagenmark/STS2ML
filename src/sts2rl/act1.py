@@ -164,7 +164,9 @@ def existing_act1_results(output, runs, prefix, *, ascension=10, condition_ascen
 
 def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macro_checkpoint=None,
              micro_policy=None, teacher=True, query_probability=.35, max_branches=96, stop_file=None,
-             ascension=10, condition_ascension=False, host_path=None):
+             ascension=10, condition_ascension=False, host_path=None, execute_teacher=True):
+    if not execute_teacher and (micro_policy is None or not teacher):
+        raise ValueError("Student-state labeling requires a student and teacher queries")
     profile = act1_profile(ascension, condition_ascension)
     folder = output / f"run-{index:05d}"
     folder.mkdir(parents=True, exist_ok=False)
@@ -174,6 +176,9 @@ def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macr
     started = time.perf_counter()
     result = {"index": index, "group": group, "status": "running", "cleared_act1": False,
               "ascension": ascension, "sampler": profile,
+              "collection_actor": "student" if not execute_teacher else "teacher_assisted" if teacher else "micro" if micro_policy else "heuristic",
+              "teacher_overrides": 0, "teacher_disagreements": 0,
+              "queried_actor_regret_sum": 0.0, "queried_actor_positive_regret": 0,
               "steps": 0, "decisions": 0, "branches": 0, "fights": 0, "max_floor": 0,
               "skipped_roots": {}, "search_errors": []}
     monsters, cards, relics, floors, taught = Counter(), Counter(), Counter(), Counter(), Counter()
@@ -233,9 +238,18 @@ def run_act1(root, output, index, *, prefix, samples=4, roots_per_fight=12, macr
                             record = teach_root(search, game.fork(), state, samples=samples,
                                 seed=81000000 + index * 10000 + step, profile=profile)
                             record.update(group=group, ascension=ascension, decision_index=step, floor=key[0],
-                                          monster_ids=[e["id"] for e in view["enemies"]])
+                                          monster_ids=[e["id"] for e in view["enemies"]],
+                                          actor_action_id=action.id, teacher_executed=execute_teacher)
+                            result["teacher_disagreements"] += action.id != record["chosen_action_id"]
+                            regret = record["estimates"][record["chosen_action_id"]]["mean_return"] - record["estimates"][action.id]["mean_return"]
+                            record["actor_estimated_regret"] = regret
+                            result["queried_actor_regret_sum"] += regret
+                            result["queried_actor_positive_regret"] += regret > 1e-6
+                            if execute_teacher:
+                                action = next(a for a in actions if a.id == record["chosen_action_id"])
+                                result["teacher_overrides"] += action.id != record["actor_action_id"]
+                            record["executed_action_id"] = action.id
                             records.append(record)
-                            action = next(a for a in actions if a.id == record["chosen_action_id"])
                             fight_roots += 1
                             turn_roots[turn] += 1
                             taught.update(e["id"] for e in view["enemies"])

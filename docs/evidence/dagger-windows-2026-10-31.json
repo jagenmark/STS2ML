@@ -1,0 +1,46 @@
+{
+  "recorded_utc": "2026-10-31T09:05:36.565265+00:00",
+  "unit_tests": 159,
+  "native_qualification": {
+    "passed": true,
+    "identical_native_commands_and_observations": true,
+    "teacher_labels": 4,
+    "teacher_action_disagreements": 3,
+    "teacher_overrides": 0,
+    "purpose": "Integration qualification only; these rows never enter training/evaluation"
+  },
+  "aggregate_source": {
+    "experiment": "a7-20261031-000554",
+    "verified_decisions": 1934,
+    "inherited_split_groups": 32
+  },
+  "protocol": {
+    "ascension": 7,
+    "runs": 64,
+    "workers": 4,
+    "samples": 4,
+    "roots_per_fight": 12,
+    "query_probability": 0.5,
+    "epochs": 20,
+    "fresh_evaluation_seeds": 32,
+    "evaluation_roles": [
+      "heuristic",
+      "previous_micro",
+      "micro",
+      "teacher"
+    ]
+  },
+  "interpretation": "Teacher performance suggests useful labels; learner-state coverage is a hypothesis to test, not a proven explanation.",
+  "pipeline_qualification": {
+    "status": "complete",
+    "new_runs": 10,
+    "new_labels": 51,
+    "search_errors": 0,
+    "teacher_overrides": 0,
+    "aggregate_fit_decisions": 1985,
+    "inherited_split_groups": 32,
+    "old_split_unchanged": true,
+    "gpu_epochs": 1,
+    "purpose": "Integration only; smoke rows and model excluded from the real experiment."
+  }
+}

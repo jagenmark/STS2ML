@@ -505,6 +505,83 @@
         "run_errors": []
       }
     },
-    "note": "Teacher arm pending. No student improvement demonstrated. Separate collection clears cannot substitute for paired held-out teacher outcomes."
+    "note": "Teacher arm pending. No student improvement demonstrated. Separate collection clears cannot substitute for paired held-out teacher outcomes.",
+    "superseded_by": "large_collection_final_evaluation"
+  },
+  "large_collection_final_evaluation": {
+    "recorded_utc": "2026-10-31T09:05:36.565265+00:00",
+    "attempted_seed_groups": 32,
+    "complete_paired_seed_groups": 32,
+    "excluded_pair_indices": [],
+    "policies": {
+      "heuristic": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 8.6875,
+        "mean_seconds": 1.8151495875001729,
+        "median_seconds": 1.5992513000001054,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "micro": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 0,
+        "clear_rate_over_completed": 0.0,
+        "mean_max_floor": 8.25,
+        "mean_seconds": 9.24370576249953,
+        "median_seconds": 8.352578200001517,
+        "search_errors": 0,
+        "run_errors": []
+      },
+      "teacher": {
+        "attempted": 32,
+        "completed": 32,
+        "act1_clears": 2,
+        "clear_rate_over_completed": 0.0625,
+        "mean_max_floor": 11.40625,
+        "mean_seconds": 382.971520221874,
+        "median_seconds": 223.8243946500006,
+        "search_errors": 0,
+        "run_errors": []
+      }
+    },
+    "comparisons": {
+      "heuristic_vs_micro": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 0,
+        "both_clear": 0,
+        "neither_clears": 32,
+        "mean_floor_difference_left_minus_right": 0.4375,
+        "mean_seconds_difference_left_minus_right": -7.428556174999358
+      },
+      "heuristic_vs_teacher": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 2,
+        "both_clear": 0,
+        "neither_clears": 30,
+        "mean_floor_difference_left_minus_right": -2.71875,
+        "mean_seconds_difference_left_minus_right": -381.15637063437384
+      },
+      "micro_vs_teacher": {
+        "paired_runs": 32,
+        "left_only_clears": 0,
+        "right_only_clears": 2,
+        "both_clear": 0,
+        "neither_clears": 30,
+        "mean_floor_difference_left_minus_right": -3.15625,
+        "mean_seconds_difference_left_minus_right": -373.7278144593745
+      }
+    },
+    "limitations": [
+      "Errors are not defeats; paired comparisons exclude a seed if any policy failed.",
+      "MC policy searches only configured roots, with heuristic continuation and fallback.",
+      "Same macro policy and random seed, but combat outcomes can change later choices.",
+      "Small paired sample; these metrics do not establish the cause of a performance gap."
+    ]
   }
 }

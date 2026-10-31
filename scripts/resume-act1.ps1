@@ -49,6 +49,8 @@ foreach ($Sts2Field in @('runs','samples','roots_per_fight','query_probability',
     $Sts2Args += [System.Convert]::ToString($Sts2Config.$Sts2Field, [Globalization.CultureInfo]::InvariantCulture)
 }
 if ($Sts2Config.macro_checkpoint) { $Sts2Args += @('--macro-checkpoint',[string]$Sts2Config.macro_checkpoint) }
+if ($Sts2Config.student_checkpoint) { $Sts2Args += @('--student-checkpoint',[string]$Sts2Config.student_checkpoint) }
+if ($Sts2Config.aggregate_from) { $Sts2Args += @('--aggregate-from',[string]$Sts2Config.aggregate_from) }
 if ($null -ne $Sts2Config.ascension) { $Sts2Args += @('--ascension', [string]$Sts2Config.ascension) }
 if ($Sts2Config.condition_ascension) { $Sts2Args += '--condition-ascension' }
 if ($Sts2Config.host_path) { $Sts2Args += @('--host-path', [string]$Sts2Config.host_path) }

@@ -98,12 +98,21 @@ def teacher_targets(records, device="cpu", temperature=2.0):
     return targets.to(device), torch.tensor(values, device=device)
 
 
-def partition_records(records):
+def partition_records(records, *, inherited_split=None):
     groups = sorted({r["group"] for r in records}, key=lambda g: digest(["micro-split-v1", g]))
     if len(groups) < 10:
         raise ValueError("At least ten independent episode seeds required for train/validation/test")
-    n = max(1, len(groups) // 10)
-    split = {g: ("test" if i < n else "validation" if i < 2*n else "train") for i, g in enumerate(groups)}
+    split = dict(inherited_split or {})
+    if set(split) - set(groups) or any(s not in ("train", "validation", "test") for s in split.values()):
+        raise ValueError("Inherited split contains missing groups or invalid partitions")
+    new_groups = [g for g in groups if g not in split]
+    if new_groups:
+        if len(new_groups) < 10:
+            raise ValueError("Aggregation requires at least ten new independent seed groups")
+        n = max(1, len(new_groups) // 10)
+        split.update({g: ("test" if i < n else "validation" if i < 2*n else "train") for i, g in enumerate(new_groups)})
+    if set(split.values()) != {"train", "validation", "test"}:
+        raise ValueError("Every dataset partition must contain a seed group")
     return {s: [r for r in records if split[r["group"]] == s] for s in ("train", "validation", "test")}, split
 
 
@@ -159,7 +168,7 @@ def evaluate_micro(model, records, vocab, device, *, condition_ascension=False):
             "mean_estimated_regret": regret / len(records)}
 
 
-def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
+def fit_micro(paths, output, *, epochs=20, device="cpu", width=64, inherited_split=None):
     if epochs < 1:
         raise ValueError("Positive epoch count required")
     torch.set_num_threads(2)
@@ -175,7 +184,7 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
         for r in records
     ):
         raise ValueError("Legacy teacher profile requires ascension 10 runtime identity")
-    partitions, split = partition_records(records)
+    partitions, split = partition_records(records, inherited_split=inherited_split)
     conditioned = profile == CURRICULUM_SAMPLER
     ascensions = curriculum_scope(records, partitions) if conditioned else [10]
     vocab = micro_vocabulary([r["observation"] for r in partitions["train"]], condition_ascension=conditioned)
@@ -223,6 +232,7 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64):
     report = {"sampler": profile, "dataset_sha256": digest(records), "decisions": len(records),
               "condition_ascension": conditioned, "trained_ascensions": ascensions,
               "split_groups": dict(Counter(split.values())), "split": split,
+              "inherited_split_groups": len(inherited_split or {}),
               "split_decisions": {k: len(v) for k, v in partitions.items()},
               "coverage_by_split": {k: {
                   "ascension_decisions": dict(Counter(str(r.get("ascension", 10)) for r in rows)),

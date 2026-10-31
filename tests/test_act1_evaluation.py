@@ -80,3 +80,21 @@ def test_one_errored_policy_does_not_prevent_other_policies_being_measured(tmp_p
     assert set(report["policies"]) == {"heuristic", "micro", "teacher"}
     assert report["complete_paired_seed_groups"] == 0
     assert report["comparisons"]["micro_vs_teacher"]["mean_floor_difference_left_minus_right"] is None
+
+
+def test_previous_student_is_evaluated_on_same_new_seeds_without_teacher_assistance(tmp_path, monkeypatch):
+    old, new = object(), object()
+    calls = []
+    def fake_run(root, folder, index, **kwargs):
+        calls.append((folder.name, index, kwargs))
+        return row(index)
+    monkeypatch.setattr("sts2rl.act1_evaluation.run_act1", fake_run)
+    report = evaluate_three_way(tmp_path, tmp_path, episodes=2, prefix="NEW", macro_checkpoint=None,
+        micro_policy=new, previous_policy=old, samples=4, roots_per_fight=12,
+        query_probability=.5, workers=1, protocol={"previous_micro_sha256": "frozen"})
+    assert len(calls) == 8
+    assert report["comparisons"]["previous_micro_vs_micro"]["paired_runs"] == 2
+    for name, index, args in calls:
+        if name == "evaluation-previous_micro":
+            assert args["micro_policy"] is old and not args["teacher"]
+        assert args["prefix"] == "NEW"

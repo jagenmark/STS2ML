@@ -237,6 +237,12 @@ collection clears are teacher-assisted, not evidence of student strength.
 A7/A8 support includes native identity checks, ascension-conditioned inputs and
 checkpoints that enforce the difficulties on which they were trained.
 
+Completed paired tests show **5/32 A7 clears for the MC-assisted teacher** and
+**0/32 for both the student and heuristic**; at A10 the teacher clears 2/32 and
+both others 0/32. The next iteration collects teacher labels on the frozen
+student's own trajectories, retains previous data without moving held-out
+groups into training, and evaluates old/new students on the same fresh seeds.
+
 The first GPU fit used 1,372 decisions from 36,112 native rollout branches.
 On 100 fresh encounter seeds the micro won 99 fights with 4.98 mean HP loss,
 versus 100 wins and 4.82 HP loss for the heuristic. The separate MC teacher

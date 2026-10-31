@@ -59,11 +59,13 @@ def compare_act1(arms):
 
 def evaluate_three_way(root, output, *, episodes, prefix, macro_checkpoint, micro_policy,
                        samples, roots_per_fight, query_probability, workers, protocol,
-                       ascension=10, condition_ascension=False, host_path=None):
+                       ascension=10, condition_ascension=False, host_path=None, previous_policy=None):
     """Run all three policies before reporting failures. Never train on these rows."""
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     roles = {"heuristic": None, "micro": micro_policy, "teacher": None}
+    if previous_policy is not None:
+        roles = {"heuristic": None, "previous_micro": previous_policy, "micro": micro_policy, "teacher": None}
     protocol = {**protocol, "prefix": prefix, "episodes": episodes, "samples": samples,
                 "roots_per_fight": roots_per_fight, "query_probability": query_probability,
                 "workers": workers, "roles": list(roles), "held_out": True}
