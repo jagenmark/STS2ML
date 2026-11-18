@@ -9,7 +9,7 @@ description = "A small, observable-state policy/value research baseline for Slay
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
-dependencies = ["torch>=2.6,<3"]
+dependencies = ["torch>=2.6,<3", "numpy>=1.26"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.9,<1", "psutil>=7,<8"]

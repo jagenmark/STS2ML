@@ -12,6 +12,7 @@ from dataclasses import dataclass
 import math
 from typing import Any
 
+import numpy as np
 import torch
 from torch import nn
 
@@ -168,14 +169,17 @@ def collate_combat(states: list[dict], vocab: Vocabulary, device: str = "cpu", *
     rows = [combat_entities(state, condition_ascension=condition_ascension) for state in states]
     shape = (len(rows), max(map(len, rows)))
     attr_shape = (*shape, max(len(e.attributes) for row in rows for e in row))
+    # Fill CPU buffers before the device transfer. Individual tensor writes
+    # dominate inference time on small, attribute-rich combat observations.
+    float_dtype = torch.get_default_dtype()
     batch = {
-        "entities": torch.zeros(shape, dtype=torch.long),
-        "zones": torch.zeros(shape, dtype=torch.long),
-        "entity_mask": torch.zeros(shape, dtype=torch.bool),
-        "fields": torch.zeros(attr_shape, dtype=torch.long),
-        "symbols": torch.zeros(attr_shape, dtype=torch.long),
-        "numbers": torch.zeros((*attr_shape, 2)),
-        "attribute_mask": torch.zeros(attr_shape, dtype=torch.bool),
+        "entities": np.zeros(shape, dtype=np.int64),
+        "zones": np.zeros(shape, dtype=np.int64),
+        "entity_mask": np.zeros(shape, dtype=np.bool_),
+        "fields": np.zeros(attr_shape, dtype=np.int64),
+        "symbols": np.zeros(attr_shape, dtype=np.int64),
+        "numbers": np.zeros((*attr_shape, 2), dtype=np.float32 if float_dtype == torch.float32 else np.float64),
+        "attribute_mask": np.zeros(attr_shape, dtype=np.bool_),
     }
     for b, row in enumerate(rows):
         for e, entity in enumerate(row):
@@ -192,10 +196,10 @@ def collate_combat(states: list[dict], vocab: Vocabulary, device: str = "cpu", *
                         raise ValueError(f"Non-finite/nonnumeric attribute: {key}")
                     # Signed log scale preserves counter distinctions and avoids
                     # large gold/damage values overwhelming the embeddings.
-                    batch["numbers"][b, e, a] = torch.tensor([
-                        math.copysign(math.log1p(abs(value)), value), 1.0,
-                    ])
-    return {k: v.to(device) for k, v in batch.items()}
+                    batch["numbers"][b, e, a] = (math.copysign(math.log1p(abs(value)), value), 1.0)
+    tensors = {key: torch.from_numpy(array) for key, array in batch.items()}
+    tensors["numbers"] = tensors["numbers"].to(dtype=float_dtype)
+    return {key: tensor.to(device) for key, tensor in tensors.items()}
 
 
 class CombatStateEncoder(nn.Module):

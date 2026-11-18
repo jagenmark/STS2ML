@@ -52,8 +52,10 @@ def collate_micro(states, vocab, device="cpu", *, condition_ascension=False):
                 if entity.zone == "selection_card" and action.kind in ("select_card_reward", "select_bundle"):
                     source = index == args.get("card_index", args.get("bundle_index"))
                 target = entity.zone == "enemy" and "target_index" in args and index == args["target_index"]
-                batch["source"][row, j, k] = float(source)
-                batch["target"][row, j, k] = float(target)
+                if source:
+                    batch["source"][row, j, k] = 1
+                if target:
+                    batch["target"][row, j, k] = 1
     return {k: v.to(device) for k, v in batch.items()}
 
 
