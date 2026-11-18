@@ -167,7 +167,8 @@ def main():
                     _, _, latest = aggregate_source(args.aggregate_from, config)
                     if latest != aggregation:
                         raise RuntimeError("Aggregate dataset changed during collection")
-                fit_micro([*aggregate_paths, *sorted(output.glob("run-*/teacher.jsonl"))], model,
+                current_paths = [output / f"run-{i:05d}" / "teacher.jsonl" for i in range(args.runs)]
+                fit_micro([*aggregate_paths, *current_paths], model,
                           epochs=args.epochs, device=args.device, inherited_split=inherited_split)
             if args.evaluate:
                 save_json(output / "status.json", {**status, "stage": "evaluating"})

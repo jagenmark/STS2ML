@@ -32,9 +32,12 @@ def runtime_identity(ascension):
     return {"character": "SILENT", "ascension": ascension, "assembly_version": ASSEMBLY_VERSION}
 
 
+def canonical_json(value: Any) -> bytes:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+
+
 def digest(value: Any) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"),
-                                     allow_nan=False).encode()).hexdigest()
+    return hashlib.sha256(canonical_json(value)).hexdigest()
 
 
 class NativeError(RuntimeError):

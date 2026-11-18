@@ -5,7 +5,7 @@ import pytest
 
 from sts2rl.act1 import run_act1, save_json
 from sts2rl.aggregation import aggregate_source
-from sts2rl.micro import partition_records
+from sts2rl.micro import fit_micro, partition_records
 from sts2rl.native import CURRICULUM_SAMPLER, digest, legal_actions
 from test_curriculum import curriculum_row, conditioned_state
 
@@ -63,16 +63,16 @@ def test_aggregate_split_never_moves_prior_validation_or_test_into_training():
         partition_records(new, inherited_split=original)
 
 
-def source_fixture(folder):
+def source_fixture(folder, prefix="SOURCE"):
     folder.mkdir()
-    config = {"runs": 10, "evaluate": 3, "prefix": "SOURCE", "sampler": CURRICULUM_SAMPLER,
+    config = {"runs": 10, "evaluate": 3, "prefix": prefix, "sampler": CURRICULUM_SAMPLER,
               "ascension": 7, "macro_sha256": "macro", "runtime_sha256": {"artifacts/upstreams/sts2-cli/lib/sts2.dll": "game"}}
     save_json(folder / "config.json", config)
     save_json(folder / "status.json", {"stage": "complete"})
     rows = []
     for i in range(10):
         row = curriculum_row(i)
-        row["group"] = digest(f"SOURCE{i:06d}")
+        row["group"] = digest(f"{prefix}{i:06d}")
         rows.append(row)
         run = folder / f"run-{i:05d}"
         run.mkdir()
@@ -104,3 +104,47 @@ def test_aggregation_excludes_evaluation_and_checks_fitted_source_integrity(tmp_
     path.write_text(json.dumps(row) + "\n", encoding="utf-8")
     with pytest.raises(ValueError, match="differs from its fitted dataset"):
         aggregate_source(tmp_path / "old", new)
+
+
+def test_repeated_dagger_fits_preserve_ancestry_and_held_out_seeds(tmp_path):
+    original = tmp_path / "original"
+    config, initial_split = source_fixture(original)
+    parent = original
+    for generation in (1, 2):
+        folder = tmp_path / f"round-{generation}"
+        config, _ = source_fixture(folder, prefix=f"ROUND{generation}")
+        paths, split, manifest = aggregate_source(parent, config)
+        config.update(aggregate_from=str(parent), aggregation=manifest)
+        save_json(folder / "config.json", config)
+        # Fit through the runner's normal training entry point on synthetic rows.
+        (folder / "model").rename(folder / "fixture-model")
+        new_paths = sorted(folder.glob("run-*/teacher.jsonl"))
+        report = fit_micro([*paths, *new_paths], folder / "model", epochs=1, width=8, inherited_split=split)
+        assert report["decisions"] == (generation + 1) * 10
+        assert all(report["split"][group] == part for group, part in initial_split.items())
+        parent = folder
+
+    new = {**config, "prefix": "NEXT"}
+    paths, split, manifest = aggregate_source(parent, new)
+    assert len(paths) == len(set(paths)) == len(split) == manifest["decisions"] == 30
+    assert paths[0].parent.parent == original
+    assert manifest["parent"]["decisions"] == 20
+    with pytest.raises(ValueError, match="overlap"):
+        aggregate_source(parent, {**new, "prefix": "SOURCEEVAL"})
+    group = next(group for group, part in initial_split.items() if part == "test")
+    report["split"][group] = "train"
+    save_json(parent / "model/report.json", report)
+    with pytest.raises(ValueError, match="moved an inherited"):
+        aggregate_source(parent, new)
+    # Even whitespace changes must invalidate a pinned ancestor file hash.
+    paths[0].write_bytes(paths[0].read_bytes().rstrip() + b" \n")
+    with pytest.raises(ValueError, match="ancestor differs"):
+        aggregate_source(parent, new)
+
+
+def test_aggregate_rejects_cyclic_ancestry(tmp_path):
+    folder = tmp_path / "cycle"
+    config, _ = source_fixture(folder)
+    save_json(folder / "config.json", {**config, "aggregate_from": str(folder)})
+    with pytest.raises(ValueError, match="Cycle"):
+        aggregate_source(folder, config)

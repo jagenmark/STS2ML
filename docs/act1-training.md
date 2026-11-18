@@ -277,8 +277,14 @@ folders are excluded. Earlier train/validation/test assignments are frozen;
 new seed groups get their own 80/10/10 allocation. The vocabulary is rebuilt
 from training rows only, and the policy is refitted from scratch. Source rows,
 split assignments and the frozen student's weights are fingerprinted in the
-new manifest. Resume rejects changes. The first implementation accepts a
-non-aggregated source; a further generation needs explicit ancestor handling.
+new manifest. Resume rejects changes. For another DAgger round, pass the latest
+completed experiment to `--aggregate-from`, its `model/best.pt` to
+`--student-checkpoint`, and a fresh output directory and seed prefix. Keep the
+earlier experiment directories at their recorded paths. The runner reads each
+round's original collection once per audit, oldest first, and verifies each
+cumulative dataset against the hash recorded at fit time. It also checks the
+pinned file hashes, preserved split assignments, and seed overlap against
+every ancestor, including evaluation seeds and episodes with zero labels.
 
 The final comparison includes **heuristic, previous student, new student and
 MC-assisted teacher**, all on the same new seeds with fixed macro weights.
