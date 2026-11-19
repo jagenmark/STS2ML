@@ -1,0 +1,55 @@
+{
+  "frozen_inference_code": "ae58e880ba336c7e8757a11cc7be65e8082289a4",
+  "continuations": [
+    "public-combat-heuristic-v2",
+    "public-combat-heuristic-v3"
+  ],
+  "restored_training_decisions": [
+    {
+      "decision": "card_reward",
+      "card": "CARD.DEADLY_POISON",
+      "stats": {
+        "poisonpower": 5
+      },
+      "seed": "H2A10TRAIN0004",
+      "act": 2,
+      "floor": 2,
+      "observation_sha256": "bd26cbb8174d5ae20f84b69a562a09e0c5a9d84398e838f577c65b51715984e6",
+      "old_score": -1,
+      "corrected_score": 9
+    },
+    {
+      "decision": "combat_play",
+      "card": "CARD.DEADLY_POISON",
+      "stats": {
+        "poisonpower": 5
+      },
+      "seed": "H2A10TRAIN0006",
+      "act": 1,
+      "floor": 17,
+      "observation_sha256": "66c1b6b0f2cedd5c39889fe00a6d4670658d60c1828bb849e461b4c0592ed405",
+      "old_score": -0.1,
+      "corrected_score": 9.9
+    },
+    {
+      "decision": "combat_play",
+      "card": "CARD.NEUTRALIZE",
+      "stats": {
+        "damage": 3,
+        "weakpower": 1
+      },
+      "seed": "H2A10TRAIN0006",
+      "act": 1,
+      "floor": 17,
+      "observation_sha256": "66c1b6b0f2cedd5c39889fe00a6d4670658d60c1828bb849e461b4c0592ed405",
+      "old_score": 3.0,
+      "corrected_score": 5.0
+    }
+  ],
+  "native_mc_smoke": {
+    "sampler": "silent-a10-starter-beetle-v1",
+    "continuation": "public-combat-heuristic-v3",
+    "branches": 10,
+    "chosen_action_id": "8c219356c6e9f181cdbd"
+  }
+}

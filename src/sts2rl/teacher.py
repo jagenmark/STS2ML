@@ -14,13 +14,49 @@ import time
 
 from .native import ACT1_PROFILES, Action, NativeError, NativeSession, ReplayFork, SAMPLER, digest, legal_actions
 
+LEGACY_CONTINUATION = "public-combat-heuristic-v2"
+CONTINUATION = "public-combat-heuristic-v3"
+
 
 def incoming(enemy: dict) -> float:
     return sum(i.get("total_damage", i.get("damage", 0) * i.get("hits", 1))
                for i in enemy.get("intents") or [])
 
 
-def heuristic_score(state: dict, action: Action) -> float:
+def _debuffs(stats, version):
+    if version == LEGACY_CONTINUATION:
+        return stats.get("weak", 0), stats.get("poison", 0)
+    return (stats.get("weakpower", stats.get("weak", 0)),
+            stats.get("poisonpower", stats.get("poison", 0)))
+
+
+def _debuff_score(card, target, enemies, version):
+    stats = card.get("stats") or {}
+    weak, poison = _debuffs(stats, version)
+    if not (weak or poison):
+        return 0.0
+    if target:
+        if (version == CONTINUATION and card.get("id") == "CARD.BUBBLE_BUBBLE"
+                and not any(p["id"] == "POWER.POISON_POWER" and p["amount"] > 0
+                            for p in target.get("powers") or [])):
+            poison = 0
+        return (incoming(target) * 0.25 if weak else 0) + 2 * poison
+    if version == LEGACY_CONTINUATION or card.get("target_type") not in ("AllEnemies", "RandomEnemy"):
+        return 0.0
+    live = [enemy for enemy in enemies if enemy["hp"] > 0]
+    if not live:
+        return 0.0
+    mitigation = sum(incoming(enemy) * 0.25 for enemy in live) if weak else 0.0
+    if card["target_type"] == "RandomEnemy":
+        hits = stats.get("repeat", 1)
+        chance_to_hit = 1 - (1 - 1 / len(live)) ** hits
+        return chance_to_hit * mitigation + 2 * poison * hits
+    return mitigation + 2 * poison * len(live)
+
+
+def heuristic_score(state: dict, action: Action, *, version=CONTINUATION) -> float:
+    if version not in (CONTINUATION, LEGACY_CONTINUATION):
+        raise ValueError(f"Unknown heuristic continuation {version}")
     if action.kind == "end_turn":
         return 0.0
     if action.kind in ("select_cards", "skip_select"):
@@ -59,13 +95,11 @@ def heuristic_score(state: dict, action: Action) -> float:
             score += min(damage, target["hp"] + target.get("block", 0))
             if damage >= target["hp"] + target.get("block", 0):
                 score += 10 + incoming(target)
-            if stats.get("weak", 0):
-                score += incoming(target) * 0.25
-            score += stats.get("poison", 0) * 2
         elif card.get("type") == "Attack":
             # Public multi-target previews when available; otherwise base damage.
             score += sum(min((card.get("stats") or {}).get("damage", 0), e["hp"] + e.get("block", 0))
                          for e in state["enemies"])
+        score += _debuff_score(card, target, state["enemies"], version)
         if card.get("type") == "Power":
             score += 8  # Generic rollout heuristic; the teacher still compares outcomes.
         score += stats.get("energy", 0) * 5
@@ -79,12 +113,13 @@ def heuristic_score(state: dict, action: Action) -> float:
     if action.kind == "select_card_reward":
         c = next(c for c in state["cards"] if c["index"] == action.args["card_index"])
         v = c.get("stats") or {}
-        return v.get("damage", 0) + v.get("block", 0) + v.get("poison", 0) * 2 - c.get("cost", 0)
+        _, poison = _debuffs(v, version)
+        return v.get("damage", 0) + v.get("block", 0) + poison * 2 - c.get("cost", 0)
     return 0
 
 
-def heuristic(state: dict) -> Action:
-    return max(legal_actions(state), key=lambda a: heuristic_score(state, a))
+def heuristic(state: dict, *, version=CONTINUATION) -> Action:
+    return max(legal_actions(state), key=lambda a: heuristic_score(state, a, version=version))
 
 
 def equivalent_groups(state: dict, actions: list[Action]) -> list[list[Action]]:
@@ -123,7 +158,8 @@ def combat_result(state: dict, *, profile: str = SAMPLER) -> dict | None:
     return None
 
 
-def rollout(worker: NativeSession, first: Action, *, horizon: int = 256, profile: str = SAMPLER) -> dict:
+def rollout(worker: NativeSession, first: Action, *, horizon: int = 256, profile: str = SAMPLER,
+            continuation=CONTINUATION) -> dict:
     potions, escaped = 0, False
     def act(action):
         nonlocal potions, escaped
@@ -141,12 +177,12 @@ def rollout(worker: NativeSession, first: Action, *, horizon: int = 256, profile
                 result["won"] &= not escaped
             return {**result, "steps": step}
         if step < horizon:
-            act(heuristic(worker.state))
+            act(heuristic(worker.state, version=continuation))
     raise NativeError("Rollout truncated; this root must not become a teacher label")
 
 
 def teach_root(worker: NativeSession, fork: ReplayFork, state: dict, *, samples: int = 8,
-               seed: int = 0, horizon: int = 256, profile: str = SAMPLER) -> dict:
+               seed: int = 0, horizon: int = 256, profile: str = SAMPLER, continuation=CONTINUATION) -> dict:
     if samples < 2:
         raise ValueError("At least two chance samples required")
     if state.get("decision") not in ("combat_play", "card_select", "card_reward", "bundle_select") or digest(state) != fork.expected_digest:
@@ -165,7 +201,7 @@ def teach_root(worker: NativeSession, fork: ReplayFork, state: dict, *, samples:
             else:
                 worker.sample(world, profile=profile)
             first = next(a for a in legal_actions(worker.state) if a.id == group[0].id)
-            result = rollout(worker, first, horizon=horizon, profile=profile)
+            result = rollout(worker, first, horizon=horizon, profile=profile, continuation=continuation)
             values.append(result["return"])
             wins.append(result["won"])
             steps.append(result["steps"])
@@ -175,10 +211,11 @@ def teach_root(worker: NativeSession, fork: ReplayFork, state: dict, *, samples:
                 "standard_error": statistics.stdev(values) / math.sqrt(samples),
                 "samples": samples, "win_fraction": statistics.fmean(wins),
                 "mean_steps": statistics.fmean(steps)}
-    best = max(actions, key=lambda a: (estimates[a.id]["mean_return"], heuristic_score(state, a)))
+    best = max(actions, key=lambda a: (
+        estimates[a.id]["mean_return"], heuristic_score(state, a, version=continuation)))
     return {"schema_version": 1, "sampler": profile,
         "observation": deepcopy(state),
         "actions": [{"id": a.id, "kind": a.kind, "args": a.args} for a in actions],
         "estimates": estimates, "chosen_action_id": best.id,
-        "continuation": "public-combat-heuristic-v2", "horizon": horizon,
+        "continuation": continuation, "horizon": horizon,
         "branches": branches, "seconds": time.perf_counter() - started}

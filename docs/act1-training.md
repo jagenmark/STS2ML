@@ -324,6 +324,12 @@ the earlier different seed set. Total collection/fit/evaluation time was
 launch another experiment automatically.
 See [final DAgger evidence](evidence/dagger-windows-2026-10-31.json).
 
+## Monte Carlo continuation after the November 19 release
+
+The v3 continuation reads the native `weakpower` and `poisonpower` fields in combat and uses the same poison lookup for card rewards. In a restored training reward, Deadly Poison with five stacks scored 9 under v3 and −1 under v2. In a restored hand, Neutralize scored 5 under v3 and 3 under v2. The updated teacher completed a ten-branch native smoke test. These are heuristic scores from individual decisions. The published A10 benchmark uses the original release tag. [Native observations and teacher run](evidence/teacher-status-2026-11-19.json)
+
+`CombatSearch` uses this heuristic to nominate an additional candidate and to decide whether to skip a search. Its simulated continuations use `RunPolicy`. The released tactical neural student retains the v2 reference score in the two input columns fitted on that scale. New Monte Carlo rows record their continuation under `continuation`. Keep v2 and v3 labels in separate collections when fitting.
+
 Qualification commands:
 
 ```powershell

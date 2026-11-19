@@ -8,7 +8,7 @@ import numpy as np
 
 from .native import legal_actions
 from .run_policy import IDENTITY, RunPolicy, RunWeights, _card_id, _cost, _damage, _draw_count, _power, _shiv_count
-from .teacher import equivalent_groups, heuristic_score, incoming
+from .teacher import LEGACY_CONTINUATION, equivalent_groups, heuristic_score, incoming
 
 
 def action_examples(state, policy):
@@ -31,7 +31,9 @@ def action_examples(state, policy):
     remaining_damage = {e["index"]: sum(_damage(c, e) for c in playable if c["type"] == "Attack") for e in enemies}
     energy = state["energy"]
     max_score = max(scores)
-    base_scores = [heuristic_score(state, a) for a in reps]
+    # Two columns in the v1 ranker and its archived labels encode this historical
+    # reference score. Native poison and weak stacks have their own columns below.
+    base_scores = [heuristic_score(state, a, version=LEGACY_CONTINUATION) for a in reps]
     max_base = max(base_scores)
     context = [hp, pl["hp"] / 50, pl["block"] / 15, min(2., need / max(1, pl["hp"])),
                inc / 20, need / 20, energy / 3, len(hand) / 6, len(playable) / 5,

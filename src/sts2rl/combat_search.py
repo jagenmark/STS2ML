@@ -63,9 +63,9 @@ class CombatSearch:
         if second is None:
             return primary
         candidates = [primary, second]
-        old = heuristic(state)
-        if which[old.id] not in {which[a.id] for a in candidates}:
-            candidates.append(old)
+        teacher_choice = heuristic(state)
+        if which[teacher_choice.id] not in {which[a.id] for a in candidates}:
+            candidates.append(teacher_choice)
         if len(candidates) == 2 and second.kind == "end_turn" and heuristic_score(state, primary) > 0:
             return primary
         self.attempts += 1
