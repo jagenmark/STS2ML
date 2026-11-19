@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import json
 from pathlib import Path
 
 from .card_effects import deck_engines
+from .act2_hallways import HallwayPlans
 from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, selected_cards
 from .combat_effects import debuff_order, landed_debuffs
@@ -79,12 +80,14 @@ def _sly(card):
 
 class EncounterPolicy(RunPolicy):
     def __init__(
-        self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False
+        self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
+        tender=False
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
         self.mechanics = mechanics
         self.persistent = persistent
+        self.tender = tender
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -146,6 +149,7 @@ class EncounterPolicy(RunPolicy):
         intangible = _power(powers, "INTANGIBLE") > 0
         afterimage = max(0, _power(powers, "AFTERIMAGE"))
         shiv_damage = max(0, 4 + strength + _power(powers, "ACCURACY"))
+        tender = self.tender and any(p["id"] == "POWER.TENDER_POWER" for p in powers)
         count_hits = attack_hits if giant else _count_hits
         total_hit = sum(count_hits(e) for e in enemies)
         inc = total_hit if intangible else sum(incoming(e) for e in enemies)
@@ -375,7 +379,11 @@ class EncounterPolicy(RunPolicy):
                 else shiv
             )
             if not giant_defeated:
-                offense += shiv * (shiv_damage + (2 if name == "CUNNING_POTION" else 0))
+                shiv_hit = shiv_damage + (2 if name == "CUNNING_POTION" else 0)
+                if tender:
+                    offense += sum(max(0, shiv_hit - n - int(not potion)) for n in range(int(shiv)))
+                else:
+                    offense += shiv * shiv_hit
             draw = _draw_count(item)
             if name in ("ESCAPE_PLAN", "FINESSE", "FLASH_OF_STEEL"):
                 draw = 1
@@ -568,6 +576,11 @@ class EncounterPolicy(RunPolicy):
                 - stats.get("hploss", 0) * block_value
             )
             if potion:
+                if (self.tender and name == "ANCIENT_POTION" and not tender
+                        and any(e["id"] == "MONSTER.HUNTER_KILLER" and
+                                any(i["type"] == "Debuff" for i in e.get("intents") or []) for e in enemies)
+                        and not _power(powers, "ARTIFACT")):
+                    raw += 25.0
                 reserve = (7.0 if boss else 10.5 if hard else 14.0) * w.potion
                 reserve /= 1 + 0.53 * (len(potions) >= 2) + min(2.0, need / max(1, hp))
                 return raw - reserve
@@ -597,6 +610,8 @@ class EncounterModel:
         self.mechanics_from_act = data.get("mechanics_from_act", 4)
         self.persistent_from_act = data.get("persistent_from_act", 4)
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
+        self.hallways = HallwayPlans(data["act2_hallways"], STYLES) if "act2_hallways" in data else None
+        self.search_hand = self.beam
         if type(self.sandpit_threshold) is not int or not 0 <= self.sandpit_threshold <= 4:
             raise ValueError("Sandpit threshold must be an integer from zero to four")
         if any(
@@ -649,15 +664,20 @@ class EncounterModel:
             if ctx["room_type"] == "Boss":
                 encounter = (ctx.get("boss") or {}).get("id", "")
                 style = self.overrides.get(encounter, style)
+            plan = self.hallways.select(state, combat_features) if self.hallways else {}
+            if plan:
+                style = replace(STYLES[plan.get("style", style)], **plan.get("style_weights", {}))
+            self.search_hand = plan.get("search", "beam" if self.beam else "greedy") == "beam"
             self.actor = EncounterPolicy(
                 base_policy.weights,
                 style=style,
-                mechanics=ctx["act"] >= self.mechanics_from_act,
-                persistent=ctx["act"] >= self.persistent_from_act,
+                mechanics=plan.get("mechanics", ctx["act"] >= self.mechanics_from_act),
+                persistent=plan.get("persistent", ctx["act"] >= self.persistent_from_act),
+                tender=plan.get("tender", False),
             )
             self.key = key
         actions = legal_actions(state)
-        action = choose_turn(state, self.actor) if self.beam else self.actor.combat(state, actions)
+        action = choose_turn(state, self.actor) if self.search_hand else self.actor.combat(state, actions)
         if self.sandpit_threshold and ctx["room_type"] == "Boss":
             return escape_action(state, actions, action, self.sandpit_threshold)
         return action

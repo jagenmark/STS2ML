@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from .combat_effects import block_preview, debuff_order
 from .enemy_forecast import solo_waterfall_forecast
 from .native import legal_actions
-from .run_policy import _cost, _damage, _power
+from .run_policy import _cost, _damage, _hits, _power
 from .teacher import incoming
 
 
@@ -27,6 +27,8 @@ class Move:
     weak_order: tuple
     debuffs: tuple
     extra: float
+    tender_hits: int = 0
+    tender_block: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,6 +65,10 @@ def choose_turn(state, policy, *, width=6, depth=5):
     revive = any(_power(e.get("powers"), "ILLUSION") or _power(e.get("powers"), "INFESTED") for e in enemies)
     cards = {c["index"]: c for c in state["hand"]}
     potions = {p["index"]: p for p in player["potions"]}
+    tender = getattr(policy, "tender", False) and any(
+        p["id"] == "POWER.TENDER_POWER" for p in state.get("player_powers") or []
+    )
+    card_mask = sum(1 << index for index in cards) if tender else 0
     legacy_dex = _power(state.get("player_powers"), "DEXTERITY") if legacy else 0
     shields = tuple(max(0, _power(e.get("powers"), "ARTIFACT")) for e in enemies)
     if legacy or not any(shields):
@@ -140,7 +146,9 @@ def choose_turn(state, policy, *, width=6, depth=5):
         # effect. Keep the scorer's utility for draw, poison, powers and items.
         residual = intrinsic - board(d, block, weak, terminal=False)
         moves.append(Move(j, 1 << source, cost, bool(item.get("costs_x")), target,
-                          tuple(d), block, weak, tuple(weak_order), tuple(debuffs), residual))
+                          tuple(d), block, weak, tuple(weak_order), tuple(debuffs), residual,
+                          _hits(item) if tender and not potion and item.get("type") == "Attack" else 0,
+                          bool(tender and not potion and ("block" in stats or "calculatedblock" in stats))))
 
     start = Hand((0.,) * size, 0., 0, shields, 0, energy, 0., None)
     beam = [start]
@@ -156,6 +164,15 @@ def choose_turn(state, policy, *, width=6, depth=5):
                     continue
                 damage = tuple(min(h, prev + delta) for h, prev, delta in zip(hp, hand.damage, m.damage, strict=True))
                 block, weak = hand.block + m.block, hand.weak | m.weak
+                if tender:
+                    # Current native previews already include cards actually played. Only
+                    # projected cards reduce subsequent values. Drinking a potion plays no card.
+                    prior_cards = (card_mask & hand.used).bit_count()
+                    if prior_cards and m.tender_hits:
+                        damage = tuple(min(h, prev + max(0.0, delta - prior_cards * m.tender_hits))
+                                       for h, prev, delta in zip(hp, hand.damage, m.damage, strict=True))
+                    if prior_cards and m.tender_block:
+                        block = hand.block + max(0.0, m.block - prior_cards)
                 artifact = hand.artifact
                 if artifact:
                     for i, remaining in enumerate(artifact):
