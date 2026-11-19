@@ -1,0 +1,242 @@
+{
+  "lock": {
+    "created_utc": "2026-11-19T22:56:54.832472+00:00",
+    "relationship": "Supplementary study begun after the locked 192-seed test. No changes to the original finalist or reported benchmark. Both policies already existed before that test.",
+    "purpose": "Measure the isolated Frantic Escape setting on fresh full-game starts. The only inference parameter difference is sandpit_threshold=4.",
+    "seeds": [
+      "A10ESCAPEFRESH190000",
+      "A10ESCAPEFRESH190001",
+      "A10ESCAPEFRESH190002",
+      "A10ESCAPEFRESH190003",
+      "A10ESCAPEFRESH190004",
+      "A10ESCAPEFRESH190005",
+      "A10ESCAPEFRESH190006",
+      "A10ESCAPEFRESH190007",
+      "A10ESCAPEFRESH190008",
+      "A10ESCAPEFRESH190009",
+      "A10ESCAPEFRESH190010",
+      "A10ESCAPEFRESH190011",
+      "A10ESCAPEFRESH190012",
+      "A10ESCAPEFRESH190013",
+      "A10ESCAPEFRESH190014",
+      "A10ESCAPEFRESH190015",
+      "A10ESCAPEFRESH190016",
+      "A10ESCAPEFRESH190017",
+      "A10ESCAPEFRESH190018",
+      "A10ESCAPEFRESH190019",
+      "A10ESCAPEFRESH190020",
+      "A10ESCAPEFRESH190021",
+      "A10ESCAPEFRESH190022",
+      "A10ESCAPEFRESH190023",
+      "A10ESCAPEFRESH190024",
+      "A10ESCAPEFRESH190025",
+      "A10ESCAPEFRESH190026",
+      "A10ESCAPEFRESH190027",
+      "A10ESCAPEFRESH190028",
+      "A10ESCAPEFRESH190029",
+      "A10ESCAPEFRESH190030",
+      "A10ESCAPEFRESH190031",
+      "A10ESCAPEFRESH190032",
+      "A10ESCAPEFRESH190033",
+      "A10ESCAPEFRESH190034",
+      "A10ESCAPEFRESH190035",
+      "A10ESCAPEFRESH190036",
+      "A10ESCAPEFRESH190037",
+      "A10ESCAPEFRESH190038",
+      "A10ESCAPEFRESH190039",
+      "A10ESCAPEFRESH190040",
+      "A10ESCAPEFRESH190041",
+      "A10ESCAPEFRESH190042",
+      "A10ESCAPEFRESH190043",
+      "A10ESCAPEFRESH190044",
+      "A10ESCAPEFRESH190045",
+      "A10ESCAPEFRESH190046",
+      "A10ESCAPEFRESH190047",
+      "A10ESCAPEFRESH190048",
+      "A10ESCAPEFRESH190049",
+      "A10ESCAPEFRESH190050",
+      "A10ESCAPEFRESH190051",
+      "A10ESCAPEFRESH190052",
+      "A10ESCAPEFRESH190053",
+      "A10ESCAPEFRESH190054",
+      "A10ESCAPEFRESH190055",
+      "A10ESCAPEFRESH190056",
+      "A10ESCAPEFRESH190057",
+      "A10ESCAPEFRESH190058",
+      "A10ESCAPEFRESH190059",
+      "A10ESCAPEFRESH190060",
+      "A10ESCAPEFRESH190061",
+      "A10ESCAPEFRESH190062",
+      "A10ESCAPEFRESH190063",
+      "A10ESCAPEFRESH190064",
+      "A10ESCAPEFRESH190065",
+      "A10ESCAPEFRESH190066",
+      "A10ESCAPEFRESH190067",
+      "A10ESCAPEFRESH190068",
+      "A10ESCAPEFRESH190069",
+      "A10ESCAPEFRESH190070",
+      "A10ESCAPEFRESH190071",
+      "A10ESCAPEFRESH190072",
+      "A10ESCAPEFRESH190073",
+      "A10ESCAPEFRESH190074",
+      "A10ESCAPEFRESH190075",
+      "A10ESCAPEFRESH190076",
+      "A10ESCAPEFRESH190077",
+      "A10ESCAPEFRESH190078",
+      "A10ESCAPEFRESH190079",
+      "A10ESCAPEFRESH190080",
+      "A10ESCAPEFRESH190081",
+      "A10ESCAPEFRESH190082",
+      "A10ESCAPEFRESH190083",
+      "A10ESCAPEFRESH190084",
+      "A10ESCAPEFRESH190085",
+      "A10ESCAPEFRESH190086",
+      "A10ESCAPEFRESH190087",
+      "A10ESCAPEFRESH190088",
+      "A10ESCAPEFRESH190089",
+      "A10ESCAPEFRESH190090",
+      "A10ESCAPEFRESH190091",
+      "A10ESCAPEFRESH190092",
+      "A10ESCAPEFRESH190093",
+      "A10ESCAPEFRESH190094",
+      "A10ESCAPEFRESH190095"
+    ],
+    "control_sha256": "9360052b403c81ebe2e348181d070e3c8f0ba2db6b62444a999fedc103e7654b",
+    "escape_sha256": "3f88d4c903b97e7e67bc9de269015f6340eacf387f700d55328ba4651b8bde43",
+    "endpoints": [
+      "win",
+      "a2_clear",
+      "a1_clear"
+    ],
+    "code_commit": "1fb8cc9ac5a8bc2eb10e752a520936136abc54e6"
+  },
+  "actual_parameter_change": {
+    "encounter_model.sandpit_threshold": [
+      0,
+      4
+    ]
+  },
+  "native_comparison": {
+    "policy_retries": 0,
+    "first_replay_failures": 0,
+    "winning_reruns": [],
+    "verified_actions": 47088,
+    "receipt_sha256": "6c4146bbcf68494f7c0b296a6d040b73be7586662e2e197313ed80a9cb6dbe17",
+    "suites": {
+      "seeded": {
+        "paired_verified": 96,
+        "arms": {
+          "incumbent": {
+            "attempted": 96,
+            "completed": 96,
+            "replayed": 96,
+            "unresolved": [],
+            "all_verified": {
+              "win": 0,
+              "a2_clear": 0,
+              "a1_clear": 32
+            },
+            "paired": {
+              "win": 0,
+              "a2_clear": 0,
+              "a1_clear": 32
+            },
+            "paired_act1_boss_entries": 74,
+            "paired_act2_boss_entries": 9,
+            "paired_act3_boss_entries": 0,
+            "paired_first_acts": {
+              "Underdocks": 52,
+              "Overgrowth": 44
+            },
+            "winning_seeds": [],
+            "paired_by_first_act": {
+              "Underdocks": {
+                "pairs": 52,
+                "win": 0,
+                "a2_clear": 0,
+                "a1_clear": 17
+              },
+              "Overgrowth": {
+                "pairs": 44,
+                "win": 0,
+                "a2_clear": 0,
+                "a1_clear": 15
+              }
+            }
+          },
+          "challenger": {
+            "attempted": 96,
+            "completed": 96,
+            "replayed": 96,
+            "unresolved": [],
+            "all_verified": {
+              "win": 0,
+              "a2_clear": 0,
+              "a1_clear": 32
+            },
+            "paired": {
+              "win": 0,
+              "a2_clear": 0,
+              "a1_clear": 32
+            },
+            "paired_act1_boss_entries": 74,
+            "paired_act2_boss_entries": 9,
+            "paired_act3_boss_entries": 0,
+            "paired_first_acts": {
+              "Underdocks": 52,
+              "Overgrowth": 44
+            },
+            "winning_seeds": [],
+            "paired_by_first_act": {
+              "Underdocks": {
+                "pairs": 52,
+                "win": 0,
+                "a2_clear": 0,
+                "a1_clear": 17
+              },
+              "Overgrowth": {
+                "pairs": 44,
+                "win": 0,
+                "a2_clear": 0,
+                "a1_clear": 15
+              }
+            }
+          }
+        },
+        "discordance": {
+          "win": {
+            "incumbent": 0,
+            "challenger": 0
+          },
+          "a2_clear": {
+            "incumbent": 0,
+            "challenger": 0
+          },
+          "a1_clear": {
+            "incumbent": 0,
+            "challenger": 0
+          }
+        },
+        "paired_exact_p": {
+          "win": 1.0,
+          "a2_clear": 1.0,
+          "a1_clear": 1.0
+        }
+      }
+    }
+  },
+  "raw_outcomes": {
+    "incumbent": {
+      "a1_clear": 32,
+      "a2_clear": 0,
+      "win": 0
+    },
+    "challenger": {
+      "a1_clear": 32,
+      "a2_clear": 0,
+      "win": 0
+    }
+  },
+  "identical_physical_action_sequences": 92,
+  "evidence_sha256": "348541172b28fccc66080e6c05cf8192bb1ebff3bd47078930bbc6f4c40988d2"
+}

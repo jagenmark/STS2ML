@@ -14,6 +14,16 @@ frozen checkpoints and 184 verified later-act openings for continued training.
 To use the trained weights on Helmer or another machine, follow the
 [checkpoint and training-data handoff](docs/silent-a10-handoff.md).
 
+A separate boss-policy experiment reached Act 3 on two of 192 new standard-lobby
+seeds, compared with one for the published challenger. Both finished with zero
+full victories. The experiment includes a portable model and the scores of all
+1,456 of its draft decisions. [Experiment and weights](releases/silent-a10-encounter-draft/README.md) · [Read a draft decision](docs/silent-a10-draft-scores.md)
+
+A follow-up isolated the Frantic Escape rule on 96 additional paired seeds.
+It changed the action history in four games. Both policies entered Act 2 on
+32 seeds and ended with zero Act 3 entries or full victories. All 192 terminal
+states replayed. [Separate seed lock and comparison](docs/evidence/silent-a10-escape-only.json) · [Native action histories](docs/evidence/silent-a10-escape-only-games.jsonl.gz)
+
 **Active target:** Steam public beta **v0.111.0**, **Silent A10**, with an explicit
 **A7 Act 1 curriculum** for combat learning. All five
 characters remain the longer-term goal. Each patch has its own data, vocabulary,

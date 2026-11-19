@@ -1,0 +1,48 @@
+{
+  "source_revision_fetched_from_github": "1fb8cc9ac5a8bc2eb10e752a520936136abc54e6",
+  "cold_checkout_autocrlf": "true",
+  "operating_system": "Linux",
+  "remote_policy_zip_sha256": "6b740d5bec3644305652557c371748e0d25dcb488f6809011e3454ae9cf8a8b8",
+  "remote_training_zip_sha256": "9b8fae7666c81a4c00375dfa28132a06cb444169f4b4f655c5c6444c7af48ce8",
+  "original_host_sha256": "c460e7e58b6ee46218fac2ad08db9572a69eab965dc40b186cf2c982062a251e",
+  "independent_host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+  "description": "The independent native host played all 192 locked seeds from a fresh GitHub checkout using the extracted model ZIP. Both training stages were refit from the downloaded experiment labels and the original archived public decision states.",
+  "matching_episodes": {
+    "complete": 192,
+    "identical_first_state": 192,
+    "identical_action_sequence": 192,
+    "identical_public_action_responses": 191,
+    "identical_terminal": 191,
+    "same_endpoints": 192,
+    "identical_full_draft_logs": 192,
+    "identical_draft_choices": 192
+  },
+  "cold_outcomes": {
+    "a1_clear": 58,
+    "a2_clear": 2,
+    "win": 0
+  },
+  "actions_on_second_build": 42845,
+  "drafts_on_second_build": 1456,
+  "differences": [
+    {
+      "seed": "A10POOLTEST190189",
+      "differences": [
+        "identical_public_action_responses",
+        "identical_terminal"
+      ]
+    }
+  ],
+  "refits_byte_identical_to_frozen_training_outputs": {
+    "opening": {
+      "fit.json": "8c80874847ad4703e712eebc874b1c744a006400dd8dbd8c832b242f9f824c14",
+      "selected.json": "ec8480a7c5c33f78fa70350eb3bddc6dde69441383b2175710619eb190550108",
+      "regularized.json": "5dc1b72f1d60092d1beea95fa230f3ea352f089fcb06d39c4437e85df1ab714a"
+    },
+    "late": {
+      "fit.json": "d2b9b7eaff28abdc2893f38486b753a3ab10204e56a3e46b0a967e878b94578d",
+      "selected.json": "f551e60fd6e7463f5e4175c053801d4730ff9633330f1cf6e2e0037cd028b71e",
+      "regularized.json": "f551e60fd6e7463f5e4175c053801d4730ff9633330f1cf6e2e0037cd028b71e"
+    }
+  }
+}
