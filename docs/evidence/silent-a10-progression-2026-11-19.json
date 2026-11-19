@@ -1,0 +1,1247 @@
+{
+  "target": "Silent, solo A10, Steam public beta v0.111.0",
+  "started_utc": "2026-11-19T01:04:40+00:00",
+  "evidence_created_utc": "2026-11-19T02:57:55.085915+00:00",
+  "selection": {
+    "frozen_at": "2026-11-19T02:35:32.384921+00:00",
+    "selected": "late-draft",
+    "policy_sha256": {
+      "challenger": "9360052b403c81ebe2e348181d070e3c8f0ba2db6b62444a999fedc103e7654b",
+      "incumbent": "f34aa5c95e8767bafc666d56e540059b7ba0aadf632de128da7e7678b7a0483d"
+    },
+    "source_commit": "ae58e880ba336c7e8757a11cc7be65e8082289a4",
+    "native": {
+      "revision": "fec723a21741a1a33a4f54dc9b28c50df31d6e45",
+      "sha256": {
+        "src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll": "c460e7e58b6ee46218fac2ad08db9572a69eab965dc40b186cf2c982062a251e",
+        "src/Sts2Headless/bin/Curriculum/net9.0/GodotSharp.dll": "1d69b6505490dca174e58663534619af1ba7fc98bde6ddb0243157ceafc1fdf7",
+        "lib/sts2.dll": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b"
+      }
+    },
+    "selection_rule": {
+      "recorded_at": "2026-11-19T02:32:38.999212+00:00",
+      "primary_objective": "verified full native victory",
+      "shortlist": {
+        "merchant": [
+          "conf-merchant",
+          "mixed-dev-merchant"
+        ],
+        "formation": [
+          "conf-formation",
+          "mixed-dev-formation"
+        ],
+        "late-draft": [
+          "conf-late-draft",
+          "mixed-dev-late-draft"
+        ],
+        "combined": [
+          "conf-combined",
+          "mixed-dev-combined"
+        ]
+      },
+      "selection": "Across paired completed development games on both H2A10CONF (128) and H2A10MIXDEV (96), maximize full wins first, then Act 3 entries, then Act 2 entries, then total depth. Four finalists have a complete shared comparison. Further experimental arms qualify for a challenger slot if they win a natural development game, then receive the same paired comparison within the time budget.",
+      "final_sets": "No H2A10FINAL or H2A10MIXED seeds have been evaluated."
+    },
+    "development": {
+      "merchant": [
+        {
+          "n": 128,
+          "wins": 0,
+          "act3": 3,
+          "act2": 39,
+          "depth": 2240
+        },
+        {
+          "n": 96,
+          "wins": 0,
+          "act3": 1,
+          "act2": 36,
+          "depth": 1873
+        }
+      ],
+      "formation": [
+        {
+          "n": 128,
+          "wins": 0,
+          "act3": 3,
+          "act2": 49,
+          "depth": 2365
+        },
+        {
+          "n": 96,
+          "wins": 0,
+          "act3": 1,
+          "act2": 39,
+          "depth": 1895
+        }
+      ],
+      "late-draft": [
+        {
+          "n": 128,
+          "wins": 0,
+          "act3": 4,
+          "act2": 39,
+          "depth": 2278
+        },
+        {
+          "n": 96,
+          "wins": 0,
+          "act3": 3,
+          "act2": 36,
+          "depth": 1850
+        }
+      ],
+      "combined": [
+        {
+          "n": 128,
+          "wins": 0,
+          "act3": 3,
+          "act2": 49,
+          "depth": 2364
+        },
+        {
+          "n": 96,
+          "wins": 0,
+          "act3": 2,
+          "act2": 39,
+          "depth": 1907
+        }
+      ]
+    },
+    "common_development_counts": [
+      128,
+      96
+    ],
+    "source_run": "conf-late-draft"
+  },
+  "final": {
+    "policy_retries": 0,
+    "first_replay_failures": 3,
+    "winning_reruns": [],
+    "verified_actions": 165280,
+    "receipt_sha256": "58efee8a1c69673da6b583899b7de09e3dc0ab9068444a46c53e71b0dace646a",
+    "suites": {
+      "default": {
+        "paired_verified": 254,
+        "arms": {
+          "incumbent": {
+            "attempted": 256,
+            "completed": 256,
+            "replayed": 255,
+            "unresolved": [
+              "H2A10FINAL0090"
+            ],
+            "all_verified": {
+              "win": 0,
+              "a2_clear": 2,
+              "a1_clear": 39
+            },
+            "paired": {
+              "win": 0,
+              "a2_clear": 2,
+              "a1_clear": 39
+            },
+            "paired_act1_boss_entries": 159,
+            "paired_act2_boss_entries": 11,
+            "paired_act3_boss_entries": 0,
+            "paired_first_acts": {
+              "Overgrowth": 254
+            },
+            "winning_seeds": [],
+            "paired_by_first_act": {
+              "Overgrowth": {
+                "pairs": 254,
+                "win": 0,
+                "a2_clear": 2,
+                "a1_clear": 39
+              }
+            }
+          },
+          "challenger": {
+            "attempted": 256,
+            "completed": 256,
+            "replayed": 255,
+            "unresolved": [
+              "H2A10FINAL0104"
+            ],
+            "all_verified": {
+              "win": 0,
+              "a2_clear": 4,
+              "a1_clear": 73
+            },
+            "paired": {
+              "win": 0,
+              "a2_clear": 4,
+              "a1_clear": 73
+            },
+            "paired_act1_boss_entries": 184,
+            "paired_act2_boss_entries": 17,
+            "paired_act3_boss_entries": 1,
+            "paired_first_acts": {
+              "Overgrowth": 254
+            },
+            "winning_seeds": [],
+            "paired_by_first_act": {
+              "Overgrowth": {
+                "pairs": 254,
+                "win": 0,
+                "a2_clear": 4,
+                "a1_clear": 73
+              }
+            }
+          }
+        },
+        "discordance": {
+          "win": {
+            "incumbent": 0,
+            "challenger": 0
+          },
+          "a2_clear": {
+            "incumbent": 1,
+            "challenger": 3
+          },
+          "a1_clear": {
+            "incumbent": 16,
+            "challenger": 50
+          }
+        },
+        "paired_exact_p": {
+          "win": 1.0,
+          "a2_clear": 0.625,
+          "a1_clear": 3.328235017032062e-05
+        }
+      },
+      "seeded": {
+        "paired_verified": 128,
+        "arms": {
+          "incumbent": {
+            "attempted": 128,
+            "completed": 128,
+            "replayed": 128,
+            "unresolved": [],
+            "all_verified": {
+              "win": 0,
+              "a2_clear": 1,
+              "a1_clear": 23
+            },
+            "paired": {
+              "win": 0,
+              "a2_clear": 1,
+              "a1_clear": 23
+            },
+            "paired_act1_boss_entries": 73,
+            "paired_act2_boss_entries": 4,
+            "paired_act3_boss_entries": 0,
+            "paired_first_acts": {
+              "Overgrowth": 69,
+              "Underdocks": 59
+            },
+            "winning_seeds": [],
+            "paired_by_first_act": {
+              "Overgrowth": {
+                "pairs": 69,
+                "win": 0,
+                "a2_clear": 0,
+                "a1_clear": 12
+              },
+              "Underdocks": {
+                "pairs": 59,
+                "win": 0,
+                "a2_clear": 1,
+                "a1_clear": 11
+              }
+            }
+          },
+          "challenger": {
+            "attempted": 128,
+            "completed": 128,
+            "replayed": 128,
+            "unresolved": [],
+            "all_verified": {
+              "win": 0,
+              "a2_clear": 2,
+              "a1_clear": 37
+            },
+            "paired": {
+              "win": 0,
+              "a2_clear": 2,
+              "a1_clear": 37
+            },
+            "paired_act1_boss_entries": 98,
+            "paired_act2_boss_entries": 9,
+            "paired_act3_boss_entries": 0,
+            "paired_first_acts": {
+              "Overgrowth": 69,
+              "Underdocks": 59
+            },
+            "winning_seeds": [],
+            "paired_by_first_act": {
+              "Overgrowth": {
+                "pairs": 69,
+                "win": 0,
+                "a2_clear": 1,
+                "a1_clear": 19
+              },
+              "Underdocks": {
+                "pairs": 59,
+                "win": 0,
+                "a2_clear": 1,
+                "a1_clear": 18
+              }
+            }
+          }
+        },
+        "discordance": {
+          "win": {
+            "incumbent": 0,
+            "challenger": 0
+          },
+          "a2_clear": {
+            "incumbent": 1,
+            "challenger": 2
+          },
+          "a1_clear": {
+            "incumbent": 11,
+            "challenger": 25
+          }
+        },
+        "paired_exact_p": {
+          "win": 1.0,
+          "a2_clear": 1.0,
+          "a1_clear": 0.028816719655878842
+        }
+      }
+    }
+  },
+  "development_incumbent": {
+    "attempted": 128,
+    "complete": 128,
+    "act2": 26,
+    "act3": 0,
+    "wins": 0,
+    "act3_boss_entries": 0,
+    "errors": {}
+  },
+  "paired_act2_starts": {
+    "incumbent": {
+      "attempted": 82,
+      "complete": 82,
+      "act2": 82,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 0,
+      "errors": {}
+    },
+    "engine": {
+      "attempted": 82,
+      "complete": 82,
+      "act2": 82,
+      "act3": 7,
+      "wins": 0,
+      "act3_boss_entries": 0,
+      "errors": {}
+    }
+  },
+  "paired_act3_starts": {
+    "incumbent": {
+      "attempted": 16,
+      "complete": 16,
+      "act2": 16,
+      "act3": 16,
+      "wins": 0,
+      "act3_boss_entries": 3,
+      "errors": {}
+    },
+    "specialist": {
+      "attempted": 16,
+      "complete": 16,
+      "act2": 16,
+      "act3": 16,
+      "wins": 0,
+      "act3_boss_entries": 4,
+      "errors": {}
+    }
+  },
+  "other_primary_development": {
+    "conf-fitted": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 40,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 1,
+      "errors": {}
+    },
+    "conf-race05": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 39,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 0,
+      "errors": {}
+    },
+    "conf-mechanics": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 39,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 1,
+      "errors": {}
+    },
+    "conf-ancient": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 39,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 1,
+      "errors": {}
+    },
+    "conf-boss-student": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 39,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 0,
+      "errors": {}
+    },
+    "conf-returns": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 41,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 1,
+      "errors": {}
+    },
+    "conf-human": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 29,
+      "act3": 1,
+      "wins": 0,
+      "act3_boss_entries": 0,
+      "errors": {}
+    },
+    "conf-persistent": {
+      "attempted": 128,
+      "complete": 128,
+      "act2": 49,
+      "act3": 3,
+      "wins": 0,
+      "act3_boss_entries": 2,
+      "errors": {}
+    }
+  },
+  "training": {
+    "normal_self_play": {
+      "attempted": 480,
+      "complete": 480,
+      "act2": 87,
+      "act3": 1,
+      "wins": 0,
+      "act3_boss_entries": 0,
+      "errors": {}
+    },
+    "on_policy_training": {
+      "attempted": 384,
+      "complete": 384,
+      "act2": 105,
+      "act3": 2,
+      "wins": 0,
+      "act3_boss_entries": 1,
+      "errors": {}
+    },
+    "seeded_training": {
+      "attempted": 96,
+      "complete": 96,
+      "act2": 26,
+      "act3": 1,
+      "wins": 0,
+      "act3_boss_entries": 0,
+      "errors": {}
+    },
+    "original_route": {
+      "training_seeds": 800,
+      "unconfirmed_episodes_excluded": 3,
+      "transitions": 12191
+    },
+    "expanded_route": {
+      "training_seeds": 1280,
+      "unconfirmed_episodes_excluded": 3,
+      "transitions": 19688
+    },
+    "original_boss_counts": {
+      "1": 514,
+      "2": 23,
+      "3": 0
+    },
+    "expanded_boss_counts": {
+      "1": 840,
+      "2": 49,
+      "3": 1
+    },
+    "macro_choices": {
+      "roots": 1025,
+      "seeds": 262,
+      "fit_seeds": 209,
+      "fit_roots": 824,
+      "branches": 3548,
+      "by_kind": {
+        "card": 407,
+        "shop": 150,
+        "camp": 141,
+        "event": 177,
+        "neow": 150
+      },
+      "validation": {
+        "shop": {
+          "roots": 33,
+          "mean_gain": -0.3688665554959582
+        },
+        "card": {
+          "roots": 82,
+          "mean_gain": 0.24533012667770843
+        },
+        "event": {
+          "roots": 27,
+          "mean_gain": 0.015595018737418745
+        },
+        "camp": {
+          "roots": 27,
+          "mean_gain": -0.12825788751714673
+        },
+        "neow": {
+          "roots": 32,
+          "mean_gain": 0.015838549854680695
+        }
+      }
+    },
+    "ancient_choices": {
+      "roots": 84,
+      "seeds": 84,
+      "fit_seeds": 66,
+      "fit_roots": 66,
+      "branches": 252,
+      "by_kind": {
+        "ancient": 84
+      },
+      "validation": {
+        "ancient": {
+          "roots": 18,
+          "mean_gain": -0.832832080200501
+        }
+      }
+    },
+    "human_prior": {
+      "source": "https://sts2.fun/cards?character=SILENT&patch=beta-v0.111",
+      "sha256": "7f52138c30bbb7c6415a93e2b2dacc8db9c322d4063746e5a18d24bbe9c8f5d7",
+      "card_and_upgrade_rows": 154,
+      "matched_native_offers": {
+        "train": 325,
+        "validation": 82
+      },
+      "models": {
+        "fitted": {
+          "weight": 0,
+          "pick_reference": 0.17999999999999997,
+          "native_return_gain": {
+            "train": 0.0,
+            "validation": 0.0
+          }
+        },
+        "moderate": {
+          "weight": 2.5,
+          "pick_reference": 0.26,
+          "native_return_gain": {
+            "train": -0.49442731892327185,
+            "validation": -0.08590836975550137
+          }
+        },
+        "strong": {
+          "weight": 6.0,
+          "pick_reference": 0.26,
+          "native_return_gain": {
+            "train": -0.5561675031262265,
+            "validation": -0.10028523442863649
+          }
+        }
+      }
+    },
+    "boss_portfolio": {
+      "roots": 230,
+      "fit_roots": 190,
+      "validation_seeds": 39,
+      "encounters": {
+        "THE_KIN_BOSS": 73,
+        "VANTOM_BOSS": 77,
+        "CEREMONIAL_BEAST_BOSS": 71,
+        "KAISER_CRAB_BOSS": 3,
+        "THE_INSATIABLE_BOSS": 4,
+        "KNOWLEDGE_DEMON_BOSS": 2
+      },
+      "fights": 1840,
+      "validation": {
+        "balanced": {
+          "bosses": 40,
+          "wins": 14,
+          "mean_value": 13.055388522585833
+        },
+        "guard": {
+          "bosses": 40,
+          "wins": 15,
+          "mean_value": 13.772000182791416
+        },
+        "pressure": {
+          "bosses": 40,
+          "wins": 12,
+          "mean_value": 11.511624532982237
+        },
+        "engine": {
+          "bosses": 40,
+          "wins": 13,
+          "mean_value": 12.437522822961862
+        },
+        "leader": {
+          "bosses": 40,
+          "wins": 11,
+          "mean_value": 11.188034684896788
+        },
+        "sustain": {
+          "bosses": 40,
+          "wins": 11,
+          "mean_value": 11.069844311481775
+        },
+        "tempo": {
+          "bosses": 40,
+          "wins": 13,
+          "mean_value": 12.476880797682382
+        },
+        "frugal": {
+          "bosses": 40,
+          "wins": 13,
+          "mean_value": 12.36497468208086
+        },
+        "fitted": {
+          "bosses": 40,
+          "wins": 12,
+          "mean_value": 11.834864422713844
+        }
+      }
+    },
+    "hallway_portfolio": {
+      "roots": 286,
+      "seeds": 104,
+      "fit_roots": 228,
+      "validation_seeds": 21,
+      "encounters": {
+        "MONSTER.TUNNELER": 40,
+        "MONSTER.EXOSKELETON|MONSTER.EXOSKELETON|MONSTER.EXOSKELETON|MONSTER.EXOSKELETON": 11,
+        "MONSTER.BOWLBUG_ROCK|MONSTER.BOWLBUG_EGG": 22,
+        "MONSTER.LOUSE_PROGENITOR": 9,
+        "MONSTER.ENTOMANCER": 11,
+        "MONSTER.THIEVING_HOPPER": 42,
+        "MONSTER.THE_OBSCURA": 14,
+        "MONSTER.BOWLBUG_ROCK|MONSTER.BOWLBUG_NECTAR|MONSTER.BOWLBUG_SILK": 2,
+        "MONSTER.BOWLBUG_ROCK|MONSTER.BOWLBUG_SILK|MONSTER.BOWLBUG_NECTAR": 2,
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT|MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE|MONSTER.DECIMILLIPEDE_SEGMENT_BACK": 8,
+        "MONSTER.EXOSKELETON|MONSTER.EXOSKELETON|MONSTER.EXOSKELETON": 32,
+        "MONSTER.HUNTER_KILLER": 13,
+        "MONSTER.SPINY_TOAD": 14,
+        "MONSTER.BOWLBUG_ROCK|MONSTER.BOWLBUG_NECTAR": 18,
+        "MONSTER.OVICOPTER": 14,
+        "MONSTER.BOWLBUG_ROCK|MONSTER.BOWLBUG_SILK|MONSTER.SLUMBERING_BEETLE": 9,
+        "MONSTER.MYTE|MONSTER.MYTE": 8,
+        "MONSTER.CHOMPER|MONSTER.CHOMPER": 8,
+        "MONSTER.BOWLBUG_ROCK|MONSTER.BOWLBUG_EGG|MONSTER.BOWLBUG_SILK": 2,
+        "MONSTER.BOWLBUG_ROCK|MONSTER.BOWLBUG_SILK|MONSTER.BOWLBUG_EGG": 1,
+        "MONSTER.INFESTED_PRISM": 6
+      },
+      "fights": 1144,
+      "validation": {
+        "engine": {
+          "fights": 58,
+          "wins": 46,
+          "mean_value": 29.176789599585206
+        },
+        "sustain": {
+          "fights": 58,
+          "wins": 44,
+          "mean_value": 28.247822696292314
+        },
+        "tempo": {
+          "fights": 58,
+          "wins": 47,
+          "mean_value": 29.53862464697379
+        },
+        "leader": {
+          "fights": 58,
+          "wins": 46,
+          "mean_value": 29.069337046791837
+        },
+        "fitted": {
+          "fights": 58,
+          "wins": 45,
+          "mean_value": 28.7615135006949
+        }
+      }
+    },
+    "kin_fights": {
+      "sources": 73,
+      "openings": 73,
+      "validations": {
+        "all": {
+          "n": 73,
+          "wins": {
+            "balanced": 14,
+            "engine": 15,
+            "isolate": 24,
+            "sweep": 18
+          },
+          "only_isolate": 11,
+          "only_balanced": 1
+        },
+        "fitting_seeds": {
+          "n": 58,
+          "wins": {
+            "balanced": 12,
+            "engine": 13,
+            "isolate": 20,
+            "sweep": 16
+          },
+          "only_isolate": 9,
+          "only_balanced": 1
+        },
+        "unused_seeds": {
+          "n": 15,
+          "wins": {
+            "balanced": 2,
+            "engine": 2,
+            "isolate": 4,
+            "sweep": 2
+          },
+          "only_isolate": 2,
+          "only_balanced": 0
+        }
+      }
+    },
+    "action_returns": {
+      "seeds": 229,
+      "roots": 1374,
+      "branches": 6138,
+      "return_varies": 1171,
+      "room_counts": {
+        "Monster": 1015,
+        "Elite": 132,
+        "Boss": 227
+      },
+      "train_roots": 1074,
+      "val": {
+        "roots": 162,
+        "mae_huber": 1.1906041952644075,
+        "pair_loss": 0.46585960189501446,
+        "gain_over_greedy": -0.05599234567901229,
+        "changes": 21
+      },
+      "test": {
+        "roots": 138,
+        "mae_huber": 1.230245769294189,
+        "pair_loss": 0.580591231584549,
+        "gain_over_greedy": 0.014592463768115932,
+        "changes": 28
+      }
+    },
+    "boss_distillation": {
+      "seeds": 206,
+      "counts": {
+        "train": 5725,
+        "val": 664,
+        "test": 631
+      },
+      "training_outcomes": {
+        "True": 3099,
+        "False": 2626
+      },
+      "val": {
+        "n": 664,
+        "teacher_matches": 604,
+        "base_matches": 607,
+        "cross_entropy": 0.2701366701159758
+      },
+      "test": {
+        "n": 631,
+        "teacher_matches": 559,
+        "base_matches": 564,
+        "cross_entropy": 0.30368957016305503
+      }
+    }
+  },
+  "qualification": {
+    "native_regressions_attempted": 17,
+    "native_regressions_verified": 17,
+    "controlled_native_fixture": {
+      "passed": true,
+      "jungle_options": 2,
+      "native_gold_and_hp_verified": true,
+      "dense_native_heal_and_fight_verified": true,
+      "trial_verdict_and_confirmation_verified": true,
+      "underdocks_event_and_elite_verified": true,
+      "double_boss_verified": true
+    },
+    "lobby_first_acts": {
+      "default": [
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth"
+      ],
+      "seeded": [
+        "Underdocks",
+        "Underdocks",
+        "Underdocks",
+        "Overgrowth",
+        "Overgrowth",
+        "Overgrowth",
+        "Underdocks",
+        "Underdocks",
+        "Underdocks",
+        "Underdocks",
+        "Overgrowth",
+        "Overgrowth"
+      ]
+    },
+    "rebuilt_host": {
+      "revision": "fec723a21741a1a33a4f54dc9b28c50df31d6e45",
+      "sha256": {
+        "src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+        "src/Sts2Headless/bin/Curriculum/net9.0/GodotSharp.dll": "9e0f99a6d0e21ad5dc244f69bd762a0bbbc80dbf8fe9a8f05006b3aa2b359a44",
+        "lib/sts2.dll": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b"
+      }
+    },
+    "independent_rebuild_smoke": {
+      "replayed": 12,
+      "verified": 12,
+      "actions": 2136
+    },
+    "independent_rebuild_final": {
+      "replayed": 24,
+      "verified": 24,
+      "actions": 5151
+    },
+    "python_tests": "178 passed in 35.07s",
+    "independent_development_boss_openings": {
+      "verified": 17,
+      "replayed_actions": 8564
+    }
+  },
+  "terminal_diagnostics": [
+    {
+      "seed": "H2A10FINAL0104",
+      "arm": "challenger",
+      "profile": "default",
+      "build": "host-v9",
+      "method": "logged-commands",
+      "confirmed_outcome": true,
+      "same_terminal": false,
+      "actual_terminal": "794d86a4c132aa03000f4f0c3bcc9b5920e1b57d9fc963e8e109c3532bb0dfc0",
+      "expected_terminal": "400874260e9039a8ad188594da8878a952eec1aac52e910e8b1aa6644e7388d1",
+      "actions": 92,
+      "records": 97,
+      "first_mismatch": {
+        "index": 96,
+        "command": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "decision": "game_over",
+        "expected": "400874260e9039a8ad188594da8878a952eec1aac52e910e8b1aa6644e7388d1",
+        "actual": "794d86a4c132aa03000f4f0c3bcc9b5920e1b57d9fc963e8e109c3532bb0dfc0"
+      },
+      "act": 1,
+      "floor": 5,
+      "win": false
+    },
+    {
+      "seed": "H2A10FINAL0104",
+      "arm": "challenger",
+      "profile": "default",
+      "build": "host-v9",
+      "method": "frozen-policy",
+      "confirmed_outcome": true,
+      "status": "complete",
+      "act": 1,
+      "floor": 5,
+      "win": false,
+      "same_terminal": false,
+      "actual_terminal": "794d86a4c132aa03000f4f0c3bcc9b5920e1b57d9fc963e8e109c3532bb0dfc0",
+      "expected_terminal": "400874260e9039a8ad188594da8878a952eec1aac52e910e8b1aa6644e7388d1"
+    },
+    {
+      "seed": "H2A10FINAL0104",
+      "arm": "challenger",
+      "profile": "default",
+      "build": "rebuilt-host",
+      "method": "logged-commands",
+      "confirmed_outcome": true,
+      "same_terminal": false,
+      "actual_terminal": "794d86a4c132aa03000f4f0c3bcc9b5920e1b57d9fc963e8e109c3532bb0dfc0",
+      "expected_terminal": "400874260e9039a8ad188594da8878a952eec1aac52e910e8b1aa6644e7388d1",
+      "actions": 92,
+      "records": 97,
+      "first_mismatch": {
+        "index": 96,
+        "command": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "decision": "game_over",
+        "expected": "400874260e9039a8ad188594da8878a952eec1aac52e910e8b1aa6644e7388d1",
+        "actual": "794d86a4c132aa03000f4f0c3bcc9b5920e1b57d9fc963e8e109c3532bb0dfc0"
+      },
+      "act": 1,
+      "floor": 5,
+      "win": false
+    },
+    {
+      "seed": "H2A10FINAL0104",
+      "arm": "challenger",
+      "profile": "default",
+      "build": "rebuilt-host",
+      "method": "frozen-policy",
+      "confirmed_outcome": true,
+      "status": "complete",
+      "act": 1,
+      "floor": 5,
+      "win": false,
+      "same_terminal": false,
+      "actual_terminal": "794d86a4c132aa03000f4f0c3bcc9b5920e1b57d9fc963e8e109c3532bb0dfc0",
+      "expected_terminal": "400874260e9039a8ad188594da8878a952eec1aac52e910e8b1aa6644e7388d1"
+    },
+    {
+      "seed": "H2A10FINAL0090",
+      "arm": "incumbent",
+      "profile": "default",
+      "build": "host-v9",
+      "method": "logged-commands",
+      "confirmed_outcome": true,
+      "same_terminal": false,
+      "actual_terminal": "eb69e87b0694afd6cca5e6098e3203a4afb9eee60de5b630c6a0a75d1245e350",
+      "expected_terminal": "ba24b6c44a77f6263dbe2928221feb653eaed80eaf9bb1dfeb89b47047da0a0f",
+      "actions": 311,
+      "records": 334,
+      "first_mismatch": {
+        "index": 333,
+        "command": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "decision": "game_over",
+        "expected": "ba24b6c44a77f6263dbe2928221feb653eaed80eaf9bb1dfeb89b47047da0a0f",
+        "actual": "eb69e87b0694afd6cca5e6098e3203a4afb9eee60de5b630c6a0a75d1245e350"
+      },
+      "act": 2,
+      "floor": 6,
+      "win": false
+    },
+    {
+      "seed": "H2A10FINAL0090",
+      "arm": "incumbent",
+      "profile": "default",
+      "build": "host-v9",
+      "method": "frozen-policy",
+      "confirmed_outcome": true,
+      "status": "complete",
+      "act": 2,
+      "floor": 6,
+      "win": false,
+      "same_terminal": false,
+      "actual_terminal": "eb69e87b0694afd6cca5e6098e3203a4afb9eee60de5b630c6a0a75d1245e350",
+      "expected_terminal": "ba24b6c44a77f6263dbe2928221feb653eaed80eaf9bb1dfeb89b47047da0a0f"
+    },
+    {
+      "seed": "H2A10FINAL0090",
+      "arm": "incumbent",
+      "profile": "default",
+      "build": "rebuilt-host",
+      "method": "logged-commands",
+      "confirmed_outcome": true,
+      "same_terminal": false,
+      "actual_terminal": "eb69e87b0694afd6cca5e6098e3203a4afb9eee60de5b630c6a0a75d1245e350",
+      "expected_terminal": "ba24b6c44a77f6263dbe2928221feb653eaed80eaf9bb1dfeb89b47047da0a0f",
+      "actions": 311,
+      "records": 334,
+      "first_mismatch": {
+        "index": 333,
+        "command": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "decision": "game_over",
+        "expected": "ba24b6c44a77f6263dbe2928221feb653eaed80eaf9bb1dfeb89b47047da0a0f",
+        "actual": "eb69e87b0694afd6cca5e6098e3203a4afb9eee60de5b630c6a0a75d1245e350"
+      },
+      "act": 2,
+      "floor": 6,
+      "win": false
+    },
+    {
+      "seed": "H2A10FINAL0090",
+      "arm": "incumbent",
+      "profile": "default",
+      "build": "rebuilt-host",
+      "method": "frozen-policy",
+      "confirmed_outcome": true,
+      "status": "complete",
+      "act": 2,
+      "floor": 6,
+      "win": false,
+      "same_terminal": false,
+      "actual_terminal": "eb69e87b0694afd6cca5e6098e3203a4afb9eee60de5b630c6a0a75d1245e350",
+      "expected_terminal": "ba24b6c44a77f6263dbe2928221feb653eaed80eaf9bb1dfeb89b47047da0a0f"
+    }
+  ],
+  "on_policy_route_extension": {
+    "training": {
+      "prefix": "H2A10NEXTTRAIN",
+      "lobby": "seeded",
+      "attempted": 256,
+      "complete": 256,
+      "retries": 0,
+      "act2": 79,
+      "act3": 7,
+      "wins": 0,
+      "win_checks": []
+    },
+    "fit": {
+      "training_seeds": 1536,
+      "unconfirmed_episodes_excluded": 3,
+      "transitions": 24197
+    },
+    "boss_counts": {
+      "1": 1028,
+      "2": 77,
+      "3": 3
+    },
+    "conditional": {
+      "attempted": 82,
+      "paired": 82,
+      "prior_retries": 0,
+      "updated_retries": 0,
+      "unresolved": [],
+      "frozen": {
+        "wins": 0,
+        "reached_act3": 4,
+        "act2_boss": 28,
+        "mean_floor_progress": 10.74390243902439
+      },
+      "updated": {
+        "wins": 0,
+        "reached_act3": 4,
+        "act2_boss": 30,
+        "mean_floor_progress": 11.012195121951219
+      }
+    }
+  },
+  "act3_curriculum": {
+    "fit_seeds": 12,
+    "fit_games": 96,
+    "fit_complete": 96,
+    "fit_wins": [],
+    "validation": {
+      "default": {
+        "attempted": 10,
+        "paired": 10,
+        "unresolved": [],
+        "frozen": {
+          "wins": 0,
+          "act3_boss": 1,
+          "total_floors": 74
+        },
+        "fitted": {
+          "wins": 0,
+          "act3_boss": 1,
+          "total_floors": 74
+        }
+      },
+      "seeded": {
+        "attempted": 5,
+        "paired": 5,
+        "unresolved": [],
+        "frozen": {
+          "wins": 0,
+          "act3_boss": 0,
+          "total_floors": 32
+        },
+        "fitted": {
+          "wins": 0,
+          "act3_boss": 0,
+          "total_floors": 34
+        }
+      }
+    }
+  },
+  "release_development_openings": {
+    "act_2": {
+      "openings": 82,
+      "verified": 82
+    },
+    "act_3": {
+      "openings": 16,
+      "verified": 16
+    }
+  },
+  "release_standard_openings": {
+    "act_2": {
+      "openings": 79,
+      "verified": 79
+    },
+    "act_3": {
+      "openings": 7,
+      "verified": 7
+    }
+  },
+  "development_final_boss_probe": {
+    "selection": "All distinct Act 3 final boss opening digests in the enumerated development and training runs. The two frozen evaluation prefixes are excluded. Multiple decks or openings on the same seed count separately.",
+    "attempted": 17,
+    "complete": 17,
+    "distinct_seeds": 7,
+    "encounters": {
+      "TEST_SUBJECT_BOSS": 10,
+      "QUEEN_BOSS": 4,
+      "AEONGLASS_BOSS": 3
+    },
+    "fights": 170,
+    "winning_openings": 0,
+    "by_style": {
+      "balanced": 0,
+      "guard": 0,
+      "pressure": 0,
+      "engine": 0,
+      "leader": 0,
+      "sustain": 0,
+      "tempo": 0,
+      "frugal": 0,
+      "isolate": 0,
+      "sweep": 0
+    },
+    "median_starting_hp": 66
+  },
+  "offline_boss_search": {
+    "design": "Four distinct development seeds selected for strongest prior boss damage. Offline privileged fixed-draw trajectory search, up to three rounds of 38 alternative actions. Each best trajectory is checked on an independent native build.",
+    "cases": [
+      {
+        "seed": "H2A10DRAFT0356",
+        "encounter": "TEST_SUBJECT_BOSS",
+        "opening_digest": "135941a31535a6b08dddc7f208476b8cc448d5906f1465e4c64433fb6dcb7938",
+        "style": "pressure",
+        "branches": 114,
+        "initial": {
+          "won": false,
+          "hp": 0,
+          "round": 6,
+          "potions": 1,
+          "remaining": 0.2641509433962264
+        },
+        "best": {
+          "won": false,
+          "hp": 0,
+          "round": 6,
+          "potions": 0,
+          "remaining": 0.08018867924528301
+        },
+        "independent_verification": true,
+        "errors": []
+      },
+      {
+        "seed": "H2A10CONF0067",
+        "encounter": "TEST_SUBJECT_BOSS",
+        "opening_digest": "cb37353510d2d1af57fc36f27f4509e2371dc16293788022da9d51c9f724c580",
+        "style": "balanced",
+        "branches": 114,
+        "initial": {
+          "won": false,
+          "hp": 0,
+          "round": 4,
+          "potions": 1,
+          "remaining": 0.38207547169811323
+        },
+        "best": {
+          "won": false,
+          "hp": 0,
+          "round": 4,
+          "potions": 0,
+          "remaining": 0.3113207547169811
+        },
+        "independent_verification": true,
+        "errors": []
+      },
+      {
+        "seed": "H2A10CONF0103",
+        "encounter": "QUEEN_BOSS",
+        "opening_digest": "8da70d478543c3f9b322faeaed34c828190bab64664ec2894c44fece045e8435",
+        "style": "pressure",
+        "branches": 114,
+        "initial": {
+          "won": false,
+          "hp": 0,
+          "round": 5,
+          "potions": 0,
+          "remaining": 0.6276849642004774
+        },
+        "best": {
+          "won": false,
+          "hp": 0,
+          "round": 6,
+          "potions": 0,
+          "remaining": 0.60381861575179
+        },
+        "independent_verification": true,
+        "errors": []
+      },
+      {
+        "seed": "H2A10CONF0114",
+        "encounter": "QUEEN_BOSS",
+        "opening_digest": "6dbda688ffe245a91bd29d7b97595a79ba7d5d51cd79d6abe06ad99e85cd52e5",
+        "style": "pressure",
+        "branches": 114,
+        "initial": {
+          "won": false,
+          "hp": 0,
+          "round": 4,
+          "potions": 0,
+          "remaining": 0.6515513126491647
+        },
+        "best": {
+          "won": false,
+          "hp": 0,
+          "round": 4,
+          "potions": 0,
+          "remaining": 0.5966587112171837
+        },
+        "independent_verification": true,
+        "errors": []
+      }
+    ]
+  },
+  "release": {
+    "file": "silent-a10-progression-release.zip",
+    "bytes": 4898719,
+    "sha256": "0c1e62d6af862e95020cc95875f6e49843375f32d3fb2dba7afbfc28580a0171",
+    "source_bundle_sha256": "234fc831924e8792be1c08fdbe820dd5336433ddae440b56b0b82a2663cb1fcb"
+  }
+}

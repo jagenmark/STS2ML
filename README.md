@@ -4,11 +4,12 @@ A compact policy/value learning baseline for **Slay the Spire 2**. The intended
 system learns macro decisions from player observations and later improves through
 whole-run reinforcement learning, with search handling tactical combat.
 
-**Current milestone.** Silent A10 policies now play from Neow through native
-terminal outcomes. Learned map and reward choices support a visible-hand
-planner and a neural combat student. The benchmark compares frozen checkpoints
-on shared unseen seeds and requires both Act 3 bosses for a win.
-[Full-run results, checkpoints and training commands](docs/silent-a10.md)
+**Current milestone.** On 128 fresh standard-lobby Silent A10 seeds, the new policy
+entered Act 2 on **37 runs (28.9%)**, up from **23 (18.0%)** for the previous
+neural policy. Across both test suites it entered Act 3 six times and reached
+the first final boss once. Full wins remain **0/384**. The release includes the
+frozen checkpoints and 184 verified later-act openings for continued training.
+[Paired benchmark, models and reproduction commands](docs/silent-a10-progression.md)
 
 **Active target:** Steam public beta **v0.111.0**, **Silent A10**, with an explicit
 **A7 Act 1 curriculum** for combat learning. All five
