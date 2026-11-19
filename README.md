@@ -4,10 +4,11 @@ A compact policy/value learning baseline for **Slay the Spire 2**. The intended
 system learns macro decisions from player observations and later improves through
 whole-run reinforcement learning, with search handling tactical combat.
 
-**Current milestone:** replay-trained card-reward choices plus a native combat
-adapter, verified replay branching and Monte Carlo distillation from ordinary
-**whole Act 1 runs**, with replay-trained reward choices. The broad sampler is
-experimental; the learned player has not yet demonstrated reliable Act 1 clears.
+**Current milestone.** Silent A10 policies now play from Neow through native
+terminal outcomes. Learned map and reward choices support a visible-hand
+planner and a neural combat student. The benchmark compares frozen checkpoints
+on shared unseen seeds and requires both Act 3 bosses for a win.
+[Full-run results, checkpoints and training commands](docs/silent-a10.md)
 
 **Active target:** Steam public beta **v0.111.0**, **Silent A10**, with an explicit
 **A7 Act 1 curriculum** for combat learning. All five
@@ -203,12 +204,11 @@ encoder's forward/backward pass have also run on the desktop RX 9070 XT.
 2. Continue native qualification: legal transitions, selections, route context,
    remaining relic mechanics, and full-run lifecycle. Counter/pile checks are a
    bounded subset, not proof that every visible mechanic is represented.
-3. Implement and validate tactical branching with hidden-state sampling. Generate
-   Monte Carlo action-value targets, then imitate the search teacher with a micro
-   policy using the new combat encoder; improve rollouts through expert iteration.
-4. Start with an **Act 1 curriculum**, logging unique fight/act completions and
-   held-out seed success separately. Increase the horizon as measured success
-   improves; a completed Act 1 is not a full-run win.
+3. Improve combat against the Act 1 bosses. Compare new teachers and students
+   using both boss conversion and full-run outcomes on shared seeds.
+4. Train on naturally reached Act 2 and Act 3 positions. Measure whether a
+   specialist improves full runs from the starter deck, including how often
+   each policy reaches the positions it was trained on.
 5. Add macro reinforcement learning with fight/act rewards, explicit semi-Markov
    boundaries, correct terminal/truncation handling, and paired unseen-seed
    evaluation of the ultimate whole-run win objective.

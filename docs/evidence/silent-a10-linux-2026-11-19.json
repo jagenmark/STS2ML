@@ -1,0 +1,1277 @@
+{
+  "date_utc": "2026-11-19",
+  "target": "Silent solo A10, v0.111.0 on the native headless engine",
+  "frozen_at_utc": "2026-11-19T00:44:21.624918+00:00",
+  "evaluation_source_commit": "22d66d021176a8fefbf68afcb9e63c9d7f7293ad",
+  "protocol": {
+    "target": "Silent solo A10, pinned v0.111.0 headless engine. Train using public decisions on actual native episodes.",
+    "train_prefixes": [
+      "N19A10TEACH",
+      "N19A10SEARCH",
+      "N19A10ROOMFIT",
+      "N19A10OFFER",
+      "N19A10POLISH"
+    ],
+    "development_prefixes": [
+      "N19A10DISC",
+      "N19A10VALA",
+      "N19A10VALB"
+    ],
+    "final_prefix": "N19A10FINAL",
+    "final_count": 128,
+    "final_comparison": "Frozen selected candidate against repository combat heuristic and its original macro policy, on the same unseen seeds 0000..0127. Do not select weights or methods from this comparison.",
+    "primary_outcome": "game_over victory after two distinct Act 3 boss rooms. Native victory after only one Act 3 boss is unverified.",
+    "milestones": [
+      "Act 1 clear (Act 2 entered)",
+      "Act 2 clear (Act 3 entered)"
+    ],
+    "errors": "Report per-arm missing/error/truncation separately. Pair primary outcome comparisons on seeds with both outcomes. Also report clear counts over all attempts.",
+    "additional_training_prefixes": [
+      "N19A10IMIT",
+      "N19A10DAG",
+      "N19A10LATEROUTE",
+      "N19A10FRONTIER"
+    ],
+    "additional_development_prefixes": [
+      "N19A10VALC"
+    ]
+  },
+  "freeze": {
+    "frozen_utc": "2026-11-19T00:44:21.624918+00:00",
+    "source_commit": "22d66d021176a8fefbf68afcb9e63c9d7f7293ad",
+    "test_prefix": "N19A10FINAL",
+    "test_count": 128,
+    "primary_actor": "planner",
+    "secondary_actor": "neural",
+    "selection": "Both candidates reached Act 3 three times across the 48-seed B and 72-seed C development comparisons. The planner reached Act 2 on 21 of these 120 seeds and the neural student on 19. The simpler planner without an Act 2 weight override was selected as primary. The first neural student was frozen as an independently evaluated secondary actor.",
+    "baseline": "Original repository heuristic combat plus original MacroPolicy, with the same native build and seed/index mapping.",
+    "terminal": "Native game_over victory plus two distinct Act 3 boss floors. Complete pairs and all-attempt milestone counts are reported.",
+    "game_sha256": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b",
+    "host_sha256": "661c61e1ecf9c7143a9f6303dfe1ff8eed8486147eff4ad468c072e4ec611004",
+    "stub_sha256": "4e68d9fd077688d27b6ada7969b6e1faeb0dc96b5d30b14cadcdab4bfbfdf6f0",
+    "bundles": {
+      "planner": {
+        "manifest_sha256": "e2310943b2c097036d9697abd724461ac095e4856cc52c3cc11bc79824da2cba",
+        "inputs": {
+          "weights": "cem1/gen-04/weights.json",
+          "room_model": "rooms2.json",
+          "offer_model": "offers/offers.json"
+        },
+        "files": {
+          "weights": {
+            "name": "weights.json",
+            "sha256": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+          },
+          "room_model": {
+            "name": "room_model.json",
+            "sha256": "c8f38a1447cfcc74ee01c3221cb767efaef7c122ef0a8b127ff542660aec903b"
+          },
+          "offer_model": {
+            "name": "offer_model.json",
+            "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+          }
+        }
+      },
+      "neural": {
+        "manifest_sha256": "f34aa5c95e8767bafc666d56e540059b7ba0aadf632de128da7e7678b7a0483d",
+        "inputs": {
+          "weights": "cem2/gen-03/weights.json",
+          "room_model": "rooms.json",
+          "offer_model": "offers/offers.json",
+          "tactical_student": "student1/best.pt"
+        },
+        "files": {
+          "weights": {
+            "name": "weights.json",
+            "sha256": "33bd1adb134e681f2b5a9bb217d02be195ad57ff1d4b387072148d72adf438e5"
+          },
+          "room_model": {
+            "name": "room_model.json",
+            "sha256": "22193923b381871660c447f49c15d1741eaf4b32f1ee3ac2d7c3ff9c79648471"
+          },
+          "offer_model": {
+            "name": "offer_model.json",
+            "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+          },
+          "tactical_student": {
+            "name": "tactical_student.pt",
+            "sha256": "95e28c9a3742c6237b906770c8634529a674ff2a6fc64474588ac5578c6c1c1c"
+          }
+        }
+      }
+    }
+  },
+  "bundle_zip_sha256": "8cb8adcd29a2ebe7c11fb1db07ef48b31423571b94ea5fbc33355deeee69e248",
+  "training": {
+    "weight_search": {
+      "generations": 5,
+      "population": 10,
+      "seeds_per_generation": 8,
+      "statuses": {
+        "complete": 399,
+        "error": 1
+      }
+    },
+    "second_weight_search": {
+      "generations": 4,
+      "population": 8,
+      "seeds_per_generation": 8,
+      "statuses": {
+        "complete": 256
+      }
+    },
+    "late_weight_search": {
+      "generations": 4,
+      "population": 6,
+      "seeds_per_generation": 8,
+      "statuses": {
+        "complete": 188,
+        "error": 4
+      }
+    },
+    "rooms": {
+      "games": 228,
+      "transitions": 2967,
+      "transitions_by_act": {
+        "1": 2731,
+        "2": 229,
+        "3": 7
+      }
+    },
+    "opening_and_card_offers": {
+      "episodes": 144,
+      "errors": 1,
+      "roots": {
+        "neow": 143,
+        "card": 138
+      },
+      "branches": 981,
+      "validation": {
+        "neow": {
+          "validation_roots": 28,
+          "prior_regret": 3.173267183779912,
+          "model_regret": 1.9127335500491192
+        },
+        "card": {
+          "validation_roots": 27,
+          "prior_regret": 1.1666128433054455,
+          "model_regret": 0.8790828092591477
+        }
+      }
+    },
+    "sampled_micro_teacher": {
+      "total": 48,
+      "successful_runs": 48,
+      "decisions": 686,
+      "branches": 11055,
+      "search_errors": 0
+    },
+    "neural_students": [
+      {
+        "training_seeds": 62,
+        "decisions": {
+          "train": 7194,
+          "validation": 601,
+          "test": 577
+        },
+        "parameters": 11281,
+        "student_teacher_disagreements": 0,
+        "best_epoch": 14,
+        "test": {
+          "decisions": 577,
+          "agreement": 0.9480069324090121,
+          "cross_entropy": 0.1582907159365649
+        },
+        "sha256": "95e28c9a3742c6237b906770c8634529a674ff2a6fc64474588ac5578c6c1c1c"
+      },
+      {
+        "training_seeds": 126,
+        "decisions": {
+          "train": 13005,
+          "validation": 1530,
+          "test": 1774
+        },
+        "parameters": 11737,
+        "student_teacher_disagreements": 580,
+        "best_epoch": 15,
+        "test": {
+          "decisions": 1774,
+          "agreement": 0.9379932356257046,
+          "cross_entropy": 0.20257623300477107
+        },
+        "sha256": "ebcb65feb3cb72250be1c4d40d439b77e0b961cb03ef6c9e04d56fbfe3686b05"
+      },
+      {
+        "training_seeds": 44,
+        "decisions": {
+          "train": 2380,
+          "validation": 249,
+          "test": 439
+        },
+        "parameters": 11485,
+        "student_teacher_disagreements": 0,
+        "best_epoch": 13,
+        "test": {
+          "decisions": 439,
+          "agreement": 0.9043280182232346,
+          "cross_entropy": 0.35912134001086676
+        },
+        "sha256": "b95f5a74d3ab5e529a49215dab53a1ed87ab8ede9150687c13d435591623ee62"
+      }
+    ],
+    "late_tactics": {
+      "attempted": 45,
+      "completed": 44,
+      "observed_act2_entries": 45,
+      "observed_act3_entries": 1,
+      "verified_full_wins": 0,
+      "losses_by_act": {
+        "2": 43,
+        "3": 1
+      },
+      "unresolved": {
+        "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.": 1
+      }
+    },
+    "sampled_search_pilot": {
+      "roots": 93,
+      "branches": 444,
+      "changed_actions": 9,
+      "failed_queries": 0
+    }
+  },
+  "development": {
+    "val-a": {
+      "candidate": {
+        "attempted": 40,
+        "completed": 35,
+        "observed_act2_entries": 12,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 28,
+          "2": 6,
+          "3": 1
+        },
+        "unresolved": {
+          "NativeError: Action 'select_cards' failed: NullReferenceException: Object reference not set to an instance of an object.": 3,
+          "NativeError: Selection requires a sequential decoder; no truncation": 1,
+          "NativeError: Action 'choose_option' failed: MissingMethodException: Method not found: 'Godot.Vector2I Godot.Vector2I.get_One()'.": 1
+        }
+      },
+      "no-turn": {
+        "attempted": 40,
+        "completed": 36,
+        "observed_act2_entries": 8,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 32,
+          "2": 4
+        },
+        "unresolved": {
+          "NativeError: Action 'choose_option' failed: MissingMethodException: Method not found: 'Godot.Vector2I Godot.Vector2I.get_One()'.": 3,
+          "NativeError: Action 'select_cards' failed: NullReferenceException: Object reference not set to an instance of an object.": 1
+        }
+      },
+      "no-route": {
+        "attempted": 40,
+        "completed": 40,
+        "observed_act2_entries": 0,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 40
+        },
+        "unresolved": {}
+      },
+      "prior": {
+        "attempted": 40,
+        "completed": 40,
+        "observed_act2_entries": 3,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 37,
+          "2": 3
+        },
+        "unresolved": {}
+      }
+    },
+    "val-b1": {
+      "candidate": {
+        "attempted": 48,
+        "completed": 47,
+        "observed_act2_entries": 10,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 38,
+          "2": 9
+        },
+        "unresolved": {
+          "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.": 1
+        }
+      },
+      "micro": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 2,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 46,
+          "2": 2
+        },
+        "unresolved": {}
+      }
+    },
+    "val-b2": {
+      "candidate": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 12,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 36,
+          "2": 11,
+          "3": 1
+        },
+        "unresolved": {}
+      },
+      "no-offer": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 7,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 41,
+          "2": 7
+        },
+        "unresolved": {}
+      },
+      "student": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 10,
+        "observed_act3_entries": 2,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 38,
+          "2": 8,
+          "3": 2
+        },
+        "unresolved": {}
+      }
+    },
+    "val-b3": {
+      "candidate": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 11,
+        "observed_act3_entries": 2,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 37,
+          "2": 9,
+          "3": 2
+        },
+        "unresolved": {}
+      },
+      "student": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 8,
+        "observed_act3_entries": 2,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 40,
+          "2": 6,
+          "3": 2
+        },
+        "unresolved": {}
+      }
+    },
+    "val-b4": {
+      "candidate": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 7,
+        "observed_act3_entries": 2,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 41,
+          "2": 5,
+          "3": 2
+        },
+        "unresolved": {}
+      }
+    },
+    "val-b-student2": {
+      "student": {
+        "attempted": 48,
+        "completed": 48,
+        "observed_act2_entries": 8,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 40,
+          "2": 7,
+          "3": 1
+        },
+        "unresolved": {}
+      }
+    },
+    "search-pilot": {
+      "candidate": {
+        "attempted": 24,
+        "completed": 24,
+        "observed_act2_entries": 1,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 23,
+          "2": 1
+        },
+        "unresolved": {}
+      }
+    },
+    "val-c1": {
+      "candidate": {
+        "attempted": 72,
+        "completed": 72,
+        "observed_act2_entries": 10,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 62,
+          "2": 10
+        },
+        "unresolved": {}
+      },
+      "no-late": {
+        "attempted": 72,
+        "completed": 72,
+        "observed_act2_entries": 10,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 62,
+          "2": 9,
+          "3": 1
+        },
+        "unresolved": {}
+      },
+      "hybrid": {
+        "attempted": 72,
+        "completed": 72,
+        "observed_act2_entries": 10,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 62,
+          "2": 10
+        },
+        "unresolved": {}
+      }
+    },
+    "val-c2": {
+      "candidate": {
+        "attempted": 72,
+        "completed": 72,
+        "observed_act2_entries": 12,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 60,
+          "2": 12
+        },
+        "unresolved": {}
+      },
+      "hybrid": {
+        "attempted": 72,
+        "completed": 72,
+        "observed_act2_entries": 12,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 60,
+          "2": 12
+        },
+        "unresolved": {}
+      }
+    },
+    "val-c-effects": {
+      "candidate": {
+        "attempted": 72,
+        "completed": 72,
+        "observed_act2_entries": 9,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 63,
+          "2": 9
+        },
+        "unresolved": {}
+      }
+    },
+    "val-c-mixed": {
+      "candidate": {
+        "attempted": 72,
+        "completed": 71,
+        "observed_act2_entries": 12,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 60,
+          "2": 11
+        },
+        "unresolved": {
+          "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.": 1
+        }
+      },
+      "hybrid": {
+        "attempted": 72,
+        "completed": 71,
+        "observed_act2_entries": 12,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 60,
+          "2": 11
+        },
+        "unresolved": {
+          "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.": 1
+        }
+      }
+    },
+    "val-c-neural": {
+      "student": {
+        "attempted": 72,
+        "completed": 71,
+        "observed_act2_entries": 9,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 63,
+          "2": 8
+        },
+        "unresolved": {
+          "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.": 1
+        }
+      }
+    },
+    "late-comparison": {
+      "candidate": {
+        "attempted": 21,
+        "completed": 21,
+        "observed_act2_entries": 21,
+        "observed_act3_entries": 2,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "2": 19,
+          "3": 2
+        },
+        "unresolved": {}
+      },
+      "hybrid": {
+        "attempted": 21,
+        "completed": 21,
+        "observed_act2_entries": 21,
+        "observed_act3_entries": 3,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "2": 18,
+          "3": 3
+        },
+        "unresolved": {}
+      }
+    }
+  },
+  "final": {
+    "repository_heuristic": {
+      "attempted": 128,
+      "completed": 128,
+      "observed_act2_entries": 0,
+      "observed_act3_entries": 0,
+      "verified_full_wins": 0,
+      "losses_by_act": {
+        "1": 128
+      },
+      "unresolved": {}
+    },
+    "planner": {
+      "attempted": 128,
+      "completed": 128,
+      "observed_act2_entries": 21,
+      "observed_act3_entries": 1,
+      "verified_full_wins": 0,
+      "losses_by_act": {
+        "1": 107,
+        "2": 20,
+        "3": 1
+      },
+      "unresolved": {}
+    },
+    "neural_student": {
+      "attempted": 128,
+      "completed": 128,
+      "observed_act2_entries": 26,
+      "observed_act3_entries": 1,
+      "verified_full_wins": 0,
+      "losses_by_act": {
+        "1": 102,
+        "2": 25,
+        "3": 1
+      },
+      "unresolved": {}
+    }
+  },
+  "complete_pair_comparisons": {
+    "heuristic_then_planner": {
+      "complete_pairs": 128,
+      "enter_act2": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 21,
+        "neither": 107
+      },
+      "enter_act3": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 1,
+        "neither": 127
+      },
+      "win_run": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "neither": 128
+      }
+    },
+    "heuristic_then_neural": {
+      "complete_pairs": 128,
+      "enter_act2": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 26,
+        "neither": 102
+      },
+      "enter_act3": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 1,
+        "neither": 127
+      },
+      "win_run": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "neither": 128
+      }
+    },
+    "planner_then_neural": {
+      "complete_pairs": 128,
+      "enter_act2": {
+        "both": 13,
+        "first_only": 8,
+        "second_only": 13,
+        "neither": 94
+      },
+      "enter_act3": {
+        "both": 0,
+        "first_only": 1,
+        "second_only": 1,
+        "neither": 126
+      },
+      "win_run": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "neither": 128
+      }
+    }
+  },
+  "native_qualification": {
+    "controlled_double_boss": [
+      {
+        "floor": 15,
+        "enemy": "Aeonglass",
+        "result": "second boss offered"
+      },
+      {
+        "floor": 16,
+        "enemy": "Test Subject",
+        "result": "native victory"
+      }
+    ],
+    "replayed_events_and_controls": [
+      {
+        "seed": "N19A10IMIT0003",
+        "option": "CRYSTAL_SPHERE.pages.INITIAL.options.PAYMENT_PLAN",
+        "root": "c28323e9f93603551b5af5560f4a71395482732bb90abec98cedc13d27142301",
+        "new_cards": {
+          "CARD.DEBT": 1,
+          "CARD.BLADE_DANCE": 1
+        },
+        "removed_cards": {},
+        "gold_delta": 30,
+        "hp_delta": 0
+      },
+      {
+        "seed": "N19A10IMIT0007",
+        "option": "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE",
+        "root": "848332887b72433777e05786211165837dc1610df0fb05dd8bebfcce3b00ecd5",
+        "new_cards": {},
+        "removed_cards": {},
+        "gold_delta": -43,
+        "hp_delta": 0
+      },
+      {
+        "seed": "N19A10VALA0004",
+        "option": "DEFEND",
+        "root": "5ac608356873ca4d7281c23d542b66e6c69e828bf14367c513ce8a0d132626e1",
+        "new_cards": {
+          "CARD.ULTIMATE_DEFEND": 1
+        },
+        "removed_cards": {
+          "CARD.DEFEND_SILENT": 2
+        },
+        "gold_delta": 0,
+        "hp_delta": 0
+      },
+      {
+        "seed": "N19A10VALA0016",
+        "option": "STRIKE",
+        "root": "52dadace9fbfced1afea0f9c3912836e253bf29c5f6ae0289c2dae7787921035",
+        "new_cards": {
+          "CARD.ULTIMATE_STRIKE": 1
+        },
+        "removed_cards": {
+          "CARD.STRIKE_SILENT": 2
+        },
+        "gold_delta": 0,
+        "hp_delta": 0
+      },
+      {
+        "control": "N19A10DISC0000",
+        "steps": 40,
+        "verified_digest": "4fe3a1a3dd2529c59bab458d5bb9ed317a4bf2dbddca0fc5cfd38ffccce74a4d"
+      },
+      {
+        "control": "N19A10DISC0001",
+        "steps": 40,
+        "verified_digest": "484b37ba9df8e5cbfdcef5f5d3595ce56b60902f9f3d4e3468a4b1731885619c"
+      },
+      {
+        "control": "N19A10DISC0002",
+        "steps": 40,
+        "verified_digest": "765d902259aee628895b9ddd5b8819309e3f5117737735e437d9cffcf7a8e051"
+      }
+    ],
+    "clean_build": {
+      "revision": "fec723a21741a1a33a4f54dc9b28c50df31d6e45",
+      "sha256": {
+        "src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll": "e17c450343ce848904a994c233fb66d0a19b60301b8ce0778a92aa659ca36a48",
+        "src/Sts2Headless/bin/Curriculum/net9.0/GodotSharp.dll": "c052ededc00a2e002202279acf2d060b90ad86a61f15220d3575ef0c1187c7a2",
+        "lib/sts2.dll": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b"
+      }
+    },
+    "replayed_missing_boss_initializations": [
+      {
+        "seed": "N19A10FINAL0004",
+        "verified_root": "a0e83b2379a4ab2b1ae8636fea6da70d6c1952dea5af5fc67ce0362b9d3bccd6",
+        "enemies": [
+          "MONSTER.CRUSHER",
+          "MONSTER.ROCKET"
+        ]
+      },
+      {
+        "seed": "N19A10FINAL0123",
+        "verified_root": "9e050d7cbb2fa22816291cb0043c7f1591091f9555f506f5299762d277a9cfc0",
+        "enemies": [
+          "MONSTER.CRUSHER",
+          "MONSTER.ROCKET"
+        ]
+      },
+      {
+        "seed": "N19A10FINAL0024",
+        "verified_root": "b72c97d67563f576ae9c6f5a5da8dd167d4464f25797d1efd5ebd83d04d1e368",
+        "enemies": [
+          "MONSTER.CRUSHER",
+          "MONSTER.ROCKET"
+        ]
+      }
+    ],
+    "clean_build_control_replays": {
+      "seeds": 8,
+      "matched_every_command_and_response_digest": true,
+      "rpc_records": 1181
+    },
+    "corrected_event_fixture": true,
+    "corrected_host_rejects_unfinished_combat_rewards": true
+  },
+  "natively_observed_act1_boss_visits": {
+    "repository_heuristic": 7,
+    "planner": 79,
+    "neural_student": 84
+  },
+  "outcome_digest": {
+    "repository_heuristic": "ed79e67e8ad1c356bf8e25a3946cb528e3ede10b88a888b4afedfc8937b395ca",
+    "planner": "8a1580501f5658385b0c0e0736c55f93a942ed7f4769f9a98dbf7fb30786ea5c",
+    "neural_student": "6c85fd6e0406a0d4bc946dd0a9677b7caf09fae5a6ca0408f45d8f644b902d1c"
+  },
+  "evaluation_runtime": {
+    "src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll": "89867570c89b5bb3776849459f8de2738b5e0e07ea962ae885548c871ca5e22d",
+    "src/Sts2Headless/bin/Curriculum/net9.0/GodotSharp.dll": "e8d92735fdc637c5e1e7561a699d75379cfaf457373bf6262baa1d1d8314db4a",
+    "lib/sts2.dll": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b"
+  },
+  "evaluation_note": "The original host erroneously advanced three planner and one neural run in the main test after an Act 2 encounter failed to initialize. Both frozen suites were replayed on the repaired host, which requires native IsPreFinished before rewards. The final and followup fields contain only repaired-host results. Development and fitting preceded this discovery. All Kaiser Crab death-audio failures were retried with the same model, seeds and matching prior public decisions. The per-suite terminal replay reports and fresh-game controls document reproducibility on the audio-fixed build.",
+  "late_specialist_followup": {
+    "freeze": {
+      "frozen_utc": "2026-11-19T00:49:11.272270+00:00",
+      "prefix": "N19A10LATEHOLD",
+      "seed_count": 192,
+      "roles": [
+        "candidate",
+        "hybrid"
+      ],
+      "primary_condition": "Play both arms from ordinary turn one on the same untouched seeds. Identical learned routes, opening choices and Act 1 combat. The challenger switches only its combat decisions to the Act 2-trained neural checkpoint after Act 1.",
+      "outcomes": [
+        "full native A10 wins with both final bosses",
+        "Act 3 entered among all attempts and among shared entrants to Act 2"
+      ],
+      "development": "On 21 matched naturally reached Act 2 starts from B/C, the original planner reached Act 3 twice and the late student three times. Both had zero wins.",
+      "planner_manifest": "e2310943b2c097036d9697abd724461ac095e4856cc52c3cc11bc79824da2cba",
+      "late_student_sha256": "b95f5a74d3ab5e529a49215dab53a1ed87ab8ede9150687c13d435591623ee62",
+      "host_sha256": "661c61e1ecf9c7143a9f6303dfe1ff8eed8486147eff4ad468c072e4ec611004"
+    },
+    "roles": {
+      "planner": {
+        "attempted": 192,
+        "completed": 191,
+        "observed_act2_entries": 38,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 154,
+          "2": 37
+        },
+        "unresolved": {
+          "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.": 1
+        }
+      },
+      "late_neural": {
+        "attempted": 192,
+        "completed": 191,
+        "observed_act2_entries": 38,
+        "observed_act3_entries": 2,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 154,
+          "2": 36,
+          "3": 1
+        },
+        "unresolved": {
+          "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.": 1
+        }
+      }
+    },
+    "complete_pairs": {
+      "complete_pairs": 191,
+      "enter_act2": {
+        "both": 37,
+        "first_only": 0,
+        "second_only": 0,
+        "neither": 154
+      },
+      "enter_act3": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 1,
+        "neither": 190
+      },
+      "win_run": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "neither": 191
+      }
+    }
+  },
+  "next_training_data": {
+    "training_seeds": 420,
+    "unconfirmed_episodes_excluded": 3,
+    "transitions": 5912
+  },
+  "main_suite_boss_visits": {
+    "repository_heuristic": {
+      "1": 7,
+      "2": 0,
+      "3": 0
+    },
+    "planner": {
+      "1": 79,
+      "2": 4,
+      "3": 0
+    },
+    "neural_student": {
+      "1": 84,
+      "2": 3,
+      "3": 0
+    }
+  },
+  "corrected_source_commit": "f04d8b4",
+  "release_zip_sha256": "a0ccdaaacc3661cedb900f942f669e47f0a622f24cbb17c92a16db2a8f3078d0",
+  "historical_fit_audit": {
+    "rooms-train/prior": 0,
+    "rooms-late/candidate": 0,
+    "frontier/candidate": 3,
+    "imitation/candidate": 0,
+    "dagger/student": 0
+  },
+  "audio_error_replays": [
+    {
+      "suite": "final-confirmed",
+      "role": "candidate",
+      "seed": "N19A10FINAL0024",
+      "matching_prior_rpcs": 419,
+      "outcome": "complete",
+      "act": 2,
+      "floor": 16,
+      "win": false,
+      "error": null
+    },
+    {
+      "suite": "neural-confirmed",
+      "role": "student",
+      "seed": "N19A10FINAL0024",
+      "matching_prior_rpcs": 415,
+      "outcome": "complete",
+      "act": 2,
+      "floor": 16,
+      "win": false,
+      "error": null
+    },
+    {
+      "suite": "late-confirmed",
+      "role": "candidate",
+      "seed": "N19A10LATEHOLD0165",
+      "matching_prior_rpcs": 478,
+      "outcome": "complete",
+      "act": 2,
+      "floor": 16,
+      "win": false,
+      "error": null
+    }
+  ],
+  "verified_terminal_replays": {
+    "main": {
+      "matched_native_terminal_digests": 384,
+      "replayed_physical_actions": 67409,
+      "unresolved": [],
+      "terminal_digest_list": "9a7b2a6bbbc896aeeba1d29c186d975d7eb65cc724db1cec8e23cdb865dabd92"
+    },
+    "followup": {
+      "matched_native_terminal_digests": 380,
+      "replayed_physical_actions": 77286,
+      "unresolved": [
+        {
+          "role": "candidate",
+          "seed": "N19A10LATEHOLD0084"
+        },
+        {
+          "role": "hybrid",
+          "seed": "N19A10LATEHOLD0084"
+        }
+      ],
+      "divergent_terminal_digests": [
+        {
+          "role": "candidate",
+          "seed": "N19A10LATEHOLD0040",
+          "actions": 278,
+          "terminal": "ff1439bcdb8c623f967cfbb85db096585198966b7724f87a23072684a1d275d2",
+          "expected": "ce83cdf5ba327e8bd8b95057628a5c7eb6cbccd9a57f42196328f9fc41449401",
+          "decision": "game_over",
+          "victory": false
+        },
+        {
+          "role": "hybrid",
+          "seed": "N19A10LATEHOLD0040",
+          "actions": 284,
+          "terminal": "ff1439bcdb8c623f967cfbb85db096585198966b7724f87a23072684a1d275d2",
+          "expected": "3e6e76af4b094d52d2dc33972b12c78fee095cb50b913d9a16d09379e00086e0",
+          "decision": "game_over",
+          "victory": false
+        }
+      ],
+      "terminal_digest_list": "0943e15e1f7c41cb1439b2cac01c27dfcf3d54936bb52f2ebe517807ab0beb6c"
+    }
+  },
+  "audio_replay_runtime": {
+    "revision": "fec723a21741a1a33a4f54dc9b28c50df31d6e45",
+    "sha256": {
+      "src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll": "1f89c5cf0976bfffb6362951d59657d444d8f4e9582011e6181e4a191f681717",
+      "src/Sts2Headless/bin/Curriculum/net9.0/GodotSharp.dll": "f4f5c85f618abcfb7ad3d0d5bec3aea537c2e9bfbdf8f2003ecaf0e588ee0ec6",
+      "lib/sts2.dll": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b"
+    }
+  },
+  "release_code_commit": "7911341",
+  "outcomes_before_audio_replay": {
+    "main": {
+      "repository_heuristic": {
+        "attempted": 128,
+        "completed": 128,
+        "observed_act2_entries": 0,
+        "observed_act3_entries": 0,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 128
+        },
+        "unresolved": {}
+      },
+      "planner": {
+        "attempted": 128,
+        "completed": 127,
+        "observed_act2_entries": 21,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 107,
+          "2": 19,
+          "3": 1
+        },
+        "unresolved": {
+          "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.": 1
+        }
+      },
+      "neural_student": {
+        "attempted": 128,
+        "completed": 127,
+        "observed_act2_entries": 26,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 102,
+          "2": 24,
+          "3": 1
+        },
+        "unresolved": {
+          "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.": 1
+        }
+      }
+    },
+    "followup": {
+      "planner": {
+        "attempted": 192,
+        "completed": 190,
+        "observed_act2_entries": 38,
+        "observed_act3_entries": 1,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 154,
+          "2": 36
+        },
+        "unresolved": {
+          "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.": 1,
+          "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.": 1
+        }
+      },
+      "late_neural": {
+        "attempted": 192,
+        "completed": 191,
+        "observed_act2_entries": 38,
+        "observed_act3_entries": 2,
+        "verified_full_wins": 0,
+        "losses_by_act": {
+          "1": 154,
+          "2": 36,
+          "3": 1
+        },
+        "unresolved": {
+          "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.": 1
+        }
+      }
+    },
+    "main_complete_pairs": {
+      "heuristic_then_planner": {
+        "complete_pairs": 127,
+        "enter_act2": {
+          "both": 0,
+          "first_only": 0,
+          "second_only": 20,
+          "neither": 107
+        },
+        "enter_act3": {
+          "both": 0,
+          "first_only": 0,
+          "second_only": 1,
+          "neither": 126
+        },
+        "win_run": {
+          "both": 0,
+          "first_only": 0,
+          "second_only": 0,
+          "neither": 127
+        }
+      },
+      "heuristic_then_neural": {
+        "complete_pairs": 127,
+        "enter_act2": {
+          "both": 0,
+          "first_only": 0,
+          "second_only": 25,
+          "neither": 102
+        },
+        "enter_act3": {
+          "both": 0,
+          "first_only": 0,
+          "second_only": 1,
+          "neither": 126
+        },
+        "win_run": {
+          "both": 0,
+          "first_only": 0,
+          "second_only": 0,
+          "neither": 127
+        }
+      },
+      "planner_then_neural": {
+        "complete_pairs": 127,
+        "enter_act2": {
+          "both": 12,
+          "first_only": 8,
+          "second_only": 13,
+          "neither": 94
+        },
+        "enter_act3": {
+          "both": 0,
+          "first_only": 1,
+          "second_only": 1,
+          "neither": 125
+        },
+        "win_run": {
+          "both": 0,
+          "first_only": 0,
+          "second_only": 0,
+          "neither": 127
+        }
+      }
+    },
+    "followup_complete_pairs": {
+      "complete_pairs": 190,
+      "enter_act2": {
+        "both": 36,
+        "first_only": 0,
+        "second_only": 0,
+        "neither": 154
+      },
+      "enter_act3": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 1,
+        "neither": 189
+      },
+      "win_run": {
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "neither": 190
+      }
+    },
+    "outcome_digest": {
+      "repository_heuristic": "ed79e67e8ad1c356bf8e25a3946cb528e3ede10b88a888b4afedfc8937b395ca",
+      "planner": "a755bd48222ab9983aeeb5951b9ad7e70ceab6d30029e5a6374e7d45351a3f89",
+      "neural_student": "c142e3feee88c5332cdbb2a86aabbcc94e457f730453283f69847c3eb962c309"
+    }
+  },
+  "fresh_game_controls": [
+    {
+      "role": "candidate",
+      "seed": "N19A10LATEHOLD0040",
+      "fresh_game_status": "complete",
+      "act": 2,
+      "floor": 4,
+      "win": false,
+      "original_rpcs": 299,
+      "new_rpcs": 299,
+      "all_public_actions_and_responses_match": false,
+      "terminal": "ff1439bcdb8c623f967cfbb85db096585198966b7724f87a23072684a1d275d2"
+    },
+    {
+      "role": "hybrid",
+      "seed": "N19A10LATEHOLD0040",
+      "fresh_game_status": "complete",
+      "act": 2,
+      "floor": 4,
+      "win": false,
+      "original_rpcs": 305,
+      "new_rpcs": 305,
+      "all_public_actions_and_responses_match": false,
+      "terminal": "ff1439bcdb8c623f967cfbb85db096585198966b7724f87a23072684a1d275d2"
+    }
+  ],
+  "runtime_checks_before_audio_retries": {
+    "heuristic": {
+      "completions_with_unfinished_combat": 0,
+      "unresolved": []
+    },
+    "planner": {
+      "completions_with_unfinished_combat": 0,
+      "unresolved": [
+        {
+          "seed": "N19A10FINAL0024",
+          "act": 2,
+          "floor": 16,
+          "message": "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.",
+          "first_stack_frame": "MegaCrit.Sts2.Core.Models.Monsters.Crusher.BeforeDeath"
+        }
+      ]
+    },
+    "neural_student": {
+      "completions_with_unfinished_combat": 0,
+      "unresolved": [
+        {
+          "seed": "N19A10FINAL0024",
+          "act": 2,
+          "floor": 16,
+          "message": "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.",
+          "first_stack_frame": "MegaCrit.Sts2.Core.Models.Monsters.Rocket.BeforeDeath"
+        }
+      ]
+    },
+    "followup_planner": {
+      "completions_with_unfinished_combat": 0,
+      "unresolved": [
+        {
+          "seed": "N19A10LATEHOLD0084",
+          "act": 3,
+          "floor": 4,
+          "message": "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.",
+          "first_stack_frame": ""
+        },
+        {
+          "seed": "N19A10LATEHOLD0165",
+          "act": 2,
+          "floor": 16,
+          "message": "NativeError: Combat turn timed out before reaching the next decision. The run has not been marked as a defeat; see stderr for engine diagnostics.",
+          "first_stack_frame": "MegaCrit.Sts2.Core.Models.Monsters.Crusher.BeforeDeath"
+        }
+      ]
+    },
+    "followup_specialist": {
+      "completions_with_unfinished_combat": 0,
+      "unresolved": [
+        {
+          "seed": "N19A10LATEHOLD0084",
+          "act": 3,
+          "floor": 4,
+          "message": "NativeError: Action 'choose_option' failed: NullReferenceException: Object reference not set to an instance of an object.",
+          "first_stack_frame": ""
+        }
+      ]
+    }
+  }
+}
