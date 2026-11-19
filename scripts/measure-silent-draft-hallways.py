@@ -38,7 +38,12 @@ def next_fight(game, fork, action, settings, strategy, offers, router):
             }
         if decision == "game_over" or ctx.get("act") != 1:
             return None
-        if decision == "combat_play" and ctx["room_type"] == "Monster" and enemies is None:
+        if (
+            action.kind == "select_map_node"
+            and decision == "combat_play"
+            and ctx["room_type"] == "Monster"
+            and enemies is None
+        ):
             enemies = sorted(e["id"] for e in state["enemies"])
         if decision == "map_select":
             action = router.choose(state, game.public_map())
