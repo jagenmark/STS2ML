@@ -4,12 +4,15 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Audio.Debug;
 using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events.Custom.CrystalSphereEvent;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Events.Custom.CrystalSphere;
 using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 
@@ -39,7 +42,28 @@ public static class PresentationFix
         foreach (var arm in new[] { typeof(Crusher), typeof(Rocket) })
             harmony.Patch(AccessTools.Method(arm, "BeforeDeath"),
                 transpiler: new HarmonyMethod(typeof(PresentationFix), nameof(ReplaceArmDeathSound)));
+        harmony.Patch(AccessTools.Method(typeof(SoulNexus), "AfterDeath", new[] { typeof(Creature) }),
+            transpiler: new HarmonyMethod(typeof(PresentationFix), nameof(GuardNexusAnimation)));
         _installed = true;
+    }
+
+    private static NCreature? FindCreatureNode(NCombatRoom? room, Creature creature) => room?.GetCreatureNode(creature);
+
+    private static IEnumerable<CodeInstruction> GuardNexusAnimation(IEnumerable<CodeInstruction> instructions)
+    {
+        var lookup = AccessTools.Method(typeof(NCombatRoom), nameof(NCombatRoom.GetCreatureNode), new[] { typeof(Creature) });
+        var count = 0;
+        foreach (var instruction in instructions)
+        {
+            if (instruction.Calls(lookup))
+            {
+                instruction.opcode = OpCodes.Call;
+                instruction.operand = AccessTools.Method(typeof(PresentationFix), nameof(FindCreatureNode));
+                count++;
+            }
+            yield return instruction;
+        }
+        if (count != 1) throw new InvalidOperationException("Unexpected Soul Nexus death animation");
     }
 
     // Only Trial's local portrait blocks use IsMe in these two pinned methods.
