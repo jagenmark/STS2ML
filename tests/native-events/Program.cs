@@ -1,6 +1,9 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Text.Json;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Runs;
 using Sts2Headless;
 
 class Program
@@ -20,6 +23,8 @@ class Program
         Directory.SetCurrentDirectory(sandbox);
         Environment.SetEnvironmentVariable("APPDATA", sandbox);
         Environment.SetEnvironmentVariable("LOCALAPPDATA", sandbox);
+        foreach (var key in new[] { "XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_CACHE_HOME" })
+            Environment.SetEnvironmentVariable(key, sandbox);
         try { Run(sandbox); return 0; }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
     }
@@ -68,11 +73,58 @@ class Program
             observations.Add(new { event_name = "DenseVegetation", before, after, fight });
         }
         finally { dense.CleanUp(); }
+        VerifyDoubleBoss(observations);
         File.WriteAllText(Path.Combine(sandbox, "observations.json"), Json(observations).GetRawText());
         var result = new { passed = true, jungle_options = 2, native_gold_and_hp_verified = true,
-            dense_native_heal_and_fight_verified = true, suppressed = "Inspected event audio and screen shake only" };
+            dense_native_heal_and_fight_verified = true, double_boss_verified = true };
         File.WriteAllText(Path.Combine(sandbox, "result.json"), Json(result).GetRawText());
         Console.WriteLine(Json(result));
         Console.WriteLine("Artifacts: " + sandbox);
+    }
+
+    // Fixture-only shortcuts reach both real final-act fights quickly. This
+    // checks simulator transitions and never supplies a training or win label.
+    static void VerifyDoubleBoss(List<object> observations)
+    {
+        var sim = new RunSimulator();
+        try
+        {
+            sim.StartRun("Silent", 10, "DOUBLEBOSSQUALIFY001", "en");
+            RunManager.Instance.EnterAct(2, false).GetAwaiter().GetResult();
+            var state = RunManager.Instance.DebugOnlyGetState()!;
+            RunManager.Instance.GenerateMap().GetAwaiter().GetResult();
+            var map = state.Map!;
+            var bosses = new[] { map.BossMapPoint, map.SecondBossMapPoint! };
+            Check(bosses[1] != null && bosses[0].coord != bosses[1].coord, "Expected two distinct native A10 boss points");
+            for (int i = 0; i < bosses.Length; i++)
+            {
+                var coord = bosses[i].coord;
+                var combat = Json(sim.ExecuteAction("select_map_node", new() { ["col"] = (int)coord.col, ["row"] = (int)coord.row }));
+                Check(combat.GetProperty("decision").GetString() == "combat_play", combat.ToString());
+                var enemies = CombatManager.Instance.DebugOnlyGetState()!.Enemies.ToArray();
+                Check(enemies.Length > 0, "A native boss fight must begin with enemies: " + combat);
+                // Some bosses postpone defeat until another turn or phase.
+                for (int phase = 0; phase < 8 && CombatManager.Instance.IsInProgress; phase++)
+                {
+                    enemies = CombatManager.Instance.DebugOnlyGetState()!.Enemies.ToArray();
+                    if (enemies.Length != 0)
+                        CreatureCmd.Kill(enemies, true).GetAwaiter().GetResult();
+                    CombatManager.Instance.CheckWinCondition().GetAwaiter().GetResult();
+                    if (CombatManager.Instance.IsInProgress)
+                        sim.ExecuteAction("end_turn", new());
+                }
+                var after = Json(sim.ExecuteAction("proceed", new()));
+                if (i == 0)
+                {
+                    Check(after.GetProperty("decision").GetString() == "map_select", after.ToString());
+                    Check(after.GetProperty("choices").EnumerateArray().Any(p =>
+                        p.GetProperty("row").GetInt32() == bosses[1].coord.row && p.GetProperty("col").GetInt32() == bosses[1].coord.col),
+                        "First boss must lead to a legal second boss choice");
+                }
+                else Check(after.GetProperty("decision").GetString() == "game_over" && after.GetProperty("victory").GetBoolean(), after.ToString());
+                observations.Add(new { boss = i + 1, combat, after });
+            }
+        }
+        finally { sim.CleanUp(); }
     }
 }

@@ -55,6 +55,21 @@ class Action:
         return {"cmd": "action", "action": self.kind, "args": deepcopy(self.args)}
 
 
+def selected_cards(state, indices) -> Action:
+    """Bind one chosen subset without enumerating the power set."""
+    if state.get("decision") != "card_select":
+        raise NativeError("Expected a public card selection")
+    available = [c["index"] for c in state["cards"]]
+    chosen = list(indices)
+    selected = set(chosen)
+    if (any(type(i) is not int for i in chosen) or len(set(available)) != len(available) or len(selected) != len(chosen)
+            or not selected.issubset(available) or not 0 <= state["min_select"] <= len(chosen) <= state["max_select"]):
+        raise NativeError("Invalid public card subset")
+    ordered = [str(i) for i in available if i in selected]
+    kind, args = ("select_cards", {"indices": ",".join(ordered)}) if ordered else ("skip_select", {})
+    return Action(digest([kind, args])[:20], kind, args, digest(state))
+
+
 def legal_actions(state: dict) -> list[Action]:
     """Finite public choice contract. Unknown phases/types fail explicitly.
 
@@ -154,14 +169,17 @@ class NativeSession:
         self.identity = runtime_identity(ascension)
         self.root, self.folder = root.resolve(), folder.resolve()
         self.folder.mkdir(parents=True, exist_ok=False)
-        dotnet = self.root / "artifacts/tools/dotnet/dotnet.exe"
+        dotnet = self.root / "artifacts/tools/dotnet" / ("dotnet.exe" if os.name == "nt" else "dotnet")
         upstream = self.root / "artifacts/upstreams/sts2-cli"
         host = Path(host_path).resolve() if host_path else upstream / "src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll"
         env = os.environ.copy()
         env.update(DOTNET_ROOT=str(dotnet.parent), STS2_LIB=str(upstream / "lib"),
                    STS2_GAME_DIR=str(upstream / "lib"), STS2_TRAINING="1",
                    DOTNET_CLI_TELEMETRY_OPTOUT="1")
-        for name in ("APPDATA", "LOCALAPPDATA"):
+        data_dirs = ["APPDATA", "LOCALAPPDATA"]
+        if os.name != "nt":
+            data_dirs.extend(("XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_CACHE_HOME"))
+        for name in data_dirs:
             path = self.folder / name.lower()
             path.mkdir()
             env[name] = str(path)
@@ -236,8 +254,15 @@ class NativeSession:
     def step(self, action: Action):
         if action.snapshot != digest(self.state):
             raise NativeError("Stale action: observation changed")
-        allowed = {a.id: a for a in legal_actions(self.state)}
-        if allowed.get(action.id) != action:
+        if self.state.get("decision") == "card_select" and action.kind in ("select_cards", "skip_select"):
+            try:
+                indices = list(map(int, action.args["indices"].split(","))) if action.kind == "select_cards" else []
+                expected = selected_cards(self.state, indices)
+            except (KeyError, ValueError, TypeError, AttributeError) as exc:
+                raise NativeError("Malformed card selection") from exc
+        else:
+            expected = next((a for a in legal_actions(self.state) if a.id == action.id), None)
+        if expected != action:
             raise NativeError("Action is not in the current public action set")
         command = action.command()
         self.state = self._request(command)
@@ -248,6 +273,15 @@ class NativeSession:
         if self.sampled:
             raise NativeError("Cannot replay-fork a sampled world without its chance history")
         return ReplayFork(deepcopy(self.specification), tuple(deepcopy(self.history)), digest(self.state))
+
+    def public_map(self):
+        """Read the visible room icons and connections at a map decision."""
+        if self.state.get("decision") != "map_select":
+            raise NativeError("The route planner needs a map decision")
+        result = self._request({"cmd": "get_map"})
+        if result.get("type") != "map" or result.get("context") != self.state.get("context"):
+            raise NativeError("Map response does not match the current decision")
+        return result["rows"]
 
     def restore(self, fork: ReplayFork):
         if fork.specification.get("ascension", 10) != self.identity["ascension"]:

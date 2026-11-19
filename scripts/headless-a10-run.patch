@@ -1,0 +1,58 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -1661,6 +1661,5 @@
+                 if (_runState != null && _runState.CurrentActIndex >= 2)
+                 {
+-                    Log($"Final boss defeated via Proceed (Act {_runState.CurrentActIndex + 1}), reporting victory");
+-                    return GameOverState(true);
++                    return FinalBossResult();
+                 }
+                 RunManager.Instance.EnterNextAct().GetAwaiter().GetResult();
+@@ -2338,6 +2337,5 @@
+             if (_runState != null && _runState.CurrentActIndex >= 2)
+             {
+-                Log($"Final boss defeated (Act {_runState.CurrentActIndex + 1}), reporting victory");
+-                return GameOverState(true);
++                return FinalBossResult();
+             }
+             Log("Boss defeated, entering next act");
+@@ -2393,4 +2391,23 @@
+             ["player"] = PlayerSummary(_runState!.Players[0]),
+         };
++    }
++
++    private Dictionary<string, object?> FinalBossResult()
++    {
++        var state = _runState!;
++        var map = state.Map;
++        if (map?.SecondBossMapPoint is { } second)
++        {
++            if (state.CurrentMapCoord == map.BossMapPoint.coord)
++            {
++                ForceToMap();
++                return MapSelectState();
++            }
++            if (state.CurrentMapCoord != second.coord)
++                return Error("Final boss room does not match either native boss coordinate");
++        }
++        else if (state.AscensionLevel == 10)
++            return Error("A10 final act has no second boss point");
++        return GameOverState(true);
+     }
+ 
+--- a/src/GodotStubs/Math.cs
++++ b/src/GodotStubs/Math.cs
+@@ -50,4 +50,5 @@
+     public Vector2I(int x, int y) { X = x; Y = y; }
+     public static Vector2I Zero { get; } = new(0, 0);
++    public static Vector2I One { get; } = new(1, 1);
+     public static implicit operator Vector2(Vector2I v) => new(v.X, v.Y);
+ }
+--- a/src/GodotStubs/UI.cs
++++ b/src/GodotStubs/UI.cs
+@@ -5,4 +5,5 @@
+ {
+     public Color Modulate { get; set; } = Color.White;
+     public Color SelfModulate { get; set; } = Color.White;
++    public void SetSelfModulate(Color color) => SelfModulate = color;
+     public bool Visible { get; set; } = true;
