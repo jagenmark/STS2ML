@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Audio.Debug;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events.Custom.CrystalSphereEvent;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Models.Monsters;
@@ -22,6 +24,7 @@ public static class PresentationFix
         var harmony = new Harmony("sts2ml.headless.event-presentation");
         foreach (var (model, method) in new[] {
             (typeof(JungleMazeAdventure), "SafetyInNumbers"), (typeof(DenseVegetation), "Rest"),
+            (typeof(PunchOff), "Nab"),
             (typeof(Amalgamator), "CombineDefends"), (typeof(Amalgamator), "CombineStrikes") })
         {
             var stateMachine = model.GetNestedTypes(BindingFlags.NonPublic).Single(t => t.Name.StartsWith("<" + method + ">"));
@@ -30,10 +33,34 @@ public static class PresentationFix
         }
         harmony.Patch(AccessTools.Method(typeof(NCrystalSphereScreen), "ShowScreen"),
             prefix: new HarmonyMethod(typeof(PresentationFix), nameof(PlayCrystalSphere)));
+        foreach (var method in new[] { "Accept", "AddVfxAnchoredToPortrait" })
+            harmony.Patch(AccessTools.Method(typeof(Trial), method),
+                transpiler: new HarmonyMethod(typeof(PresentationFix), nameof(SkipTrialPortrait)));
         foreach (var arm in new[] { typeof(Crusher), typeof(Rocket) })
             harmony.Patch(AccessTools.Method(arm, "BeforeDeath"),
                 transpiler: new HarmonyMethod(typeof(PresentationFix), nameof(ReplaceArmDeathSound)));
         _installed = true;
+    }
+
+    // Only Trial's local portrait blocks use IsMe in these two pinned methods.
+    // The native RNG, options, verdict effects and event completion still execute.
+    private static bool HasTrialPortrait(Player player) => false;
+
+    private static IEnumerable<CodeInstruction> SkipTrialPortrait(IEnumerable<CodeInstruction> instructions, MethodBase __originalMethod)
+    {
+        var check = AccessTools.Method(typeof(LocalContext), nameof(LocalContext.IsMe), new[] { typeof(Player) });
+        var count = 0;
+        foreach (var instruction in instructions)
+        {
+            if (instruction.Calls(check))
+            {
+                instruction.operand = AccessTools.Method(typeof(PresentationFix), nameof(HasTrialPortrait));
+                count++;
+            }
+            yield return instruction;
+        }
+        if (count != (__originalMethod.Name == "Accept" ? 2 : 1))
+            throw new InvalidOperationException("Unexpected Trial portrait checks");
     }
 
     private static void PlayDeathSoundIfAvailable(NAudioManager? audio, string path, float volume)
@@ -113,8 +140,9 @@ public static class PresentationFix
         var model = __originalMethod.DeclaringType?.DeclaringType;
         var dense = model == typeof(DenseVegetation);
         var combinesCards = model == typeof(Amalgamator);
-        if (plays != (combinesCards ? 0 : dense ? 2 : 1) || stops != (dense ? 1 : 0)
-            || rumbles != (dense ? 1 : 0) || shakes != (combinesCards ? 2 : 0))
-            throw new InvalidOperationException("Unexpected pinned event presentation calls; refusing partial patch");
+        var punchOff = model == typeof(PunchOff); // Its debug audio call already guards a missing instance.
+        if (plays != (combinesCards || punchOff ? 0 : dense ? 2 : 1) || stops != (dense ? 1 : 0)
+            || rumbles != (dense ? 1 : 0) || shakes != (combinesCards ? 2 : punchOff ? 1 : 0))
+            throw new InvalidOperationException($"Unexpected presentation calls in {model?.Name}: {plays}/{stops}/{rumbles}/{shakes}");
     }
 }

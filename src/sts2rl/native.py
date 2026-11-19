@@ -142,12 +142,14 @@ def legal_actions(state: dict) -> list[Action]:
         for category, kind, index in (("cards", "buy_card", "card_index"),
                                       ("relics", "buy_relic", "relic_index"),
                                       ("potions", "buy_potion", "potion_index")):
-            if category == "potions" and len(state["player"]["potions"]) >= 2:
-                continue
             for item in state.get(category, []):
+                if category == "potions" and not item.get("can_procure", len(state["player"]["potions"]) < 2):
+                    continue
                 if item.get("is_stocked") and item.get("cost", gold + 1) <= gold:
                     add(kind, **{index: item["index"]})
         add("leave_room")
+        if state.get("card_removal_available") and state.get("card_removal_cost", gold + 1) <= gold:
+            add("remove_card")
     elif decision == "game_over":
         return []
     else:
@@ -165,8 +167,11 @@ class ReplayFork:
 
 
 class NativeSession:
-    def __init__(self, root: Path, folder: Path, *, timeout: float = 30, ascension=10, host_path=None):
+    def __init__(self, root: Path, folder: Path, *, timeout: float = 30, ascension=10, host_path=None, act_list="default"):
         self.identity = runtime_identity(ascension)
+        if act_list not in ("default", "seeded"):
+            raise ValueError("Unknown native act list")
+        self.act_list = act_list
         self.root, self.folder = root.resolve(), folder.resolve()
         self.folder.mkdir(parents=True, exist_ok=False)
         dotnet = self.root / "artifacts/tools/dotnet" / ("dotnet.exe" if os.name == "nt" else "dotnet")
@@ -245,9 +250,14 @@ class NativeSession:
 
     def reset(self, seed: str, *, encounter: str | None = None, hp: int = 70):
         spec = {"seed": seed, "ascension": self.identity["ascension"]}
+        if self.act_list != "default":
+            spec["act_list"] = self.act_list
         if encounter is not None:
             spec.update(encounter=encounter, hp=hp)
         self.state = self._request({"cmd": "training_restore", **spec, "history": []})
+        if self.state.get("act_list", "default") != self.act_list:
+            self.close()
+            raise NativeError("Host did not confirm the requested act list")
         self.specification, self.history, self.sampled = spec, [], False
         return deepcopy(self.state)
 
@@ -286,9 +296,11 @@ class NativeSession:
     def restore(self, fork: ReplayFork):
         if fork.specification.get("ascension", 10) != self.identity["ascension"]:
             raise NativeError("Replay ascension does not match the native session")
+        if fork.specification.get("act_list", "default") != self.act_list:
+            raise NativeError("Replay act list does not match the native session")
         state = self._request({"cmd": "training_restore", **fork.specification,
                                "history": list(fork.history)})
-        if digest(state) != fork.expected_digest:
+        if state.get("act_list", "default") != self.act_list or digest(state) != fork.expected_digest:
             self.close()
             raise NativeError("Replay diverged from expected public state")
         self.state, self.specification = state, deepcopy(fork.specification)

@@ -12,6 +12,7 @@ namespace Sts2Headless;
 public partial class RunSimulator
 {
     private IDisposable? _headlessSelectorScope;
+    private string _trainingActList = "default";
     private object? _historyCombat;
     private readonly List<Dictionary<string, object?>> _publicCombatHistory = new();
     private readonly HashSet<string> _drawKnowledgeRisks = new();
@@ -30,6 +31,7 @@ public partial class RunSimulator
     public void AddTrainingDecisionDetails(Dictionary<string, object?> result)
     {
         if (_runState == null || result.GetValueOrDefault("type") as string == "error") return;
+        if (_trainingActList == "seeded") result["act_list"] = _trainingActList;
         result["in_combat"] = CombatManager.Instance.IsInProgress;
         if (result.GetValueOrDefault("decision") as string is "card_select" or "card_reward" or "bundle_select")
         {
@@ -94,7 +96,10 @@ public partial class RunSimulator
             return Error("Qualified training ascensions are 7, 8 and 10");
         if (request.TryGetProperty("encounter", out _) && ascension != 10)
             return Error("Starter fixture requires ascension 10");
-        var result = StartRun("Silent", ascension, request.GetProperty("seed").GetString(), "en");
+        var actList = request.TryGetProperty("act_list", out var requestedActs) ? requestedActs.GetString() : "default";
+        if (actList != "default" && actList != "seeded") return Error("Unknown act list for this run");
+        _trainingActList = actList;
+        var result = StartRun("Silent", ascension, request.GetProperty("seed").GetString(), "en", actList == "seeded");
         if (result.GetValueOrDefault("type") as string == "error") return result;
         if (request.TryGetProperty("encounter", out var encounter))
         {

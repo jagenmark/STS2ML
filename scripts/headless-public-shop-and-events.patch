@@ -1,0 +1,100 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -1034,6 +1034,8 @@
+         Log($"Playing card {card.GetType().Name} (index {cardIndex}) targeting {(target != null ? target.Monster?.GetType().Name ?? "creature" : "none")}");
+ 
+         var handCountBefore = hand.Count;
++        var history = CombatManager.Instance.History;
++        var previousPlay = history.CardPlaysFinished.LastOrDefault();
+ 
+         var playAction = new PlayCardAction(card, target);
+         RunManager.Instance.ActionQueueSet.EnqueueWithoutSynchronizing(playAction);
+@@ -1041,7 +1043,10 @@
+ 
+         // Check if card play had no effect (hand unchanged, same card still at same index)
+         var handAfter = pcs.Hand.Cards;
+-        if (handAfter.Count == handCountBefore && cardIndex < handAfter.Count && handAfter[cardIndex] == card)
++        // Unceasing Top may redraw the very same card. Require independent native play evidence in that case.
++        if (handAfter.Count == handCountBefore && cardIndex < handAfter.Count && handAfter[cardIndex] == card
++            && !history.CardPlaysFinished.Reverse().TakeWhile(e => !ReferenceEquals(e, previousPlay))
++                .Any(e => ReferenceEquals(e.CardPlay.Card, card)))
+         {
+             return Error($"Card could not be played (still in hand after action): {card.GetType().Name} [{card.Id}]");
+         }
+@@ -1510,6 +1515,18 @@
+         return DetectDecisionPoint();
+     }
+ 
++    private bool _trialAbandonPrompt;
++
++    private Dictionary<string, object?> TrialAbandonPrompt(Player player) => new()
++    {
++        ["type"] = "decision", ["decision"] = "event_choice", ["context"] = RunContext(),
++        ["event_name"] = "Trial", ["description"] = "Abandon this run?", ["player"] = PlayerSummary(player),
++        ["options"] = new[] {
++            new { index = 0, title = "Cancel", description = "Return to the Trial.", text_key = "TRIAL.confirm.CANCEL", is_locked = false },
++            new { index = 1, title = "Abandon", description = "Abandon this run.", text_key = "TRIAL.confirm.ABANDON", is_locked = false },
++        },
++    };
++
+     private Dictionary<string, object?> DoChooseOption(Player player, Dictionary<string, object?>? args)
+     {
+         if (args == null || !args.ContainsKey("option_index"))
+@@ -1517,6 +1534,19 @@
+ 
+         var optionIndex = Convert.ToInt32(args["option_index"]);
+         Log($"Choosing option {optionIndex}");
++        if (_trialAbandonPrompt)
++        {
++            if (optionIndex != 0 && optionIndex != 1) return Error("Unknown abandon confirmation option");
++            _trialAbandonPrompt = false;
++            if (optionIndex == 0) return DetectDecisionPoint();
++            // This is the native Yes callback in the single-player abandon popup.
++            RunManager.Instance.Abandon();
++            _syncCtx.Pump();
++            if (!RunManager.Instance.IsAbandoned) return Error("Native run abandonment was not confirmed");
++            var terminal = GameOverState(false);
++            terminal["abandoned"] = true;
++            return terminal;
++        }
+ 
+         // Dispatch based on ROOM TYPE (not event state) to avoid cross-contamination
+         if (_runState?.CurrentRoom is RestSiteRoom restSiteRoom)
+@@ -1577,6 +1607,12 @@
+                 var options = localEvent.CurrentOptions;
+                 if (options != null && optionIndex >= 0 && optionIndex < options.Count)
+                 {
++                    // Trial.DoubleDown only opens NAbandonRunConfirmPopup. Expose its two explicit choices.
++                    if (localEvent is MegaCrit.Sts2.Core.Models.Events.Trial && options[optionIndex].TextKey == "TRIAL.pages.REJECT.options.DOUBLE_DOWN")
++                    {
++                        _trialAbandonPrompt = true;
++                        return TrialAbandonPrompt(player);
++                    }
+                     // DetectDecisionPoint waits for completion or the next external prompt.
+                     // The task remains tracked across select_cards / rewards / bundles.
+                     _pendingEventOptionTask = Task.Run(() => options[optionIndex].Chosen());
+@@ -2697,6 +2733,8 @@
+             ["index"] = i,
+             ["name"] = _loc.Potion(e.Model?.Id.Entry ?? "?"),
+             ["description"] = _loc.Bilingual("potions", (e.Model?.Id.Entry ?? "?") + ".description"),
++            ["can_procure"] = e.IsStocked && player.HasOpenPotionSlots && e.Model != null
++                && MegaCrit.Sts2.Core.Hooks.Hook.ShouldProcurePotion(_runState!, null, e.Model, player),
+             ["cost"] = e.Cost,
+             ["is_stocked"] = e.IsStocked,
+         }).ToList();
+@@ -2712,6 +2750,7 @@
+             ["relics"] = relics,
+             ["potions"] = potions,
+             ["card_removal_cost"] = removal?.Cost,
++            ["card_removal_available"] = removal?.IsStocked == true,
+             ["player"] = PlayerSummary(player),
+         };
+     }
+@@ -3896,6 +3935,7 @@
+ 
+     public void CleanUp()
+     {
++        _trialAbandonPrompt = false;
+         _headlessSelectorScope?.Dispose();
+         _headlessSelectorScope = null;
+         CombatManager.Instance.TurnStarted -= OnHeadlessTurn;

@@ -1,0 +1,37 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -1696,6 +1696,7 @@
+         var room = _runState?.CurrentRoom;
+         if (room is CombatRoom combatRoom && combatRoom.RoomType == RoomType.Boss)
+         {
++            WaitForNativeCombatEnd(player, combatRoom);
+             if (!combatRoom.IsPreFinished && !CombatManager.Instance.IsInProgress)
+                 return Error("Boss combat stopped without confirmed native completion");
+             if (combatRoom.IsPreFinished)
+@@ -2320,11 +2321,24 @@
+         return result;
+     }
+ 
++    private void WaitForNativeCombatEnd(Player player, CombatRoom room)
++    {
++        _syncCtx.Pump();
++        if (room.IsPreFinished || CombatManager.Instance.IsInProgress || player.Creature?.IsDead == true) return;
++        // EndCombatInternal can yield between clearing IsInProgress and MarkPreFinished.
++        // Only the native marker can unlock rewards or advance a boss.
++        var deadline = Environment.TickCount64 + 1000;
++        while (!room.IsPreFinished && player.Creature?.IsDead != true && Environment.TickCount64 < deadline)
++        {
++            Thread.Sleep(1);
++            _syncCtx.Pump();
++        }
++    }
++
+     private Dictionary<string, object?> DetectPostCombatState(Player player, CombatRoom combatRoom)
+     {
++        WaitForNativeCombatEnd(player, combatRoom);
+         Log($"Post-combat: RoomType={combatRoom.RoomType}, IsPreFinished={combatRoom.IsPreFinished}");
+-        _syncCtx.Pump();
+-
+         if (player.Creature?.IsDead == true) return GameOverState(false);
+         if (!combatRoom.IsPreFinished)
+             return Error("Combat stopped without confirmed native completion");

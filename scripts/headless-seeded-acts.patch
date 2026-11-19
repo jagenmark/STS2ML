@@ -1,0 +1,26 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -231,7 +231,7 @@
+     private IReadOnlyList<IReadOnlyList<CardModel>>? _pendingBundles;
+     private TaskCompletionSource<IEnumerable<CardModel>>? _pendingBundleTcs;
+ 
+-    public Dictionary<string, object?> StartRun(string character, int ascension = 0, string? seed = null, string lang = "en")
++    public Dictionary<string, object?> StartRun(string character, int ascension = 0, string? seed = null, string lang = "en", bool seededActs = false)
+     {
+         try
+         {
+@@ -245,9 +245,14 @@
+             var seedStr = seed ?? "headless_" + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+             Log($"Creating RunState with seed={seedStr}");
+ 
++            // Mirror the standard single-player lobby's dedicated act-selection RNG.
++            // A separate profile preserves historical evaluations on the default act list.
++            var acts = seededActs ? ActModel.GetRandomList(new MegaCrit.Sts2.Core.Random.Rng(
++                StringHelper.GetDeterministicHashCode(seedStr), "act_selection"), UnlockState.all, false).ToList() : null;
+             // Use CreateForTest which properly handles mutable copies internally
+             _runState = RunState.CreateForTest(
+                 players: new[] { player },
++                acts: acts,
+                 ascensionLevel: ascension,
+                 seed: seedStr
+             );

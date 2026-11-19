@@ -74,13 +74,75 @@ class Program
             observations.Add(new { event_name = "DenseVegetation", before, after, fight });
         }
         finally { dense.CleanUp(); }
+        VerifyTrial(observations);
+        VerifyUnderdocks(observations);
         VerifyDoubleBoss(observations);
         File.WriteAllText(Path.Combine(sandbox, "observations.json"), Json(observations).GetRawText());
         var result = new { passed = true, jungle_options = 2, native_gold_and_hp_verified = true,
-            dense_native_heal_and_fight_verified = true, double_boss_verified = true };
+            dense_native_heal_and_fight_verified = true, trial_verdict_and_confirmation_verified = true,
+            underdocks_event_and_elite_verified = true, double_boss_verified = true };
         File.WriteAllText(Path.Combine(sandbox, "result.json"), Json(result).GetRawText());
         Console.WriteLine(Json(result));
         Console.WriteLine("Artifacts: " + sandbox);
+    }
+
+    static void VerifyUnderdocks(List<object> observations)
+    {
+        var sim = new RunSimulator();
+        try
+        {
+            sim.StartRun("Silent", 10, "UNDERDOCKSQUALIFY", "en");
+            var before = Json(sim.EnterRoom("event", null, "PUNCH_OFF"));
+            var option = before.GetProperty("options").EnumerateArray().Single(o =>
+                o.GetProperty("text_key").GetString() == "PUNCH_OFF.pages.INITIAL.options.NAB");
+            var after = Json(sim.ExecuteAction("choose_option", new() { ["option_index"] = option.GetProperty("index").GetInt32() }));
+            int Relics(JsonElement state) => state.GetProperty("player").GetProperty("relics").GetArrayLength();
+            Check(after.GetProperty("decision").GetString() == "map_select" && Relics(after) == Relics(before) + 1, after.ToString());
+            var fight = Json(sim.EnterRoom("elite", "PHANTASMAL_GARDENERS_ELITE", null));
+            Check(fight.GetProperty("enemies").GetArrayLength() == 4, fight.ToString());
+            var next = Json(sim.ExecuteAction("end_turn", new()));
+            Check(next.GetProperty("decision").GetString() == "combat_play" &&
+                next.GetProperty("round").GetInt32() == fight.GetProperty("round").GetInt32() + 1, next.ToString());
+            observations.Add(new { punch_off = after, gardeners = next });
+        }
+        finally { sim.CleanUp(); }
+    }
+
+    static void VerifyTrial(List<object> observations)
+    {
+        foreach (bool abandon in new[] { false, true })
+        {
+            var sim = new RunSimulator();
+            try
+            {
+                sim.StartRun("Silent", 10, "TRIALCHOICESQUALIFY", "en");
+                var state = Json(sim.EnterRoom("event", null, "TRIAL"));
+                JsonElement Choose(JsonElement current, string key)
+                {
+                    var option = current.GetProperty("options").EnumerateArray().Single(o =>
+                        o.GetProperty("text_key").GetString()!.EndsWith(key, StringComparison.Ordinal));
+                    return Json(sim.ExecuteAction("choose_option", new() { ["option_index"] = option.GetProperty("index").GetInt32() }));
+                }
+                state = Choose(state, ".REJECT");
+                state = Choose(state, ".DOUBLE_DOWN");
+                if (abandon)
+                {
+                    state = Choose(state, ".ABANDON");
+                    Check(state.GetProperty("abandoned").GetBoolean() && !state.GetProperty("victory").GetBoolean(), state.ToString());
+                }
+                else
+                {
+                    state = Choose(state, ".CANCEL");
+                    state = Choose(state, ".ACCEPT");
+                    var verdicts = state.GetProperty("options");
+                    Check(verdicts.GetArrayLength() == 2, state.ToString());
+                    state = Choose(state, ".GUILTY");
+                    Check(state.GetProperty("type").GetString() != "error", state.ToString());
+                }
+                observations.Add(new { trial = abandon ? "abandon" : "verdict", state });
+            }
+            finally { sim.CleanUp(); }
+        }
     }
 
     // Fixture-only shortcuts reach both real final-act fights quickly. This

@@ -1,0 +1,31 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -3352,9 +3352,9 @@
+         public int PendingMinSelect { get; private set; }
+         public int PendingMaxSelect { get; private set; }
+         public string PendingPrompt { get; private set; } = "";
+-        private TaskCompletionSource<IEnumerable<CardModel>>? _pendingTcs;
+-
+-        public bool HasPending => _pendingTcs != null && !_pendingTcs.Task.IsCompleted;
++        private volatile TaskCompletionSource<IEnumerable<CardModel>>? _pendingTcs;
++
++        public bool HasPending => _pendingTcs is { } pending && !pending.Task.IsCompleted;
+ 
+         public Task<IEnumerable<CardModel>> GetSelectedCards(
+             IEnumerable<CardModel> options, int minSelect, int maxSelect)
+@@ -3371,12 +3371,13 @@
+             PendingOptions = optList;
+             PendingMinSelect = minSelect;
+             PendingMaxSelect = maxSelect;
+-            _pendingTcs = new TaskCompletionSource<IEnumerable<CardModel>>();
++            var pending = new TaskCompletionSource<IEnumerable<CardModel>>();
++            _pendingTcs = pending;
+ 
+             Console.Error.WriteLine($"[SIM] Card selection pending: {optList.Count} options, select {minSelect}-{maxSelect}");
+ 
+             // Return the task — the main loop will complete it
+-            return _pendingTcs.Task;
++            return pending.Task;
+         }
+ 
+         public void ResolvePending(IEnumerable<CardModel> selected)

@@ -12,7 +12,9 @@ UPSTREAM = ROOT / "artifacts/upstreams/sts2-cli"
 FILES = ("src/Sts2Headless/Program.cs", "src/Sts2Headless/RunSimulator.cs",
          "src/GodotStubs/Core.cs", "src/GodotStubs/Math.cs", "src/GodotStubs/UI.cs")
 PATCHES = ("headless-runtime-identity.patch", "headless-public-observation.patch",
-           "headless-training.patch", "headless-a10-run.patch", "headless-combat-completion.patch")
+           "headless-training.patch", "headless-a10-run.patch", "headless-combat-completion.patch",
+           "headless-public-shop-and-events.patch", "headless-selection-race.patch", "headless-seeded-acts.patch",
+           "headless-gardener-math.patch", "headless-confirm-async-end.patch")
 
 
 def build_stages(folder, patches=PATCHES):
