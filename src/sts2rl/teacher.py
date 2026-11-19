@@ -13,12 +13,14 @@ import statistics
 import time
 
 from .combat_effects import debuff_order, landed_debuffs, power
+from .enemy_forecast import eruption_intangible_savings, solo_waterfall_forecast, waterfall_after_card
 from .native import ACT1_PROFILES, Action, NativeError, NativeSession, ReplayFork, SAMPLER, digest, legal_actions
 from .provenance import mc_provenance
 
 LEGACY_CONTINUATION = "public-combat-heuristic-v2"
 NATIVE_NAMES_CONTINUATION = "public-combat-heuristic-v3"
-CONTINUATION = "public-combat-heuristic-v4"
+ARTIFACT_CONTINUATION = "public-combat-heuristic-v4"
+CONTINUATION = "public-combat-heuristic-v5"
 
 
 def incoming(enemy: dict) -> float:
@@ -33,12 +35,12 @@ def _debuffs(stats, version):
             stats.get("poisonpower", stats.get("poison", 0)))
 
 
-def _debuff_score(card, target, enemies, version):
+def _debuff_score(card, target, enemies, version, giant=None):
     stats = card.get("stats") or {}
     weak, poison = _debuffs(stats, version)
     if not (weak or poison):
         return 0.0
-    if version == CONTINUATION:
+    if version in (ARTIFACT_CONTINUATION, CONTINUATION):
         affected = [target] if target else [e for e in enemies if e["hp"] > 0]
         if not target and card.get("target_type") not in ("AllEnemies", "RandomEnemy"):
             return 0.0
@@ -47,9 +49,10 @@ def _debuff_score(card, target, enemies, version):
             powers = enemy.get("powers")
             applications = debuff_order(card, stats, enemy)
             effects = landed_debuffs(card, applications, power(powers, "ARTIFACT"), targets=len(affected))
-            if effects.get("weak") and not power(powers, "WEAK"):
+            if effects.get("weak") and not power(powers, "WEAK") and not (giant and giant.eruption_forced):
                 score += incoming(enemy) * .25
-            score += 2 * effects.get("poison", 0)
+            if not (giant and (giant.final_phase or giant.eruption_forced)):
+                score += 2 * effects.get("poison", 0)
         return score
     if target:
         if (version == NATIVE_NAMES_CONTINUATION and card.get("id") == "CARD.BUBBLE_BUBBLE"
@@ -71,7 +74,7 @@ def _debuff_score(card, target, enemies, version):
 
 
 def heuristic_score(state: dict, action: Action, *, version=CONTINUATION) -> float:
-    if version not in (CONTINUATION, NATIVE_NAMES_CONTINUATION, LEGACY_CONTINUATION):
+    if version not in (CONTINUATION, ARTIFACT_CONTINUATION, NATIVE_NAMES_CONTINUATION, LEGACY_CONTINUATION):
         raise ValueError(f"Unknown heuristic continuation {version}")
     if action.kind == "end_turn":
         return 0.0
@@ -96,27 +99,43 @@ def heuristic_score(state: dict, action: Action, *, version=CONTINUATION) -> flo
         powers = combat.get("player_powers") or []
         source = state.get("selection_source", {})
         if ((source.get("kind") == "end_turn" and any("WELL_LAID_PLANS" in p["id"] for p in powers))
-                or (version == CONTINUATION and source.get("id") == "CARD.NIGHTMARE")):
+                or (version in (ARTIFACT_CONTINUATION, CONTINUATION) and source.get("id") == "CARD.NIGHTMARE")):
             score = -score  # Retain useful cards rather than discarding them.
         return score
+    if action.kind in ("play_card", "use_potion"):
+        giant = None
+        if version == CONTINUATION and (state.get("runtime_identity") or {}).get("ascension") == 10:
+            giant = solo_waterfall_forecast(state, [e for e in state["enemies"] if e["hp"] > 0])
+        defeated = giant and (giant.eruption_forced or giant.final_phase)
+        threat = 0 if giant and giant.eruption_forced else sum(incoming(e) for e in state["enemies"])
+        need = max(0, threat - state["player"]["block"])
     if action.kind == "play_card":
         card = next(c for c in state["hand"] if c["index"] == action.args["card_index"])
         stats = card.get("stats") or {}
-        need = max(0, sum(incoming(e) for e in state["enemies"]) - state["player"]["block"])
         score = min(need, stats.get("block", 0)) * 1.2
         target = next((e for e in state["enemies"] if e["index"] == action.args.get("target_index")), None)
-        if target:
-            preview = next((p for p in card.get("damage_by_target", [])
+        if target and not defeated:
+            preview = next((p for p in card.get("damage_by_target") or []
                             if p["target_index"] == target["index"]), {})
             damage = preview.get("total_damage", preview.get("damage", stats.get("damage", 0)))
             score += min(damage, target["hp"] + target.get("block", 0))
-            if damage >= target["hp"] + target.get("block", 0):
+            if giant and giant.eruption_damage is not None:
+                after = waterfall_after_card(target, state["round"], card,
+                                             accelerant=power(state.get("player_powers"), "ACCELERANT"))
+                if after.eruption_forced:
+                    score += incoming(target)
+            elif damage >= target["hp"] + target.get("block", 0):
                 score += 10 + incoming(target)
-        elif card.get("type") == "Attack":
+        elif not target and not defeated and card.get("type") == "Attack":
             # Public multi-target previews when available; otherwise base damage.
             score += sum(min((card.get("stats") or {}).get("damage", 0), e["hp"] + e.get("block", 0))
                          for e in state["enemies"])
-        score += _debuff_score(card, target, state["enemies"], version)
+        score += _debuff_score(card, target, state["enemies"], version, giant)
+        if defeated and stats.get("intangiblepower"):
+            duration = power(state.get("player_powers"), "INTANGIBLE")
+            if giant.final_phase and not giant.eruption_forced and duration <= 0:
+                score += min(need, max(0, threat - 1))
+            score += eruption_intangible_savings(giant, duration, stats["intangiblepower"])
         if card.get("type") == "Power":
             score += 8  # Generic rollout heuristic; the teacher still compares outcomes.
         score += stats.get("energy", 0) * 5
@@ -125,8 +144,15 @@ def heuristic_score(state: dict, action: Action, *, version=CONTINUATION) -> flo
     if action.kind == "use_potion":
         potion = next(p for p in state["player"]["potions"] if p["index"] == action.args["potion_index"])
         v = {k.lower(): x for k, x in (potion.get("vars") or {}).items()}
-        need = max(0, sum(incoming(e) for e in state["enemies"]) - state["player"]["block"])
-        return min(need, v.get("block", 0)) + v.get("damage", 0) * .5 + v.get("energy", 0) * 4 - 3
+        block = v.get("block", 0)
+        extra = 0
+        if defeated and potion.get("id") == "POTION.GHOST_IN_A_JAR":
+            duration = power(state.get("player_powers"), "INTANGIBLE")
+            if giant.final_phase and not giant.eruption_forced and duration <= 0:
+                block += max(0, threat - 1)
+            extra = eruption_intangible_savings(giant, duration, v.get("intangiblepower", 1))
+        damage = 0 if defeated else v.get("damage", 0)
+        return min(need, block) + extra + damage * .5 + v.get("energy", 0) * 4 - 3
     if action.kind == "select_card_reward":
         c = next(c for c in state["cards"] if c["index"] == action.args["card_index"])
         v = c.get("stats") or {}

@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .combat_effects import block_preview, debuff_order
+from .enemy_forecast import solo_waterfall_forecast
 from .native import legal_actions
 from .run_policy import _cost, _damage, _power
 from .teacher import incoming
@@ -50,7 +51,9 @@ def choose_turn(state, policy, *, width=6, depth=5):
     if size == 0:
         return actions[max(range(len(actions)), key=scores.__getitem__)]
     hp = tuple(e["hp"] + e.get("block", 0) for e in enemies)
-    intents = tuple(incoming(e) for e in enemies)
+    legacy = getattr(policy, "legacy_features", False)
+    giant = None if legacy else solo_waterfall_forecast(state, enemies)
+    intents = (0,) if giant and giant.eruption_forced else tuple(incoming(e) for e in enemies)
     w = policy.weights
     focus = tuple(1 + w.focus * (1 - e["hp"] / max(1, e["max_hp"])) if size > 1 else 1 for e in enemies)
     player = state["player"]
@@ -60,7 +63,6 @@ def choose_turn(state, policy, *, width=6, depth=5):
     revive = any(_power(e.get("powers"), "ILLUSION") or _power(e.get("powers"), "INFESTED") for e in enemies)
     cards = {c["index"]: c for c in state["hand"]}
     potions = {p["index"]: p for p in player["potions"]}
-    legacy = getattr(policy, "legacy_features", False)
     legacy_dex = _power(state.get("player_powers"), "DEXTERITY") if legacy else 0
     shields = tuple(max(0, _power(e.get("powers"), "ARTIFACT")) for e in enemies)
     if legacy or not any(shields):
@@ -72,14 +74,15 @@ def choose_turn(state, policy, *, width=6, depth=5):
         for i, hits in enumerate(damage):
             offense += min(hp[i], hits) * focus[i]
             if hits >= hp[i]:
-                offense += 14
+                if not (giant and giant.eruption_damage is not None):
+                    offense += 14
             else:
                 alive += 1
                 threat += intents[i] * (.75 if weak & (1 << i) else 1.)
         loss = max(0., threat - starting_block - block)
         value = offense + block_weight * (need - loss)
         if terminal:
-            if not alive and not revive:
+            if not alive and not revive and not (giant and giant.eruption_damage is not None):
                 value += 35
             if loss >= player["hp"]:
                 value -= 30
@@ -115,6 +118,8 @@ def choose_turn(state, policy, *, width=6, depth=5):
                 d[i] = _damage(item, enemies[i])
             if item.get("target_type") == "RandomEnemy" and size > 1:
                 d[i] /= size
+            if giant and (giant.final_phase or giant.eruption_forced):
+                d[i] = 0
             if shields:
                 effects = debuff_order(item, stats, enemies[i], energy=energy)
                 if item.get("target_type") == "RandomEnemy" and size > 1:

@@ -6,6 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .enemy_forecast import solo_waterfall_forecast
 from .native import legal_actions
 from .provenance import feature_provenance, planner_provenance, require_provenance
 from .run_policy import IDENTITY, RunPolicy, RunWeights, _card_id, _cost, _damage, _draw_count, _power, _shiv_count
@@ -21,11 +22,13 @@ def action_examples(state, policy):
     groups = equivalent_groups(state, actions)
     reps = [g[0] for g in groups]
     enemies = [e for e in state["enemies"] if e["hp"] > 0]
+    giant = None if getattr(policy, "legacy_features", False) else solo_waterfall_forecast(state, enemies)
+    giant_defeated = giant and (giant.final_phase or giant.eruption_forced)
     hand = {c["index"]: c for c in state["hand"]}
     potions = {p["index"]: p for p in state["player"]["potions"]}
     pl = state["player"]
     hp = pl["hp"] / pl["max_hp"]
-    inc = sum(incoming(e) for e in enemies)
+    inc = 0 if giant and giant.eruption_forced else sum(incoming(e) for e in enemies)
     need = max(0, inc - pl["block"])
     playable = [c for c in hand.values() if c.get("can_play")]
     available_block = sum((c.get("stats") or {}).get("block", 0) for c in playable)
@@ -39,7 +42,7 @@ def action_examples(state, policy):
     context = [hp, pl["hp"] / 50, pl["block"] / 15, min(2., need / max(1, pl["hp"])),
                inc / 20, need / 20, energy / 3, len(hand) / 6, len(playable) / 5,
                len(enemies) / 3, available_block / 15, state["round"] / 8,
-               sum(e["hp"] for e in enemies) / 100, len(potions) / 2,
+               (0 if giant_defeated else sum(e["hp"] for e in enemies) / 100), len(potions) / 2,
                state["context"]["act"] / 3, state["context"]["floor"] / 17,
                float(state["context"]["room_type"] == "Boss"), float(state["context"]["room_type"] == "Elite")]
     examples = []
@@ -55,6 +58,12 @@ def action_examples(state, policy):
         damage = sum(min(d, e["hp"] + e.get("block", 0)) for e, d in zip(affected, damages, strict=True))
         threat_removed = sum(incoming(e) for e, d in zip(affected, damages, strict=True) if d >= e["hp"] + e.get("block", 0))
         health = target["hp"] + target.get("block", 0) if target else 0
+        target_threat = incoming(target) if target else 0
+        remaining_margin = remaining_damage[target["index"]] - health if target else 0
+        if giant_defeated:
+            damage = threat_removed = health = remaining_margin = 0
+            if giant.eruption_forced:
+                target_threat = 0
         block = stats.get("calculatedblock", stats.get("block", 0))
         score = by_id[a.id]
         numeric = context + [float(is_card), float(potion), float(a.kind == "end_turn"),
@@ -63,9 +72,9 @@ def action_examples(state, policy):
               min(need, block) / 10, stats.get("poisonpower", 0) / 6, stats.get("weakpower", 0) / 2,
               _draw_count(item) / 3, _shiv_count(item) / 3, stats.get("energy", 0),
               health / 40, health / max(1, target["max_hp"]) if target else 0,
-              incoming(target) / 15 if target else 0,
+              target_threat / 15,
               _power(target.get("powers"), "POISON") / 8 if target else 0,
-              (remaining_damage[target["index"]] - health) / 20 if target else 0,
+              remaining_margin / 20,
               score / 15, (score - max_score) / 10, old_score / 15, (old_score - max_base) / 10]
         examples.append({"token": _card_id(item) if item else a.kind,
                          "x": [round(max(-8., min(8., float(v))), 5) for v in numeric]})

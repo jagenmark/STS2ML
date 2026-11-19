@@ -1,0 +1,60 @@
+[
+  {
+    "seed": "ACT1PATTEST0061",
+    "round": 5,
+    "opening_actions": 126,
+    "opening_digest": "5e8eef7be0033cc2ab354c2f47824351654e45a1a58d2778b79debe089470ee4",
+    "deathblow": 35,
+    "hp_after": 13,
+    "actions": [
+      ["play_card", {"card_index": 3, "target_index": 0}],
+      ["play_card", {"card_index": 4}],
+      ["select_cards", {"indices": "2"}],
+      ["play_card", {"card_index": 0}],
+      ["end_turn", {}],
+      ["play_card", {"card_index": 1, "target_index": 0}],
+      ["play_card", {"card_index": 4, "target_index": 0}],
+      ["play_card", {"card_index": 2}],
+      ["play_card", {"card_index": 2, "target_index": 0}],
+      ["end_turn", {}],
+      ["play_card", {"card_index": 3, "target_index": 0}],
+      ["play_card", {"card_index": 3, "target_index": 0}],
+      ["play_card", {"card_index": 1, "target_index": 0}],
+      ["play_card", {"card_index": 2, "target_index": 0}],
+      ["end_turn", {}],
+      ["play_card", {"card_index": 5, "target_index": 0}],
+      ["play_card", {"card_index": 1}],
+      ["end_turn", {}]
+    ]
+  },
+  {
+    "seed": "ACT1PATTEST0030",
+    "round": 10,
+    "opening_actions": 214,
+    "opening_digest": "88aa4ee28ee46e35a06bb9e990f4caf3304167b51c32d729531417bafc2081a4",
+    "deathblow": 53,
+    "hp_after": 3,
+    "actions": [
+      ["play_card", {"card_index": 4}],
+      ["select_cards", {"indices": "0"}],
+      ["play_card", {"card_index": 0, "target_index": 0}],
+      ["play_card", {"card_index": 0, "target_index": 0}],
+      ["end_turn", {}],
+      ["play_card", {"card_index": 2}],
+      ["play_card", {"card_index": 1, "target_index": 0}],
+      ["select_cards", {"indices": "0"}],
+      ["play_card", {"card_index": 2, "target_index": 0}],
+      ["end_turn", {}],
+      ["play_card", {"card_index": 0}],
+      ["play_card", {"card_index": 1}],
+      ["play_card", {"card_index": 1, "target_index": 0}],
+      ["end_turn", {}],
+      ["play_card", {"card_index": 1, "target_index": 0}],
+      ["play_card", {"card_index": 1, "target_index": 0}],
+      ["end_turn", {}],
+      ["play_card", {"card_index": 3, "target_index": 0}],
+      ["play_card", {"card_index": 0}],
+      ["end_turn", {}]
+    ]
+  }
+]

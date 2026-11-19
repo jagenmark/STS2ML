@@ -13,6 +13,7 @@ from pathlib import Path
 from .act1 import MacroPolicy, is_combat_choice
 from .card_effects import deck_engines, hand_value, persistent_value
 from .combat_effects import block_preview, debuff_order, landed_debuffs, power as _power
+from .enemy_forecast import eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, runtime_identity, selected_cards
 from .teacher import incoming
 
@@ -131,7 +132,9 @@ class RunPolicy:
         enemies = [e for e in state["enemies"] if e["hp"] > 0]
         hands = {c["index"]: c for c in state["hand"]}
         potions = {p["index"]: p for p in state["player"]["potions"]}
-        total_in = sum(incoming(e) for e in enemies)
+        giant = None if self.legacy_features else solo_waterfall_forecast(state, enemies)
+        giant_defeated = giant and (giant.final_phase or giant.eruption_forced)
+        total_in = 0 if giant and giant.eruption_forced else sum(incoming(e) for e in enemies)
         player = state["player"]
         need = max(0, total_in - player["block"])
         danger = min(2.0, need / max(1, player["hp"]))
@@ -194,15 +197,19 @@ class RunPolicy:
                     weak, vulnerable = effects.get("weak", 0), effects.get("vulnerable", 0)
                     if enemy.get("intends_attack"):
                         block += effects.get("strength_loss", 0)
+                if giant_defeated:
+                    damage = poison = 0
+                threat = 0 if giant and giant.eruption_forced else incoming(enemy)
                 focus = 1 + w.focus * (1 - enemy["hp"] / max(1, enemy["max_hp"])) if crowded else 1
                 offense += focus * (min(hp, damage) + min(enemy["hp"], poison * w.poison))
                 if (damage + min(existing_poison + poison, enemy["hp"]) >= hp
                         or existing_poison + poison >= enemy["hp"]):
                     if damage > 0 or poison > 0:
-                        offense += 14
-                        mitigation += incoming(enemy)
+                        if not (giant and giant.eruption_damage is not None):
+                            offense += 14
+                        mitigation += threat
                 elif weak and _power(enemy.get("powers"), "WEAK") <= 0:
-                    mitigation += .25 * incoming(enemy)
+                    mitigation += .25 * threat
                     offense += 2 * min(2, weak)
                 if vulnerable and not _power(enemy.get("powers"), "VULNERABLE"):
                     offense += 1.8 * min(4, energy + 1)
@@ -210,7 +217,13 @@ class RunPolicy:
                 offense /= len(affected)
                 mitigation /= len(affected)
             shivs = min(_shiv_count(item), max(0, 11 - len(hands)))
-            offense += shivs * max(0, 4 + strength)
+            if not giant_defeated:
+                offense += shivs * max(0, 4 + strength)
+            if giant_defeated and _card_id(item).split(".")[-1] in ("GHOST_IN_A_JAR", "WRAITH_FORM"):
+                duration = _power(state.get("player_powers"), "INTANGIBLE")
+                if giant.final_phase and not giant.eruption_forced and duration <= 0:
+                    block += max(0, total_in - 1)
+                setup += eruption_intangible_savings(giant, duration, stats.get("intangiblepower", 1))
             if self.legacy_features:
                 block += stats.get("strengthloss", 0) * sum(e.get("intends_attack", False) for e in enemies)
             utility = offense + w.block * (1 + danger) * min(need, block + mitigation)

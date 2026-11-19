@@ -22,12 +22,12 @@ def _digest(value):
 
 
 def mc_provenance(continuation):
-    return {"continuation": continuation, "code_sha256": _source_hash(("teacher", "combat_effects", "native")),
+    return {"continuation": continuation, "code_sha256": _source_hash(("teacher", "combat_effects", "enemy_forecast", "native")),
             "weights_sha256": None}  # This continuation has no learned checkpoint.
 
 
 def feature_provenance(weights, *, planner=False):
-    modules = ("card_effects", "combat_effects", "native", "run_policy", "tactical_student", "teacher", "turn_planning")
+    modules = ("card_effects", "combat_effects", "enemy_forecast", "native", "run_policy", "tactical_student", "teacher", "turn_planning")
     if not planner:
         modules += ("encounter", "return_policy")
     return {"schema": "turn-planner-v2" if planner else "combat-return-v2",

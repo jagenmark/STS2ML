@@ -34,7 +34,7 @@ Using the released `development-openings/act-2` pool, training and `check-late` 
 
 ## Corrections on the development branch
 
-The base policy and turn planner now use the native block preview. Both estimated 7 block for a Defend that granted 7 with +2 Dexterity. With 10 HP, 12 incoming and one Artifact stack, Neutralize leaves 12 incoming. The planner tracks each enemy’s remaining Artifact across plays. The MC continuation is now `public-combat-heuristic-v4`. Nightmare copied Dagger Throw on the restored training hand, and the optional deck-effects policy accepted an enemy with null intents.
+The base policy and turn planner use the native block preview. Both estimated 7 block for a Defend that granted 7 with +2 Dexterity. With 10 HP, 12 incoming and one Artifact stack, Neutralize leaves 12 incoming. The planner tracks each enemy’s remaining Artifact across plays. These corrections shipped in MC continuation v4. Nightmare copied Dagger Throw on the restored training hand, and the optional deck-effects policy accepted an enemy with null intents. The subsequent v5 continuation also handles the Waterfall Giant's delayed explosion. [Native Giant checks](silent-a10-act1-forecasts.md#how-the-giants-explosion-works)
 
 New MC, planner and return labels carry their teacher and feature identities as applicable. Aggregation and fitting check the recorded code and weights. A fresh v4 native collection produced five decisions. A separate return collection produced 64 roots on 32 seeds and completed a one-epoch fit and three native games. Changing the feature weights or supplying the unversioned archived labels failed before training.
 

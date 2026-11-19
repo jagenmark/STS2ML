@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from .card_effects import deck_engines
+from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, selected_cards
 from .combat_effects import debuff_order, landed_debuffs
 from .run_policy import IDENTITY, RunPolicy, _cost, _damage, _draw_count, _hits, _power, _shiv_count
@@ -124,6 +125,8 @@ class EncounterPolicy(RunPolicy):
         hp, maxhp = player["hp"], player["max_hp"]
         powers = state.get("player_powers") or []
         enemies = [e for e in state["enemies"] if e["hp"] > 0]
+        giant = None if self.legacy_features else solo_waterfall_forecast(state, enemies)
+        giant_defeated = giant and (giant.final_phase or giant.eruption_forced)
         hand = {c["index"]: c for c in state["hand"]}
         potions = {p["index"]: p for p in player["potions"]}
         energy = state["energy"]
@@ -133,6 +136,8 @@ class EncounterPolicy(RunPolicy):
             e["hp"] for e in enemies
         )
         horizon = min(8.0, max(1.0, hp_pool / (18 + 3 * (state["context"]["act"] - 1)))) * w.horizon
+        if giant_defeated:
+            horizon = 2.0 if giant.eruption_forced else 1.0
         attacks = [c for c in hand.values() if c["type"] == "Attack" and c.get("can_play")]
         skills = [c for c in hand.values() if c["type"] == "Skill" and c.get("can_play")]
         strength = _power(powers, "STRENGTH")
@@ -140,8 +145,13 @@ class EncounterPolicy(RunPolicy):
         intangible = _power(powers, "INTANGIBLE") > 0
         afterimage = max(0, _power(powers, "AFTERIMAGE"))
         shiv_damage = max(0, 4 + strength + _power(powers, "ACCURACY"))
-        total_hit = sum(_count_hits(e) for e in enemies)
+        count_hits = attack_hits if giant else _count_hits
+        total_hit = sum(count_hits(e) for e in enemies)
         inc = total_hit if intangible else sum(incoming(e) for e in enemies)
+        if giant and intangible:
+            inc = min(inc, incoming(enemies[0]))
+        if giant and giant.eruption_forced:
+            inc = 0
         need = max(0.0, inc - player["block"] - plating)
         block_value = w.guard * (1.12 + 0.55 * (1 - hp / maxhp) + min(1.8, need / max(1, hp)))
         if need >= hp:
@@ -248,7 +258,13 @@ class EncounterPolicy(RunPolicy):
                 if name == "OUTBREAK":
                     dmg += (existing + poison) * poison_triggers
                 hp_e = e["hp"] + e.get("block", 0)
-                threat = incoming(e) if not intangible else _count_hits(e)
+                if giant_defeated:
+                    dmg = poison = 0
+                threat = incoming(e) if not intangible else count_hits(e)
+                if giant and intangible:
+                    threat = min(threat, incoming(e))
+                if giant and giant.eruption_forced:
+                    threat = 0
                 poison_end = min(e["hp"], (existing + poison) * poison_triggers)
                 focus = (
                     1.0 + 0.27 * (1 - e["hp"] / max(1, e["max_hp"])) if len(enemies) > 1 else 1.0
@@ -266,16 +282,14 @@ class EncounterPolicy(RunPolicy):
                 if dmg > 0 or poison > 0:
                     if dmg >= hp_e or max(0.0, dmg - e.get("block", 0)) + poison_end >= e["hp"]:
                         mitigation += threat
-                        offense += (
-                            11
-                            if minion
-                            else (
-                                25
-                                if len(enemies) == 1
-                                or any(_power(o.get("powers"), "MINION") for o in enemies)
-                                else 15
+                        if not (giant and giant.eruption_damage is not None):
+                            offense += (
+                                11 if minion else (
+                                    25 if len(enemies) == 1
+                                    or any(_power(o.get("powers"), "MINION") for o in enemies)
+                                    else 15
+                                )
                             )
-                        )
                 weak = stats.get("weakpower", 0)
                 vuln = stats.get("vulnerablepower", 0)
                 if name == "EXPOSE":
@@ -286,7 +300,7 @@ class EncounterPolicy(RunPolicy):
                     weak = energy + int(item.get("upgrades", 0) > 0)
                     if not artifact:
                         setup += weak * min(8.0, horizon * 1.5)
-                        mitigation += min(threat, weak * _count_hits(e))
+                        mitigation += min(threat, weak * count_hits(e))
                 if artifact and not self.legacy_features:
                     # Haze applies Poison before Weak. Binding applies Weak
                     # before Vulnerable. One Artifact stack stops one application.
@@ -308,7 +322,7 @@ class EncounterPolicy(RunPolicy):
                     stats.get("strengthpower", 0) if name == "SHACKLING_POTION" else 0
                 )
                 if drop and not artifact:
-                    mitigation += min(threat, drop * _count_hits(e))
+                    mitigation += min(threat, drop * count_hits(e))
                 if name == "BEETLE_JUICE" and not artifact:
                     setup += 0.3 * min(4.0, horizon) * max(8, threat)
                 if name == "POWDERED_DEMISE":
@@ -359,7 +373,8 @@ class EncounterPolicy(RunPolicy):
                 if name != "STORM_OF_STEEL"
                 else shiv
             )
-            offense += shiv * (shiv_damage + (2 if name == "CUNNING_POTION" else 0))
+            if not giant_defeated:
+                offense += shiv * (shiv_damage + (2 if name == "CUNNING_POTION" else 0))
             draw = _draw_count(item)
             if name in ("ESCAPE_PLAN", "FINESSE", "FLASH_OF_STEEL"):
                 draw = 1
@@ -442,10 +457,14 @@ class EncounterPolicy(RunPolicy):
                 )
             if name == "FISTICUFFS":
                 block += stats.get("damage", 0)
-            if name in ("GHOST_IN_A_JAR", "WRAITH_FORM") and not intangible:
+            if name in ("GHOST_IN_A_JAR", "WRAITH_FORM"):
                 turns = stats.get("intangiblepower", 1)
-                mitigation += max(0, inc - total_hit)
-                setup += max(0, min(horizon, turns) - 1) * (11 if hard else 7)
+                if not intangible:
+                    mitigation += max(0, inc - total_hit)
+                if giant and giant.eruption_forced:
+                    setup += block_value * eruption_intangible_savings(giant, _power(powers, "INTANGIBLE"), turns)
+                elif not intangible:
+                    setup += max(0, min(horizon, turns) - 1) * (11 if hard else 7)
             energy_gain = (
                 stats.get("energy", 0) if name not in ("DANSE_MACABRE", "RIGHT_HAND_HAND") else 0
             )
