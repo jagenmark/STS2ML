@@ -1,11 +1,13 @@
-// Keep native event gameplay; remove inspected audio/screen-shake calls only.
+// Adapt display-dependent calls while preserving native effects and rewards.
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Audio.Debug;
 using MegaCrit.Sts2.Core.Events.Custom.CrystalSphereEvent;
 using MegaCrit.Sts2.Core.Models.Events;
+using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.Audio;
 using MegaCrit.Sts2.Core.Nodes.Events.Custom.CrystalSphere;
 using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 
@@ -28,7 +30,31 @@ public static class PresentationFix
         }
         harmony.Patch(AccessTools.Method(typeof(NCrystalSphereScreen), "ShowScreen"),
             prefix: new HarmonyMethod(typeof(PresentationFix), nameof(PlayCrystalSphere)));
+        foreach (var arm in new[] { typeof(Crusher), typeof(Rocket) })
+            harmony.Patch(AccessTools.Method(arm, "BeforeDeath"),
+                transpiler: new HarmonyMethod(typeof(PresentationFix), nameof(ReplaceArmDeathSound)));
         _installed = true;
+    }
+
+    private static void PlayDeathSoundIfAvailable(NAudioManager? audio, string path, float volume)
+        => audio?.PlayOneShot(path, volume);
+
+    private static IEnumerable<CodeInstruction> ReplaceArmDeathSound(IEnumerable<CodeInstruction> instructions)
+    {
+        var replaced = 0;
+        foreach (var instruction in instructions)
+        {
+            if (instruction.opcode == OpCodes.Callvirt && instruction.operand is MethodInfo method
+                && method.DeclaringType == typeof(NAudioManager) && method.Name == "PlayOneShot"
+                && method.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { typeof(string), typeof(float) }))
+            {
+                instruction.opcode = OpCodes.Call;
+                instruction.operand = AccessTools.Method(typeof(PresentationFix), nameof(PlayDeathSoundIfAvailable));
+                replaced++;
+            }
+            yield return instruction;
+        }
+        if (replaced != 1) throw new InvalidOperationException("Unexpected boss arm death audio call count");
     }
 
     // The game's PlayMinigame discards the screen handle and awaits the last
