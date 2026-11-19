@@ -17,6 +17,16 @@
     "enemies": 18,
     "monster_data_sha256": "7c378bbdeb4120e52335e2840f87ce85d3b597370ba4fd531a2fd7a99beeaee1"
   },
+  "proposed_pilot": {
+    "file": "silent-a10-forecast-pilot-rules.json",
+    "sha256": "ca68507ec1864e7169a399dc0ec9cb48cf77174bc868d226959e9326dbbc78ad",
+    "excluded_enemy": "MONSTER.WATERFALL_GIANT",
+    "rules": 28,
+    "enemies": 17,
+    "previously_inspected_hits_correct": [1117, 1117],
+    "previously_inspected_clean_damage_correct": [826, 826],
+    "fresh_playing_strength_evaluation": null
+  },
   "evaluation": {
     "unique_seeds": 64,
     "split_ids_disjoint": true,

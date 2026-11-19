@@ -27,8 +27,10 @@ The original qualification used 48 separate seeds and retained 31 rules across 1
 
 The 38-damage case had a tracked modifier and therefore fell outside the original base-damage accuracy calculation. Both before-and-after public states reproduced on an independently built host. The compressed file contains the initial game specifications, physical actions, action counts and native digests for replay with `NativeSession.restore`. [Two native replay fixtures](evidence/silent-a10-waterfall-forecasts.json.gz)
 
+The proposed pilot rule file excludes all three Waterfall Giant rules until the predictor handles its special move. It contains 28 rules for 17 enemies in the experiment’s existing `rules.json` format. Those rules matched 1,117/1,117 checkable hit counts and 826/826 clean damage checks on the inspected data. Its playing strength needs a new evaluation because these outcomes informed the exclusion. [Pilot rule file](evidence/silent-a10-forecast-pilot-rules.json)
+
 ## Next experiment
 
-1. Mark the Giant’s ambiguous zero-damage transition as unknown. Count damage-bearing intents during rule verification and rerun the two fixtures whenever the forecast code changes. Freeze the qualified rules, their source hash and the missing-value encoding before fitting.
+1. Use the pilot rule file and encode missing forecasts as unknown. Count damage-bearing intents during rule verification and rerun the two fixtures whenever the forecast code changes. Freeze the rules, their source hash and the missing-value encoding before fitting.
 2. Collect fresh v4 teacher decisions from standard-lobby challenger runs in both starting biomes. Start with Ceremonial Beast. Train matched advisers with the forecast masked or visible, using the same action choices, teacher returns and data split.
 3. Compare the unchanged challenger and both advisers on the same previously unseen boss states, preserving starting health, deck, relics, potions and draw state. Measure boss wins first and HP remaining across all starts second. Then test the selected adviser on fresh, locked full-game seeds with the challenger handling the rest of the run. Use Act 3 entries and full victories for promotion. [Published benchmark](silent-a10-progression.md)
