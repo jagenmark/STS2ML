@@ -2,6 +2,8 @@
 
 The new policy entered Act 2 on 37 of 128 fresh standard-lobby seeds (28.9%), up from 23 (18.0%) for the previous neural policy. It reached Act 3 twice, up from once. Across both suites it reached the first Act 3 boss once and lost to the Test Subject. Both policies finished with zero full wins in 384 starts each.
 
+A follow-up compared students with optional enemy forecasts and replayed the frozen challenger on their 64 matched openings. [Forecast results and next experiment](silent-a10-act1-forecasts.md)
+
 ## Fresh full runs
 
 | Opening configuration | Seeds per policy | Policy | Entered Act 2 | Entered Act 3 | Reached an Act 3 boss | Full wins |

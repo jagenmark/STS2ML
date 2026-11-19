@@ -1,0 +1,277 @@
+{
+  "game": "Silent A10, standard lobby, beta v0.111.0 (41cef1ea)",
+  "training": {
+    "decisions": 654,
+    "groups": 48,
+    "biomes": [
+      "OVERGROWTH.title"
+    ],
+    "teacher": [
+      "public-combat-heuristic-v2"
+    ],
+    "covered_decisions": 224
+  },
+  "rule_qualification": {
+    "seeds": 48,
+    "rules": 31,
+    "enemies": 18,
+    "monster_data_sha256": "7c378bbdeb4120e52335e2840f87ce85d3b597370ba4fd531a2fd7a99beeaee1"
+  },
+  "evaluation": {
+    "unique_seeds": 64,
+    "split_ids_disjoint": true,
+    "matched_openings": 64,
+    "by_initialization": [
+      {
+        "init": "174",
+        "clears": [
+          3,
+          6
+        ],
+        "only_baseline": 0,
+        "only_forecast": 3
+      },
+      {
+        "init": "175",
+        "clears": [
+          2,
+          8
+        ],
+        "only_baseline": 0,
+        "only_forecast": 6
+      },
+      {
+        "init": "176",
+        "clears": [
+          2,
+          2
+        ],
+        "only_baseline": 1,
+        "only_forecast": 1
+      }
+    ],
+    "mean_paired_clear_rate_difference": 0.046875,
+    "seed_bootstrap_95": [
+      0.010416666666666668,
+      0.08854166666666666
+    ],
+    "boss_arrivals": [
+      104,
+      96
+    ],
+    "boss_wins": [
+      7,
+      16
+    ],
+    "biomes": {
+      "Overgrowth": {
+        "baseline": [
+          5,
+          105
+        ],
+        "forecast": [
+          10,
+          105
+        ]
+      },
+      "Underdocks": {
+        "baseline": [
+          2,
+          87
+        ],
+        "forecast": [
+          6,
+          87
+        ]
+      }
+    }
+  },
+  "release_control": {
+    "source": "silent-a10-2026-11-19",
+    "bundle": "challenger/policy.json",
+    "prefix": "ACT1PATTEST",
+    "settings": "evaluate --roles candidate --seeded-acts --seeds 64",
+    "outcomes": {
+      "attempted": 64,
+      "complete": 64,
+      "errors": {},
+      "act1_clears": 21,
+      "act2_clears": 2,
+      "wins": 0,
+      "mean_progress": 19.232128083955065
+    },
+    "boss_arrivals": 41
+  },
+  "validation": {
+    "count_order": [
+      "transitions",
+      "original_string_hits_correct",
+      "unmodified_damage_checks",
+      "unmodified_damage_correct",
+      "native_damage_intent_hits_correct"
+    ],
+    "verify": {
+      "traces_with_checks": 48,
+      "different_terminal_digest": [],
+      "retried": [],
+      "totals": [
+        370,
+        370,
+        241,
+        241,
+        370
+      ],
+      "mismatches": []
+    },
+    "forecast": {
+      "traces_with_checks": 187,
+      "different_terminal_digest": [],
+      "retried": [],
+      "totals": [
+        1181,
+        1181,
+        851,
+        850,
+        1179
+      ],
+      "mismatches": [
+        {
+          "seed": "ACT1PATTEST0061",
+          "init": "init-175",
+          "key": [
+            17,
+            9
+          ],
+          "rule": [
+            "MONSTER.WATERFALL_GIANT",
+            "Attack+Buff",
+            0,
+            0
+          ],
+          "native": [
+            {
+              "type": "DeathBlow",
+              "damage": 38
+            }
+          ],
+          "old_hits": 0,
+          "hits": 1,
+          "clean": false
+        },
+        {
+          "seed": "ACT1PATTEST0030",
+          "init": "init-176",
+          "key": [
+            17,
+            14
+          ],
+          "rule": [
+            "MONSTER.WATERFALL_GIANT",
+            "Attack+Buff",
+            0,
+            0
+          ],
+          "native": [
+            {
+              "type": "DeathBlow",
+              "damage": 53
+            }
+          ],
+          "old_hits": 0,
+          "hits": 1,
+          "clean": true
+        }
+      ]
+    },
+    "waterfall_replay_fixture": "silent-a10-waterfall-forecasts.json.gz",
+    "waterfall_fixture_sha256": "1dd02a99d3fcf79241e051b55e6b22b6089b28fe2d67705f21390d20897cd964"
+  },
+  "source_sha256": {
+    "rules.json": "4a8d6cedc099fe3de2bb7606ec4e1c3c2eed3093a6c872ec0967715b26952751",
+    "verify.json": "9ec4d722af7715d8af4d7c1843faf1c4aee51fd62c7b97de0bdcf80fdcb42646",
+    "test.json": "f48334bb369013f6bbecee732a688b72cbe09cf84f176f5d1f2ffbaae29e5762",
+    "init-175/test.json": "108d37f7412b4466b4016f4687400e1939a8b0fe7f7cc7c2470bc9a809888b44",
+    "init-176/test.json": "b86aba0dc8967055f2c77e33e400fd0f74ecedf564a9c7259c2b698233e4f3dd",
+    "report.json": "bbbfea51298bf42805dc6e73568660477bd5a660e54a92662eb6484e873e93b8"
+  },
+  "columns": [
+    "seed",
+    "opening_sha256",
+    "biome",
+    "baseline_174",
+    "forecast_174",
+    "baseline_175",
+    "forecast_175",
+    "baseline_176",
+    "forecast_176",
+    "released_challenger_act1",
+    "released_challenger_act2",
+    "released_challenger_full_win"
+  ],
+  "seed_rows": [
+    ["ACT1PATTEST0000", "8a5b8b3f31ced5365e018403b252aef7ec5367d9b4e87606507af61c4e557462", "Overgrowth", 0, 0, 0, 1, 0, 1, 1, 0, 0],
+    ["ACT1PATTEST0001", "b8a3e965bc64a0c29beda4f5b1cba348beeba10340384e49293e5a5bb0fb0c89", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0002", "b661c485a713484ccb5bef3036d57d46d14d2d2520ec880679759b988ce504e3", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0003", "ec58ce8e290a6db14fcd9f5a54966dd464215ff7f8dfe140a2b935f80bbe0f80", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0004", "12c7b7122deca6008ec545b5aebf4f4add8a0c697dba6ae7174a6134930eee0d", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0005", "1e014b77a8033942542c3f8bf5c758dc2a9781a06ba3aede9266845fd07fad9f", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0006", "62bbe2faa43d107c0aa02f5d707a60547285690cf4d4ce5962f4d6148c5d68bf", "Underdocks", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0007", "d655c23819f3db63d25fe408a7a4907e726847236c6c1d2eb1f5c4ca30864f83", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0008", "ec5ec6d083a1e56f0077353eb75fbe316d522a187a94b2fde9fffa695f89797f", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0009", "7a287194f43c2bc92bd295bf5531bdb5ac30b8057b352e55f944406a4317b515", "Underdocks", 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0010", "4f982d76c8edf9d2f2ba93dddafbe29035e0c7f045db177ef44d0a62d1cc0b54", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0011", "3b5c0944542218171f140a83f0d05055e15d6174f019bbabd0d8a03f72a623cb", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0012", "0f5df8a9a8249ee220706b6531e127d3953eee1a27a909bb793aa49e8d87f8fe", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0013", "ce81c14ccd24c92623a021c214bdb8a3777c7ee3c097a4b6e1aea791bae14357", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0014", "4e12c1e35cf585535e905c60288569eaae3d26c474ac87fd05d99d0546b9c526", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0015", "cb4de31899d5bb8f04bb32d540711232cbcaa21d7a3307c3a052a501c6c0b9a6", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0016", "0909fec09a4383ea089b66facbdafa631bb7409c2aed74fcf4cf9ab6ed9a08a4", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0017", "9cb2abd39a198891e801db569c2b15b35bc217b6f0c669e67fbe014b3bb56fc1", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0018", "b2635463e27d393725ade59247f3222bce37e8bb3793838bc06f37ab49c94162", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0019", "fbf61b3ce270efdaf18b5e016d40ec89b54ba460bb30383e81252e8816ea0488", "Underdocks", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0020", "f2cb076b7306dc948998f9728cbf3f9f51c82aec61548b6e8ef38a853519b905", "Overgrowth", 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0021", "e9fba87bad989ac963d4c768c18b4d8575a7476836fe4982a67ec1c8cbda3fe2", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0022", "a5765ee874f175f4abc89f4584bdbf0585ec50f0bec6f19bdb662ca1096b07a4", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0023", "51e630266c1de9ee3c3b620fd433cb0285a4fa3d6912c49c22e11751ef1681b3", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0024", "72380c7569060c7e2bd32f20af61a5548a884362dc9096df35d9224bb2ab4b2a", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0025", "6cb9d2619cc38d8858b22f10e2f1a994eb18d8f1edc0bb0a0bc63facc23c70e9", "Overgrowth", 0, 1, 0, 1, 0, 0, 1, 1, 0],
+    ["ACT1PATTEST0026", "451a61d3605e14a3136486aefd569d3d03ed0974f5ea7d32eedaebcb772e11fe", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0027", "ac29f2142d95b83d463360c6535a62ec703a2abb9dfb2484f850c3aaecb32d3a", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0028", "32e09e59d9e902b50be1b86937fd54ba60bb46d23e1208350819e95ad19cf7f5", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0029", "4d45883e9215e27c7d1c38b333d2c5e5009fff902c9995b778a57368020c7db2", "Underdocks", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0030", "55d2267b7540f6b2558e8bfb4f39ac0c5cef6e1e0c469cf119c005632b2d655f", "Underdocks", 0, 0, 0, 1, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0031", "23734360323aa27749c7d864af5de25878d120ae0189ab35bbe8590574b17823", "Underdocks", 0, 0, 0, 1, 1, 1, 0, 0, 0],
+    ["ACT1PATTEST0032", "83b104c506735b76438a38f2c7717e9abac1372fddf1ecbbfc14a215793a5162", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0033", "faf1ec45e1bd2e0dfc147aa28da4b6be1345ab92eecceb6c1218ec39ee6e68ed", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0034", "ce44aba649f62edd7c1aa71d1f11415758d84aea63b472c1023884d7f0f0c193", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0035", "b7828d2154d216f7d94f1f17adf5453c16d181d552ac4aa443def216c66123bf", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0036", "6561f87868d557f87fc52e17ec5cab00528ca2ce8be497a1ddea0746e63cb027", "Overgrowth", 1, 1, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0037", "d1b868aeb81dd336a17d0d58ebdd7f409c35c82584634937e30f04ac1c54ae14", "Overgrowth", 1, 1, 1, 1, 1, 0, 0, 0, 0],
+    ["ACT1PATTEST0038", "6a8ede792004481c27a60dda7490fe055e7932f5a8dcb83a03f98ba7191cb56e", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0039", "7445691adf3156ab8b2092b69bf49db7600ba4d072baa7350d754f5cb762a4c8", "Underdocks", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0040", "69ee50403e1c84406f392f0b3b56719af590dc7f57677f7496b424017a4db953", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0041", "bef1209fcecd296d88a374c933f017f3597d2b7a5ae4c7c3543ff24a933707fb", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0042", "c363eafae2b9d2e49ed5a20e17dc523f4e0b5de551693a642151bb65c7e7cb51", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0043", "022294aa0fcff247a71f6d1bd8946039457b174ba7dbddf14fe8fe4a54ec7dc0", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0044", "a0ad34b02c7a98a915d98a31d873d0ae74620a815919201d6bd36e6d75475bd2", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0045", "51fe8de82df4578ce299ffcfbe0b7d97a9f156a18cfabdc11ebc47e880b06155", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0046", "2ff1557f0d2976e0e91d5c5515bac4380f430636dce61fcb085edd7acda654e1", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0047", "b065dbbb0957f26aef7f998501e621907d93bbc8e9510f917caa260210f71cd5", "Underdocks", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0048", "ec5cc35ea7c9205c54b1391082349f98daecd5310bd5f1d542be4a601deb2efe", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0049", "e01023b949b69aa904a238358ab7cb81edf4c590e86e1585b9e35891d3a22ceb", "Underdocks", 1, 1, 0, 1, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0050", "79fb5ecf8739cd9a26b197eef66ef23cb34128722014b6ccf7cf6fd4353849ca", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    ["ACT1PATTEST0051", "d58e96cfda50ad2fa8994dd1bb9789815672eef67412fa93c350012e52a5dc1d", "Underdocks", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0052", "2eda2c44cbc970e20e2241e9bde012ad0be39166276ced10d195f38f00a09361", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0053", "6c00c7c4fc86f89badc166f84fe060aa3a2bae6ec7a9db2783733d6dd338024a", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0054", "958b1d0446d9d217d6a06a55276adb2940efd8c2ba7f3c44a8634468f6bdeacd", "Overgrowth", 0, 1, 1, 1, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0055", "ad0ccd5633fd69d655b900c0037694210f74050bca12cc4d7170ec284738c193", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0056", "731eb2a62e36b44f0b970e01f6d52e14cb1f1bbea1b6f51ddf5a2498df3e0f5c", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0057", "f9e3671f3fcd57fdd1aff18767ac46320c96d76ebd29d3e2f4fe45530b903d5f", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0058", "09af7eef4721cfb25461ea4e20acc1da33ea4a8bab1baa642141f2d699bf7feb", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0059", "57237b9008a9aa9557a99c62ce20e42858fd76bea5409c710de9c963c5c49232", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0060", "517feb84a2a363af87fdd70811201536d40b6fc7778964d25ec0e4543f0b2fa8", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0061", "8b680fdb5f22ed99c48cc9fbd11c587a35a482b2fb6677bf5e8c317a8efcfcd6", "Underdocks", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ["ACT1PATTEST0062", "99cea83f4af34c8a2c40ec5d2813de46013dfe0f68ffe7d9a8cddc988f4415f9", "Overgrowth", 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    ["ACT1PATTEST0063", "c8158f797d2ff0c8a23517b9beee824ebf2c9af19b989869e615a09f5ac56703", "Overgrowth", 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ]
+}
