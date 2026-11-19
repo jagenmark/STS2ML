@@ -1,0 +1,36 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -1656,5 +1656,7 @@
+         if (room is CombatRoom combatRoom && combatRoom.RoomType == RoomType.Boss)
+         {
+-            if (combatRoom.IsPreFinished || !CombatManager.Instance.IsInProgress)
++            if (!combatRoom.IsPreFinished && !CombatManager.Instance.IsInProgress)
++                return Error("Boss combat stopped without confirmed native completion");
++            if (combatRoom.IsPreFinished)
+             {
+                 // Final act boss → victory (same rule as DetectPostCombatState, #81).
+@@ -2282,4 +2284,8 @@
+         Log($"Post-combat: RoomType={combatRoom.RoomType}, IsPreFinished={combatRoom.IsPreFinished}");
+         _syncCtx.Pump();
++
++        if (player.Creature?.IsDead == true) return GameOverState(false);
++        if (!combatRoom.IsPreFinished)
++            return Error("Combat stopped without confirmed native completion");
+ 
+         // Generate rewards manually instead of using TestMode auto-accept
+--- a/src/GodotStubs/UI.cs
++++ b/src/GodotStubs/UI.cs
+@@ -8,4 +8,5 @@
+     public void SetSelfModulate(Color color) => SelfModulate = color;
+     public bool Visible { get; set; } = true;
++    public void SetVisible(bool visible) => Visible = visible;
+     public virtual void Show() => Visible = true;
+     public virtual void Hide() => Visible = false;
+--- a/src/GodotStubs/Core.cs
++++ b/src/GodotStubs/Core.cs
+@@ -58,4 +58,5 @@
+ 
+     public Node? GetParent() => _parent;
++    public int GetIndex(bool includeInternal = false) => _parent?._children.IndexOf(this) ?? -1;
+ 
+     public Godot.Collections.Array<Node> GetChildren(bool includeInternal = false)

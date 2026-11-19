@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
+using System.Reflection;
 using System.Text.Json;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -101,6 +102,12 @@ class Program
                 var coord = bosses[i].coord;
                 var combat = Json(sim.ExecuteAction("select_map_node", new() { ["col"] = (int)coord.col, ["row"] = (int)coord.row }));
                 Check(combat.GetProperty("decision").GetString() == "combat_play", combat.ToString());
+                if (i == 0)
+                {
+                    var post = typeof(RunSimulator).GetMethod("DetectPostCombatState", BindingFlags.Instance | BindingFlags.NonPublic)!;
+                    var rejected = Json(post.Invoke(sim, new object[] { state.Players[0], state.CurrentRoom! })!);
+                    Check(rejected.GetProperty("type").GetString() == "error", "An unfinished combat must never produce rewards");
+                }
                 var enemies = CombatManager.Instance.DebugOnlyGetState()!.Enemies.ToArray();
                 Check(enemies.Length > 0, "A native boss fight must begin with enemies: " + combat);
                 // Some bosses postpone defeat until another turn or phase.

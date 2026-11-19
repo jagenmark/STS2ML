@@ -120,6 +120,9 @@ def play_episode(task):
                 ctx = state.get("context", {})
                 act, floor = ctx.get("act", row["act"]), ctx.get("floor", row["floor"])
                 if act != row["act"]:
+                    previous = row["act"]
+                    if previous and (act != previous + 1 or not any(b[0] == previous for b in row["boss_fights"])):
+                        raise ValueError("Act transition lacks a recorded boss combat in the previous act")
                     row["floor"] = 0
                     if act >= 2 and late is not None:
                         policy.weights = late
