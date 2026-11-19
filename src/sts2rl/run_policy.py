@@ -13,7 +13,7 @@ from pathlib import Path
 from .act1 import MacroPolicy, is_combat_choice
 from .card_effects import deck_engines, hand_value, persistent_value
 from .combat_effects import block_preview, debuff_order, landed_debuffs, power as _power
-from .enemy_forecast import eruption_intangible_savings, solo_waterfall_forecast
+from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, runtime_identity, selected_cards
 from .teacher import incoming
 
@@ -173,6 +173,7 @@ class RunPolicy:
             mitigation = 0
             for enemy in affected:
                 hp = enemy["hp"] + enemy.get("block", 0)
+                threat = 0 if giant and giant.eruption_forced else incoming(enemy)
                 if potion:
                     damage = stats.get("damage", 0)
                 elif target is not None or item.get("type") == "Attack":
@@ -195,11 +196,11 @@ class RunPolicy:
                     if item.get("target_type") == "RandomEnemy":
                         poison *= len(affected)
                     weak, vulnerable = effects.get("weak", 0), effects.get("vulnerable", 0)
-                    if enemy.get("intends_attack"):
-                        block += effects.get("strength_loss", 0)
+                    drop = effects.get("strength_loss", 0)
+                    if drop and threat > 0:
+                        block += min(threat, drop * attack_hits(enemy))
                 if giant_defeated:
                     damage = poison = 0
-                threat = 0 if giant and giant.eruption_forced else incoming(enemy)
                 focus = 1 + w.focus * (1 - enemy["hp"] / max(1, enemy["max_hp"])) if crowded else 1
                 offense += focus * (min(hp, damage) + min(enemy["hp"], poison * w.poison))
                 if (damage + min(existing_poison + poison, enemy["hp"]) >= hp
@@ -219,14 +220,22 @@ class RunPolicy:
             shivs = min(_shiv_count(item), max(0, 11 - len(hands)))
             if not giant_defeated:
                 offense += shivs * max(0, 4 + strength)
-            if giant_defeated and _card_id(item).split(".")[-1] in ("GHOST_IN_A_JAR", "WRAITH_FORM"):
+            intangible_extension = 0.0
+            giant_intangible = giant_defeated and _card_id(item).split(".")[-1] in (
+                "GHOST_IN_A_JAR", "WRAITH_FORM"
+            )
+            if giant_intangible or (engines is not None and not potion and stats.get("intangiblepower", 0)):
                 duration = _power(state.get("player_powers"), "INTANGIBLE")
-                if giant.final_phase and not giant.eruption_forced and duration <= 0:
-                    block += max(0, total_in - 1)
-                setup += eruption_intangible_savings(giant, duration, stats.get("intangiblepower", 1))
+                if duration <= 0 and total_in > 0:
+                    capped = sum(min(incoming(e), attack_hits(e)) for e in enemies)
+                    block += total_in - capped
+                if giant_defeated:
+                    setup += eruption_intangible_savings(giant, duration, stats.get("intangiblepower", 1))
+                elif duration > 0:
+                    intangible_extension = 2.0  # Value of extending protection into a later turn.
             if self.legacy_features:
                 block += stats.get("strengthloss", 0) * sum(e.get("intends_attack", False) for e in enemies)
-            utility = offense + w.block * (1 + danger) * min(need, block + mitigation)
+            utility = offense + w.block * (1 + danger) * (min(need, block + mitigation) + intangible_extension)
             utility += w.setup * setup * (1.4 if boss else 1)
             utility += w.draw * draw * (1 if energy > cost else .2)
             utility += 6 * min(stats.get("energy", 0), max(0, len(hands) - 1))
@@ -238,7 +247,7 @@ class RunPolicy:
             elif cost == 0 and utility > 0:
                 utility += w.free
             if engines is not None and not potion:
-                utility += hand_value(item, state, enemies, engines, incoming, w.block * (1 + danger))
+                utility += hand_value(item, state, engines)
             return (utility - .08 * cost) / max(1, cost) ** w.cost_exponent
 
         return [score(action) for action in actions]

@@ -90,6 +90,22 @@ def test_null_intents_and_nightmare_copy_at_normal_policy_entry_point():
     assert policy(choice).args["indices"] == "0"
 
 
+@pytest.mark.parametrize("deck_effects", [False, True])
+def test_strength_loss_counts_only_hits_from_the_chosen_unshielded_target(deck_effects):
+    obs = hand(("CARD.DARK_SHACKLES", "AnyEnemy", {"strengthloss": 9}))
+    obs["player"].update(hp=50, block=0)
+    enemy = obs["enemies"][0]
+    enemy.update(intends_attack=True, intents=[{"type": "Attack", "damage": 12}],
+                 powers=[{"id": "POWER.ARTIFACT_POWER", "amount": 1}])
+    obs["enemies"].append({**enemy, "index": 1, "powers": [],
+                           "intents": [{"type": "Attack", "damage": 10, "hits": 3}]})
+    weights = RunWeights()
+    policy = RunPolicy(weights, deck_effects=deck_effects)
+    shielded, unshielded, end = policy.combat_scores(obs, legal_actions(obs))
+    assert shielded == end == 0
+    assert unshielded == pytest.approx(27 * weights.block * (1 + 42 / 50) + weights.free)
+
+
 @pytest.mark.parametrize("kind", ["unversioned", "old_version", "changed_code"])
 def test_dagger_rejects_stale_source_and_direct_fit_inputs(tmp_path, kind):
     source = tmp_path / "old"

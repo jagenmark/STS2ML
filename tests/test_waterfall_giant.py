@@ -126,3 +126,27 @@ def test_policy_saves_a_one_turn_intangible_potion_for_the_actual_deathblow(acto
         assert pick.kind == "use_potion"
     strike, defend, potion, _ = policy.combat_scores(obs, legal_actions(obs))
     assert potion > defend > strike
+
+
+def test_deck_effects_count_wraith_form_once_and_use_the_current_deathblow():
+    obs = hand(("CARD.WRAITH_FORM", "Self", {"intangiblepower": 2, "wraithformpower": 1}),
+               ("CARD.DARK_SHACKLES", "AnyEnemy", {"strengthloss": 9}))
+    obs["hand"][0].update(type="Power", cost=3)
+    obs["context"]["room_type"] = "Boss"
+    obs["player"].update(hp=24, block=0)
+    plain = RunPolicy(RunWeights())
+    augmented = RunPolicy(RunWeights(), deck_effects=True)
+    for enemy in (giant(hp=7, poison=13), giant(999_999_999, max_hp=999_999_999, intents=("Stun",)),
+                  giant(999_999_999, steam=0, max_hp=999_999_999, intents=("DeathBlow",))):
+        windup = enemy["intents"][0]["type"] != "DeathBlow"
+        if not windup:
+            enemy["intents"][0]["damage"] = 38
+        enemy["intends_attack"] = enemy["intents"][0]["type"] != "Stun"
+        obs["enemies"] = [enemy]
+        actions = legal_actions(obs)
+        wraith, shackles, _ = augmented.combat_scores(obs, actions)
+        reference = plain.combat_scores(obs, actions)
+        assert wraith == pytest.approx(reference[0])
+        assert shackles == pytest.approx(0 if windup else reference[1])
+        if not windup:
+            assert shackles > 0
