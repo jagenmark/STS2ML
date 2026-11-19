@@ -252,7 +252,7 @@ class RunPolicy:
 
         return [score(action) for action in actions]
 
-    def card_value(self, card, *, targets=1.5, deck=()):
+    def card_value(self, card, *, targets=1.5, deck=(), breakdown=None):
         w = self.weights
         stats = card.get("stats") or {}
         damage = stats.get("calculateddamage", stats.get("damage", 0)) * _hits(card)
@@ -261,14 +261,32 @@ class RunPolicy:
         if card.get("target_type") == "AllEnemies" or "ALL enemies" in (card.get("description") or ""):
             damage *= targets
         block = stats.get("calculatedblock", stats.get("block", 0))
-        offense = damage + 4 * _shiv_count(card) + w.poison * stats.get("poisonpower", 0)
-        defense = (block + 2 * min(3, stats.get("weakpower", 0)) + stats.get("strengthloss", 0))
-        value = offense + w.draft_defense * defense + w.setup * _setup_value(card)
-        value += w.draw * _draw_count(card) + 4 * stats.get("energy", 0)
+        shivs = 4 * _shiv_count(card)
+        poison = w.poison * stats.get("poisonpower", 0)
+        weak = 2 * min(3, stats.get("weakpower", 0))
+        strength_loss = stats.get("strengthloss", 0)
+        setup = w.setup * _setup_value(card)
+        draw = w.draw * _draw_count(card)
+        energy = 4 * stats.get("energy", 0)
+        value = (damage + shivs + poison) + w.draft_defense * (block + weak + strength_loss) + setup
+        value += draw + energy
+        persistent = intangible = 0.0
         if self.deck_effects:
-            value += 1.6 * persistent_value(card, deck_engines(deck)) + 7 * stats.get("intangiblepower", 0)
+            persistent = 1.6 * persistent_value(card, deck_engines(deck))
+            intangible = 7 * stats.get("intangiblepower", 0)
+            value += persistent + intangible
         cost = _cost(card)
-        return value / max(1, cost) ** (.65 * w.cost_exponent) + (2 if cost == 0 and value > 0 else 0)
+        divisor = max(1, cost) ** (.65 * w.cost_exponent)
+        free_bonus = 2 if cost == 0 and value > 0 else 0
+        if breakdown is not None:
+            terms = {"damage": damage, "shivs": shivs, "poison": poison,
+                     "block": w.draft_defense * block, "weak": w.draft_defense * weak,
+                     "strength_loss": w.draft_defense * strength_loss, "setup": setup,
+                     "draw": draw, "energy": energy, "persistent": persistent, "intangible": intangible}
+            breakdown.update({key: val / divisor for key, val in terms.items() if val})
+            if free_bonus:
+                breakdown["free_bonus"] = free_bonus
+        return value / divisor + free_bonus
 
     def macro(self, state, actions):
         decision = state["decision"]

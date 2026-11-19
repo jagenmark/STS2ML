@@ -11,6 +11,7 @@ from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_water
 from .native import legal_actions, selected_cards
 from .combat_effects import debuff_order, landed_debuffs
 from .run_policy import IDENTITY, RunPolicy, _cost, _damage, _draw_count, _hits, _power, _shiv_count
+from .sandpit import escape_action
 from .teacher import incoming
 
 
@@ -595,6 +596,9 @@ class EncounterModel:
         self.prompt_aware = data.get("prompt_aware", False)
         self.mechanics_from_act = data.get("mechanics_from_act", 4)
         self.persistent_from_act = data.get("persistent_from_act", 4)
+        self.sandpit_threshold = data.get("sandpit_threshold", 0)
+        if type(self.sandpit_threshold) is not int or not 0 <= self.sandpit_threshold <= 4:
+            raise ValueError("Sandpit threshold must be an integer from zero to four")
         if any(
             s not in STYLES
             for s in [
@@ -652,7 +656,8 @@ class EncounterModel:
                 persistent=ctx["act"] >= self.persistent_from_act,
             )
             self.key = key
-        if self.beam:
-            return choose_turn(state, self.actor)
         actions = legal_actions(state)
-        return self.actor.combat(state, actions)
+        action = choose_turn(state, self.actor) if self.beam else self.actor.combat(state, actions)
+        if self.sandpit_threshold and ctx["room_type"] == "Boss":
+            return escape_action(state, actions, action, self.sandpit_threshold)
+        return action

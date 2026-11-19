@@ -23,6 +23,32 @@ def natural_specification(command):
     return {k: v for k, v in command.items() if k not in ("cmd", "history")}
 
 
+def early_draft_contexts(session, directory):
+    """Recover the public pre-reward group odds from an archived action history."""
+    from .encounter_draft import WeakEncounterPool
+
+    with (Path(directory) / "game/rpc.jsonl").open(encoding="utf-8") as stream:
+        first = json.loads(next(stream))
+        initial = session.restore(ReplayFork(natural_specification(first["command"]), (),
+                                             first["response_digest"]))
+        pool = WeakEncounterPool(initial)
+        for line in stream:
+            if pool.group_probability is None:
+                break
+            row = json.loads(line)
+            command = row["command"]
+            if command["cmd"] == "get_map":
+                continue
+            if command["cmd"] != "action":
+                raise ValueError("Unexpected control command in draft history")
+            state = session._request(command)
+            if digest(state) != row["response_digest"]:
+                raise ValueError("Public draft history diverged")
+            pool.observe(command["action"], state)
+            if state["decision"] == "card_reward" and not state.get("in_combat"):
+                yield row["response_digest"], pool.group_probability
+
+
 def map_combat_openings(directory, minimum_act, limit):
     """Sample natural first hands after a map choice, stratified across early and late floors."""
     with (Path(directory) / "game/rpc.jsonl").open(encoding="utf-8") as stream:

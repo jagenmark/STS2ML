@@ -43,6 +43,9 @@ class SurvivalRouter:
         self.discount = data.get("discount", 0.975)
         self.elite = data.get("elite", 0.0)
         self.data = data
+        self.act1_context = data.get("act1_context", {})
+        if data.get("version") == 3 and not self.act1_context:
+            raise ValueError("Missing Act 1 route context")
 
     @classmethod
     def fit(cls, episodes):
@@ -124,7 +127,7 @@ class SurvivalRouter:
                 average = (np.asarray(sums) + shrink * average) / (n - d + shrink)
         return mortality, average
 
-    def choose(self, state, rows):
+    def choose(self, state, rows, *, normal_count=None):
         if state["decision"] != "map_select" or state.get("runtime_identity") != IDENTITY:
             raise ValueError("Expected a public Silent A10 map")
         options = legal_actions(state)
@@ -134,7 +137,11 @@ class SurvivalRouter:
         player = state["player"]
         maximum = player["max_hp"]
         act = state["context"]["act"]
-        _, hp_beta, relic, upgrade, potion, card, max_hp = self.boss[str(act)]
+        contextual = self.act1_context if act == 1 else {}
+        biome = state["context"].get("act_name")
+        boss_id = (state["context"].get("boss") or {}).get("id")
+        coefficients = contextual.get("boss_coefficients", {}).get(boss_id, self.boss[str(act)])
+        _, hp_beta, relic, upgrade, potion, card, max_hp = coefficients
         hp_beta = min(5.0, max(1.4, hp_beta)) * self.health
         gain = (
             np.array(
@@ -150,16 +157,30 @@ class SurvivalRouter:
         )
 
         @lru_cache(None)
-        def estimate(icon, row, hp_bucket, gold_bucket):
-            return self.estimates(icon, act, row, hp_bucket / maximum, gold_bucket)
+        def estimate(icon, row, hp_bucket, gold_bucket, prior_fights):
+            death, recovery = self.estimates(icon, act, row, hp_bucket / maximum, gold_bucket)
+            cells = contextual.get("rooms", {})
+            keys = [f"{biome}/{icon}"]
+            if icon in ("Monster", "Unknown") and prior_fights is not None:
+                keys.append(f"{biome}/{icon}/{'weak' if prior_fights < 3 else 'regular'}")
+            for key in keys:
+                cell = cells.get(key)
+                if cell:
+                    n, died, *sums = cell
+                    # Keep the existing HP/gold-conditioned result as the prior.
+                    blend = contextual["blend"] * n / (n + 40)
+                    death += blend * (died / n - death)
+                    if n > died:
+                        recovery = recovery + blend * (np.asarray(sums) / (n - died) - recovery)
+            return death, recovery
 
         @lru_cache(None)
-        def value(row, col, hp, gold):
+        def value(row, col, hp, gold, prior_fights):
             node = nodes.get((row, col))
             if not node or node["type"] == "Boss":
                 return hp_beta * hp / maximum
             icon = node["type"]
-            death, recovery = estimate(icon, row, hp, gold)
+            death, recovery = estimate(icon, row, hp, gold, prior_fights)
             dh, dg, *improvements = recovery
             if icon == "RestSite":
                 # A fire near maximum HP cannot deliver the mean heal from injured visitors.
@@ -178,12 +199,21 @@ class SurvivalRouter:
                 float(gain @ improvements) + scaled_gold + (self.elite if icon == "Elite" else 0.0)
             )
             children = [c for c in node.get("children") or [] if c["row"] > row]
-            end = max(
-                (value(c["row"], c["col"], new_hp, balance) for c in children),
-                default=hp_beta * new_hp / maximum,
-            )
+            def best_child(count):
+                return max((value(c["row"], c["col"], new_hp, balance, count) for c in children),
+                           default=hp_beta * new_hp / maximum)
+
+            if contextual and prior_fights is not None and prior_fights < 3 and icon == "Unknown":
+                probability = contextual["unknown_fight_probability"].get(biome, 0.0)
+                end = (1 - probability) * best_child(prior_fights) + probability * best_child(prior_fights + 1)
+            else:
+                count = prior_fights
+                if contextual and count is not None and icon == "Monster":
+                    count = min(3, count + 1)
+                end = best_child(count)
             return benefit + self.risk * math.log(max(0.025, 1 - death)) + self.discount * end
 
         return max(
-            options, key=lambda a: value(a.args["row"], a.args["col"], player["hp"], player["gold"])
+            options, key=lambda a: value(a.args["row"], a.args["col"], player["hp"], player["gold"],
+                                         normal_count if contextual else None)
         )

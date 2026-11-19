@@ -20,6 +20,21 @@ def offer_type(state):
     return None
 
 
+def draft_prior(value, copies, deck_size, threshold, scale):
+    return scale * (value - 1.5 * copies - threshold - .35 * max(0, deck_size - 12))
+
+
+def draft_prior_parts(card, deck, policy, scale):
+    if card is None:
+        return {}
+    terms = {}
+    policy.card_value(card, deck=deck, breakdown=terms)
+    copies = sum(_card_id(c) == _card_id(card) for c in deck)
+    terms.update(copies=-1.5 * copies, draft_threshold=-policy.weights.draft_threshold,
+                 deck_size=-.35 * max(0, len(deck) - 12))
+    return {key: value * scale for key, value in terms.items() if value}
+
+
 def offer_features(state, action, policy):
     if offer_type(state) == "neow":
         option = next(o for o in state["options"] if o["index"] == action.args["option_index"])
@@ -31,7 +46,7 @@ def offer_features(state, action, policy):
     card_id = _card_id(card)
     copies = sum(_card_id(c) == card_id for c in deck)
     value = policy.card_value(card, deck=deck)
-    prior = .2 * (value - 1.5 * copies - policy.weights.draft_threshold - .35 * max(0, len(deck) - 12))
+    prior = draft_prior(value, copies, len(deck), policy.weights.draft_threshold, .2)
     stats = card.get("stats") or {}
     features = {"card:" + card_id: 1., "type:" + card["type"]: 1., "value": value / 10,
                 "copies": copies, "cost": _cost(card) / 2,
@@ -45,6 +60,13 @@ class OfferModel:
 
     def predict(self, prior, features):
         return prior + sum(val * self.weights.get(key, 0.) for key, val in features.items())
+
+    def contributions(self, features, strength=1.0):
+        return {
+            key: {"value": value, "weight": self.weights[key],
+                  "points": strength * value * self.weights[key]}
+            for key, value in features.items() if value and self.weights.get(key)
+        }
 
     def choose(self, state, policy):
         if state.get("runtime_identity") != IDENTITY or not offer_type(state):

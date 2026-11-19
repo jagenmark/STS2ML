@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "seed": "H2A10BIOMETRAIN0004",
+  "step": 42,
+  "state_digest": "be051bbcd1c56dfe9cfb82ad095dea3fd81cc8cdaed7b7a019b629435e875c5b",
+  "model_sha256": {
+    "weights": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb",
+    "offer_model": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+    "strategy_model": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+    "late_weights": null
+  },
+  "context": {
+    "act": 1,
+    "act_name": "Underdocks",
+    "floor": 4,
+    "room_type": "Monster",
+    "boss": {
+      "id": "LAGAVULIN_MATRIARCH_BOSS",
+      "name": "Lagavulin Matriarch"
+    }
+  },
+  "group_probability": 1.0,
+  "prior_source": "opening_model",
+  "strategy_strength": 0.55,
+  "chosen": "CARD.DAGGER_THROW",
+  "chosen_action": {
+    "cmd": "action",
+    "action": "select_card_reward",
+    "args": {
+      "card_index": 2
+    }
+  },
+  "options": [
+    {
+      "action": {
+        "cmd": "action",
+        "action": "select_card_reward",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "card": "CARD.DAGGER_SPRAY",
+      "prior_base": 0.7084637307084645,
+      "prior_base_parts": {
+        "damage": 2.4000000000000004,
+        "draft_threshold": -1.4815362692915357,
+        "deck_size": -0.20999999999999996
+      },
+      "prior_terms": {
+        "card:DAGGER_SPRAY": {
+          "value": 1.0,
+          "weight": 0.05290535687058086,
+          "points": 0.05290535687058086
+        },
+        "type:Attack": {
+          "value": 1.0,
+          "weight": 0.01753302726653966,
+          "points": 0.01753302726653966
+        },
+        "value": {
+          "value": 1.2,
+          "weight": -0.517210875801808,
+          "points": -0.6206530509621696
+        },
+        "cost": {
+          "value": 0.5,
+          "weight": 0.0833621294940095,
+          "points": 0.04168106474700475
+        }
+      },
+      "prior": 0.19993012863042015,
+      "strategy_terms": {
+        "card:DAGGER_SPRAY": {
+          "value": 1.0,
+          "weight": 0.07386679547987152,
+          "points": 0.04062673751392934
+        },
+        "type:Attack": {
+          "value": 1.0,
+          "weight": 0.4689051002090963,
+          "points": 0.257897805115003
+        },
+        "card:take": {
+          "value": 1.0,
+          "weight": 1.0426404450302418,
+          "points": 0.573452244766633
+        },
+        "take:deck-size": {
+          "value": 0.16666666666666666,
+          "weight": 0.9218274635360059,
+          "points": 0.08450085082413387
+        },
+        "take:cost": {
+          "value": 0.5,
+          "weight": 0.13989050322523466,
+          "points": 0.03846988838693954
+        },
+        "take:value": {
+          "value": 1.2,
+          "weight": -1.5474727205602283,
+          "points": -1.0213319955697509
+        },
+        "take:attack": {
+          "value": 0.8,
+          "weight": -0.13556508886689994,
+          "points": -0.05964863910143598
+        },
+        "take:aoe": {
+          "value": 1.0,
+          "weight": -0.5404340268144688,
+          "points": -0.2972387147479579
+        }
+      },
+      "strategy": -0.3832718228125059,
+      "card_offset": 0.0,
+      "total": -0.18334169418208573
+    },
+    {
+      "action": {
+        "cmd": "action",
+        "action": "select_card_reward",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "card": "CARD.ESCAPE_PLAN",
+      "prior_base": -0.6115618684453408,
+      "prior_base_parts": {
+        "block": 0.6799744008461949,
+        "free_bonus": 0.4,
+        "draft_threshold": -1.4815362692915357,
+        "deck_size": -0.20999999999999996
+      },
+      "prior_terms": {
+        "card:ESCAPE_PLAN": {
+          "value": 1.0,
+          "weight": 0.5629891603905206,
+          "points": 0.5629891603905206
+        },
+        "type:Skill": {
+          "value": 1.0,
+          "weight": 0.02789382310566091,
+          "points": 0.02789382310566091
+        },
+        "value": {
+          "value": 0.5399872004230974,
+          "weight": -0.517210875801808,
+          "points": -0.27928725285259665
+        },
+        "block": {
+          "value": 0.42857142857142855,
+          "weight": 0.24005171472025194,
+          "points": 0.10287930630867939
+        }
+      },
+      "prior": -0.1970868314930765,
+      "strategy_terms": {
+        "card:ESCAPE_PLAN": {
+          "value": 1.0,
+          "weight": -0.04234433767538328,
+          "points": -0.023289385721460807
+        },
+        "type:Skill": {
+          "value": 1.0,
+          "weight": 0.2710528962842906,
+          "points": 0.14907909295635982
+        },
+        "card:take": {
+          "value": 1.0,
+          "weight": 1.0426404450302418,
+          "points": 0.573452244766633
+        },
+        "take:deck-size": {
+          "value": 0.16666666666666666,
+          "weight": 0.9218274635360059,
+          "points": 0.08450085082413387
+        },
+        "take:value": {
+          "value": 0.5399872004230974,
+          "weight": -1.5474727205602283,
+          "points": -0.4595885041585376
+        },
+        "take:block": {
+          "value": 0.375,
+          "weight": -0.34713353876425673,
+          "points": -0.07159629237012796
+        },
+        "take:low-defense": {
+          "value": 0.125,
+          "weight": -0.0048125982944644055,
+          "points": -0.0003308661327444279
+        }
+      },
+      "strategy": 0.25222714016425596,
+      "card_offset": 0.0,
+      "total": 0.05514030867117947
+    },
+    {
+      "action": {
+        "cmd": "action",
+        "action": "select_card_reward",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "card": "CARD.DAGGER_THROW",
+      "prior_base": 0.12372448217098864,
+      "prior_base_parts": {
+        "damage": 1.8,
+        "draw": 0.31526075146252414,
+        "copies": -0.30000000000000004,
+        "draft_threshold": -1.4815362692915357,
+        "deck_size": -0.20999999999999996
+      },
+      "prior_terms": {
+        "card:DAGGER_THROW": {
+          "value": 1.0,
+          "weight": 1.0534169987194266,
+          "points": 1.0534169987194266
+        },
+        "type:Attack": {
+          "value": 1.0,
+          "weight": 0.01753302726653966,
+          "points": 0.01753302726653966
+        },
+        "value": {
+          "value": 1.0576303757312622,
+          "weight": -0.517210875801808,
+          "points": -0.5470179329065614
+        },
+        "copies": {
+          "value": 1,
+          "weight": -0.3884083604445281,
+          "points": -0.3884083604445281
+        },
+        "cost": {
+          "value": 0.5,
+          "weight": 0.0833621294940095,
+          "points": 0.04168106474700475
+        }
+      },
+      "prior": 0.3009292795528702,
+      "strategy_terms": {
+        "card:DAGGER_THROW": {
+          "value": 1.0,
+          "weight": 0.014922365823489816,
+          "points": 0.0082073012029194
+        },
+        "type:Attack": {
+          "value": 1.0,
+          "weight": 0.4689051002090963,
+          "points": 0.257897805115003
+        },
+        "card:take": {
+          "value": 1.0,
+          "weight": 1.0426404450302418,
+          "points": 0.573452244766633
+        },
+        "take:deck-size": {
+          "value": 0.16666666666666666,
+          "weight": 0.9218274635360059,
+          "points": 0.08450085082413387
+        },
+        "take:copies": {
+          "value": 1,
+          "weight": 0.06930731322600127,
+          "points": 0.0381190222743007
+        },
+        "take:cost": {
+          "value": 0.5,
+          "weight": 0.13989050322523466,
+          "points": 0.03846988838693954
+        },
+        "take:value": {
+          "value": 1.0576303757312622,
+          "weight": -1.5474727205602283,
+          "points": -0.900159785183996
+        },
+        "take:attack": {
+          "value": 0.9,
+          "weight": -0.13556508886689994,
+          "points": -0.06710471898911548
+        }
+      },
+      "strategy": 0.03338260839681801,
+      "card_offset": 0.0,
+      "total": 0.3343118879496882
+    },
+    {
+      "action": {
+        "cmd": "action",
+        "action": "skip_card_reward",
+        "args": {}
+      },
+      "card": "skip",
+      "prior_base": 0.0,
+      "prior_base_parts": {},
+      "prior_terms": {
+        "skip": {
+          "value": 1.0,
+          "weight": -0.2940036494674201,
+          "points": -0.2940036494674201
+        },
+        "skip:deck": {
+          "value": 0.6,
+          "weight": -0.425722943274371,
+          "points": -0.2554337659646226
+        }
+      },
+      "prior": -0.5494374154320427,
+      "strategy_terms": {},
+      "strategy": 0.0,
+      "card_offset": 0.0,
+      "total": -0.5494374154320427
+    }
+  ],
+  "scorer_sha256": "a81d186c7901b455e472310b4b24e07b24dc3c95261797201843ce0eba23aabb"
+}

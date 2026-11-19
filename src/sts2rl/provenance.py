@@ -21,6 +21,11 @@ def _digest(value):
     return hashlib.sha256(payload).hexdigest()
 
 
+def draft_scorer_hash():
+    return _source_hash(("card_effects", "combat_effects", "encounter_draft", "native",
+                         "offer_policy", "run_policy", "strategy"))
+
+
 def mc_provenance(continuation):
     return {"continuation": continuation, "code_sha256": _source_hash(("teacher", "combat_effects", "enemy_forecast", "native")),
             "weights_sha256": None}  # This continuation has no learned checkpoint.

@@ -7,6 +7,7 @@ from pathlib import Path
 from time import monotonic
 
 from .act1 import MacroPolicy, is_combat_choice, save_json
+from .encounter_draft import WeakEncounterPool
 from .boss_search import BossSearch
 from .combat_search import CombatSearch
 from .encounter import EncounterModel
@@ -100,6 +101,7 @@ def play_episode(task):
     micro = None
     samples = []
     strategy_samples = []
+    draft_explanations = []
     feature_policy = RunPolicy(RunWeights(**weights)) if options.get("label_turns") else None
     if options.get("opening_partition"):
         row["opening_partition"] = options["opening_partition"]
@@ -167,6 +169,8 @@ def play_episode(task):
                 row["start_digest"] = fork.expected_digest
             else:
                 state = game.reset(seed)
+            track_pool = (strategy and strategy.uses_matchups) or getattr(router, "act1_context", None)
+            pool = WeakEncounterPool(state) if track_pool or options.get("explain_drafts") else None
             for step in range(3000):
                 if monotonic() - started > 180:
                     raise TimeoutError("Episode exceeded 180 seconds")
@@ -222,14 +226,25 @@ def play_episode(task):
                     turn_search and state["decision"] == "combat_play" and not use_student and micro is None
                     and not (encounter and encounter.applies(state))) else None
                 if state["decision"] == "map_select" and router is not None:
-                    action = router.choose(state, game.public_map())
+                    if pool is not None and getattr(router, "act1_context", None):
+                        action = router.choose(state, game.public_map(), normal_count=pool.normal_count)
+                    else:
+                        action = router.choose(state, game.public_map())
                 elif encounter is not None and encounter.applies(state) and combat:
                     action = encounter.choose(state, policy)
                 elif deck_model is not None and not combat and (state["decision"] in deck_model.scope or
                         (state["decision"] == "card_select" and (deck_model.to_upgrade or deck_model.prompt))):
                     action = deck_model.choose(state, policy)
                 elif strategy is not None and strategy_kind(state) in strategy.kinds:
-                    action = strategy.choose(state, policy, offers)
+                    trace = {} if options.get("explain_drafts") and state["decision"] == "card_reward" else None
+                    action = strategy.choose(state, policy, offers,
+                                             group_probability=pool.group_probability if pool else None,
+                                             explanation=trace)
+                    if trace:
+                        draft_explanations.append({"version": 1, "seed": seed, "step": step,
+                                                   "state_digest": fingerprint,
+                                                   "scorer_sha256": options.get("draft_scorer_sha256"),
+                                                   "model_sha256": options.get("draft_model_hashes", {}), **trace})
                     if state["decision"] == "rest_site":
                         policy.selection = "upgrade" if any(o["index"] == action.args.get("option_index")
                             and o.get("option_id") == "SMITH" for o in state["options"]) else None
@@ -272,6 +287,8 @@ def play_episode(task):
                 if deck_model is not None:
                     deck_model.observe(state, action)
                 state = game.step(action)
+                if pool is not None:
+                    pool.observe(action.kind, state)
             else:
                 raise RuntimeError("Episode exceeded action budget")
     except Exception as exc:
@@ -285,6 +302,10 @@ def play_episode(task):
             row["search"] = {"roots": search.attempts, "branches": search.branches,
                              "changes": search.changes, "errors": search.errors}
     row["seconds"] = monotonic() - started
+    if options.get("explain_drafts"):
+        with gzip.open(folder / "draft-scores.jsonl.gz", "wt", encoding="utf-8") as stream:
+            for trace in draft_explanations:
+                stream.write(json.dumps(trace, separators=(",", ":")) + "\n")
     if options.get("record_strategy"):
         with gzip.open(folder / "strategy.jsonl.gz", "wt", encoding="utf-8", compresslevel=2) as stream:
             for sample in strategy_samples:

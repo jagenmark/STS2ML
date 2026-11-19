@@ -72,6 +72,8 @@ def main():
     parser.add_argument("--record-rooms", action="store_true", help="Save public resource changes after each chosen map node")
     parser.add_argument("--seeded-acts", action="store_true", help="Use the standard lobby act selector on the fully unlocked profile")
     parser.add_argument("--record-strategy", action="store_true", help="Save public macro decisions and boss openings")
+    parser.add_argument("--explain-drafts", action="store_true",
+                        help="Write each strategy card reward's component scores to draft-scores.jsonl.gz")
     args = parser.parse_args()
     actor = "candidate"
     if args.bundle:
@@ -148,6 +150,13 @@ def main():
                "late_weights": str(args.late_weights.resolve()) if args.late_weights else None,
                "tactical_student": str(args.tactical_student.resolve()) if args.tactical_student else None}
     options["opening_partition"] = partition
+    options["explain_drafts"] = args.explain_drafts
+    if args.explain_drafts:
+        from sts2rl.provenance import draft_scorer_hash
+        options["draft_scorer_sha256"] = draft_scorer_hash()
+        options["draft_model_hashes"] = {
+            key: file_hash(getattr(args, key)) for key in ("weights", "strategy_model", "offer_model", "late_weights")
+        }
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
         if args.mode != "train":
             specs = [(role, asdict(default if role == "prior" else weights), args.micro.resolve() if role == "micro" else None)

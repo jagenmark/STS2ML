@@ -7,7 +7,8 @@ from pathlib import Path
 import re
 
 from .native import legal_actions
-from .offer_policy import OfferModel, offer_features, offer_type
+from .encounter_draft import matchup_features
+from .offer_policy import OfferModel, draft_prior, draft_prior_parts, offer_features, offer_type
 from .run_policy import IDENTITY, _card_id, _cost, _hits, _shiv_count
 
 
@@ -75,7 +76,7 @@ def _event_terms(option, hp, maximum, gold):
     }
 
 
-def strategy_arms(state, policy, opening=None):
+def strategy_arms(state, policy, opening=None, *, matchups=False, group_probability=None):
     kind = strategy_kind(state)
     if not kind or state.get("runtime_identity") != IDENTITY:
         raise ValueError("Expected a public Silent A10 strategy decision")
@@ -203,12 +204,9 @@ def strategy_arms(state, policy, opening=None):
                     "boss/" + boss + "/attack": attack,
                     "boss/" + boss + "/block": block,
                 }
-                prior = 0.35 * (
-                    value
-                    - 1.5 * copies
-                    - policy.weights.draft_threshold
-                    - 0.35 * max(0, len(deck) - 12)
-                )
+                if matchups and kind == "card":
+                    features.update(matchup_features(card, deck, state["context"], group_probability))
+                prior = draft_prior(value, copies, len(deck), policy.weights.draft_threshold, 0.35)
                 if kind == "card" and opening and offer_type(state):
                     prior = opening.predict(*offer_features(state, action, policy))
             elif kind == "card" and opening and offer_type(state):
@@ -250,9 +248,11 @@ class StrategyModel(OfferModel):
         self.strength = strength
         self.strengths_by_kind = strengths_by_kind or {}
         self.card_offsets = card_offsets or {}
+        self.uses_matchups = any(k.startswith("matchup/") for k in weights)
 
-    def choose(self, state, policy, opening=None):
-        arms = strategy_arms(state, policy, opening)
+    def choose(self, state, policy, opening=None, *, group_probability=None, explanation=None):
+        arms = strategy_arms(state, policy, opening, matchups=self.uses_matchups,
+                             group_probability=group_probability)
         kind = strategy_kind(state)
         strength = self.strengths_by_kind.get(kind, self.strength)
         offsets = {}
@@ -264,14 +264,39 @@ class StrategyModel(OfferModel):
                 values = self.card_offsets.get(key, self.card_offsets.get(name))
                 if values is not None:
                     offsets[card["index"]] = values[act]
-        return max(
-            arms,
-            key=lambda arm: (
-                arm[1]
-                + strength * self.predict(0.0, arm[2])
-                + offsets.get(arm[0].args.get("card_index"), 0.0)
-            ),
-        )[0]
+        totals = []
+        options = []
+        for action, prior, features in arms:
+            index = action.args.get("card_index")
+            offset = offsets.get(index, 0.0)
+            strategy_score = strength * self.predict(0.0, features)
+            total = prior + strategy_score + offset
+            totals.append(total)
+            if explanation is not None and kind == "card":
+                card = next((c for c in state["cards"] if c["index"] == index), None)
+                base = prior
+                prior_terms = {}
+                if opening is not None and offer_type(state):
+                    base, opening_features = offer_features(state, action, policy)
+                    prior_terms = opening.contributions(opening_features)
+                base_parts = draft_prior_parts(
+                    card, state["player"]["deck"], policy, 0.2 if opening and offer_type(state) else 0.35,
+                )
+                options.append({
+                    "action": action.command(), "card": card["id"] if card else "skip",
+                    "prior_base": base, "prior_base_parts": base_parts, "prior_terms": prior_terms, "prior": prior,
+                    "strategy_terms": self.contributions(features, strength),
+                    "strategy": strategy_score, "card_offset": offset, "total": total,
+                })
+        winner = max(range(len(arms)), key=totals.__getitem__)
+        if explanation is not None and kind == "card":
+            explanation.update({
+                "context": state["context"], "group_probability": group_probability,
+                "prior_source": "opening_model" if opening is not None and offer_type(state) else "card_heuristic",
+                "strategy_strength": strength, "chosen": options[winner]["card"],
+                "chosen_action": arms[winner][0].command(), "options": options,
+            })
+        return arms[winner][0]
 
     def save(self, path):
         with Path(path).open("x", encoding="utf-8") as stream:
