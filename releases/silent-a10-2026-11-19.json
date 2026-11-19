@@ -1,0 +1,21 @@
+{
+  "tag": "silent-a10-2026-11-19",
+  "assets": {
+    "models": {
+      "name": "silent-a10-progression-release.zip",
+      "directory": "silent-a10-progression-release",
+      "url": "https://github.com/jagenmark/STS2ML/releases/download/silent-a10-2026-11-19/silent-a10-progression-release.zip",
+      "sha256": "0c1e62d6af862e95020cc95875f6e49843375f32d3fb2dba7afbfc28580a0171",
+      "manifest_sha256": "412c318bdf0840e6527600a3a1c2aadf794c9fe05e0bd0efd9c846122e8f9ebe",
+      "bytes": 4898719
+    },
+    "training": {
+      "name": "silent-a10-training-state.zip",
+      "directory": "silent-a10-training-state",
+      "url": "https://github.com/jagenmark/STS2ML/releases/download/silent-a10-2026-11-19/silent-a10-training-state.zip",
+      "sha256": "5b09082554318cfaa4c83eb79b0dba23e60781c768abee0c1899e284c4270488",
+      "manifest_sha256": "af86c4171e1263f21a36dba1c8d732312c476a1c53827e5b2aa72abba112dec3",
+      "bytes": 55714285
+    }
+  }
+}

@@ -3,6 +3,7 @@ name: Tests
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -32,3 +33,6 @@ jobs:
           pytest -q
       - name: Synthetic end-to-end smoke
         run: sts2rl demo --output artifacts/ci-demo --runs 64 --epochs 2
+      - name: Restore released checkpoints and refit the native training data
+        if: startsWith(github.ref, 'refs/tags/silent-a10-') && matrix.python-version == '3.11'
+        run: python scripts/restore-silent-a10.py --manifest releases/${{ github.ref_name }}.json --check-training

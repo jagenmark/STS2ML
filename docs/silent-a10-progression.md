@@ -50,10 +50,10 @@ After the benchmark, the frozen challenger collected 256 additional standard-lob
 
 ## Reproduce the benchmark
 
-The local archive is `artifacts/a10-push/silent-a10-progression-release.zip`. It includes the frozen policies, source Git bundle, selection record, per-game results, physical action histories and terminal replay receipts. All 17 archived development boss openings restored on the independently compiled engine. The archive includes their legal action histories. On a prepared Linux checkout with the pinned game assets and local .NET SDK, run these commands from the repository root. Each command uses a new output directory.
+The GitHub release includes the frozen policies, source Git bundle, selection record, per-game results, physical action histories and terminal replay receipts. All 17 archived development boss openings restored on the independently compiled engine. The archive includes their legal action histories. On a prepared Linux checkout with the pinned game assets and local .NET SDK, run these commands from the repository root. Each benchmark uses a new output directory. [Release downloads](https://github.com/jagenmark/STS2ML/releases/tag/silent-a10-2026-11-19) · [Cross-machine setup and training data](silent-a10-handoff.md)
 
 ```bash
-unzip artifacts/a10-push/silent-a10-progression-release.zip -d artifacts/silent-a10-progression-release
+.venv/bin/python scripts/restore-silent-a10.py --models-only
 .venv/bin/python scripts/build-silent-host.py --output artifacts/silent-a10-progression-host
 export STS2_SELECTOR_FIX_LOCAL_TASK=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 SILENT_HOST=artifacts/silent-a10-progression-host/src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll

@@ -273,11 +273,12 @@ never policy actions.
 
 ## Data and artifact handoff
 
-Git transfers code, configuration, and documentation. Raw player data,
-checkpoints, virtual environments, and game binaries are excluded from Git and
-are not published with this repository. Obtain the game through Steam. Follow
-[the data documentation](data.md) for public sources and import limitations, and
-[game integration](game-integration.md) for the separate bridge work.
+Git transfers code, configuration and documentation. For the Silent A10 progression
+experiment, the GitHub release supplies trained checkpoints and derived training
+data in two optional downloads. Obtain the game through Steam and create the
+Python environment on each machine. [Checkpoint and training-data handoff](silent-a10-handoff.md)
+
+For raw player replays and their import limitations, see the [data documentation](data.md).
 
 Transfer any existing local datasets/checkpoints separately, preserving the
 source and exact patch in their directory names, for example:

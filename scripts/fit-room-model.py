@@ -25,6 +25,7 @@ def main():
                 for line in log.read_text(encoding="utf-8", errors="replace").splitlines()
             ):
                 row["status"] = "unconfirmed_combat"
+            if row["status"] == "unconfirmed_combat":
                 unconfirmed += 1
             episodes.append(row)
     if len({e["seed"] for e in episodes}) != len(episodes):

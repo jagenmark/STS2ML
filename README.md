@@ -11,6 +11,9 @@ the first final boss once. Full wins remain **0/384**. The release includes the
 frozen checkpoints and 184 verified later-act openings for continued training.
 [Paired benchmark, models and reproduction commands](docs/silent-a10-progression.md)
 
+To use the trained weights on Helmer or another machine, follow the
+[checkpoint and training-data handoff](docs/silent-a10-handoff.md).
+
 **Active target:** Steam public beta **v0.111.0**, **Silent A10**, with an explicit
 **A7 Act 1 curriculum** for combat learning. All five
 characters remain the longer-term goal. Each patch has its own data, vocabulary,
