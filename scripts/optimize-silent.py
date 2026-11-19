@@ -13,6 +13,8 @@ from statistics import fmean
 import sys
 
 from sts2rl.act1 import save_json
+from sts2rl.native import digest
+from sts2rl.opening_split import select_openings
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_evaluation import run_batch
 from sts2rl.run_policy import RunWeights
@@ -47,6 +49,7 @@ def main():
     parser.add_argument("--bundle", type=Path, help="Load the actor and verify its portable inference files")
     parser.add_argument("--late-weights", type=Path, help="Switch to these fitted weights after clearing Act 1")
     parser.add_argument("--act2-starts", nargs="+", type=Path, help="Train on real Act 2 openings from these role directories")
+    parser.add_argument("--opening-split", type=Path, help="Verify this pool against an earlier opening-split.json")
     parser.add_argument("--curriculum-act", type=int, choices=(2,3), default=2, help="Which natural opening to load from the training traces")
     parser.add_argument("--micro", type=Path, help="Include this neural combat checkpoint in evaluation")
     parser.add_argument("--room-model", type=Path, help="Use a fitted visible-map model for candidate routes")
@@ -95,21 +98,25 @@ def main():
     if len(set(args.roles)) != len(args.roles):
         parser.error("Roles must be unique")
     starts = []
+    opening_split = partition = None
+    if args.opening_split and not args.act2_starts:
+        parser.error("--opening-split requires --act2-starts")
+    if args.mode == "check-late" and args.label_turns:
+        parser.error("check-late uses held-out seeds; collect training labels with collect-late")
     if args.act2_starts:
         if args.mode == "evaluate" or (args.mode != "check-late" and args.late_weights):
             parser.error("Use check-late to evaluate late overrides on a curriculum opening")
-        for directory in args.act2_starts:
-            for path in sorted(directory.glob("run-*/result.json")):
-                row = json.loads(path.read_text(encoding="utf-8"))
-                if row["ascension"] == 10 and row["a1_clear" if args.curriculum_act == 2 else "a2_clear"] and row["status"] == "complete":
-                    starts.append((row["seed"], str(path.parent / "game/rpc.jsonl")))
-        starts.sort(key=lambda start: hashlib.sha256(start[0].encode()).digest())
+        partition = "test" if args.mode == "check-late" else "train"
         needed = args.seeds * (args.generations if args.mode == "train" else 1)
-        if len({s for s, _ in starts}) != len(starts) or len(starts) < needed:
-            parser.error("Each curriculum generation requires enough distinct starts for the requested act")
-        starts = starts[:needed]
+        try:
+            starts, opening_split = select_openings(args.act2_starts, args.curriculum_act,
+                "seeded" if args.seeded_acts else "default", partition, needed, args.opening_split)
+        except ValueError as exc:
+            parser.error(str(exc))
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
+    if opening_split is not None:
+        save_json(output / "opening-split.json", opening_split)
     default = RunWeights()
     weights = RunWeights.load(args.weights) if args.weights else default
     def file_hash(path):
@@ -121,6 +128,7 @@ def main():
                 "selector_fix_local_task": os.getenv("STS2_SELECTOR_FIX_LOCAL_TASK"),
                 "weights": weights.checkpoint(), "late_sha256": file_hash(args.late_weights),
                 "curriculum_seeds": [s for s, _ in starts[:args.seeds * args.generations]],
+                "opening_partition": partition, "opening_split_sha256": digest(opening_split) if opening_split else None,
                 "room_sha256": file_hash(args.room_model), "late_room_sha256": file_hash(args.late_room_model),
                 "offer_sha256": file_hash(args.offer_model),
                 "micro_sha256": file_hash(args.micro), "student_sha256": file_hash(args.tactical_student)}
@@ -139,6 +147,7 @@ def main():
                "combat_search": args.combat_search, "label_turns": args.label_turns, "deck_effects": args.deck_effects,
                "late_weights": str(args.late_weights.resolve()) if args.late_weights else None,
                "tactical_student": str(args.tactical_student.resolve()) if args.tactical_student else None}
+    options["opening_partition"] = partition
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
         if args.mode != "train":
             specs = [(role, asdict(default if role == "prior" else weights), args.micro.resolve() if role == "micro" else None)

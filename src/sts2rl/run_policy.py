@@ -12,6 +12,7 @@ from pathlib import Path
 
 from .act1 import MacroPolicy, is_combat_choice
 from .card_effects import deck_engines, hand_value, persistent_value
+from .combat_effects import block_preview, debuff_order, landed_debuffs, power as _power
 from .native import legal_actions, runtime_identity, selected_cards
 from .teacher import incoming
 
@@ -46,10 +47,6 @@ class RunWeights:
 
     def checkpoint(self):
         return {"version": VERSION, "runtime_identity": IDENTITY, "weights": asdict(self)}
-
-
-def _power(powers, key):
-    return next((p["amount"] for p in powers or [] if p["id"] == f"POWER.{key}_POWER"), 0)
 
 
 def _card_id(card):
@@ -104,11 +101,13 @@ def _draw_count(card):
 
 
 class RunPolicy:
-    def __init__(self, weights, *, macro_seed=0, deck_effects=False):
+    def __init__(self, weights, *, macro_seed=0, deck_effects=False, legacy_features=False):
         self.weights = weights
         self.fallback = MacroPolicy(macro_seed)
         self.selection = None
         self.deck_effects = deck_effects
+        # v1 neural inputs include the historical action scores as features.
+        self.legacy_features = legacy_features
 
     def __call__(self, state):
         if state.get("runtime_identity") != IDENTITY:
@@ -138,7 +137,7 @@ class RunPolicy:
         danger = min(2.0, need / max(1, player["hp"]))
         energy = state["energy"]
         crowded = len(enemies) > 1
-        dexterity = _power(state.get("player_powers"), "DEXTERITY")
+        legacy_dex = _power(state.get("player_powers"), "DEXTERITY") if self.legacy_features else 0
         strength = _power(state.get("player_powers"), "STRENGTH")
         boss = state.get("context", {}).get("room_type") in ("Boss", "Elite")
         engines = deck_engines(player["deck"]) if self.deck_effects else None
@@ -162,9 +161,7 @@ class RunPolicy:
                 item = hands[action.args["card_index"]]
                 stats = item.get("stats") or {}
                 cost = _cost(item)
-                block = stats.get("calculatedblock", stats.get("block", 0))
-                if block:
-                    block = max(0, block + dexterity)
+                block = block_preview(stats, legacy_dex=legacy_dex)
                 draw = _draw_count(item)
                 setup = _setup_value(item)
             target = action.args.get("target_index")
@@ -179,12 +176,24 @@ class RunPolicy:
                     damage = _damage(item, enemy)
                 else:
                     damage = 0
-                poison = stats.get("poisonpower", 0)
                 existing_poison = _power(enemy.get("powers"), "POISON")
-                if _card_id(item) == "BUBBLE_BUBBLE" and existing_poison <= 0:
-                    poison = 0
-                if _power(enemy.get("powers"), "ARTIFACT") > 0:
-                    poison = 0
+                artifact = _power(enemy.get("powers"), "ARTIFACT")
+                if self.legacy_features:
+                    poison = stats.get("poisonpower", 0)
+                    if artifact > 0 or (_card_id(item) == "BUBBLE_BUBBLE" and existing_poison <= 0):
+                        poison = 0
+                    weak, vulnerable = stats.get("weakpower", 0), stats.get("vulnerablepower", 0)
+                else:
+                    applications = debuff_order(item, stats, enemy, energy=energy)
+                    effects = landed_debuffs(item, applications, artifact, targets=len(affected))
+                    poison = effects.get("poison", 0)
+                    # Random-target utility is averaged below. Here poison already
+                    # includes the probability of this particular target being hit.
+                    if item.get("target_type") == "RandomEnemy":
+                        poison *= len(affected)
+                    weak, vulnerable = effects.get("weak", 0), effects.get("vulnerable", 0)
+                    if enemy.get("intends_attack"):
+                        block += effects.get("strength_loss", 0)
                 focus = 1 + w.focus * (1 - enemy["hp"] / max(1, enemy["max_hp"])) if crowded else 1
                 offense += focus * (min(hp, damage) + min(enemy["hp"], poison * w.poison))
                 if (damage + min(existing_poison + poison, enemy["hp"]) >= hp
@@ -192,17 +201,18 @@ class RunPolicy:
                     if damage > 0 or poison > 0:
                         offense += 14
                         mitigation += incoming(enemy)
-                elif stats.get("weakpower", 0) and _power(enemy.get("powers"), "WEAK") <= 0:
+                elif weak and _power(enemy.get("powers"), "WEAK") <= 0:
                     mitigation += .25 * incoming(enemy)
-                    offense += 2 * min(2, stats["weakpower"])
-                if stats.get("vulnerablepower", 0) and not _power(enemy.get("powers"), "VULNERABLE"):
+                    offense += 2 * min(2, weak)
+                if vulnerable and not _power(enemy.get("powers"), "VULNERABLE"):
                     offense += 1.8 * min(4, energy + 1)
             if item.get("target_type") == "RandomEnemy" and len(affected) > 1:
                 offense /= len(affected)
                 mitigation /= len(affected)
             shivs = min(_shiv_count(item), max(0, 11 - len(hands)))
             offense += shivs * max(0, 4 + strength)
-            block += stats.get("strengthloss", 0) * sum(e.get("intends_attack", False) for e in enemies)
+            if self.legacy_features:
+                block += stats.get("strengthloss", 0) * sum(e.get("intends_attack", False) for e in enemies)
             utility = offense + w.block * (1 + danger) * min(need, block + mitigation)
             utility += w.setup * setup * (1.4 if boss else 1)
             utility += w.draw * draw * (1 if energy > cost else .2)
@@ -279,6 +289,8 @@ class RunPolicy:
         def value(card):
             if upgrade:
                 return self.card_value({**card, **(card.get("after_upgrade") or {})}) - self.card_value(card)
+            if origin.get("id") == "CARD.NIGHTMARE":
+                return self.card_value(card, deck=state.get("player", {}).get("deck", ()))
             return (1 if keep else -1) * (self.card_value(card) - (8 if "Sly" in (card.get("keywords") or []) else 0))
         ranked = sorted(((value(c), c["index"]) for c in state["cards"]), key=lambda item: -item[0])
         count = min(state["max_select"], max(state["min_select"], sum(v > 0 for v, _ in ranked)))

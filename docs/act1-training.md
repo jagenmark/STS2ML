@@ -286,12 +286,18 @@ cumulative dataset against the hash recorded at fit time. It also checks the
 pinned file hashes, preserved split assignments, and seed overlap against
 every ancestor, including evaluation seeds and episodes with zero labels.
 
+After a teacher change, begin a new label collection using the previous student
+as the actor. The current MC continuation is `public-combat-heuristic-v4`.
+Each collected row records its teacher identity. Aggregation, resume and fit
+check compatibility before reusing labels. A later round can aggregate the
+completed, version-matched collection.
+
 The final comparison includes **heuristic, previous student, new student and
 MC-assisted teacher**, all on the same new seeds with fixed macro weights.
 Previously inspected online evaluation seeds are not recycled into collection.
 
 ```powershell
-& .venv/rocm/Scripts/python.exe scripts/train-act1.py --output artifacts/act1/new-a7-dagger --ascension 7 --runs 64 --workers 4 --samples 4 --roots-per-fight 12 --query-probability 0.5 --epochs 20 --evaluate 32 --prefix A7DAGGER001 --student-checkpoint artifacts/act1/a7-20261031-000554/model/best.pt --aggregate-from artifacts/act1/a7-20261031-000554 --macro-checkpoint artifacts/v0.111.0/silent-a10/workstation-20261030-172303-775/final/best.pt --host-path artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll
+& .venv/rocm/Scripts/python.exe scripts/train-act1.py --output artifacts/act1/new-a7-v4 --ascension 7 --runs 64 --workers 4 --samples 4 --roots-per-fight 12 --query-probability 0.5 --epochs 20 --evaluate 32 --prefix A7MCV4001 --student-checkpoint artifacts/act1/a7-20261031-000554/model/best.pt --macro-checkpoint artifacts/v0.111.0/silent-a10/workstation-20261030-172303-775/final/best.pt --host-path artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Curriculum/net9.0/Sts2Headless.dll
 ```
 
 `verify-dagger-native.py` checks a student's entire native command/observation

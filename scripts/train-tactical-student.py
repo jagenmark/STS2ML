@@ -11,7 +11,8 @@ from torch.nn import functional as F
 
 from sts2rl.act1 import save_json
 from sts2rl.native import digest
-from sts2rl.run_policy import IDENTITY
+from sts2rl.provenance import feature_provenance
+from sts2rl.run_policy import IDENTITY, RunWeights
 from sts2rl.tactical_student import make_network, pack, read_training_runs
 
 
@@ -85,9 +86,12 @@ def main():
             best_state = copy.deepcopy(model.state_dict())
     model.load_state_dict(best_state)
     checkpoint = args.output / "best.pt"
-    torch.save({"version": 1, "runtime_identity": IDENTITY, "feature_weights": runs[0][2],
+    provenance = runs[0][1][0]["label_provenance"]
+    torch.save({"version": 2, "runtime_identity": IDENTITY, "feature_weights": runs[0][2],
+                "label_provenance": provenance,
+                "feature_provenance": feature_provenance(RunWeights(**runs[0][2]), planner=True),
                 "width": args.width, "inputs": inputs, "vocab": vocab, "state_dict": best_state}, checkpoint)
-    report = {"training_seeds": len(runs), "splits": split, "decisions": {k: len(v) for k, v in parts.items()},
+    report = {"label_provenance": provenance, "training_seeds": len(runs), "splits": split, "decisions": {k: len(v) for k, v in parts.items()},
               "source_collections": list(map(str, args.collections)), "teacher": "visible-hand planner",
               "student_teacher_disagreements": sum(r["label"] != r["executed"] for _, rows, _ in runs for r in rows),
               "parameters": sum(p.numel() for p in model.parameters()), "best_epoch": best_epoch,

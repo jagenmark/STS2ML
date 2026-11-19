@@ -15,11 +15,13 @@ from sts2rl.act1 import save_json
 from sts2rl.encounter import EncounterPolicy
 from sts2rl.native import NativeSession, legal_actions
 from sts2rl.return_policy import shortlist
+from sts2rl.provenance import label_provenance, read_encounter_runs, read_labeled_runs
 from sts2rl.run_policy import IDENTITY, RunPolicy, RunWeights
 from sts2rl.tactical_student import make_network, pack
 from sts2rl.trajectory import strategy_roots
 
 ROOT = Path(__file__).resolve().parents[1]
+OUTCOME_COLLECTOR = Path(__file__).with_name("train-silent-encounters.py")
 
 
 def end_value(row):
@@ -33,6 +35,7 @@ def collect(task):
     examples = []
     errors = []
     prior = RunPolicy(weights)
+    provenance = label_provenance(weights, __file__, outcome_collector=OUTCOME_COLLECTOR)
     feature_actor = EncounterPolicy(weights)
     seen = set()
     for state, fork in strategy_roots(source):
@@ -82,6 +85,7 @@ def collect(task):
                                     {
                                         "seed": row["seed"],
                                         "choices": choices,
+                                        "label_provenance": provenance,
                                         "label": label,
                                         "weight": weight,
                                         "won": row["styles"][style]["won"],
@@ -98,7 +102,7 @@ def collect(task):
     with gzip.open(folder / "expert.jsonl.gz", "wt", encoding="utf-8", compresslevel=2) as f:
         for e in examples:
             f.write(json.dumps(e, separators=(",", ":")) + "\n")
-    save_json(folder / "result.json", {"decisions": len(examples), "errors": errors})
+    save_json(folder / "result.json", {"decisions": len(examples), "errors": errors, "label_provenance": provenance})
     return len(examples)
 
 
@@ -114,20 +118,21 @@ def main():
     p.add_argument("--epochs", type=int, default=28)
     p.add_argument("--margin", type=float, default=0.35)
     args = p.parse_args()
-    args.output.mkdir(parents=True, exist_ok=False)
     weights = RunWeights.load(args.weights)
+    provenance = label_provenance(weights, __file__, outcome_collector=OUTCOME_COLLECTOR)
     if args.mode == "collect":
         if not args.host or not args.labels:
             p.error("Collection requires --host and --labels")
         sources = {
             r["seed"]: f.parent
             for f in args.source.glob("run-*/result.json")
-            if (r := json.loads(f.read_text()))["status"] == "complete"
+            if (r := json.loads(f.read_text()))["status"] == "complete" and r.get("opening_partition") != "test"
         }
         tasks = []
-        for pth in sorted(args.labels.glob("run-*/labels.json")):
-            labels = json.loads(pth.read_text())["roots"]
+        for pth, labels in read_encounter_runs([args.labels], OUTCOME_COLLECTOR, weights):
             if labels:
+                if labels[0]["seed"] not in sources:
+                    raise ValueError("Boss distillation requires the corresponding training trajectory")
                 tasks.append(
                     (
                         sources[labels[0]["seed"]],
@@ -137,6 +142,7 @@ def main():
                         weights,
                     )
                 )
+        args.output.mkdir(parents=True, exist_ok=False)
         with ProcessPoolExecutor(args.workers) as pool:
             for i, _ in enumerate(pool.map(collect, tasks), 1):
                 if i % 20 == 0:
@@ -149,14 +155,12 @@ def main():
     torch.manual_seed(381823)
     rng = Random(84765)
     partitions = {"train": [], "val": [], "test": []}
-    for f in sorted(args.source.glob("run-*/expert.jsonl.gz")):
-        if not f.with_name("result.json").exists():
-            continue
-        with gzip.open(f, "rt", encoding="utf-8") as stream:
-            for line in stream:
-                r = json.loads(line)
-                n = int.from_bytes(hashlib.sha256(r["seed"].encode()).digest()[:4], "big") % 10
-                partitions["test" if n == 0 else "val" if n == 1 else "train"].append(r)
+    for r in read_labeled_runs([args.source], "expert.jsonl.gz", provenance):
+        n = int.from_bytes(hashlib.sha256(r["seed"].encode()).digest()[:4], "big") % 10
+        partitions["test" if n == 0 else "val" if n == 1 else "train"].append(r)
+    if not all(partitions.values()):
+        raise ValueError("Expected labeled boss decisions from distinct train, validation and test seeds")
+    args.output.mkdir(parents=True, exist_ok=False)
     train = partitions["train"]
     vocab = {
         t: i + 1 for i, t in enumerate(sorted({a["token"] for r in train for a in r["choices"]}))
@@ -210,7 +214,7 @@ def main():
     net.load_state_dict(selected)
     torch.save(
         {
-            "version": 1,
+            "version": 2, "feature_provenance": provenance["features"], "label_provenance": provenance,
             "runtime_identity": IDENTITY,
             "width": args.width,
             "inputs": inputs,
@@ -223,6 +227,7 @@ def main():
         args.output / "boss-student.pt",
     )
     report = {
+        "label_provenance": provenance,
         "seeds": len({r["seed"] for part in partitions.values() for r in part}),
         "counts": {k: len(v) for k, v in partitions.items()},
         "training_outcomes": dict(Counter(str(r["won"]) for r in train)),

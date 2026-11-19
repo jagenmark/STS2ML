@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .card_effects import deck_engines
 from .native import legal_actions, selected_cards
+from .combat_effects import debuff_order, landed_debuffs
 from .run_policy import IDENTITY, RunPolicy, _cost, _damage, _draw_count, _hits, _power, _shiv_count
 from .teacher import incoming
 
@@ -76,9 +77,9 @@ def _sly(card):
 
 class EncounterPolicy(RunPolicy):
     def __init__(
-        self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False
+        self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False
     ):
-        super().__init__(weights, macro_seed=macro_seed)
+        super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
         self.mechanics = mechanics
         self.persistent = persistent
@@ -286,12 +287,19 @@ class EncounterPolicy(RunPolicy):
                     if not artifact:
                         setup += weak * min(8.0, horizon * 1.5)
                         mitigation += min(threat, weak * _count_hits(e))
-                if not artifact and weak > 0:
+                if artifact and not self.legacy_features:
+                    # Haze applies Poison before Weak. Binding applies Weak
+                    # before Vulnerable. One Artifact stack stops one application.
+                    landed = landed_debuffs(item, debuff_order(item, stats, e, energy=energy),
+                                             _power(powers_e, "ARTIFACT"), targets=len(targets))
+                    weak = landed.get("weak", 0)
+                    vuln = landed.get("vulnerable", 0)
+                if (not artifact or not self.legacy_features) and weak > 0:
                     current = _power(powers_e, "WEAK")
                     if not current:
                         mitigation += 0.25 * threat
                     setup += min(weak, max(0.0, horizon - current)) * min(3.7, hp_pool / 35)
-                if not artifact and vuln > 0:
+                if (not artifact or not self.legacy_features) and vuln > 0:
                     current = _power(powers_e, "VULNERABLE")
                     setup += min(vuln, max(0.0, horizon - current)) * (4.0 if hard else 3.0)
                     if not current and (potion or energy > cost):

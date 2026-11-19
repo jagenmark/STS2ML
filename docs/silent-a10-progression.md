@@ -74,7 +74,9 @@ For a new ordinary standard-lobby run or for conditional training on the archive
 .venv/bin/python scripts/optimize-silent.py check-late --host "$SILENT_HOST" \
   --bundle "$SILENT_RELEASE/challenger/policy.json" --roles candidate \
   --act2-starts "$SILENT_RELEASE/development-openings/act-3" --curriculum-act 3 \
-  --seeds 16 --workers 4 --output artifacts/silent-a10-act3-continuations
+  --seeds 5 --workers 4 --output artifacts/silent-a10-act3-continuations
 ```
+
+The development branch assigns the 16 fixed-biome Act 3 openings to 11 training and five test seeds. The 82 fixed-biome Act 2 openings supply 58 training and 24 test seeds. Pass a previous run’s `opening-split.json` with `--opening-split` to verify the same seed lists and opening hashes on another machine. To reproduce the historical all-opening comparisons, use the release tag.
 
 The independent build and all evaluation games use the v0.111.0 game assembly. The headless host handles the Trial's verdict and abandonment, same-card redraws from Unceasing Top, shop procurement and removal, and native combat completion before rewards appear. The Underdocks checks cover Punch Off, Phantasmal Gardeners and the Soul Nexus death animation. All 17 previously interrupted decisions produced a confirmed native outcome with the revised host. The controlled native fixture also checks both final bosses. [Native host setup](headless-options.md)

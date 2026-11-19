@@ -2,12 +2,27 @@
 
 from __future__ import annotations
 
+import hashlib
+from pathlib import Path
+
+from .provenance import feature_provenance, require_provenance
 from .encounter import EncounterPolicy
 from .native import legal_actions
 from .run_policy import IDENTITY, RunPolicy, RunWeights, _power
 from .tactical_student import action_examples, make_network, pack
 from .teacher import incoming
 from .turn_planning import choose_turn
+
+
+# This released v1 checkpoint stored a different prior from the one used in
+# all 1,374 of its training decisions. Identify the exact file before repair.
+ARCHIVED_RETURN_SHA256 = "10899f37f8a8af77de44630a9196490cb34fc9a216038affb8b5d8d27ed21c98"
+ARCHIVED_FEATURE_WEIGHTS = RunWeights(
+    block=1.7992567529421166, focus=0.6761049865322228, poison=2.7215754966820405,
+    setup=0.5361755892779632, draw=1.6386275728318334, free=6.497970806406664,
+    cost_exponent=0.489479366886387, potion_reserve=19.771896197191907,
+    draft_threshold=6.311828065083786, draft_defense=1.4925472038130603,
+)
 
 
 def shortlist(state, prior, encounter):
@@ -96,12 +111,18 @@ class ReturnPolicy:
         import torch
 
         data = torch.load(path, map_location="cpu", weights_only=True)
-        if data["version"] != 1 or data["runtime_identity"] != IDENTITY:
+        if data["version"] not in (1, 2) or data["runtime_identity"] != IDENTITY:
             raise ValueError("Incompatible native return model")
         self.vocab = data["vocab"]
         weights = RunWeights(**data["weights"])
-        self.prior = RunPolicy(weights)
-        self.encounter = EncounterPolicy(weights)
+        legacy = data["version"] == 1
+        if legacy:
+            if hashlib.sha256(Path(path).read_bytes()).hexdigest() == ARCHIVED_RETURN_SHA256:
+                weights = ARCHIVED_FEATURE_WEIGHTS
+        else:
+            require_provenance(data, "feature_provenance", feature_provenance(weights))
+        self.prior = RunPolicy(weights, legacy_features=legacy)
+        self.encounter = EncounterPolicy(weights, legacy_features=legacy)
         self.model = make_network(data["width"], data["inputs"], len(self.vocab) + 1)
         self.model.load_state_dict(data["state_dict"])
         self.model.eval()

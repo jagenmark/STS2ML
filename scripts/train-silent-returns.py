@@ -18,6 +18,7 @@ from sts2rl.encounter import EncounterPolicy
 from sts2rl.fight_rollout import fight
 from sts2rl.native import NativeSession, ReplayFork, legal_actions
 from sts2rl.return_policy import shortlist
+from sts2rl.provenance import label_provenance, read_labeled_runs
 from sts2rl.run_policy import IDENTITY, RunPolicy, RunWeights
 from sts2rl.tactical_student import make_network, pack
 from sts2rl.trajectory import natural_specification
@@ -62,6 +63,7 @@ def collect(task):
     folder, source, host, weights, limit, index = task
     folder.mkdir(parents=True, exist_ok=False)
     prior, actor = RunPolicy(weights), EncounterPolicy(weights)
+    provenance = label_provenance(weights, __file__)
     rows, errors = [], []
     session = None
     forks = roots_from_trace(source / "game/rpc.jsonl", Random(12401 + index), limit)
@@ -102,6 +104,7 @@ def collect(task):
                     {
                         "seed": fork.specification["seed"],
                         "root": fork.expected_digest,
+                        "label_provenance": provenance,
                         "act": state["context"]["act"],
                         "room": state["context"]["room_type"],
                         "choices": choices,
@@ -122,7 +125,7 @@ def collect(task):
             f.write(json.dumps(r, separators=(",", ":")) + "\n")
     save_json(
         folder / "result.json",
-        {"roots": len(rows), "fights": sum(len(r["returns"]) for r in rows), "errors": errors},
+        {"roots": len(rows), "fights": sum(len(r["returns"]) for r in rows), "errors": errors, "label_provenance": provenance},
     )
     return len(rows)
 
@@ -142,16 +145,18 @@ def main():
     p.add_argument("--width", type=int, default=48)
     p.add_argument("--margin", type=float, default=1.0)
     args = p.parse_args()
-    args.output.mkdir(parents=True, exist_ok=False)
     weights = RunWeights.load(args.weights)
+    provenance = label_provenance(weights, __file__)
     if args.mode == "collect":
+        args.output.mkdir(parents=True, exist_ok=False)
         if not args.host:
             p.error("Collection requires a native host")
         dirs = [
             f.parent
             for d in args.source
             for f in sorted(d.glob("run-*/result.json"))
-            if json.loads(f.read_text())["status"] == "complete"
+            if (result := json.loads(f.read_text()))["status"] == "complete"
+            and result.get("opening_partition") != "test"
         ]
         dirs = dirs[args.offset : args.offset + args.seeds]
         if len(dirs) != args.seeds:
@@ -171,14 +176,10 @@ def main():
     torch.set_num_threads(1)
     torch.manual_seed(54721)
     rng = Random(742)
-    rows = []
-    for folder in args.source:
-        for f in sorted(folder.glob("run-*/decisions.jsonl.gz")):
-            if f.with_name("result.json").exists():
-                with gzip.open(f, "rt", encoding="utf-8") as stream:
-                    rows.extend(json.loads(line) for line in stream)
+    rows = list(read_labeled_runs(args.source, "decisions.jsonl.gz", provenance))
     if not rows or len({(r["seed"], r["root"]) for r in rows}) != len(rows):
         raise ValueError("Expected distinct native fight roots")
+    args.output.mkdir(parents=True, exist_ok=False)
     parts = defaultdict(list)
     for r in rows:
         fold = int.from_bytes(hashlib.sha256(r["seed"].encode()).digest()[:4], "big") % 10
@@ -267,7 +268,7 @@ def main():
     model.load_state_dict(best_weights)
     torch.save(
         {
-            "version": 1,
+            "version": 2, "feature_provenance": provenance["features"], "label_provenance": provenance,
             "runtime_identity": IDENTITY,
             "width": args.width,
             "inputs": inputs,
@@ -279,6 +280,7 @@ def main():
         args.output / "returns.pt",
     )
     report = {
+        "label_provenance": provenance,
         "seeds": len({r["seed"] for r in rows}),
         "roots": len(rows),
         "branches": sum(len(r["returns"]) for r in rows),

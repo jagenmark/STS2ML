@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 
 from .native import canonical_json, digest
+from .provenance import mc_provenance, require_provenance
+from .teacher import CONTINUATION
 
 
 def read_json(path):
@@ -39,6 +41,8 @@ def _episode_groups(config):
 
 
 def aggregate_source(experiment, config):
+    expected = mc_provenance(CONTINUATION)
+    require_provenance(config, "teacher_provenance", expected)
     paths = []
     used_groups = set()
     labeled_groups = set()
@@ -48,6 +52,7 @@ def aggregate_source(experiment, config):
     # Keep its running prefix so checking each generation needs only one pass.
     dataset = hashlib.sha256(b"[")
     for folder, source in _source_chain(experiment):
+        require_provenance(source, "teacher_provenance", expected)
         if source.get("aggregation") != manifest:
             raise ValueError("Aggregate ancestor differs from the recorded source manifest")
         for key in ("sampler", "ascension", "macro_sha256"):
@@ -73,6 +78,8 @@ def aggregate_source(experiment, config):
                 for line in stream:
                     file_hash.update(line)
                     row = json.loads(line)
+                    require_provenance(row, "teacher_provenance", expected)
+                    require_provenance(row, "continuation", CONTINUATION)
                     if (row.get("group") != group or row.get("sampler") != config["sampler"]
                             or row.get("ascension") != config["ascension"]):
                         raise ValueError("Aggregation rows disagree with their episode/profile")

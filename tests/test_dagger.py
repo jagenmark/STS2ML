@@ -66,6 +66,7 @@ def test_aggregate_split_never_moves_prior_validation_or_test_into_training():
 def source_fixture(folder, prefix="SOURCE"):
     folder.mkdir()
     config = {"runs": 10, "evaluate": 3, "prefix": prefix, "sampler": CURRICULUM_SAMPLER,
+              "teacher_provenance": curriculum_row(0)["teacher_provenance"],
               "ascension": 7, "macro_sha256": "macro", "runtime_sha256": {"artifacts/upstreams/sts2-cli/lib/sts2.dll": "game"}}
     save_json(folder / "config.json", config)
     save_json(folder / "status.json", {"stage": "complete"})

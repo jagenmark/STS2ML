@@ -12,10 +12,13 @@ import random
 import statistics
 import time
 
+from .combat_effects import debuff_order, landed_debuffs, power
 from .native import ACT1_PROFILES, Action, NativeError, NativeSession, ReplayFork, SAMPLER, digest, legal_actions
+from .provenance import mc_provenance
 
 LEGACY_CONTINUATION = "public-combat-heuristic-v2"
-CONTINUATION = "public-combat-heuristic-v3"
+NATIVE_NAMES_CONTINUATION = "public-combat-heuristic-v3"
+CONTINUATION = "public-combat-heuristic-v4"
 
 
 def incoming(enemy: dict) -> float:
@@ -35,8 +38,21 @@ def _debuff_score(card, target, enemies, version):
     weak, poison = _debuffs(stats, version)
     if not (weak or poison):
         return 0.0
+    if version == CONTINUATION:
+        affected = [target] if target else [e for e in enemies if e["hp"] > 0]
+        if not target and card.get("target_type") not in ("AllEnemies", "RandomEnemy"):
+            return 0.0
+        score = 0.
+        for enemy in affected:
+            powers = enemy.get("powers")
+            applications = debuff_order(card, stats, enemy)
+            effects = landed_debuffs(card, applications, power(powers, "ARTIFACT"), targets=len(affected))
+            if effects.get("weak") and not power(powers, "WEAK"):
+                score += incoming(enemy) * .25
+            score += 2 * effects.get("poison", 0)
+        return score
     if target:
-        if (version == CONTINUATION and card.get("id") == "CARD.BUBBLE_BUBBLE"
+        if (version == NATIVE_NAMES_CONTINUATION and card.get("id") == "CARD.BUBBLE_BUBBLE"
                 and not any(p["id"] == "POWER.POISON_POWER" and p["amount"] > 0
                             for p in target.get("powers") or [])):
             poison = 0
@@ -55,7 +71,7 @@ def _debuff_score(card, target, enemies, version):
 
 
 def heuristic_score(state: dict, action: Action, *, version=CONTINUATION) -> float:
-    if version not in (CONTINUATION, LEGACY_CONTINUATION):
+    if version not in (CONTINUATION, NATIVE_NAMES_CONTINUATION, LEGACY_CONTINUATION):
         raise ValueError(f"Unknown heuristic continuation {version}")
     if action.kind == "end_turn":
         return 0.0
@@ -79,7 +95,8 @@ def heuristic_score(state: dict, action: Action, *, version=CONTINUATION) -> flo
                 score -= stats.get("damage", 0) + min(need, stats.get("block", 0))
         powers = combat.get("player_powers") or []
         source = state.get("selection_source", {})
-        if source.get("kind") == "end_turn" and any("WELL_LAID_PLANS" in p["id"] for p in powers):
+        if ((source.get("kind") == "end_turn" and any("WELL_LAID_PLANS" in p["id"] for p in powers))
+                or (version == CONTINUATION and source.get("id") == "CARD.NIGHTMARE")):
             score = -score  # Retain useful cards rather than discarding them.
         return score
     if action.kind == "play_card":
@@ -217,5 +234,5 @@ def teach_root(worker: NativeSession, fork: ReplayFork, state: dict, *, samples:
         "observation": deepcopy(state),
         "actions": [{"id": a.id, "kind": a.kind, "args": a.args} for a in actions],
         "estimates": estimates, "chosen_action_id": best.id,
-        "continuation": continuation, "horizon": horizon,
+        "continuation": continuation, "teacher_provenance": mc_provenance(continuation), "horizon": horizon,
         "branches": branches, "seconds": time.perf_counter() - started}

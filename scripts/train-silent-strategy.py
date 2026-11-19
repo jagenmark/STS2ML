@@ -187,6 +187,7 @@ def main():
             for folder in args.source
             for path in sorted(folder.glob("run-*/result.json"))
             if (result := json.loads(path.read_text()))["status"] == "complete"
+            and result.get("opening_partition") != "test"
             and result["act"] >= args.min_act
             and path.with_name("strategy.jsonl.gz").exists()
         ]

@@ -16,7 +16,8 @@ import subprocess
 import time
 
 from sts2rl.native import NativeSession, SAMPLER, digest, legal_actions
-from sts2rl.teacher import combat_result, heuristic, teach_root
+from sts2rl.provenance import mc_provenance
+from sts2rl.teacher import CONTINUATION, combat_result, heuristic, teach_root
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -116,6 +117,7 @@ def main():
     if (output / "config.json").exists():
         parser.error("Use a fresh output folder; experiments are immutable")
     save(output / "config.json", {**vars(args), "output": str(output), "sampler": SAMPLER,
+        "teacher_provenance": mc_provenance(CONTINUATION),
         "started": datetime.now(timezone.utc).isoformat(),
         "git_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "source_sha256": {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()

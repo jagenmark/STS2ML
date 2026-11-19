@@ -17,6 +17,8 @@ def main():
     for directory in args.collections:
         for path in sorted(directory.glob("run-*/result.json")):
             row = json.loads(path.read_text(encoding="utf-8"))
+            if row.get("opening_partition") == "test":
+                parser.error("Room fitting requires training trajectories; this collection contains held-out opening seeds")
             log = path.parent / "game/engine.log"
             # Early headless builds could issue rewards after failed combat
             # initialization. Exclude the entire affected training trajectory.

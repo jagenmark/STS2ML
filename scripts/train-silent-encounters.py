@@ -14,6 +14,7 @@ from sts2rl.act1 import save_json
 from sts2rl.encounter import EncounterPolicy, STYLES, combat_features
 from sts2rl.native import NativeSession
 from sts2rl.fight_rollout import fight
+from sts2rl.provenance import label_provenance, read_encounter_runs
 from sts2rl.run_policy import IDENTITY, RunWeights
 from sts2rl.trajectory import map_combat_openings, strategy_roots
 
@@ -23,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def collect(task):
     folder, source, host, weights, styles, beam, hallways, min_act = task
     rows, errors = [], []
+    provenance = label_provenance(weights, __file__)
     session = None
     folder.mkdir(parents=True, exist_ok=False)
     try:
@@ -67,6 +69,7 @@ def collect(task):
                 rows.append(
                     {
                         "seed": fork.specification["seed"],
+                        "label_provenance": provenance,
                         "root": fork.expected_digest,
                         "act": ctx["act"],
                         "encounter": "|".join(e["id"] for e in state["enemies"])
@@ -85,7 +88,8 @@ def collect(task):
     finally:
         if session is not None:
             session.close()
-    save_json(folder / "labels.json", {"roots": rows, "errors": errors})
+    save_json(folder / "labels.json", {"roots": rows, "errors": errors,
+              "policy_weights": weights.checkpoint()["weights"], "label_provenance": provenance})
     return len(rows), len(errors)
 
 
@@ -133,7 +137,6 @@ def main():
     p.add_argument("--default", choices=STYLES, default="balanced")
     p.add_argument("--ridge", type=float, default=8.0)
     args = p.parse_args()
-    args.output.mkdir(parents=True, exist_ok=False)
     if args.mode == "collect":
         if not args.host or not args.weights:
             p.error("Collection requires --host and --weights")
@@ -141,7 +144,7 @@ def main():
         for directory in args.source:
             for f in sorted(directory.glob("run-*/result.json")):
                 result = json.loads(f.read_text())
-                if result["status"] == "complete" and (
+                if result["status"] == "complete" and result.get("opening_partition") != "test" and (
                     result["act"] >= args.min_act
                     if args.hallways
                     else result["boss_fights"] and f.with_name("strategy.jsonl.gz").exists()
@@ -150,6 +153,7 @@ def main():
         if len(sources) < args.seeds:
             p.error(f"Only {len(sources)} complete games met the collection criteria")
         weights = RunWeights.load(args.weights)
+        args.output.mkdir(parents=True, exist_ok=False)
         with ProcessPoolExecutor(args.workers) as pool:
             tasks = [
                 (
@@ -168,12 +172,8 @@ def main():
                 if i % 10 == 0:
                     print(i, flush=True)
         return
-    roots = [
-        r
-        for directory in args.source
-        for f in sorted(directory.glob("run-*/labels.json"))
-        for r in json.loads(f.read_text())["roots"]
-    ]
+    weights = RunWeights.load(args.weights) if args.weights else None
+    roots = [r for _, rows in read_encounter_runs(args.source, __file__, weights) for r in rows]
     if not roots or len({(r["seed"], r["root"]) for r in roots}) != len(roots):
         raise ValueError("Expected distinct recorded boss openings")
     if len({(r["beam"], tuple(r["styles"])) for r in roots}) != 1:
@@ -185,8 +185,10 @@ def main():
     }
     train = [r for r in roots if r["seed"] not in valid]
     model = fit(train, args.ridge, args.default)
+    model["label_provenance"] = train[0]["label_provenance"]
     model["model_rooms"] = sorted({r.get("room", "Boss") for r in train})
     model["model_min_act"] = min(r["act"] for r in train)
+    args.output.mkdir(parents=True, exist_ok=False)
     save_json(args.output / "encounters.json", model)
     scores = defaultdict(list)
     for r in roots:

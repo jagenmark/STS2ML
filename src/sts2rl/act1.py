@@ -133,7 +133,7 @@ def save_json(path, data, *, best_effort=False):
             time.sleep(.01 * 2 ** attempt)
 
 
-def existing_act1_results(output, runs, prefix, *, ascension=10, condition_ascension=False):
+def existing_act1_results(output, runs, prefix, *, ascension=10, condition_ascension=False, teacher_provenance=None):
     """Reuse complete episodes; archive incomplete attempts before retrying.
 
     Call only after the previous runner exits. Archives stay inside this
@@ -154,6 +154,13 @@ def existing_act1_results(output, runs, prefix, *, ascension=10, condition_ascen
                     raise ValueError("Existing run belongs to another seed/index")
                 if result.get("ascension", 10) != ascension or result.get("sampler", ACT1_SAMPLER) != act1_profile(ascension, condition_ascension):
                     raise ValueError("Existing run belongs to another ascension/profile")
+                if teacher_provenance is not None:
+                    from .provenance import require_provenance
+                    with (folder / "teacher.jsonl").open(encoding="utf-8") as stream:
+                        for line in stream:
+                            row = json.loads(line)
+                            require_provenance(row, "teacher_provenance", teacher_provenance)
+                            require_provenance(row, "continuation", teacher_provenance["continuation"])
                 complete.append(result)
                 continue
             archive.mkdir(parents=True, exist_ok=True)

@@ -7,6 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from .native import legal_actions
+from .provenance import feature_provenance, planner_provenance, require_provenance
 from .run_policy import IDENTITY, RunPolicy, RunWeights, _card_id, _cost, _damage, _draw_count, _power, _shiv_count
 from .teacher import LEGACY_CONTINUATION, equivalent_groups, heuristic_score, incoming
 
@@ -110,10 +111,13 @@ class TacticalStudent:
     def __init__(self, checkpoint):
         import torch
         data = torch.load(checkpoint, map_location="cpu", weights_only=True)
-        if data["version"] != 1 or data["runtime_identity"] != IDENTITY:
+        if data["version"] not in (1, 2) or data["runtime_identity"] != IDENTITY:
             raise ValueError("Incompatible tactical student")
         self.vocab = data["vocab"]
-        self.feature_policy = RunPolicy(RunWeights(**data["feature_weights"]))
+        weights = RunWeights(**data["feature_weights"])
+        if data["version"] == 2:
+            require_provenance(data, "feature_provenance", feature_provenance(weights, planner=True))
+        self.feature_policy = RunPolicy(weights, legacy_features=data["version"] == 1)
         self.model = make_network(data["width"], data["inputs"], 1 + len(self.vocab))
         self.model.load_state_dict(data["state_dict"])
         self.model.eval()
@@ -129,12 +133,22 @@ class TacticalStudent:
 def read_training_runs(folders):
     import gzip
     runs, seen = [], set()
+    collection_provenance = None
     for folder in folders:
-        config = json.loads((Path(folder).parent / "config.json").read_text())
         for p in sorted(Path(folder).glob("run-*/actions.jsonl.gz")):
             result = json.loads((p.parent / "result.json").read_text())
             if result["status"] != "complete":
                 continue
+            if ("label_provenance" not in result or "feature_weights" not in result
+                    or result.get("opening_partition") == "test"):
+                raise ValueError("Planner fitting requires versioned training labels on training seeds")
+            weights = RunWeights(**result["feature_weights"])
+            late = result["late_teacher_weights"]
+            expected = planner_provenance(weights, RunWeights(**late) if late else None, result["teacher_deck_effects"])
+            require_provenance(result, "label_provenance", expected)
+            if collection_provenance is None:
+                collection_provenance = expected
+            require_provenance(result, "label_provenance", collection_provenance)
             seed = result["seed"]
             if seed in seen:
                 raise ValueError("Training inputs contain a repeated game seed")
@@ -142,5 +156,7 @@ def read_training_runs(folders):
             with gzip.open(p, "rt", encoding="utf-8") as stream:
                 records = [json.loads(line) for line in stream]
             if records:
-                runs.append((seed, records, config["weights"]["weights"]))
+                for row in records:
+                    require_provenance(row, "label_provenance", expected)
+                runs.append((seed, records, result["feature_weights"]))
     return runs

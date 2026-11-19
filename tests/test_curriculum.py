@@ -20,7 +20,10 @@ def conditioned_state(ascension=7):
 
 
 def curriculum_row(index, ascension=7):
+    from sts2rl.provenance import mc_provenance
+    from sts2rl.teacher import CONTINUATION
     return {**record(conditioned_state(ascension)), "group": f"seed-{index}",
+            "teacher_provenance": mc_provenance(CONTINUATION), "continuation": CONTINUATION,
             "schema_version": 1, "sampler": CURRICULUM_SAMPLER, "ascension": ascension}
 
 

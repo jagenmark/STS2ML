@@ -12,6 +12,8 @@ import time
 from sts2rl.act1 import act1_profile, existing_act1_results, run_act1, save_json
 from sts2rl.act1_evaluation import evaluate_three_way
 from sts2rl.aggregation import aggregate_source
+from sts2rl.provenance import mc_provenance, require_provenance
+from sts2rl.teacher import CONTINUATION
 from sts2rl.native import CURRICULUM_ASCENSIONS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -62,8 +64,6 @@ def main():
     args.host_path = str(args.host_path.resolve()) if args.host_path else None
     args.student_checkpoint = str(args.student_checkpoint.resolve()) if args.student_checkpoint else None
     args.aggregate_from = str(args.aggregate_from.resolve()) if args.aggregate_from else None
-    if args.student_checkpoint and not args.aggregate_from:
-        p.error("Student-state collection requires --aggregate-from to retain prior teacher data")
     if args.host_path and not Path(args.host_path).is_relative_to(ROOT):
         p.error("Host DLL must be inside this repository's isolated artifacts")
     if args.allow_host_update and not args.resume:
@@ -106,12 +106,14 @@ def main():
                             Path(args.host_path) if args.host_path else ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/Sts2Headless.dll",
                             Path(args.host_path).with_name("GodotSharp.dll") if args.host_path else ROOT / "artifacts/upstreams/sts2-cli/src/Sts2Headless/bin/Release/net9.0/GodotSharp.dll"]},
               "macro_sha256": hashlib.sha256(args.macro_checkpoint.read_bytes()).hexdigest() if args.macro_checkpoint else None}
-    config.update(collection_actor="student" if args.student_checkpoint else "teacher_assisted",
+    config.update(teacher_provenance=mc_provenance(CONTINUATION),
+                  collection_actor="student" if args.student_checkpoint else "teacher_assisted",
                   student_sha256=hashlib.sha256(Path(args.student_checkpoint).read_bytes()).hexdigest() if args.student_checkpoint else None,
                   student_collection_device="cpu" if args.student_checkpoint else None)
     aggregate_paths, inherited_split, aggregation = aggregate_source(args.aggregate_from, config) if args.aggregate_from else ([], None, None)
     config["aggregation"] = aggregation
     if previous:
+        require_provenance(previous, "teacher_provenance", config["teacher_provenance"])
         old_runtime = {k.replace("\\", "/"): v for k, v in previous["runtime_sha256"].items()}
         new_runtime = {k.replace("\\", "/"): v for k, v in config["runtime_sha256"].items()}
         game_key = "artifacts/upstreams/sts2-cli/lib/sts2.dll"
@@ -130,7 +132,8 @@ def main():
     started = time.perf_counter()
     native_args = {"ascension": args.ascension, "condition_ascension": args.condition_ascension, "host_path": args.host_path}
     results, pending = existing_act1_results(output, args.runs, args.prefix,
-        ascension=args.ascension, condition_ascension=args.condition_ascension) if args.resume else ([], range(args.runs))
+        ascension=args.ascension, condition_ascension=args.condition_ascension,
+        teacher_provenance=config["teacher_provenance"]) if args.resume else ([], range(args.runs))
     status = {"stage": "collecting", "total": args.runs, **summary(results), "seconds": 0}
     save_json(output / "status.json", status)
     try:

@@ -171,12 +171,18 @@ def evaluate_micro(model, records, vocab, device, *, condition_ascension=False):
 
 
 def fit_micro(paths, output, *, epochs=20, device="cpu", width=64, inherited_split=None):
+    from .provenance import mc_provenance, require_provenance
+    from .teacher import CONTINUATION
     if epochs < 1:
         raise ValueError("Positive epoch count required")
     torch.set_num_threads(2)
     torch.manual_seed(42)
     rng = random.Random(42)
     records = [json.loads(line) for path in paths for line in path.read_text(encoding="utf-8").splitlines()]
+    provenance = mc_provenance(CONTINUATION)
+    for row in records:
+        require_provenance(row, "teacher_provenance", provenance)
+        require_provenance(row, "continuation", CONTINUATION)
     profiles = {r.get("sampler") for r in records}
     if len(profiles) != 1 or not profiles <= {SAMPLER, *ACT1_PROFILES} or any(r.get("schema_version") != 1 for r in records):
         raise ValueError("Unqualified or incompatible teacher data")
@@ -221,7 +227,7 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64, inherited_spl
         if metrics["teacher_cross_entropy"] < best:
             best = metrics["teacher_cross_entropy"]
             checkpoint = {"micro_version": 3 if conditioned else 2, "sampler": profile, "assembly_version": ASSEMBLY_VERSION,
-                          "dropout": dropout,
+                          "dropout": dropout, "teacher_provenance": provenance,
                           "vocabulary": vocab.to_dict(), "width": width, "best_epoch": epoch,
                           "state_dict": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}}
             if conditioned:
@@ -231,7 +237,7 @@ def fit_micro(paths, output, *, epochs=20, device="cpu", width=64, inherited_spl
         print(json.dumps(history[-1]), flush=True)
     checkpoint = torch.load(output / "best.pt", map_location="cpu", weights_only=True)
     model.load_state_dict(checkpoint["state_dict"])
-    report = {"sampler": profile, "dataset_sha256": digest(records), "decisions": len(records),
+    report = {"sampler": profile, "teacher_provenance": provenance, "dataset_sha256": digest(records), "decisions": len(records),
               "condition_ascension": conditioned, "trained_ascensions": ascensions,
               "split_groups": dict(Counter(split.values())), "split": split,
               "inherited_split_groups": len(inherited_split or {}),

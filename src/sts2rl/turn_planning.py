@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from .combat_effects import block_preview, debuff_order
 from .native import legal_actions
 from .run_policy import _cost, _damage, _power
 from .teacher import incoming
@@ -22,6 +23,8 @@ class Move:
     damage: tuple
     block: float
     weak: int
+    weak_order: tuple
+    debuffs: tuple
     extra: float
 
 
@@ -30,6 +33,7 @@ class Hand:
     damage: tuple
     block: float
     weak: int
+    artifact: tuple
     used: int
     energy: int
     extra: float
@@ -56,7 +60,11 @@ def choose_turn(state, policy, *, width=6, depth=5):
     revive = any(_power(e.get("powers"), "ILLUSION") or _power(e.get("powers"), "INFESTED") for e in enemies)
     cards = {c["index"]: c for c in state["hand"]}
     potions = {p["index"]: p for p in player["potions"]}
-    dex = _power(state.get("player_powers"), "DEXTERITY")
+    legacy = getattr(policy, "legacy_features", False)
+    legacy_dex = _power(state.get("player_powers"), "DEXTERITY") if legacy else 0
+    shields = tuple(max(0, _power(e.get("powers"), "ARTIFACT")) for e in enemies)
+    if legacy or not any(shields):
+        shields = ()
     energy = state["energy"]
 
     def board(damage, block, weak, *, terminal):
@@ -98,6 +106,8 @@ def choose_turn(state, policy, *, width=6, depth=5):
         targets = [target] if target is not None else range(size)
         d = [0.] * size
         weak = 0
+        weak_order = [0] * size
+        debuffs = [0] * size
         for i in targets:
             if potion:
                 d[i] = stats.get("damage", 0)
@@ -105,19 +115,29 @@ def choose_turn(state, policy, *, width=6, depth=5):
                 d[i] = _damage(item, enemies[i])
             if item.get("target_type") == "RandomEnemy" and size > 1:
                 d[i] /= size
-            if stats.get("weakpower", 0) and not _power(enemies[i].get("powers"), "WEAK"):
+            if shields:
+                effects = debuff_order(item, stats, enemies[i], energy=energy)
+                if item.get("target_type") == "RandomEnemy" and size > 1:
+                    # No particular enemy is guaranteed to lose a stack.
+                    continue
+                debuffs[i] = len(effects)
+                if item.get("id") == "CARD.EXPOSE":
+                    debuffs[i] += shields[i]
+                if not _power(enemies[i].get("powers"), "WEAK"):
+                    weak_order[i] = next((n for n, (kind, _) in enumerate(effects, 1) if kind == "weak"), 0)
+                if weak_order[i] > shields[i]:
+                    weak |= 1 << i
+            elif stats.get("weakpower", 0) and not _power(enemies[i].get("powers"), "WEAK"):
                 weak |= 1 << i
-        block = stats.get("calculatedblock", stats.get("block", 0))
-        if block and not potion:
-            block = max(0, block + dex)
+        block = block_preview(stats, legacy_dex=0 if potion else legacy_dex)
         intrinsic = scores[j] * max(1, cost) ** w.cost_exponent
         # Replace the one-card damage and block estimates with their joint
         # effect. Keep the scorer's utility for draw, poison, powers and items.
         residual = intrinsic - board(d, block, weak, terminal=False)
         moves.append(Move(j, 1 << source, cost, bool(item.get("costs_x")), target,
-                          tuple(d), block, weak, residual))
+                          tuple(d), block, weak, tuple(weak_order), tuple(debuffs), residual))
 
-    start = Hand((0.,) * size, 0., 0, 0, energy, 0., None)
+    start = Hand((0.,) * size, 0., 0, shields, 0, energy, 0., None)
     beam = [start]
     best = (board(start.damage, 0., 0, terminal=True), scores[end], -end)
     choice = end
@@ -131,15 +151,21 @@ def choose_turn(state, policy, *, width=6, depth=5):
                     continue
                 damage = tuple(min(h, prev + delta) for h, prev, delta in zip(hp, hand.damage, m.damage, strict=True))
                 block, weak = hand.block + m.block, hand.weak | m.weak
+                artifact = hand.artifact
+                if artifact:
+                    for i, remaining in enumerate(artifact):
+                        if m.weak_order[i] > remaining:
+                            weak |= 1 << i
+                    artifact = tuple(max(0, n - k) for n, k in zip(artifact, m.debuffs, strict=True))
                 extra = hand.extra + m.extra
                 first = m.action_index if hand.first is None else hand.first
-                projection = Hand(damage, block, weak, hand.used | m.source, hand.energy - m.cost, extra, first)
+                projection = Hand(damage, block, weak, artifact, hand.used | m.source, hand.energy - m.cost, extra, first)
                 quality = (board(damage, block, weak, terminal=True) + extra, scores[first], -first)
                 if quality > best:
                     best, choice = quality, first
                 if all(hits >= health for hits, health in zip(damage, hp, strict=True)):
                     continue
-                key = (projection.used, projection.damage, projection.weak)
+                key = (projection.used, projection.damage, projection.weak, artifact)
                 previous = next_hands.get(key)
                 if previous is None or quality > previous[0]:
                     next_hands[key] = (quality, projection)

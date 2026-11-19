@@ -102,12 +102,17 @@ def check_training(models, training):
     import numpy as np
     import torch
 
+    from sts2rl.return_policy import ReturnPolicy
     from sts2rl.run_bundle import load_bundle
+    from sts2rl.run_policy import RunWeights
     from sts2rl.tactical_student import TacticalStudent, pack
 
     for policy in sorted(models.glob("*/policy.json")):
         load_bundle(policy)
     _, incumbent = load_bundle(models / "incumbent/policy.json")
+    adviser = ReturnPolicy(training / "checkpoints/returns/returns.pt")
+    if adviser.prior.weights != RunWeights.load(incumbent["weights"]):
+        raise ValueError("Released return adviser does not use its training feature weights")
     student = TacticalStudent(incumbent["tactical_student"])
     labels = sorted((training / "imitation/planner/candidate").glob("run-*/actions.jsonl.gz"))
     for label in labels:
@@ -146,7 +151,7 @@ def check_training(models, training):
         np.testing.assert_allclose(
             fitted["boss_coefficients"][act], reference["boss_coefficients"][act], rtol=1e-8, atol=1e-9,
         )
-    print(f"Verified neural inference and refitted {stats['transitions']:,} room transitions.")
+    print(f"Verified neural inference, return feature weights and {stats['transitions']:,} refitted room transitions.")
 
 
 def main():

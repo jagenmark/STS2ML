@@ -101,6 +101,14 @@ def play_episode(task):
     samples = []
     strategy_samples = []
     feature_policy = RunPolicy(RunWeights(**weights)) if options.get("label_turns") else None
+    if options.get("opening_partition"):
+        row["opening_partition"] = options["opening_partition"]
+    if feature_policy:
+        from .provenance import planner_provenance
+        row["feature_weights"] = weights
+        row["late_teacher_weights"] = late.checkpoint()["weights"] if late else None
+        row["teacher_deck_effects"] = policy.deck_effects
+        row["label_provenance"] = planner_provenance(feature_policy.weights, late, policy.deck_effects)
     search = boss_search = None
     rooms = []
     try:
@@ -255,6 +263,7 @@ def play_episode(task):
                     if len(groups) > 1:
                         labels = {a.id: i for i, group in enumerate(groups) for a in group}
                         samples.append({"choices": examples, "label": labels[turn_action.id],
+                                        "act": act, "label_provenance": row["label_provenance"],
                                         "executed": labels[action.id]})
                 if state["decision"] == "map_select" and options.get("rooms"):
                     point = next(p for p in state["choices"] if (p["col"], p["row"]) ==

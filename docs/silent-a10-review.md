@@ -24,10 +24,20 @@ All **1,374 archived return-training decisions from 229 seeds** restored to thei
 
 The embedded weights equal `challenger/weights.json`. In 1,271 decisions the input differed, and in ten the ordered list of action tokens also differed. The fit command accepted the data with a deliberately different weight file through model construction. The two frozen benchmark policies omit this experimental return adviser. [Collector and fit](https://github.com/jagenmark/STS2ML/blob/ed722b6/scripts/train-silent-returns.py#L85) · [Inference](https://github.com/jagenmark/STS2ML/blob/ed722b6/src/sts2rl/return_policy.py#L98)
 
-For a new fit on these historical return labels, the matching feature weights are `artifacts/silent-a10-progression-release/incumbent/weights.json` (SHA-256 `33bd1adb134e681f2b5a9bb217d02be195ad57ff1d4b387072148d72adf438e5`). Keep the original checkpoint for reproducing historical behavior. A new fit needs its own evaluation.
+For a historical refit on the release tag, the matching feature weights are `artifacts/silent-a10-progression-release/incumbent/weights.json` (SHA-256 `33bd1adb134e681f2b5a9bb217d02be195ad57ff1d4b387072148d72adf438e5`).
 
 ## Label versions and seed selection
 
 DAgger accepted ten synthetic episodes labeled with the v2 continuation alongside ten new episodes labeled v3. They passed aggregation, seed-split checks and fit input validation. The probe stopped before parameter updates. DAgger checks the sampler, ascension, macro weights, game assembly and dataset integrity. These checks allow different teacher continuations to coexist. [Aggregation checks](https://github.com/jagenmark/STS2ML/blob/ed722b6/src/sts2rl/aggregation.py#L41) · [Fit input checks](https://github.com/jagenmark/STS2ML/blob/ed722b6/src/sts2rl/micro.py#L173)
 
 Using the released `development-openings/act-2` pool, training and `check-late` scheduled the same **15 of 15 seed and action-history pairs** with different prefixes. Conditional scheduling sorts archived seeds and takes the requested count. In a separate check, the **384 distinct full-run benchmark seeds and 1,536 archived room-training seeds shared zero IDs**. [Conditional selection](https://github.com/jagenmark/STS2ML/blob/ed722b6/scripts/optimize-silent.py#L98) · [Full-run benchmark protocol](silent-a10-progression.md)
+
+## Corrections on the development branch
+
+The base policy and turn planner now use the native block preview. Both estimated 7 block for a Defend that granted 7 with +2 Dexterity. With 10 HP, 12 incoming and one Artifact stack, Neutralize leaves 12 incoming. The planner tracks each enemy’s remaining Artifact across plays. The MC continuation is now `public-combat-heuristic-v4`. Nightmare copied Dagger Throw on the restored training hand, and the optional deck-effects policy accepted an enemy with null intents.
+
+New MC, planner and return labels carry their teacher and feature identities as applicable. Aggregation and fitting check the recorded code and weights. A fresh v4 native collection produced five decisions. A separate return collection produced 64 roots on 32 seeds and completed a one-epoch fit and three native games. Changing the feature weights or supplying the unversioned archived labels failed before training.
+
+Conditional training and evaluation now save disjoint seed lists with native opening digests. The 82 fixed-biome Act 2 openings split into 58 training and 24 test seeds. Native collection and evaluation each completed 15 continuations using the same lock, with zero shared seeds. These are previously explored development openings. Fresh full games still supply the independent benchmark.
+
+The current loader recognizes the original experimental return checkpoint by its SHA-256 and reconstructs its historical inputs with the incumbent feature weights. A standalone checkpoint also carries those weights for use on the release tag. For **both** files, the ordered action tokens and feature vectors matched **1,374/1,374** restored decisions on **229 seeds**. [Cross-machine instructions and checkpoint](silent-a10-handoff.md#experimental-return-adviser)

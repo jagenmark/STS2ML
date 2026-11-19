@@ -1,5 +1,6 @@
 """Estimate persistent Silent effects from visible card text variables and the current deck."""
 
+from .combat_effects import power
 
 def deck_engines(deck):
     shivs = poison = 0
@@ -29,7 +30,7 @@ def hand_value(card, state, enemies, engines, incoming, block_weight):
     name = card.get("id")
     threats = [incoming(e) for e in enemies]
     need = max(0, sum(threats) - state["player"]["block"])
-    hit_counts = [sum(i.get("hits", 1) for i in e.get("intents", []) if i.get("type") == "Attack") for e in enemies]
+    hit_counts = [sum(i.get("hits", 1) for i in (e.get("intents") or []) if i.get("type") == "Attack") for e in enemies]
     hits = sum(hit_counts)
     bonus = persistent_value(card, engines) * (1.8 if state["context"]["room_type"] in ("Boss", "Elite") else 1)
     if stats.get("intangiblepower", 0):
@@ -37,8 +38,9 @@ def hand_value(card, state, enemies, engines, incoming, block_weight):
         bonus += (2 if has_intangible else max(0, need - hits)) * block_weight
     if stats.get("strengthloss", 0):
         drop = stats["strengthloss"]
-        prevention = sum(min(threat, drop * count) for threat, count in zip(threats, hit_counts, strict=True))
-        old = drop * sum(e.get("intends_attack", False) for e in enemies)
+        exposed = [power(e.get("powers"), "ARTIFACT") <= 0 for e in enemies]
+        prevention = sum(min(threat, drop * count) for threat, count, ok in zip(threats, hit_counts, exposed, strict=True) if ok)
+        old = drop * sum(e.get("intends_attack", False) for e, ok in zip(enemies, exposed, strict=True) if ok)
         bonus += block_weight * (min(need, prevention) - min(need, old))
     if name == "CARD.BULLET_TIME":
         energy_saved = sum(min(3, max(0, c.get("cost", 0))) for c in state["hand"]

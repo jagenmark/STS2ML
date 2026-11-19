@@ -64,6 +64,16 @@ To reproduce a completed strategic fit with the archived returns, use the **rele
 & $python scripts/train-silent-strategy.py fit --source artifacts/silent-a10-training-state/labels/strategy --output artifacts/helmer-strategy-refit
 ```
 
-For a new experiment, record the code revision, teacher and feature weights, and seed lists alongside the data. Collect fresh labels when the labeling policy changes. The archived trajectories can also be replayed from their seed and physical commands. Save a new evaluation's policy as a portable bundle with `scripts/freeze-silent-bundle.py --run PATH/TO/config.json --output PATH/TO/new-bundle`. Transfer that entire directory together with the matching code revision, newly collected training data and experiment configuration. The released snapshot was taken between completed fits.
+The development branch records code and weight fingerprints with new combat labels. Start a fresh collection after a teacher or feature change. For Act 1 DAgger, an existing `--student-checkpoint` can collect states for the corrected teacher. Add `--aggregate-from` only for completed collections with matching label provenance. Archived trajectories can be replayed from their seed and physical commands.
 
-The archived experimental **return adviser** needs special care. A reproduction of all 1,374 decisions in `labels/action-returns` found that **`incumbent/weights.json`** regenerates every saved feature vector. The historical `checkpoints/returns/returns.pt` embeds the challenger’s weights. Pass `--weights artifacts/silent-a10-progression-release/incumbent/weights.json` when using `scripts/train-silent-returns.py fit` on those labels. Both benchmark policies run independently of this adviser. [Feature audit and combat checks](silent-a10-review.md)
+For conditional games, the first run writes `opening-split.json`. Copy that file with the opening archive and pass it to the next machine using `--opening-split PATH/TO/opening-split.json`. Training and `collect-late` draw from the training list. `check-late` draws from the test list and checks the opening hashes against the lock. Use a fresh full-game seed suite for the final comparison.
+
+Save a new evaluation’s policy with `scripts/freeze-silent-bundle.py --run PATH/TO/config.json --output PATH/TO/new-bundle`. Transfer the entire directory, matching code revision, seed lock, versioned training data and experiment configuration.
+
+### Experimental return adviser
+
+On the development branch, the ordinary installer restores both archives. The return loader recognizes the published `checkpoints/returns/returns.pt` by its file hash and supplies the incumbent feature weights used during training. Both benchmark policies run independently of this adviser.
+
+For inference on the original release tag, download the standalone file below and pass its path to `--return-model`. Its learned tensors are identical to the archived adviser. Its corrected metadata reproduces the ordered inputs for all 1,374 archived decisions. SHA-256 is `7a75bd0d8494faf44b4a6e1674536f4683238f5165c30df40a72d1a5568e28a1`. [Download silent-a10-returns-compatible.pt](https://github.com/jagenmark/STS2ML/releases/download/silent-a10-2026-11-19/silent-a10-returns-compatible.pt)
+
+For a historical return refit on the release tag, pass `--weights artifacts/silent-a10-progression-release/incumbent/weights.json`. On the development branch, use `scripts/train-silent-returns.py collect` to create versioned labels and pass the same weights to `fit`. Both commands take new output directories. [Native feature and combat checks](silent-a10-review.md#corrections-on-the-development-branch)
