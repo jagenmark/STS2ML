@@ -29,7 +29,7 @@ $policy = "releases/silent-a10-encounter-draft/challenger/policy.json"
 & $python scripts/show-silent-draft.py artifacts/helmer-draft01/candidate/run-0000/draft-scores.jsonl.gz
 ```
 
-A full game produces one compressed log. Each line contains the seed, native action step, observation digest, relevant weight-file hashes, boss, biome, public group probability, chosen action and the complete list of legal draft alternatives, including skip when available. Add `--step NUMBER` to read a single reward. The trace writes the exact scores the deployed strategy uses in its ranking.
+A full game produces one compressed log. Each line contains the seed, native action step, observation digest, scoring-code and weight-file hashes, boss, biome, public group probability, chosen action and the complete list of legal draft alternatives, including skip when available. Add `--step NUMBER` to read a single reward. The trace writes the exact scores the deployed strategy uses in its ranking.
 
 * The base term includes the card's damage, defense, draw and setup values after the energy-cost adjustment, along with duplicate and deck-size penalties and the draft threshold.
 * Early Act 1 adds the opening ranker's learned terms to this base. Later rewards use the strategy's ordinary card prior.
