@@ -79,7 +79,7 @@ class CombatSearch:
         try:
             if self.worker is None or self.worker.closed:
                 self.worker = NativeSession(self.root, self.folder / f"worker-{self.attempts:02d}",
-                                            ascension=10, host_path=self.host, timeout=12)
+                                            ascension=10, host_path=self.host, timeout=12, act_list=game.act_list)
             for world in worlds:
                 for j, action in enumerate(candidates):
                     self.worker.restore(fork)

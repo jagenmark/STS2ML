@@ -2,11 +2,36 @@
 import hashlib
 import json
 from pathlib import Path
+from shutil import copyfile
 
 from .run_policy import IDENTITY
 
-MODEL_FILES = ("weights", "room_model", "late_room_model", "offer_model", "late_weights", "tactical_student", "micro")
+MODEL_FILES = ("weights", "room_model", "late_room_model", "offer_model", "late_weights", "tactical_student", "micro",
+               "strategy_model", "encounter_model", "return_model", "deck_model", "boss_search")
 SWITCHES = ("turn_search", "combat_search", "deck_effects")
+
+
+def freeze_bundle(manifest, destination):
+    """Copy the inference settings of a single-role native run to a portable directory."""
+    args = manifest["args"]
+    roles = args.get("roles") or []
+    if len(roles) != 1 or roles[0] not in ("candidate", "hybrid", "student", "micro") or not args.get("weights"):
+        raise ValueError("Freeze a single trained inference role with explicit run weights")
+    sources = {k: Path(args[k]).resolve(strict=True) for k in MODEL_FILES if args.get(k)}
+    destination = Path(destination)
+    destination.mkdir(parents=True, exist_ok=False)
+    files = {}
+    for key, source in sources.items():
+        name = key + source.suffix
+        target = destination / name
+        copyfile(source, target)
+        files[key] = {"name": name, "sha256": hashlib.sha256(target.read_bytes()).hexdigest()}
+    policy = {"version": 1, "runtime_identity": IDENTITY, "actor": roles[0], "files": files,
+              **{key: args.get(key, False) for key in SWITCHES}}
+    path = destination / "policy.json"
+    path.write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+    load_bundle(path)
+    return path
 
 
 def load_bundle(path):

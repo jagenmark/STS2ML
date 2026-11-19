@@ -57,6 +57,9 @@ class RoomModel:
     @classmethod
     def load(cls, path):
         data = json.loads(Path(path).read_text(encoding="utf-8"))
+        if data.get("version") == 2 and data.get("runtime_identity") == IDENTITY:
+            from .survival_route import SurvivalRouter
+            return SurvivalRouter(data)
         if data.get("version") != 1 or data.get("runtime_identity") != IDENTITY:
             raise ValueError("Incompatible room model")
         return cls(data["cells"])

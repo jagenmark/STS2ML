@@ -37,23 +37,29 @@ def summarize(rows):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=("train", "evaluate", "collect-late"))
+    parser.add_argument("mode", choices=("train", "evaluate", "collect-late", "check-late"))
     parser.add_argument("--host", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--prefix", required=True)
+    parser.add_argument("--prefix", help="Namespace for fresh full-game seeds")
     parser.add_argument("--seeds", type=int, default=8)
     parser.add_argument("--workers", type=int, default=3)
     parser.add_argument("--weights", type=Path)
     parser.add_argument("--bundle", type=Path, help="Load the actor and verify its portable inference files")
     parser.add_argument("--late-weights", type=Path, help="Switch to these fitted weights after clearing Act 1")
     parser.add_argument("--act2-starts", nargs="+", type=Path, help="Train on real Act 2 openings from these role directories")
+    parser.add_argument("--curriculum-act", type=int, choices=(2,3), default=2, help="Which natural opening to load from the training traces")
     parser.add_argument("--micro", type=Path, help="Include this neural combat checkpoint in evaluation")
     parser.add_argument("--room-model", type=Path, help="Use a fitted visible-map model for candidate routes")
     parser.add_argument("--late-room-model", type=Path, help="Use rooms fitted on later acts after the first boss")
     parser.add_argument("--offer-model", type=Path, help="Use a ranker fitted to counterfactual opening/reward choices")
+    parser.add_argument("--strategy-model", type=Path, help="Rank public macro choices using matched native continuation returns")
+    parser.add_argument("--encounter-model", type=Path, help="Select a trained combat style from the public fight opening")
+    parser.add_argument("--return-model", type=Path, help="Consult a tactical model trained on counterfactual fight outcomes")
+    parser.add_argument("--deck-model", type=Path, help="Evaluate attack, defense and persistent effects against the current deck")
     parser.add_argument("--turn-search", action="store_true", help="Plan affordable card sequences in the visible hand")
     parser.add_argument("--combat-search", action="store_true", help="Add bounded Act 1 sampled fight search to the candidate")
     parser.add_argument("--deck-effects", action="store_true", help="Score persistent effects using current deck and enemy intents")
+    parser.add_argument("--boss-search", type=Path, help="Compare combat policies in independently sampled Act 1 boss fights")
     parser.add_argument("--tactical-student", type=Path)
     parser.add_argument("--label-turns", action="store_true", help="Save the planner's choice on the actor's training states")
     parser.add_argument("--roles", nargs="+", choices=("baseline", "prior", "candidate", "micro", "student", "hybrid", "original-macro", "original-combat", "no-route", "no-offer", "no-turn", "no-late"),
@@ -61,6 +67,8 @@ def main():
     parser.add_argument("--population", type=int, default=9)
     parser.add_argument("--generations", type=int, default=5)
     parser.add_argument("--record-rooms", action="store_true", help="Save public resource changes after each chosen map node")
+    parser.add_argument("--seeded-acts", action="store_true", help="Use the standard lobby act selector on the fully unlocked profile")
+    parser.add_argument("--record-strategy", action="store_true", help="Save public macro decisions and boss openings")
     args = parser.parse_args()
     actor = "candidate"
     if args.bundle:
@@ -69,7 +77,11 @@ def main():
             if not getattr(args, key):
                 setattr(args, key, value)
     if args.roles is None:
-        args.roles = [actor] if args.mode == "collect-late" else ["baseline", actor]
+        args.roles = [actor] if args.mode in ("collect-late", "check-late") else ["baseline", actor]
+    if args.mode == "check-late" and not args.act2_starts:
+        parser.error("Conditional checks require --act2-starts training trace directories")
+    if not args.act2_starts and not args.prefix:
+        parser.error("Fresh full-game runs require a seed --prefix")
     if args.mode == "collect-late" and (not args.act2_starts or not args.label_turns):
         parser.error("Late tactical collection requires --act2-starts and --label-turns")
     if min(args.workers, args.seeds, args.generations) < 1 or args.population < 4:
@@ -84,17 +96,17 @@ def main():
         parser.error("Roles must be unique")
     starts = []
     if args.act2_starts:
-        if args.mode == "evaluate" or args.late_weights:
-            parser.error("Act 2 starts are for training and collection without a late override")
+        if args.mode == "evaluate" or (args.mode != "check-late" and args.late_weights):
+            parser.error("Use check-late to evaluate late overrides on a curriculum opening")
         for directory in args.act2_starts:
             for path in sorted(directory.glob("run-*/result.json")):
                 row = json.loads(path.read_text(encoding="utf-8"))
-                if row["ascension"] == 10 and row["a1_clear"] and row["status"] == "complete":
+                if row["ascension"] == 10 and row["a1_clear" if args.curriculum_act == 2 else "a2_clear"] and row["status"] == "complete":
                     starts.append((row["seed"], str(path.parent / "game/rpc.jsonl")))
         starts.sort(key=lambda start: hashlib.sha256(start[0].encode()).digest())
         needed = args.seeds * (args.generations if args.mode == "train" else 1)
         if len({s for s, _ in starts}) != len(starts) or len(starts) < needed:
-            parser.error("Each curriculum generation requires fresh, distinct Act 2 starts")
+            parser.error("Each curriculum generation requires enough distinct starts for the requested act")
         starts = starts[:needed]
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -112,8 +124,16 @@ def main():
                 "room_sha256": file_hash(args.room_model), "late_room_sha256": file_hash(args.late_room_model),
                 "offer_sha256": file_hash(args.offer_model),
                 "micro_sha256": file_hash(args.micro), "student_sha256": file_hash(args.tactical_student)}
+    for key in ("strategy_model", "encounter_model", "deck_model", "return_model", "boss_search"):
+        manifest[key + "_sha256"] = file_hash(getattr(args, key))
     save_json(output / "config.json", json.loads(json.dumps(manifest, default=str)))
-    options = {"rooms": args.record_rooms, "room_model": str(args.room_model.resolve()) if args.room_model else None,
+    options = {"curriculum_act": args.curriculum_act, "rooms": args.record_rooms, "record_strategy": args.record_strategy, "seeded_acts": args.seeded_acts,
+               "strategy_model": str(args.strategy_model.resolve()) if args.strategy_model else None,
+               "encounter_model": str(args.encounter_model.resolve()) if args.encounter_model else None,
+               "return_model": str(args.return_model.resolve()) if args.return_model else None,
+               "deck_model": str(args.deck_model.resolve()) if args.deck_model else None,
+               "boss_search": str(args.boss_search.resolve()) if args.boss_search else None,
+               "room_model": str(args.room_model.resolve()) if args.room_model else None,
                "late_room_model": str(args.late_room_model.resolve()) if args.late_room_model else None,
                "offer_model": str(args.offer_model.resolve()) if args.offer_model else None, "turn_search": args.turn_search,
                "combat_search": args.combat_search, "label_turns": args.label_turns, "deck_effects": args.deck_effects,
@@ -127,7 +147,7 @@ def main():
             common = set.intersection(*[{r["seed"] for r in rows if r["role"] == role and r["status"] == "complete"}
                                         for role in args.roles])
             report = {"roles": {role: summarize([r for r in rows if r["role"] == role]) for role in args.roles},
-                      "start_act": 2 if starts else 1,
+                      "start_act": args.curriculum_act if starts else 1,
                       "paired_seeds": len(common),
                       "paired": {role: summarize([r for r in rows if r["role"] == role and r["seed"] in common]) for role in args.roles}}
             save_json(output / "report.json", report)

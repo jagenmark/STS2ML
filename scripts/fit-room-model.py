@@ -10,6 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("collections", nargs="+", type=Path, help="Training role directories containing run-*/result.json")
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--survival", action="store_true", help="Fit room mortality, survivor rewards and boss opening values")
     args = parser.parse_args()
     episodes = []
     unconfirmed = 0
@@ -28,7 +29,11 @@ def main():
             episodes.append(row)
     if len({e["seed"] for e in episodes}) != len(episodes):
         parser.error("Expected one trajectory per training seed")
-    model = RoomModel.fit(episodes)
+    if args.survival:
+        from sts2rl.survival_route import SurvivalRouter
+        model = SurvivalRouter.fit(episodes)
+    else:
+        model = RoomModel.fit(episodes)
     model.save(args.output)
     print(json.dumps({"training_seeds": len(episodes), "unconfirmed_episodes_excluded": unconfirmed,
                       "transitions": sum(len(e["rooms"]) for e in episodes if e["status"] == "complete")}))

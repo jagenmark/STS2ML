@@ -7,16 +7,21 @@ from pathlib import Path
 from time import monotonic
 
 from .act1 import MacroPolicy, is_combat_choice, save_json
+from .boss_search import BossSearch
 from .combat_search import CombatSearch
+from .encounter import EncounterModel
+from .deck_policy import DeckPolicy
 from .native import NativeSession, ReplayFork, digest
 from .offer_policy import OfferModel, offer_type
 from .run_policy import RunPolicy, RunWeights
 from .routing import RoomModel
 from .teacher import heuristic
+from .strategy import StrategyModel, strategy_kind
 from .turn_planning import choose_turn
 
 _micro_cache = {}
 _student_cache = {}
+_return_cache = {}
 
 
 def inventory(state):
@@ -32,13 +37,29 @@ def verified_victory(boss_fights):
     return len({floor for act, floor in boss_fights if act == 3}) >= 2
 
 
-def act2_start(trace):
-    """Recover the first Act 2 map from a naturally played training episode."""
+def act_start(trace, target_act=2):
+    """Recover the map before the first choice of a naturally reached later act."""
+    if target_act not in (2, 3):
+        raise ValueError("Expected an Act 2 or Act 3 curriculum opening")
     with Path(trace).open(encoding="utf-8") as stream:
-        spec = json.loads(next(stream))["command"]
-        if spec.get("cmd") != "training_restore" or spec.get("history") or set(spec) != {"cmd", "history", "seed", "ascension"}:
+        first = json.loads(next(stream))
+        spec = first["command"]
+        required = {"cmd", "history", "seed", "ascension"}
+        if spec.get("cmd") != "training_restore" or set(spec) not in (required, required | {"act_list"}):
             raise ValueError("A curriculum start requires an unmodified full run")
-        commands, previous, last_row = [], None, -1
+        if target_act == 2 and spec["history"]:
+            raise ValueError("An Act 2 start requires an unmodified full run")
+        game_spec = {k: v for k, v in spec.items() if k not in ("cmd", "history")}
+        commands = list(spec["history"])
+        previous = first["response_digest"]
+        act, last_row = 1, -1
+        for command in commands:
+            if command.get("cmd") != "action":
+                raise ValueError("Unexpected control command in the curriculum history")
+            if command.get("action") == "select_map_node":
+                row = command["args"]["row"]
+                act += int(row < last_row)
+                last_row = row
         for line in stream:
             record = json.loads(line)
             command = record["command"]
@@ -49,19 +70,25 @@ def act2_start(trace):
             if command["action"] == "select_map_node":
                 row = command["args"]["row"]
                 if row < last_row:
-                    return ReplayFork({"seed": spec["seed"], "ascension": spec["ascension"]}, tuple(commands), previous)
+                    act += 1
+                    if act == target_act:
+                        return ReplayFork(game_spec, tuple(commands), previous)
                 last_row = row
             commands.append(command)
             previous = record["response_digest"]
-    raise ValueError("Trace contains no second-act map")
+    raise ValueError(f"Trace contains no Act {target_act} map")
+
+
+def act2_start(trace):
+    return act_start(trace, 2)
 
 
 def play_episode(task):
     root, host, folder, seed, index, role, weights, checkpoint, options = task
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=False)
-    row = {"seed": seed, "index": index, "role": role, "status": "error", "ascension": 10,
-           "start_act": 2 if options.get("start_trace") else 1,
+    row = {"act_list": "seeded" if options.get("seeded_acts") else "default", "act_names": [], "seed": seed, "index": index, "role": role, "status": "error", "ascension": 10,
+           "start_act": options.get("curriculum_act", 2) if options.get("start_trace") else 1,
            "act": 0, "floor": 0, "a1_clear": False, "a2_clear": False, "win": False,
            "steps": 0, "boss_fights": [], "last_enemies": [], "boss_hp_fraction": None}
     started = monotonic()
@@ -72,11 +99,21 @@ def play_episode(task):
             and role not in ("baseline", "prior", "no-late") else None)
     micro = None
     samples = []
+    strategy_samples = []
     feature_policy = RunPolicy(RunWeights(**weights)) if options.get("label_turns") else None
-    search = None
+    search = boss_search = None
     rooms = []
     try:
         student = None
+        return_model = None
+        if options.get("return_model") and role not in ("baseline", "prior", "original-combat"):
+            import torch
+            from .return_policy import ReturnPolicy
+            torch.set_num_threads(1)
+            path = options["return_model"]
+            if path not in _return_cache:
+                _return_cache[path] = ReturnPolicy(path)
+            return_model = _return_cache[path]
         if role in ("student", "hybrid"):
             import torch
             from .tactical_student import TacticalStudent
@@ -91,6 +128,12 @@ def play_episode(task):
             "baseline", "prior", "original-macro", "no-route") else None
         offers = OfferModel.load(options["offer_model"]) if options.get("offer_model") and role not in (
             "baseline", "prior", "original-macro", "no-offer") else None
+        strategy = StrategyModel.load(options["strategy_model"]) if options.get("strategy_model") and role not in (
+            "baseline", "prior", "original-macro") else None
+        deck_model = DeckPolicy.load(options["deck_model"]) if options.get("deck_model") and role not in (
+            "baseline", "prior", "original-macro") else None
+        encounter = EncounterModel.load(options["encounter_model"]) if options.get("encounter_model") and role not in (
+            "baseline", "prior", "original-combat") else None
         turn_search = options.get("turn_search") and role not in ("baseline", "prior", "original-combat", "no-turn")
         if options.get("combat_search") and role == "candidate":
             search = CombatSearch(Path(root), host, folder / "search", index, policy)
@@ -101,16 +144,18 @@ def play_episode(task):
                 _micro_cache[checkpoint] = load_micro(checkpoint, device="cpu")
                 torch.set_num_threads(1)
             micro = _micro_cache[checkpoint]
+        if options.get("boss_search") and role not in ("baseline", "prior", "original-combat"):
+            boss_search = BossSearch(options["boss_search"], root, host, folder / "boss-search")
         repeated = Counter()
         room = None
-        with NativeSession(Path(root), folder / "game", ascension=10, host_path=host, timeout=15) as game:
+        with NativeSession(Path(root), folder / "game", ascension=10, host_path=host, timeout=45, act_list=row["act_list"]) as game:
             if options.get("start_trace"):
-                fork = act2_start(options["start_trace"])
+                fork = act_start(options["start_trace"], row["start_act"])
                 if fork.specification["seed"] != seed or fork.specification["ascension"] != 10:
                     raise ValueError("Curriculum start identity mismatch")
                 state = game.restore(fork)
-                if state.get("context", {}).get("act") != 2 or state["decision"] != "map_select":
-                    raise ValueError("Replay did not restore a native Act 2 opening")
+                if state.get("context", {}).get("act") != row["start_act"] or state["decision"] != "map_select":
+                    raise ValueError("Replay did not restore the requested native act opening")
                 row["start_digest"] = fork.expected_digest
             else:
                 state = game.reset(seed)
@@ -121,6 +166,7 @@ def play_episode(task):
                 act, floor = ctx.get("act", row["act"]), ctx.get("floor", row["floor"])
                 if act != row["act"]:
                     previous = row["act"]
+                    row["act_names"].append(ctx.get("act_name"))
                     if previous and (act != previous + 1 or not any(b[0] == previous for b in row["boss_fights"])):
                         raise ValueError("Act transition lacks a recorded boss combat in the previous act")
                     row["floor"] = 0
@@ -145,6 +191,8 @@ def play_episode(task):
                         row["status"] = "unverified_victory"
                     else:
                         row.update(status="complete", win=state["victory"])
+                        if state.get("abandoned"):
+                            row["abandoned"] = True
                     break
                 if state.get("decision") == "combat_play":
                     enemies = [e for e in state["enemies"] if e["hp"] > 0]
@@ -163,9 +211,20 @@ def play_episode(task):
                 use_student = student is not None and (role == "student" or act >= 2)
                 teaching = options.get("label_turns") and state["decision"] == "combat_play"
                 turn_action = choose_turn(state, policy) if teaching or (
-                    turn_search and state["decision"] == "combat_play" and not use_student and micro is None) else None
+                    turn_search and state["decision"] == "combat_play" and not use_student and micro is None
+                    and not (encounter and encounter.applies(state))) else None
                 if state["decision"] == "map_select" and router is not None:
                     action = router.choose(state, game.public_map())
+                elif encounter is not None and encounter.applies(state) and combat:
+                    action = encounter.choose(state, policy)
+                elif deck_model is not None and not combat and (state["decision"] in deck_model.scope or
+                        (state["decision"] == "card_select" and (deck_model.to_upgrade or deck_model.prompt))):
+                    action = deck_model.choose(state, policy)
+                elif strategy is not None and strategy_kind(state) in strategy.kinds:
+                    action = strategy.choose(state, policy, offers)
+                    if state["decision"] == "rest_site":
+                        policy.selection = "upgrade" if any(o["index"] == action.args.get("option_index")
+                            and o.get("option_id") == "SMITH" for o in state["options"]) else None
                 elif use_student and state["decision"] == "combat_play":
                     action = student(state)
                 elif combat and micro is not None:
@@ -178,8 +237,18 @@ def play_episode(task):
                     action = heuristic(state) if combat else macro(state)
                 else:
                     action = policy(state)
+                if boss_search is not None and combat:
+                    action = boss_search.choose(game, action, policy)
+                if return_model is not None and state["decision"] == "combat_play":
+                    evaluated = return_model.choose(state, action)
+                    row["return_changes"] = row.get("return_changes", 0) + (evaluated.id != action.id)
+                    action = evaluated
                 if search is not None and state["decision"] == "combat_play":
                     action = search.choose(game, action, step)
+                if options.get("record_strategy") and (not combat or
+                        (state["decision"] == "combat_play" and ctx.get("room_type") == "Boss"
+                         and (not strategy_samples or strategy_samples[-1]["state"].get("context") != ctx))):
+                    strategy_samples.append({"step": step, "state": state, "action": action.command()})
                 if teaching:
                     from .tactical_student import action_examples
                     groups, examples = action_examples(state, feature_policy)
@@ -191,17 +260,26 @@ def play_episode(task):
                     point = next(p for p in state["choices"] if (p["col"], p["row"]) ==
                                  (action.args["col"], action.args["row"]))
                     room = {"act": act, "row": point["row"], "icon": point["type"], "before": inventory(state)}
+                if deck_model is not None:
+                    deck_model.observe(state, action)
                 state = game.step(action)
             else:
                 raise RuntimeError("Episode exceeded action budget")
     except Exception as exc:
         row.update(status="error", error=f"{type(exc).__name__}: {exc}")
     finally:
+        if boss_search is not None:
+            boss_search.close()
+            row["boss_search"] = boss_search.metrics
         if search is not None:
             search.close()
             row["search"] = {"roots": search.attempts, "branches": search.branches,
                              "changes": search.changes, "errors": search.errors}
     row["seconds"] = monotonic() - started
+    if options.get("record_strategy"):
+        with gzip.open(folder / "strategy.jsonl.gz", "wt", encoding="utf-8", compresslevel=2) as stream:
+            for sample in strategy_samples:
+                stream.write(json.dumps(sample, separators=(",", ":")) + "\n")
     if options.get("label_turns"):
         with gzip.open(folder / "actions.jsonl.gz", "wt", encoding="utf-8", compresslevel=2) as stream:
             for sample in samples:
