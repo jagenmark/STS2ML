@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "runtime_identity": {
+    "character": "SILENT",
+    "ascension": 10,
+    "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+  },
+  "default": "balanced",
+  "beam": false,
+  "by_act": {
+    "2": "engine",
+    "3": "engine"
+  },
+  "prompt_aware": true,
+  "overrides": {
+    "WATERFALL_GIANT_BOSS": "guard",
+    "LAGAVULIN_MATRIARCH_BOSS": "engine",
+    "VANTOM_BOSS": "engine",
+    "CEREMONIAL_BEAST_BOSS": "guard"
+  },
+  "sandpit_threshold": 4
+}

@@ -1,0 +1,55 @@
+[
+  {
+    "seed": "A10POOLTEST190189",
+    "transcript_sha256": {
+      "boss-escape": "41138214b2f6ac5229351fa80fa0b6e7acbc450e2f2a415c26153cb593602f4c",
+      "control": "41138214b2f6ac5229351fa80fa0b6e7acbc450e2f2a415c26153cb593602f4c",
+      "release": "fe19fed26e0e0b016fcc74a601be1ba500ad3ae3cac082ac6843860e16fcac58"
+    },
+    "matching_other_arm_receipts": {
+      "control": {
+        "seed": "A10POOLTEST190189",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 143,
+        "terminal": "629cf7e1e3f2b460c73746fad61cf75f49f1bdad40ae250d5fe580bb24b1a6f6"
+      }
+    },
+    "direct_attempts": [
+      {
+        "host_sha256": "c460e7e58b6ee46218fac2ad08db9572a69eab965dc40b186cf2c982062a251e",
+        "seed": "A10POOLTEST190189",
+        "actions": 143,
+        "first_mismatch": 148,
+        "terminal": "f2e5da3c7a7b56fd357f97c2dc1139ff43f130e0bba24e196f9633c8fdf48598",
+        "decision": "game_over",
+        "native_victory": false,
+        "original_terminal": "629cf7e1e3f2b460c73746fad61cf75f49f1bdad40ae250d5fe580bb24b1a6f6",
+        "verified": false
+      },
+      {
+        "host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+        "seed": "A10POOLTEST190189",
+        "actions": 143,
+        "first_mismatch": 148,
+        "terminal": "f2e5da3c7a7b56fd357f97c2dc1139ff43f130e0bba24e196f9633c8fdf48598",
+        "decision": "game_over",
+        "native_victory": false,
+        "original_terminal": "629cf7e1e3f2b460c73746fad61cf75f49f1bdad40ae250d5fe580bb24b1a6f6",
+        "verified": false
+      }
+    ],
+    "candidate_direct_receipt": {
+      "seed": "A10POOLTEST190189",
+      "arm": "candidate",
+      "profile": "seeded",
+      "verified": false,
+      "error": "NativeError: Replay diverged from expected public state",
+      "stepwise_failure": {
+        "rpc_index": 148,
+        "reason": "per-command state differs"
+      }
+    }
+  }
+]

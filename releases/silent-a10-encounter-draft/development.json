@@ -1,0 +1,6848 @@
+{
+  "escape": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 5,
+    "a1_clear": 39,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "boss-escape": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 7,
+    "a1_clear": 40,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "boss": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 6,
+    "a1_clear": 40,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "hallway": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 5,
+    "a1_clear": 37,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "kin-escape": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 6,
+    "a1_clear": 41,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "hallway-boss": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 6,
+    "a1_clear": 38,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "late112-boss": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 5,
+    "a1_clear": 40,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "late48": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 4,
+    "a1_clear": 39,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "opening128": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 1,
+    "a1_clear": 31,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      }
+    }
+  },
+  "pilot": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 3,
+    "a1_clear": 36,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "pool-route": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 3,
+    "a1_clear": 37,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      }
+    }
+  },
+  "mechanics": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 2,
+    "a1_clear": 36,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      }
+    }
+  },
+  "late-combat": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 4,
+    "a1_clear": 39,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  },
+  "control": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 5,
+    "a1_clear": 39,
+    "by_seed": {
+      "A10POOLDEV190000": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190001": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190002": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190003": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190004": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190005": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190006": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190007": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190008": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190009": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190010": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190011": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190012": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190013": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190014": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190015": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190016": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190017": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190018": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190019": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190020": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190021": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190022": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190023": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190024": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190025": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190026": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190027": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190028": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190029": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190030": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190031": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190032": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190033": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190034": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190035": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190036": {
+        "win": false,
+        "a2_clear": true,
+        "a1_clear": true
+      },
+      "A10POOLDEV190037": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190038": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190039": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190040": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190041": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190042": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190043": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190044": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190045": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190046": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190047": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190048": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190049": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190050": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190051": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190052": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190053": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190054": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190055": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190056": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190057": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190058": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190059": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190060": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190061": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190062": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190063": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190064": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190065": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190066": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190067": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190068": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190069": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190070": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190071": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190072": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190073": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190074": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190075": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190076": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190077": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190078": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190079": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190080": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190081": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190082": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190083": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190084": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190085": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190086": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190087": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190088": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190089": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190090": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190091": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190092": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190093": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      },
+      "A10POOLDEV190094": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": true
+      },
+      "A10POOLDEV190095": {
+        "win": false,
+        "a2_clear": false,
+        "a1_clear": false
+      }
+    }
+  }
+}

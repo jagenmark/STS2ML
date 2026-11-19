@@ -1,0 +1,2842 @@
+{
+  "comparator": "code control",
+  "grouping": "First differing native action when its shared prefix and observation digest replay; downstream encounters can also change.",
+  "groups": {
+    "WATERFALL_GIANT_BOSS": {
+      "seeds": 15,
+      "a1_clear_net": 1,
+      "a2_clear_net": 0,
+      "full_win_net": 0
+    },
+    "identical": {
+      "seeds": 121,
+      "a1_clear_net": 0,
+      "a2_clear_net": 0,
+      "full_win_net": 0
+    },
+    "LAGAVULIN_MATRIARCH_BOSS": {
+      "seeds": 16,
+      "a1_clear_net": -1,
+      "a2_clear_net": 0,
+      "full_win_net": 0
+    },
+    "CEREMONIAL_BEAST_BOSS": {
+      "seeds": 26,
+      "a1_clear_net": -2,
+      "a2_clear_net": 0,
+      "full_win_net": 0
+    },
+    "THE_INSATIABLE_BOSS": {
+      "seeds": 5,
+      "a1_clear_net": 0,
+      "a2_clear_net": 1,
+      "full_win_net": 0
+    },
+    "VANTOM_BOSS": {
+      "seeds": 9,
+      "a1_clear_net": 0,
+      "a2_clear_net": 0,
+      "full_win_net": 0
+    }
+  },
+  "rows": [
+    {
+      "seed": "A10POOLTEST190000",
+      "step": 107,
+      "state_digest": "ec3c6889680d15becad5876835bb61143b5ae831751cece4972a2ba7b341efd6",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 66,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190001",
+      "step": 214,
+      "state_digest": "186eb1e84eef24f3ce92b341303146e45458dfee8c45617f151aa541f654153c",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 58,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190002",
+      "identical": true,
+      "actions": 207
+    },
+    {
+      "seed": "A10POOLTEST190003",
+      "identical": true,
+      "actions": 246
+    },
+    {
+      "seed": "A10POOLTEST190004",
+      "identical": true,
+      "actions": 265
+    },
+    {
+      "seed": "A10POOLTEST190005",
+      "identical": true,
+      "actions": 68
+    },
+    {
+      "seed": "A10POOLTEST190006",
+      "identical": true,
+      "actions": 108
+    },
+    {
+      "seed": "A10POOLTEST190007",
+      "identical": true,
+      "actions": 132
+    },
+    {
+      "seed": "A10POOLTEST190008",
+      "step": 181,
+      "state_digest": "2abc4c3e22cfb4caf38211739fac208145693bb3bce8fec538e62833a0b3a5db",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 42,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190009",
+      "identical": true,
+      "actions": 99
+    },
+    {
+      "seed": "A10POOLTEST190010",
+      "identical": true,
+      "actions": 191
+    },
+    {
+      "seed": "A10POOLTEST190011",
+      "identical": true,
+      "actions": 315
+    },
+    {
+      "seed": "A10POOLTEST190012",
+      "step": 165,
+      "state_digest": "f3a40ae4127a19e50d619336f063931de08b7bc4655b8e376eadd06fbad8cfcf",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 57,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190013",
+      "identical": true,
+      "actions": 214
+    },
+    {
+      "seed": "A10POOLTEST190014",
+      "step": 361,
+      "state_digest": "4d5f4b4bbeb4c279a5d845cbc8a6d83ec88a0a3ca8c257800f14ea6ad9399acc",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 2,
+      "floor": 16,
+      "round": 2,
+      "hp": 65,
+      "boss": "THE_INSATIABLE_BOSS",
+      "enemies": [
+        "MONSTER.THE_INSATIABLE"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190015",
+      "step": 199,
+      "state_digest": "e7aab16154b4f9d49cb9cbd996e3bf5d01fb89639f78030a3235eb57b8a11205",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 1,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 38,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190016",
+      "step": 169,
+      "state_digest": "eee8ff59806f4727d0206fb66ae1b467f06cfa45c86aff0d61e6d60218b5f375",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 59,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190017",
+      "step": 191,
+      "state_digest": "59886a6824eb5445486c65cb87dc22c375d34486fe1534a0a0f87ec21472c80a",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 59,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190018",
+      "identical": true,
+      "actions": 155
+    },
+    {
+      "seed": "A10POOLTEST190019",
+      "identical": true,
+      "actions": 229
+    },
+    {
+      "seed": "A10POOLTEST190020",
+      "step": 166,
+      "state_digest": "1be83058121008756cd0bd4a1fe5c23c6655c6230f8521024372ca863f6a46c7",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 4,
+      "hp": 14,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190021",
+      "step": 319,
+      "state_digest": "0138fc3dc8c89608b59273e9678ef94df2da0ad1d6b148362742cbf97d3d0e5b",
+      "control": {
+        "cmd": "action",
+        "action": "end_turn",
+        "args": {}
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 2,
+      "floor": 16,
+      "round": 4,
+      "hp": 72,
+      "boss": "THE_INSATIABLE_BOSS",
+      "enemies": [
+        "MONSTER.THE_INSATIABLE"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190022",
+      "identical": true,
+      "actions": 103
+    },
+    {
+      "seed": "A10POOLTEST190023",
+      "identical": true,
+      "actions": 127
+    },
+    {
+      "seed": "A10POOLTEST190024",
+      "identical": true,
+      "actions": 99
+    },
+    {
+      "seed": "A10POOLTEST190025",
+      "step": 167,
+      "state_digest": "a833ec536252e398d13cde6b4484359d6536aee6b21fbf373a982c8f49d2fc26",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 41,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190026",
+      "identical": true,
+      "actions": 194
+    },
+    {
+      "seed": "A10POOLTEST190027",
+      "identical": true,
+      "actions": 97
+    },
+    {
+      "seed": "A10POOLTEST190028",
+      "identical": true,
+      "actions": 141
+    },
+    {
+      "seed": "A10POOLTEST190029",
+      "step": 199,
+      "state_digest": "6136b0dec20835211e5bea9c0a69131b4d2a0204b41f9663a557974252c17f22",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 4,
+      "hp": 61,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190030",
+      "identical": true,
+      "actions": 155
+    },
+    {
+      "seed": "A10POOLTEST190031",
+      "identical": true,
+      "actions": 207
+    },
+    {
+      "seed": "A10POOLTEST190032",
+      "identical": true,
+      "actions": 402
+    },
+    {
+      "seed": "A10POOLTEST190033",
+      "step": 140,
+      "state_digest": "bad33ee2db70b8cd0c63141423db1efc5eccc143ce448707a6fbf8c1da164914",
+      "control": {
+        "cmd": "action",
+        "action": "end_turn",
+        "args": {}
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 68,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190034",
+      "identical": true,
+      "actions": 112
+    },
+    {
+      "seed": "A10POOLTEST190035",
+      "identical": true,
+      "actions": 312
+    },
+    {
+      "seed": "A10POOLTEST190036",
+      "identical": true,
+      "actions": 103
+    },
+    {
+      "seed": "A10POOLTEST190037",
+      "identical": true,
+      "actions": 112
+    },
+    {
+      "seed": "A10POOLTEST190038",
+      "step": 204,
+      "state_digest": "8668f304caeb1d62173bd5ff2de7cf82fb1ff196bb43d8cb36873f21b0667add",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 70,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190039",
+      "identical": true,
+      "actions": 88
+    },
+    {
+      "seed": "A10POOLTEST190040",
+      "identical": true,
+      "actions": 116
+    },
+    {
+      "seed": "A10POOLTEST190041",
+      "identical": true,
+      "actions": 134
+    },
+    {
+      "seed": "A10POOLTEST190042",
+      "identical": true,
+      "actions": 613
+    },
+    {
+      "seed": "A10POOLTEST190043",
+      "identical": true,
+      "actions": 183
+    },
+    {
+      "seed": "A10POOLTEST190044",
+      "identical": true,
+      "actions": 232
+    },
+    {
+      "seed": "A10POOLTEST190045",
+      "identical": true,
+      "actions": 268
+    },
+    {
+      "seed": "A10POOLTEST190046",
+      "step": 151,
+      "state_digest": "c6e306367f493622d81e61924e9cfbf7bb543025aa3c2c02a95b1a8b0c809011",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 69,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190047",
+      "identical": true,
+      "actions": 112
+    },
+    {
+      "seed": "A10POOLTEST190048",
+      "step": 171,
+      "state_digest": "85962f6dddb2a36cd065b5c352fdec6fda874bd47cc6b3e085ae6c4b9ee351ff",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 9,
+      "hp": 21,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190049",
+      "identical": true,
+      "actions": 175
+    },
+    {
+      "seed": "A10POOLTEST190050",
+      "identical": true,
+      "actions": 392
+    },
+    {
+      "seed": "A10POOLTEST190051",
+      "identical": true,
+      "actions": 311
+    },
+    {
+      "seed": "A10POOLTEST190052",
+      "identical": true,
+      "actions": 159
+    },
+    {
+      "seed": "A10POOLTEST190053",
+      "step": 216,
+      "state_digest": "0c347b687cbaecb9e289454ff89903ba02deffae7ab0dd0ed3d0d3dfa3d40a79",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 9,
+      "hp": 49,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190054",
+      "identical": true,
+      "actions": 175
+    },
+    {
+      "seed": "A10POOLTEST190055",
+      "step": 156,
+      "state_digest": "516311666824cfad3f2a18f28dc67191104ff07a2cf3f709230c6124e4e2626e",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 53,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190056",
+      "identical": true,
+      "actions": 222
+    },
+    {
+      "seed": "A10POOLTEST190057",
+      "identical": true,
+      "actions": 154
+    },
+    {
+      "seed": "A10POOLTEST190058",
+      "step": 195,
+      "state_digest": "3a9a7e44e13c42961f05406aebb8de70557a33bda9add761ebba5aa4a42fab6f",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 4,
+      "hp": 72,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190059",
+      "step": 306,
+      "state_digest": "d54e1584c4ca4e685c9160683848d3adc94c5d20b99bb54b7d52e9d22a339097",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 2,
+      "floor": 16,
+      "round": 2,
+      "hp": 49,
+      "boss": "THE_INSATIABLE_BOSS",
+      "enemies": [
+        "MONSTER.THE_INSATIABLE"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190060",
+      "identical": true,
+      "actions": 369
+    },
+    {
+      "seed": "A10POOLTEST190061",
+      "identical": true,
+      "actions": 163
+    },
+    {
+      "seed": "A10POOLTEST190062",
+      "identical": true,
+      "actions": 115
+    },
+    {
+      "seed": "A10POOLTEST190063",
+      "step": 325,
+      "state_digest": "0f15d7e2e1f66bd29882e623e18773c1838d671f4170fc679bc47788a49ebb94",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 2,
+      "floor": 16,
+      "round": 2,
+      "hp": 80,
+      "boss": "THE_INSATIABLE_BOSS",
+      "enemies": [
+        "MONSTER.THE_INSATIABLE"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190064",
+      "identical": true,
+      "actions": 419
+    },
+    {
+      "seed": "A10POOLTEST190065",
+      "step": 147,
+      "state_digest": "4e1e4d37a3036fcd2c22bf20463315dd9c6b60097d8d2997b2aac9830d8bf23d",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 63,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190066",
+      "identical": true,
+      "actions": 109
+    },
+    {
+      "seed": "A10POOLTEST190067",
+      "identical": true,
+      "actions": 245
+    },
+    {
+      "seed": "A10POOLTEST190068",
+      "step": 345,
+      "state_digest": "8d059c58177b65e8257409da6bc0f1eb0bd5569aa1e88dab288996e1cd0f9d2f",
+      "control": {
+        "cmd": "action",
+        "action": "end_turn",
+        "args": {}
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 2,
+      "floor": 16,
+      "round": 4,
+      "hp": 49,
+      "boss": "THE_INSATIABLE_BOSS",
+      "enemies": [
+        "MONSTER.THE_INSATIABLE"
+      ],
+      "candidate_card": "CARD.FRANTIC_ESCAPE",
+      "sandpit_countdown": 2
+    },
+    {
+      "seed": "A10POOLTEST190069",
+      "identical": true,
+      "actions": 90
+    },
+    {
+      "seed": "A10POOLTEST190070",
+      "identical": true,
+      "actions": 240
+    },
+    {
+      "seed": "A10POOLTEST190071",
+      "step": 200,
+      "state_digest": "7dce3176b464f4a278856077f654176a2bb8f6add97719d2e0ce8ec016af162d",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 6,
+      "hp": 19,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190072",
+      "identical": true,
+      "actions": 138
+    },
+    {
+      "seed": "A10POOLTEST190073",
+      "identical": true,
+      "actions": 238
+    },
+    {
+      "seed": "A10POOLTEST190074",
+      "step": 209,
+      "state_digest": "77f22a335543dc5d2d8f19feddf7417c14d87862567c10683a015fbe32836a93",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 58,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190075",
+      "identical": true,
+      "actions": 159
+    },
+    {
+      "seed": "A10POOLTEST190076",
+      "identical": true,
+      "actions": 199
+    },
+    {
+      "seed": "A10POOLTEST190077",
+      "step": 108,
+      "state_digest": "e20818201887c6891ea18c39c6f5a74e9828fded132f3ab8ed239aa3dfd2840d",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 52,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190078",
+      "identical": true,
+      "actions": 220
+    },
+    {
+      "seed": "A10POOLTEST190079",
+      "step": 198,
+      "state_digest": "f66b74e50221eb0d2418faadc09de71c4d5d029d2b38496c1170606785dc948c",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 69,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190080",
+      "step": 245,
+      "state_digest": "92879bacad9b6c97a8103d588c5f858de97396de84e8abb8afb8fab7a8c77111",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 52,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190081",
+      "identical": true,
+      "actions": 109
+    },
+    {
+      "seed": "A10POOLTEST190082",
+      "step": 155,
+      "state_digest": "58c6febe3d925a031782db879873858c8107637c7b2820ea04100ac5313a5b71",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 55,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190083",
+      "identical": true,
+      "actions": 83
+    },
+    {
+      "seed": "A10POOLTEST190084",
+      "identical": true,
+      "actions": 174
+    },
+    {
+      "seed": "A10POOLTEST190085",
+      "step": 211,
+      "state_digest": "c753e164b5111b244904341ec5cb7210e95ec3967c11ead030877dd455228156",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 76,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190086",
+      "identical": true,
+      "actions": 240
+    },
+    {
+      "seed": "A10POOLTEST190087",
+      "identical": true,
+      "actions": 204
+    },
+    {
+      "seed": "A10POOLTEST190088",
+      "identical": true,
+      "actions": 193
+    },
+    {
+      "seed": "A10POOLTEST190089",
+      "identical": true,
+      "actions": 94
+    },
+    {
+      "seed": "A10POOLTEST190090",
+      "step": 198,
+      "state_digest": "9fdb0c192d312381f41918e3c1417a4d216320d57b2deaa68066349f6c12fbc8",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 5,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 59,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190091",
+      "identical": true,
+      "actions": 219
+    },
+    {
+      "seed": "A10POOLTEST190092",
+      "identical": true,
+      "actions": 113
+    },
+    {
+      "seed": "A10POOLTEST190093",
+      "identical": true,
+      "actions": 171
+    },
+    {
+      "seed": "A10POOLTEST190094",
+      "identical": true,
+      "actions": 290
+    },
+    {
+      "seed": "A10POOLTEST190095",
+      "step": 218,
+      "state_digest": "1db7c78cc42983eb7640c789dcf74d588af862cbb4a2ebfed81d8671d24bf4c4",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 27,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190096",
+      "identical": true,
+      "actions": 210
+    },
+    {
+      "seed": "A10POOLTEST190097",
+      "identical": true,
+      "actions": 185
+    },
+    {
+      "seed": "A10POOLTEST190098",
+      "identical": true,
+      "actions": 401
+    },
+    {
+      "seed": "A10POOLTEST190099",
+      "step": 167,
+      "state_digest": "e8d92a883409684ccb72016b3e0a68e6faa8c1c528d9a3892b3c86f42b6cdbc5",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 50,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190100",
+      "identical": true,
+      "actions": 172
+    },
+    {
+      "seed": "A10POOLTEST190101",
+      "identical": true,
+      "actions": 345
+    },
+    {
+      "seed": "A10POOLTEST190102",
+      "step": 193,
+      "state_digest": "8c604bc551a78f9090bbbef6897333ec053f90a846f7059eb9211e7d8a93f483",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 59,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190103",
+      "step": 181,
+      "state_digest": "7dfb5b6e13562ef13b4912f4796b2caedd36cbcb19fd398ddb73027840b8560a",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 51,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190104",
+      "identical": true,
+      "actions": 176
+    },
+    {
+      "seed": "A10POOLTEST190105",
+      "identical": true,
+      "actions": 151
+    },
+    {
+      "seed": "A10POOLTEST190106",
+      "step": 158,
+      "state_digest": "8cdf243d8f469dd7b96cac2a588b25a9db8932b1849f4c9d31900444b3181e8c",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 4,
+      "hp": 36,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190107",
+      "identical": true,
+      "actions": 135
+    },
+    {
+      "seed": "A10POOLTEST190108",
+      "step": 145,
+      "state_digest": "4fa00ff76b24cd2cf2ad47eafecaf0b66f7e1c7187fda8dc272fbfbbc83bd6af",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 70,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190109",
+      "step": 172,
+      "state_digest": "e0a79c3a1e024b2a650a77a67f081dfeabec9edf3b89c50280d9ad656b583072",
+      "control": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 1
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 5,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 47,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190110",
+      "identical": true,
+      "actions": 203
+    },
+    {
+      "seed": "A10POOLTEST190111",
+      "identical": true,
+      "actions": 107
+    },
+    {
+      "seed": "A10POOLTEST190112",
+      "step": 146,
+      "state_digest": "7d69511bb0bc9bbf6cc550f85bb85c060769b76838deaa7d8ff4105bb0c2fac6",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 58,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190113",
+      "identical": true,
+      "actions": 114
+    },
+    {
+      "seed": "A10POOLTEST190114",
+      "step": 216,
+      "state_digest": "c98308154a3fa9dab8b7b8fc1de0a49ff83b03ec4d40bd59749f1328fc4fe2d0",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 24,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190115",
+      "identical": true,
+      "actions": 239
+    },
+    {
+      "seed": "A10POOLTEST190116",
+      "identical": true,
+      "actions": 97
+    },
+    {
+      "seed": "A10POOLTEST190117",
+      "identical": true,
+      "actions": 151
+    },
+    {
+      "seed": "A10POOLTEST190118",
+      "identical": true,
+      "actions": 85
+    },
+    {
+      "seed": "A10POOLTEST190119",
+      "step": 209,
+      "state_digest": "3a42da55ab74f5a05952796b4724714a7fd7dc54e733e6d8342ac638f1227ded",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 57,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190120",
+      "identical": true,
+      "actions": 180
+    },
+    {
+      "seed": "A10POOLTEST190121",
+      "identical": true,
+      "actions": 177
+    },
+    {
+      "seed": "A10POOLTEST190122",
+      "identical": true,
+      "actions": 159
+    },
+    {
+      "seed": "A10POOLTEST190123",
+      "identical": true,
+      "actions": 152
+    },
+    {
+      "seed": "A10POOLTEST190124",
+      "identical": true,
+      "actions": 96
+    },
+    {
+      "seed": "A10POOLTEST190125",
+      "identical": true,
+      "actions": 150
+    },
+    {
+      "seed": "A10POOLTEST190126",
+      "step": 140,
+      "state_digest": "c7cf6b962610f49ca443ddeb3ac0d572e1834e3471c5b9d478d7c06bb8a84639",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 60,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190127",
+      "step": 138,
+      "state_digest": "00cc56a1d569aa4b499d6af0209e451059119e2f75b4096d1cebbbd9005e31b1",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 66,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190128",
+      "step": 139,
+      "state_digest": "65a5e8ddfe094e6323becec77ce404d1273cd66c279bb46bb40dc8613d1d1b36",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 58,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190129",
+      "identical": true,
+      "actions": 81
+    },
+    {
+      "seed": "A10POOLTEST190130",
+      "identical": true,
+      "actions": 206
+    },
+    {
+      "seed": "A10POOLTEST190131",
+      "identical": true,
+      "actions": 230
+    },
+    {
+      "seed": "A10POOLTEST190132",
+      "step": 211,
+      "state_digest": "fb292a57aeca61d11f09e5493d5170894f284262b29c53376886acdbe398ede1",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 29,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190133",
+      "step": 192,
+      "state_digest": "2bc1214eb2c8ef36fea04fc63a709305414ff82b0b1e10035df848088edfe499",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 65,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190134",
+      "step": 182,
+      "state_digest": "6db821be1d1f2353b7733ff5a1415e2c458a86a277be873bc1c92bb386b6f8c6",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 61,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190135",
+      "identical": true,
+      "actions": 157
+    },
+    {
+      "seed": "A10POOLTEST190136",
+      "step": 187,
+      "state_digest": "1e38f843fd9a16ba3b74abd9e0ba501d81ce87d237d5aa72250305696af72df6",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 60,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190137",
+      "step": 165,
+      "state_digest": "e8f94138a560c4958da1a487f1463ab99896d4b185d05ddbcb85b5f07b9dc28f",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 38,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190138",
+      "identical": true,
+      "actions": 339
+    },
+    {
+      "seed": "A10POOLTEST190139",
+      "step": 171,
+      "state_digest": "f3c899e9cd94ccff33cb7e5571fdb6ad21baed85f1a1e2c2678ef5f5b30e67cf",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 46,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190140",
+      "identical": true,
+      "actions": 81
+    },
+    {
+      "seed": "A10POOLTEST190141",
+      "step": 205,
+      "state_digest": "b562a4f44507c6e1f3ac4c879bd864e210e80ef8a88169986311dbdb34a06981",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 54,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190142",
+      "identical": true,
+      "actions": 363
+    },
+    {
+      "seed": "A10POOLTEST190143",
+      "step": 229,
+      "state_digest": "bfdf771fd1634818517ee774268765af3d1c32fa96e5a51dca1adb5348e7942e",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 26,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190144",
+      "identical": true,
+      "actions": 293
+    },
+    {
+      "seed": "A10POOLTEST190145",
+      "identical": true,
+      "actions": 153
+    },
+    {
+      "seed": "A10POOLTEST190146",
+      "step": 113,
+      "state_digest": "ef84973b3481e23dc4bf5b2f476e03016631e09767c707b2dd525f571a88f80f",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 71,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190147",
+      "identical": true,
+      "actions": 175
+    },
+    {
+      "seed": "A10POOLTEST190148",
+      "step": 271,
+      "state_digest": "1e1eb168df16fe3b4b8bf0481c07774be65be50710a79d76dbaa4bd33a66cdf6",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 30,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190149",
+      "step": 167,
+      "state_digest": "c3276e32505e2d67bcf765bbe9c0b942fd0e6706653630ce4a6c401b069f86f6",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 57,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190150",
+      "identical": true,
+      "actions": 81
+    },
+    {
+      "seed": "A10POOLTEST190151",
+      "identical": true,
+      "actions": 323
+    },
+    {
+      "seed": "A10POOLTEST190152",
+      "identical": true,
+      "actions": 83
+    },
+    {
+      "seed": "A10POOLTEST190153",
+      "identical": true,
+      "actions": 208
+    },
+    {
+      "seed": "A10POOLTEST190154",
+      "step": 148,
+      "state_digest": "6ce74d836bdd980b2bda955f5f33f72ecaae44639d56e3203c15d2fb4a9a1c1b",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 63,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190155",
+      "identical": true,
+      "actions": 199
+    },
+    {
+      "seed": "A10POOLTEST190156",
+      "identical": true,
+      "actions": 252
+    },
+    {
+      "seed": "A10POOLTEST190157",
+      "step": 144,
+      "state_digest": "24d8807a4aaaa2749308199aadb045d2a28e3348a8e22c6c25ba08e9055bc890",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 70,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190158",
+      "identical": true,
+      "actions": 185
+    },
+    {
+      "seed": "A10POOLTEST190159",
+      "identical": true,
+      "actions": 257
+    },
+    {
+      "seed": "A10POOLTEST190160",
+      "step": 212,
+      "state_digest": "82427288708d8a4b2ae14ca2c59a5725cfe8b27db181ceb001fdb55ccb410bb3",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 67,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190161",
+      "identical": true,
+      "actions": 126
+    },
+    {
+      "seed": "A10POOLTEST190162",
+      "step": 153,
+      "state_digest": "a1d4374c6412149de75125e29bde45f3aea4bbf93f09864ac03f88f745342cfb",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 54,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190163",
+      "identical": true,
+      "actions": 401
+    },
+    {
+      "seed": "A10POOLTEST190164",
+      "identical": true,
+      "actions": 292
+    },
+    {
+      "seed": "A10POOLTEST190165",
+      "identical": true,
+      "actions": 90
+    },
+    {
+      "seed": "A10POOLTEST190166",
+      "step": 198,
+      "state_digest": "66fc2a5700e64daa9ac57b1c78e4339ca166c5dc8e387eafd89d50f724ed4f07",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 37,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190167",
+      "identical": true,
+      "actions": 208
+    },
+    {
+      "seed": "A10POOLTEST190168",
+      "step": 217,
+      "state_digest": "739e60e8ed635e2627ac0a30c2095439b878d158a98f8b90c1dd0b2616eab89a",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 2,
+      "hp": 44,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190169",
+      "identical": true,
+      "actions": 163
+    },
+    {
+      "seed": "A10POOLTEST190170",
+      "identical": true,
+      "actions": 250
+    },
+    {
+      "seed": "A10POOLTEST190171",
+      "step": 159,
+      "state_digest": "321160edf5c208c05fab8c099aef91baa1ca2a82ddc3f8b51af1286a12e8710e",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 7,
+      "hp": 44,
+      "boss": "WATERFALL_GIANT_BOSS",
+      "enemies": [
+        "MONSTER.WATERFALL_GIANT"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190172",
+      "identical": true,
+      "actions": 104
+    },
+    {
+      "seed": "A10POOLTEST190173",
+      "step": 143,
+      "state_digest": "c50302d59c8cbfefcae0cd4da4ccf2c038e297ac2dc97eea5fe6431840d607eb",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 16,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190174",
+      "identical": true,
+      "actions": 313
+    },
+    {
+      "seed": "A10POOLTEST190175",
+      "identical": true,
+      "actions": 110
+    },
+    {
+      "seed": "A10POOLTEST190176",
+      "step": 179,
+      "state_digest": "612520d6b20178ade85ec2e27c95653b8359206ba67abfb742f9f7fd1a9f6a69",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 56,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190177",
+      "identical": true,
+      "actions": 235
+    },
+    {
+      "seed": "A10POOLTEST190178",
+      "step": 187,
+      "state_digest": "b671ebee3d89f071dd53d386d844846c767f3139505757dc1ae5b5d7987f5a77",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 61,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190179",
+      "identical": true,
+      "actions": 148
+    },
+    {
+      "seed": "A10POOLTEST190180",
+      "step": 199,
+      "state_digest": "5a83bcb0c0479aa95616e6b8a51c8f7776c2a39ca65949dd78e7da88217e1fdc",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 43,
+      "boss": "VANTOM_BOSS",
+      "enemies": [
+        "MONSTER.VANTOM"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190181",
+      "step": 190,
+      "state_digest": "c1781f51fcdc20e267dbef6d1791749d45ceb0469bc24b9e4c8848cec742aa00",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 79,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190182",
+      "step": 188,
+      "state_digest": "7676da76d8928027c3024236fb5086bc60a87f2479938033919a98ada7dc081a",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 26,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190183",
+      "step": 170,
+      "state_digest": "4f568c89410145ce086da0e0cdd8b02669029d8e17424449e98a9898903fc01a",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 4
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 1,
+      "hp": 66,
+      "boss": "LAGAVULIN_MATRIARCH_BOSS",
+      "enemies": [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190184",
+      "identical": true,
+      "actions": 138
+    },
+    {
+      "seed": "A10POOLTEST190185",
+      "identical": true,
+      "actions": 172
+    },
+    {
+      "seed": "A10POOLTEST190186",
+      "step": 168,
+      "state_digest": "cba4d222d8c9937902f0769b8eac47fc5886957576eadb15ca419267e1ff27d3",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 5,
+      "hp": 64,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190187",
+      "step": 143,
+      "state_digest": "4799979ca3a7001918bf2e6a1ed382171fd7c46000b07e0bd7220219844f9556",
+      "control": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "candidate": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "verified": true,
+      "decision": "combat_play",
+      "room": "Boss",
+      "act": 1,
+      "floor": 17,
+      "round": 3,
+      "hp": 57,
+      "boss": "CEREMONIAL_BEAST_BOSS",
+      "enemies": [
+        "MONSTER.CEREMONIAL_BEAST"
+      ]
+    },
+    {
+      "seed": "A10POOLTEST190188",
+      "identical": true,
+      "actions": 185
+    },
+    {
+      "seed": "A10POOLTEST190189",
+      "identical": true,
+      "actions": 143
+    },
+    {
+      "seed": "A10POOLTEST190190",
+      "identical": true,
+      "actions": 147
+    },
+    {
+      "seed": "A10POOLTEST190191",
+      "identical": true,
+      "actions": 340
+    }
+  ]
+}

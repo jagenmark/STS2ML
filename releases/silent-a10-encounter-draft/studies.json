@@ -1,0 +1,433 @@
+{
+  "logging_parity": {
+    "native_games": 3,
+    "rpc_requests": 505,
+    "draft_rewards": 20,
+    "identical_commands_and_response_digests": true
+  },
+  "sandpit": {
+    "attempted": 27,
+    "excluded": [
+      {
+        "seed": "H2A10TRAIN0105",
+        "root": "e3ae80455e33a3d4545492088bbb93a0315b8e10f5d3ea6660123458486ce679",
+        "error": "Combat stopped without confirmed native completion"
+      }
+    ],
+    "all": {
+      "paired_roots": 26,
+      "thresholds": {
+        "0": {
+          "wins": 0,
+          "sum_enemy_hp": 4921,
+          "sum_player_hp": 0
+        },
+        "1": {
+          "wins": 1,
+          "sum_enemy_hp": 4041,
+          "sum_player_hp": 46
+        },
+        "2": {
+          "wins": 2,
+          "sum_enemy_hp": 3479,
+          "sum_player_hp": 81
+        },
+        "3": {
+          "wins": 3,
+          "sum_enemy_hp": 3187,
+          "sum_player_hp": 103
+        },
+        "4": {
+          "wins": 4,
+          "sum_enemy_hp": 2982,
+          "sum_player_hp": 115
+        }
+      }
+    },
+    "training": {
+      "paired_roots": 20,
+      "thresholds": {
+        "0": {
+          "wins": 0,
+          "sum_enemy_hp": 3582,
+          "sum_player_hp": 0
+        },
+        "1": {
+          "wins": 1,
+          "sum_enemy_hp": 2862,
+          "sum_player_hp": 46
+        },
+        "2": {
+          "wins": 2,
+          "sum_enemy_hp": 2479,
+          "sum_player_hp": 81
+        },
+        "3": {
+          "wins": 3,
+          "sum_enemy_hp": 2291,
+          "sum_player_hp": 103
+        },
+        "4": {
+          "wins": 3,
+          "sum_enemy_hp": 2143,
+          "sum_player_hp": 98
+        }
+      }
+    },
+    "validation": {
+      "paired_roots": 6,
+      "thresholds": {
+        "0": {
+          "wins": 0,
+          "sum_enemy_hp": 1339,
+          "sum_player_hp": 0
+        },
+        "1": {
+          "wins": 0,
+          "sum_enemy_hp": 1179,
+          "sum_player_hp": 0
+        },
+        "2": {
+          "wins": 0,
+          "sum_enemy_hp": 1000,
+          "sum_player_hp": 0
+        },
+        "3": {
+          "wins": 0,
+          "sum_enemy_hp": 896,
+          "sum_player_hp": 0
+        },
+        "4": {
+          "wins": 1,
+          "sum_enemy_hp": 839,
+          "sum_player_hp": 17
+        }
+      }
+    },
+    "independent_build": {
+      "host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+      "attempted": 27,
+      "paired_complete": 26,
+      "identical_all_five_thresholds": 26,
+      "different": [],
+      "wins_by_threshold": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    }
+  },
+  "kaiser": {
+    "attempted": 18,
+    "excluded": [],
+    "all": {
+      "paired_roots": 18,
+      "thresholds": {
+        "0": {
+          "wins": 0,
+          "sum_enemy_hp": 4794,
+          "sum_player_hp": 0
+        },
+        "1": {
+          "wins": 0,
+          "sum_enemy_hp": 4664,
+          "sum_player_hp": 0
+        },
+        "6": {
+          "wins": 0,
+          "sum_enemy_hp": 4671,
+          "sum_player_hp": 0
+        },
+        "12": {
+          "wins": 1,
+          "sum_enemy_hp": 4676,
+          "sum_player_hp": 3
+        }
+      }
+    },
+    "training": {
+      "paired_roots": 16,
+      "thresholds": {
+        "0": {
+          "wins": 0,
+          "sum_enemy_hp": 4349,
+          "sum_player_hp": 0
+        },
+        "1": {
+          "wins": 0,
+          "sum_enemy_hp": 4214,
+          "sum_player_hp": 0
+        },
+        "6": {
+          "wins": 0,
+          "sum_enemy_hp": 4221,
+          "sum_player_hp": 0
+        },
+        "12": {
+          "wins": 1,
+          "sum_enemy_hp": 4226,
+          "sum_player_hp": 3
+        }
+      }
+    },
+    "validation": {
+      "paired_roots": 2,
+      "thresholds": {
+        "0": {
+          "wins": 0,
+          "sum_enemy_hp": 445,
+          "sum_player_hp": 0
+        },
+        "1": {
+          "wins": 0,
+          "sum_enemy_hp": 450,
+          "sum_player_hp": 0
+        },
+        "6": {
+          "wins": 0,
+          "sum_enemy_hp": 450,
+          "sum_player_hp": 0
+        },
+        "12": {
+          "wins": 0,
+          "sum_enemy_hp": 450,
+          "sum_player_hp": 0
+        }
+      }
+    }
+  },
+  "hallway": {
+    "attempted": 52,
+    "complete": 52,
+    "excluded": [],
+    "seed_groups": {
+      "training": 42,
+      "validation": 10
+    },
+    "fit_grid": {
+      "0": {
+        "n": 42,
+        "changed": 0,
+        "hp_gain_total": 0,
+        "changed_clears": 0
+      },
+      "0.25": {
+        "n": 42,
+        "changed": 5,
+        "hp_gain_total": -5,
+        "changed_clears": 0
+      },
+      "0.5": {
+        "n": 42,
+        "changed": 7,
+        "hp_gain_total": -8,
+        "changed_clears": 0
+      },
+      "1": {
+        "n": 42,
+        "changed": 12,
+        "hp_gain_total": 21,
+        "changed_clears": 0
+      },
+      "2": {
+        "n": 42,
+        "changed": 15,
+        "hp_gain_total": 15,
+        "changed_clears": 0
+      },
+      "3": {
+        "n": 42,
+        "changed": 16,
+        "hp_gain_total": 15,
+        "changed_clears": 0
+      },
+      "4": {
+        "n": 42,
+        "changed": 16,
+        "hp_gain_total": 15,
+        "changed_clears": 0
+      }
+    },
+    "weight_fit_on_all_training": 1,
+    "validation_gain": {
+      "n": 10,
+      "changed": 1,
+      "hp_gain_total": 0,
+      "changed_clears": 0
+    },
+    "pilot_effective_weight": 1,
+    "new_roots_after_pilot": {
+      "n": 32,
+      "changed": 7,
+      "hp_gain_total": -2,
+      "changed_clears": 0
+    },
+    "formations": {
+      "MONSTER.TOADPOLE+MONSTER.TOADPOLE": 14,
+      "MONSTER.CORPSE_SLUG+MONSTER.CORPSE_SLUG": 15,
+      "MONSTER.NIBBIT": 3,
+      "MONSTER.SLUDGE_SPINNER": 8,
+      "MONSTER.FUZZY_WURM_CRAWLER": 1,
+      "MONSTER.SEAPUNK": 5,
+      "MONSTER.SHRINKER_BEETLE": 3,
+      "MONSTER.LEAF_SLIME_M+MONSTER.LEAF_SLIME_S+MONSTER.TWIG_SLIME_S": 2,
+      "MONSTER.LEAF_SLIME_S+MONSTER.TWIG_SLIME_M+MONSTER.TWIG_SLIME_S": 1
+    },
+    "example": {
+      "seed": "H2A10BIOMETRAIN0004",
+      "root": "be051bbcd1c56dfe9cfb82ad095dea3fd81cc8cdaed7b7a019b629435e875c5b",
+      "odds": 1.0,
+      "arms": [
+        {
+          "enemies": [
+            "MONSTER.TOADPOLE",
+            "MONSTER.TOADPOLE"
+          ],
+          "hp": 54,
+          "won": true,
+          "card": "CARD.DAGGER_SPRAY",
+          "prior": -0.18334169418208573,
+          "area": 1.0
+        },
+        {
+          "enemies": [
+            "MONSTER.TOADPOLE",
+            "MONSTER.TOADPOLE"
+          ],
+          "hp": 49,
+          "won": true,
+          "card": "CARD.ESCAPE_PLAN",
+          "prior": 0.05514030867117947,
+          "area": 0
+        },
+        {
+          "enemies": [
+            "MONSTER.TOADPOLE",
+            "MONSTER.TOADPOLE"
+          ],
+          "hp": 48,
+          "won": true,
+          "card": "CARD.DAGGER_THROW",
+          "prior": 0.3343118879496882,
+          "area": 0
+        },
+        {
+          "enemies": [
+            "MONSTER.TOADPOLE",
+            "MONSTER.TOADPOLE"
+          ],
+          "hp": 50,
+          "won": true,
+          "card": "skip",
+          "prior": -0.5494374154320427,
+          "area": 0
+        }
+      ]
+    }
+  },
+  "draft-labels": {
+    "original_seeds": 192,
+    "complete_roots": 378,
+    "alternative_native_outcomes": 1512,
+    "errors": 5
+  },
+  "late-labels": {
+    "original_seeds": 112,
+    "complete_roots": 221,
+    "alternative_native_outcomes": 884,
+    "errors": 0
+  },
+  "boss-labels": {
+    "original_seeds": 160,
+    "complete_roots": 177,
+    "alternative_native_outcomes": 885,
+    "errors": 2
+  },
+  "pilot-fit": {
+    "train_roots": 80,
+    "validation_roots": 18,
+    "selected": {
+      "ridge": 16.0,
+      "scale": 0.75,
+      "changed": 7,
+      "gain": 2.156778149585928
+    },
+    "excluded_contexts": 0,
+    "label_files": 64
+  },
+  "opening128-fit": {
+    "train_roots": 143,
+    "validation_roots": 40,
+    "selected": {
+      "ridge": 16.0,
+      "scale": 1.5,
+      "changed": 19,
+      "gain": 2.4938575300368377
+    },
+    "excluded_contexts": 0,
+    "label_files": 128
+  },
+  "opening192-fit": {
+    "train_roots": 225,
+    "validation_roots": 52,
+    "selected": {
+      "ridge": 16.0,
+      "scale": 1.5,
+      "changed": 26,
+      "gain": 1.1632118041772443
+    },
+    "excluded_contexts": 0,
+    "label_files": 192
+  },
+  "late48-fit": {
+    "train_roots": 73,
+    "validation_roots": 22,
+    "selected": {
+      "ridge": 4.0,
+      "scale": 1.5,
+      "changed": 16,
+      "gain": 0.8780452196874485
+    },
+    "excluded_contexts": 0,
+    "label_files": 48
+  },
+  "late112-fit": {
+    "train_roots": 165,
+    "validation_roots": 56,
+    "selected": {
+      "ridge": 64.0,
+      "scale": 0.75,
+      "changed": 11,
+      "gain": 0.31027911375151385
+    },
+    "excluded_contexts": 0,
+    "label_files": 112
+  },
+  "boss_overrides": {
+    "overrides": {
+      "WATERFALL_GIANT_BOSS": "guard",
+      "LAGAVULIN_MATRIARCH_BOSS": "engine",
+      "VANTOM_BOSS": "engine",
+      "CEREMONIAL_BEAST_BOSS": "guard"
+    },
+    "validation_fights": 39,
+    "validation_wins": {
+      "base": 20,
+      "selected": 20
+    }
+  },
+  "route": {
+    "seeds": 340,
+    "boss_openings": {
+      "WATERFALL_GIANT_BOSS": 40,
+      "THE_KIN_BOSS": 47,
+      "LAGAVULIN_MATRIARCH_BOSS": 42,
+      "VANTOM_BOSS": 42,
+      "SOUL_FYSH_BOSS": 49,
+      "CEREMONIAL_BEAST_BOSS": 34
+    },
+    "censored_tiers": 24
+  }
+}

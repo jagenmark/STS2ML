@@ -1,0 +1,226 @@
+{
+  "frozen_utc": "2026-11-19T22:48:00.058320+00:00",
+  "candidate": "boss-escape",
+  "bundle_sha256": "731e83312742a001f0de398b7d028b7b5853e395d1bf04fff44fb6d5b83f1c26",
+  "components": {
+    "weights": {
+      "name": "weights.json",
+      "sha256": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+    },
+    "room_model": {
+      "name": "room_model.json",
+      "sha256": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e"
+    },
+    "late_room_model": {
+      "name": "late_room_model.json",
+      "sha256": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd"
+    },
+    "offer_model": {
+      "name": "offer_model.json",
+      "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+    },
+    "strategy_model": {
+      "name": "strategy_model.json",
+      "sha256": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38"
+    },
+    "encounter_model": {
+      "name": "encounter_model.json",
+      "sha256": "70916d3c56648c49fb8ac412e8febcd0847e5b952bcd97885e8ed617b12f0091"
+    },
+    "deck_model": {
+      "name": "deck_model.json",
+      "sha256": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca"
+    }
+  },
+  "feature_commit": "c3cd05341789e1613a32b766ee71b438c90513a7",
+  "inference_source_sha256": {
+    "__init__.py": "f59ba71256a5a9b3ce34de44a2e41480a973de1769d366893914bdec0d63374b",
+    "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "act1.py": "d0dca2bb60fe1a9121e302b4058131ece0b4bb434c888adc5180f8929e6191f0",
+    "act1_evaluation.py": "a1733d052147b0ea0c5de0ccbe42a4631f51bdafbe45c94375470bba3b0e8544",
+    "aggregation.py": "e097cfdc03e0ed331712acf1536cb65c53aeeb3631198cc4ecd8587c4174d688",
+    "boss_search.py": "28054300e7f724310d095925eedccd36750a605b6a8d8b00008df27a1d924279",
+    "card_effects.py": "2995e79c29a044dbffcca3ba6aad4b9a89584d55aee4a4147ed62a2e65a349ef",
+    "cli.py": "4220093f31825185dae946c273b3456ef2877967028e945f60f9c8a0cbef0c0e",
+    "collection.py": "279ad8b0f7fcae43f337cf9414fec57f705c18f3384845f7f8ff6249153f22cd",
+    "combat.py": "8893b981f14ecc5fd8fe1c0a01c6adec499ba648057ec589c7af4fab09a98c47",
+    "combat_effects.py": "650ef53b81969665dd119b0bfc6c1bf53b3ac405088a08d46a34b4e772616fd4",
+    "combat_search.py": "597df08cd2635f895082e4c93035813101a7e1099d3c6fd091ae0e37df692e08",
+    "data.py": "1d1da2deb9abb29159e397a7042c78ab24683de57d664934e6e32b838dab4c2e",
+    "deck_policy.py": "2b1aaef58953f90f7501b6c66fbd27c5eeecb86f235a3437245a756fa1ac7d3c",
+    "demo.py": "5a53add92c438fe665f98c835d225271eca0082cc7837434f332752175486f28",
+    "diagnostics.py": "f42cdfd80589bd557395d4251a9f17523aad224ebc4190ad8e1f73f165b0b298",
+    "encoding.py": "c2af39e48fce7021069231486822237b4caccd677ed8bd81a77115f73fb5e2d3",
+    "encounter.py": "9d90ffd9ccfb343ac72553b13853b04cccbb0268d248e8a9aacbc67770dca775",
+    "encounter_draft.py": "ee59832fba2ae4c4f15ee8ab82d6b4c9e303d6733602301ca862fb5d34baa02e",
+    "enemy_forecast.py": "03a823822a956965a9528ae62f74c1f0cbd7152097e0f5afc313ac4bb0a09864",
+    "fight_rollout.py": "f0ef0100f1d1025121aaa3f2e92dc5528fcc3a3ac5d8d3dd2359e466554f9a17",
+    "merchant.py": "c35787257f92ee8326b330bf058bea88f60cf751c3c6242e379a5305f9532154",
+    "micro.py": "1dade8ee253d2ba1cf8470c293ca5d37363e82aa4083d2c6cae3f83dc3c48137",
+    "model.py": "78ee014d85cd01bddd0512add55e3517bc9dd7a5f8cad803f657859c23aff8b5",
+    "native.py": "f0a67b64f92e8a86e1af7d3ef40052555282ebeb360b07b25ad7d8af74745ed3",
+    "offer_policy.py": "06d98efa140f607b1234a37349d3308a87a1cd764591ab7d88747f1ea4cd09a7",
+    "opening_split.py": "2aaaef25c482640e295f7dcceadd71f15d12207ccc51916dd133e87424450763",
+    "provenance.py": "8f883b5c39a862bb602942d1d6e788c4ed9d13a020cd956862304155e14b3dc1",
+    "return_policy.py": "d1c6a3ee526878a4480550a4fea99ed27752287b5a34d1a8ee8d7c65b5b8bb6a",
+    "routing.py": "b284fefd61392f8e91b8107cfac3edbf7e86c2a72c4d56c87d5bc79374f0116e",
+    "run_bundle.py": "922d56fa4321655faf8c5fc761aa680f45dc7f54eb49076b586b8494be52c847",
+    "run_evaluation.py": "7a502d796588e1003ebdb2993ec850797aa3a3f5fb44389e3ed78bd7299f7fa1",
+    "run_policy.py": "3a60a4e5aec615dc4263d2d4e0836de3b318723e277efd7e3debe1dbe0b6f629",
+    "sandpit.py": "0ad2f0f7bd5f30287ece98cdf4b9051b366188df00142509d53ba1c3da2e5905",
+    "schema.py": "f74b500b4ec73b2f9258c43055b1e5ecd64a899c168a0048c7d2c52cbf4b08e1",
+    "search.py": "71eb0bbed251ab25f638b9a512fec80b0f281189ef6b1463bcbf438b783c807b",
+    "selections.py": "c2f048f4f3b1cb360c83f8d79a586d73a4912e2725621891b49bcfa13ccd44ce",
+    "strategy.py": "26f9ef22eee7cc1e78c18311ea5919fe8a44729318db773b2d2d0cdc89dc8d1e",
+    "survival_route.py": "d1efab314b753476784180429e6cae474b9666d015e8e5e4b6d497fa00e57202",
+    "tactical_student.py": "a0c12b8826fc8380ad1a07573748e0c2ff117b9b1ab9fc97f1487af7443a22ff",
+    "target.py": "dcbfdbd417b08687a1c81e744dec069dee625e14d4e09d0179d8b510860fcc42",
+    "teacher.py": "363c1a6f20c4ccc04eb13a0abb2ca9777c098a018b96d96544ff32c82676219a",
+    "training.py": "f8b5e0efb65e532e1c3787ba00f61b5e6828590771459022efaf5f3282034361",
+    "trajectory.py": "f9364f783dff8102ac2fcf8694694392b5f5778961a0dd7f9a3dc9e81b943c79",
+    "turn_planning.py": "8082e13abfcc2c457003c8a432c359fa958372de3123730660c2bbc1ac11d300"
+  },
+  "host_sha256": "c460e7e58b6ee46218fac2ad08db9572a69eab965dc40b186cf2c982062a251e",
+  "reference_sha256": "9360052b403c81ebe2e348181d070e3c8f0ba2db6b62444a999fedc103e7654b",
+  "seed_lock_sha256": "87fee222073bf13b343329ed54eb24efb5e5be02467414cbee05b91103cfefa9",
+  "rules": {
+    "configured_utc": "2026-11-19T22:39:00Z",
+    "latest_development_cutoff_utc": "2026-11-19T22:48:00Z",
+    "order": [
+      "win",
+      "a2_clear",
+      "a1_clear"
+    ],
+    "tie_order": [
+      "escape",
+      "boss-escape",
+      "boss",
+      "hallway",
+      "kin-escape",
+      "hallway-boss",
+      "late112-boss",
+      "late48",
+      "opening128",
+      "pilot",
+      "pool-route",
+      "mechanics",
+      "late-combat",
+      "control"
+    ],
+    "scope": "Select one experimental policy with all 96 preassigned complete native games. In an exact outcome tie favor the narrower or separately supported boss or hallway settings in this recorded order. The code-only reference is a comparator. Leave the published default in place without convincing full-game evidence."
+  },
+  "candidate_development": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 7,
+    "a1_clear": 40
+  },
+  "control_development": {
+    "eligible": true,
+    "n": 96,
+    "win": 0,
+    "a2_clear": 5,
+    "a1_clear": 39
+  },
+  "eligibility_at_freeze": {
+    "escape": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 5,
+      "a1_clear": 39
+    },
+    "boss-escape": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 7,
+      "a1_clear": 40
+    },
+    "boss": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 6,
+      "a1_clear": 40
+    },
+    "hallway": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 5,
+      "a1_clear": 37
+    },
+    "kin-escape": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 6,
+      "a1_clear": 41
+    },
+    "hallway-boss": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 6,
+      "a1_clear": 38
+    },
+    "late112-boss": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 5,
+      "a1_clear": 40
+    },
+    "late48": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 4,
+      "a1_clear": 39
+    },
+    "opening128": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 1,
+      "a1_clear": 31
+    },
+    "pilot": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 3,
+      "a1_clear": 36
+    },
+    "pool-route": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 3,
+      "a1_clear": 37
+    },
+    "mechanics": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 2,
+      "a1_clear": 36
+    },
+    "late-combat": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 4,
+      "a1_clear": 39
+    },
+    "control": {
+      "eligible": true,
+      "n": 96,
+      "win": 0,
+      "a2_clear": 5,
+      "a1_clear": 39
+    }
+  }
+}

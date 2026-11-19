@@ -1,0 +1,33 @@
+{
+  "games": 192,
+  "drafts": 1456,
+  "alternatives": 5824,
+  "skips": 160,
+  "different_from_prior": 429,
+  "by_act": {
+    "1": {
+      "drafts": 1221,
+      "skips": 79,
+      "different_from_prior": 261
+    },
+    "2": {
+      "drafts": 227,
+      "skips": 76,
+      "different_from_prior": 163
+    },
+    "3": {
+      "drafts": 8,
+      "skips": 5,
+      "different_from_prior": 5
+    }
+  },
+  "group_probability_known": 432,
+  "every_draft_matches_executed_native_command": true,
+  "scorer_sha256": "a81d186c7901b455e472310b4b24e07b24dc3c95261797201843ce0eba23aabb",
+  "model_sha256": {
+    "weights": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb",
+    "strategy_model": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+    "offer_model": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+    "late_weights": null
+  }
+}

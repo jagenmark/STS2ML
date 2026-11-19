@@ -36,3 +36,5 @@ A full game produces one compressed log. Each line contains the seed, native act
 * Each learned term records its feature value, weight and signed point contribution. Strategy points include the saved strategy strength. The act-specific card offset completes the total.
 
 The initial weak pool is tracked from the public opening in a fully unlocked v0.111.0 solo lobby. A hallway battle reached from a map selection consumes one draw, including a fight behind a question mark. Shops, elites and event-scripted combats leave the count alone. In a mid-act restore with missing history the model abstains from estimating the remaining pool. The third hallway fight can occur several rows into the map.
+
+The experiment archive includes the finalist's model, all of its test-game score logs, the matched alternative-card outcomes and the separate training and test seeds. [Experiment results and Helmer handoff](../releases/silent-a10-encounter-draft/README.md)

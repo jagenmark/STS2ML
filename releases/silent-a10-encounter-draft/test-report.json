@@ -1,0 +1,186 @@
+{
+  "candidate": "boss-escape",
+  "paired_initial_states": 192,
+  "arms": {
+    "release": {
+      "complete": 192,
+      "verified": 192,
+      "raw": {
+        "win": 0,
+        "a2_clear": 1,
+        "a1_clear": 60
+      },
+      "boss_entries_by_act": {
+        "1": 128,
+        "2": 12,
+        "3": 0
+      },
+      "last_enemies_in_act_3": {
+        "MONSTER.MECHA_KNIGHT": 1
+      },
+      "failed_replays": []
+    },
+    "control": {
+      "complete": 192,
+      "verified": 192,
+      "raw": {
+        "win": 0,
+        "a2_clear": 1,
+        "a1_clear": 60
+      },
+      "boss_entries_by_act": {
+        "1": 128,
+        "2": 13,
+        "3": 0
+      },
+      "last_enemies_in_act_3": {
+        "MONSTER.MECHA_KNIGHT": 1
+      },
+      "failed_replays": []
+    },
+    "candidate": {
+      "complete": 192,
+      "verified": 191,
+      "raw": {
+        "win": 0,
+        "a2_clear": 2,
+        "a1_clear": 58
+      },
+      "boss_entries_by_act": {
+        "1": 128,
+        "2": 12,
+        "3": 0
+      },
+      "last_enemies_in_act_3": {
+        "MONSTER.MECHA_KNIGHT": 1,
+        "MONSTER.THE_FORGOTTEN": 1
+      },
+      "failed_replays": [
+        "A10POOLTEST190189"
+      ]
+    }
+  },
+  "pairs": {
+    "release": {
+      "n": 191,
+      "counts": {
+        "candidate": {
+          "win": 0,
+          "a2_clear": 2,
+          "a1_clear": 58
+        },
+        "release": {
+          "win": 0,
+          "a2_clear": 1,
+          "a1_clear": 60
+        }
+      },
+      "by_biome": {
+        "Overgrowth": {
+          "n": 100,
+          "candidate": {
+            "win": 0,
+            "a2_clear": 1,
+            "a1_clear": 33
+          },
+          "release": {
+            "win": 0,
+            "a2_clear": 0,
+            "a1_clear": 35
+          }
+        },
+        "Underdocks": {
+          "n": 91,
+          "candidate": {
+            "win": 0,
+            "a2_clear": 1,
+            "a1_clear": 25
+          },
+          "release": {
+            "win": 0,
+            "a2_clear": 1,
+            "a1_clear": 25
+          }
+        }
+      },
+      "discordance": {
+        "win": {
+          "candidate_only": 0,
+          "reference_only": 0,
+          "exact_two_sided_p": 1
+        },
+        "a2_clear": {
+          "candidate_only": 1,
+          "reference_only": 0,
+          "exact_two_sided_p": 1
+        },
+        "a1_clear": {
+          "candidate_only": 4,
+          "reference_only": 6,
+          "exact_two_sided_p": 0.75390625
+        }
+      }
+    },
+    "control": {
+      "n": 191,
+      "counts": {
+        "candidate": {
+          "win": 0,
+          "a2_clear": 2,
+          "a1_clear": 58
+        },
+        "control": {
+          "win": 0,
+          "a2_clear": 1,
+          "a1_clear": 60
+        }
+      },
+      "by_biome": {
+        "Overgrowth": {
+          "n": 100,
+          "candidate": {
+            "win": 0,
+            "a2_clear": 1,
+            "a1_clear": 33
+          },
+          "control": {
+            "win": 0,
+            "a2_clear": 0,
+            "a1_clear": 35
+          }
+        },
+        "Underdocks": {
+          "n": 91,
+          "candidate": {
+            "win": 0,
+            "a2_clear": 1,
+            "a1_clear": 25
+          },
+          "control": {
+            "win": 0,
+            "a2_clear": 1,
+            "a1_clear": 25
+          }
+        }
+      },
+      "discordance": {
+        "win": {
+          "candidate_only": 0,
+          "reference_only": 0,
+          "exact_two_sided_p": 1
+        },
+        "a2_clear": {
+          "candidate_only": 1,
+          "reference_only": 0,
+          "exact_two_sided_p": 1
+        },
+        "a1_clear": {
+          "candidate_only": 4,
+          "reference_only": 6,
+          "exact_two_sided_p": 0.75390625
+        }
+      }
+    }
+  },
+  "seed_count": 192
+}

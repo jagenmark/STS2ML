@@ -1,0 +1,404 @@
+{
+  "release": {
+    "host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+    "sampling": "lowest SHA-256 of cross-host-19/ + seed",
+    "rows": [
+      {
+        "seed": "A10POOLTEST190044",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 232,
+        "terminal": "a658313f8fa293fdec133891ff20ef51df9df87044f91afcc308d17052873c12"
+      },
+      {
+        "seed": "A10POOLTEST190093",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 171,
+        "terminal": "13d7402c61a349560ad9fc3e286610f4e25c24577351ebdf20236a49c33ba174"
+      },
+      {
+        "seed": "A10POOLTEST190163",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 401,
+        "terminal": "517cac3db21ed89ab9e822803d3347798ea79b88fb60a5436b864fbff60c4e6f"
+      },
+      {
+        "seed": "A10POOLTEST190016",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 211,
+        "terminal": "9e04f72449c9c876877c76c44adce3e5b9706e115487ed7cc600adb2ec85ec53"
+      },
+      {
+        "seed": "A10POOLTEST190154",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 260,
+        "terminal": "53bd13809cb97073a08aed7ca024112905771d8b9d52f2f9fe2614e968542785"
+      },
+      {
+        "seed": "A10POOLTEST190080",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 276,
+        "terminal": "5985fc8e8ca968cdb6acda9e67580597a5acccda642b0bd5929cf0b38fe050b2"
+      },
+      {
+        "seed": "A10POOLTEST190094",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 290,
+        "terminal": "e3e1ebdde37ed04e8b58657b5d42960e2f80a142acbd6255d79d219b70344cd9"
+      },
+      {
+        "seed": "A10POOLTEST190126",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 353,
+        "terminal": "75ab6dc728556d41cd7c248ac2ad0951e2b23784f3aca9a931828a3a41050a44"
+      },
+      {
+        "seed": "A10POOLTEST190187",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 332,
+        "terminal": "b4066cf1793780c8656b8e824bc38290965af4104fd792bdd790bb2da6533490"
+      },
+      {
+        "seed": "A10POOLTEST190170",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 250,
+        "terminal": "a6db6bed18969f83b71396b177320876c1bdf24b06648190526483e62b887d70"
+      },
+      {
+        "seed": "A10POOLTEST190055",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 202,
+        "terminal": "7fa6cc8dcc6847127531aed84a374269cbf826523894afe7b3e6c91d72551a99"
+      },
+      {
+        "seed": "A10POOLTEST190099",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 213,
+        "terminal": "e8b260314b7bb22b9024c430621c03fdab90359750e10c51c82fc7dfd16df944"
+      },
+      {
+        "seed": "A10POOLTEST190036",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 103,
+        "terminal": "9fa22a970c43f73eba45ac834c7809adf6780d7a44f29a57e068c0f06990aa32"
+      },
+      {
+        "seed": "A10POOLTEST190113",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 114,
+        "terminal": "aeccca0eceaa1c5ac866fa70c3910847d450a2e0081789a39238fa80fe8879f1"
+      },
+      {
+        "seed": "A10POOLTEST190051",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 311,
+        "terminal": "e1e4cff074a0b014b7a51ed07538b06a14cf5af4fcf245611eb8167201870753"
+      },
+      {
+        "seed": "A10POOLTEST190158",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 185,
+        "terminal": "c4f4fce93c6ed9d9db6cf649a3c6c46841cf870d01aec3ccee097f74e8909543"
+      }
+    ]
+  },
+  "control": {
+    "host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+    "sampling": "lowest SHA-256 of cross-host-19/ + seed",
+    "rows": [
+      {
+        "seed": "A10POOLTEST190044",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 232,
+        "terminal": "a658313f8fa293fdec133891ff20ef51df9df87044f91afcc308d17052873c12"
+      },
+      {
+        "seed": "A10POOLTEST190093",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 171,
+        "terminal": "13d7402c61a349560ad9fc3e286610f4e25c24577351ebdf20236a49c33ba174"
+      },
+      {
+        "seed": "A10POOLTEST190163",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 401,
+        "terminal": "517cac3db21ed89ab9e822803d3347798ea79b88fb60a5436b864fbff60c4e6f"
+      },
+      {
+        "seed": "A10POOLTEST190016",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 207,
+        "terminal": "9e04f72449c9c876877c76c44adce3e5b9706e115487ed7cc600adb2ec85ec53"
+      },
+      {
+        "seed": "A10POOLTEST190154",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 260,
+        "terminal": "53bd13809cb97073a08aed7ca024112905771d8b9d52f2f9fe2614e968542785"
+      },
+      {
+        "seed": "A10POOLTEST190080",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 276,
+        "terminal": "5985fc8e8ca968cdb6acda9e67580597a5acccda642b0bd5929cf0b38fe050b2"
+      },
+      {
+        "seed": "A10POOLTEST190094",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 290,
+        "terminal": "e3e1ebdde37ed04e8b58657b5d42960e2f80a142acbd6255d79d219b70344cd9"
+      },
+      {
+        "seed": "A10POOLTEST190126",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 353,
+        "terminal": "75ab6dc728556d41cd7c248ac2ad0951e2b23784f3aca9a931828a3a41050a44"
+      },
+      {
+        "seed": "A10POOLTEST190187",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 332,
+        "terminal": "b4066cf1793780c8656b8e824bc38290965af4104fd792bdd790bb2da6533490"
+      },
+      {
+        "seed": "A10POOLTEST190170",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 250,
+        "terminal": "a6db6bed18969f83b71396b177320876c1bdf24b06648190526483e62b887d70"
+      },
+      {
+        "seed": "A10POOLTEST190055",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 202,
+        "terminal": "7fa6cc8dcc6847127531aed84a374269cbf826523894afe7b3e6c91d72551a99"
+      },
+      {
+        "seed": "A10POOLTEST190099",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 213,
+        "terminal": "e8b260314b7bb22b9024c430621c03fdab90359750e10c51c82fc7dfd16df944"
+      },
+      {
+        "seed": "A10POOLTEST190036",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 103,
+        "terminal": "9fa22a970c43f73eba45ac834c7809adf6780d7a44f29a57e068c0f06990aa32"
+      },
+      {
+        "seed": "A10POOLTEST190113",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 114,
+        "terminal": "aeccca0eceaa1c5ac866fa70c3910847d450a2e0081789a39238fa80fe8879f1"
+      },
+      {
+        "seed": "A10POOLTEST190051",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 311,
+        "terminal": "e1e4cff074a0b014b7a51ed07538b06a14cf5af4fcf245611eb8167201870753"
+      },
+      {
+        "seed": "A10POOLTEST190158",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 185,
+        "terminal": "c4f4fce93c6ed9d9db6cf649a3c6c46841cf870d01aec3ccee097f74e8909543"
+      }
+    ]
+  },
+  "candidate": {
+    "host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+    "sampling": "lowest SHA-256 of cross-host-19/ + seed",
+    "rows": [
+      {
+        "seed": "A10POOLTEST190044",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 232,
+        "terminal": "a658313f8fa293fdec133891ff20ef51df9df87044f91afcc308d17052873c12"
+      },
+      {
+        "seed": "A10POOLTEST190093",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 171,
+        "terminal": "13d7402c61a349560ad9fc3e286610f4e25c24577351ebdf20236a49c33ba174"
+      },
+      {
+        "seed": "A10POOLTEST190163",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 401,
+        "terminal": "517cac3db21ed89ab9e822803d3347798ea79b88fb60a5436b864fbff60c4e6f"
+      },
+      {
+        "seed": "A10POOLTEST190016",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 207,
+        "terminal": "9e04f72449c9c876877c76c44adce3e5b9706e115487ed7cc600adb2ec85ec53"
+      },
+      {
+        "seed": "A10POOLTEST190154",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 260,
+        "terminal": "53bd13809cb97073a08aed7ca024112905771d8b9d52f2f9fe2614e968542785"
+      },
+      {
+        "seed": "A10POOLTEST190080",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 398,
+        "terminal": "e8b9e62451fb5fb4448be1b4f855196bfbf4abbce6cd93bf07c3f72de10b5f98"
+      },
+      {
+        "seed": "A10POOLTEST190094",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 290,
+        "terminal": "e3e1ebdde37ed04e8b58657b5d42960e2f80a142acbd6255d79d219b70344cd9"
+      },
+      {
+        "seed": "A10POOLTEST190126",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 289,
+        "terminal": "1eba6cbf611f8c50817a6b20526e0506591e6601485df5dc8cbb474301dba4a9"
+      },
+      {
+        "seed": "A10POOLTEST190187",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 332,
+        "terminal": "b4066cf1793780c8656b8e824bc38290965af4104fd792bdd790bb2da6533490"
+      },
+      {
+        "seed": "A10POOLTEST190170",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 250,
+        "terminal": "a6db6bed18969f83b71396b177320876c1bdf24b06648190526483e62b887d70"
+      },
+      {
+        "seed": "A10POOLTEST190055",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 224,
+        "terminal": "7fa6cc8dcc6847127531aed84a374269cbf826523894afe7b3e6c91d72551a99"
+      },
+      {
+        "seed": "A10POOLTEST190099",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 213,
+        "terminal": "e8b260314b7bb22b9024c430621c03fdab90359750e10c51c82fc7dfd16df944"
+      },
+      {
+        "seed": "A10POOLTEST190036",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 103,
+        "terminal": "9fa22a970c43f73eba45ac834c7809adf6780d7a44f29a57e068c0f06990aa32"
+      },
+      {
+        "seed": "A10POOLTEST190113",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 114,
+        "terminal": "aeccca0eceaa1c5ac866fa70c3910847d450a2e0081789a39238fa80fe8879f1"
+      },
+      {
+        "seed": "A10POOLTEST190051",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 311,
+        "terminal": "e1e4cff074a0b014b7a51ed07538b06a14cf5af4fcf245611eb8167201870753"
+      },
+      {
+        "seed": "A10POOLTEST190158",
+        "arm": "candidate",
+        "profile": "seeded",
+        "verified": true,
+        "actions": 185,
+        "terminal": "c4f4fce93c6ed9d9db6cf649a3c6c46841cf870d01aec3ccee097f74e8909543"
+      }
+    ]
+  }
+}
