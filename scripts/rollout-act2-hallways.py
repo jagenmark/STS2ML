@@ -11,6 +11,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from sts2rl.act1 import save_json
+from sts2rl.combat_outcome import outcome
 from sts2rl.encounter import EncounterModel, combat_features
 from sts2rl.native import NativeSession, ReplayFork
 from sts2rl.run_bundle import load_bundle
@@ -25,25 +26,6 @@ def read_group(path):
         return json.load(stream)
 
 
-def outcome(game, state, actor, macro):
-    room = state["context"]["room_type"]
-    remaining = 1.0
-    turns = 0
-    for _ in range(500):
-        if state["decision"] == "game_over" or not state.get("in_combat"):
-            won = state["decision"] != "game_over" or state.get("victory") is True
-            return {"won": won, "hp": state["player"]["hp"] if won else 0,
-                    "potions": len(state["player"]["potions"]), "rounds": turns, "remaining": 0 if won else remaining}
-        if state["context"]["room_type"] != room:
-            raise ValueError("Unconfirmed combat boundary")
-        if state["decision"] == "combat_play":
-            enemies = [e for e in state["enemies"] if e["hp"] > 0]
-            remaining = sum(e["hp"] for e in enemies) / max(1, sum(e["max_hp"] for e in enemies))
-            turns = state["round"]
-        state = game.step(actor.choose(state, macro))
-    raise ValueError("Combat exceeded 500 real decisions")
-
-
 def shard(task):
     cases, host, models, weight_path, output, receipt, profile = task
     weights = RunWeights.load(weight_path)
@@ -54,21 +36,39 @@ def shard(task):
                 group = read_group(path)
                 start = group["starts"][pos]
                 key = start["root"]
-                fork = ReplayFork(group["specification"], tuple(group["history"][:start["step"]]), key)
-                row = {"seed": group["seed"], **{k: start[k] for k in ("root", "room", "floor", "formation", "hp", "potions")},
-                       "receipt_sha256": receipt}
+                fork = ReplayFork(
+                    group["specification"], tuple(group["history"][: start["step"]]), key
+                )
+                row = {
+                    "seed": group["seed"],
+                    **{
+                        k: start[k] for k in ("root", "room", "floor", "formation", "hp", "potions")
+                    },
+                    "receipt_sha256": receipt,
+                }
                 labels = {}
                 try:
                     if game is None:
-                        game = NativeSession(ROOT, Path(tmp) / f"native-{index}", host_path=host, act_list=profile, timeout=50)
+                        game = NativeSession(
+                            ROOT,
+                            Path(tmp) / f"native-{index}",
+                            host_path=host,
+                            act_list=profile,
+                            timeout=50,
+                        )
                     for name, config in models.items():
                         state = game.restore(fork)
-                        if state["context"]["act"] != 2 or state["context"]["room_type"] not in ("Monster","Elite"):
+                        if state["context"]["act"] != 2 or state["context"]["room_type"] not in (
+                            "Monster",
+                            "Elite",
+                        ):
                             raise ValueError("Unexpected fight opening")
                         if not labels:
                             row["features"] = combat_features(state)
                             row["features"]["formation/" + start["formation"]] = 1.0
-                        labels[name] = outcome(game, state, EncounterModel(config), RunPolicy(weights))
+                        labels[name] = outcome(
+                            game, state, EncounterModel(config), RunPolicy(weights)
+                        )
                     row["outcomes"] = labels
                 except (ValueError, RuntimeError, TimeoutError) as exc:
                     row["error"] = str(exc)
@@ -83,11 +83,19 @@ def shard(task):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    for flag in ("host", "bundle", "seed-lock", "plans", "output"):
+    for flag in ("host", "bundle", "seed-lock", "output"):
         p.add_argument("--" + flag, required=True, type=Path)
+    choices = p.add_mutually_exclusive_group(required=True)
+    choices.add_argument("--plans", type=Path)
+    choices.add_argument(
+        "--challenger", type=Path, help="Compare both deployed encounter policies as configured"
+    )
+    p.add_argument("--diagnostic-selection", type=Path)
     p.add_argument("--openings", type=Path, required=True, nargs="+")
     p.add_argument("--formations", nargs="+")
-    p.add_argument("--cap", default=60, type=int, help="Maximum independently sampled roots per formation")
+    p.add_argument(
+        "--cap", default=60, type=int, help="Maximum independently sampled roots per formation"
+    )
     p.add_argument("--workers", default=3, type=int)
     args = p.parse_args()
     if args.cap < 1 or args.workers < 1:
@@ -95,18 +103,58 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     _, cfg = load_bundle(args.bundle)
     settings = json.loads(cfg["encounter_model"].read_bytes())
-    plans = json.loads(args.plans.read_bytes())
-    if plans.get("baseline", False) is not None:
-        raise ValueError("A baseline arm with a null plan is required")
-    models = {name: settings if plan is None else {**settings, "act2_hallways": {
-        "plans": {name: plan}, "by_room": {"Monster": name, "Elite": name}}} for name, plan in plans.items()}
+
+    def sha(path):
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    if args.challenger:
+        _, candidate = load_bundle(args.challenger)
+        if sha(cfg["weights"]) != sha(candidate["weights"]):
+            raise ValueError("Matched combat requires the same macro weights")
+        models = {
+            "baseline": settings,
+            "candidate": json.loads(candidate["encounter_model"].read_bytes()),
+        }
+        plans = {"baseline": None, "candidate_bundle_sha256": sha(args.challenger)}
+    else:
+        plans = json.loads(args.plans.read_bytes())
+        if plans.get("baseline", False) is not None:
+            raise ValueError("A baseline arm with a null plan is required")
+        models = {
+            name: settings
+            if plan is None
+            else {
+                **settings,
+                "act2_hallways": {
+                    "plans": {name: plan},
+                    "by_room": {"Monster": name, "Elite": name},
+                },
+            }
+            for name, plan in plans.items()
+        }
+    if args.diagnostic_selection:
+        selection = json.loads(args.diagnostic_selection.read_bytes())
+        if (
+            not args.challenger
+            or selection["candidate_sha256"] != sha(args.challenger)
+            or selection["seed_lock_sha256"] != sha(args.seed_lock)
+        ):
+            raise ValueError(
+                "Post-selection comparison must use the sealed challenger and test seeds"
+            )
     lock = json.loads(args.seed_lock.read_bytes())["seeds"]
     reserved = set(lock["development"]) | set(lock["test"])
     by_formation = defaultdict(dict)
     for directory in args.openings:
+        if args.diagnostic_selection:
+            manifest = json.loads((directory / "manifest.json").read_bytes())
+            if manifest.get("selection_sha256") != sha(args.diagnostic_selection):
+                raise ValueError("Test cases have a different frozen selection")
         for path in sorted(directory.glob("*.json.gz")):
             group = read_group(path)
-            if group["seed"] in reserved:
+            if args.diagnostic_selection and group["seed"] not in lock["test"]:
+                raise ValueError("Unexpected test seed")
+            if not args.diagnostic_selection and group["seed"] in reserved:
                 raise ValueError("Reserved native opening in training data")
             for i, start in enumerate(group["starts"]):
                 name = start["formation"]
@@ -118,25 +166,46 @@ def main():
                     cases[group["seed"]] = entry
     by_profile = defaultdict(list)
     for choices in by_formation.values():
-        for key,path,i,profile in sorted(choices.values())[:args.cap]:
-            by_profile[profile].append((key,path,i))
+        for key, path, i, profile in sorted(choices.values())[: args.cap]:
+            by_profile[profile].append((key, path, i))
     if not by_profile:
         raise ValueError("No matching native openings")
-    sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
-    receipt = {"bundle_sha256": sha(args.bundle),"base_files": json.loads(args.bundle.read_bytes())["files"],
-               "host_sha256": sha(args.host),"seed_lock_sha256": sha(args.seed_lock),"plans": plans,
-               "sources": {f.name:sha(f) for f in [Path(__file__), *sorted((ROOT/"src/sts2rl").glob("*.py"))]},
-               "roots": sorted(root for cases in by_profile.values() for root,_,_ in cases)}
+    receipt = {
+        "bundle_sha256": sha(args.bundle),
+        "base_files": json.loads(args.bundle.read_bytes())["files"],
+        "purpose": "test-diagnostic"
+        if args.diagnostic_selection
+        else "policy-comparison"
+        if args.challenger
+        else "train",
+        "selection_sha256": sha(args.diagnostic_selection) if args.diagnostic_selection else None,
+        "host_sha256": sha(args.host),
+        "seed_lock_sha256": sha(args.seed_lock),
+        "plans": plans,
+        "sources": {
+            f.name: sha(f) for f in [Path(__file__), *sorted((ROOT / "src/sts2rl").glob("*.py"))]
+        },
+        "roots": sorted(root for cases in by_profile.values() for root, _, _ in cases),
+    }
     save_json(args.output / "receipt.json", receipt)
     checksum = sha(args.output / "receipt.json")
     tasks = []
     for profile, cases in by_profile.items():
         cases.sort()
-        for j in range(0,len(cases),4):
-            tasks.append(([(path,i) for _,path,i in cases[j:j+4]], args.host.resolve(),models,cfg["weights"],
-                          args.output,checksum,profile))
+        for j in range(0, len(cases), 4):
+            tasks.append(
+                (
+                    [(path, i) for _, path, i in cases[j : j + 4]],
+                    args.host.resolve(),
+                    models,
+                    cfg["weights"],
+                    args.output,
+                    checksum,
+                    profile,
+                )
+            )
     with ProcessPoolExecutor(args.workers) as pool:
-        list(pool.map(shard,tasks))
+        list(pool.map(shard, tasks))
 
 
 if __name__ == "__main__":

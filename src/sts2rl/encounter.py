@@ -7,7 +7,8 @@ import json
 from pathlib import Path
 
 from .card_effects import deck_engines
-from .act2_hallways import HallwayPlans
+from .act2_hallways import HallwayPlans, formation_key
+from .act2_action_ranker import rerank
 from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, selected_cards
 from .combat_effects import debuff_order, landed_debuffs
@@ -81,13 +82,15 @@ def _sly(card):
 class EncounterPolicy(RunPolicy):
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
-        tender=False
+        tender=False, potion_effects=False, draw_potions=False
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
         self.mechanics = mechanics
         self.persistent = persistent
         self.tender = tender
+        self.potion_effects = potion_effects
+        self.draw_potions = draw_potions
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -478,7 +481,27 @@ class EncounterPolicy(RunPolicy):
                 stats.get("energy", 0) if name not in ("DANSE_MACABRE", "RIGHT_HAND_HAND") else 0
             )
             setup += energy_gain * min(7, max(0, (len(hand) - energy + cost - 1) * 2.5))
-            draw = min(draw, max(0, 10 - len(hand) + (not potion)))
+            if self.draw_potions and potion and name in (
+                "SWIFT_POTION", "CURE_ALL", "CLARITY", "GLOWWATER_POTION", "BOTTLED_POTENTIAL", "SNECKO_OIL"
+            ):
+                # Native potions expose Cards in vars. Card draw uses the separate card stats field.
+                redraw_hand = name in ("GLOWWATER_POTION", "BOTTLED_POTENTIAL")
+                room = 10 if redraw_hand else max(0, 10 - len(hand))
+                draw = min(room, stats.get("cards", 0))
+                if redraw_hand:
+                    setup -= 2.3 * min(energy, len(attacks) + len(skills))
+                if name == "SNECKO_OIL":
+                    setup -= 1.6 * sum(_cost(c) == 0 for c in (*attacks, *skills))
+                if draw and need > 0:
+                    # Estimate the chance of an affordable defensive draw from the public deck.
+                    available_energy = energy + stats.get("energy", 0)
+                    defenses = sum(_cost(c) <= available_energy and (
+                        (c.get("stats") or {}).get("block", 0) > 0 or
+                        (c.get("stats") or {}).get("weakpower", 0) > 0) for c in deck)
+                    chance = 1 - (1 - defenses / max(1, len(deck))) ** draw
+                    setup += chance * min(need, 9) * block_value
+            else:
+                draw = min(draw, max(0, 10 - len(hand) + (not potion)))
             if self.persistent and not potion:
                 # Public buffs can give a setup card immediate damage or block.
                 offense += _power(powers, "SERPENT_FORM") + draw * len(enemies) * _power(
@@ -576,11 +599,29 @@ class EncounterPolicy(RunPolicy):
                 - stats.get("hploss", 0) * block_value
             )
             if potion:
-                if (self.tender and name == "ANCIENT_POTION" and not tender
-                        and any(e["id"] == "MONSTER.HUNTER_KILLER" and
-                                any(i["type"] == "Debuff" for i in e.get("intents") or []) for e in enemies)
-                        and not _power(powers, "ARTIFACT")):
-                    raw += 25.0
+                if self.potion_effects:
+                    if name == "LUCKY_TONIC" and not _power(powers, "BUFFER"):
+                        # Buffer prevents one loss of HP, including just one hit of a multiattack.
+                        # Keep a modest value for later turns when current block already suffices.
+                        first_hit = max((incoming(e) / max(1, attack_hits(e)) for e in enemies), default=0)
+                        raw += block_value * max(min(need, first_hit), min(5.0, horizon - 1))
+                    elif name == "FOUL_POTION":
+                        own_hit = stats.get("damage", 0)
+                        if intangible:
+                            own_hit = min(own_hit, 1)
+                        loss = max(0, own_hit - player["block"])
+                        if _power(powers, "BUFFER"):
+                            loss = 0
+                        raw -= loss * block_value + 100 * (loss >= hp)
+                    elif name == "SOLDIERS_STEW":
+                        strikes = [c for c in deck if "STRIKE" in c.get("id", "") and c.get("type") == "Attack"]
+                        raw += min(24, len(strikes) * max(0, horizon - 1) * 1.25)
+                    elif name == "POTION_OF_DOOM":
+                        for e in targets:
+                            if not _power(e.get("powers"), "ARTIFACT"):
+                                doom = stats.get("doompower", 0)
+                                effective = max(0, e["hp"] - _power(e.get("powers"), "DOOM"))
+                                raw += min(doom, effective) * (1.0 if doom >= effective else 0.45)
                 reserve = (7.0 if boss else 10.5 if hard else 14.0) * w.potion
                 reserve /= 1 + 0.53 * (len(potions) >= 2) + min(2.0, need / max(1, hp))
                 return raw - reserve
@@ -611,6 +652,8 @@ class EncounterModel:
         self.persistent_from_act = data.get("persistent_from_act", 4)
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
         self.hallways = HallwayPlans(data["act2_hallways"], STYLES) if "act2_hallways" in data else None
+        self.action_ranker = data.get("act2_action_ranker")
+        self.rerank_fight = False
         self.search_hand = self.beam
         if type(self.sandpit_threshold) is not int or not 0 <= self.sandpit_threshold <= 4:
             raise ValueError("Sandpit threshold must be an integer from zero to four")
@@ -665,6 +708,10 @@ class EncounterModel:
                 encounter = (ctx.get("boss") or {}).get("id", "")
                 style = self.overrides.get(encounter, style)
             plan = self.hallways.select(state, combat_features) if self.hallways else {}
+            if self.action_ranker:
+                scope = self.action_ranker.get("formations", [])
+                self.rerank_fight = (ctx["act"] == 2 and ctx["room_type"] in ("Monster", "Elite")
+                                     and (not scope or formation_key(state) in scope))
             if plan:
                 style = replace(STYLES[plan.get("style", style)], **plan.get("style_weights", {}))
             self.search_hand = plan.get("search", "beam" if self.beam else "greedy") == "beam"
@@ -674,10 +721,14 @@ class EncounterModel:
                 mechanics=plan.get("mechanics", ctx["act"] >= self.mechanics_from_act),
                 persistent=plan.get("persistent", ctx["act"] >= self.persistent_from_act),
                 tender=plan.get("tender", False),
+                potion_effects=plan.get("potion_effects", False),
+                draw_potions=plan.get("draw_potions", False),
             )
             self.key = key
         actions = legal_actions(state)
         action = choose_turn(state, self.actor) if self.search_hand else self.actor.combat(state, actions)
+        if self.rerank_fight:
+            action = rerank(self.action_ranker, state, actions, action, self.actor)
         if self.sandpit_threshold and ctx["room_type"] == "Boss":
             return escape_action(state, actions, action, self.sandpit_threshold)
         return action
