@@ -1,0 +1,554 @@
+[
+  {
+    "seed": "A2HUNTDEV200001",
+    "position": "last_choice",
+    "root": "7773e557a200cf00f5942fb958191bf6110a5c81cccf7a1f9d690f276fc961c8",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 0,
+          "remaining": 1.0
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 1,
+          "remaining": 0.5529411764705883
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 1,
+          "remaining": 0.5529411764705883
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200001",
+    "position": "last_turn_start",
+    "root": "8c7331faa85e96346be25a6b563658258dfbc3680d37d1f66e5132028f17097b",
+    "error": "Expected a combat hand"
+  },
+  {
+    "seed": "A2HUNTDEV200003",
+    "position": "last_choice",
+    "root": "f045438314a5772334ec6f5189700b4a6e69e9d0bdfcd1499c2ae35084485bb9",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 0,
+          "remaining": 1.0
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.3382352941176471
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.3382352941176471
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200003",
+    "position": "last_turn_start",
+    "root": "5534ec059a95263b43cf92735436358fad4fd93346d480852d2c05071ccd840a",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "play_card",
+          "args": {
+            "card_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0.3602941176470588
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.27941176470588236
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "play_card",
+          "args": {
+            "card_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.27941176470588236
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200006",
+    "position": "last_choice",
+    "root": "20826ab4c8205613230daf0d3f312c422f1fc340b1b074c00d19e5a582822cbf",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 0,
+          "remaining": 1.0
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0.18787878787878787
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0.18787878787878787
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200006",
+    "position": "last_turn_start",
+    "root": "b67f04d9926f95a6ac29010f1ab13e4431c0062e685bb1b7946baed6655ac745",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "play_card",
+          "args": {
+            "card_index": 4
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0.3878787878787879
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0.23030303030303031
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0.23030303030303031
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200021",
+    "position": "last_choice",
+    "root": "7567abc29749c706335764b010e72d2c0c15b37f3f091c76b9f19fea62670032",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 0,
+          "remaining": 1.0
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.18604651162790697
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.18604651162790697
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200021",
+    "position": "last_turn_start",
+    "root": "3714b362f2bfb3afa0ccb9c4d694a46e19432545e27d1ca4bbab0f479d2ed998",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "play_card",
+          "args": {
+            "card_index": 0,
+            "target_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0.18604651162790697
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.27906976744186046
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.27906976744186046
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200062",
+    "position": "last_choice",
+    "root": "9f15a4b989be4ecb86e1fcc0dea7ba329de124029ef64f98786e128a18fdf4bf",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 0,
+          "remaining": 1.0
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6746031746031746
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6746031746031746
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200062",
+    "position": "last_turn_start",
+    "root": "f90725cbedfd020e7d834e65350c61985571880e760e9636275e2a5bb4f0dc30",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "play_card",
+          "args": {
+            "card_index": 1,
+            "target_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 3,
+          "remaining": 0.6746031746031746
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6507936507936508
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6507936507936508
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200132",
+    "position": "last_choice",
+    "root": "31e8037ff15e8c52e1fc3f474370da0d390318971a9ab22bcccb8a982d8150f4",
+    "arms": {
+      "baseline": {
+        "first": {
+          "cmd": "action",
+          "action": "end_turn",
+          "args": {}
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 0,
+          "remaining": 1.0
+        }
+      },
+      "force_swift": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 1,
+          "remaining": 0.8212290502793296
+        }
+      },
+      "draw": {
+        "first": {
+          "cmd": "action",
+          "action": "use_potion",
+          "args": {
+            "potion_index": 0
+          }
+        },
+        "outcome": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 1,
+          "remaining": 0.8212290502793296
+        }
+      }
+    }
+  },
+  {
+    "seed": "A2HUNTDEV200132",
+    "position": "last_turn_start",
+    "root": "46bc607e8bd8e78f7a560b01eea163bad6ff4c87ac0f7eacd47d5ea97b1ddfb4",
+    "error": "Expected a combat hand"
+  }
+]

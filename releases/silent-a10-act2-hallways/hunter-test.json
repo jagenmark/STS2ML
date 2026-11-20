@@ -1,0 +1,1130 @@
+{
+  "planned": 44,
+  "complete_pairs": 44,
+  "errors": [],
+  "baseline": {
+    "wins": 31,
+    "total_exit_hp": 714,
+    "potions": 43
+  },
+  "candidate": {
+    "wins": 30,
+    "total_exit_hp": 721,
+    "potions": 42
+  },
+  "gained": [],
+  "lost": [
+    "A2HUNTTEST200017"
+  ],
+  "receipt": {
+    "bundle_sha256": "731e83312742a001f0de398b7d028b7b5853e395d1bf04fff44fb6d5b83f1c26",
+    "base_files": {
+      "weights": {
+        "name": "weights.json",
+        "sha256": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "room_model": {
+        "name": "room_model.json",
+        "sha256": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e"
+      },
+      "late_room_model": {
+        "name": "late_room_model.json",
+        "sha256": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd"
+      },
+      "offer_model": {
+        "name": "offer_model.json",
+        "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+      },
+      "strategy_model": {
+        "name": "strategy_model.json",
+        "sha256": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38"
+      },
+      "encounter_model": {
+        "name": "encounter_model.json",
+        "sha256": "70916d3c56648c49fb8ac412e8febcd0847e5b952bcd97885e8ed617b12f0091"
+      },
+      "deck_model": {
+        "name": "deck_model.json",
+        "sha256": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca"
+      }
+    },
+    "purpose": "test-diagnostic",
+    "selection_sha256": "9a80e7d45cf5cf3751238c3651bf0e159c93615411299b2c0cdb26b619edd10d",
+    "host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+    "seed_lock_sha256": "723bfb3e08006e015d435adf42a20c85a80cb2561c065f3d94f0c37eee9b3a53",
+    "plans": {
+      "baseline": null,
+      "candidate_bundle_sha256": "96f0c0db3b5d481e34c7d907f29408306d6ea55fda9a80595147000cc5e6940f"
+    },
+    "sources": {
+      "rollout-act2-hallways.py": "d9641046f18a3bd72b0039dc5bd18470c6853c0996b76896fe61b0a86a0594d1",
+      "__init__.py": "f59ba71256a5a9b3ce34de44a2e41480a973de1769d366893914bdec0d63374b",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "act1.py": "d0dca2bb60fe1a9121e302b4058131ece0b4bb434c888adc5180f8929e6191f0",
+      "act1_evaluation.py": "a1733d052147b0ea0c5de0ccbe42a4631f51bdafbe45c94375470bba3b0e8544",
+      "act2_action_ranker.py": "fe0a985a49728791496c36618c947a96618b01e79eda83620daafdac9543c239",
+      "act2_hallways.py": "12ff9f7d1cb983b9c8701554998d08fa1327d35bcf97b07e0325a5fcd1fa50b2",
+      "aggregation.py": "e097cfdc03e0ed331712acf1536cb65c53aeeb3631198cc4ecd8587c4174d688",
+      "boss_search.py": "28054300e7f724310d095925eedccd36750a605b6a8d8b00008df27a1d924279",
+      "card_effects.py": "2995e79c29a044dbffcca3ba6aad4b9a89584d55aee4a4147ed62a2e65a349ef",
+      "cli.py": "4220093f31825185dae946c273b3456ef2877967028e945f60f9c8a0cbef0c0e",
+      "collection.py": "279ad8b0f7fcae43f337cf9414fec57f705c18f3384845f7f8ff6249153f22cd",
+      "combat.py": "8893b981f14ecc5fd8fe1c0a01c6adec499ba648057ec589c7af4fab09a98c47",
+      "combat_effects.py": "650ef53b81969665dd119b0bfc6c1bf53b3ac405088a08d46a34b4e772616fd4",
+      "combat_outcome.py": "a430bd275c8f088a8285f636358daab51fc2a3362755e56ec33c58c0348b9afb",
+      "combat_search.py": "597df08cd2635f895082e4c93035813101a7e1099d3c6fd091ae0e37df692e08",
+      "data.py": "1d1da2deb9abb29159e397a7042c78ab24683de57d664934e6e32b838dab4c2e",
+      "deck_policy.py": "2b1aaef58953f90f7501b6c66fbd27c5eeecb86f235a3437245a756fa1ac7d3c",
+      "demo.py": "5a53add92c438fe665f98c835d225271eca0082cc7837434f332752175486f28",
+      "diagnostics.py": "f42cdfd80589bd557395d4251a9f17523aad224ebc4190ad8e1f73f165b0b298",
+      "encoding.py": "c2af39e48fce7021069231486822237b4caccd677ed8bd81a77115f73fb5e2d3",
+      "encounter.py": "5a15fe2882284afebfd62291807daac62ce87d97af8c43c48a24b0f4c1c201f4",
+      "encounter_draft.py": "ee59832fba2ae4c4f15ee8ab82d6b4c9e303d6733602301ca862fb5d34baa02e",
+      "enemy_forecast.py": "03a823822a956965a9528ae62f74c1f0cbd7152097e0f5afc313ac4bb0a09864",
+      "fight_rollout.py": "f0ef0100f1d1025121aaa3f2e92dc5528fcc3a3ac5d8d3dd2359e466554f9a17",
+      "merchant.py": "c35787257f92ee8326b330bf058bea88f60cf751c3c6242e379a5305f9532154",
+      "micro.py": "1dade8ee253d2ba1cf8470c293ca5d37363e82aa4083d2c6cae3f83dc3c48137",
+      "model.py": "78ee014d85cd01bddd0512add55e3517bc9dd7a5f8cad803f657859c23aff8b5",
+      "native.py": "f0a67b64f92e8a86e1af7d3ef40052555282ebeb360b07b25ad7d8af74745ed3",
+      "offer_policy.py": "06d98efa140f607b1234a37349d3308a87a1cd764591ab7d88747f1ea4cd09a7",
+      "opening_split.py": "2aaaef25c482640e295f7dcceadd71f15d12207ccc51916dd133e87424450763",
+      "provenance.py": "8f883b5c39a862bb602942d1d6e788c4ed9d13a020cd956862304155e14b3dc1",
+      "return_policy.py": "d1c6a3ee526878a4480550a4fea99ed27752287b5a34d1a8ee8d7c65b5b8bb6a",
+      "routing.py": "b284fefd61392f8e91b8107cfac3edbf7e86c2a72c4d56c87d5bc79374f0116e",
+      "run_bundle.py": "922d56fa4321655faf8c5fc761aa680f45dc7f54eb49076b586b8494be52c847",
+      "run_evaluation.py": "7a502d796588e1003ebdb2993ec850797aa3a3f5fb44389e3ed78bd7299f7fa1",
+      "run_policy.py": "3a60a4e5aec615dc4263d2d4e0836de3b318723e277efd7e3debe1dbe0b6f629",
+      "sandpit.py": "0ad2f0f7bd5f30287ece98cdf4b9051b366188df00142509d53ba1c3da2e5905",
+      "schema.py": "f74b500b4ec73b2f9258c43055b1e5ecd64a899c168a0048c7d2c52cbf4b08e1",
+      "search.py": "71eb0bbed251ab25f638b9a512fec80b0f281189ef6b1463bcbf438b783c807b",
+      "selections.py": "c2f048f4f3b1cb360c83f8d79a586d73a4912e2725621891b49bcfa13ccd44ce",
+      "strategy.py": "26f9ef22eee7cc1e78c18311ea5919fe8a44729318db773b2d2d0cdc89dc8d1e",
+      "survival_route.py": "d1efab314b753476784180429e6cae474b9666d015e8e5e4b6d497fa00e57202",
+      "tactical_student.py": "a0c12b8826fc8380ad1a07573748e0c2ff117b9b1ab9fc97f1487af7443a22ff",
+      "target.py": "dcbfdbd417b08687a1c81e744dec069dee625e14d4e09d0179d8b510860fcc42",
+      "teacher.py": "363c1a6f20c4ccc04eb13a0abb2ca9777c098a018b96d96544ff32c82676219a",
+      "training.py": "f8b5e0efb65e532e1c3787ba00f61b5e6828590771459022efaf5f3282034361",
+      "trajectory.py": "f9364f783dff8102ac2fcf8694694392b5f5778961a0dd7f9a3dc9e81b943c79",
+      "turn_planning.py": "514a0ad2fa8bec3bb7968f4dafa142b84d364b149bf2ee5c4d173f97e5ad979b"
+    },
+    "roots": [
+      "034ca079506c38820821d5c9a302749be62c930d023061700bbaf8447fba7028",
+      "123eacb0b1da458bfa2078671f84c9a91e9732c18c162952a65667cf67f577ca",
+      "17e5d41bea79168934e285513724368cee551d053231bf7ecbd11d7181bf5ae9",
+      "1a466db01f59ef4f08362bff7f9ab107f23c0454880640962ae5151834f51205",
+      "1b9366ddcb22ad04d6f541f19e4c664470cdb90aee3fd53b0acf7bf74d97845e",
+      "1eb5f928106bdfd5ed3c4287a121bbde5d72ae6e54dff9d147d7be290915d5e8",
+      "2a722e8d58f264f5f1574ce5a13f1b4f0ef6388e30178588c96118a975efffdc",
+      "2c2e50fb532a0e2967c17dea5884cea666ff30edff1535321d20efb4b10d942f",
+      "33105896ed9935bebe425a84d502ec0395df10ae2a7d0dbda3d45f6e54bc2141",
+      "38ef88b767aab7aacc1d934cc6809368a91e73d8c40d00dea2d031b093b7998b",
+      "4652dbf868f1610f37dd5702b55cfdaec51a624d9ad2847ff43bdbcc3b197102",
+      "48e21d1e2a149d5035d25bdd461af0224b971a25f9018350bbef52daa3f41af8",
+      "53d292a7499efa073d9a19014ed87a8431adfce108d08c95a7a0212c7ea9e7b1",
+      "59bd61fadc611d34fbd5db37d78d078956b2f12b35d999900981003c4a6b8bff",
+      "5d3e1e4cfa100f326279e65f2e01b9c89ffade5d20ae7d8343c22bfb07777874",
+      "6520792823026cd2c51259f1b22d693a4d5fb1d69ea7c2f45e457d758fddc8f0",
+      "684708b99ae162caa949bba52b9bfe830b96cf0d62101bc9c0afa12f11ed03cb",
+      "72e5cd81cbd0707e235be282f9549e5141b315b098ba17f6269dccd45c7a0fae",
+      "784655ba626980bb6b0c9ee3c92b44f634617852e422391bd0ce7a22d518b70b",
+      "7c4b94aef8e57e3fc837be714e6977937cdfc69d4761cec98443c679480476ba",
+      "7f67ee75900658bada48854c2b63d7ce9cb5a680308eb8ae37f5159ab73b713f",
+      "87cd0ed7c27bc2c20f3ae15406e2c1cfce9f2f3d32dd8838793f9a6fae1e8df7",
+      "87ed2190d725e089b6a2555edb4e80c5e75ef48aeb6749964c2d9b9383b8fdad",
+      "959a862cf60ffd055e61cd2e6212edde1fbb7ac42b6ba15051e674a1aac6503c",
+      "9f09ab87a685438e279430d70938abb8d09791f8b557cf88a3087452b8b80fe1",
+      "a16a7431826a9b46f2f74280f62e521dc03735b55d1489a9aae0b5741174f99a",
+      "a2315f3f20306223dd028b87c9a9e3ab7e6256e6d0c41f820cdd1add0a17edaa",
+      "a47fb8a5a7e6c7a02047ffccf2988105f9c3041e361ee1ec2baadf5408a6dab3",
+      "a84b0c0b8e28af7ed3f8bc8adc1808775012639fec2016fc7dbb3539ad8b5f1c",
+      "acb00a72c9fb150c5cca77047013d62e1e38bb24cf6389e17c6118a36cac90c1",
+      "af3757f911341f053441e054ae5876e28d908ea7bc91403a64ecdf14f905bd56",
+      "b1bfccd4c8255963af4f418414dc1325c8d04d2f748e4b1b0fb5b654ee214db7",
+      "b4117d491674007c3fe1025f2d849d30c1060ff6ec23b6e0dcf05f55f3d848bd",
+      "bf83ea08045dd565acf72bc694d8b667a61d4bf641cfa455a1cbb00312ce7929",
+      "c25beb3e510a161d00648b33913c91833b919f80c43a179c18ec42fa0b54e6d6",
+      "c9d5e4a0f98386de64e5667a65c01d9af0a33563abeb018a05363b373f83270d",
+      "ce352eb99d9f709e575677b6bba6a53e6176c4a5989ded1cea3240315ac803ac",
+      "d5ddb5b5a5a4d6e46490d3f64d53d8fb61a93c95263e5f64a0592f8eff0e38f4",
+      "e6dea1fd2f2cfd5b531e99a91af55a43d9cd0cef20d7b8d0900ca67102dda25b",
+      "eb716bc4b1106b050c9a574bef046d7f3f2e28f9bb3c3b60e876c532ab5c6322",
+      "f3b2389725b05c96f95ed3abe15ea27b35eac09072ef78bfbca9313d06a66f45",
+      "fa0d21667bd1ef045403b823a9c02bd080d6d42bc990195bdc641c2b0f02a923",
+      "fabe1ee883c60e40d64dfb247d7d707341f33f69ec176047f93eebb0699e4f90",
+      "fec90efa8677c6136e673f3c19f13b74bfba5779ad5a03ef4e83ea0f11c2cd26"
+    ]
+  },
+  "seeds": [
+    {
+      "seed": "A2HUNTTEST200053",
+      "root": "034ca079506c38820821d5c9a302749be62c930d023061700bbaf8447fba7028",
+      "hp": 69,
+      "floor": 11,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 16,
+          "potions": 1,
+          "rounds": 6,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 16,
+          "potions": 1,
+          "rounds": 6,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200519",
+      "root": "123eacb0b1da458bfa2078671f84c9a91e9732c18c162952a65667cf67f577ca",
+      "hp": 60,
+      "floor": 14,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 34,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 34,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200253",
+      "root": "17e5d41bea79168934e285513724368cee551d053231bf7ecbd11d7181bf5ae9",
+      "hp": 19,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 4,
+          "remaining": 0.23809523809523808
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0.023809523809523808
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200132",
+      "root": "1a466db01f59ef4f08362bff7f9ab107f23c0454880640962ae5151834f51205",
+      "hp": 24,
+      "floor": 5,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 3,
+          "remaining": 0.36507936507936506
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 3,
+          "remaining": 0.36507936507936506
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200151",
+      "root": "1b9366ddcb22ad04d6f541f19e4c664470cdb90aee3fd53b0acf7bf74d97845e",
+      "hp": 41,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0.25396825396825395
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0.25396825396825395
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200350",
+      "root": "1eb5f928106bdfd5ed3c4287a121bbde5d72ae6e54dff9d147d7be290915d5e8",
+      "hp": 9,
+      "floor": 10,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 3,
+          "remaining": 0.5238095238095238
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 3,
+          "remaining": 0.5238095238095238
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200051",
+      "root": "2a722e8d58f264f5f1574ce5a13f1b4f0ef6388e30178588c96118a975efffdc",
+      "hp": 32,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 2,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 2,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200534",
+      "root": "2c2e50fb532a0e2967c17dea5884cea666ff30edff1535321d20efb4b10d942f",
+      "hp": 19,
+      "floor": 7,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 4,
+          "remaining": 0.40476190476190477
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 4,
+          "remaining": 0.40476190476190477
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200264",
+      "root": "33105896ed9935bebe425a84d502ec0395df10ae2a7d0dbda3d45f6e54bc2141",
+      "hp": 50,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 32,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 32,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200303",
+      "root": "38ef88b767aab7aacc1d934cc6809368a91e73d8c40d00dea2d031b093b7998b",
+      "hp": 66,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 48,
+          "potions": 2,
+          "rounds": 3,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 48,
+          "potions": 2,
+          "rounds": 3,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200523",
+      "root": "4652dbf868f1610f37dd5702b55cfdaec51a624d9ad2847ff43bdbcc3b197102",
+      "hp": 51,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 33,
+          "potions": 0,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 33,
+          "potions": 0,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200601",
+      "root": "48e21d1e2a149d5035d25bdd461af0224b971a25f9018350bbef52daa3f41af8",
+      "hp": 43,
+      "floor": 4,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 26,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 26,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200017",
+      "root": "53d292a7499efa073d9a19014ed87a8431adfce108d08c95a7a0212c7ea9e7b1",
+      "hp": 45,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 4,
+          "potions": 1,
+          "rounds": 6,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 6,
+          "remaining": 0.10317460317460317
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200454",
+      "root": "59bd61fadc611d34fbd5db37d78d078956b2f12b35d999900981003c4a6b8bff",
+      "hp": 48,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 48,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 48,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200283",
+      "root": "5d3e1e4cfa100f326279e65f2e01b9c89ffade5d20ae7d8343c22bfb07777874",
+      "hp": 69,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 45,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 45,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200321",
+      "root": "6520792823026cd2c51259f1b22d693a4d5fb1d69ea7c2f45e457d758fddc8f0",
+      "hp": 21,
+      "floor": 5,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.29365079365079366
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.29365079365079366
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200688",
+      "root": "684708b99ae162caa949bba52b9bfe830b96cf0d62101bc9c0afa12f11ed03cb",
+      "hp": 31,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 12,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 12,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200555",
+      "root": "72e5cd81cbd0707e235be282f9549e5141b315b098ba17f6269dccd45c7a0fae",
+      "hp": 41,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0.14285714285714285
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0.14285714285714285
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200281",
+      "root": "784655ba626980bb6b0c9ee3c92b44f634617852e422391bd0ce7a22d518b70b",
+      "hp": 51,
+      "floor": 4,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 30,
+          "potions": 0,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 30,
+          "potions": 0,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200718",
+      "root": "7c4b94aef8e57e3fc837be714e6977937cdfc69d4761cec98443c679480476ba",
+      "hp": 59,
+      "floor": 7,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 39,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 39,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200482",
+      "root": "7f67ee75900658bada48854c2b63d7ce9cb5a680308eb8ae37f5159ab73b713f",
+      "hp": 77,
+      "floor": 8,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 53,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 53,
+          "potions": 0,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200709",
+      "root": "87cd0ed7c27bc2c20f3ae15406e2c1cfce9f2f3d32dd8838793f9a6fae1e8df7",
+      "hp": 38,
+      "floor": 10,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 11,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 11,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200647",
+      "root": "87ed2190d725e089b6a2555edb4e80c5e75ef48aeb6749964c2d9b9383b8fdad",
+      "hp": 24,
+      "floor": 12,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 9,
+          "potions": 2,
+          "rounds": 6,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 9,
+          "potions": 2,
+          "rounds": 6,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200457",
+      "root": "959a862cf60ffd055e61cd2e6212edde1fbb7ac42b6ba15051e674a1aac6503c",
+      "hp": 30,
+      "floor": 4,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 4,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 4,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200007",
+      "root": "9f09ab87a685438e279430d70938abb8d09791f8b557cf88a3087452b8b80fe1",
+      "hp": 20,
+      "floor": 7,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.5079365079365079
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.5079365079365079
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200489",
+      "root": "a16a7431826a9b46f2f74280f62e521dc03735b55d1489a9aae0b5741174f99a",
+      "hp": 54,
+      "floor": 7,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 23,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 23,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200514",
+      "root": "a2315f3f20306223dd028b87c9a9e3ab7e6256e6d0c41f820cdd1add0a17edaa",
+      "hp": 3,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 2,
+          "remaining": 0.8333333333333334
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 2,
+          "remaining": 0.8333333333333334
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200677",
+      "root": "a47fb8a5a7e6c7a02047ffccf2988105f9c3041e361ee1ec2baadf5408a6dab3",
+      "hp": 14,
+      "floor": 5,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 2,
+          "rounds": 2,
+          "remaining": 0.7142857142857143
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 2,
+          "rounds": 2,
+          "remaining": 0.7142857142857143
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200559",
+      "root": "a84b0c0b8e28af7ed3f8bc8adc1808775012639fec2016fc7dbb3539ad8b5f1c",
+      "hp": 49,
+      "floor": 7,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 25,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 25,
+          "potions": 1,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200552",
+      "root": "acb00a72c9fb150c5cca77047013d62e1e38bb24cf6389e17c6118a36cac90c1",
+      "hp": 49,
+      "floor": 14,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 36,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 36,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200418",
+      "root": "af3757f911341f053441e054ae5876e28d908ea7bc91403a64ecdf14f905bd56",
+      "hp": 20,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 7,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 7,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200300",
+      "root": "b1bfccd4c8255963af4f418414dc1325c8d04d2f748e4b1b0fb5b654ee214db7",
+      "hp": 38,
+      "floor": 8,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 12,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 12,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200269",
+      "root": "b4117d491674007c3fe1025f2d849d30c1060ff6ec23b6e0dcf05f55f3d848bd",
+      "hp": 15,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6746031746031746
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6746031746031746
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200125",
+      "root": "bf83ea08045dd565acf72bc694d8b667a61d4bf641cfa455a1cbb00312ce7929",
+      "hp": 40,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 30,
+          "potions": 2,
+          "rounds": 6,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 30,
+          "potions": 2,
+          "rounds": 6,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200546",
+      "root": "c25beb3e510a161d00648b33913c91833b919f80c43a179c18ec42fa0b54e6d6",
+      "hp": 34,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 11,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 11,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200196",
+      "root": "c9d5e4a0f98386de64e5667a65c01d9af0a33563abeb018a05363b373f83270d",
+      "hp": 43,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 1,
+          "potions": 1,
+          "rounds": 6,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 4,
+          "potions": 1,
+          "rounds": 6,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200750",
+      "root": "ce352eb99d9f709e575677b6bba6a53e6176c4a5989ded1cea3240315ac803ac",
+      "hp": 15,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.7222222222222222
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.7222222222222222
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200227",
+      "root": "d5ddb5b5a5a4d6e46490d3f64d53d8fb61a93c95263e5f64a0592f8eff0e38f4",
+      "hp": 45,
+      "floor": 5,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 1,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 9,
+          "potions": 0,
+          "rounds": 6,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200525",
+      "root": "e6dea1fd2f2cfd5b531e99a91af55a43d9cd0cef20d7b8d0900ca67102dda25b",
+      "hp": 42,
+      "floor": 13,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 21,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 21,
+          "potions": 1,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200113",
+      "root": "eb716bc4b1106b050c9a574bef046d7f3f2e28f9bb3c3b60e876c532ab5c6322",
+      "hp": 48,
+      "floor": 10,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 26,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 26,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200744",
+      "root": "f3b2389725b05c96f95ed3abe15ea27b35eac09072ef78bfbca9313d06a66f45",
+      "hp": 8,
+      "floor": 14,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6984126984126984
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 3,
+          "remaining": 0.6984126984126984
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200646",
+      "root": "fa0d21667bd1ef045403b823a9c02bd080d6d42bc990195bdc641c2b0f02a923",
+      "hp": 57,
+      "floor": 5,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 24,
+          "potions": 2,
+          "rounds": 7,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 24,
+          "potions": 2,
+          "rounds": 7,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200013",
+      "root": "fabe1ee883c60e40d64dfb247d7d707341f33f69ec176047f93eebb0699e4f90",
+      "hp": 62,
+      "floor": 6,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 33,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 33,
+          "potions": 2,
+          "rounds": 5,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A2HUNTTEST200335",
+      "root": "fec90efa8677c6136e673f3c19f13b74bfba5779ad5a03ef4e83ea0f11c2cd26",
+      "hp": 54,
+      "floor": 11,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 18,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 18,
+          "potions": 2,
+          "rounds": 4,
+          "remaining": 0
+        }
+      }
+    }
+  ],
+  "natural_act2_runs_scanned": 238,
+  "complete_trajectory_prefixes": 238,
+  "scans_with_a_divergence": 0
+}

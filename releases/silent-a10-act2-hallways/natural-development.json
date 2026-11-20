@@ -1,0 +1,17 @@
+{
+  "seeds": 192,
+  "baseline": {
+    "a1_clear": 55,
+    "a2_clear": 4,
+    "win": 0,
+    "boss2": 14
+  },
+  "selected": {
+    "a1_clear": 55,
+    "a2_clear": 6,
+    "win": 0,
+    "boss2": 14
+  },
+  "restarted_act2": 55,
+  "suffix_metric_mismatches": []
+}

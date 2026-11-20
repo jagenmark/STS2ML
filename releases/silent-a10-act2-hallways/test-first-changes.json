@@ -1,0 +1,195 @@
+[
+  {
+    "seed": "A2HUNTTEST200184",
+    "candidate_gained": true,
+    "root": "7c7fed8430982ea38b3972cfc04eb7c2a6f21a6a51f4a3d63adb8e1f8d07456b",
+    "act": 2,
+    "floor": 2,
+    "room": "Monster",
+    "round": 1,
+    "formation": "BOWLBUG_EGG+BOWLBUG_ROCK",
+    "hp": 74,
+    "baseline": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "item": "CARD.ASSASSINATE"
+    },
+    "challenger": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 5
+        }
+      },
+      "item": "CARD.PIERCING_WAIL"
+    }
+  },
+  {
+    "seed": "A2HUNTTEST200300",
+    "candidate_gained": true,
+    "root": "43c533956081b2a44d21c0bccb9ccac2b19f606e52140703ddbc93f6c0eecefa",
+    "act": 2,
+    "floor": 2,
+    "room": "Monster",
+    "round": 1,
+    "formation": "EXOSKELETON+EXOSKELETON+EXOSKELETON",
+    "hp": 67,
+    "baseline": {
+      "command": {
+        "cmd": "action",
+        "action": "use_potion",
+        "args": {
+          "potion_index": 0
+        }
+      },
+      "item": "POTION.LIQUID_BRONZE"
+    },
+    "challenger": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "item": "CARD.STRIKE_SILENT"
+    }
+  },
+  {
+    "seed": "A2HUNTTEST200390",
+    "candidate_gained": false,
+    "root": "7e2972a90564b5cbdc9008310d3dcf5bbd2fc7a8e008faa14ac96a8cb592a568",
+    "act": 2,
+    "floor": 6,
+    "room": "Monster",
+    "round": 1,
+    "formation": "BOWLBUG_EGG+BOWLBUG_ROCK",
+    "hp": 84,
+    "baseline": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3
+        }
+      },
+      "item": "CARD.ECHOING_SLASH"
+    },
+    "challenger": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 1,
+          "target_index": 0
+        }
+      },
+      "item": "CARD.LEG_SWEEP"
+    }
+  },
+  {
+    "seed": "A2HUNTTEST200485",
+    "candidate_gained": true,
+    "root": "761105c72b12ce333268da391766d449f3ef01d6f53ed6fc9e8629d55f15d3e8",
+    "act": 2,
+    "floor": 2,
+    "room": "Monster",
+    "round": 1,
+    "formation": "BOWLBUG_EGG+BOWLBUG_ROCK",
+    "hp": 72,
+    "baseline": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "item": "CARD.BACKSTAB"
+    },
+    "challenger": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 6
+        }
+      },
+      "item": "CARD.BACKFLIP"
+    }
+  },
+  {
+    "seed": "A2HUNTTEST200523",
+    "candidate_gained": false,
+    "root": "d24c94aad450e05c45c9efed90cb7c60c6986d545326759c042d36fa6de19948",
+    "act": 2,
+    "floor": 2,
+    "room": "Monster",
+    "round": 1,
+    "formation": "TUNNELER",
+    "hp": 67,
+    "baseline": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 3,
+          "target_index": 0
+        }
+      },
+      "item": "CARD.NEUTRALIZE"
+    },
+    "challenger": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 0,
+          "target_index": 0
+        }
+      },
+      "item": "CARD.SKEWER"
+    }
+  },
+  {
+    "seed": "A2HUNTTEST200552",
+    "candidate_gained": false,
+    "root": "6f45ecd2574301f0e41b1ec3aa899a019be13c880b698af0bc029fb78e8ebe9f",
+    "act": 2,
+    "floor": 2,
+    "room": "Monster",
+    "round": 1,
+    "formation": "EXOSKELETON+EXOSKELETON+EXOSKELETON",
+    "hp": 74,
+    "baseline": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 6,
+          "target_index": 0
+        }
+      },
+      "item": "CARD.DEADLY_POISON"
+    },
+    "challenger": {
+      "command": {
+        "cmd": "action",
+        "action": "play_card",
+        "args": {
+          "card_index": 2
+        }
+      },
+      "item": "CARD.DEFEND_SILENT"
+    }
+  }
+]

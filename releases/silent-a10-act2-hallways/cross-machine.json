@@ -203,5 +203,14 @@
       "identical_terminal": true,
       "identical_progress": true
     }
-  ]
+  ],
+  "launcher_smoke": {
+    "attempted": 1,
+    "complete": 1,
+    "errors": {},
+    "act1_clears": 0,
+    "act2_clears": 0,
+    "wins": 0,
+    "mean_progress": 15.0
+  }
 }

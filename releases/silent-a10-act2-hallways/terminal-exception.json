@@ -1,0 +1,107 @@
+{
+  "seed": "A2HUNTTEST200603",
+  "affected_arms": [
+    "baseline",
+    "challenger"
+  ],
+  "original": {
+    "act": 1,
+    "floor": 8,
+    "status": "complete",
+    "win": false,
+    "a1_clear": false,
+    "a2_clear": false
+  },
+  "original_terminal": "ae17d1a59333201dbf6cacb3ce4f7707c5173fe4ad76adffb141bb4ede99b8d5",
+  "independent_terminal": "49936485c27bac2aa7de2277c31ca4f8df5decc368e30a6fac030c8765dea5c6",
+  "independent_observation": {
+    "decision": "game_over",
+    "victory": false,
+    "context": {
+      "act": 1,
+      "act_name": "Overgrowth",
+      "floor": 8,
+      "room_type": "Monster",
+      "boss": {
+        "id": "THE_KIN_BOSS",
+        "name": "Kin Priest"
+      }
+    },
+    "hp": 0
+  },
+  "last_rpc_index": 156,
+  "linux": {
+    "seed": "A2HUNTTEST200603",
+    "proof": null,
+    "attempts": [
+      {
+        "mode": "bulk",
+        "error": "Replay diverged from expected public state",
+        "intermediate_digest_mismatches": []
+      },
+      {
+        "mode": "physical-stream",
+        "error": "Terminal digest differs",
+        "intermediate_digest_mismatches": [
+          156
+        ]
+      },
+      {
+        "mode": "paced-physical-stream",
+        "error": "Terminal digest differs",
+        "intermediate_digest_mismatches": [
+          156
+        ]
+      },
+      {
+        "mode": "bulk",
+        "error": "Replay diverged from expected public state",
+        "intermediate_digest_mismatches": []
+      },
+      {
+        "mode": "physical-stream",
+        "error": "Terminal digest differs",
+        "intermediate_digest_mismatches": [
+          156
+        ]
+      }
+    ]
+  },
+  "windows": {
+    "seed": "A2HUNTTEST200603",
+    "proof": null,
+    "attempts": [
+      {
+        "mode": "bulk",
+        "error": "Replay diverged from expected public state",
+        "intermediate_digest_mismatches": []
+      },
+      {
+        "mode": "physical-stream",
+        "error": "Terminal digest differs",
+        "intermediate_digest_mismatches": [
+          156
+        ]
+      },
+      {
+        "mode": "paced-physical-stream",
+        "error": "Terminal digest differs",
+        "intermediate_digest_mismatches": [
+          156
+        ]
+      },
+      {
+        "mode": "bulk",
+        "error": "Replay diverged from expected public state",
+        "intermediate_digest_mismatches": []
+      },
+      {
+        "mode": "physical-stream",
+        "error": "Terminal digest differs",
+        "intermediate_digest_mismatches": [
+          156
+        ]
+      }
+    ]
+  }
+}

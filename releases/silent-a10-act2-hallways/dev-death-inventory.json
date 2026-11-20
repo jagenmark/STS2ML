@@ -1,0 +1,535 @@
+[
+  {
+    "seed": "A2HUNTDEV200001",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.BOWLBUG_NECTAR"
+    ],
+    "hp": 1,
+    "potions": [
+      {
+        "id": "POTION.SWIFT_POTION",
+        "vars": {
+          "Cards": 3
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200003",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.SLUMBERING_BEETLE"
+    ],
+    "hp": 9,
+    "potions": [
+      {
+        "id": "POTION.SWIFT_POTION",
+        "vars": {
+          "Cards": 3
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200006",
+    "room": "Elite",
+    "formation": [
+      "MONSTER.ENTOMANCER"
+    ],
+    "hp": 16,
+    "potions": [
+      {
+        "id": "POTION.SWIFT_POTION",
+        "vars": {
+          "Cards": 3
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200010",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.MYTE",
+      "MONSTER.MYTE"
+    ],
+    "hp": 19,
+    "potions": [
+      {
+        "id": "POTION.LUCKY_TONIC",
+        "vars": {
+          "BufferPower": 1
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200013",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.OVICOPTER"
+    ],
+    "hp": 18,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200016",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.MYTE"
+    ],
+    "hp": 5,
+    "potions": [
+      {
+        "id": "POTION.ATTACK_POTION",
+        "vars": null,
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200021",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.THE_OBSCURA"
+    ],
+    "hp": 1,
+    "potions": [
+      {
+        "id": "POTION.SWIFT_POTION",
+        "vars": {
+          "Cards": 3
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200022",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.OVICOPTER"
+    ],
+    "hp": 11,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200027",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.SPINY_TOAD"
+    ],
+    "hp": 14,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200031",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.OVICOPTER"
+    ],
+    "hp": 12,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200034",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.MYTE",
+      "MONSTER.MYTE"
+    ],
+    "hp": 3,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200038",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.BOWLBUG_EGG",
+      "MONSTER.BOWLBUG_SILK"
+    ],
+    "hp": 14,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200040",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.BOWLBUG_SILK",
+      "MONSTER.SLUMBERING_BEETLE"
+    ],
+    "hp": 3,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200042",
+    "room": "Elite",
+    "formation": [
+      "MONSTER.ENTOMANCER"
+    ],
+    "hp": 7,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200043",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.EXOSKELETON",
+      "MONSTER.EXOSKELETON",
+      "MONSTER.EXOSKELETON"
+    ],
+    "hp": 11,
+    "potions": [
+      {
+        "id": "POTION.BOTTLED_POTENTIAL",
+        "vars": {
+          "Cards": 5
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200052",
+    "room": "Elite",
+    "formation": [
+      "MONSTER.ENTOMANCER"
+    ],
+    "hp": 21,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200062",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.HUNTER_KILLER"
+    ],
+    "hp": 5,
+    "potions": [
+      {
+        "id": "POTION.SWIFT_POTION",
+        "vars": {
+          "Cards": 3
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200071",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.MYTE",
+      "MONSTER.MYTE"
+    ],
+    "hp": 9,
+    "potions": [
+      {
+        "id": "POTION.COLORLESS_POTION",
+        "vars": null,
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200072",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.BOWLBUG_SILK",
+      "MONSTER.SLUMBERING_BEETLE"
+    ],
+    "hp": 1,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200086",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.HUNTER_KILLER"
+    ],
+    "hp": 13,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200089",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.LOUSE_PROGENITOR"
+    ],
+    "hp": 14,
+    "potions": [
+      {
+        "id": "POTION.LUCKY_TONIC",
+        "vars": {
+          "BufferPower": 1
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200092",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.PARAFRIGHT",
+      "MONSTER.THE_OBSCURA"
+    ],
+    "hp": 7,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200106",
+    "room": "Elite",
+    "formation": [
+      "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT",
+      "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE",
+      "MONSTER.DECIMILLIPEDE_SEGMENT_BACK"
+    ],
+    "hp": 9,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200110",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.BOWLBUG_EGG"
+    ],
+    "hp": 51,
+    "potions": [
+      {
+        "id": "POTION.GLOWWATER_POTION",
+        "vars": {
+          "Cards": 10
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200122",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.CHOMPER"
+    ],
+    "hp": 1,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200126",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_NECTAR",
+      "MONSTER.BOWLBUG_EGG"
+    ],
+    "hp": 21,
+    "potions": [
+      {
+        "id": "POTION.GLOWWATER_POTION",
+        "vars": {
+          "Cards": 10
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200127",
+    "room": "Elite",
+    "formation": [
+      "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT",
+      "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE",
+      "MONSTER.DECIMILLIPEDE_SEGMENT_BACK"
+    ],
+    "hp": 13,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200132",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.BOWLBUG_SILK",
+      "MONSTER.SLUMBERING_BEETLE"
+    ],
+    "hp": 3,
+    "potions": [
+      {
+        "id": "POTION.SWIFT_POTION",
+        "vars": {
+          "Cards": 3
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200135",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.HUNTER_KILLER"
+    ],
+    "hp": 1,
+    "potions": [
+      {
+        "id": "POTION.WEAK_POTION",
+        "vars": {
+          "WeakPower": 3
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200138",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.TOUGH_EGG",
+      "MONSTER.OVICOPTER"
+    ],
+    "hp": 3,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200139",
+    "room": "Elite",
+    "formation": [
+      "MONSTER.INFESTED_PRISM"
+    ],
+    "hp": 22,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200141",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.PARAFRIGHT",
+      "MONSTER.THE_OBSCURA"
+    ],
+    "hp": 8,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200142",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.PARAFRIGHT",
+      "MONSTER.THE_OBSCURA"
+    ],
+    "hp": 6,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200145",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.CHOMPER",
+      "MONSTER.CHOMPER"
+    ],
+    "hp": 4,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200147",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.MYTE"
+    ],
+    "hp": 13,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200158",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.OVICOPTER"
+    ],
+    "hp": 14,
+    "potions": [
+      {
+        "id": "POTION.FLEX_POTION",
+        "vars": {
+          "StrengthPower": 5
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200164",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.MYTE"
+    ],
+    "hp": 15,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200165",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.BOWLBUG_ROCK",
+      "MONSTER.BOWLBUG_SILK",
+      "MONSTER.BOWLBUG_EGG"
+    ],
+    "hp": 13,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200177",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.LOUSE_PROGENITOR"
+    ],
+    "hp": 12,
+    "potions": [
+      {
+        "id": "POTION.SNECKO_OIL",
+        "vars": {
+          "Cards": 7
+        },
+        "can_use": true
+      }
+    ]
+  },
+  {
+    "seed": "A2HUNTDEV200181",
+    "room": "Elite",
+    "formation": [
+      "MONSTER.INFESTED_PRISM"
+    ],
+    "hp": 12,
+    "potions": []
+  },
+  {
+    "seed": "A2HUNTDEV200186",
+    "room": "Monster",
+    "formation": [
+      "MONSTER.PARAFRIGHT",
+      "MONSTER.THE_OBSCURA"
+    ],
+    "hp": 13,
+    "potions": []
+  }
+]

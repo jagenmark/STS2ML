@@ -1,0 +1,10 @@
+{
+  "natural_episodes": 2304,
+  "unique_histories": 1332,
+  "verified_unique_histories": 1331,
+  "bulk": 1323,
+  "bulk_retry": 8,
+  "per_command": 0,
+  "native_host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+  "equivalence": "identical natural specification, all physical commands, terminal digest and victory flag"
+}

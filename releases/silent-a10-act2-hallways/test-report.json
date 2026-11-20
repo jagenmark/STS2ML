@@ -1,0 +1,374 @@
+{
+  "selection_sha256": "9a80e7d45cf5cf3751238c3651bf0e159c93615411299b2c0cdb26b619edd10d",
+  "seeds": 768,
+  "arms": {
+    "baseline": {
+      "complete": 768,
+      "terminal_replays": 767,
+      "a1_clear": 238,
+      "boss2": 64,
+      "a2_clear": 10,
+      "win": 0
+    },
+    "published": {
+      "complete": 768,
+      "terminal_replays": 768,
+      "a1_clear": 233,
+      "boss2": 56,
+      "a2_clear": 7,
+      "win": 0
+    },
+    "challenger": {
+      "complete": 768,
+      "terminal_replays": 767,
+      "a1_clear": 238,
+      "boss2": 63,
+      "a2_clear": 10,
+      "win": 0
+    }
+  },
+  "contrasts": {
+    "baseline": {
+      "full": {
+        "a1_clear": {
+          "pairs": 768,
+          "gained": [],
+          "lost": [],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        },
+        "boss2": {
+          "pairs": 768,
+          "gained": [
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200412",
+            "A2HUNTTEST200491",
+            "A2HUNTTEST200679",
+            "A2HUNTTEST200701",
+            "A2HUNTTEST200709",
+            "A2HUNTTEST200750"
+          ],
+          "lost": [
+            "A2HUNTTEST200098",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200546",
+            "A2HUNTTEST200552",
+            "A2HUNTTEST200567",
+            "A2HUNTTEST200642",
+            "A2HUNTTEST200754",
+            "A2HUNTTEST200763"
+          ],
+          "delta": -1,
+          "paired_exact_p": 1.0
+        },
+        "a2_clear": {
+          "pairs": 768,
+          "gained": [
+            "A2HUNTTEST200184",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200485"
+          ],
+          "lost": [
+            "A2HUNTTEST200390",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200552"
+          ],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        },
+        "win": {
+          "pairs": 768,
+          "gained": [],
+          "lost": [],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        }
+      },
+      "replay_verified": {
+        "a1_clear": {
+          "pairs": 767,
+          "gained": [],
+          "lost": [],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        },
+        "boss2": {
+          "pairs": 767,
+          "gained": [
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200412",
+            "A2HUNTTEST200491",
+            "A2HUNTTEST200679",
+            "A2HUNTTEST200701",
+            "A2HUNTTEST200709",
+            "A2HUNTTEST200750"
+          ],
+          "lost": [
+            "A2HUNTTEST200098",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200546",
+            "A2HUNTTEST200552",
+            "A2HUNTTEST200567",
+            "A2HUNTTEST200642",
+            "A2HUNTTEST200754",
+            "A2HUNTTEST200763"
+          ],
+          "delta": -1,
+          "paired_exact_p": 1.0
+        },
+        "a2_clear": {
+          "pairs": 767,
+          "gained": [
+            "A2HUNTTEST200184",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200485"
+          ],
+          "lost": [
+            "A2HUNTTEST200390",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200552"
+          ],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        },
+        "win": {
+          "pairs": 767,
+          "gained": [],
+          "lost": [],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        }
+      },
+      "same_act2_entrance_or_both_out": 768,
+      "same_act1_commands_and_outcome": 768,
+      "same_commands": 545
+    },
+    "published": {
+      "full": {
+        "a1_clear": {
+          "pairs": 768,
+          "gained": [
+            "A2HUNTTEST200066",
+            "A2HUNTTEST200097",
+            "A2HUNTTEST200197",
+            "A2HUNTTEST200237",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200381",
+            "A2HUNTTEST200390",
+            "A2HUNTTEST200443",
+            "A2HUNTTEST200495",
+            "A2HUNTTEST200535",
+            "A2HUNTTEST200545",
+            "A2HUNTTEST200556",
+            "A2HUNTTEST200567",
+            "A2HUNTTEST200647",
+            "A2HUNTTEST200659",
+            "A2HUNTTEST200670",
+            "A2HUNTTEST200709",
+            "A2HUNTTEST200733",
+            "A2HUNTTEST200744"
+          ],
+          "lost": [
+            "A2HUNTTEST200075",
+            "A2HUNTTEST200141",
+            "A2HUNTTEST200182",
+            "A2HUNTTEST200211",
+            "A2HUNTTEST200284",
+            "A2HUNTTEST200395",
+            "A2HUNTTEST200397",
+            "A2HUNTTEST200466",
+            "A2HUNTTEST200566",
+            "A2HUNTTEST200610",
+            "A2HUNTTEST200611",
+            "A2HUNTTEST200685",
+            "A2HUNTTEST200707",
+            "A2HUNTTEST200730"
+          ],
+          "delta": 5,
+          "paired_exact_p": 0.48685024166479707
+        },
+        "boss2": {
+          "pairs": 768,
+          "gained": [
+            "A2HUNTTEST200013",
+            "A2HUNTTEST200062",
+            "A2HUNTTEST200066",
+            "A2HUNTTEST200143",
+            "A2HUNTTEST200197",
+            "A2HUNTTEST200273",
+            "A2HUNTTEST200295",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200381",
+            "A2HUNTTEST200390",
+            "A2HUNTTEST200399",
+            "A2HUNTTEST200412",
+            "A2HUNTTEST200491",
+            "A2HUNTTEST200550",
+            "A2HUNTTEST200647",
+            "A2HUNTTEST200679",
+            "A2HUNTTEST200701",
+            "A2HUNTTEST200709",
+            "A2HUNTTEST200733",
+            "A2HUNTTEST200750"
+          ],
+          "lost": [
+            "A2HUNTTEST200098",
+            "A2HUNTTEST200141",
+            "A2HUNTTEST200356",
+            "A2HUNTTEST200396",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200546",
+            "A2HUNTTEST200552",
+            "A2HUNTTEST200642",
+            "A2HUNTTEST200707",
+            "A2HUNTTEST200725",
+            "A2HUNTTEST200730",
+            "A2HUNTTEST200754",
+            "A2HUNTTEST200763"
+          ],
+          "delta": 7,
+          "paired_exact_p": 0.296206368599087
+        },
+        "a2_clear": {
+          "pairs": 768,
+          "gained": [
+            "A2HUNTTEST200011",
+            "A2HUNTTEST200184",
+            "A2HUNTTEST200197",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200323",
+            "A2HUNTTEST200485"
+          ],
+          "lost": [
+            "A2HUNTTEST200141",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200552"
+          ],
+          "delta": 3,
+          "paired_exact_p": 0.5078125
+        },
+        "win": {
+          "pairs": 768,
+          "gained": [],
+          "lost": [],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        }
+      },
+      "replay_verified": {
+        "a1_clear": {
+          "pairs": 767,
+          "gained": [
+            "A2HUNTTEST200066",
+            "A2HUNTTEST200097",
+            "A2HUNTTEST200197",
+            "A2HUNTTEST200237",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200381",
+            "A2HUNTTEST200390",
+            "A2HUNTTEST200443",
+            "A2HUNTTEST200495",
+            "A2HUNTTEST200535",
+            "A2HUNTTEST200545",
+            "A2HUNTTEST200556",
+            "A2HUNTTEST200567",
+            "A2HUNTTEST200647",
+            "A2HUNTTEST200659",
+            "A2HUNTTEST200670",
+            "A2HUNTTEST200709",
+            "A2HUNTTEST200733",
+            "A2HUNTTEST200744"
+          ],
+          "lost": [
+            "A2HUNTTEST200075",
+            "A2HUNTTEST200141",
+            "A2HUNTTEST200182",
+            "A2HUNTTEST200211",
+            "A2HUNTTEST200284",
+            "A2HUNTTEST200395",
+            "A2HUNTTEST200397",
+            "A2HUNTTEST200466",
+            "A2HUNTTEST200566",
+            "A2HUNTTEST200610",
+            "A2HUNTTEST200611",
+            "A2HUNTTEST200685",
+            "A2HUNTTEST200707",
+            "A2HUNTTEST200730"
+          ],
+          "delta": 5,
+          "paired_exact_p": 0.48685024166479707
+        },
+        "boss2": {
+          "pairs": 767,
+          "gained": [
+            "A2HUNTTEST200013",
+            "A2HUNTTEST200062",
+            "A2HUNTTEST200066",
+            "A2HUNTTEST200143",
+            "A2HUNTTEST200197",
+            "A2HUNTTEST200273",
+            "A2HUNTTEST200295",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200381",
+            "A2HUNTTEST200390",
+            "A2HUNTTEST200399",
+            "A2HUNTTEST200412",
+            "A2HUNTTEST200491",
+            "A2HUNTTEST200550",
+            "A2HUNTTEST200647",
+            "A2HUNTTEST200679",
+            "A2HUNTTEST200701",
+            "A2HUNTTEST200709",
+            "A2HUNTTEST200733",
+            "A2HUNTTEST200750"
+          ],
+          "lost": [
+            "A2HUNTTEST200098",
+            "A2HUNTTEST200141",
+            "A2HUNTTEST200356",
+            "A2HUNTTEST200396",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200546",
+            "A2HUNTTEST200552",
+            "A2HUNTTEST200642",
+            "A2HUNTTEST200707",
+            "A2HUNTTEST200725",
+            "A2HUNTTEST200730",
+            "A2HUNTTEST200754",
+            "A2HUNTTEST200763"
+          ],
+          "delta": 7,
+          "paired_exact_p": 0.296206368599087
+        },
+        "a2_clear": {
+          "pairs": 767,
+          "gained": [
+            "A2HUNTTEST200011",
+            "A2HUNTTEST200184",
+            "A2HUNTTEST200197",
+            "A2HUNTTEST200300",
+            "A2HUNTTEST200323",
+            "A2HUNTTEST200485"
+          ],
+          "lost": [
+            "A2HUNTTEST200141",
+            "A2HUNTTEST200523",
+            "A2HUNTTEST200552"
+          ],
+          "delta": 3,
+          "paired_exact_p": 0.5078125
+        },
+        "win": {
+          "pairs": 767,
+          "gained": [],
+          "lost": [],
+          "delta": 0,
+          "paired_exact_p": 1.0
+        }
+      },
+      "same_act2_entrance_or_both_out": 665,
+      "same_act1_commands_and_outcome": 441,
+      "same_commands": 367
+    }
+  }
+}
