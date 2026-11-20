@@ -1,2 +1,3 @@
 *.patch text eol=lf whitespace=-blank-at-eol
 releases/silent-a10-encounter-draft/** -text
+releases/silent-a10-act2-hallways/** -text
