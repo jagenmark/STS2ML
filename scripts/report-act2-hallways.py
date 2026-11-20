@@ -62,9 +62,7 @@ def arm_data(path, replay_path, seeds):
         receipt = receipts[seed]
         if receipt["verified"] and terminal != receipt["terminal"]:
             raise ValueError("Independent terminal differs")
-        root2 = (
-            act_start(path.parent / "game/rpc.jsonl", 2).expected_digest if r["a1_clear"] else None
-        )
+        root2 = act_start(path.parent / "game/rpc.jsonl", 2) if r["a1_clear"] else None
         arm = {
             k: r[k]
             for k in (
@@ -81,13 +79,18 @@ def arm_data(path, replay_path, seeds):
         arm.update(
             boss2=any(a == 2 for a, _ in r["boss_fights"]),
             opening=start["response_digest"],
-            act2_opening=root2,
+            act2_opening=root2.expected_digest if root2 else None,
+            act1_commands=len(root2.history) if root2 else len(commands),
+            replay_source_arm=receipt.get("direct_source_arm"),
+            physical_history_sha256=receipt.get("physical_history_sha256"),
             terminal=terminal,
             actions=len(commands),
             verified=receipt["verified"],
         )
         if not receipt["verified"]:
-            arm["replay_error"] = receipt.get("stepwise_failure", receipt.get("error"))
+            arm["replay_error"] = receipt.get(
+                "stepwise_failure", receipt.get("errors", receipt.get("error"))
+            )
         results[seed] = arm
         histories[seed] = commands
     return results, histories
@@ -142,6 +145,12 @@ def main():
             "replay_verified": {m: discordance(verified, m) for m in metrics},
             "same_act2_entrance_or_both_out": sum(
                 b["act2_opening"] == c["act2_opening"] for _, b, c in pairs
+            ),
+            "same_act1_commands_and_outcome": sum(
+                b["a1_clear"] == c["a1_clear"]
+                and histories[name][s][: b["act1_commands"]]
+                == histories["challenger"][s][: c["act1_commands"]]
+                for s, b, c in pairs
             ),
             "same_commands": sum(histories[name][s] == histories["challenger"][s] for s in seeds),
         }
