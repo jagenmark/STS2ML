@@ -1,0 +1,5146 @@
+{
+  "base": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.163636363636364
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "draw-dev": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 13,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.145454545454545
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 3,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "effects-dev": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.0
+    },
+    "seeds": {
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      }
+    }
+  },
+  "general-pilot": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 6,
+      "wins": 0,
+      "mean_floor": 9.818181818181818
+    },
+    "seeds": {
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "hunter-action": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 3,
+      "wins": 0,
+      "mean_floor": 10.054545454545455
+    },
+    "seeds": {
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "hunter-full": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.163636363636364
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "hunter-pilot": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.163636363636364
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "linear-pilot": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 12,
+      "act3_entries": 6,
+      "wins": 0,
+      "mean_floor": 9.836363636363636
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      }
+    }
+  },
+  "potion-dev": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.181818181818182
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 3,
+        "floor": 15,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "tempo-dev": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 13,
+      "act3_entries": 5,
+      "wins": 0,
+      "mean_floor": 9.563636363636364
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 13,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      }
+    }
+  },
+  "tempo-draw": {
+    "report": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 13,
+      "act3_entries": 5,
+      "wins": 0,
+      "mean_floor": 9.654545454545454
+    },
+    "seeds": {
+      "A2HUNTDEV200001": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200003": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200006": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200010": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200012": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200013": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200016": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200021": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200022": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200023": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200026": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200027": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200031": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200034": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200038": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200039": {
+        "act": 3,
+        "floor": 13,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200040": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200042": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200043": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200052": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200062": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200063": {
+        "act": 3,
+        "floor": 12,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200071": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200072": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200075": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200086": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200089": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200092": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200106": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200110": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200113": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200122": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200126": {
+        "act": 2,
+        "floor": 13,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200127": {
+        "act": 2,
+        "floor": 11,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200132": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200135": {
+        "act": 2,
+        "floor": 8,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200136": {
+        "act": 3,
+        "floor": 10,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200138": {
+        "act": 2,
+        "floor": 14,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200139": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200141": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200142": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200145": {
+        "act": 2,
+        "floor": 7,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200147": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200151": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200152": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200157": {
+        "act": 2,
+        "floor": 6,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200158": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200164": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200165": {
+        "act": 2,
+        "floor": 4,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200175": {
+        "act": 3,
+        "floor": 5,
+        "a2_clear": true,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200177": {
+        "act": 2,
+        "floor": 5,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200181": {
+        "act": 2,
+        "floor": 12,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      },
+      "A2HUNTDEV200183": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200186": {
+        "act": 2,
+        "floor": 16,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": [
+          [
+            2,
+            16
+          ]
+        ]
+      },
+      "A2HUNTDEV200188": {
+        "act": 2,
+        "floor": 10,
+        "a2_clear": false,
+        "win": false,
+        "boss_fights": []
+      }
+    }
+  }
+}

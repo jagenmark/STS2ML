@@ -1,0 +1,41 @@
+{
+  "openings": {
+    "seeds": 353,
+    "verified_fight_openings": 1174,
+    "hunter_openings": 55,
+    "prefix_divergences": 101
+  },
+  "onpolicy-openings": {
+    "seeds": 48,
+    "verified_fight_openings": 203,
+    "hunter_openings": 7,
+    "prefix_divergences": 0
+  },
+  "hunter-pilot": {
+    "roots": 35,
+    "planned_roots": 35,
+    "matched_roots": 34,
+    "verified_arm_outcomes": 306,
+    "baseline_wins": 17
+  },
+  "hunter-labels": {
+    "roots": 55,
+    "planned_roots": 55,
+    "matched_roots": 53,
+    "verified_arm_outcomes": 477,
+    "baseline_wins": 35
+  },
+  "general-labels": {
+    "roots": 317,
+    "planned_roots": 559,
+    "matched_roots": 308,
+    "verified_arm_outcomes": 2464,
+    "baseline_wins": 228
+  },
+  "hunter-plays": {
+    "roots": 55,
+    "decisions": 197,
+    "legal_action_rollouts": 1392,
+    "incomplete_positions_dropped": 12
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "environment": "Native Windows on Helmer vs Linux",
+  "policy_sha256": "96f0c0db3b5d481e34c7d907f29408306d6ea55fda9a80595147000cc5e6940f",
+  "windows_managed_host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+  "localization": "English and Chinese tables under the runtime root five directories above the managed .NET host. The initial flat staging directory generated raw localization keys and different actions. The isolated Windows runtime was corrected before comparisons.",
+  "compared_games": 9,
+  "identical_entire_trajectories": 9,
+  "games": [
+    {
+      "seed": "A2HUNTDEV200151",
+      "opening": "63cee2d184ab809d3fb6e640695caf842a886fc797233641830b1ceb54ee6409",
+      "terminal": "a8b9cac6151e327a9d444557cabaaaff67659398ea4813d1dc1e23c70aaa4291",
+      "physical_actions_sha256": "10639133e0e8dfa448f90d8629db212bc1fc181fd27931b4e3bf55fad5c855ae",
+      "a1_clear": true,
+      "a2_clear": true,
+      "win": false,
+      "floor": 5,
+      "act": 3,
+      "steps": 491,
+      "boss_fights": [
+        [
+          1,
+          17
+        ],
+        [
+          2,
+          16
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200000",
+      "opening": "ec4ee8466d8815221274a60b18b2004375e3a5f3293632b4fa3aa4151e69d5a6",
+      "terminal": "02253ff5d3f7be51542f3c8e066549c7b4d2c04149341ebe965ba5927c01811b",
+      "physical_actions_sha256": "887d1a7375fb21c0a4bbeac008a8b7a9580956f84e80d64f6f6eabfbe92d5e10",
+      "a1_clear": false,
+      "a2_clear": false,
+      "win": false,
+      "floor": 17,
+      "act": 1,
+      "steps": 171,
+      "boss_fights": [
+        [
+          1,
+          17
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200001",
+      "opening": "b8f8a26a0673b5cfccc8347d404bc7ecd55199da45d8bed85b872621a7b073a2",
+      "terminal": "01c24a9870e7468e2cbff52b4b24e79b733f4baeb7dfab3784e3dbbfb7830e51",
+      "physical_actions_sha256": "7eb2871942b272ecf2597b3603b0ffffc4f1c570805ad1d4f05039e9609285b2",
+      "a1_clear": true,
+      "a2_clear": false,
+      "win": false,
+      "floor": 5,
+      "act": 2,
+      "steps": 328,
+      "boss_fights": [
+        [
+          1,
+          17
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200002",
+      "opening": "ed4f2f64ac360c9997cdf5cbe3f44f56d4cfd649af9192e781ab2cf38b65a503",
+      "terminal": "27bf2c7321924c9f503d80e7aaeb382234e6e369c9ca515d363fe46715fe8160",
+      "physical_actions_sha256": "df09b157753f4c44238f5578c851a7e0ed16120b9e71a8d73ebc867e4760f312",
+      "a1_clear": false,
+      "a2_clear": false,
+      "win": false,
+      "floor": 17,
+      "act": 1,
+      "steps": 181,
+      "boss_fights": [
+        [
+          1,
+          17
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200003",
+      "opening": "5132723c9f5e0a1cae6e200dba605b5f5c4b39a3d9b0befc842adae65c693931",
+      "terminal": "578cfecf1a1005a89010d4cab791ac5a17b7e552fda2275a299215a5d706a516",
+      "physical_actions_sha256": "f144d166e1311612720449fb68d34b7f70d82792d596826b5e52af16ff9de439",
+      "a1_clear": false,
+      "a2_clear": false,
+      "win": false,
+      "floor": 17,
+      "act": 1,
+      "steps": 194,
+      "boss_fights": [
+        [
+          1,
+          17
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200004",
+      "opening": "b351b8740820bba56e2457eb2e192e58ba9e80b1bc750975bf1e9314b9f1a809",
+      "terminal": "7e1771de3820ef77172d579a65179b56d8883cce73cb7166d173d6894b182986",
+      "physical_actions_sha256": "24fd6ed993bb3808ead7be50c6f54ea9d23853dff42529ee0a907f22262a4b64",
+      "a1_clear": false,
+      "a2_clear": false,
+      "win": false,
+      "floor": 17,
+      "act": 1,
+      "steps": 203,
+      "boss_fights": [
+        [
+          1,
+          17
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200005",
+      "opening": "49b163f607217fe2b561042f4174e182018aa3f951006b884688bb1eb05ff6c5",
+      "terminal": "c210684d8ef546b97eef86484606dbe66d3606635ac1a0586878d90594da57c5",
+      "physical_actions_sha256": "7c9f2954da729b5409db927b249ebc130f4a09020265a5753a0bfd6ef6917b05",
+      "a1_clear": false,
+      "a2_clear": false,
+      "win": false,
+      "floor": 15,
+      "act": 1,
+      "steps": 216,
+      "boss_fights": [],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200006",
+      "opening": "b1cde2e84c37f597d7a7b1f37074d125b5085bef5ae57544eb96fd95adb02f53",
+      "terminal": "4683c377044c4696362d2d3612e521ed79d5ea2e733be18c59606c4ce59ffb3c",
+      "physical_actions_sha256": "071da29a92136edda4ccb0fcbca2de35c49932a57582d9a001214d6e42d359ba",
+      "a1_clear": false,
+      "a2_clear": false,
+      "win": false,
+      "floor": 17,
+      "act": 1,
+      "steps": 254,
+      "boss_fights": [
+        [
+          1,
+          17
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    },
+    {
+      "seed": "A2HUNTTEST200007",
+      "opening": "cddb0214e22ef78249c5a30776641b605582c37f58d3861bd71bd499cf617dba",
+      "terminal": "a954c0759867d9bc477fc636f0ad66959f568a50100d5bbcfb1ff2bfcb97a03a",
+      "physical_actions_sha256": "3ed8a6b602c82ae7428e78c771a7a76b0cc15fb9dfdd5c8de8ea9910339275d6",
+      "a1_clear": true,
+      "a2_clear": false,
+      "win": false,
+      "floor": 7,
+      "act": 2,
+      "steps": 287,
+      "boss_fights": [
+        [
+          1,
+          17
+        ]
+      ],
+      "identical_opening": true,
+      "identical_physical_commands": true,
+      "identical_terminal": true,
+      "identical_progress": true
+    }
+  ]
+}

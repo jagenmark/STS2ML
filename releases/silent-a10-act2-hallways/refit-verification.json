@@ -1,0 +1,6 @@
+{
+  "model": "general-pilot",
+  "reproduced_policy_sha256": "96f0c0db3b5d481e34c7d907f29408306d6ea55fda9a80595147000cc5e6940f",
+  "expected": "96f0c0db3b5d481e34c7d907f29408306d6ea55fda9a80595147000cc5e6940f",
+  "source": "extracted training-state.zip; disjoint seed groups"
+}
