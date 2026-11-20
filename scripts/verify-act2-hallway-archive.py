@@ -72,6 +72,12 @@ def main():
                 ROOT, Path(tmp) / "replay", host_path=a.host, act_list="seeded"
             ) as native,
         ):
+            opening = native.reset(a.seed)
+            if digest(opening) != expected["opening"]:
+                raise ValueError(
+                    "Different native lobby. Check the game build, standard unlocks, and "
+                    "localization_eng five directories above Sts2Headless.dll."
+                )
             state = native.restore(ReplayFork(spec, tuple(commands), expected["terminal"]))
             if (
                 state["decision"] != "game_over"
