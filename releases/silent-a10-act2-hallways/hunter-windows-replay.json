@@ -1,0 +1,21 @@
+{
+  "seed": "A2HUNTTEST200017",
+  "root": "53d292a7499efa073d9a19014ed87a8431adfce108d08c95a7a0212c7ea9e7b1",
+  "native_Windows_on_Helmer": {
+    "baseline": {
+      "won": true,
+      "hp": 4,
+      "potions": 1,
+      "rounds": 6,
+      "remaining": 0
+    },
+    "candidate": {
+      "won": false,
+      "hp": 0,
+      "potions": 0,
+      "rounds": 6,
+      "remaining": 0.10317460317460317
+    }
+  },
+  "matches_Linux": true
+}

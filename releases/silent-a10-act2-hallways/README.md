@@ -33,7 +33,7 @@ Hunter Killer applies Tender on its opening move. Each subsequent card costs one
 
 ## Hunter Killer evidence
 
-The 55 archived Hunter openings supplied 53 complete nine-way comparisons. The selected Hunter-specific mechanics plan won 37 of those 53 and the preceding model won 35. On the 13 held-out archived openings those figures were 8 and 7. An independent post-selection test replayed Hunter fights from the previous model's fresh natural runs. Across 44 identical openings the deployed challenger won 30 and the previous model won 31. Each pair starts with identical cards, HP, potions and native state digest.
+The 55 archived Hunter openings supplied 53 complete nine-way comparisons. The selected Hunter-specific mechanics plan won 37 of those 53 and the preceding model won 35. On the 13 held-out archived openings those figures were 8 and 7. An independent post-selection test replayed Hunter fights from the previous model's fresh natural runs. Across 44 identical openings the deployed challenger won 30 and the previous model won 31. Each pair starts with identical cards, HP, potions and native state digest. On the one Hunter fight that changed from a win to a loss, the previous model survived with 4 HP. Helmer reproduced both outcomes from the archived opening. [Windows fight replay](hunter-windows-replay.json)
 
 ## Run on Helmer
 
