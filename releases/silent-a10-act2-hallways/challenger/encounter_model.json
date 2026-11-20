@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "runtime_identity": {
+    "character": "SILENT",
+    "ascension": 10,
+    "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+  },
+  "default": "balanced",
+  "beam": false,
+  "by_act": {
+    "2": "engine",
+    "3": "engine"
+  },
+  "prompt_aware": true,
+  "overrides": {
+    "WATERFALL_GIANT_BOSS": "guard",
+    "LAGAVULIN_MATRIARCH_BOSS": "engine",
+    "VANTOM_BOSS": "engine",
+    "CEREMONIAL_BEAST_BOSS": "guard"
+  },
+  "sandpit_threshold": 4,
+  "act2_hallways": {
+    "plans": {
+      "tempo": {
+        "style": "tempo"
+      },
+      "guard": {
+        "style": "guard"
+      },
+      "pressure": {
+        "style": "pressure"
+      },
+      "sustain": {
+        "style": "sustain"
+      },
+      "engine_cards": {
+        "style": "engine",
+        "mechanics": true,
+        "persistent": true
+      },
+      "potion_tempo": {
+        "style": "tempo",
+        "style_weights": {
+          "potion": 0.28
+        }
+      },
+      "beam": {
+        "style": "engine",
+        "search": "beam"
+      },
+      "hunter_specialist": {
+        "style": "engine",
+        "tender": true,
+        "mechanics": true,
+        "persistent": true
+      }
+    },
+    "by_formation": {
+      "EXOSKELETON+EXOSKELETON+EXOSKELETON": "guard",
+      "OVICOPTER": "beam",
+      "BOWLBUG_EGG+BOWLBUG_ROCK": "guard",
+      "TUNNELER": "tempo",
+      "BOWLBUG_NECTAR+BOWLBUG_ROCK": "pressure",
+      "HUNTER_KILLER": "hunter_specialist"
+    }
+  }
+}

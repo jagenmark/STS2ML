@@ -1,0 +1,96 @@
+{
+  "selected": "general-pilot",
+  "frozen_utc": "2026-11-20T13:33:02.576126+00:00",
+  "candidate_sha256": "96f0c0db3b5d481e34c7d907f29408306d6ea55fda9a80595147000cc5e6940f",
+  "seed_lock_sha256": "723bfb3e08006e015d435adf42a20c85a80cb2561c065f3d94f0c37eee9b3a53",
+  "rule_sha256": "6fd3a0c26857f1fba6d91e079d5dcecf192fafaaad2c4e1aa0332277f7cbc664",
+  "candidate_source_commit": "d7ba7b5fe50c18d6326c454509e033aef0c50012",
+  "baseline_source_commit": "d94113ff06692eef3f8d64b318026332c7c049df",
+  "published_source_commit": "1272aea72e28910de45653d4a951fec61dc99d5e",
+  "baseline_sha256": "731e83312742a001f0de398b7d028b7b5853e395d1bf04fff44fb6d5b83f1c26",
+  "published_sha256": "9360052b403c81ebe2e348181d070e3c8f0ba2db6b62444a999fedc103e7654b",
+  "host_sha256": "c460e7e58b6ee46218fac2ad08db9572a69eab965dc40b186cf2c982062a251e",
+  "verification_host_sha256": "c20a449b7439440a8801726e7f37c65ae0342915ce4959f6556d61d7a1120eee",
+  "development": {
+    "hunter-pilot": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.163636363636364,
+      "bundle_sha256": "d1bf756a12ee3c16e62ab93d6d76239fc386408a0f5748c1ed9b72b2f37b034f"
+    },
+    "hunter-full": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.163636363636364,
+      "bundle_sha256": "d1bf756a12ee3c16e62ab93d6d76239fc386408a0f5748c1ed9b72b2f37b034f"
+    },
+    "hunter-action": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 3,
+      "wins": 0,
+      "mean_floor": 10.054545454545455,
+      "bundle_sha256": "e0fcce8613d3f1a45c5d4a397fe505c30bb5002a3de621803bc8a9d83e88033e"
+    },
+    "effects-dev": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.0,
+      "bundle_sha256": "d72e311185f84471ec565049b2ba1089e8bcc979fcf0e3ebd199d0d233ba6a91"
+    },
+    "tempo-dev": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 13,
+      "act3_entries": 5,
+      "wins": 0,
+      "mean_floor": 9.563636363636364,
+      "bundle_sha256": "a77b7cc150c662e3dbfb53efcdf4bef1f341e60671a483213d6b71f4c5b7f93c"
+    },
+    "potion-dev": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 4,
+      "wins": 0,
+      "mean_floor": 10.181818181818182,
+      "bundle_sha256": "970007d71f640bdd24d4719fe8c17dda5a08e80fcfdc2679a20d0d80c8ac8fd5"
+    },
+    "general-pilot": {
+      "starts": 55,
+      "complete": 55,
+      "boss_entries": 14,
+      "act3_entries": 6,
+      "wins": 0,
+      "mean_floor": 9.818181818181818,
+      "bundle_sha256": "96f0c0db3b5d481e34c7d907f29408306d6ea55fda9a80595147000cc5e6940f"
+    }
+  },
+  "not_completed_at_freeze": {
+    "linear-pilot": 54,
+    "draw-dev": 38,
+    "tempo-draw": 41
+  },
+  "development_baseline": {
+    "starts": 55,
+    "complete": 55,
+    "boss_entries": 14,
+    "act3_entries": 4,
+    "wins": 0,
+    "mean_floor": 10.163636363636364
+  },
+  "selected_fit_sha256": "ab81323fc2ab6099436556c480866fd8aa46d58083d76c960775adaad6e9b3fa",
+  "test_runs": 768,
+  "natural_development_runs": 192,
+  "test_outcomes_viewed": false
+}

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "runtime_identity": {
+    "character": "SILENT",
+    "ascension": 10,
+    "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+  },
+  "weights": {
+    "block": 1.5893854028809158,
+    "focus": 0.5935701035053517,
+    "poison": 3.552484313952092,
+    "setup": 0.73802464165187,
+    "draw": 1.5763037573126206,
+    "free": 6.393278339455001,
+    "cost_exponent": 0.5810834919632675,
+    "potion_reserve": 13.346382268859946,
+    "draft_threshold": 7.407681346457678,
+    "draft_defense": 1.1332906680769914
+  }
+}
