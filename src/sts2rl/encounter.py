@@ -9,6 +9,7 @@ from pathlib import Path
 from .card_effects import deck_engines
 from .act2_hallways import HallwayPlans, formation_key
 from .act2_action_ranker import rerank
+from .act2_bosses import BossTactics
 from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, selected_cards
 from .combat_effects import debuff_order, landed_debuffs
@@ -653,6 +654,8 @@ class EncounterModel:
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
         self.hallways = HallwayPlans(data["act2_hallways"], STYLES) if "act2_hallways" in data else None
         self.action_ranker = data.get("act2_action_ranker")
+        self.boss_plans = data.get("act2_boss_plans", {})
+        self.boss_tactics = None
         self.rerank_fight = False
         self.search_hand = self.beam
         if type(self.sandpit_threshold) is not int or not 0 <= self.sandpit_threshold <= 4:
@@ -682,6 +685,8 @@ class EncounterModel:
         from .turn_planning import choose_turn
 
         if state["decision"] != "combat_play":
+            if self.boss_tactics and (choice := self.boss_tactics.curse_choice(state)) is not None:
+                return choice
             if self.prompt_aware and state["decision"] in ("card_select", "card_reward"):
                 from .selections import combat_selection
 
@@ -708,6 +713,11 @@ class EncounterModel:
                 encounter = (ctx.get("boss") or {}).get("id", "")
                 style = self.overrides.get(encounter, style)
             plan = self.hallways.select(state, combat_features) if self.hallways else {}
+            boss_plan = self.boss_plans.get((ctx.get("boss") or {}).get("id")) if (
+                ctx["act"] == 2 and ctx["room_type"] == "Boss") else None
+            self.boss_tactics = BossTactics(boss_plan, state) if boss_plan else None
+            if boss_plan:
+                plan = boss_plan
             if self.action_ranker:
                 scope = self.action_ranker.get("formations", [])
                 self.rerank_fight = (ctx["act"] == 2 and ctx["room_type"] in ("Monster", "Elite")
@@ -726,9 +736,17 @@ class EncounterModel:
             )
             self.key = key
         actions = legal_actions(state)
-        action = choose_turn(state, self.actor) if self.search_hand else self.actor.combat(state, actions)
+        if self.boss_tactics and self.boss_tactics.plan.get("facing"):
+            scores = self.actor.combat_scores(state, actions)
+            self.boss_tactics.adjust_targets(state, actions, scores)
+            action = actions[max(range(len(actions)), key=scores.__getitem__)]
+        else:
+            action = choose_turn(state, self.actor) if self.search_hand else self.actor.combat(state, actions)
         if self.rerank_fight:
             action = rerank(self.action_ranker, state, actions, action, self.actor)
         if self.sandpit_threshold and ctx["room_type"] == "Boss":
-            return escape_action(state, actions, action, self.sandpit_threshold)
+            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
+            action = escape_action(state, actions, action, threshold)
+        if self.boss_tactics:
+            self.boss_tactics.observe(action)
         return action

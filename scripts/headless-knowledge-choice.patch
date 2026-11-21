@@ -1,0 +1,39 @@
+--- a/src/Sts2Headless/RunSimulator.cs
++++ b/src/Sts2Headless/RunSimulator.cs
+@@ -1382,8 +1382,11 @@
+         var indicesStr = args["indices"]?.ToString() ?? "";
+         var indices = indicesStr.Split(',')
+             .Select(s => int.TryParse(s.Trim(), out var v) ? v : -1)
+-            .Where(i => i >= 0)
+             .ToArray();
++        if (indices.Length < _cardSelector.PendingMinSelect || indices.Length > _cardSelector.PendingMaxSelect
++            || indices.Distinct().Count() != indices.Length
++            || indices.Any(i => i < 0 || i >= _cardSelector.PendingOptions!.Count))
++            return Error("Invalid indices or count for pending card selection");
+ 
+         Log($"Card selection: indices [{string.Join(",", indices)}]");
+         _cardSelector.ResolvePendingByIndices(indices);
+@@ -1420,6 +1423,8 @@
+         if (_cardSelector.HasPending)
+         {
+             Log("Skipping card selection");
++            if (_cardSelector.PendingMinSelect > 0)
++                return Error("This card selection requires a choice");
+             _cardSelector.CancelPending();
+             _syncCtx.Pump();
+             WaitForActionExecutor();
+@@ -3381,6 +3386,14 @@
+             var optList = options.ToList();
+             if (optList.Count == 0)
+                 return Task.FromResult<IEnumerable<CardModel>>(Array.Empty<CardModel>());
++
++            // KnowledgeDemon.ChooseCurse calls FromChooseACardScreen(canSkip: false).
++            // The game's ICardSelector path always forwards (0, 1) for that screen.
++            // These are the three exclusive pairs offered by this boss in the pinned build.
++            if (minSelect == 0 && maxSelect == 1 && optList.Count == 2
++                && optList.Any(c => c.Id.Entry == "DISINTEGRATION")
++                && optList.Any(c => c.Id.Entry is "MIND_ROT" or "SLOTH" or "WASTE_AWAY"))
++                minSelect = 1;
+ 
+             // If only one option and minSelect requires it, auto-select
+             if (optList.Count == 1 && minSelect >= 1)

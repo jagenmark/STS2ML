@@ -84,7 +84,8 @@ def act2_start(trace):
     return act_start(trace, 2)
 
 
-def play_episode(task):
+def play_episode(task, *, decision_hook=None):
+    """Run the deployed policy; an optional research hook can intervene at a public decision."""
     root, host, folder, seed, index, role, weights, checkpoint, options = task
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=False)
@@ -268,6 +269,8 @@ def play_episode(task):
                     action = evaluated
                 if search is not None and state["decision"] == "combat_play":
                     action = search.choose(game, action, step)
+                if decision_hook is not None:
+                    action = decision_hook(state, action)
                 if options.get("record_strategy") and (not combat or
                         (state["decision"] == "combat_play" and ctx.get("room_type") == "Boss"
                          and (not strategy_samples or strategy_samples[-1]["state"].get("context") != ctx))):

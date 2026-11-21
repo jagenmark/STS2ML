@@ -14,7 +14,8 @@ FILES = ("src/Sts2Headless/Program.cs", "src/Sts2Headless/RunSimulator.cs",
 PATCHES = ("headless-runtime-identity.patch", "headless-public-observation.patch",
            "headless-training.patch", "headless-a10-run.patch", "headless-combat-completion.patch",
            "headless-public-shop-and-events.patch", "headless-selection-race.patch", "headless-seeded-acts.patch",
-           "headless-gardener-math.patch", "headless-confirm-async-end.patch")
+           "headless-gardener-math.patch", "headless-confirm-async-end.patch",
+           "headless-knowledge-choice.patch")
 
 
 def build_stages(folder, patches=PATCHES):
