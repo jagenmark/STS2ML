@@ -57,8 +57,9 @@ def item_features(state, actions, stage):
     wound = sum(c["id"] == "CARD.BURN" for c in hand)
     protected = power(powers, "INTANGIBLE")
     wind = stage == "windup"
-    # The pinned A10 move gains five Strength before its base-40 single hit.
-    cleave = 45 + strength if wind else incoming(enemy)
+    # Windup grants five Strength; Heavy Cleave changes from 35 to 40 at A9.
+    base_cleave = 40 if (state.get("runtime_identity") or {}).get("ascension", 10) >= 9 else 35
+    cleave = base_cleave + 5 + strength if wind else incoming(enemy)
     if wind and power(ep, "WEAK") >= 2:
         cleave = int(cleave * 0.75)
     if wind and power(powers, "VULNERABLE") >= 2:

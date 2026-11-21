@@ -2,6 +2,7 @@
 
 import argparse
 from concurrent.futures import ProcessPoolExecutor
+from dataclasses import asdict
 import gzip
 import hashlib
 import json
@@ -11,14 +12,16 @@ from tempfile import TemporaryDirectory
 
 from sts2rl.act1 import save_json
 from sts2rl.native import NativeError, NativeSession, ReplayFork, digest
-from sts2rl.run_evaluation import verified_victory
+from sts2rl.run_bundle import load_bundle
+from sts2rl.run_evaluation import play_episode, verified_victory
+from sts2rl.run_policy import RunWeights
 
 ROOT = Path(__file__).resolve().parents[1]
 physical = runpy.run_path(str(ROOT / "scripts/measure-act3-encounters.py"))["physical"]
 
 
 def confirm(task):
-    folder, index, seed, ascension, host = task
+    folder, index, seed, ascension, host, bundle = task
     row = json.loads((folder / "result.json").read_bytes())
     if (row["seed"], row["index"], row["ascension"], row["status"], row["start_act"]) != (
         seed,
@@ -60,8 +63,31 @@ def confirm(task):
             except NativeError:
                 if stream:
                     raise
-    if row["win"] and not verified_victory(row["boss_fights"], ascension):
-        raise ValueError(f"Missing final boss for {seed}")
+    if row["win"]:
+        if not verified_victory(row["boss_fights"], ascension):
+            raise ValueError(f"Missing final boss for {seed}")
+        with TemporaryDirectory() as tmp:
+            role, opts = load_bundle(bundle)
+            folder = Path(tmp) / seed
+            played = play_episode(
+                (
+                    ROOT,
+                    host,
+                    folder,
+                    seed,
+                    index,
+                    role,
+                    asdict(RunWeights.load(opts["weights"])),
+                    opts.get("micro"),
+                    {**opts, "ascension": ascension, "seeded_acts": True, "rooms": True},
+                )
+            )
+            if (
+                played["status"] != "complete"
+                or not played["win"]
+                or physical(folder, ascension) != (spec, commands, hashes)
+            ):
+                raise ValueError(f"The frozen policy did not reproduce victory on {seed}")
     metrics = {
         k: row[k]
         for k in (
@@ -98,9 +124,19 @@ def main():
 
     if reg["policy_sha256"] != sha(a.bundle) or len(set(seeds)) != len(seeds):
         raise ValueError("Registered policy or seed list mismatch")
+    run = json.loads((a.source.parent / "config.json").read_bytes())
+    if (
+        run["seed_lock"],
+        run["bundle"],
+        run["partition"],
+        run["ascension"],
+        run["start"],
+        run["stop"],
+    ) != (sha(a.seed_lock), sha(a.bundle), "test", ascension, 0, len(seeds)):
+        raise ValueError("Native run configuration differs from the registered benchmark")
     a.output.mkdir(parents=True, exist_ok=False)
     tasks = [
-        (a.source / f"run-{i:04d}", i, seed, ascension, a.host.resolve())
+        (a.source / f"run-{i:04d}", i, seed, ascension, a.host.resolve(), a.bundle)
         for i, seed in enumerate(seeds)
     ]
     rows = []

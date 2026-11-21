@@ -199,12 +199,23 @@ def fit(a):
     stamp = sha(a.labels / "receipt.json")
     if receipt["partition"] != "train" or receipt["teacher"] != sha(a.bundle):
         raise ValueError("Wrong training teacher")
+    entries = read(a.cases / "index.json")
+    expected = {e["case"]: e["seed"] for e in entries}
+    got = {f.stem for f in a.labels.glob("*.json") if f.name != "receipt.json"}
+    if (
+        sha(a.cases / "index.json") != receipt["cases"]
+        or set(expected) != got
+        or len(expected) != len(entries)
+    ):
+        raise ValueError("The native label directory must contain every registered training case")
     for f in sorted(a.labels.glob("*.json")):
         if f.name == "receipt.json":
             continue
         r = read(f)
         if r["receipt"] != stamp or r["partition"] != "train" or r["seed"] not in receipt["seeds"]:
             raise ValueError("Unrecognized training label")
+        if r["case"] != f.stem or expected[r["case"]] != r["seed"]:
+            raise ValueError("Training case identity mismatch")
         for pos in r["positions"]:
             if pos["root"] in roots:
                 continue
@@ -295,6 +306,7 @@ def main():
         collect.add_argument("--" + k, type=Path, required=True)
     collect.add_argument("--workers", type=int, default=3)
     f.add_argument("--labels", type=Path, required=True)
+    f.add_argument("--cases", type=Path, required=True)
     for q in (collect, f):
         for k in ("bundle", "output"):
             q.add_argument("--" + k, type=Path, required=True)
