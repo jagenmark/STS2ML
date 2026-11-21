@@ -218,9 +218,13 @@ def simulate(game, case, config, weights, stream):
     remaining = None
     phase_actions = []
     for _ in range(650):
-        if st["decision"] == "game_over" or not st.get("in_combat"):
+        modal = (
+            st["decision"] in ("card_select", "choose_cards", "choose_card")
+            and st.get("context", {}).get("room_type") == "Elite"
+        )
+        if st["decision"] == "game_over" or (not st.get("in_combat") and not modal):
             if first is None:
-                raise ValueError("Mecha Knight was never observed")
+                raise ValueError(f"Mecha Knight was never observed before {st['decision']}")
             win = st["decision"] != "game_over" or st["victory"]
             return {
                 "won": win,
@@ -283,7 +287,7 @@ def run_one(task):
                 ) as game:
                     row.update(simulate(game, case, config, weights, stream))
                 break
-            except (NativeError, TimeoutError) as exc:
+            except (NativeError, TimeoutError, ValueError) as exc:
                 if stream:
                     row["error"] = str(exc)
     save_json(folder / (case["case"] + ".json"), row)
