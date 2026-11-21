@@ -76,6 +76,79 @@ def metrics(result):
     }
 
 
+def mecha_fights(game, state, commands, hashes):
+    """Follow the registered physical path from Act 3 and record actual elite encounters."""
+    fights = []
+    active = None
+    windup = 0
+    for i in range(len(commands) + 1):
+        ctx = state.get("context") or {}
+        enemies = [e for e in state.get("enemies") or [] if e["hp"] > 0]
+        knight = (
+            state.get("decision") == "combat_play"
+            and ctx.get("act") == 3
+            and ctx.get("room_type") == "Elite"
+            and len(enemies) == 1
+            and enemies[0]["id"] == "MONSTER.MECHA_KNIGHT"
+        )
+        if active and (
+            state["decision"] == "game_over"
+            or (
+                not state.get("in_combat")
+                and state["decision"] not in ("card_select", "choose_cards", "choose_card")
+            )
+        ):
+            active["won"] = state["decision"] != "game_over" or state["victory"]
+            active["hp_out"] = state["player"]["hp"] if active["won"] else 0
+            active["end"] = hashes[i]
+            active = None
+        if knight:
+            if active is None:
+                active = {
+                    "floor": ctx["floor"],
+                    "opening": hashes[i],
+                    "hp_in": state["player"]["hp"],
+                    "windup_seen": False,
+                    "cleave_seen": False,
+                    "decisions": [],
+                }
+                fights.append(active)
+                windup = 0
+            stage = phase(state, windup)
+            if stage == "windup":
+                windup = state["round"]
+            if stage:
+                action = commands[i]
+                kind = action["action"]
+                item = kind
+                if kind in ("play_card", "use_potion"):
+                    field, items = (
+                        ("card_index", state["hand"])
+                        if kind == "play_card"
+                        else ("potion_index", state["player"]["potions"])
+                    )
+                    item = next(it["id"] for it in items if it["index"] == action["args"][field])
+                active[stage + "_seen"] = True
+                active["decisions"].append(
+                    {
+                        "round": state["round"],
+                        "phase": stage,
+                        "item": item,
+                        "hp": state["player"]["hp"],
+                        "block": state["player"]["block"],
+                        "foe_hp": enemies[0]["hp"],
+                        "root": hashes[i],
+                    }
+                )
+        if i < len(commands):
+            state = game._request(commands[i])
+            if digest(state) != hashes[i + 1]:
+                raise ValueError("Independent Act 3 action stream diverged")
+    if active or state["decision"] != "game_over":
+        raise ValueError("Encounter audit did not reach the natural terminal")
+    return fights
+
+
 def check(task):
     base_folder, other_folder, host, entry, scope = task
     seed = entry["seed"]
@@ -176,7 +249,8 @@ def check(task):
                     "incumbent": aa[1][pos],
                     "challenger": bb[1][pos],
                 }
-            done = set()
+            done = {}
+            observed = []
             receipts = []
             for (spec, commands, hashes), r in zip((aa, bb), results, strict=True):
                 key = digest([spec, commands, hashes[-1]])
@@ -184,7 +258,13 @@ def check(task):
                     st = restore(spec, commands, hashes[-1])
                     if st["decision"] != "game_over" or st["victory"] is not r["win"]:
                         raise ValueError("Unconfirmed native terminal")
-                    done.add(key)
+                    fights = []
+                    if scope == "mecha" and entry["map_digest"]:
+                        offset = hashes.index(entry["map_digest"])
+                        state = restore(spec, commands[:offset], hashes[offset])
+                        fights = mecha_fights(game, state, commands[offset:], hashes[offset:])
+                    done[key] = fights
+                observed.append(done[key])
                 receipts.append({"history": key, "terminal": hashes[-1], "actions": len(commands)})
         finally:
             if game is not None:
@@ -195,6 +275,7 @@ def check(task):
         "origin_map": entry["map_digest"],
         "first_difference": changed,
         "terminal_replays": receipts,
+        "mecha_fights": dict(zip(("incumbent", "challenger"), observed, strict=True)),
         "incumbent": metrics(results[0]),
         "challenger": metrics(results[1]),
     }
@@ -224,6 +305,15 @@ def summarize(games, pairs):
             for icon, counts in v["rooms"].items():
                 for key, n in counts.items():
                     totals[f"{icon}_{key}"] += n
+        fights = [f for r in entrants for f in r.get("mecha_fights", {}).get(arm, [])]
+        if fights:
+            totals.update(
+                mecha_fights=len(fights),
+                mecha_seeds=sum(bool(r["mecha_fights"][arm]) for r in entrants),
+                mecha_survived=sum(f["won"] for f in fights),
+                mecha_windup=sum(f["windup_seen"] for f in fights),
+                mecha_cleave=sum(f["cleave_seen"] for f in fights),
+            )
         output[arm] = dict(totals)
     won = [r["seed"] for r in entrants if r["challenger"]["first"] and not r["incumbent"]["first"]]
     lost = [r["seed"] for r in entrants if r["incumbent"]["first"] and not r["challenger"]["first"]]

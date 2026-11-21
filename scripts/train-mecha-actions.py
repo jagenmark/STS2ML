@@ -3,7 +3,6 @@
 import argparse
 from concurrent.futures import ProcessPoolExecutor
 import hashlib
-import json
 from pathlib import Path
 import runpy
 from tempfile import TemporaryDirectory
@@ -290,13 +289,13 @@ def fit(a):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     sub = p.add_subparsers(dest="mode", required=True)
-    l = sub.add_parser("label")
+    collect = sub.add_parser("label")
     f = sub.add_parser("fit")
     for k in ("host", "cases"):
-        l.add_argument("--" + k, type=Path, required=True)
-    l.add_argument("--workers", type=int, default=3)
+        collect.add_argument("--" + k, type=Path, required=True)
+    collect.add_argument("--workers", type=int, default=3)
     f.add_argument("--labels", type=Path, required=True)
-    for q in (l, f):
+    for q in (collect, f):
         for k in ("bundle", "output"):
             q.add_argument("--" + k, type=Path, required=True)
     a = p.parse_args()
