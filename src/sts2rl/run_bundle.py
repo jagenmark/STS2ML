@@ -29,7 +29,7 @@ def freeze_bundle(manifest, destination):
     policy = {"version": 1, "runtime_identity": IDENTITY, "actor": roles[0], "files": files,
               **{key: args.get(key, False) for key in SWITCHES}}
     path = destination / "policy.json"
-    path.write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8", newline="\n")
     load_bundle(path)
     return path
 

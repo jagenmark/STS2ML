@@ -112,3 +112,40 @@ def strategy_roots(directory):
             if fingerprints[step] != digest(entry["state"]) or commands[step] != entry["action"]:
                 raise ValueError("Logged action or observation differs from the native trace")
             yield entry["state"], ReplayFork(spec, tuple(commands[:step]), fingerprints[step])
+
+
+def act2_boss_root(directory):
+    """Recover the first playable hand at the final Act 2 map node of a natural boss arrival."""
+    with (directory / "game/rpc.jsonl").open(encoding="utf-8") as stream:
+        first = json.loads(next(stream))
+        spec = natural_specification(first["command"])
+        previous = first["response_digest"]
+        act, last_row = 1, -1
+        history, last_fight = [], None
+        waiting = False
+        for line in stream:
+            row = json.loads(line)
+            cmd = row["command"]
+            if cmd["cmd"] == "get_map":
+                continue
+            if cmd["cmd"] != "action":
+                raise ValueError("Unexpected command in natural history")
+            kind = cmd["action"]
+            if kind == "select_map_node":
+                y = cmd["args"]["row"]
+                act += int(y < last_row)
+                last_row = y
+                if act > 2:
+                    break
+                waiting = act == 2
+                if waiting:
+                    last_fight = None
+            elif waiting and kind in ("play_card", "end_turn", "use_potion"):
+                last_fight = (len(history), previous)
+                waiting = False
+            history.append(cmd)
+            previous = row["response_digest"]
+    if not last_fight:
+        raise ValueError("No combat action at last Act 2 node")
+    index, digest = last_fight
+    return ReplayFork(spec, tuple(history[:index]), digest)

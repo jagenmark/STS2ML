@@ -109,15 +109,18 @@ def main():
         "selection",
         "output",
     ):
-        p.add_argument("--" + k, type=Path, required=True)
+        p.add_argument("--" + k, type=Path, required=k not in ("published", "published-replays"))
     a = p.parse_args()
+    if bool(a.published) != bool(a.published_replays):
+        p.error("--published and --published-replays must be supplied together")
     selection = json.loads(a.selection.read_bytes())
     if sha256(a.seed_lock.read_bytes()).hexdigest() != selection["seed_lock_sha256"]:
         raise ValueError("Wrong seed registry")
     seeds = json.loads(a.seed_lock.read_bytes())["seeds"]["test"]
     arms = {}
     histories = {}
-    for name in ("baseline", "published", "challenger"):
+    controls = ["baseline", "published"] if a.published else ["baseline"]
+    for name in [*controls, "challenger"]:
         arms[name], histories[name] = arm_data(
             getattr(a, name), getattr(a, name + "_replays"), seeds
         )
@@ -137,7 +140,7 @@ def main():
             "terminal_replays": sum(row["verified"] for row in data.values()),
             **{m: sum(row[m] for row in data.values()) for m in metrics},
         }
-    for name in ("baseline", "published"):
+    for name in controls:
         pairs = [(s, arms[name][s], arms["challenger"][s]) for s in seeds]
         verified = [p for p in pairs if p[1]["verified"] and p[2]["verified"]]
         summary["contrasts"][name] = {

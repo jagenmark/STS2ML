@@ -122,7 +122,7 @@ def save_json(path, data, *, best_effort=False):
     payload = json.dumps(data, indent=2, allow_nan=False) + "\n"
     for attempt in range(8):
         try:
-            temporary.write_text(payload, encoding="utf-8")
+            temporary.write_text(payload, encoding="utf-8", newline="\n")
             temporary.replace(path)
             return True
         except PermissionError:
