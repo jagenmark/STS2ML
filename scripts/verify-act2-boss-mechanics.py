@@ -51,20 +51,21 @@ def main():
                 data[label] = {"minimum": s["min_select"], "maximum": s["max_select"],
                                "actions": [x.command() for x in legal_actions(s)]}
                 if label == "fixed":
-                    prompt = game.fork()
-                    for c in s["cards"]:
-                        state = game.restore(prompt)
-                        state = game.step(selected_cards(state, [c["index"]]))
-                        powers = [x["id"] for x in state["player_powers"]]
-                        expected = "POWER."+c["id"].split(".")[-1]+"_POWER"
-                        if expected not in powers:
-                            raise ValueError("Chosen curse did not appear in the next native state")
-                        data["choices"][c["id"]] = powers
-                    game.restore(prompt)
+                    choices = [c["id"] for c in s["cards"]]
                     try:
                         game._request({"cmd":"action", "action":"skip_select", "args":{}})
                     except NativeError as exc:
                         data["native_skip_error"] = str(exc)
+        for card_id in choices:
+            with NativeSession(ROOT, Path(temp)/card_id, host_path=a.host, act_list=mode, timeout=80) as game:
+                s = enter_prompt(game, demon, settings)
+                index = next(c["index"] for c in s["cards"] if c["id"] == card_id)
+                state = game.step(selected_cards(s, [index]))
+                powers = [x["id"] for x in state["player_powers"]]
+                expected = "POWER."+card_id.split(".")[-1]+"_POWER"
+                if expected not in powers:
+                    raise ValueError("Chosen curse did not appear in the next native state")
+                data["choices"][card_id] = powers
         if data["old"]["minimum"] != 0 or data["fixed"]["minimum"] != 1 or not data.get("native_skip_error"):
             raise ValueError("Mandatory choice was not enforced")
         proof["knowledge_demon"] = data
