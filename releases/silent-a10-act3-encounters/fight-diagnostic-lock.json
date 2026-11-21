@@ -1,0 +1,14 @@
+{
+  "frozen_utc": "2026-11-21T14:48:30.299435+00:00",
+  "selection_commit": "a332027",
+  "candidate_sha256": "337e2678662b42b7eb0f92ab24fe001814dbd66ce9d1e3302ba82a71c665ea56",
+  "incumbent_sha256": "1e0873c839f4e2791495d866bbddd1e2b21590ed00ef3ff8ed3d0a7958958cb1",
+  "seed_lock_sha256": "ae521b81fd42aacb97d29d7f605d3b36985213851dba263481ad1e4be567afec",
+  "exploration_sha256": "61e96392fa3ca73fc63c0a182026172f4476c798ff67a5d47c6f5d923e6d854d",
+  "exploration_weights": {
+    "act3_weights": {
+      "elite": 6.0
+    }
+  },
+  "purpose": "Paired test diagnostic only. Freeze before reading natural test outcomes. Restore matched first playable hands on all primary Act 3 entrant maps, using the incumbent route and a fixed elite-seeking Act 3 route with otherwise incumbent play. Score each complete native duel. In each panel keep one root per seed and formation by smallest root digest. For elite totals pool routes using the same deduplication. Report natural Monster and Elite fights separately, and the pooled elite panel. Keep these labeled test cases out of all fitting."
+}
