@@ -1,0 +1,748 @@
+{
+  "registered": 36,
+  "complete_pairs": 36,
+  "errors": {},
+  "arms": {
+    "beam": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 7,
+        "exit_hp": 122,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "6467e3db8d791ab082bb861e0c3793526e40af6fea93427de3dcf3bf3e5a66f5",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "cleave/POTION.SWIFT_POTION": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 3,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 5,
+        "exit_hp": 74,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [],
+        "windup_seen": 25,
+        "potion_uses": {
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 1,
+        "exit_hp": 4,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796"
+        ],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {
+          "windup/POTION.FLEX_POTION": 1
+        }
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 70,
+        "gains": [
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [],
+        "windup_seen": 20,
+        "potion_uses": {
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 2,
+        "exit_hp": 48,
+        "gains": [
+          "6467e3db8d791ab082bb861e0c3793526e40af6fea93427de3dcf3bf3e5a66f5"
+        ],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.SWIFT_POTION": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 1,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "burn": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 96,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e",
+          "32d8f29da84f920cf45a8ac72b271d4facb042b82e4a0886fd81f170cf7e8d30"
+        ],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 62,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e",
+          "32d8f29da84f920cf45a8ac72b271d4facb042b82e4a0886fd81f170cf7e8d30"
+        ],
+        "windup_seen": 25,
+        "potion_uses": {}
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 1,
+        "exit_hp": 9,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796"
+        ],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {}
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 2,
+        "exit_hp": 53,
+        "gains": [
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e",
+          "32d8f29da84f920cf45a8ac72b271d4facb042b82e4a0886fd81f170cf7e8d30"
+        ],
+        "windup_seen": 20,
+        "potion_uses": {}
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 1,
+        "exit_hp": 34,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "greedy": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 6,
+        "exit_hp": 119,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376",
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 4,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 5,
+        "exit_hp": 85,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376",
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 25,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 1,
+        "exit_hp": 4,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796"
+        ],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {
+          "windup/POTION.FLEX_POTION": 1
+        }
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 81,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 20,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 1,
+        "exit_hp": 34,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "guard": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 6,
+        "exit_hp": 128,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "6467e3db8d791ab082bb861e0c3793526e40af6fea93427de3dcf3bf3e5a66f5",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "32d8f29da84f920cf45a8ac72b271d4facb042b82e4a0886fd81f170cf7e8d30"
+        ],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "cleave/POTION.SWIFT_POTION": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 3,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 83,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "32d8f29da84f920cf45a8ac72b271d4facb042b82e4a0886fd81f170cf7e8d30"
+        ],
+        "windup_seen": 25,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 1,
+        "exit_hp": 9,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796"
+        ],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {
+          "windup/POTION.FLEX_POTION": 1
+        }
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 74,
+        "gains": [
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "32d8f29da84f920cf45a8ac72b271d4facb042b82e4a0886fd81f170cf7e8d30"
+        ],
+        "windup_seen": 20,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 2,
+        "exit_hp": 45,
+        "gains": [
+          "6467e3db8d791ab082bb861e0c3793526e40af6fea93427de3dcf3bf3e5a66f5"
+        ],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.SWIFT_POTION": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 1,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "incumbent": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 89,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 55,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 25,
+        "potion_uses": {}
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 0,
+        "exit_hp": 0,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {}
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 55,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 20,
+        "potion_uses": {}
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 1,
+        "exit_hp": 34,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "potions": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 89,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 4,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 55,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 25,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 0,
+        "exit_hp": 0,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {
+          "windup/POTION.FLEX_POTION": 1
+        }
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 55,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 20,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 1,
+        "exit_hp": 34,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "race": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 5,
+        "exit_hp": 123,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376"
+        ],
+        "losses": [],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 4,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 89,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376"
+        ],
+        "losses": [],
+        "windup_seen": 25,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 0,
+        "exit_hp": 0,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {
+          "windup/POTION.FLEX_POTION": 1
+        }
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 89,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376"
+        ],
+        "losses": [],
+        "windup_seen": 20,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 1,
+        "exit_hp": 34,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "reserve": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 6,
+        "exit_hp": 101,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "6467e3db8d791ab082bb861e0c3793526e40af6fea93427de3dcf3bf3e5a66f5",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "cleave/POTION.SWIFT_POTION": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 3,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 53,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796",
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 25,
+        "potion_uses": {
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 1,
+        "exit_hp": 4,
+        "gains": [
+          "3ec3ce11c1067f046b8088877d3aa3c8f082ea6c0216d5d6791bf215ffd4b796"
+        ],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {
+          "windup/POTION.FLEX_POTION": 1
+        }
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 49,
+        "gains": [
+          "d9b5d24fe364dec539bef96d269dd569a61eed726c17d84c9ad66151dbcc30d5"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 20,
+        "potion_uses": {
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 2,
+        "exit_hp": 48,
+        "gains": [
+          "6467e3db8d791ab082bb861e0c3793526e40af6fea93427de3dcf3bf3e5a66f5"
+        ],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.SWIFT_POTION": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 1,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    },
+    "tempo": {
+      "all": {
+        "n": 36,
+        "seeds": 21,
+        "wins": 4,
+        "exit_hp": 111,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 35,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 4,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      },
+      "carried_inventory": {
+        "n": 26,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 77,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 25,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.FLEX_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "natural": {
+        "n": 5,
+        "seeds": 2,
+        "wins": 0,
+        "exit_hp": 0,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 5,
+        "potion_uses": {
+          "windup/POTION.FLEX_POTION": 1
+        }
+      },
+      "practice": {
+        "n": 21,
+        "seeds": 21,
+        "wins": 3,
+        "exit_hp": 77,
+        "gains": [
+          "09c92262f6674214f852a683f41ccd2028f3f5843f7032579a70e1672d273376"
+        ],
+        "losses": [
+          "1ee1885a5c0a08b80f3e38717364a3ec80d98355c79a8b5bc665af9bedcbe16e"
+        ],
+        "windup_seen": 20,
+        "potion_uses": {
+          "cleave/POTION.FLEX_POTION": 1,
+          "cleave/POTION.LUCKY_TONIC": 1,
+          "windup/POTION.SWIFT_POTION": 2
+        }
+      },
+      "potion_practice": {
+        "n": 10,
+        "seeds": 10,
+        "wins": 1,
+        "exit_hp": 34,
+        "gains": [],
+        "losses": [],
+        "windup_seen": 10,
+        "potion_uses": {
+          "cleave/POTION.WEAK_POTION": 1,
+          "windup/POTION.SWIFT_POTION": 2,
+          "windup/POTION.WEAK_POTION": 1
+        }
+      }
+    }
+  }
+}

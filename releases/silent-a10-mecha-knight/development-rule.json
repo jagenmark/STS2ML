@@ -1,0 +1,11 @@
+{
+  "registered_utc": "2026-11-21T15:43:25.606520+00:00",
+  "candidates": [
+    "incumbent",
+    "beam",
+    "guard",
+    "greedy",
+    "ranked"
+  ],
+  "selection": "Among challengers, maximize paired survivals, then sum of exit HP, across natural and deliberately placed fights with the carried inventory intact. The 14 potion-replacement cases are reported separately. Break exact ties in favor of a fixed plan then fewer altered choices. The two new natural A10 tests remain unopened until selection is frozen."
+}
