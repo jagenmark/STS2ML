@@ -1,0 +1,9 @@
+{
+  "registered_utc": "2026-11-21T15:18:55.360685+00:00",
+  "incumbent_sha256": "337e2678662b42b7eb0f92ab24fe001814dbd66ce9d1e3302ba82a71c665ea56",
+  "base_commit": "d6df9a2520ce84cac1a064b6b2cd2f3f059987e0",
+  "scope": "Act 3 Mecha Knight only. Policy choices may change during the visible Windup and the following Heavy Cleave. Earlier and other-encounter decisions are shared.",
+  "selection": "Fit on signed training maps and training-only native practice encounters; compare candidates on distinct development maps. Do not inspect either natural test cohort or use earlier published test hands for fitting or selection. Rank by survival then exit HP on native development fights and prefer a simpler candidate when tied. Freeze a candidate before scoring any held outcomes. If none improves, freeze a research comparison and retain the incumbent.",
+  "primary": "Number reaching the first Act 3 boss in 6144 and 3072 disjoint new natural full-game seeds. Also report actual Mecha arrivals, reaching a visible Windup, second bosses, full victories, paired gains/losses and exact paired test. Every incumbent game starts at the regular native lobby. Replay all Act 3 entrants plus 32 hash-selected earlier losses per cohort using the candidate and independently verify native endings and first changed actions.",
+  "diagnostics": "On all genuine Mecha Knight openings in the natural test, compare the frozen models at a common hand if available. Also assess a separate labeled practice panel on reserved maps if feasible. Keep paired or artificial starting states separate from natural first-boss conversion."
+}
