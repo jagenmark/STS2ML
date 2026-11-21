@@ -1,0 +1,168 @@
+{
+  "selection": "All three previous A10 first-final-boss clears and the two initial A7 wins were explicitly selected by outcome. Positions in the original lobby seed lists are preserved.",
+  "cases": [
+    {
+      "seed": "A3HE21TEST00366",
+      "index": 366,
+      "selected_result": {
+        "ascension": 10,
+        "first": true,
+        "second": true,
+        "win": false,
+        "terminal": "625b38d5f4447c26e24c7af19834057f0149072de6118eb8d070a9d38d65cbec"
+      },
+      "crossover": {
+        "ascension": 7,
+        "act": 3,
+        "floor": 15,
+        "boss_fights": [
+          [
+            1,
+            17
+          ],
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ],
+        "last_enemies": [
+          "MONSTER.AEONGLASS"
+        ],
+        "win": true,
+        "terminal": "c6aae9b2b08c949bef33736cc395838473c72da1fa9b7cbda09fddd40640162b"
+      }
+    },
+    {
+      "seed": "A3HE21TEST04095",
+      "index": 4095,
+      "selected_result": {
+        "ascension": 10,
+        "first": true,
+        "second": true,
+        "win": false,
+        "terminal": "113c2a586b1348af913b9bf338ac2522dd723cfeec3610a176008ace103de2dd"
+      },
+      "crossover": {
+        "ascension": 7,
+        "act": 3,
+        "floor": 15,
+        "boss_fights": [
+          [
+            1,
+            17
+          ],
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ],
+        "last_enemies": [
+          "MONSTER.QUEEN"
+        ],
+        "win": true,
+        "terminal": "dbdd17f234f8869723c6c0ce8e0593d8b12ec04d7a3c552861bf1be241e876ad"
+      }
+    },
+    {
+      "seed": "A3HE21ROUTE00248",
+      "index": 248,
+      "selected_result": {
+        "ascension": 10,
+        "first": true,
+        "second": true,
+        "win": false,
+        "terminal": "3489d806611cd7d8ba55709afd73e24c65051da0e9ad98ab1c53a8900bb9b2d4"
+      },
+      "crossover": {
+        "ascension": 7,
+        "act": 3,
+        "floor": 15,
+        "boss_fights": [
+          [
+            1,
+            17
+          ],
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ]
+        ],
+        "last_enemies": [
+          "MONSTER.AEONGLASS"
+        ],
+        "win": false,
+        "terminal": "a482063e1e5166bdc23f2ea7eebed9af43f8c05a435c1db422b0c51d760ff5d0"
+      }
+    },
+    {
+      "seed": "MK21A7REPL00005",
+      "index": 5,
+      "selected_result": {
+        "ascension": 7,
+        "first": true,
+        "second": false,
+        "win": true,
+        "terminal": "b23d05a658445f406605d6e6a8269dfc51dc9176814a5412260e7ca96b995aca"
+      },
+      "crossover": {
+        "ascension": 10,
+        "act": 1,
+        "floor": 17,
+        "boss_fights": [
+          [
+            1,
+            17
+          ]
+        ],
+        "last_enemies": [
+          "MONSTER.KIN_FOLLOWER",
+          "MONSTER.KIN_FOLLOWER",
+          "MONSTER.KIN_PRIEST"
+        ],
+        "win": false,
+        "terminal": "aa34999eb5be35500a4cc15adba4c9117e8e98e3c1cb20568f008afaacde7fc8"
+      }
+    },
+    {
+      "seed": "MK21A7REPL00449",
+      "index": 449,
+      "selected_result": {
+        "ascension": 7,
+        "first": true,
+        "second": false,
+        "win": true,
+        "terminal": "98bb886d9b3186634b4866f833c9a1eb125ba510620ed68fed53f5c8b4d8e0fb"
+      },
+      "crossover": {
+        "ascension": 10,
+        "act": 1,
+        "floor": 17,
+        "boss_fights": [
+          [
+            1,
+            17
+          ]
+        ],
+        "last_enemies": [
+          "MONSTER.KIN_FOLLOWER",
+          "MONSTER.KIN_FOLLOWER",
+          "MONSTER.KIN_PRIEST"
+        ],
+        "win": false,
+        "terminal": "fb662939a5909065ccbd41dc7ef4d70e362389cf8c0b24c164ab785d93da2bd8"
+      }
+    }
+  ]
+}

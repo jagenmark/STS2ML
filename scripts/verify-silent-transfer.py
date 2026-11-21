@@ -63,6 +63,7 @@ def confirm(task):
             except NativeError:
                 if stream:
                     raise
+    intermediate_differences = []
     if row["win"]:
         if not verified_victory(row["boss_fights"], ascension):
             raise ValueError(f"Missing final boss for {seed}")
@@ -82,12 +83,17 @@ def confirm(task):
                     {**opts, "ascension": ascension, "seeded_acts": True, "rooms": True},
                 )
             )
+            again_spec, again_commands, again_hashes = physical(folder, ascension)
             if (
                 played["status"] != "complete"
                 or not played["win"]
-                or physical(folder, ascension) != (spec, commands, hashes)
+                or (again_spec, again_commands, again_hashes[0], again_hashes[-1])
+                != (spec, commands, hashes[0], hashes[-1])
             ):
                 raise ValueError(f"The frozen policy did not reproduce victory on {seed}")
+            intermediate_differences = [
+                i for i, (a, b) in enumerate(zip(hashes, again_hashes, strict=True)) if a != b
+            ]
     metrics = {
         k: row[k]
         for k in (
@@ -103,6 +109,11 @@ def confirm(task):
             "win",
         )
     }
+    if row["win"]:
+        metrics["winning_policy_replay"] = {
+            "identical_actions": len(commands),
+            "intermediate_digest_differences": intermediate_differences,
+        }
     return metrics | {"opening": hashes[0], "terminal": hashes[-1]}, {
         "spec": spec,
         "history": commands,

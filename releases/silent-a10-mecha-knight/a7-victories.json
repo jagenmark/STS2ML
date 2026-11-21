@@ -1,0 +1,41 @@
+{
+  "policy_sha256": "337e2678662b42b7eb0f92ab24fe001814dbd66ce9d1e3302ba82a71c665ea56",
+  "original_native_host": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+  "independent_native_host": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410",
+  "winning_lobbies": [
+    {
+      "seed": "MK21A7REPL00005",
+      "index": 5,
+      "boss": [
+        "MONSTER.AEONGLASS"
+      ],
+      "boss_entry_hp": 75,
+      "exit_hp": 15,
+      "actions": 570,
+      "identical_actions": true,
+      "opening": "d42cd85ab2c1b2d0eca4f93c344480b277317799a7750ea11a77eb0e36ad1595",
+      "terminal": "b23d05a658445f406605d6e6a8269dfc51dc9176814a5412260e7ca96b995aca",
+      "physical_history": "7b14c69cd115a5aa485960534605e46df853dd69dc6f737d6db6ce309483c82c",
+      "transient_digests": []
+    },
+    {
+      "seed": "MK21A7REPL00449",
+      "index": 449,
+      "boss": [
+        "MONSTER.QUEEN"
+      ],
+      "boss_entry_hp": 79,
+      "exit_hp": 42,
+      "actions": 511,
+      "identical_actions": true,
+      "opening": "469c448576c0d7221d1c39fb040638dbc991fc5a6537d80d17ccf2ce7e00e737",
+      "terminal": "98bb886d9b3186634b4866f833c9a1eb125ba510620ed68fed53f5c8b4d8e0fb",
+      "physical_history": "e55b65bba92cf96009039b8c1b1d379826d66c1a1053ff3a78ab55febeb4f03f",
+      "transient_digests": [
+        383,
+        384
+      ]
+    }
+  ],
+  "event_probe": "On seed 449, native probes of the two event prompts differed only in options[*].vars.EntrantNumber. Both runs chose the same event options and returned to the identical map digest."
+}

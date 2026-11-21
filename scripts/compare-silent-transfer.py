@@ -23,7 +23,13 @@ def compare_one(task):
 
 def run(a):
     seed_lock = json.loads(a.seed_lock.read_bytes())
-    rows = json.loads((a.verified / "games.json").read_bytes())
+    rows = (
+        json.loads((a.verified / "games.json").read_bytes())
+        if a.verified
+        else [json.loads(f.read_bytes()) for f in sorted(a.baseline.glob("*/result.json"))]
+    )
+    if not a.verified and any(r["status"] != "complete" or r["ascension"] != 7 for r in rows):
+        raise ValueError("Incomplete A7 reference cohort")
     config = json.loads((a.baseline.parent / "config.json").read_bytes())
     if (
         config["ascension"] != 7
@@ -49,25 +55,38 @@ def run(a):
                 "map_digest": root,
             }
         )
-    a.output.mkdir(parents=True, exist_ok=False)
-    save_json(a.output / "entries.json", entries)
-    subprocess.run(
-        [
-            sys.executable,
-            str(ROOT / "scripts/play-silent-lobbies.py"),
-            "--entries",
-            str(a.output / "entries.json"),
-            "--bundle",
-            str(a.bundle),
-            "--host",
-            str(a.host),
-            "--workers",
-            str(a.workers),
-            "--output",
-            str(a.output / "played"),
-        ],
-        check=True,
-    )
+    if a.resume:
+        design = json.loads((a.output / "played/design.json").read_bytes())
+        expected = {"entries": a.output / "entries.json", "bundle": a.bundle, "host": a.host}
+        if (
+            json.loads(expected["entries"].read_bytes()) != entries
+            or not (a.output / "played/games.json").is_file()
+            or any(
+                design[k + "_sha256"] != hashlib.sha256(v.read_bytes()).hexdigest()
+                for k, v in expected.items()
+            )
+        ):
+            raise ValueError("Cannot resume from a different or partial comparison")
+    else:
+        a.output.mkdir(parents=True, exist_ok=False)
+        save_json(a.output / "entries.json", entries)
+        subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts/play-silent-lobbies.py"),
+                "--entries",
+                str(a.output / "entries.json"),
+                "--bundle",
+                str(a.bundle),
+                "--host",
+                str(a.host),
+                "--workers",
+                str(a.workers),
+                "--output",
+                str(a.output / "played"),
+            ],
+            check=True,
+        )
     jobs = [
         (
             a.baseline / f"run-{e['index']:04d}",
@@ -106,7 +125,9 @@ def run(a):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    for k in ("seed-lock", "verified", "baseline", "bundle", "host", "verify-host", "output"):
+    p.add_argument("--resume", action="store_true")
+    p.add_argument("--verified", type=Path)
+    for k in ("seed-lock", "baseline", "bundle", "host", "verify-host", "output"):
         p.add_argument("--" + k, type=Path, required=True)
     p.add_argument("--workers", type=int, default=3)
     run(p.parse_args())

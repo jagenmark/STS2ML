@@ -103,6 +103,8 @@ def mecha_fights(game, state, commands, hashes):
             active["end"] = hashes[i]
             active = None
         if knight:
+            if digest(state) != hashes[i]:
+                raise ValueError("Independent Mecha state differs from the recorded state")
             if active is None:
                 active = {
                     "floor": ctx["floor"],
@@ -142,9 +144,8 @@ def mecha_fights(game, state, commands, hashes):
                 )
         if i < len(commands):
             state = game._request(commands[i])
-            if digest(state) != hashes[i + 1]:
-                raise ValueError("Independent Act 3 action stream diverged")
-    if active or state["decision"] != "game_over":
+
+    if active or state["decision"] != "game_over" or digest(state) != hashes[-1]:
         raise ValueError("Encounter audit did not reach the natural terminal")
     return fights
 

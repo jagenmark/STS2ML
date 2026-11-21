@@ -12,6 +12,7 @@ import sys
 from tempfile import TemporaryDirectory
 import zipfile
 
+from sts2rl.native import digest
 from sts2rl.run_bundle import load_bundle
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -75,6 +76,20 @@ def build(study, archive):
         for prefix, raw in (("a7", "a7-benchmark"), ("a7-replication", "a7-replication")):
             tree(study / (prefix + "-report"), "evaluation/" + prefix)
             add(study / raw / "config.json", "evaluation/" + prefix + "/config.json")
+        for prefix in ("a7", "a7-replication"):
+            for name in (
+                "entries.json",
+                "pairs.json",
+                "summary.json",
+                "changed-histories.jsonl.gz",
+            ):
+                add(
+                    study / (prefix + "-finalist") / name,
+                    "evaluation/" + prefix + "/finalist/" + name,
+                )
+        tree(study / "difficulty-report", "evaluation/difficulty-pairing")
+        add(study / "difficulty-pairing/config.json", "evaluation/difficulty-pairing/config.json")
+        add(study / "crossover-histories.jsonl.gz", "evaluation/crossover-histories.jsonl.gz")
         z.writestr(
             "manifest.json", json.dumps({"format": "mecha-knight-1", "sha256": hashes}, indent=2)
         )
@@ -101,7 +116,8 @@ def verify_transfer(root, name):
                 game["index"] != index
                 or game["seed"] != seed
                 or game["terminal"] != row["expected_digest"]
-                or row["spec"] != {"seed": seed, "act_list": "seeded", "ascension": 7}
+                or row["spec"]
+                != {"seed": seed, "act_list": "seeded", "ascension": registry["ascension"]}
                 or any(a.get("cmd") != "action" for a in row["history"])
             ):
                 raise ValueError("Invalid A7 physical history")
@@ -118,6 +134,42 @@ def verify_transfer(root, name):
     ]:
         raise ValueError("A7 summary disagrees with completed games")
     return stats
+
+
+def verify_finalist(root, name):
+    folder = root / "evaluation" / name
+    baseline = read(folder / "games.json")
+    comp = folder / "finalist"
+    pairs = read(comp / "pairs.json")
+    expected = {g["seed"] for g in baseline if g["a2_clear"]}
+    if {p["seed"] for p in pairs if p["origin_map"]} != expected or len(pairs) != len(
+        expected
+    ) + 16:
+        raise ValueError("A7 finalist audit omitted an entrant or spot check")
+    with gzip.open(comp / "changed-histories.jsonl.gz", "rt", encoding="utf-8") as stream:
+        changed = {r["spec"]["seed"]: r for line in stream if (r := json.loads(line))}
+    indexed = {p["seed"]: p for p in pairs}
+    if set(changed) != {p["seed"] for p in pairs if p["first_difference"]}:
+        raise ValueError("A7 changed-history set differs from the verified comparisons")
+    with gzip.open(folder / "histories.jsonl.gz", "rt", encoding="utf-8") as stream:
+        for game, line in zip(baseline, stream, strict=True):
+            pair = indexed.get(game["seed"])
+            if pair is None:
+                continue
+            physical = json.loads(line)
+            for k, path in enumerate((physical, changed.get(game["seed"], physical))):
+                if (
+                    digest([path["spec"], path["history"], path["expected_digest"]])
+                    != pair["terminal_replays"][k]["history"]
+                ):
+                    raise ValueError("A7 comparison differs from its verified physical path")
+    summary = read(comp / "summary.json")
+    reference = runpy.run_path(str(ROOT / "scripts/measure-act3-encounters.py"))["summarize"](
+        baseline, pairs
+    )
+    if any(summary[k] != v for k, v in reference.items()):
+        raise ValueError("A7 finalist summary mismatch")
+    return {arm: summary[arm] for arm in ("incumbent", "challenger")}
 
 
 def verify(archive, repeat=False, host=None):
@@ -152,7 +204,16 @@ def verify(archive, repeat=False, host=None):
             c: verify_games(root, c, c + "-seed-lock.json", ("challenger",))
             for c in ("main", "replication")
         }
-        transfer = {c: verify_transfer(root, c) for c in ("a7", "a7-replication")}
+        transfer = {
+            c: verify_transfer(root, c) for c in ("a7", "a7-replication", "difficulty-pairing")
+        }
+        for c in ("a7", "a7-replication"):
+            verify_finalist(root, c)
+        if (
+            read(root / "a7-seed-lock.json")["seeds"]["test"]
+            != read(root / "difficulty-pairing-seed-lock.json")["seeds"]["test"]
+        ):
+            raise ValueError("A7/A10 crossover inventories differ")
         fit_delta = None
         if repeat:
             args = [
