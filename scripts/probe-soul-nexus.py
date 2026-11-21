@@ -12,7 +12,7 @@ from sts2rl.act1 import save_json
 from sts2rl.combat_effects import block_preview, power
 from sts2rl.combat_outcome import outcome
 from sts2rl.encounter import EncounterModel
-from sts2rl.native import NativeSession, ReplayFork, digest, legal_actions
+from sts2rl.native import NativeError, NativeSession, ReplayFork, digest, legal_actions
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_evaluation import act_start
 from sts2rl.run_policy import RunPolicy, RunWeights, _cost
@@ -86,25 +86,42 @@ def play(task):
         **base,
         "act3_hallways": {"plans": {"pressure": plan}, "by_room": {"Elite": "pressure"}},
     }
-    arms = {}
-    with (
-        TemporaryDirectory() as tmp,
-        NativeSession(
-            ROOT,
-            Path(tmp) / "game",
-            host_path=host,
-            act_list=spec.get("act_list", "default"),
-            timeout=75,
-        ) as game,
-    ):
-        fork = ReplayFork(spec, tuple(history), root)
+    arms, errors = {}, {}
+    fork = ReplayFork(spec, tuple(history), root)
+    with TemporaryDirectory() as tmp:
         for name, config in (("frozen", base), ("pressure", pressure)):
             for reserve in (False, True):
-                actor = ReserveBlock(config, reserve)
-                result = outcome(game, game.restore(fork), actor, RunPolicy(weights))
-                arms[name + ("_reserve" if reserve else "")] = {**result, "changes": actor.changes}
+                label = name + ("_reserve" if reserve else "")
+                for method in ("restore", "stream"):
+                    try:
+                        with NativeSession(
+                            ROOT,
+                            Path(tmp) / (label + method),
+                            host_path=host,
+                            act_list=spec.get("act_list", "default"),
+                            timeout=75,
+                        ) as game:
+                            if method == "restore":
+                                state = game.restore(fork)
+                            else:
+                                state = game.reset(seed)
+                                for command in history:
+                                    state = game._request(command)
+                                if digest(state) != root:
+                                    raise ValueError(
+                                        "Different state after streaming the public commands"
+                                    )
+                                game.state, game.history = state, list(history)
+                            actor = ReserveBlock(config, reserve)
+                            result = outcome(game, state, actor, RunPolicy(weights))
+                            arms[label] = {**result, "changes": actor.changes, "replay": method}
+                            break
+                    except (NativeError, TimeoutError) as exc:
+                        if method == "stream":
+                            errors[label] = str(exc)
     save_json(
-        output / (root + ".json"), {"seed": seed, "root": root, "partition": phase, "arms": arms}
+        output / (root + ".json"),
+        {"seed": seed, "root": root, "partition": phase, "arms": arms, "errors": errors},
     )
 
 
@@ -177,7 +194,7 @@ def main():
     rows = [json.loads((a.output / (key + ".json")).read_bytes()) for key in sorted(tasks)]
     stats = {}
     for arm in ("frozen", "frozen_reserve", "pressure", "pressure_reserve"):
-        selected = [r["arms"][arm] for r in rows]
+        selected = [r["arms"][arm] for r in rows if not r["errors"]]
         stats[arm] = {
             "wins": sum(r["won"] for r in selected),
             "hp": sum(r["hp"] for r in selected),
@@ -188,6 +205,8 @@ def main():
         "partition": a.partition,
         "maps": len(maps),
         "roots": len(rows),
+        "paired": sum(not r["errors"] for r in rows),
+        "fight_errors": {r["root"]: r["errors"] for r in rows if r["errors"]},
         "distinct_seeds": len({r["seed"] for r in rows}),
         "scores": stats,
     }

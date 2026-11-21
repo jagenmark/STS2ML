@@ -1,0 +1,14 @@
+{
+  "asset": "silent-a10-act3-encounters.zip",
+  "bytes": 7873309,
+  "sha256": "7dc593088c2e529773d87f5264a5dde6529be0139e4e8b65ee465a99edf43243",
+  "payloads": 899,
+  "selection_commit": "a332027",
+  "local_refit_max_coefficient_error": 0.0,
+  "local_native_replay": {
+    "seed": "A3HE21TEST00788",
+    "physical_history": "8d947545de4a3d9f9b9fab311254bf9fc6afa3df8cd5f2430a9f688ab2164d01",
+    "actions": 639,
+    "win": false
+  }
+}

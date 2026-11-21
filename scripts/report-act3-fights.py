@@ -27,6 +27,20 @@ def panel(directory, selection_hash, protected):
         ):
             raise ValueError("Unmatched native opening or test seed")
         identities.add(identity)
+        if "retry_sha256" in r:
+            proof = (directory.parent / "held-diagnostic-retries" / (root + ".json")).read_bytes()
+            retry = json.loads(proof)
+            original = retry["original"]
+            x, y = retry["replays"]
+            if (
+                hashlib.sha256(proof).hexdigest() != r["retry_sha256"]
+                or not original["error"]
+                or (original["root"], original["receipt_sha256"]) != (root, stamp)
+                or x["host_sha256"] == y["host_sha256"]
+                or x["arms"] != y["arms"]
+                or r["outcomes"] != {k: v["outcome"] for k, v in x["arms"].items()}
+            ):
+                raise ValueError("Independent fresh-host retry differs from its matched diagnostic")
         if "error" in r:
             errors.append(
                 {"seed": r["seed"], "formation": r["formation"], "root": root, "error": r["error"]}

@@ -137,6 +137,8 @@ def build(study, archive):
             "screening.json",
             "training-findings.json",
             "soul-nexus-example.json",
+            "soul-nexus-probe.json",
+            "mecha-knight.json",
             "fight-diagnostic-lock.json",
             "fight-diagnostics.json",
             "combat-fit.json",
@@ -147,6 +149,13 @@ def build(study, archive):
             add(RELEASE / filename, filename)
         for name in TRAIN_DATA:
             tree(study / name, "training/" + name)
+        for part in ("training", "development"):
+            tree(study / ("reserve-verified-" + part), "experiments/soul-nexus/" + part)
+        for index in (0, 1):
+            tree(
+                study / "reserve-development" / ("openings-" + str(index)),
+                "experiments/soul-nexus/development-openings-" + str(index),
+            )
         for f in ("plans.json", "search-elite-examples.py"):
             add(study / f, "training/" + f)
         for source in (*ROOM_SOURCES, "pool-training/incumbent", "pool-training/seek_elites"):
@@ -163,8 +172,10 @@ def build(study, archive):
             "held-probe-roots",
             "held-natural-fights",
             "held-elite-fights",
+            "held-diagnostic-retries",
         ):
             tree(study / name, "evaluation/fight-diagnostic/" + name)
+        add(study / "retry-diagnostic.py", "evaluation/fight-diagnostic/retry-diagnostic.py")
         tree(study / "diagnostic-paths", "evaluation/fight-diagnostic/alternate-lobbies")
         for cohort, (lock, base, arms) in COHORTS.items():
             prefix = "evaluation/" + cohort

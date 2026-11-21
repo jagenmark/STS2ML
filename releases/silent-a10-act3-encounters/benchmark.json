@@ -1,0 +1,1032 @@
+{
+  "cohorts": {
+    "primary": {
+      "incumbent_room_outcomes": {
+        "first_boss_entry": [
+          {
+            "seed": "A3HE21TEST00366",
+            "hp": 59,
+            "max_hp": 70
+          },
+          {
+            "seed": "A3HE21TEST00384",
+            "hp": 70,
+            "max_hp": 70
+          },
+          {
+            "seed": "A3HE21TEST01520",
+            "hp": 68,
+            "max_hp": 70
+          },
+          {
+            "seed": "A3HE21TEST01676",
+            "hp": 65,
+            "max_hp": 70
+          },
+          {
+            "seed": "A3HE21TEST02320",
+            "hp": 55,
+            "max_hp": 97
+          },
+          {
+            "seed": "A3HE21TEST02947",
+            "hp": 47,
+            "max_hp": 80
+          },
+          {
+            "seed": "A3HE21TEST02995",
+            "hp": 62,
+            "max_hp": 62
+          },
+          {
+            "seed": "A3HE21TEST03305",
+            "hp": 66,
+            "max_hp": 81
+          },
+          {
+            "seed": "A3HE21TEST03436",
+            "hp": 73,
+            "max_hp": 73
+          },
+          {
+            "seed": "A3HE21TEST03490",
+            "hp": 42,
+            "max_hp": 70
+          },
+          {
+            "seed": "A3HE21TEST03864",
+            "hp": 94,
+            "max_hp": 110
+          },
+          {
+            "seed": "A3HE21TEST04073",
+            "hp": 53,
+            "max_hp": 90
+          },
+          {
+            "seed": "A3HE21TEST04095",
+            "hp": 59,
+            "max_hp": 80
+          }
+        ],
+        "full_victory_seeds": [],
+        "terminal_enemies_before_boss": [
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "SLIMED_BERSERKER",
+            "deaths": 3
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "DEVOTED_SCULPTOR",
+            "deaths": 2
+          },
+          {
+            "map_icon": "Unknown",
+            "surviving_enemies": "AXEBOT",
+            "deaths": 2
+          },
+          {
+            "map_icon": "Elite",
+            "surviving_enemies": "MECHA_KNIGHT",
+            "deaths": 2
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "THE_FORGOTTEN+THE_LOST",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "OWL_MAGISTRATE",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT+PUNCH_CONSTRUCT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "FABRICATOR+STABBOT+ZAPBOT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "AXEBOT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "FROG_KNIGHT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "TURRET_OPERATOR",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Unknown",
+            "surviving_enemies": "FROG_KNIGHT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Elite",
+            "surviving_enemies": "MAGI_KNIGHT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Unknown",
+            "surviving_enemies": "GLOBE_HEAD",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Unknown",
+            "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Elite",
+            "surviving_enemies": "FLAIL_KNIGHT+MAGI_KNIGHT+SPECTRAL_KNIGHT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "FABRICATOR+NOISEBOT+STABBOT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Elite",
+            "surviving_enemies": "SOUL_NEXUS",
+            "deaths": 1
+          }
+        ]
+      },
+      "combat": {
+        "test": {
+          "scope": "combat",
+          "full": {
+            "lobbies": 4096,
+            "act2_entries": 1255,
+            "act3_entries": 39,
+            "incumbent": {
+              "first": 13,
+              "second": 2,
+              "win": 0,
+              "floor": 361,
+              "Monster_entered": 111,
+              "Monster_died": 16,
+              "Elite_entered": 7,
+              "Elite_died": 5,
+              "Unknown_entered": 92,
+              "Unknown_died": 5
+            },
+            "challenger": {
+              "first": 14,
+              "second": 2,
+              "win": 0,
+              "floor": 384,
+              "Monster_entered": 115,
+              "Monster_died": 14,
+              "Elite_entered": 11,
+              "Elite_died": 8,
+              "Unknown_entered": 99,
+              "Unknown_died": 3
+            },
+            "boss_gained": [
+              "A3HE21TEST00788"
+            ],
+            "boss_lost": [],
+            "paired_p": 1
+          },
+          "halves": {
+            "first": {
+              "lobbies": 2048,
+              "act2_entries": 618,
+              "act3_entries": 19,
+              "incumbent": {
+                "first": 4,
+                "second": 1,
+                "win": 0,
+                "floor": 155,
+                "Monster_entered": 53,
+                "Monster_died": 11,
+                "Elite_entered": 2,
+                "Elite_died": 1,
+                "Unknown_entered": 38,
+                "Unknown_died": 3
+              },
+              "challenger": {
+                "first": 5,
+                "second": 1,
+                "win": 0,
+                "floor": 175,
+                "Monster_entered": 57,
+                "Monster_died": 9,
+                "Elite_entered": 5,
+                "Elite_died": 3,
+                "Unknown_entered": 43,
+                "Unknown_died": 2
+              },
+              "boss_gained": [
+                "A3HE21TEST00788"
+              ],
+              "boss_lost": [],
+              "paired_p": 1
+            },
+            "second": {
+              "lobbies": 2048,
+              "act2_entries": 637,
+              "act3_entries": 20,
+              "incumbent": {
+                "first": 9,
+                "second": 1,
+                "win": 0,
+                "floor": 206,
+                "Monster_entered": 58,
+                "Monster_died": 5,
+                "Elite_entered": 5,
+                "Elite_died": 4,
+                "Unknown_entered": 54,
+                "Unknown_died": 2
+              },
+              "challenger": {
+                "first": 9,
+                "second": 1,
+                "win": 0,
+                "floor": 209,
+                "Monster_entered": 58,
+                "Monster_died": 5,
+                "Elite_entered": 6,
+                "Elite_died": 5,
+                "Unknown_entered": 56,
+                "Unknown_died": 1
+              },
+              "boss_gained": [],
+              "boss_lost": [],
+              "paired_p": 1
+            }
+          },
+          "full_paired_lobbies": 103,
+          "nonentrant_spot_checks": 64,
+          "shared_pre_act3_histories": 4057,
+          "independent_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+        },
+        "comparisons": {
+          "first": {
+            "gained": [
+              "A3HE21TEST00788"
+            ],
+            "lost": [],
+            "paired_exact_p": 1.0
+          },
+          "second": {
+            "gained": [],
+            "lost": [],
+            "paired_exact_p": 1.0
+          },
+          "win": {
+            "gained": [],
+            "lost": [],
+            "paired_exact_p": 1.0
+          }
+        },
+        "room_outcomes": {
+          "first_boss_entry": [
+            {
+              "seed": "A3HE21TEST00366",
+              "hp": 59,
+              "max_hp": 70
+            },
+            {
+              "seed": "A3HE21TEST00384",
+              "hp": 70,
+              "max_hp": 70
+            },
+            {
+              "seed": "A3HE21TEST00788",
+              "hp": 51,
+              "max_hp": 76
+            },
+            {
+              "seed": "A3HE21TEST01520",
+              "hp": 68,
+              "max_hp": 70
+            },
+            {
+              "seed": "A3HE21TEST01676",
+              "hp": 65,
+              "max_hp": 70
+            },
+            {
+              "seed": "A3HE21TEST02320",
+              "hp": 51,
+              "max_hp": 97
+            },
+            {
+              "seed": "A3HE21TEST02947",
+              "hp": 50,
+              "max_hp": 80
+            },
+            {
+              "seed": "A3HE21TEST02995",
+              "hp": 51,
+              "max_hp": 60
+            },
+            {
+              "seed": "A3HE21TEST03305",
+              "hp": 76,
+              "max_hp": 81
+            },
+            {
+              "seed": "A3HE21TEST03436",
+              "hp": 73,
+              "max_hp": 73
+            },
+            {
+              "seed": "A3HE21TEST03490",
+              "hp": 42,
+              "max_hp": 70
+            },
+            {
+              "seed": "A3HE21TEST03864",
+              "hp": 91,
+              "max_hp": 110
+            },
+            {
+              "seed": "A3HE21TEST04073",
+              "hp": 43,
+              "max_hp": 90
+            },
+            {
+              "seed": "A3HE21TEST04095",
+              "hp": 59,
+              "max_hp": 80
+            }
+          ],
+          "full_victory_seeds": [],
+          "terminal_enemies_before_boss": [
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SLIMED_BERSERKER",
+              "deaths": 4
+            },
+            {
+              "map_icon": "Unknown",
+              "surviving_enemies": "AXEBOT",
+              "deaths": 2
+            },
+            {
+              "map_icon": "Elite",
+              "surviving_enemies": "FLAIL_KNIGHT+MAGI_KNIGHT+SPECTRAL_KNIGHT",
+              "deaths": 2
+            },
+            {
+              "map_icon": "Elite",
+              "surviving_enemies": "SOUL_NEXUS",
+              "deaths": 2
+            },
+            {
+              "map_icon": "Elite",
+              "surviving_enemies": "MECHA_KNIGHT",
+              "deaths": 2
+            },
+            {
+              "map_icon": "Elite",
+              "surviving_enemies": "MAGI_KNIGHT+SPECTRAL_KNIGHT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT+PUNCH_CONSTRUCT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "FABRICATOR+STABBOT+ZAPBOT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "LIVING_SHIELD",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "OWL_MAGISTRATE",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "TURRET_OPERATOR",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Elite",
+              "surviving_enemies": "MAGI_KNIGHT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Unknown",
+              "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "FABRICATOR+NOISEBOT+STABBOT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "DEVOTED_SCULPTOR",
+              "deaths": 1
+            }
+          ]
+        }
+      }
+    },
+    "secondary": {
+      "incumbent_room_outcomes": {
+        "first_boss_entry": [
+          {
+            "seed": "A3HE21ROUTE00248",
+            "hp": 108,
+            "max_hp": 130
+          },
+          {
+            "seed": "A3HE21ROUTE01464",
+            "hp": 68,
+            "max_hp": 68
+          },
+          {
+            "seed": "A3HE21ROUTE01890",
+            "hp": 59,
+            "max_hp": 78
+          }
+        ],
+        "full_victory_seeds": [],
+        "terminal_enemies_before_boss": [
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "AXEBOT",
+            "deaths": 3
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING",
+            "deaths": 2
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "SLIMED_BERSERKER",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Elite",
+            "surviving_enemies": "SOUL_NEXUS",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "LIVING_SHIELD+TURRET_OPERATOR",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Unknown",
+            "surviving_enemies": "OWL_MAGISTRATE",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Unknown",
+            "surviving_enemies": "DEVOTED_SCULPTOR",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "FROG_KNIGHT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "OWL_MAGISTRATE",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT+PUNCH_CONSTRUCT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "DEVOTED_SCULPTOR",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Unknown",
+            "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT",
+            "deaths": 1
+          },
+          {
+            "map_icon": "Monster",
+            "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING",
+            "deaths": 1
+          }
+        ]
+      },
+      "combat": {
+        "test": {
+          "scope": "combat",
+          "full": {
+            "lobbies": 2048,
+            "act2_entries": 626,
+            "act3_entries": 20,
+            "incumbent": {
+              "first": 3,
+              "second": 1,
+              "win": 0,
+              "floor": 153,
+              "Monster_entered": 63,
+              "Monster_died": 13,
+              "Elite_entered": 2,
+              "Elite_died": 1,
+              "Unknown_entered": 33,
+              "Unknown_died": 3
+            },
+            "challenger": {
+              "first": 5,
+              "second": 1,
+              "win": 0,
+              "floor": 171,
+              "Monster_entered": 64,
+              "Monster_died": 12,
+              "Elite_entered": 2,
+              "Elite_died": 1,
+              "Unknown_entered": 37,
+              "Unknown_died": 2
+            },
+            "boss_gained": [
+              "A3HE21ROUTE01538",
+              "A3HE21ROUTE01705"
+            ],
+            "boss_lost": [],
+            "paired_p": 0.5
+          },
+          "halves": {
+            "first": {
+              "lobbies": 1024,
+              "act2_entries": 311,
+              "act3_entries": 4,
+              "incumbent": {
+                "first": 1,
+                "second": 1,
+                "win": 0,
+                "floor": 33,
+                "Monster_entered": 13,
+                "Monster_died": 2,
+                "Elite_entered": 1,
+                "Elite_died": 1,
+                "Unknown_entered": 8,
+                "Unknown_died": 0
+              },
+              "challenger": {
+                "first": 1,
+                "second": 1,
+                "win": 0,
+                "floor": 33,
+                "Monster_entered": 13,
+                "Monster_died": 2,
+                "Elite_entered": 1,
+                "Elite_died": 1,
+                "Unknown_entered": 8,
+                "Unknown_died": 0
+              },
+              "boss_gained": [],
+              "boss_lost": [],
+              "paired_p": 1
+            },
+            "second": {
+              "lobbies": 1024,
+              "act2_entries": 315,
+              "act3_entries": 16,
+              "incumbent": {
+                "first": 2,
+                "second": 0,
+                "win": 0,
+                "floor": 120,
+                "Monster_entered": 50,
+                "Monster_died": 11,
+                "Elite_entered": 1,
+                "Elite_died": 0,
+                "Unknown_entered": 25,
+                "Unknown_died": 3
+              },
+              "challenger": {
+                "first": 4,
+                "second": 0,
+                "win": 0,
+                "floor": 138,
+                "Monster_entered": 51,
+                "Monster_died": 10,
+                "Elite_entered": 1,
+                "Elite_died": 0,
+                "Unknown_entered": 29,
+                "Unknown_died": 2
+              },
+              "boss_gained": [
+                "A3HE21ROUTE01538",
+                "A3HE21ROUTE01705"
+              ],
+              "boss_lost": [],
+              "paired_p": 0.5
+            }
+          },
+          "full_paired_lobbies": 84,
+          "nonentrant_spot_checks": 64,
+          "shared_pre_act3_histories": 2028,
+          "independent_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+        },
+        "comparisons": {
+          "first": {
+            "gained": [
+              "A3HE21ROUTE01538",
+              "A3HE21ROUTE01705"
+            ],
+            "lost": [],
+            "paired_exact_p": 0.5
+          },
+          "second": {
+            "gained": [],
+            "lost": [],
+            "paired_exact_p": 1.0
+          },
+          "win": {
+            "gained": [],
+            "lost": [],
+            "paired_exact_p": 1.0
+          }
+        },
+        "room_outcomes": {
+          "first_boss_entry": [
+            {
+              "seed": "A3HE21ROUTE00248",
+              "hp": 108,
+              "max_hp": 130
+            },
+            {
+              "seed": "A3HE21ROUTE01464",
+              "hp": 68,
+              "max_hp": 68
+            },
+            {
+              "seed": "A3HE21ROUTE01538",
+              "hp": 65,
+              "max_hp": 106
+            },
+            {
+              "seed": "A3HE21ROUTE01705",
+              "hp": 57,
+              "max_hp": 90
+            },
+            {
+              "seed": "A3HE21ROUTE01890",
+              "hp": 53,
+              "max_hp": 78
+            }
+          ],
+          "full_victory_seeds": [],
+          "terminal_enemies_before_boss": [
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "AXEBOT",
+              "deaths": 3
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SLIMED_BERSERKER",
+              "deaths": 3
+            },
+            {
+              "map_icon": "Elite",
+              "surviving_enemies": "SOUL_NEXUS",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "LIVING_SHIELD+TURRET_OPERATOR",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Unknown",
+              "surviving_enemies": "OWL_MAGISTRATE",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "FABRICATOR+STABBOT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT+PUNCH_CONSTRUCT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "DEVOTED_SCULPTOR",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Unknown",
+              "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING",
+              "deaths": 1
+            }
+          ]
+        }
+      },
+      "route": {
+        "test": {
+          "scope": "route",
+          "full": {
+            "lobbies": 2048,
+            "act2_entries": 626,
+            "act3_entries": 20,
+            "incumbent": {
+              "first": 3,
+              "second": 1,
+              "win": 0,
+              "floor": 153,
+              "Monster_entered": 63,
+              "Monster_died": 13,
+              "Elite_entered": 2,
+              "Elite_died": 1,
+              "Unknown_entered": 33,
+              "Unknown_died": 3
+            },
+            "challenger": {
+              "first": 3,
+              "second": 1,
+              "win": 0,
+              "floor": 156,
+              "Monster_entered": 63,
+              "Monster_died": 14,
+              "Elite_entered": 2,
+              "Elite_died": 1,
+              "Unknown_entered": 36,
+              "Unknown_died": 2
+            },
+            "boss_gained": [],
+            "boss_lost": [],
+            "paired_p": 1
+          },
+          "halves": {
+            "first": {
+              "lobbies": 1024,
+              "act2_entries": 311,
+              "act3_entries": 4,
+              "incumbent": {
+                "first": 1,
+                "second": 1,
+                "win": 0,
+                "floor": 33,
+                "Monster_entered": 13,
+                "Monster_died": 2,
+                "Elite_entered": 1,
+                "Elite_died": 1,
+                "Unknown_entered": 8,
+                "Unknown_died": 0
+              },
+              "challenger": {
+                "first": 1,
+                "second": 1,
+                "win": 0,
+                "floor": 33,
+                "Monster_entered": 13,
+                "Monster_died": 2,
+                "Elite_entered": 1,
+                "Elite_died": 1,
+                "Unknown_entered": 8,
+                "Unknown_died": 0
+              },
+              "boss_gained": [],
+              "boss_lost": [],
+              "paired_p": 1
+            },
+            "second": {
+              "lobbies": 1024,
+              "act2_entries": 315,
+              "act3_entries": 16,
+              "incumbent": {
+                "first": 2,
+                "second": 0,
+                "win": 0,
+                "floor": 120,
+                "Monster_entered": 50,
+                "Monster_died": 11,
+                "Elite_entered": 1,
+                "Elite_died": 0,
+                "Unknown_entered": 25,
+                "Unknown_died": 3
+              },
+              "challenger": {
+                "first": 2,
+                "second": 0,
+                "win": 0,
+                "floor": 123,
+                "Monster_entered": 50,
+                "Monster_died": 12,
+                "Elite_entered": 1,
+                "Elite_died": 0,
+                "Unknown_entered": 28,
+                "Unknown_died": 2
+              },
+              "boss_gained": [],
+              "boss_lost": [],
+              "paired_p": 1
+            }
+          },
+          "full_paired_lobbies": 84,
+          "nonentrant_spot_checks": 64,
+          "shared_pre_act3_histories": 2028,
+          "independent_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+        },
+        "comparisons": {
+          "first": {
+            "gained": [],
+            "lost": [],
+            "paired_exact_p": 1.0
+          },
+          "second": {
+            "gained": [],
+            "lost": [],
+            "paired_exact_p": 1.0
+          },
+          "win": {
+            "gained": [],
+            "lost": [],
+            "paired_exact_p": 1.0
+          }
+        },
+        "room_outcomes": {
+          "first_boss_entry": [
+            {
+              "seed": "A3HE21ROUTE00248",
+              "hp": 108,
+              "max_hp": 130
+            },
+            {
+              "seed": "A3HE21ROUTE01464",
+              "hp": 59,
+              "max_hp": 68
+            },
+            {
+              "seed": "A3HE21ROUTE01890",
+              "hp": 59,
+              "max_hp": 78
+            }
+          ],
+          "full_victory_seeds": [],
+          "terminal_enemies_before_boss": [
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "AXEBOT",
+              "deaths": 3
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "OWL_MAGISTRATE",
+              "deaths": 3
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SLIMED_BERSERKER",
+              "deaths": 2
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "SCROLL_OF_BITING+SCROLL_OF_BITING",
+              "deaths": 2
+            },
+            {
+              "map_icon": "Elite",
+              "surviving_enemies": "SOUL_NEXUS",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "LIVING_SHIELD+TURRET_OPERATOR",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Unknown",
+              "surviving_enemies": "DEVOTED_SCULPTOR",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "FROG_KNIGHT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Monster",
+              "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT+PUNCH_CONSTRUCT",
+              "deaths": 1
+            },
+            {
+              "map_icon": "Unknown",
+              "surviving_enemies": "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT",
+              "deaths": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "combat_across_disjoint_cohorts": {
+    "lobbies": 6144,
+    "act3_entries": 59,
+    "totals": {
+      "incumbent": {
+        "first": 16,
+        "second": 3,
+        "win": 0
+      },
+      "challenger": {
+        "first": 19,
+        "second": 3,
+        "win": 0
+      }
+    },
+    "comparisons": {
+      "first": {
+        "gained": [
+          "A3HE21TEST00788",
+          "A3HE21ROUTE01538",
+          "A3HE21ROUTE01705"
+        ],
+        "lost": [],
+        "paired_exact_p": 0.25
+      },
+      "second": {
+        "gained": [],
+        "lost": [],
+        "paired_exact_p": 1.0
+      },
+      "win": {
+        "gained": [],
+        "lost": [],
+        "paired_exact_p": 1.0
+      }
+    }
+  }
+}

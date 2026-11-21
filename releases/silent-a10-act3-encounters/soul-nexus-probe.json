@@ -1,0 +1,70 @@
+{
+  "scope": "Offline experiment on independently replayed Soul Nexus training and development openings. No natural test seed was used for this experiment. The optional turn choice is excluded from the sealed policies.",
+  "source_sha256": "23f48afeb707767b81be05e584e64bfa39fc7a1022a19fc21c71fe0b44c02954",
+  "rule": "When visible incoming damage after current block is at least 16 and at least 70% of current HP, compare an expensive delayed poison or Power play with a cheaper public block card. Preserve lethal poison and Intangible.",
+  "evidence": {
+    "training": {
+      "opening_errors": [],
+      "partition": "train",
+      "maps": 21,
+      "roots": 9,
+      "paired": 9,
+      "fight_errors": {},
+      "distinct_seeds": 6,
+      "scores": {
+        "frozen": {
+          "wins": 4,
+          "hp": 70,
+          "openings_changed": 0
+        },
+        "frozen_reserve": {
+          "wins": 4,
+          "hp": 70,
+          "openings_changed": 3
+        },
+        "pressure": {
+          "wins": 3,
+          "hp": 43,
+          "openings_changed": 0
+        },
+        "pressure_reserve": {
+          "wins": 4,
+          "hp": 46,
+          "openings_changed": 2
+        }
+      }
+    },
+    "development": {
+      "opening_errors": [],
+      "partition": "development",
+      "maps": 14,
+      "roots": 11,
+      "paired": 11,
+      "fight_errors": {},
+      "distinct_seeds": 6,
+      "scores": {
+        "frozen": {
+          "wins": 11,
+          "hp": 427,
+          "openings_changed": 0
+        },
+        "frozen_reserve": {
+          "wins": 11,
+          "hp": 432,
+          "openings_changed": 1
+        },
+        "pressure": {
+          "wins": 10,
+          "hp": 361,
+          "openings_changed": 0
+        },
+        "pressure_reserve": {
+          "wins": 10,
+          "hp": 361,
+          "openings_changed": 1
+        }
+      }
+    }
+  },
+  "decision": "Using the frozen combat plan, no additional Soul Nexus fight was won in either partition. The pressure plan recovered one training loss. Keep this as a training example."
+}

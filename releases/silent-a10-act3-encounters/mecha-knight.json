@@ -1,0 +1,207 @@
+{
+  "source": "MechaKnight.GenerateMoveStateMachine and independent public fight histories, game assembly 0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32",
+  "entry": "Charge",
+  "repeating_moves": [
+    "Flamethrower",
+    "Windup",
+    "Heavy Cleave"
+  ],
+  "public_windup": [
+    "Defend",
+    "Buff"
+  ],
+  "training_transitions": 26,
+  "distinct_training_seeds": 2,
+  "distinct_training_openings": 5,
+  "observations_after_windup": [
+    {
+      "seed": "H2A10TRAIN0417",
+      "round": 3,
+      "next_public_damage": 33
+    },
+    {
+      "seed": "H2A10TRAIN0417",
+      "round": 6,
+      "next_public_damage": 35
+    },
+    {
+      "seed": "N19A10FRONTIER0052",
+      "round": 3,
+      "next_public_damage": 45
+    },
+    {
+      "seed": "N19A10FRONTIER0052",
+      "round": 6,
+      "next_public_damage": 50
+    },
+    {
+      "seed": "H2A10TRAIN0417",
+      "round": 3,
+      "next_public_damage": 45
+    },
+    {
+      "seed": "N19A10FRONTIER0052",
+      "round": 3,
+      "next_public_damage": 45
+    },
+    {
+      "seed": "N19A10FRONTIER0052",
+      "round": 6,
+      "next_public_damage": 50
+    },
+    {
+      "seed": "N19A10FRONTIER0052",
+      "round": 3,
+      "next_public_damage": 45
+    }
+  ],
+  "frozen_eval": [
+    {
+      "seed": "A3HE21TEST02890",
+      "root": "0fa21b95e63292d934a5e4f92df5b87a233a8e59e0559ce4c35b762f3fad9e7f",
+      "hp": 77,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.26875
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.26875
+        }
+      }
+    },
+    {
+      "seed": "A3HE21TEST03873",
+      "root": "11fa711cb48fbd0cd42c4f117df880ae6d4c97be40b8c89dcd3c57c3f74cb83a",
+      "hp": 75,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 9,
+          "remaining": 0.046875
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 7,
+          "remaining": 0.34375
+        }
+      }
+    },
+    {
+      "seed": "A3HE21TEST01520",
+      "root": "28766b188cf487c4483f8957b7b7007be4b1982a73ad084e516e2c570c1a4afd",
+      "hp": 67,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 8,
+          "remaining": 0.14375
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 8,
+          "remaining": 0.14375
+        }
+      }
+    },
+    {
+      "seed": "A3HE21TEST04095",
+      "root": "68d6b3a11e5a1b45df6ac0a01a92ed06f875858637978c0f73fc3f1d1fd1987f",
+      "hp": 35,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 21,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 21,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A3HE21TEST01551",
+      "root": "955a76a9733ae1413ae9f074c14ba88b70f063a6bcb97d9df18d9faf30142ad0",
+      "hp": 83,
+      "outcomes": {
+        "baseline": {
+          "won": true,
+          "hp": 32,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0
+        },
+        "candidate": {
+          "won": true,
+          "hp": 32,
+          "potions": 1,
+          "rounds": 7,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "seed": "A3HE21TEST03490",
+      "root": "f71d5cdceafe1689af9eef3d4e411c15eef97eb0373e7011f1ab5ccd141c3cec",
+      "hp": 57,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 6,
+          "remaining": 0.63125
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 0,
+          "rounds": 6,
+          "remaining": 0.63125
+        }
+      }
+    },
+    {
+      "seed": "A3HE21TEST03402",
+      "root": "cf1bdc310122604918d5d28466d8953acbbaff37f78c4569d21063c45422bf84",
+      "hp": 90,
+      "outcomes": {
+        "baseline": {
+          "won": false,
+          "hp": 0,
+          "potions": 2,
+          "rounds": 9,
+          "remaining": 0.003125
+        },
+        "candidate": {
+          "won": false,
+          "hp": 0,
+          "potions": 2,
+          "rounds": 9,
+          "remaining": 0.003125
+        }
+      }
+    }
+  ]
+}
