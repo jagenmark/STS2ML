@@ -1,0 +1,219 @@
+{
+  "cohorts": {
+    "primary": {
+      "arms": {
+        "baseline": {
+          "complete": 1024,
+          "terminal_replays": 1024,
+          "a1_clear": 329,
+          "boss2": 71,
+          "a2_clear": 5,
+          "win": 0,
+          "boss3": 3
+        },
+        "challenger": {
+          "complete": 1024,
+          "terminal_replays": 1024,
+          "a1_clear": 329,
+          "boss2": 71,
+          "a2_clear": 9,
+          "win": 0,
+          "boss3": 3
+        }
+      },
+      "paired_exact_p": 0.125,
+      "gained": [
+        "A10CV21EVAL0607",
+        "A10CV21EVAL0725",
+        "A10CV21EVAL0843",
+        "A10CV21EVAL0865"
+      ],
+      "lost": [],
+      "act2_bosses": {
+        "THE_INSATIABLE_BOSS": {
+          "arrivals": 31,
+          "baseline": 4,
+          "challenger": 4,
+          "gained": 0,
+          "lost": 0
+        },
+        "KNOWLEDGE_DEMON_BOSS": {
+          "arrivals": 23,
+          "baseline": 0,
+          "challenger": 4,
+          "gained": 4,
+          "lost": 0
+        },
+        "KAISER_CRAB_BOSS": {
+          "arrivals": 17,
+          "baseline": 1,
+          "challenger": 1,
+          "gained": 0,
+          "lost": 0
+        }
+      },
+      "same_act1_histories": 1024,
+      "same_full_histories": 984,
+      "unique_histories_verified": 1064
+    },
+    "replication": {
+      "arms": {
+        "baseline": {
+          "complete": 1024,
+          "terminal_replays": 1024,
+          "a1_clear": 338,
+          "boss2": 88,
+          "a2_clear": 3,
+          "win": 0,
+          "boss3": 1
+        },
+        "challenger": {
+          "complete": 1024,
+          "terminal_replays": 1024,
+          "a1_clear": 338,
+          "boss2": 88,
+          "a2_clear": 6,
+          "win": 0,
+          "boss3": 1
+        }
+      },
+      "paired_exact_p": 0.25,
+      "gained": [
+        "A10CV21REPL0178",
+        "A10CV21REPL0822",
+        "A10CV21REPL1011"
+      ],
+      "lost": [],
+      "act2_bosses": {
+        "THE_INSATIABLE_BOSS": {
+          "arrivals": 24,
+          "baseline": 2,
+          "challenger": 2,
+          "gained": 0,
+          "lost": 0
+        },
+        "KNOWLEDGE_DEMON_BOSS": {
+          "arrivals": 31,
+          "baseline": 1,
+          "challenger": 3,
+          "gained": 2,
+          "lost": 0
+        },
+        "KAISER_CRAB_BOSS": {
+          "arrivals": 33,
+          "baseline": 0,
+          "challenger": 1,
+          "gained": 1,
+          "lost": 0
+        }
+      },
+      "same_act1_histories": 1024,
+      "same_full_histories": 961,
+      "unique_histories_verified": 1087
+    }
+  },
+  "pooled": {
+    "arms": {
+      "baseline": {
+        "complete": 2048,
+        "terminal_replays": 2048,
+        "a1_clear": 667,
+        "boss2": 159,
+        "a2_clear": 8,
+        "win": 0,
+        "boss3": 4
+      },
+      "challenger": {
+        "complete": 2048,
+        "terminal_replays": 2048,
+        "a1_clear": 667,
+        "boss2": 159,
+        "a2_clear": 15,
+        "win": 0,
+        "boss3": 4
+      }
+    },
+    "act2_bosses": {
+      "THE_INSATIABLE_BOSS": {
+        "arrivals": 55,
+        "baseline": 6,
+        "challenger": 6,
+        "gained": 0,
+        "lost": 0
+      },
+      "KNOWLEDGE_DEMON_BOSS": {
+        "arrivals": 54,
+        "baseline": 1,
+        "challenger": 7,
+        "gained": 6,
+        "lost": 0
+      },
+      "KAISER_CRAB_BOSS": {
+        "arrivals": 50,
+        "baseline": 1,
+        "challenger": 2,
+        "gained": 1,
+        "lost": 0
+      }
+    },
+    "gained": 7,
+    "lost": 0,
+    "paired_exact_p": 0.015625,
+    "independently_verified_unique_histories": 2151,
+    "total_unique_histories": 2151,
+    "new_act3_endings": [
+      {
+        "seed": "A10CV21EVAL0607",
+        "floor": 6,
+        "enemies": [
+          "MONSTER.OWL_MAGISTRATE"
+        ]
+      },
+      {
+        "seed": "A10CV21EVAL0725",
+        "floor": 13,
+        "enemies": [
+          "MONSTER.AXEBOT"
+        ]
+      },
+      {
+        "seed": "A10CV21EVAL0843",
+        "floor": 3,
+        "enemies": [
+          "MONSTER.LIVING_SHIELD",
+          "MONSTER.TURRET_OPERATOR"
+        ]
+      },
+      {
+        "seed": "A10CV21EVAL0865",
+        "floor": 10,
+        "enemies": [
+          "MONSTER.FLAIL_KNIGHT",
+          "MONSTER.SPECTRAL_KNIGHT",
+          "MONSTER.MAGI_KNIGHT"
+        ]
+      },
+      {
+        "seed": "A10CV21REPL0178",
+        "floor": 13,
+        "enemies": [
+          "MONSTER.OWL_MAGISTRATE"
+        ]
+      },
+      {
+        "seed": "A10CV21REPL0822",
+        "floor": 6,
+        "enemies": [
+          "MONSTER.DEVOTED_SCULPTOR"
+        ]
+      },
+      {
+        "seed": "A10CV21REPL1011",
+        "floor": 9,
+        "enemies": [
+          "MONSTER.FROG_KNIGHT"
+        ]
+      }
+    ]
+  }
+}

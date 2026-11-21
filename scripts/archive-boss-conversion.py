@@ -49,6 +49,8 @@ def build(study, destination):
         "selection-rule",
         "fit",
         "diagnostics",
+        "benchmark",
+        "act3-training",
         "draft-experiment",
         "native-mechanics",
     ):
@@ -86,6 +88,10 @@ def build(study, destination):
         "prep-input.zip",
         "prep-out-logs.zip",
         "upgrade-report.json",
+        "act3-training-maps.zip",
+        "act3-training-report.json",
+        "act3-boss-pilot.json",
+        "act3-boss-pilot.py",
     ):
         file("experiments/" + name, study / name)
     for name, replays in (("primary", "replays"), ("replication", "replication-replays")):

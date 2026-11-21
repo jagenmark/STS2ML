@@ -1,4 +1,4 @@
-"""Compare frozen card-draft policies from identical naturally reached Act 2 maps."""
+"""Compare frozen policies from identical natural Act 2 or Act 3 training maps."""
 
 import argparse
 import json
@@ -9,18 +9,18 @@ from pathlib import Path
 from sts2rl.act1 import save_json
 from sts2rl.native import digest
 from sts2rl.run_bundle import load_bundle
-from sts2rl.run_evaluation import act2_start, play_episode
+from sts2rl.run_evaluation import act_start, play_episode
 from sts2rl.run_policy import RunWeights
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def play(task):
-    entry, trace, folder, host, bundle = task
+    entry, trace, folder, host, bundle, act = task
     role, opts = load_bundle(bundle)
-    fork = act2_start(trace)
+    fork = act_start(trace, act)
     if fork.expected_digest != entry["map_digest"] or fork.specification["seed"] != entry["seed"]:
-        raise ValueError("Act 2 starting point differs from the frozen map")
+        raise ValueError(f"Act {act} starting point differs from the frozen map")
     result = play_episode(
         (
             ROOT,
@@ -31,7 +31,13 @@ def play(task):
             role,
             asdict(RunWeights.load(opts["weights"])),
             opts.get("micro"),
-            {**opts, "seeded_acts": True, "start_trace": trace, "curriculum_act": 2, "rooms": True},
+            {
+                **opts,
+                "seeded_acts": fork.specification.get("act_list") == "seeded",
+                "start_trace": trace,
+                "curriculum_act": act,
+                "rooms": True,
+            },
         )
     )
     return {
@@ -47,6 +53,7 @@ def main():
     p.add_argument("--host", required=True, type=Path)
     p.add_argument("--output", required=True, type=Path)
     p.add_argument("--workers", type=int, default=3)
+    p.add_argument("--act", type=int, choices=(2, 3), default=2)
     a = p.parse_args()
     a.output.mkdir(parents=True, exist_ok=False)
     entries = json.loads((a.openings / "index.json").read_bytes())
@@ -56,6 +63,7 @@ def main():
         raise ValueError("Expected distinct training and development seeds")
     manifest = {
         "openings_sha256": digest(entries),
+        "act": a.act,
         "bundles": {b.parent.name: digest(json.loads(b.read_bytes())) for b in a.bundles},
     }
     save_json(a.output / "design.json", manifest)
@@ -66,6 +74,7 @@ def main():
             a.output / b.parent.name / r["seed"],
             a.host.resolve(),
             b,
+            a.act,
         )
         for r in entries
         for b in a.bundles

@@ -1,0 +1,30 @@
+{
+  "historical_training_prefixes_examined": 29,
+  "historical_restorable": 4,
+  "historical_invalid_knowledge_demon_skips_located": 25,
+  "training_boss_arrivals_considered": 110,
+  "refreshed_act3_maps": 17,
+  "independently_restored": 17,
+  "same_engine_terminal_when_resumed": 17,
+  "conditional_results": {
+    "engine": {
+      "n": 17,
+      "reached_first_boss": 6,
+      "reached_second_boss": 0,
+      "wins": 0
+    },
+    "guard": {
+      "n": 17,
+      "reached_first_boss": 5,
+      "reached_second_boss": 0,
+      "wins": 0
+    },
+    "tempo": {
+      "n": 17,
+      "reached_first_boss": 5,
+      "reached_second_boss": 0,
+      "wins": 0
+    }
+  },
+  "selection": "Historical training decisions were replayed up to the boss. The frozen challenger played from the identical boss hand. The 17 surviving continuations are training data."
+}
