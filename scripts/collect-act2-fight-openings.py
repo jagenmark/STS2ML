@@ -197,6 +197,11 @@ def main():
         type=Path,
         help="Analyze the locked test cohort after freezing a challenger",
     )
+    parser.add_argument(
+        "--diagnostic-cohort",
+        type=Path,
+        help="Allow an alternate route from every verified Act 3 arrival in this complete natural test cohort",
+    )
     parser.add_argument("--workers", type=int, default=3)
     parser.add_argument("--act", type=int, choices=(2, 3), default=2)
     args = parser.parse_args()
@@ -206,7 +211,21 @@ def main():
     cases = []
     seeds = set()
     test = set(lock["test"])
+    expected = test
+    entry_maps = {}
     observed = set()
+    if args.diagnostic_cohort:
+        if not args.diagnostic_selection or args.act != 3:
+            parser.error("An alternate route requires a frozen Act 3 test diagnostic")
+        with gzip.open(args.diagnostic_cohort / "games.jsonl.gz", "rt") as stream:
+            games = [json.loads(line) for line in stream]
+        if sorted((r["index"], r["seed"]) for r in games) != list(enumerate(lock["test"])):
+            raise ValueError("Incomplete original natural cohort")
+        expected = {r["seed"] for r in games if r["a2_clear"]}
+        entries = json.loads((args.diagnostic_cohort / "entries.json").read_bytes())
+        entry_maps = {r["seed"]: (r["index"], r["map_digest"]) for r in entries}
+        if len(entries) != len(expected) or set(entry_maps) != expected:
+            raise ValueError("Original Act 3 entry inventory differs from the natural games")
     if args.diagnostic_selection:
         selection = json.loads(args.diagnostic_selection.read_bytes())
         if selection["seed_lock_sha256"] != hashlib.sha256(args.seed_lock.read_bytes()).hexdigest():
@@ -214,9 +233,19 @@ def main():
     for folder in args.source:
         for path in sorted(folder.glob("*/result.json" if args.act == 3 else "run-*/result.json")):
             row = json.loads(path.read_bytes())
-            if args.diagnostic_selection and (row["seed"] not in test or row["seed"] in observed):
+            if args.diagnostic_selection and (
+                row["seed"] not in expected or row["seed"] in observed
+            ):
                 raise ValueError("Unexpected or repeated seed in post-selection diagnostics")
             observed.add(row["seed"])
+            if args.diagnostic_cohort:
+                physical = act_start(path.parent / "game/rpc.jsonl", 3)
+                if (
+                    row["status"] != "complete"
+                    or not row["a2_clear"]
+                    or (row["index"], physical.expected_digest) != entry_maps[row["seed"]]
+                ):
+                    raise ValueError("Alternate route diverged before its natural Act 3 entry")
             if (
                 row["status"] != "complete"
                 or not row["a2_clear" if args.act == 3 else "a1_clear"]
@@ -233,7 +262,7 @@ def main():
                     path.parent,
                 )
             )
-    if args.diagnostic_selection and observed != test:
+    if args.diagnostic_selection and observed != expected:
         raise ValueError("Post-selection diagnostics require the complete test cohort")
     tasks = [(source, args.output, args.host.resolve(), args.act) for _, _, source in sorted(cases)]
     with ProcessPoolExecutor(args.workers) as pool:
