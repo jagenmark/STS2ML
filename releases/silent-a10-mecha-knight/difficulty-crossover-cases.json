@@ -1,0 +1,32 @@
+[
+  {
+    "seed": "A3HE21TEST00366",
+    "index": 366,
+    "ascension": 7,
+    "act_list": "seeded"
+  },
+  {
+    "seed": "A3HE21TEST04095",
+    "index": 4095,
+    "ascension": 7,
+    "act_list": "seeded"
+  },
+  {
+    "seed": "A3HE21ROUTE00248",
+    "index": 248,
+    "ascension": 7,
+    "act_list": "seeded"
+  },
+  {
+    "seed": "MK21A7REPL00005",
+    "index": 5,
+    "ascension": 10,
+    "act_list": "seeded"
+  },
+  {
+    "seed": "MK21A7REPL00449",
+    "index": 449,
+    "ascension": 10,
+    "act_list": "seeded"
+  }
+]
