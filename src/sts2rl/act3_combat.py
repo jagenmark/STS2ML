@@ -2,7 +2,7 @@
 
 from .combat_effects import power
 from .enemy_forecast import attack_hits
-from .run_policy import _cost, _damage
+from .run_policy import _cost, _damage, _hits, _shiv_count
 from .teacher import incoming
 
 
@@ -23,6 +23,65 @@ def predicted_damage(table, enemy, round_number):
         if key in table:
             return table[key]
     return incoming(enemy)
+
+
+def affordable_hits(hand, energy, enemy_count):
+    """Maximum number of strength-sensitive hits available with this hand's energy."""
+    best = [0] * (energy + 1)
+    for card in hand:
+        cost = energy if card.get("costs_x") else max(0, _cost(card))
+        if not card.get("can_play") or cost > energy:
+            continue
+        hits = _shiv_count(card)
+        if card.get("type") == "Attack":
+            count = energy if card.get("costs_x") else _hits(card)
+            hits += count * (enemy_count if card.get("target_type") == "AllEnemies" else 1)
+        for left in range(energy, cost - 1, -1):
+            best[left] = max(best[left], best[left - cost] + hits)
+    return best[energy]
+
+
+def adjust_potion_timing(weight, state, actions, scores):
+    """Credit potions while the necessary attacks, draw space and energy are available."""
+    player, hand = state["player"], state["hand"]
+    potions = {p["index"]: p for p in player["potions"]}
+    if not potions:
+        return
+    foes = [e for e in state["enemies"] if e["hp"] > 0]
+    energy = state["energy"]
+    need = max(
+        0,
+        sum(incoming(e) for e in foes)
+        - player["block"]
+        - max(0, power(state.get("player_powers"), "PLATING")),
+    )
+    hp = max(1, player["hp"])
+    pressure = min(1.5, need / hp)
+    best_card = max(
+        (score for action, score in zip(actions, scores) if action.kind == "play_card"), default=0.0
+    )
+    hits = affordable_hits(hand, energy, len(foes))
+    for i, action in enumerate(actions):
+        if action.kind != "use_potion":
+            continue
+        potion = potions[action.args["potion_index"]]
+        name, stats = potion["id"], (potion.get("vars") or {})
+        if name == "POTION.FLEX_POTION":
+            gain = stats.get("StrengthPower", 0) * hits
+            if gain >= 5:
+                scores[i] += weight * (min(24, gain) + 0.34 * best_card + 2 * pressure)
+        elif name in ("POTION.SWIFT_POTION", "POTION.GLOWWATER_POTION"):
+            redraw = name == "POTION.GLOWWATER_POTION"
+            drawn = min(stats.get("Cards", 0), 10 if redraw else 10 - len(hand))
+            if energy and drawn:
+                useful = min(drawn, 2 * energy)
+                benefit = useful * (1.5 + 1.8 * pressure) + min(5, need * 0.18)
+                if redraw:
+                    benefit -= min(14.0, 0.65 * max(0, best_card))
+                scores[i] += weight * benefit
+        elif name == "POTION.LUCKY_TONIC" and not power(state.get("player_powers"), "BUFFER"):
+            first_hit = max((incoming(e) / max(1, attack_hits(e)) for e in foes), default=0)
+            scores[i] += weight * min(need, first_hit) * (0.42 + pressure)
 
 
 def adjust_for_next_turn(config, state, actions, scores):

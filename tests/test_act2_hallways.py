@@ -66,6 +66,16 @@ def test_forecast_falls_back_to_current_attack_and_matches_distinct_public_move_
     assert predicted_damage(table, enemy, 3) == 0
 
 
+def test_flex_counts_affordable_multihit_cards_and_respects_a_shared_energy_budget():
+    from sts2rl.act3_combat import affordable_hits
+
+    multi = {"type":"Attack", "id":"CARD.DAGGER_SPRAY", "cost":1, "target_type":"AllEnemies", "can_play":True}
+    strike = {"type":"Attack", "id":"CARD.STRIKE_SILENT", "cost":1, "can_play":True}
+    assert affordable_hits([multi, strike], 1, 3) == 6
+    assert affordable_hits([multi, strike], 2, 3) == 7
+    assert affordable_hits([{**strike, "cost":0}, {**multi, "can_play":False}], 0, 3) == 1
+
+
 def test_tender_uses_current_preview_and_spends_no_stack_on_a_potion():
     state = hunter(
         ("CARD.SINGLE", "AnyEnemy", {"damage": 4}),

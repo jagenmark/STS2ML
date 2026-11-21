@@ -10,7 +10,7 @@ from .card_effects import deck_engines
 from .act2_hallways import HallwayPlans, formation_key
 from .act2_action_ranker import rerank
 from .act2_bosses import BossTactics
-from .act3_combat import adjust_for_next_turn
+from .act3_combat import adjust_for_next_turn, adjust_potion_timing
 from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, selected_cards
 from .combat_effects import debuff_order, landed_debuffs
@@ -84,7 +84,7 @@ def _sly(card):
 class EncounterPolicy(RunPolicy):
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
-        tender=False, potion_effects=False, draw_potions=False, intent_forecast=None
+        tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
@@ -94,6 +94,7 @@ class EncounterPolicy(RunPolicy):
         self.potion_effects = potion_effects
         self.draw_potions = draw_potions
         self.intent_forecast = intent_forecast
+        self.potion_timing = potion_timing
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -636,6 +637,8 @@ class EncounterPolicy(RunPolicy):
         scores = [score(a) for a in actions]
         if self.intent_forecast:
             adjust_for_next_turn(self.intent_forecast, state, actions, scores)
+        if self.potion_timing:
+            adjust_potion_timing(self.potion_timing, state, actions, scores)
         return scores
 
 
@@ -660,6 +663,7 @@ class EncounterModel:
         self.hallways = HallwayPlans(data["act2_hallways"], STYLES) if "act2_hallways" in data else None
         self.act3_hallways = HallwayPlans(data["act3_hallways"], STYLES, act=3) if "act3_hallways" in data else None
         self.act3_intents = data.get("act3_intents")
+        self.act3_potion_timing = data.get("act3_potion_timing", 0)
         self.action_rankers = {2: data.get("act2_action_ranker"), 3: data.get("act3_action_ranker")}
         self.action_ranker = None
         self.boss_plans = data.get("act2_boss_plans", {})
@@ -743,6 +747,7 @@ class EncounterModel:
                 potion_effects=plan.get("potion_effects", False),
                 draw_potions=plan.get("draw_potions", False),
                 intent_forecast=self.act3_intents if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else None,
+                potion_timing=self.act3_potion_timing if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else 0,
             )
             self.key = key
         actions = legal_actions(state)

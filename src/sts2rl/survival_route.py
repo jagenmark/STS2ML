@@ -137,12 +137,16 @@ class SurvivalRouter:
         player = state["player"]
         maximum = player["max_hp"]
         act = state["context"]["act"]
+        act_weights = self.data.get("act3_weights", {}) if act == 3 else {}
+        risk = act_weights.get("risk", self.risk)
+        health = act_weights.get("health", self.health)
+        elite = act_weights.get("elite", self.elite)
         contextual = self.act1_context if act == 1 else {}
         biome = state["context"].get("act_name")
         boss_id = (state["context"].get("boss") or {}).get("id")
         coefficients = contextual.get("boss_coefficients", {}).get(boss_id, self.boss[str(act)])
         _, hp_beta, relic, upgrade, potion, card, max_hp = coefficients
-        hp_beta = min(5.0, max(1.4, hp_beta)) * self.health
+        hp_beta = min(5.0, max(1.4, hp_beta)) * health
         gain = (
             np.array(
                 [
@@ -196,7 +200,7 @@ class SurvivalRouter:
             new_hp = max(1, min(maximum, round(new_hp / 3) * 3))
             scaled_gold = max(0.0, dg) * (0.0017 if gold < 135 else 0.0005)
             benefit = (
-                float(gain @ improvements) + scaled_gold + (self.elite if icon == "Elite" else 0.0)
+                float(gain @ improvements) + scaled_gold + (elite if icon == "Elite" else 0.0)
             )
             children = [c for c in node.get("children") or [] if c["row"] > row]
             def best_child(count):
@@ -211,7 +215,7 @@ class SurvivalRouter:
                 if contextual and count is not None and icon == "Monster":
                     count = min(3, count + 1)
                 end = best_child(count)
-            return benefit + self.risk * math.log(max(0.025, 1 - death)) + self.discount * end
+            return benefit + risk * math.log(max(0.025, 1 - death)) + self.discount * end
 
         return max(
             options, key=lambda a: value(a.args["row"], a.args["col"], player["hp"], player["gold"],

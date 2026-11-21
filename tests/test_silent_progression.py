@@ -160,6 +160,11 @@ def test_survival_router_vetoes_an_elite_beyond_the_next_fork():
         [{"row": 5, "col": 0, "type": "Boss"}],
     ]
     assert router.choose(state, graph).args["col"] == 1
+    scoped = SurvivalRouter({**router.data, "act3_weights": {"elite": 100},
+                             "boss_coefficients": {**router.boss, "3": router.boss["2"]}})
+    assert scoped.choose(state, graph).args["col"] == 1
+    state["context"]["act"] = 3
+    assert scoped.choose(state, graph).args["col"] == 0
 
 
 def test_poison_payoff_and_contextual_selection():
