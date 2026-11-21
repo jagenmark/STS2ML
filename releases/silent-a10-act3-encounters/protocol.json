@@ -1,0 +1,10 @@
+{
+  "incumbent": "198086a328a4b873e3951bba0c00dbb55451e77d",
+  "scope": [
+    "Act 3 Monster",
+    "Act 3 Elite"
+  ],
+  "training": "17 historical legal training maps, new training seeds and natural counterfactual fights. Development uses separate historical development openings and the registered fresh development cohort.",
+  "selection": "Fit only on training seeds. Screen variants on full training maps then choose one on development map continuations before examining test outcomes. Prefer more first bosses and full victories; use attained floor/survival and boss arrival HP to break ties. Keep the incumbent when fresh evidence does not support promotion.",
+  "natural_test": "4096 disjoint new naturally started lobbies, in two fixed index blocks of 2048. Primary endpoint first Act 3 boss; also report full wins, Act 3 arrivals, room counts, and paired shifts. Changes can only act in Act 3, so full incumbent histories that end earlier are identical by design. Replay every entrant with both arms from the same original lobby seed and index. Verify all changed terminal histories independently. Do not use either test block for fitting or selection."
+}
