@@ -1,4 +1,4 @@
-"""Select an Act 2 hallway combat plan using only the start of the current fight."""
+"""Select a hallway or elite combat plan from the public opening of a fight."""
 
 import math
 
@@ -10,7 +10,8 @@ def formation_key(state):
 
 
 class HallwayPlans:
-    def __init__(self, data, styles):
+    def __init__(self, data, styles, *, act=2):
+        self.act = act
         self.plans = data["plans"]
         self.by_formation = data.get("by_formation", {})
         self.by_room = data.get("by_room", {})
@@ -20,24 +21,24 @@ class HallwayPlans:
             name not in self.plans
             for name in [*self.by_formation.values(), *self.by_room.values(), *self.linear]
         ):
-            raise ValueError("Unknown Act 2 hallway plan")
+            raise ValueError(f"Unknown Act {act} hallway plan")
         for plan in self.plans.values():
             if plan.get("style", "engine") not in styles or plan.get("search", "greedy") not in (
                 "greedy",
                 "beam",
             ):
-                raise ValueError("Invalid Act 2 style or search")
+                raise ValueError(f"Invalid Act {act} style or search")
             for key, value in plan.get("style_weights", {}).items():
                 if (
                     key not in ("guard", "horizon", "potion", "leader", "poison", "draw")
                     or not math.isfinite(value)
                     or value < 0
                 ):
-                    raise ValueError("Invalid Act 2 style weight")
+                    raise ValueError(f"Invalid Act {act} style weight")
 
     def select(self, state, features):
         ctx = state["context"]
-        if ctx.get("act") != 2 or ctx.get("room_type") not in ("Monster", "Elite"):
+        if ctx.get("act") != self.act or ctx.get("room_type") not in ("Monster", "Elite"):
             return {}
         key = formation_key(state)
         choice = self.by_formation.get(key, self.by_room.get(ctx["room_type"]))

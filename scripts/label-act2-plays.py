@@ -1,6 +1,7 @@
 """Compare every legal opening play on sampled turns against native continuations."""
 
 import argparse
+from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
 from hashlib import sha256
 import gzip
@@ -20,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def label(args):
-    path, position, host, config, weights_path, output, receipt = args
+    path, position, host, config, weights_path, output, receipt, act, rounds = args
     with gzip.open(path, "rt") as stream:
         group = json.load(stream)
     entry = group["starts"][position]
@@ -37,6 +38,11 @@ def label(args):
             ) as game,
         ):
             state = game.restore(opening)
+            if state["context"]["act"] != act or state["context"]["room_type"] not in (
+                "Monster",
+                "Elite",
+            ):
+                raise ValueError("Incorrect native hallway or elite opening")
             actor, macro = EncounterModel(config), RunPolicy(weights)
             plays = 0
             for _ in range(55):
@@ -44,13 +50,18 @@ def label(args):
                     break
                 if state["decision"] == "combat_play":
                     turn = state["round"]
-                    if turn > 4:
+                    if turn > max(rounds):
                         break
                     # The same fixed turn positions sample both full hands and card ordering with Tender.
                     if turn == 2 and "r2" in snapshots:
                         plays += 1
                     slot = "r2-middle" if turn == 2 and plays == 2 else f"r{turn}"
-                    if slot not in snapshots and len(legal_actions(state)) >= 3:
+                    if (
+                        turn in rounds
+                        and (act == 2 or slot != "r2-middle")
+                        and slot not in snapshots
+                        and len(legal_actions(state)) >= 3
+                    ):
                         snapshots[slot] = game.fork()
                 state = game.step(actor.choose(state, macro))
             for slot, fork in snapshots.items():
@@ -59,7 +70,7 @@ def label(args):
                 actor, macro = EncounterModel(config), RunPolicy(weights)
                 original = actor.choose(state, macro)
                 priors = actor.actor.combat_scores(state, legal)
-                features = action_features(state, legal, priors)
+                features = action_features(state, legal, priors, tactical=act == 3)
                 arms = []
                 for i, action in enumerate(legal):
                     restored = game.restore(fork)
@@ -100,9 +111,13 @@ def label(args):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    for k in ("host", "bundle", "seed-lock", "openings", "output"):
+    for k in ("host", "bundle", "seed-lock", "output"):
         p.add_argument("--" + k, type=Path, required=True)
+    p.add_argument("--openings", nargs="+", required=True, type=Path)
     p.add_argument("--formation", default="HUNTER_KILLER")
+    p.add_argument("--act", type=int, choices=(2, 3), default=2)
+    p.add_argument("--rounds", type=int, nargs="+", default=[1, 2, 3, 4])
+    p.add_argument("--cap-per-formation", type=int)
     p.add_argument("--workers", type=int, default=3)
     a = p.parse_args()
     a.output.mkdir(parents=True, exist_ok=False)
@@ -110,18 +125,28 @@ def main():
     config = json.loads(cfg["encounter_model"].read_bytes())
     lock = json.loads(a.seed_lock.read_bytes())["seeds"]
     reserved = set(lock["development"]) | set(lock["test"])
-    cases = []
-    for path in sorted(a.openings.glob("*.json.gz")):
+    if not all(1 <= turn <= 4 for turn in a.rounds) or (
+        a.cap_per_formation is not None and a.cap_per_formation < 1
+    ):
+        p.error("Use rounds 1–4 and a positive sample cap")
+    grouped = defaultdict(dict)
+    for path in sorted(path for folder in a.openings for path in folder.glob("*.json.gz")):
         with gzip.open(path, "rt") as f:
             row = json.load(f)
-        if row["seed"] in reserved:
+        if row["seed"] in reserved or row.get("act", 2) != a.act:
             raise ValueError("Held seed in supervised combat collection")
-        entries = [
-            (s["root"], i) for i, s in enumerate(row["starts"]) if s["formation"] == a.formation
-        ]
-        if entries:
-            root, pos = min(entries)
-            cases.append((root, path, pos))
+        for i, start in enumerate(row["starts"]):
+            form, seed = start["formation"], row["seed"]
+            if a.formation != "all" and form != a.formation:
+                continue
+            choice = (start["root"], path, i)
+            if seed not in grouped[form] or choice < grouped[form][seed]:
+                grouped[form][seed] = choice
+    cases = [
+        case for group in grouped.values() for case in sorted(group.values())[: a.cap_per_formation]
+    ]
+    if not cases:
+        raise ValueError("No native openings match the requested formation")
 
     def checksum(path):
         return sha256(path.read_bytes()).hexdigest()
@@ -134,6 +159,8 @@ def main():
             "seed_lock": checksum(a.seed_lock),
             "roots": [root for root, _, _ in sorted(cases)],
             "formation": a.formation,
+            "act": a.act,
+            "rounds": sorted(set(a.rounds)),
             "sources": {
                 p.name: checksum(p)
                 for p in [Path(__file__), *sorted((ROOT / "src/sts2rl").glob("*.py"))]
@@ -142,7 +169,7 @@ def main():
     )
     receipt = checksum(a.output / "receipt.json")
     tasks = [
-        (p, i, a.host.resolve(), config, cfg["weights"], a.output, receipt)
+        (p, i, a.host.resolve(), config, cfg["weights"], a.output, receipt, a.act, a.rounds)
         for _, p, i in sorted(cases)
     ]
     with ProcessPoolExecutor(a.workers) as pool:

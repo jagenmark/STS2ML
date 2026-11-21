@@ -72,6 +72,9 @@ def main():
     )
     args = p.parse_args()
     receipt, stamp, rows = read_rows(args.labels, args.seed_lock, args.bundle)
+    act = receipt.get("act", 2)
+    if act not in (2, 3) or (args.hunter_model and act != 2):
+        p.error("The optional Hunter Killer model applies to Act 2 only")
     if args.fit_inventory:
         previous = json.loads(args.fit_inventory.read_bytes())
         roots = set(previous["train_roots"] + previous["validation_roots"])
@@ -162,7 +165,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     _, settings = load_bundle(args.bundle)
     enc = json.loads(settings["encounter_model"].read_bytes())
-    enc["act2_hallways"] = hallway
+    enc[f"act{act}_hallways"] = hallway
     save_json(args.output / "encounter.json", enc)
     role, options = load_bundle(args.bundle)
     options["encounter_model"] = args.output / "encounter.json"

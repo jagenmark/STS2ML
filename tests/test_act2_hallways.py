@@ -35,6 +35,37 @@ def test_formation_is_order_independent_and_keeps_duplicate_living_enemies():
         HallwayPlans({**config, "by_room": {"Monster": "lost"}}, STYLES)
 
 
+def test_third_act_combat_plans_and_action_ranker_do_not_change_earlier_acts_or_bosses():
+    state = hunter(("CARD.STRIKE_SILENT", "AnyEnemy", {"damage": 6}))
+    settings = {"version": 1, "runtime_identity": IDENTITY, "default": "engine"}
+    variant = EncounterModel({**settings,
+        "act3_hallways": {"plans": {"hold": {"style": "guard"}}, "by_room": {"Monster": "hold", "Elite": "hold"}},
+        "act3_action_ranker": {"weights": {}, "scale": 1, "prior_scale": 1, "max_round": 2},
+        "act3_intents": {"weight": 1, "table": {}},
+    })
+    base = RunPolicy(RunWeights())
+    for act, room in ((1,"Monster"), (2,"Elite"), (3,"Elite"), (3,"Monster"), (3,"Boss")):
+        state["context"].update(act=act, room_type=room)
+        action = variant.choose(state, base)
+        applies = act == 3 and room != "Boss"
+        assert variant.rerank_fight == applies
+        assert bool(variant.actor.intent_forecast) == applies
+        assert variant.actor.style == STYLES["guard" if applies else "engine"]
+        if not applies:
+            assert action == EncounterModel(settings).choose(state, base)
+
+
+def test_forecast_falls_back_to_current_attack_and_matches_distinct_public_move_signatures():
+    from sts2rl.act3_combat import forecast_keys, predicted_damage
+
+    enemy = {"id": "MONSTER.OWL_MAGISTRATE", "intents": [{"type": "Attack", "damage": 4, "hits": 6}]}
+    table = {forecast_keys(enemy, 2)[1]: 0}
+    assert predicted_damage(table, enemy, 3) == 0
+    assert predicted_damage({}, enemy, 3) == 24
+    enemy["intents"] = None
+    assert predicted_damage(table, enemy, 3) == 0
+
+
 def test_tender_uses_current_preview_and_spends_no_stack_on_a_potion():
     state = hunter(
         ("CARD.SINGLE", "AnyEnemy", {"damage": 4}),

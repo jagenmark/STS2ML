@@ -10,6 +10,7 @@ from .card_effects import deck_engines
 from .act2_hallways import HallwayPlans, formation_key
 from .act2_action_ranker import rerank
 from .act2_bosses import BossTactics
+from .act3_combat import adjust_for_next_turn
 from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, selected_cards
 from .combat_effects import debuff_order, landed_debuffs
@@ -83,7 +84,7 @@ def _sly(card):
 class EncounterPolicy(RunPolicy):
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
-        tender=False, potion_effects=False, draw_potions=False
+        tender=False, potion_effects=False, draw_potions=False, intent_forecast=None
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
@@ -92,6 +93,7 @@ class EncounterPolicy(RunPolicy):
         self.tender = tender
         self.potion_effects = potion_effects
         self.draw_potions = draw_potions
+        self.intent_forecast = intent_forecast
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -631,7 +633,10 @@ class EncounterPolicy(RunPolicy):
                 raw += 5.0
             return (raw - 0.12 * cost) / max(1, cost) ** 0.74
 
-        return [score(a) for a in actions]
+        scores = [score(a) for a in actions]
+        if self.intent_forecast:
+            adjust_for_next_turn(self.intent_forecast, state, actions, scores)
+        return scores
 
 
 class EncounterModel:
@@ -653,7 +658,10 @@ class EncounterModel:
         self.persistent_from_act = data.get("persistent_from_act", 4)
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
         self.hallways = HallwayPlans(data["act2_hallways"], STYLES) if "act2_hallways" in data else None
-        self.action_ranker = data.get("act2_action_ranker")
+        self.act3_hallways = HallwayPlans(data["act3_hallways"], STYLES, act=3) if "act3_hallways" in data else None
+        self.act3_intents = data.get("act3_intents")
+        self.action_rankers = {2: data.get("act2_action_ranker"), 3: data.get("act3_action_ranker")}
+        self.action_ranker = None
         self.boss_plans = data.get("act2_boss_plans", {})
         self.boss_tactics = None
         self.rerank_fight = False
@@ -712,15 +720,16 @@ class EncounterModel:
             if ctx["room_type"] == "Boss":
                 encounter = (ctx.get("boss") or {}).get("id", "")
                 style = self.overrides.get(encounter, style)
-            plan = self.hallways.select(state, combat_features) if self.hallways else {}
+            hallways = self.act3_hallways if ctx["act"] == 3 else self.hallways
+            plan = hallways.select(state, combat_features) if hallways else {}
             boss_plan = self.boss_plans.get((ctx.get("boss") or {}).get("id")) if (
                 ctx["act"] == 2 and ctx["room_type"] == "Boss") else None
             self.boss_tactics = BossTactics(boss_plan, state) if boss_plan else None
             if boss_plan:
                 plan = boss_plan
-            if self.action_ranker:
-                scope = self.action_ranker.get("formations", [])
-                self.rerank_fight = (ctx["act"] == 2 and ctx["room_type"] in ("Monster", "Elite")
+            self.action_ranker = self.action_rankers.get(ctx["act"])
+            scope = (self.action_ranker or {}).get("formations", [])
+            self.rerank_fight = bool(self.action_ranker and ctx["room_type"] in ("Monster", "Elite")
                                      and (not scope or formation_key(state) in scope))
             if plan:
                 style = replace(STYLES[plan.get("style", style)], **plan.get("style_weights", {}))
@@ -733,6 +742,7 @@ class EncounterModel:
                 tender=plan.get("tender", False),
                 potion_effects=plan.get("potion_effects", False),
                 draw_potions=plan.get("draw_potions", False),
+                intent_forecast=self.act3_intents if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else None,
             )
             self.key = key
         actions = legal_actions(state)
@@ -742,7 +752,7 @@ class EncounterModel:
             action = actions[max(range(len(actions)), key=scores.__getitem__)]
         else:
             action = choose_turn(state, self.actor) if self.search_hand else self.actor.combat(state, actions)
-        if self.rerank_fight:
+        if self.rerank_fight and state["round"] <= self.action_ranker.get("max_round", float("inf")):
             action = rerank(self.action_ranker, state, actions, action, self.actor)
         if self.sandpit_threshold and ctx["room_type"] == "Boss":
             threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold

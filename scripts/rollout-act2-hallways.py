@@ -1,4 +1,4 @@
-"""Compare Act 2 combat plans on identical natural native fight openings."""
+"""Compare combat plans on identical native hallway and elite openings."""
 
 import argparse
 from collections import defaultdict
@@ -27,7 +27,7 @@ def read_group(path):
 
 
 def shard(task):
-    cases, host, models, weight_path, output, receipt, profile = task
+    cases, host, models, weight_path, output, receipt, profile, act = task
     weights = RunWeights.load(weight_path)
     game = None
     with TemporaryDirectory() as tmp:
@@ -58,7 +58,7 @@ def shard(task):
                         )
                     for name, config in models.items():
                         state = game.restore(fork)
-                        if state["context"]["act"] != 2 or state["context"]["room_type"] not in (
+                        if state["context"]["act"] != act or state["context"]["room_type"] not in (
                             "Monster",
                             "Elite",
                         ):
@@ -97,6 +97,7 @@ def main():
         "--cap", default=60, type=int, help="Maximum independently sampled roots per formation"
     )
     p.add_argument("--workers", default=3, type=int)
+    p.add_argument("--act", type=int, choices=(2, 3), default=2)
     args = p.parse_args()
     if args.cap < 1 or args.workers < 1:
         p.error("Use positive limits")
@@ -125,7 +126,7 @@ def main():
             if plan is None
             else {
                 **settings,
-                "act2_hallways": {
+                f"act{args.act}_hallways": {
                     "plans": {name: plan},
                     "by_room": {"Monster": name, "Elite": name},
                 },
@@ -152,6 +153,8 @@ def main():
                 raise ValueError("Test cases have a different frozen selection")
         for path in sorted(directory.glob("*.json.gz")):
             group = read_group(path)
+            if group.get("act", 2) != args.act:
+                raise ValueError("Opening was collected for a different act")
             if args.diagnostic_selection and group["seed"] not in lock["test"]:
                 raise ValueError("Unexpected test seed")
             if not args.diagnostic_selection and group["seed"] in reserved:
@@ -171,6 +174,7 @@ def main():
     if not by_profile:
         raise ValueError("No matching native openings")
     receipt = {
+        "act": args.act,
         "bundle_sha256": sha(args.bundle),
         "base_files": json.loads(args.bundle.read_bytes())["files"],
         "purpose": "test-diagnostic"
@@ -202,6 +206,7 @@ def main():
                     args.output,
                     checksum,
                     profile,
+                    args.act,
                 )
             )
     with ProcessPoolExecutor(args.workers) as pool:

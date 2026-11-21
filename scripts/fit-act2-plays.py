@@ -117,12 +117,14 @@ def main():
     _, _, ridge, scale, margin, model, metrics = max(options, key=lambda p: p[:2])
     role, options_bundle = load_bundle(a.bundle)
     config = json.loads(options_bundle["encounter_model"].read_bytes())
-    config["act2_action_ranker"] = {
+    act = receipt.get("act", 2)
+    config[f"act{act}_action_ranker"] = {
         "weights": model.weights,
-        "formations": [receipt["formation"]],
+        "formations": [] if receipt["formation"] == "all" else [receipt["formation"]],
         "scale": scale,
         "prior_scale": 0.18,
         "margin": margin,
+        **({"tactical_features": True, "max_round": max(receipt["rounds"])} if act == 3 else {}),
     }
     a.output.mkdir(parents=True, exist_ok=False)
     save_json(a.output / "encounter.json", config)

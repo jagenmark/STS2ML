@@ -1,10 +1,11 @@
 """Rank current legal Act 2 plays with a residual learned from matched native fights."""
 
+from .enemy_forecast import attack_hits
 from .run_policy import _cost, _damage, _draw_count, _hits, _power, _shiv_count
 from .teacher import incoming
 
 
-def action_features(state, actions, scores):
+def action_features(state, actions, scores, *, tactical=False):
     enemies = [e for e in state["enemies"] if e["hp"] > 0]
     hand = {c["index"]: c for c in state["hand"]}
     potions = {p["index"]: p for p in state["player"]["potions"]}
@@ -83,6 +84,33 @@ def action_features(state, actions, scores):
                     "target/wounded": 1 - target["hp"] / max(1, target["max_hp"]),
                 }
             )
+        if tactical:
+            drop = stats.get("strengthloss", 0) or (
+                stats.get("strengthpower", 0) if key == "POTION.SHACKLING_POTION" else 0
+            )
+            strength_saved = sum(
+                min(incoming(e), drop * attack_hits(e))
+                for e in targets
+                if not _power(e.get("powers"), "ARTIFACT")
+            )
+            hits = sum(attack_hits(e) for e in enemies)
+            power = float(typ == "Power")
+            features.update(
+                {
+                    "strength-saved": min(threat, strength_saved) / 10,
+                    "strength-saved/danger": min(threat, strength_saved) * danger / 10,
+                    "power/targets": power * len(enemies) / 3,
+                    "power/pressure": power * min(2.5, threat / 13),
+                    "denies-block/hits": float(key == "CARD.PANIC_BUTTON") * hits / 4,
+                    "draw/energy": _draw_count(c) * max(0, energy - cost) / 4 if c else 0,
+                    "potion/pressure": float(is_potion) * min(2.5, threat / 13),
+                    "block/multihit": min(threat, block) * min(6, hits) / 30,
+                    "kill/immediate-danger": float(
+                        bool(target) and damage >= target["hp"] + target.get("block", 0)
+                    )
+                    * danger,
+                }
+            )
         if tender and c:
             features.update(
                 {
@@ -100,7 +128,9 @@ def action_features(state, actions, scores):
 
 def rerank(config, state, actions, original, policy):
     scores = policy.combat_scores(state, actions)
-    features = action_features(state, actions, scores)
+    features = action_features(
+        state, actions, scores, tactical=config.get("tactical_features", False)
+    )
     weights = config["weights"]
     values = [
         config["prior_scale"] * s
