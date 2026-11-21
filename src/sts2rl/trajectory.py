@@ -9,17 +9,17 @@ from random import Random
 from .native import ReplayFork, digest
 
 
-def natural_specification(command):
-    """Recover a fresh A10 game specification, including the lobby's act selection."""
+def natural_specification(command, ascension=10):
+    """Recover a fresh game specification at the requested ascension, including the lobby's act selection."""
     required = {"cmd", "seed", "ascension", "history"}
     if (
         set(command) not in (required, required | {"act_list"})
         or command["cmd"] != "training_restore"
         or command["history"]
-        or command["ascension"] != 10
+        or command["ascension"] != ascension
         or command.get("act_list", "default") not in ("default", "seeded")
     ):
-        raise ValueError("Expected a natural Silent A10 opening")
+        raise ValueError(f"Expected a natural Silent A{ascension} opening")
     return {k: v for k, v in command.items() if k not in ("cmd", "history")}
 
 

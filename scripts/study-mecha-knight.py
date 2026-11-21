@@ -223,14 +223,16 @@ def simulate(game, case, config, weights, stream):
             and st.get("context", {}).get("room_type") == "Elite"
         )
         if st["decision"] == "game_over" or (not st.get("in_combat") and not modal):
-            if first is None:
+            if first is None and not (
+                case["setup"] and st["decision"] == "game_over" and not st["victory"]
+            ):
                 raise ValueError(f"Mecha Knight was never observed before {st['decision']}")
             win = st["decision"] != "game_over" or st["victory"]
             return {
                 "won": win,
                 "hp": st["player"]["hp"] if win else 0,
                 "potions": len(st["player"]["potions"]),
-                "remaining": 0 if win else remaining,
+                "remaining": 0 if win else remaining if remaining is not None else 1.0,
                 "opening": first,
                 "terminal": digest(st),
                 "turns": turns,

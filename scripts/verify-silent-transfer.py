@@ -1,0 +1,133 @@
+"""Independently replay a registered natural Silent benchmark at its actual ascension."""
+
+import argparse
+from concurrent.futures import ProcessPoolExecutor
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import runpy
+from tempfile import TemporaryDirectory
+
+from sts2rl.act1 import save_json
+from sts2rl.native import NativeError, NativeSession, ReplayFork, digest
+from sts2rl.run_evaluation import verified_victory
+
+ROOT = Path(__file__).resolve().parents[1]
+physical = runpy.run_path(str(ROOT / "scripts/measure-act3-encounters.py"))["physical"]
+
+
+def confirm(task):
+    folder, index, seed, ascension, host = task
+    row = json.loads((folder / "result.json").read_bytes())
+    if (row["seed"], row["index"], row["ascension"], row["status"], row["start_act"]) != (
+        seed,
+        index,
+        ascension,
+        "complete",
+        1,
+    ):
+        raise ValueError(f"Invalid benchmark result for {seed}")
+    spec, commands, hashes = physical(folder, ascension)
+    if spec != {"seed": seed, "ascension": ascension, "act_list": "seeded"}:
+        raise ValueError(f"Wrong lobby for {seed}")
+    with TemporaryDirectory() as tmp:
+        for stream in (False, True):
+            try:
+                with NativeSession(
+                    ROOT,
+                    Path(tmp) / str(stream),
+                    host_path=host,
+                    ascension=ascension,
+                    act_list="seeded",
+                    timeout=90,
+                ) as session:
+                    if stream:
+                        state = session.reset(seed)
+                        if digest(state) != hashes[0]:
+                            raise ValueError("Opening digest diverged")
+                        for cmd in commands:
+                            state = session._request(cmd)
+                    else:
+                        state = session.restore(ReplayFork(spec, tuple(commands), hashes[-1]))
+                    if (
+                        digest(state) != hashes[-1]
+                        or state["decision"] != "game_over"
+                        or state["victory"] is not row["win"]
+                    ):
+                        raise ValueError(f"Native terminal diverged on {seed}")
+                    break
+            except NativeError:
+                if stream:
+                    raise
+    if row["win"] and not verified_victory(row["boss_fights"], ascension):
+        raise ValueError(f"Missing final boss for {seed}")
+    metrics = {
+        k: row[k]
+        for k in (
+            "index",
+            "seed",
+            "ascension",
+            "act",
+            "floor",
+            "a1_clear",
+            "a2_clear",
+            "boss_fights",
+            "last_enemies",
+            "win",
+        )
+    }
+    return metrics | {"opening": hashes[0], "terminal": hashes[-1]}, {
+        "spec": spec,
+        "history": commands,
+        "expected_digest": hashes[-1],
+    }
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    for k in ("source", "seed-lock", "bundle", "host", "output"):
+        p.add_argument("--" + k, type=Path, required=True)
+    p.add_argument("--workers", type=int, default=3)
+    a = p.parse_args()
+    reg = json.loads(a.seed_lock.read_bytes())
+    seeds, ascension = reg["seeds"]["test"], reg["ascension"]
+
+    def sha(path):
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    if reg["policy_sha256"] != sha(a.bundle) or len(set(seeds)) != len(seeds):
+        raise ValueError("Registered policy or seed list mismatch")
+    a.output.mkdir(parents=True, exist_ok=False)
+    tasks = [
+        (a.source / f"run-{i:04d}", i, seed, ascension, a.host.resolve())
+        for i, seed in enumerate(seeds)
+    ]
+    rows = []
+    with (
+        ProcessPoolExecutor(a.workers) as pool,
+        gzip.open(a.output / "histories.jsonl.gz", "wt", encoding="utf-8") as out,
+    ):
+        for row, hist in pool.map(confirm, tasks):
+            out.write(json.dumps(hist, separators=(",", ":")) + "\n")
+            rows.append(row)
+    summary = {
+        "ascension": ascension,
+        "lobbies": len(rows),
+        "native_terminal_replays": len(rows),
+        "act2_entries": sum(r["a1_clear"] for r in rows),
+        "act3_entries": sum(r["a2_clear"] for r in rows),
+        "act3_bosses_reached": sum(any(a == 3 for a, f in r["boss_fights"]) for r in rows),
+        "wins": sum(r["win"] for r in rows),
+        "win_seeds": [r["seed"] for r in rows if r["win"]],
+        "policy_sha256": sha(a.bundle),
+        "registry_sha256": sha(a.seed_lock),
+        "independent_host_sha256": sha(a.host),
+    }
+    save_json(a.output / "games.json", rows)
+    save_json(a.output / "summary.json", summary)
+    print(json.dumps(summary))
+
+
+if __name__ == "__main__":
+    main()

@@ -10,6 +10,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from sts2rl.act1 import save_json
+from sts2rl.mecha_knight import phase
 from sts2rl.native import NativeError, NativeSession, ReplayFork, digest, legal_actions
 from sts2rl.run_evaluation import act_start, verified_victory
 from sts2rl.trajectory import natural_specification
@@ -17,10 +18,10 @@ from sts2rl.trajectory import natural_specification
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def physical(folder):
+def physical(folder, ascension=10):
     with (folder / "game/rpc.jsonl").open(encoding="utf-8") as f:
         first = json.loads(next(f))
-        spec = natural_specification(first["command"])
+        spec = natural_specification(first["command"], ascension)
         cmds, digests = [], [first["response_digest"]]
         for line in f:
             r = json.loads(line)
@@ -149,7 +150,24 @@ def check(task):
                     actions = [a.command() for a in legal_actions(st)]
                     if aa[1][pos] not in actions or bb[1][pos] not in actions:
                         raise ValueError("Changed action absent from public action set")
+                stage = None
+                if scope == "mecha":
+                    stage = phase(st)
+                    if stage is None and st.get("round", 0) > 1:
+                        for k in range(pos - 1, -1, -1):
+                            previous = restore(aa[0], aa[1][:k], aa[2][k])
+                            if previous.get("decision") != "combat_play":
+                                continue
+                            if previous["context"] != ctx:
+                                break
+                            if previous["round"] < st["round"]:
+                                if phase(previous) == "windup":
+                                    stage = phase(st, previous["round"])
+                                break
+                    if not stage:
+                        raise ValueError(f"First difference outside Mecha Windup/Cleave on {seed}")
                 changed = {
+                    "mecha_phase": stage,
                     "step": pos,
                     "decision": st["decision"],
                     "room": ctx.get("room_type"),
@@ -226,7 +244,7 @@ def main():
     report = sub.add_parser("report")
     for arg in ("entries", "baseline", "challenger", "host"):
         report.add_argument("--" + arg, type=Path, required=True)
-    report.add_argument("--scope", choices=("combat", "route"), required=True)
+    report.add_argument("--scope", choices=("combat", "route", "mecha"), required=True)
     report.add_argument("--workers", type=int, default=3)
     for parser in (maker, report):
         parser.add_argument("--cohort", type=Path, required=True)

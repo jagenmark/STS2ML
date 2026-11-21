@@ -770,6 +770,8 @@ class EncounterModel:
             action = choose_turn(state, self.actor) if search_hand else self.actor.combat(state, actions)
         if self.rerank_fight and state["round"] <= self.action_ranker.get("max_round", float("inf")):
             action = rerank(self.action_ranker, state, actions, action, self.actor)
+        if self.actor.mecha_tactics:
+            action = self.actor.mecha_tactics.rank(state, actions, action, self.actor)
         if self.sandpit_threshold and ctx["room_type"] == "Boss":
             threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
             action = escape_action(state, actions, action, threshold)

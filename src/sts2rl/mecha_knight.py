@@ -1,5 +1,6 @@
 """Two-turn card and potion values for the visible Mecha Knight attack cycle."""
 
+from .act2_action_ranker import action_features
 from .act3_combat import affordable_hits
 from .combat_effects import block_preview, debuff_order, landed_debuffs, power
 from .run_policy import _cost, _damage
@@ -18,13 +19,15 @@ def phase(state, windup_round=0):
     intents = {i["type"] for i in living[0].get("intents") or []}
     if intents == {"Defend", "Buff"}:
         return "windup"
-    if intents == {"Attack"} and windup_round and state["round"] > windup_round:
+    if intents == {"Attack"} and windup_round and state["round"] == windup_round + 1:
         return "cleave"
     return None
 
 
 def burn_damage(hand):
-    return sum(max(0, c.get("stats", {}).get("damage", 2)) for c in hand if c["id"] == "CARD.BURN")
+    return sum(
+        max(0, (c.get("stats") or {}).get("damage", 2)) for c in hand if c["id"] == "CARD.BURN"
+    )
 
 
 def block_in_hand(hand, energy):
@@ -169,10 +172,20 @@ def item_features(state, actions, stage):
         yield {k: v / denom for k, v in benefit.items()}
 
 
+def rank_features(state, actions, priors, stage):
+    rows = action_features(state, actions, priors, tactical=True)
+    for row, extra, action in zip(rows, item_features(state, actions, stage), actions, strict=True):
+        row["mecha/" + stage + "/" + action.kind] = 1.0
+        for key, value in extra.items():
+            row["mecha/" + stage + "/" + key] = value / 12.0
+    return rows
+
+
 class MechaTactics:
     def __init__(self, plan):
         self.plan = plan
         self.windup_round = 0
+        self.ranked_round = 0
 
     def observe(self, state):
         stage = phase(state, self.windup_round)
@@ -187,3 +200,23 @@ class MechaTactics:
         weights = self.plan.get("weights", {})
         for i, features in enumerate(item_features(state, actions, stage)):
             scores[i] += sum(weights.get(k, 0) * v for k, v in features.items())
+
+    def rank(self, state, actions, original, actor):
+        model = self.plan.get("ranker")
+        stage = self.observe(state)
+        if not model or not stage or self.ranked_round == state["round"] or len(actions) < 3:
+            return original
+        self.ranked_round = state["round"]
+        priors = actor.combat_scores(state, actions)
+        features = rank_features(state, actions, priors, stage)
+        values = [
+            model["prior"] * prior
+            + model["scale"] * sum(model["weights"].get(k, 0) * v for k, v in row.items())
+            for prior, row in zip(priors, features, strict=True)
+        ]
+        chosen = max(range(len(actions)), key=values.__getitem__)
+        return (
+            actions[chosen]
+            if values[chosen] > values[actions.index(original)] + model["margin"]
+            else original
+        )
