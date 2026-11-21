@@ -317,14 +317,14 @@ def refit(root):
     return maximum
 
 
-def native_sample(root, host):
-    pairs = read(root / "evaluation/primary/combat/pairs.json")
+def native_sample(root, host, cohort="primary", arm="combat"):
+    pairs = read(root / "evaluation" / cohort / arm / "pairs.json")
     changed = [r for r in pairs if r["first_difference"] is not None]
     case = next(
         (r for r in changed if r["challenger"]["first"] and not r["incumbent"]["first"]),
         changed[0] if changed else pairs[0],
     )
-    entries = [e for e in read(root / "evaluation/primary/audit.json") if e["seed"] == case["seed"]]
+    entries = [e for e in read(root / "evaluation" / cohort / "audit.json") if e["seed"] == case["seed"]]
     path = root / "native-sample.json"
     path.write_text(json.dumps(entries), encoding="utf-8")
     target = root / "native-sample"
@@ -335,7 +335,7 @@ def native_sample(root, host):
             "--entries",
             str(path),
             "--bundle",
-            str(root / "models/combat/policy.json"),
+            str(root / "models" / arm / "policy.json"),
             "--host",
             str(host.resolve()),
             "--workers",

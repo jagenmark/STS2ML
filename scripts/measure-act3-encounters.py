@@ -262,7 +262,20 @@ def check(task):
                     if scope == "mecha" and entry["map_digest"]:
                         offset = hashes.index(entry["map_digest"])
                         state = restore(spec, commands[:offset], hashes[offset])
-                        fights = mecha_fights(game, state, commands[offset:], hashes[offset:])
+                        try:
+                            fights = mecha_fights(game, state, commands[offset:], hashes[offset:])
+                        except (NativeError, ValueError):
+                            # Reconstruct hidden state through the original lobby if a compact
+                            # restore reproduces the entry digest but a later action diverges.
+                            if game and not game.closed:
+                                game.close()
+                            game = None
+                            state = restore(spec, [], hashes[0])
+                            for cmd in commands[:offset]:
+                                state = game._request(cmd)
+                            if digest(state) != hashes[offset]:
+                                raise ValueError(f"Independent full lobby diverged on {seed}")
+                            fights = mecha_fights(game, state, commands[offset:], hashes[offset:])
                     done[key] = fights
                 observed.append(done[key])
                 receipts.append({"history": key, "terminal": hashes[-1], "actions": len(commands)})
