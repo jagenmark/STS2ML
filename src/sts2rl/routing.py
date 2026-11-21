@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from .native import legal_actions
-from .run_policy import IDENTITY
+from .run_policy import IDENTITY, INFERENCE_IDENTITY
 
 # Each entry is net HP, net gold, non-HP reward, and probability of death.
 # Sparse rooms fall back to neutral expectations until the model sees them.
@@ -75,7 +75,7 @@ class RoomModel:
         return mean
 
     def choose(self, state, rows):
-        if state.get("runtime_identity") != IDENTITY or state.get("decision") != "map_select":
+        if state.get("runtime_identity") != INFERENCE_IDENTITY.get() or state.get("decision") != "map_select":
             raise ValueError("Room planning requires a Silent A10 map")
         nodes = {(n["row"], n["col"]): n for row in rows for n in row}
         player = state["player"]

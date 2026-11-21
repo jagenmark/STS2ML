@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from .native import legal_actions
-from .run_policy import IDENTITY
+from .run_policy import IDENTITY, INFERENCE_IDENTITY
 
 
 def _keys(icon, act, row, hp, gold):
@@ -129,7 +129,7 @@ class SurvivalRouter:
         return mortality, average
 
     def choose(self, state, rows, *, normal_count=None):
-        if state["decision"] != "map_select" or state.get("runtime_identity") != IDENTITY:
+        if state["decision"] != "map_select" or state.get("runtime_identity") != INFERENCE_IDENTITY.get():
             raise ValueError("Expected a public Silent A10 map")
         options = legal_actions(state)
         if len(options) == 1:

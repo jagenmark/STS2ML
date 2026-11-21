@@ -12,9 +12,9 @@ from .boss_search import BossSearch
 from .combat_search import CombatSearch
 from .encounter import EncounterModel
 from .deck_policy import DeckPolicy
-from .native import NativeSession, ReplayFork, digest
+from .native import NativeSession, ReplayFork, digest, runtime_identity
 from .offer_policy import OfferModel, offer_type
-from .run_policy import RunPolicy, RunWeights
+from .run_policy import INFERENCE_IDENTITY, RunPolicy, RunWeights
 from .routing import RoomModel
 from .teacher import heuristic
 from .strategy import StrategyModel, strategy_kind
@@ -34,8 +34,9 @@ def inventory(state):
             "upgrades": sum(c.get("upgrades", int(c.get("upgraded", False))) for c in deck)}
 
 
-def verified_victory(boss_fights):
-    return len({floor for act, floor in boss_fights if act == 3}) >= 2
+def verified_victory(boss_fights, ascension=10):
+    required = 2 if ascension == 10 else 1
+    return len({floor for act, floor in boss_fights if act == 3}) >= required
 
 
 def act_start(trace, target_act=2):
@@ -86,10 +87,19 @@ def act2_start(trace):
 
 def play_episode(task, *, decision_hook=None):
     """Run the deployed policy; an optional research hook can intervene at a public decision."""
+    ascension = task[-1].get("ascension", 10)
+    token = INFERENCE_IDENTITY.set(runtime_identity(ascension))
+    try:
+        return _play_episode(task, ascension, decision_hook)
+    finally:
+        INFERENCE_IDENTITY.reset(token)
+
+
+def _play_episode(task, ascension, decision_hook):
     root, host, folder, seed, index, role, weights, checkpoint, options = task
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=False)
-    row = {"act_list": "seeded" if options.get("seeded_acts") else "default", "act_names": [], "seed": seed, "index": index, "role": role, "status": "error", "ascension": 10,
+    row = {"act_list": "seeded" if options.get("seeded_acts") else "default", "act_names": [], "seed": seed, "index": index, "role": role, "status": "error", "ascension": ascension,
            "start_act": options.get("curriculum_act", 2) if options.get("start_trace") else 1,
            "act": 0, "floor": 0, "a1_clear": False, "a2_clear": False, "win": False,
            "steps": 0, "boss_fights": [], "last_enemies": [], "boss_hp_fraction": None}
@@ -160,10 +170,10 @@ def play_episode(task, *, decision_hook=None):
         repeated = Counter()
         room = None
         act3_normal_count = 0
-        with NativeSession(Path(root), folder / "game", ascension=10, host_path=host, timeout=45, act_list=row["act_list"]) as game:
+        with NativeSession(Path(root), folder / "game", ascension=ascension, host_path=host, timeout=45, act_list=row["act_list"]) as game:
             if options.get("start_trace"):
                 fork = act_start(options["start_trace"], row["start_act"])
-                if fork.specification["seed"] != seed or fork.specification["ascension"] != 10:
+                if fork.specification["seed"] != seed or fork.specification["ascension"] != ascension:
                     raise ValueError("Curriculum start identity mismatch")
                 state = game.restore(fork)
                 if state.get("context", {}).get("act") != row["start_act"] or state["decision"] != "map_select":
@@ -201,7 +211,7 @@ def play_episode(task, *, decision_hook=None):
                 if state.get("decision") == "game_over":
                     if type(state.get("victory")) is not bool:
                         raise ValueError("Missing native terminal result")
-                    if state["victory"] and not verified_victory(row["boss_fights"]):
+                    if state["victory"] and not verified_victory(row["boss_fights"], ascension):
                         row["status"] = "unverified_victory"
                     else:
                         row.update(status="complete", win=state["victory"])

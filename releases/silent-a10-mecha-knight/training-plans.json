@@ -1,0 +1,93 @@
+{
+  "burn": {
+    "weights": {
+      "burn": 3,
+      "carry": 0,
+      "potions": 0,
+      "attack": 0,
+      "guard": 0
+    },
+    "search": {}
+  },
+  "reserve": {
+    "weights": {
+      "burn": 2,
+      "carry": 1.5,
+      "potions": 1.2,
+      "attack": 0.25,
+      "guard": 1.4
+    },
+    "search": {}
+  },
+  "tempo": {
+    "weights": {
+      "burn": 1.2,
+      "carry": 1.0,
+      "potions": 2.1,
+      "attack": 1.6,
+      "guard": 0.9
+    },
+    "search": {}
+  },
+  "beam": {
+    "weights": {
+      "burn": 2,
+      "carry": 1.4,
+      "potions": 1.0,
+      "attack": 0.3,
+      "guard": 1.5
+    },
+    "search": {
+      "windup": "beam",
+      "cleave": "beam"
+    }
+  },
+  "greedy": {
+    "weights": {
+      "burn": 2,
+      "carry": 1.2,
+      "potions": 1.6,
+      "attack": 1,
+      "guard": 2.1
+    },
+    "search": {
+      "windup": "greedy",
+      "cleave": "greedy"
+    }
+  },
+  "race": {
+    "weights": {
+      "burn": 0.5,
+      "carry": 0.6,
+      "potions": 1.8,
+      "attack": 3.5,
+      "guard": 0.25
+    },
+    "search": {
+      "windup": "greedy",
+      "cleave": "beam"
+    }
+  },
+  "potions": {
+    "weights": {
+      "burn": 0,
+      "carry": 0,
+      "potions": 2.2,
+      "attack": 0,
+      "guard": 0
+    },
+    "search": {}
+  },
+  "guard": {
+    "weights": {
+      "burn": 3.8,
+      "carry": 2.5,
+      "potions": 1.5,
+      "attack": 0,
+      "guard": 2.7
+    },
+    "search": {
+      "cleave": "beam"
+    }
+  }
+}

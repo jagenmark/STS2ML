@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from .native import legal_actions
-from .run_policy import IDENTITY, _card_id, _cost
+from .run_policy import IDENTITY, INFERENCE_IDENTITY, _card_id, _cost
 
 
 def offer_type(state):
@@ -69,7 +69,7 @@ class OfferModel:
         }
 
     def choose(self, state, policy):
-        if state.get("runtime_identity") != IDENTITY or not offer_type(state):
+        if state.get("runtime_identity") != INFERENCE_IDENTITY.get() or not offer_type(state):
             raise ValueError("Offer ranker received an out-of-scope decision")
         return max(legal_actions(state), key=lambda a: self.predict(*offer_features(state, a, policy)))
 

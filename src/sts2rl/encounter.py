@@ -10,6 +10,7 @@ from .card_effects import deck_engines
 from .act2_hallways import HallwayPlans, formation_key
 from .act2_action_ranker import rerank
 from .act2_bosses import BossTactics
+from .mecha_knight import MechaTactics
 from .act3_combat import adjust_for_next_turn, adjust_potion_timing
 from .enemy_forecast import attack_hits, eruption_intangible_savings, solo_waterfall_forecast
 from .native import legal_actions, selected_cards
@@ -84,7 +85,7 @@ def _sly(card):
 class EncounterPolicy(RunPolicy):
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
-        tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0
+        tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0, mecha_plan=None
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
@@ -95,6 +96,7 @@ class EncounterPolicy(RunPolicy):
         self.draw_potions = draw_potions
         self.intent_forecast = intent_forecast
         self.potion_timing = potion_timing
+        self.mecha_tactics = MechaTactics(mecha_plan) if mecha_plan else None
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -639,6 +641,8 @@ class EncounterPolicy(RunPolicy):
             adjust_for_next_turn(self.intent_forecast, state, actions, scores)
         if self.potion_timing:
             adjust_potion_timing(self.potion_timing, state, actions, scores)
+        if self.mecha_tactics:
+            self.mecha_tactics.adjust(state, actions, scores)
         return scores
 
 
@@ -664,6 +668,7 @@ class EncounterModel:
         self.act3_hallways = HallwayPlans(data["act3_hallways"], STYLES, act=3) if "act3_hallways" in data else None
         self.act3_intents = data.get("act3_intents")
         self.act3_potion_timing = data.get("act3_potion_timing", 0)
+        self.mecha_plan = data.get("mecha_knight")
         self.action_rankers = {2: data.get("act2_action_ranker"), 3: data.get("act3_action_ranker")}
         self.action_ranker = None
         self.boss_plans = data.get("act2_boss_plans", {})
@@ -746,6 +751,7 @@ class EncounterModel:
                 tender=plan.get("tender", False),
                 potion_effects=plan.get("potion_effects", False),
                 draw_potions=plan.get("draw_potions", False),
+                mecha_plan=self.mecha_plan if ctx["act"] == 3 and ctx["room_type"] == "Elite" and formation_key(state) == "MECHA_KNIGHT" else None,
                 intent_forecast=self.act3_intents if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else None,
                 potion_timing=self.act3_potion_timing if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else 0,
             )
@@ -756,7 +762,12 @@ class EncounterModel:
             self.boss_tactics.adjust_targets(state, actions, scores)
             action = actions[max(range(len(actions)), key=scores.__getitem__)]
         else:
-            action = choose_turn(state, self.actor) if self.search_hand else self.actor.combat(state, actions)
+            search_hand = self.search_hand
+            if self.actor.mecha_tactics:
+                stage = self.actor.mecha_tactics.observe(state)
+                if stage and stage in self.mecha_plan.get("search", {}):
+                    search_hand = self.mecha_plan["search"][stage] == "beam"
+            action = choose_turn(state, self.actor) if search_hand else self.actor.combat(state, actions)
         if self.rerank_fight and state["round"] <= self.action_ranker.get("max_round", float("inf")):
             action = rerank(self.action_ranker, state, actions, action, self.actor)
         if self.sandpit_threshold and ctx["room_type"] == "Boss":

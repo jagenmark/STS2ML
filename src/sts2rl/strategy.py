@@ -9,7 +9,7 @@ import re
 from .native import legal_actions
 from .encounter_draft import matchup_features
 from .offer_policy import OfferModel, draft_prior, draft_prior_parts, offer_features, offer_type
-from .run_policy import IDENTITY, _card_id, _cost, _hits, _shiv_count
+from .run_policy import IDENTITY, INFERENCE_IDENTITY, _card_id, _cost, _hits, _shiv_count
 
 
 def strategy_kind(state):
@@ -78,7 +78,7 @@ def _event_terms(option, hp, maximum, gold):
 
 def strategy_arms(state, policy, opening=None, *, matchups=False, group_probability=None):
     kind = strategy_kind(state)
-    if not kind or state.get("runtime_identity") != IDENTITY:
+    if not kind or state.get("runtime_identity") != INFERENCE_IDENTITY.get():
         raise ValueError("Expected a public Silent A10 strategy decision")
     player = state["player"]
     deck = player["deck"]

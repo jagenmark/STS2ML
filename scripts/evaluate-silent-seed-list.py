@@ -22,9 +22,13 @@ def main():
     p.add_argument("--partition", choices=["train", "development", "test"], required=True)
     p.add_argument("--start", type=int, default=0)
     p.add_argument("--stop", type=int)
+    p.add_argument("--ascension", type=int, choices=(7, 8, 10), default=10)
     p.add_argument("--workers", type=int, default=3)
     a = p.parse_args()
-    splits = json.loads(a.seed_lock.read_bytes())["seeds"]
+    registry = json.loads(a.seed_lock.read_bytes())
+    if registry.get("ascension", 10) != a.ascension:
+        p.error("Evaluation difficulty must match the seed registry")
+    splits = registry["seeds"]
     all_seeds = [s for split in splits.values() for s in split]
     seeds = splits[a.partition]
     stop = len(seeds) if a.stop is None else a.stop
@@ -39,7 +43,7 @@ def main():
     }
     save_json(
         a.output / "config.json",
-        {**stamp, "start": a.start, "stop": stop, "partition": a.partition},
+        {**stamp, "ascension": a.ascension, "start": a.start, "stop": stop, "partition": a.partition},
     )
     tasks = [
         (
@@ -51,7 +55,7 @@ def main():
             role,
             weights,
             opts.get("micro"),
-            {**opts, "seeded_acts": True, "rooms": True},
+            {**opts, "seeded_acts": True, "rooms": True, "ascension": a.ascension},
         )
         for i in range(a.start, stop)
     ]

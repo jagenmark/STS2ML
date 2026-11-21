@@ -5,6 +5,7 @@ current public decision, including the native damage previews and intent.
 """
 from __future__ import annotations
 
+from contextvars import ContextVar
 from dataclasses import asdict, dataclass, fields
 import json
 import math
@@ -19,6 +20,8 @@ from .teacher import incoming
 
 VERSION = 1
 IDENTITY = runtime_identity(10)
+# A policy bundle retains its training identity when evaluated at another native difficulty.
+INFERENCE_IDENTITY = ContextVar("silent_policy_inference_identity", default=IDENTITY)
 
 
 @dataclass(frozen=True)
@@ -111,7 +114,7 @@ class RunPolicy:
         self.legacy_features = legacy_features
 
     def __call__(self, state):
-        if state.get("runtime_identity") != IDENTITY:
+        if state.get("runtime_identity") != INFERENCE_IDENTITY.get():
             raise ValueError("Run policy requires the pinned Silent A10 runtime")
         if state["decision"] == "card_select":
             return self.select_cards(state)
