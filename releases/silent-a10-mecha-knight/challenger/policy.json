@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "runtime_identity": {
+    "character": "SILENT",
+    "ascension": 10,
+    "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+  },
+  "actor": "candidate",
+  "files": {
+    "weights": {
+      "name": "weights.json",
+      "sha256": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+    },
+    "room_model": {
+      "name": "room_model.json",
+      "sha256": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e"
+    },
+    "late_room_model": {
+      "name": "late_room_model.json",
+      "sha256": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd"
+    },
+    "offer_model": {
+      "name": "offer_model.json",
+      "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+    },
+    "strategy_model": {
+      "name": "strategy_model.json",
+      "sha256": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38"
+    },
+    "encounter_model": {
+      "name": "encounter_model.json",
+      "sha256": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376"
+    },
+    "deck_model": {
+      "name": "deck_model.json",
+      "sha256": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca"
+    }
+  },
+  "turn_search": true,
+  "combat_search": false,
+  "deck_effects": false
+}

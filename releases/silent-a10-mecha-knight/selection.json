@@ -1,0 +1,46 @@
+{
+  "frozen_utc": "2026-11-21T15:48:36.786908+00:00",
+  "source_commit": "b07419835900cdd12bb13b650a2d00889aae7e50",
+  "selected": "greedy",
+  "incumbent_sha256": "337e2678662b42b7eb0f92ab24fe001814dbd66ce9d1e3302ba82a71c665ea56",
+  "challenger_sha256": "294cba0de1939ab457d10ccb96b4e9ac47c84a75f16fb4ab1cf5f7875895aa05",
+  "training_caselist_sha256": "63dcb9a99eee984c103fd87b982d719523bbde0f46a4014605b92f96aa7bc78f",
+  "development_caselist_sha256": "dc39735e3c8f6e9a1188fc0c84afc7c62a31a652d6c432e3add87b3ec4a8f0c9",
+  "development": {
+    "beam": {
+      "survivals": 20,
+      "paired": 60,
+      "exit_hp": 557,
+      "cases_changed": 61
+    },
+    "greedy": {
+      "survivals": 22,
+      "paired": 60,
+      "exit_hp": 517,
+      "cases_changed": 59
+    },
+    "guard": {
+      "survivals": 19,
+      "paired": 60,
+      "exit_hp": 537,
+      "cases_changed": 62
+    },
+    "incumbent": {
+      "survivals": 18,
+      "paired": 60,
+      "exit_hp": 418,
+      "cases_changed": 0
+    },
+    "ranked": {
+      "survivals": 18,
+      "paired": 60,
+      "exit_hp": 418,
+      "cases_changed": 2
+    }
+  },
+  "selection_rule_sha256": "a037ca4937bfc8d7ac815bc1c839399c782d4de4bd46fe091588990a7ab23559",
+  "held_seed_locks": {
+    "main": "390508bc7998118af2d5cc0d54e75c044e88c2c9c2b117a91e33943de47ecdcb",
+    "replication": "bf4345f8ad80f2b9d6c9842a65ef0c8598c7aa7ba38c3b809addc83d20d8f7c2"
+  }
+}
