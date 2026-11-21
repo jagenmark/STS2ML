@@ -53,7 +53,7 @@ def build(study, archive):
                 add(f, prefix + "/" + f.relative_to(folder).as_posix())
 
         for f in sorted(RELEASE.iterdir()):
-            if f.is_file() and f.suffix in (".json", ".md"):
+            if f.is_file() and f.name != "archive.json" and f.suffix in (".json", ".md"):
                 add(f, f.name)
         tree(ROOT / "releases/silent-a10-act3-encounters/combat", "models/incumbent")
         tree(RELEASE / "challenger", "models/challenger")

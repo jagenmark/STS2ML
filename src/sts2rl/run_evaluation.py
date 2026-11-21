@@ -12,7 +12,8 @@ from .boss_search import BossSearch
 from .combat_search import CombatSearch
 from .encounter import EncounterModel
 from .deck_policy import DeckPolicy
-from .native import NativeSession, ReplayFork, digest, runtime_identity
+from .merchant import PendingRelicPurchase
+from .native import NativeSession, ReplayFork, digest, legal_actions, runtime_identity
 from .offer_policy import OfferModel, offer_type
 from .run_policy import INFERENCE_IDENTITY, RunPolicy, RunWeights
 from .routing import RoomModel
@@ -167,6 +168,7 @@ def _play_episode(task, ascension, decision_hook):
             micro = _micro_cache[checkpoint]
         if options.get("boss_search") and role not in ("baseline", "prior", "original-combat"):
             boss_search = BossSearch(options["boss_search"], root, host, folder / "boss-search")
+        paid_relics = PendingRelicPurchase()
         repeated = Counter()
         room = None
         act3_normal_count = 0
@@ -274,6 +276,21 @@ def _play_episode(task, ascension, decision_hook):
                     action = heuristic(state) if combat else macro(state)
                 else:
                     action = policy(state)
+                corrected = paid_relics.corrected_view(state, action)
+                if corrected is not None:
+                    if deck_model is not None and "shop" in deck_model.scope:
+                        replacement = deck_model.choose(corrected, policy)
+                    elif strategy is not None and strategy_kind(corrected) in strategy.kinds:
+                        replacement = strategy.choose(corrected, policy, offers,
+                                                      group_probability=pool.group_probability if pool else None)
+                    elif offers is not None and offer_type(corrected):
+                        replacement = offers.choose(corrected, policy)
+                    elif role in ("baseline", "original-macro"):
+                        replacement = macro(corrected)
+                    else:
+                        replacement = policy(corrected)
+                    action = next(a for a in legal_actions(state) if a.command() == replacement.command())
+                    row["stale_shop_repairs"] = row.get("stale_shop_repairs", 0) + 1
                 if boss_search is not None and combat:
                     action = boss_search.choose(game, action, policy)
                 if return_model is not None and state["decision"] == "combat_play":
@@ -302,7 +319,9 @@ def _play_episode(task, ascension, decision_hook):
                     room = {"act": act, "row": point["row"], "icon": point["type"], "before": inventory(state)}
                 if deck_model is not None:
                     deck_model.observe(state, action)
+                before = state
                 state = game.step(action)
+                paid_relics.observe(before, action, state)
                 if act == 3 and action.kind == "select_map_node":
                     draws_normal = (state.get("context") or {}).get("room_type") == "Monster"
                     if room is not None:

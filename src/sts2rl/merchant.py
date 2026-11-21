@@ -113,3 +113,33 @@ def merchant_choice(state, grade, *, reserve, permanent):
         best, key=lambda i: (offers[i][0].kind == "buy_relic", offers[i][2] - offers[i][1] * unit)
     )
     return offers[first][0]
+
+
+class PendingRelicPurchase:
+    """Track paid relics while their native card-selection prompt is being resolved."""
+
+    def __init__(self):
+        self.paid = {}
+
+    def observe(self, before, action, after):
+        if before.get("decision") == "map_select":
+            self.paid.clear()
+        if action.kind != "buy_relic" or after.get("decision") != "card_select":
+            return
+        if after["player"]["gold"] >= before["player"]["gold"] or len(after["player"]["relics"]) <= len(before["player"]["relics"]):
+            return
+        index = action.args["relic_index"]
+        item = next(r for r in before["relics"] if r["index"] == index)
+        self.paid[index] = (item["name"], item["cost"])
+
+    def corrected_view(self, state, chosen):
+        if chosen.kind != "buy_relic" or not self.paid:
+            return None
+        index = chosen.args["relic_index"]
+        item = next(r for r in state["relics"] if r["index"] == index)
+        if self.paid.get(index) != (item["name"], item["cost"]):
+            return None
+        return {**state, "relics": [
+            {**r, "is_stocked": False} if self.paid.get(r["index"]) == (r["name"], r["cost"]) else r
+            for r in state["relics"]
+        ]}

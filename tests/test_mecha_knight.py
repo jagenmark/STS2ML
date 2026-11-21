@@ -104,3 +104,30 @@ def test_transfer_uses_the_requested_identity_and_restores_the_default_on_failur
     assert run_evaluation.verified_victory([(3, 15)], 7)
     assert not run_evaluation.verified_victory([(3, 15), (3, 15)], 10)
     assert run_evaluation.verified_victory([(3, 15), (3, 16)], 10)
+
+
+def test_paid_relic_is_hidden_only_if_the_policy_attempts_the_stale_offer():
+    from types import SimpleNamespace
+    from sts2rl.merchant import PendingRelicPurchase
+
+    guard = PendingRelicPurchase()
+    raw = {
+        "decision": "shop",
+        "player": {"gold": 494, "relics": []},
+        "relics": [{"index": 2, "name": "Kifuda", "cost": 180, "is_stocked": True}],
+    }
+    buy = SimpleNamespace(kind="buy_relic", args={"relic_index": 2})
+    assert guard.corrected_view(raw, buy) is None
+    guard.observe(
+        raw,
+        buy,
+        {"decision": "card_select", "player": {"gold": 314, "relics": [{"id": "RELIC.KIFUDA"}]}},
+    )
+    assert guard.corrected_view(raw, buy)["relics"][0]["is_stocked"] is False
+    assert raw["relics"][0]["is_stocked"] is True
+    assert (
+        guard.corrected_view({**raw, "relics": [{**raw["relics"][0], "name": "Shovel"}]}, buy)
+        is None
+    )
+    guard.observe({"decision": "map_select"}, SimpleNamespace(kind="select_map_node"), {})
+    assert guard.corrected_view(raw, buy) is None
