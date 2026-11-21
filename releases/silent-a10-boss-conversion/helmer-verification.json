@@ -1,0 +1,97 @@
+{
+  "release_tag": "silent-a10-boss-conversion-20261121",
+  "model_source_commit": "09705949afbbd8e79a008bf14074b8aad522d013",
+  "archive_sha256": "83951bec71c1f62a5d34903f24a39a219ab4f7b58e77391b04375555d2d16f31",
+  "challenger_policy_sha256": "1e0873c839f4e2791495d866bbddd1e2b21590ed00ef3ff8ed3d0a7958958cb1",
+  "verified_files": 631,
+  "linux_exact_refit": true,
+  "helmer_windows_exact_refit_from_github_download": true,
+  "helmer_windows_host_sha256": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+  "cross_platform_act3_training_replays": [
+    {
+      "seed": "A10CV21FIT0022",
+      "map_digest": "e7c98e1a83511739109e542cfebcfd4ceb7fd200378195fa7daff27a0ec8b4b3",
+      "terminal_digest": "f0fe23570227c6533100d35cb7998ca365211b9206854064a362e255e14b446a"
+    },
+    {
+      "seed": "A10CV21FIT0034",
+      "map_digest": "2224e448e299795ca7705a8cea1ac64b573095ec12e6da3edc1b15bc6f10ad5d",
+      "terminal_digest": "3ba322ef05caae45e92f66fdcc158ae59a74fb835f27071fad23f2591f6b3ee9"
+    },
+    {
+      "seed": "A10CV21FIT0229",
+      "map_digest": "afe83a4b980aa72841a12a497d63f291ba760b919e6850c1e9213f6015d25e09",
+      "terminal_digest": "5f38bc52e5d1b1dba5c1c7bd95759e808a4c19fd6679b5e379a403ae849fdaaf"
+    },
+    {
+      "seed": "A2HUNTTRAIN200004",
+      "map_digest": "d1702e3e6bde0edd36c3856efb46c7fa943e824572f80ef1f4555ba0e1611ca5",
+      "terminal_digest": "5935330b15d78dcc6647f346962efc22cf775c6c0e9e10bdacb910b9883b42a2"
+    },
+    {
+      "seed": "A2HUNTTRAIN200112",
+      "map_digest": "40f04c2e84b1a6579dc62dcb54ccfbef12c72b78cb0ff91629e94af99123a4f1",
+      "terminal_digest": "22cb8bdbbb810ee03db2e5dfaaaefb790250b59023522dd887f8353322758cc6"
+    },
+    {
+      "seed": "H2A10DRAFT0166",
+      "map_digest": "3c40ace7e421ccf5b25f22c4cade96e4ed1e3a435bc12563694f83532acbf736",
+      "terminal_digest": "e51721445bc5266ce3ef551cbc28eba2ca0d505896407182fbbf958adbd95994"
+    },
+    {
+      "seed": "H2A10DRAFT0295",
+      "map_digest": "3c51a5457219b6d842f4b9bf69b83eb1eb7763b2f9648bdb1b0af19a4dc81e8b",
+      "terminal_digest": "602587cf146c4151e052a3e6fc1fe8bf7a95f45d546590249767de964b31b539"
+    },
+    {
+      "seed": "H2A10NEXTTRAIN0000",
+      "map_digest": "2069c1994ce9e951ceb3fff6700b5448b9d46ecb06ded57e46cd9b45439589b8",
+      "terminal_digest": "99a36b91e1f18c18d43a1537cd1d6418aa9e86199a739da6a8e44718ebdd56f8"
+    },
+    {
+      "seed": "H2A10NEXTTRAIN0082",
+      "map_digest": "f80623ae803ba0ce4bc6f926c470ed17d9ee71d5d693a59b1bc90d2f409281a8",
+      "terminal_digest": "67dd3b2bce18d192353d5b86f12c6b3e6aa6a750e597fb327fcbc0920d151d57"
+    },
+    {
+      "seed": "H2A10NEXTTRAIN0090",
+      "map_digest": "cd33b1f50fd69efd44f48a67cf29917a01f949e1641f4844e17064f0197a3e2d",
+      "terminal_digest": "badb1c9ca976c48e5c0ee7ea95354d1c17058ad7ef4acf3b9f5a0df63d71df1f"
+    },
+    {
+      "seed": "H2A10NEXTTRAIN0131",
+      "map_digest": "1b75ea862e67f43968a828ebd480496771b3214410e7233a362af105ccda9f26",
+      "terminal_digest": "986ed378760877ba727cec6a4e6105b6db4146b994901819616b674261313ef5"
+    },
+    {
+      "seed": "H2A10NEXTTRAIN0148",
+      "map_digest": "232bae6639a134f31895687ad9d4384e736ee381308748f1a9a038c3fef3a19a",
+      "terminal_digest": "4a628d8ddf139197ca54a032b3430314cfcb443a8aa4a53042d11db897ea7a2c"
+    },
+    {
+      "seed": "H2A10NEXTTRAIN0216",
+      "map_digest": "d7176a88740e9599a41e2d1dfdf84e3968265bec5565c6cb2418f2f3bc90127b",
+      "terminal_digest": "c34312b096dc8e0713d55e7240d8ebcf19ce84656c0419a951d2a5078a10a0bb"
+    },
+    {
+      "seed": "H2A10TRAIN0417",
+      "map_digest": "116291212ad0699baea9cf521c3faf72de8f48cf74598c0fb71e56793da41d2e",
+      "terminal_digest": "15c36f91bd4d8b14eccdd5b959865cfa3ab7ffeb0771424243ebd632979b2323"
+    },
+    {
+      "seed": "N19A10FRONTIER0052",
+      "map_digest": "d82d1a4b50604b333d46b749d0d01ef2b7919db62ffea22596f0a75a0dfe1275",
+      "terminal_digest": "13390e23784fb5265cfce9990c4c139269514da00ff1b3816b7383f1e702191e"
+    },
+    {
+      "seed": "N19A10LATEROUTE0038",
+      "map_digest": "6926e1d670f02465e8af36f568f12f59816ba26fe1ded607fbbca895d8142f14",
+      "terminal_digest": "7e44106e8c77730055195dd0f3e543da9dca5030a5eb5b3e8035db09444ec453"
+    },
+    {
+      "seed": "N19A10LATEROUTE0125",
+      "map_digest": "ea539110ee12dfc3be962b5d894dc06990de78cfe852cbe7bb3c3c8765cbbb9f",
+      "terminal_digest": "6b4923312f13fce5bcb4eecb704e0ce6203312e2c511e7463a09ed53d554668a"
+    }
+  ]
+}

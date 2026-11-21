@@ -64,6 +64,8 @@ PYTHONPATH=src python scripts/archive-boss-conversion.py verify --archive silent
 
 The verifier checks both seed cohorts, recomputes each physical history fingerprint, totals the results from the individual games, and refits the frozen policy. For new comparisons, extract the archive and run `scripts/study-act2-bosses.py compare` on `roots/training` or a new training collection. The scripts record the actor source, weights, collector and native host. Historical labels retain their original identities. Reserve both published test registries when constructing future training sets.
 
+Helmer downloaded the published archive, verified all 631 entries and refitted the same model bytes as Linux. The extracted weights and training maps are ready in `artifacts/a10-conversion-20261121/training-state` in the Helmer project. Playing all 17 maps on Windows with those weights reproduced each Linux terminal state. [Cross-machine verification](helmer-verification.json)
+
 ## Act 3 training maps
 
 A check of 29 archived training prefixes found 25 whose physical history contained the old Knowledge Demon skip. The exact rejected command and the offered native curse pair were recovered for all 25. From 110 training boss arrivals we identified 17 fights the frozen model won. Replaying their historical prefixes and then playing the boss under the corrected rules produced 17 new Act 3 map openings. An independent build restored all 17. Resuming the incumbent Act 3 combat style from those maps reproduced all 17 terminal states of the continuous training runs. [Act 3 map checks and conditional results](act3-training.json)
@@ -74,4 +76,23 @@ The main gains still end before the first Act 3 boss. The seven additional held-
 PYTHONPATH=src python scripts/study-act2-preparation.py --act 3 \
   --openings artifacts/act3-training/maps --bundles artifacts/act3-training/bundles/engine/policy.json \
   --host "$HOST_DLL" --workers 3 --output artifacts/act3-training-continued
+```
+
+In the Helmer PowerShell session above, the equivalent command uses the extracted release.
+
+```powershell
+$state = Join-Path $study 'training-state'
+& $py scripts/study-act2-preparation.py --act 3 --openings "$state/act3-training/maps" --bundles "$state/models/challenger/policy.json" --host $gameHost --workers 4 --output "$study/next-act3-batch"
+```
+
+### Opening decisions in fatal rooms
+
+On the 11 training runs that died before the Act 3 boss, all 11 controls reproduced the original terminal state. Ten fatal rooms offered a first combat action or a card selection. We played all 101 alternative choices to the end of the game. Two encounters could be survived by changing the opening move. Against three Scrolls of Biting, opening with Piercing Wail left Silent at 5 HP after the fight. Against Fabricator, Survivor left her at 19 HP and a Swift Potion left her at 17 HP. The deployed policy opened both fights with Noxious Fumes. Every alternative run still ended before the Act 3 boss. [Training results and replay archive checksum](act3-opening-actions.json)
+
+Simply delaying Noxious Fumes in these two encounters and playing the next highest-scoring action led the model to select Panic Button or Backflip. Both runs still died on floor 4. Across all 17 training maps this follow-up still reached the boss six times and won zero games. An independent engine reproduced all 112 terminal states in the opening-action comparison. The supplement includes the public choices, full native action traces and the follow-up results. [Download the training experiment](https://github.com/jagenmark/STS2ML/releases/download/silent-a10-boss-conversion-20261121/silent-a10-act3-opening-actions.zip)
+
+From the Helmer session above, this reruns the comparison on the archived training maps.
+
+```powershell
+& $py scripts/study-act3-opening-actions.py --data "$state/act3-training" --bundle "$state/models/challenger/policy.json" --host $gameHost --workers 4 --output "$study/next-act3-opening-test"
 ```

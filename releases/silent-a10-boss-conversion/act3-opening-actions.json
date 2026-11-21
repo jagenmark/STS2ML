@@ -1,0 +1,137 @@
+{
+  "partition": "training",
+  "selection": "All 11 failed pre-boss runs among the 17 restored training maps. Each intervention changes exactly the first available combat action or card choice at the fatal room and plays the normal model through the terminal.",
+  "controls": 11,
+  "controls_matching_original_terminal": 11,
+  "with_opening_decision": 10,
+  "alternative_runs": 101,
+  "seeds_with_rescuable_room": 2,
+  "seeds_reaching_act3_boss_with_an_alternative": 0,
+  "seeds_winning_with_an_alternative": 0,
+  "independently_reproduced_terminals": 112,
+  "per_seed": {
+    "A10CV21FIT0022": {
+      "alternatives": 7,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.DEVOTED_SCULPTOR"
+      ]
+    },
+    "A2HUNTTRAIN200112": {
+      "alternatives": 3,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "card_select",
+      "enemies": []
+    },
+    "H2A10DRAFT0166": {
+      "alternatives": 18,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.FLAIL_KNIGHT",
+        "MONSTER.SPECTRAL_KNIGHT",
+        "MONSTER.MAGI_KNIGHT"
+      ]
+    },
+    "H2A10NEXTTRAIN0082": {
+      "alternatives": 22,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.PUNCH_CONSTRUCT",
+        "MONSTER.CUBEX_CONSTRUCT",
+        "MONSTER.CUBEX_CONSTRUCT"
+      ]
+    },
+    "H2A10NEXTTRAIN0090": {
+      "alternatives": 3,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "card_select",
+      "enemies": []
+    },
+    "H2A10NEXTTRAIN0131": {
+      "alternatives": 13,
+      "rescued": 9,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.SCROLL_OF_BITING",
+        "MONSTER.SCROLL_OF_BITING",
+        "MONSTER.SCROLL_OF_BITING"
+      ]
+    },
+    "H2A10NEXTTRAIN0148": {
+      "alternatives": 11,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.THE_LOST",
+        "MONSTER.THE_FORGOTTEN"
+      ]
+    },
+    "H2A10NEXTTRAIN0216": {
+      "alternatives": 8,
+      "rescued": 2,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.FABRICATOR"
+      ]
+    },
+    "H2A10TRAIN0417": {
+      "alternatives": 8,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.MECHA_KNIGHT"
+      ]
+    },
+    "N19A10FRONTIER0052": {
+      "alternatives": 8,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": "combat_play",
+      "enemies": [
+        "MONSTER.MECHA_KNIGHT"
+      ]
+    },
+    "N19A10LATEROUTE0038": {
+      "alternatives": 0,
+      "rescued": 0,
+      "reached_act3_boss": 0,
+      "wins": 0,
+      "starting_decision": null,
+      "enemies": []
+    }
+  },
+  "asset": "silent-a10-act3-opening-actions.zip",
+  "asset_sha256": "e5abf3f80ad8c7d0ce958bb93f61ffecd78eea0352af5cf4d23222f37b142cdc",
+  "fumes_followup": {
+    "partition": "training",
+    "maps": 17,
+    "seeds_changed": 2,
+    "boss_before": 6,
+    "boss_after": 6,
+    "wins_before": 0,
+    "wins_after": 0,
+    "matching_independently_verified_histories": 17
+  }
+}

@@ -4,5 +4,7 @@
   "bytes": 9239402,
   "entries": 631,
   "release_tag": "silent-a10-boss-conversion-20261121",
-  "exact_refit_linux": true
+  "exact_refit_linux": true,
+  "exact_refit_helmer_windows": true,
+  "cross_machine_receipt": "helmer-verification.json"
 }
