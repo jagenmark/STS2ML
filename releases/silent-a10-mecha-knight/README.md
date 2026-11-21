@@ -22,6 +22,8 @@ On the 60 development fights with carried inventories, the selected policy won 2
 The held main practice panel deliberately placed Mecha Knight on 32 new Act 3 entry maps with carried decks and potions. Complete matched fights numbered 32, with 3 incumbent wins and 4 challenger wins.
 The held replication practice panel deliberately placed Mecha Knight on 32 new Act 3 entry maps with carried decks and potions. Complete matched fights numbered 32, with 4 incumbent wins and 4 challenger wins.
 
+Across the same 64 held practice openings, net HP lost during the first Windup fell from 299 to 125 in total. The challenger survived the first Heavy Cleave on 62 maps, compared with 54 for the previous model. Full-fight wins rose from seven to eight. In the four natural fights, both survived the first Cleave once. The supplemental archive includes the eight complete natural fight traces, which match the actual lobby action sequences and terminal digests. [First-cycle results](windup-outcomes.json) · [Supplemental traces](https://github.com/jagenmark/STS2ML/releases/download/silent-a10-mecha-knight-20261121/mecha-windup-diagnostics.zip)
+
 ## Natural A7 benchmark
 
 The published A10 combat policy transferred directly to A7. It won 0/256 in the first registered series and 2/512 in the fixed follow-up. The selected Mecha challenger won 0/256 and 2/512 on the same lobbies. Every incumbent terminal was independently replayed. Winning policies were also rerun from the lobby with the original index. [Winning seeds and replay receipts](a7-victories.json)
