@@ -10,6 +10,7 @@ from pathlib import Path
 from sts2rl.act1 import save_json
 from sts2rl.encounter import EncounterModel
 from sts2rl.native import NativeError, NativeSession, ReplayFork, digest
+from sts2rl.provenance import boss_study_stamp
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_policy import RunPolicy, RunWeights
 from sts2rl.trajectory import natural_specification
@@ -172,6 +173,7 @@ def main():
     if not tasks:
         raise ValueError("No eligible boss openings")
     save_json(a.output/"design.json", {"partition": a.partition, "seeds": sorted(seen), "variants": variants,
+              "label_provenance": boss_study_stamp(a.bundle, a.host, __file__),
               "bundle_sha256": hashlib.sha256(a.bundle.read_bytes()).hexdigest(),
               "host_sha256": hashlib.sha256(a.host.read_bytes()).hexdigest()})
     with ProcessPoolExecutor(a.workers) as pool:

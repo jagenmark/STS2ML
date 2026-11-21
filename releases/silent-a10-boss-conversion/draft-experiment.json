@@ -1,0 +1,48 @@
+{
+  "results": {
+    "control": {
+      "train": {
+        "n": 48,
+        "wins": 0,
+        "act3": 1,
+        "boss2": 13
+      },
+      "development": {
+        "n": 48,
+        "wins": 0,
+        "act3": 3,
+        "boss2": 14
+      }
+    },
+    "boss_draft": {
+      "train": {
+        "n": 48,
+        "wins": 0,
+        "act3": 1,
+        "boss2": 14
+      },
+      "development": {
+        "n": 48,
+        "wins": 0,
+        "act3": 2,
+        "boss2": 16
+      }
+    },
+    "lean_draft": {
+      "train": {
+        "n": 48,
+        "wins": 0,
+        "act3": 1,
+        "boss2": 17
+      },
+      "development": {
+        "n": 48,
+        "wins": 0,
+        "act3": 3,
+        "boss2": 16
+      }
+    }
+  },
+  "best": "lean_draft",
+  "accepted": false
+}

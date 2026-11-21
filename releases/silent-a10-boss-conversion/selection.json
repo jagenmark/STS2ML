@@ -1,0 +1,10 @@
+{
+  "frozen_utc": "2026-11-21T12:26:34.708912+00:00",
+  "seed_lock_sha256": "490eb98b1f4bd1cc69fb4664b2f2b5ef0ed5b017fb6fc9ac13389f3768c34ba5",
+  "policy_sha256": "1e0873c839f4e2791495d866bbddd1e2b21590ed00ef3ff8ed3d0a7958958cb1",
+  "incumbent_sha256": "731e83312742a001f0de398b7d028b7b5853e395d1bf04fff44fb6d5b83f1c26",
+  "fit_sha256": "482cc2685ec835a415ad5fc1ae6d4fb80b4ba5402c4ddf9d7c1d218e29c5bf94",
+  "selection_rule_sha256": "ecbf526802d0e1dc383c5db53c300b7a97f1e4f21c01a776ef192151f677e98e",
+  "corrected_host_sha256": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+  "test_episodes_per_arm": 1024
+}

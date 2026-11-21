@@ -95,6 +95,9 @@ class DeckPolicy:
             data.get("scope", ["card_reward", "bundle_select", "shop", "rest_site"])
         )
         self.to_upgrade = False
+        self.act2_final_rest_threshold = data.get("act2_final_rest_threshold")
+        if self.act2_final_rest_threshold is not None and not 0 <= self.act2_final_rest_threshold <= 1:
+            raise ValueError("Final Act 2 campfire threshold must be a fraction")
 
     @classmethod
     def load(cls, path):
@@ -288,6 +291,11 @@ class DeckPolicy:
             )
         if d == "rest_site":
             a = base(state)
+            if self.act2_final_rest_threshold is not None and ctx.get("act") == 2 and ctx.get("floor") == 15:
+                options = {o["index"]: o["option_id"] for o in state["options"]}
+                if options.get(a.args.get("option_index")) in ("HEAL", "SMITH"):
+                    target = "HEAL" if player["hp"] / player["max_hp"] < self.act2_final_rest_threshold else "SMITH"
+                    a = next((act for act in acts if options.get(act.args.get("option_index")) == target), a)
             self.to_upgrade = any(
                 o.get("option_id") == "SMITH" and o["index"] == a.args.get("option_index")
                 for o in state["options"]

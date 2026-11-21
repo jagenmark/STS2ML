@@ -1,0 +1,86 @@
+{
+  "knowledge_demon": {
+    "seed": "A2HUNTTRAIN200002",
+    "root": "d4c8ef3a543d9a1e48d5839af2b0cbb3cb089adea366f45258530a89295783af",
+    "choices": {
+      "CARD.DISINTEGRATION": [
+        "POWER.THORNS_POWER",
+        "POWER.DISINTEGRATION_POWER"
+      ],
+      "CARD.MIND_ROT": [
+        "POWER.THORNS_POWER",
+        "POWER.MIND_ROT_POWER"
+      ]
+    },
+    "old": {
+      "minimum": 0,
+      "maximum": 1,
+      "actions": [
+        {
+          "cmd": "action",
+          "action": "skip_select",
+          "args": {}
+        },
+        {
+          "cmd": "action",
+          "action": "select_cards",
+          "args": {
+            "indices": "0"
+          }
+        },
+        {
+          "cmd": "action",
+          "action": "select_cards",
+          "args": {
+            "indices": "1"
+          }
+        }
+      ]
+    },
+    "fixed": {
+      "minimum": 1,
+      "maximum": 1,
+      "actions": [
+        {
+          "cmd": "action",
+          "action": "select_cards",
+          "args": {
+            "indices": "0"
+          }
+        },
+        {
+          "cmd": "action",
+          "action": "select_cards",
+          "args": {
+            "indices": "1"
+          }
+        }
+      ]
+    },
+    "native_skip_error": "This card selection requires a choice"
+  },
+  "kaiser_crab": {
+    "seed": "H2A10BIOMETRAIN0073",
+    "root": "a4df7204c0a8c0d7e8eb895450342799c160f722491f9083a2af6dcc3a4da9d0",
+    "card": "CARD.STRIKE_SILENT",
+    "starting_hp": 29,
+    "target": {
+      "MONSTER.CRUSHER": {
+        "intents": {
+          "MONSTER.CRUSHER": 14,
+          "MONSTER.ROCKET": 6
+        },
+        "block": 0,
+        "hp_next_turn": 9
+      },
+      "MONSTER.ROCKET": {
+        "intents": {
+          "MONSTER.CRUSHER": 21,
+          "MONSTER.ROCKET": 4
+        },
+        "block": 0,
+        "hp_next_turn": 4
+      }
+    }
+  }
+}

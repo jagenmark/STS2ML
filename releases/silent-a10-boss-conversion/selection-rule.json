@@ -1,0 +1,7 @@
+{
+  "recorded": "2026-11-21T12:18:22.689147+00:00",
+  "unit": "one matched native opening per seed; only historical training and the separately locked development partition may influence the finalist",
+  "boss_selection": "within each boss sort by training survival count, total exit HP, negative enemy fraction left; prefer simpler control on ties. Require positive training win gain, or equal wins and positive exit HP. Retain only if development has nonnegative win gain and either a training win gain or a development win gain. If rejected use control.",
+  "campfire": "one threshold across bosses; test heal below 0.55, 0.65, 0.77, 0.85, 0.95, 1.0 max HP. Require strictly more native training wins and no development loss. Choose by wins, exit HP, negative remaining enemy fraction and closeness to incumbent 0.77.",
+  "test": "one finalized challenger versus incumbent, same corrected native host and 1024 prelocked natural A10 games, scored in this order: full victory then Act3 entry. No test-outcome access before freeze."
+}

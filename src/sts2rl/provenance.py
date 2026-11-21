@@ -26,6 +26,16 @@ def draft_scorer_hash():
                          "offer_policy", "run_policy", "strategy"))
 
 
+def boss_study_stamp(bundle, host, collector):
+    modules = ("act2_action_ranker", "act2_bosses", "act2_hallways", "card_effects", "combat_effects",
+               "combat_outcome", "deck_policy", "encounter", "enemy_forecast", "native",
+               "run_policy", "sandpit", "selections", "teacher", "turn_planning")
+    return {"schema": "native-act2-boss-continuation-v1", "actor_code_sha256": _source_hash(modules),
+            "bundle_sha256": hashlib.sha256(Path(bundle).read_bytes()).hexdigest(),
+            "native_host_sha256": hashlib.sha256(Path(host).read_bytes()).hexdigest(),
+            "collector_sha256": hashlib.sha256(Path(collector).read_text(encoding="utf-8").encode()).hexdigest()}
+
+
 def mc_provenance(continuation):
     return {"continuation": continuation, "code_sha256": _source_hash(("teacher", "combat_effects", "enemy_forecast", "native")),
             "weights_sha256": None}  # This continuation has no learned checkpoint.

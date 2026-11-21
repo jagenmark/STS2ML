@@ -12,6 +12,7 @@ from sts2rl.combat_outcome import outcome
 from sts2rl.deck_policy import DeckPolicy
 from sts2rl.encounter import EncounterModel
 from sts2rl.native import NativeError, NativeSession, ReplayFork, digest, legal_actions
+from sts2rl.provenance import boss_study_stamp
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_policy import RunPolicy, RunWeights
 
@@ -105,6 +106,7 @@ def main():
     if not files or set(seeds) & blocked or len(set(seeds)) != len(seeds):
         raise ValueError("Expected unique, eligible non-test campfire roots")
     save_json(a.output/"design.json", {"partition": a.partition, "seeds": seeds,
+              "label_provenance": boss_study_stamp(a.bundle, a.host, __file__),
               "checkpoint": hashlib.sha256(a.bundle.read_bytes()).hexdigest(),
               "host": hashlib.sha256(a.host.read_bytes()).hexdigest()})
     with ProcessPoolExecutor(a.workers) as pool:
