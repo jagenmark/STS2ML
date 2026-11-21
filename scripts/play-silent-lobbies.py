@@ -1,4 +1,4 @@
-"""Play indexed Silent A10 lobbies from the beginning and check any registered Act 3 entry."""
+"""Play indexed Silent lobbies from the beginning and check any registered Act 3 entry."""
 
 import argparse
 import hashlib
@@ -30,7 +30,12 @@ def play(task):
             role,
             asdict(RunWeights.load(opts["weights"])),
             opts.get("micro"),
-            {**opts, "rooms": True, "seeded_acts": entry["act_list"] == "seeded"},
+            {
+                **opts,
+                "rooms": True,
+                "seeded_acts": entry["act_list"] == "seeded",
+                "ascension": entry.get("ascension", 10),
+            },
         )
     )
     if row["status"] != "complete":

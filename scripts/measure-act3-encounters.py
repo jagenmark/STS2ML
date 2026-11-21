@@ -55,7 +55,7 @@ def prepare(a):
     save_json(a.output, sorted(rows, key=lambda e: e["index"]))
 
 
-def metrics(result):
+def metrics(result, ascension=10):
     boss = sorted({floor for act, floor in result["boss_fights"] if act == 3})
     chambers = [r for r in result.get("rooms", []) if r["act"] == 3]
     room_stats = {
@@ -65,7 +65,7 @@ def metrics(result):
         }
         for name in ("Monster", "Elite", "Unknown")
     }
-    if result["win"] and not verified_victory(result["boss_fights"]):
+    if result["win"] and not verified_victory(result["boss_fights"], ascension):
         raise ValueError("Full victory lacks the native double boss")
     return {
         "first": bool(boss),
@@ -152,16 +152,18 @@ def mecha_fights(game, state, commands, hashes):
 def check(task):
     base_folder, other_folder, host, entry, scope = task
     seed = entry["seed"]
+    ascension = entry.get("ascension", 10)
     results = [json.loads((f / "result.json").read_bytes()) for f in (base_folder, other_folder)]
     if any(
         r["status"] != "complete"
         or r["seed"] != seed
         or r["index"] != entry["index"]
         or r["start_act"] != 1
+        or r["ascension"] != ascension
         for r in results
     ):
         raise ValueError(f"Invalid paired game on {seed}")
-    aa, bb = physical(base_folder), physical(other_folder)
+    aa, bb = physical(base_folder, ascension), physical(other_folder, ascension)
     if aa[0] != bb[0] or aa[0].get("act_list") != "seeded":
         raise ValueError("Different natural lobbies")
     if entry["map_digest"] is not None:
@@ -187,6 +189,7 @@ def check(task):
                     ROOT,
                     Path(tmp) / str(serial),
                     host_path=host,
+                    ascension=ascension,
                     act_list=spec.get("act_list", "default"),
                     timeout=100,
                 )
@@ -289,8 +292,8 @@ def check(task):
         "first_difference": changed,
         "terminal_replays": receipts,
         "mecha_fights": dict(zip(("incumbent", "challenger"), observed, strict=True)),
-        "incumbent": metrics(results[0]),
-        "challenger": metrics(results[1]),
+        "incumbent": metrics(results[0], ascension),
+        "challenger": metrics(results[1], ascension),
     }
 
 
