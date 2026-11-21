@@ -1,0 +1,35 @@
+{
+  "seed": "MK21NAT05751",
+  "index": 5751,
+  "difficulty": 10,
+  "original_error": "NativeError: Relic already purchased",
+  "prior_actions": 387,
+  "shared_public_shop_digest": "66a0297798bb34ff51238b1501da6f38dff16a592756ad6a51a3ae63f5a7728e",
+  "already_paid_relic": "Kifuda",
+  "before_gold": 674,
+  "after_gold": 494,
+  "invalid_original_action": {
+    "cmd": "action",
+    "action": "buy_relic",
+    "args": {
+      "relic_index": 2
+    }
+  },
+  "restored_policy_choice": {
+    "cmd": "action",
+    "action": "buy_card",
+    "args": {
+      "card_index": 4
+    }
+  },
+  "completed_ending": "378f644c989b37517f1c7e70981ca4ae9c11957cab428213cee8a445771da074",
+  "floor": 7,
+  "act": 3,
+  "victory": false,
+  "corrected_actions_in_lobby": 1,
+  "scope": "Both frozen arms use the same legal-action correction. It is consulted only when a policy chooses a previously purchased relic whose on-acquire prompt was displayed, after payment and receipt of the relic were confirmed. The original failed game is retained in the experiment workspace.",
+  "windows_linux_reproduction": {
+    "identical_actions": 438,
+    "same_terminal": true
+  }
+}

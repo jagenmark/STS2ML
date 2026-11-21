@@ -31,7 +31,7 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def build(study, archive):
+def build(study, archive, histories=None):
     with (
         TemporaryDirectory() as tmp,
         zipfile.ZipFile(archive, "x", zipfile.ZIP_DEFLATED, compresslevel=5) as z,
@@ -70,8 +70,9 @@ def build(study, archive):
             tree(study / (cohort + "-report"), prefix + "/challenger")
             tree(study / (cohort + "-practice-cases"), prefix + "/practice-cases")
             tree(study / (cohort + "-practice"), prefix + "/practice")
-            dest = Path(tmp) / (cohort + ".jsonl.gz")
-            pack_histories(study, cohort, base, ("challenger",), dest)
+            dest = (histories or Path(tmp)) / (cohort + ".jsonl.gz")
+            if histories is None:
+                pack_histories(study, cohort, base, ("challenger",), dest)
             add(dest, prefix + "/histories.jsonl.gz")
         for prefix, raw in (("a7", "a7-benchmark"), ("a7-replication", "a7-replication")):
             tree(study / (prefix + "-report"), "evaluation/" + prefix)
@@ -263,13 +264,18 @@ def main():
     p.add_argument("mode", choices=("build", "verify"))
     p.add_argument("--archive", type=Path, required=True)
     p.add_argument("--study", type=Path)
+    p.add_argument(
+        "--histories",
+        type=Path,
+        help="Previously packed cohort histories, checked against independent replay receipts during verification",
+    )
     p.add_argument("--refit", action="store_true")
     p.add_argument("--host", type=Path)
     a = p.parse_args()
     if a.mode == "build":
         if a.study is None:
             p.error("build requires --study")
-        build(a.study, a.archive)
+        build(a.study, a.archive, a.histories)
     verify(a.archive, a.refit, a.host)
 
 

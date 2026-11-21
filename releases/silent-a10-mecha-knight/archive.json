@@ -1,0 +1,12 @@
+{
+  "asset": "silent-a10-mecha-knight.zip",
+  "tag": "silent-a10-mecha-knight-20261121",
+  "sha256": "3a4ee5743d5ca75854250d71679155422046782c57c37d24483357044d080ec3",
+  "bytes": 8184614,
+  "members": 1215,
+  "verified_on_linux": {
+    "refit_max_error": 0.0,
+    "native_seed": "MK21NAT00419",
+    "physical_history": "19d983cd1ccb9d78426189b1e54480d424b8235510ad8948e2c06c09d3424f47"
+  }
+}

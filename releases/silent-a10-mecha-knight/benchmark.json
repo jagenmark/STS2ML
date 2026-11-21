@@ -1,0 +1,468 @@
+{
+  "incumbent": "337e2678662b42b7eb0f92ab24fe001814dbd66ce9d1e3302ba82a71c665ea56",
+  "challenger": "294cba0de1939ab457d10ccb96b4e9ac47c84a75f16fb4ab1cf5f7875895aa05",
+  "natural_a10": {
+    "main": {
+      "full": {
+        "lobbies": 6144,
+        "act2_entries": 1858,
+        "act3_entries": 78,
+        "incumbent": {
+          "first": 20,
+          "second": 0,
+          "win": 0,
+          "floor": 712,
+          "Monster_entered": 219,
+          "Monster_died": 37,
+          "Elite_entered": 22,
+          "Elite_died": 13,
+          "Unknown_entered": 197,
+          "Unknown_died": 8,
+          "mecha_fights": 4,
+          "mecha_seeds": 4,
+          "mecha_survived": 0,
+          "mecha_windup": 4,
+          "mecha_cleave": 4
+        },
+        "challenger": {
+          "first": 20,
+          "second": 0,
+          "win": 0,
+          "floor": 712,
+          "Monster_entered": 219,
+          "Monster_died": 37,
+          "Elite_entered": 22,
+          "Elite_died": 13,
+          "Unknown_entered": 197,
+          "Unknown_died": 8,
+          "mecha_fights": 4,
+          "mecha_seeds": 4,
+          "mecha_survived": 0,
+          "mecha_windup": 4,
+          "mecha_cleave": 4
+        },
+        "boss_gained": [],
+        "boss_lost": [],
+        "paired_p": 1
+      },
+      "full_paired_lobbies": 110,
+      "nonentrant_spot_checks": 32,
+      "independent_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+    },
+    "replication": {
+      "full": {
+        "lobbies": 3072,
+        "act2_entries": 956,
+        "act3_entries": 35,
+        "incumbent": {
+          "first": 8,
+          "second": 0,
+          "win": 0,
+          "floor": 322,
+          "Monster_entered": 100,
+          "Monster_died": 16,
+          "Elite_entered": 6,
+          "Elite_died": 4,
+          "Unknown_entered": 84,
+          "Unknown_died": 7
+        },
+        "challenger": {
+          "first": 8,
+          "second": 0,
+          "win": 0,
+          "floor": 322,
+          "Monster_entered": 100,
+          "Monster_died": 16,
+          "Elite_entered": 6,
+          "Elite_died": 4,
+          "Unknown_entered": 84,
+          "Unknown_died": 7
+        },
+        "boss_gained": [],
+        "boss_lost": [],
+        "paired_p": 1
+      },
+      "full_paired_lobbies": 67,
+      "nonentrant_spot_checks": 32,
+      "independent_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+    }
+  },
+  "practice_a10": {
+    "main": {
+      "registered": 32,
+      "complete_pairs": 32,
+      "errors": {},
+      "arms": {
+        "challenger": {
+          "all": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 24,
+            "gains": [
+              "813dc954cf747c7579267a5a7ed45e9107d8f08805d57d502e76deda63c96071"
+            ],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "windup/POTION.FLEX_POTION": 1,
+              "windup/POTION.GLOWWATER_POTION": 1,
+              "windup/POTION.POISON_POTION": 1,
+              "windup/POTION.SWIFT_POTION": 2
+            }
+          },
+          "carried_inventory": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 24,
+            "gains": [
+              "813dc954cf747c7579267a5a7ed45e9107d8f08805d57d502e76deda63c96071"
+            ],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "windup/POTION.FLEX_POTION": 1,
+              "windup/POTION.GLOWWATER_POTION": 1,
+              "windup/POTION.POISON_POTION": 1,
+              "windup/POTION.SWIFT_POTION": 2
+            }
+          },
+          "natural": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          },
+          "practice": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 24,
+            "gains": [
+              "813dc954cf747c7579267a5a7ed45e9107d8f08805d57d502e76deda63c96071"
+            ],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "windup/POTION.FLEX_POTION": 1,
+              "windup/POTION.GLOWWATER_POTION": 1,
+              "windup/POTION.POISON_POTION": 1,
+              "windup/POTION.SWIFT_POTION": 2
+            }
+          },
+          "potion_practice": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          }
+        },
+        "incumbent": {
+          "all": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 3,
+            "exit_hp": 28,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.SPEED_POTION": 2,
+              "windup/POTION.POISON_POTION": 1
+            }
+          },
+          "carried_inventory": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 3,
+            "exit_hp": 28,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.SPEED_POTION": 2,
+              "windup/POTION.POISON_POTION": 1
+            }
+          },
+          "natural": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          },
+          "practice": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 3,
+            "exit_hp": 28,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.SPEED_POTION": 2,
+              "windup/POTION.POISON_POTION": 1
+            }
+          },
+          "potion_practice": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          }
+        }
+      }
+    },
+    "replication": {
+      "registered": 32,
+      "complete_pairs": 32,
+      "errors": {},
+      "arms": {
+        "challenger": {
+          "all": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 60,
+            "gains": [
+              "d070b83495446d7eec764ced39474e9be294214776a6bb86b45fbbd611332c6b"
+            ],
+            "losses": [
+              "7020c49f8a74e95b105d4f244a8cd9726c14c39e0358fcaf5798d29bcdbdf082"
+            ],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.CLARITY": 1,
+              "windup/POTION.FLEX_POTION": 2,
+              "windup/POTION.GLOWWATER_POTION": 1
+            }
+          },
+          "carried_inventory": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 60,
+            "gains": [
+              "d070b83495446d7eec764ced39474e9be294214776a6bb86b45fbbd611332c6b"
+            ],
+            "losses": [
+              "7020c49f8a74e95b105d4f244a8cd9726c14c39e0358fcaf5798d29bcdbdf082"
+            ],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.CLARITY": 1,
+              "windup/POTION.FLEX_POTION": 2,
+              "windup/POTION.GLOWWATER_POTION": 1
+            }
+          },
+          "natural": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          },
+          "practice": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 60,
+            "gains": [
+              "d070b83495446d7eec764ced39474e9be294214776a6bb86b45fbbd611332c6b"
+            ],
+            "losses": [
+              "7020c49f8a74e95b105d4f244a8cd9726c14c39e0358fcaf5798d29bcdbdf082"
+            ],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.CLARITY": 1,
+              "windup/POTION.FLEX_POTION": 2,
+              "windup/POTION.GLOWWATER_POTION": 1
+            }
+          },
+          "potion_practice": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          }
+        },
+        "incumbent": {
+          "all": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 43,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.CLARITY": 1,
+              "cleave/POTION.POISON_POTION": 1,
+              "windup/POTION.FLEX_POTION": 1
+            }
+          },
+          "carried_inventory": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 43,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.CLARITY": 1,
+              "cleave/POTION.POISON_POTION": 1,
+              "windup/POTION.FLEX_POTION": 1
+            }
+          },
+          "natural": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          },
+          "practice": {
+            "n": 32,
+            "seeds": 32,
+            "wins": 4,
+            "exit_hp": 43,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 32,
+            "potion_uses": {
+              "cleave/POTION.CLARITY": 1,
+              "cleave/POTION.POISON_POTION": 1,
+              "windup/POTION.FLEX_POTION": 1
+            }
+          },
+          "potion_practice": {
+            "n": 0,
+            "seeds": 0,
+            "wins": 0,
+            "exit_hp": 0,
+            "gains": [],
+            "losses": [],
+            "windup_seen": 0,
+            "potion_uses": {}
+          }
+        }
+      }
+    }
+  },
+  "a7": {
+    "a7": {
+      "lobbies": 256,
+      "act2_entries": 167,
+      "act3_entries": 22,
+      "incumbent": {
+        "first": 8,
+        "win": 0,
+        "win_seeds": []
+      },
+      "challenger": {
+        "first": 8,
+        "win": 0,
+        "win_seeds": []
+      },
+      "audited_finalist_lobbies": 38,
+      "native_terminal_replays": 256
+    },
+    "a7-replication": {
+      "lobbies": 512,
+      "act2_entries": 331,
+      "act3_entries": 42,
+      "incumbent": {
+        "first": 22,
+        "win": 2,
+        "win_seeds": [
+          "MK21A7REPL00005",
+          "MK21A7REPL00449"
+        ]
+      },
+      "challenger": {
+        "first": 22,
+        "win": 2,
+        "win_seeds": [
+          "MK21A7REPL00005",
+          "MK21A7REPL00449"
+        ]
+      },
+      "audited_finalist_lobbies": 58,
+      "native_terminal_replays": 512
+    }
+  },
+  "same_seed_difficulty": {
+    "a7": {
+      "lobbies": 256,
+      "act2": 167,
+      "act3": 22,
+      "first": 8,
+      "wins": 0
+    },
+    "a10": {
+      "lobbies": 256,
+      "act2": 89,
+      "act3": 2,
+      "first": 1,
+      "wins": 0
+    },
+    "a7_only_act3": 21,
+    "a10_only_act3": 1
+  },
+  "pooled_a10": {
+    "lobbies": 9216,
+    "act3_entries": 113,
+    "incumbent": {
+      "first": 28,
+      "second": 0,
+      "win": 0,
+      "mecha_fights": 4,
+      "mecha_seeds": 4,
+      "mecha_windup": 4,
+      "mecha_cleave": 4,
+      "mecha_survived": 0
+    },
+    "challenger": {
+      "first": 28,
+      "second": 0,
+      "win": 0,
+      "mecha_fights": 4,
+      "mecha_seeds": 4,
+      "mecha_windup": 4,
+      "mecha_cleave": 4,
+      "mecha_survived": 0
+    },
+    "boss_gained": 0,
+    "boss_lost": 0,
+    "paired_p": 1
+  },
+  "natural_matched_mecha_survival_changes": []
+}
