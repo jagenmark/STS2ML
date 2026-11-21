@@ -44,6 +44,7 @@ class SurvivalRouter:
         self.elite = data.get("elite", 0.0)
         self.data = data
         self.act1_context = data.get("act1_context", {})
+        self.act3_context = data.get("act3_context", {})
         if data.get("version") == 3 and not self.act1_context:
             raise ValueError("Missing Act 1 route context")
 
@@ -141,7 +142,8 @@ class SurvivalRouter:
         risk = act_weights.get("risk", self.risk)
         health = act_weights.get("health", self.health)
         elite = act_weights.get("elite", self.elite)
-        contextual = self.act1_context if act == 1 else {}
+        contextual = self.act1_context if act == 1 else self.act3_context if act == 3 else {}
+        weak_fights = 2 if act == 3 else 3
         biome = state["context"].get("act_name")
         boss_id = (state["context"].get("boss") or {}).get("id")
         coefficients = contextual.get("boss_coefficients", {}).get(boss_id, self.boss[str(act)])
@@ -166,7 +168,7 @@ class SurvivalRouter:
             cells = contextual.get("rooms", {})
             keys = [f"{biome}/{icon}"]
             if icon in ("Monster", "Unknown") and prior_fights is not None:
-                keys.append(f"{biome}/{icon}/{'weak' if prior_fights < 3 else 'regular'}")
+                keys.append(f"{biome}/{icon}/{'weak' if prior_fights < weak_fights else 'regular'}")
             for key in keys:
                 cell = cells.get(key)
                 if cell:
@@ -207,13 +209,13 @@ class SurvivalRouter:
                 return max((value(c["row"], c["col"], new_hp, balance, count) for c in children),
                            default=hp_beta * new_hp / maximum)
 
-            if contextual and prior_fights is not None and prior_fights < 3 and icon == "Unknown":
+            if contextual and prior_fights is not None and prior_fights < weak_fights and icon == "Unknown":
                 probability = contextual["unknown_fight_probability"].get(biome, 0.0)
                 end = (1 - probability) * best_child(prior_fights) + probability * best_child(prior_fights + 1)
             else:
                 count = prior_fights
                 if contextual and count is not None and icon == "Monster":
-                    count = min(3, count + 1)
+                    count = min(weak_fights, count + 1)
                 end = best_child(count)
             return benefit + risk * math.log(max(0.025, 1 - death)) + self.discount * end
 

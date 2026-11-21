@@ -1,0 +1,457 @@
+{
+  "training": {
+    "incumbent": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 200,
+        "sum_first_boss_entry_hp": 489
+      }
+    },
+    "pilot-linear": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 210,
+        "sum_first_boss_entry_hp": 439
+      }
+    },
+    "pilot-table": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 212,
+        "sum_first_boss_entry_hp": 490
+      }
+    },
+    "beam": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 207,
+        "sum_first_boss_entry_hp": 434
+      }
+    },
+    "engine_tools": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 209,
+        "sum_first_boss_entry_hp": 456
+      }
+    },
+    "focus": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 219,
+        "sum_first_boss_entry_hp": 348
+      }
+    },
+    "frontload": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 205,
+        "sum_first_boss_entry_hp": 531
+      }
+    },
+    "guard": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 221,
+        "sum_first_boss_entry_hp": 494
+      }
+    },
+    "pressure": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 207,
+        "sum_first_boss_entry_hp": 504
+      }
+    },
+    "scale": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 5,
+        "full_wins": 0,
+        "sum_floors": 200,
+        "sum_first_boss_entry_hp": 364
+      }
+    },
+    "sweep": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 213,
+        "sum_first_boss_entry_hp": 458
+      }
+    },
+    "tempo": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 8,
+        "full_wins": 0,
+        "sum_floors": 210,
+        "sum_first_boss_entry_hp": 598
+      }
+    },
+    "learned-linear": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 8,
+        "full_wins": 0,
+        "sum_floors": 214,
+        "sum_first_boss_entry_hp": 552
+      }
+    },
+    "learned-table": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 8,
+        "full_wins": 0,
+        "sum_floors": 214,
+        "sum_first_boss_entry_hp": 530
+      }
+    },
+    "route-cautious": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 9,
+        "full_wins": 0,
+        "sum_floors": 207,
+        "sum_first_boss_entry_hp": 629
+      }
+    },
+    "route-measured": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 9,
+        "full_wins": 0,
+        "sum_floors": 207,
+        "sum_first_boss_entry_hp": 629
+      }
+    },
+    "tempo-route": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 9,
+        "full_wins": 0,
+        "sum_floors": 212,
+        "sum_first_boss_entry_hp": 650
+      }
+    },
+    "forecast": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 202,
+        "sum_first_boss_entry_hp": 398
+      }
+    },
+    "pilot-combined": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 213,
+        "sum_first_boss_entry_hp": 536
+      }
+    },
+    "timing": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 204,
+        "sum_first_boss_entry_hp": 527
+      }
+    },
+    "ranked": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 5,
+        "full_wins": 0,
+        "sum_floors": 199,
+        "sum_first_boss_entry_hp": 349
+      }
+    },
+    "pool-route": {
+      "all": {
+        "maps": 21,
+        "first_bosses": 9,
+        "full_wins": 0,
+        "sum_floors": 207,
+        "sum_first_boss_entry_hp": 622
+      }
+    }
+  },
+  "development": {
+    "guard": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 167,
+        "sum_first_boss_entry_hp": 491
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 5,
+        "full_wins": 0,
+        "sum_floors": 88,
+        "sum_first_boss_entry_hp": 357
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 2,
+        "full_wins": 0,
+        "sum_floors": 79,
+        "sum_first_boss_entry_hp": 134
+      }
+    },
+    "incumbent": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 160,
+        "sum_first_boss_entry_hp": 481
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 4,
+        "full_wins": 0,
+        "sum_floors": 76,
+        "sum_first_boss_entry_hp": 281
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 84,
+        "sum_first_boss_entry_hp": 200
+      }
+    },
+    "pilot-combined": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 155,
+        "sum_first_boss_entry_hp": 479
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 77,
+        "sum_first_boss_entry_hp": 231
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 78,
+        "sum_first_boss_entry_hp": 248
+      }
+    },
+    "pilot-table": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 158,
+        "sum_first_boss_entry_hp": 441
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 4,
+        "full_wins": 0,
+        "sum_floors": 85,
+        "sum_first_boss_entry_hp": 289
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 2,
+        "full_wins": 0,
+        "sum_floors": 73,
+        "sum_first_boss_entry_hp": 152
+      }
+    },
+    "tempo": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 169,
+        "sum_first_boss_entry_hp": 507
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 5,
+        "full_wins": 0,
+        "sum_floors": 88,
+        "sum_first_boss_entry_hp": 346
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 2,
+        "full_wins": 0,
+        "sum_floors": 81,
+        "sum_first_boss_entry_hp": 161
+      }
+    },
+    "learned-linear": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 174,
+        "sum_first_boss_entry_hp": 502
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 5,
+        "full_wins": 0,
+        "sum_floors": 88,
+        "sum_first_boss_entry_hp": 347
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 2,
+        "full_wins": 0,
+        "sum_floors": 86,
+        "sum_first_boss_entry_hp": 155
+      }
+    },
+    "learned-table": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 7,
+        "full_wins": 0,
+        "sum_floors": 162,
+        "sum_first_boss_entry_hp": 518
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 5,
+        "full_wins": 0,
+        "sum_floors": 88,
+        "sum_first_boss_entry_hp": 365
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 2,
+        "full_wins": 0,
+        "sum_floors": 74,
+        "sum_first_boss_entry_hp": 153
+      }
+    },
+    "route-cautious": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 154,
+        "sum_first_boss_entry_hp": 378
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 70,
+        "sum_first_boss_entry_hp": 178
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 84,
+        "sum_first_boss_entry_hp": 200
+      }
+    },
+    "route-measured": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 154,
+        "sum_first_boss_entry_hp": 378
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 70,
+        "sum_first_boss_entry_hp": 178
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 84,
+        "sum_first_boss_entry_hp": 200
+      }
+    },
+    "tempo-route": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 5,
+        "full_wins": 0,
+        "sum_floors": 159,
+        "sum_first_boss_entry_hp": 360
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 78,
+        "sum_first_boss_entry_hp": 199
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 2,
+        "full_wins": 0,
+        "sum_floors": 81,
+        "sum_first_boss_entry_hp": 161
+      }
+    },
+    "pool-route": {
+      "all": {
+        "maps": 14,
+        "first_bosses": 6,
+        "full_wins": 0,
+        "sum_floors": 153,
+        "sum_first_boss_entry_hp": 350
+      },
+      "historical": {
+        "maps": 6,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 70,
+        "sum_first_boss_entry_hp": 150
+      },
+      "fresh": {
+        "maps": 8,
+        "first_bosses": 3,
+        "full_wins": 0,
+        "sum_floors": 83,
+        "sum_first_boss_entry_hp": 200
+      }
+    }
+  }
+}

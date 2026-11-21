@@ -1,0 +1,109 @@
+{
+  "frozen_utc": "2026-11-21T14:44:10.933427+00:00",
+  "incumbent_sha256": "1e0873c839f4e2791495d866bbddd1e2b21590ed00ef3ff8ed3d0a7958958cb1",
+  "incumbent_training": {
+    "maps": 21,
+    "first_bosses": 7,
+    "full_wins": 0,
+    "sum_floors": 200,
+    "sum_first_boss_entry_hp": 489
+  },
+  "incumbent_development": {
+    "all": {
+      "maps": 14,
+      "first_bosses": 7,
+      "full_wins": 0,
+      "sum_floors": 160,
+      "sum_first_boss_entry_hp": 481
+    },
+    "historical": {
+      "maps": 6,
+      "first_bosses": 4,
+      "full_wins": 0,
+      "sum_floors": 76,
+      "sum_first_boss_entry_hp": 281
+    },
+    "fresh": {
+      "maps": 8,
+      "first_bosses": 3,
+      "full_wins": 0,
+      "sum_floors": 84,
+      "sum_first_boss_entry_hp": 200
+    }
+  },
+  "arms": {
+    "combat": {
+      "candidate": "learned-linear",
+      "policy_sha256": "337e2678662b42b7eb0f92ab24fe001814dbd66ce9d1e3302ba82a71c665ea56",
+      "training": {
+        "maps": 21,
+        "first_bosses": 8,
+        "full_wins": 0,
+        "sum_floors": 214,
+        "sum_first_boss_entry_hp": 552
+      },
+      "development": {
+        "all": {
+          "maps": 14,
+          "first_bosses": 7,
+          "full_wins": 0,
+          "sum_floors": 174,
+          "sum_first_boss_entry_hp": 502
+        },
+        "historical": {
+          "maps": 6,
+          "first_bosses": 5,
+          "full_wins": 0,
+          "sum_floors": 88,
+          "sum_first_boss_entry_hp": 347
+        },
+        "fresh": {
+          "maps": 8,
+          "first_bosses": 2,
+          "full_wins": 0,
+          "sum_floors": 86,
+          "sum_first_boss_entry_hp": 155
+        }
+      }
+    },
+    "route": {
+      "candidate": "route-measured",
+      "policy_sha256": "0178e32d4a1e317b26b5a367938ff148c6fdc233eccd116a15d3e00282fc0bf9",
+      "training": {
+        "maps": 21,
+        "first_bosses": 9,
+        "full_wins": 0,
+        "sum_floors": 207,
+        "sum_first_boss_entry_hp": 629
+      },
+      "development": {
+        "all": {
+          "maps": 14,
+          "first_bosses": 6,
+          "full_wins": 0,
+          "sum_floors": 154,
+          "sum_first_boss_entry_hp": 378
+        },
+        "historical": {
+          "maps": 6,
+          "first_bosses": 3,
+          "full_wins": 0,
+          "sum_floors": 70,
+          "sum_first_boss_entry_hp": 178
+        },
+        "fresh": {
+          "maps": 8,
+          "first_bosses": 3,
+          "full_wins": 0,
+          "sum_floors": 84,
+          "sum_first_boss_entry_hp": 200
+        }
+      }
+    }
+  },
+  "registry_sha256": {
+    "seed-lock.json": "ae521b81fd42aacb97d29d7f605d3b36985213851dba263481ad1e4be567afec",
+    "route-seed-lock.json": "eb8683bd320675a29a220f96f8f43a26677b5a1ad7357b73cd96759792d61709"
+  },
+  "selection": "Combat tied the incumbent on first bosses and full wins in development and had the greatest sum of attained floors. Among routing challengers the room-cost fit tied the cautious version on all development endpoints and uses the existing risk and elite coefficients. The pool-aware fit reached the same number of bosses with a lower total floor. The route candidate changes only Act 3 map choices. Both candidates were frozen before reading either test."
+}

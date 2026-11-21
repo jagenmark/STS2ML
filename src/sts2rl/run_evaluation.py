@@ -159,6 +159,7 @@ def play_episode(task, *, decision_hook=None):
             boss_search = BossSearch(options["boss_search"], root, host, folder / "boss-search")
         repeated = Counter()
         room = None
+        act3_normal_count = 0
         with NativeSession(Path(root), folder / "game", ascension=10, host_path=host, timeout=45, act_list=row["act_list"]) as game:
             if options.get("start_trace"):
                 fork = act_start(options["start_trace"], row["start_act"])
@@ -227,7 +228,9 @@ def play_episode(task, *, decision_hook=None):
                     turn_search and state["decision"] == "combat_play" and not use_student and micro is None
                     and not (encounter and encounter.applies(state))) else None
                 if state["decision"] == "map_select" and router is not None:
-                    if pool is not None and getattr(router, "act1_context", None):
+                    if act == 3 and getattr(router, "act3_context", None):
+                        action = router.choose(state, game.public_map(), normal_count=act3_normal_count)
+                    elif pool is not None and getattr(router, "act1_context", None):
                         action = router.choose(state, game.public_map(), normal_count=pool.normal_count)
                     else:
                         action = router.choose(state, game.public_map())
@@ -290,6 +293,11 @@ def play_episode(task, *, decision_hook=None):
                 if deck_model is not None:
                     deck_model.observe(state, action)
                 state = game.step(action)
+                if act == 3 and action.kind == "select_map_node":
+                    draws_normal = (state.get("context") or {}).get("room_type") == "Monster"
+                    if room is not None:
+                        room.update(normal_fights_before=act3_normal_count, drew_normal_fight=draws_normal)
+                    act3_normal_count += int(draws_normal)
                 if pool is not None:
                     pool.observe(action.kind, state)
             else:

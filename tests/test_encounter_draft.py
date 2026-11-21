@@ -138,8 +138,9 @@ def test_sandpit_escape_reserves_energy_and_preserves_lethal_and_free_cards():
     assert escape_action(state, actions, attack, 4) == attack
 
 
-def test_route_values_change_at_fourth_normal_fight():
-    ctx = {"act": 1, "act_name": "Underdocks"}
+@pytest.mark.parametrize("act,biome,weak", [(1, "Underdocks", 3), (3, "Glory", 2)])
+def test_route_values_change_after_native_weak_pool(act, biome, weak):
+    ctx = {"act": act, "act_name": biome}
     choices = [{"row": 7, "col": 0, "type": "Monster"}, {"row": 7, "col": 1, "type": "RestSite"}]
     state = {
         "decision": "map_select",
@@ -150,18 +151,18 @@ def test_route_values_change_at_fourth_normal_fight():
     }
     model = SurvivalRouter(
         {
-            "version": 3,
+            "version": 3 if act == 1 else 2,
             "cells": {},
-            "boss_coefficients": {"1": [0, 2, 1, 1, 1, 1, 1]},
-            "act1_context": {
+            "boss_coefficients": {str(act): [0, 2, 1, 1, 1, 1, 1]},
+            f"act{act}_context": {
                 "rooms": {
-                    "Underdocks/Monster/weak": [100, 0, 0, 0, 40, 0, 0, 0, 0],
-                    "Underdocks/Monster/regular": [100, 70, -200, 0, 0, 0, 0, 0, 0],
+                    f"{biome}/Monster/weak": [100, 0, 0, 0, 40, 0, 0, 0, 0],
+                    f"{biome}/Monster/regular": [100, 70, -200, 0, 0, 0, 0, 0, 0],
                 },
                 "blend": 1.0,
                 "unknown_fight_probability": {},
             },
         }
     )
-    assert model.choose(state, [choices], normal_count=2).args["col"] == 0
-    assert model.choose(state, [choices], normal_count=3).args["col"] == 1
+    assert model.choose(state, [choices], normal_count=weak - 1).args["col"] == 0
+    assert model.choose(state, [choices], normal_count=weak).args["col"] == 1

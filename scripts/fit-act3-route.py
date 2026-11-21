@@ -14,11 +14,66 @@ from sts2rl.run_bundle import freeze_bundle, load_bundle
 from sts2rl.survival_route import _keys
 
 
+def training_runs(sources, keys):
+    for source in sources:
+        files = sorted(source.glob("*/result.json"))
+        if not files:
+            raise ValueError(f"No training results in {source}")
+        for path in files:
+            run = json.loads(path.read_bytes())
+            if (
+                run["status"] != "complete"
+                or run["start_act"] != 3
+                or run["seed"] not in keys
+                or run["start_digest"] != keys[run["seed"]]
+            ):
+                raise ValueError("Expected a complete training run from its signed Act 3 map")
+            yield run
+
+
+def observation(room):
+    items = ("hp", "gold", "relics", "upgrades", "potions", "cards", "max_hp")
+    delta = [0 if room["died"] else room["after"][k] - room["before"][k] for k in items]
+    return np.array([1, room["died"], *delta])
+
+
+def fit_pool(sources, keys):
+    seen, cells, unknown = set(), defaultdict(lambda: np.zeros(9)), defaultdict(Counter)
+    for run in training_runs(sources, keys):
+        (biome,) = run["act_names"]
+        count = 0
+        for r in run["rooms"]:
+            if r["act"] != 3 or r["normal_fights_before"] != count:
+                raise ValueError("Normal encounter history is inconsistent")
+            drew_normal = r["drew_normal_fight"]
+            if type(drew_normal) is not bool or (r["icon"] == "Monster" and not drew_normal):
+                raise ValueError("Missing native encounter-pool observation")
+            phase = "weak" if count < 2 else "regular"
+            count += drew_normal
+            mark = digest([run["seed"], r])
+            if mark in seen or r["icon"] not in ("Monster", "Unknown"):
+                continue
+            seen.add(mark)
+            cells[f"{biome}/{r['icon']}/{phase}"] += observation(r)
+            if r["icon"] == "Unknown":
+                unknown[biome]["visits"] += 1
+                unknown[biome]["draws"] += drew_normal
+    if not seen:
+        raise ValueError("No recorded encounter-pool observations")
+    context = {
+        "rooms": {k: v.tolist() for k, v in cells.items()},
+        "blend": 1.0,
+        "unknown_fight_probability": {k: v["draws"] / v["visits"] for k, v in unknown.items()},
+    }
+    return context, {"unique_visits": len(seen), "sha256": digest(sorted(seen)), "unknown": unknown}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     for key in ("base", "maps", "output"):
         p.add_argument("--" + key, required=True, type=Path)
     p.add_argument("--source", required=True, nargs="+", type=Path)
+    p.add_argument("--pool-observations", nargs="+", type=Path)
     p.add_argument("--prior", type=float, default=8)
     p.add_argument("--risk", type=float)
     p.add_argument("--health", type=float)
@@ -33,48 +88,22 @@ def main():
     seen = set()
     cells = defaultdict(lambda: np.zeros(9))
     counts, deaths = Counter(), Counter()
-    for source in a.source:
-        for path in sorted(source.glob("*/result.json")):
-            run = json.loads(path.read_bytes())
-            if (
-                run["status"] != "complete"
-                or run["start_act"] != 3
-                or run["seed"] not in keys
-                or run["start_digest"] != keys[run["seed"]]
-            ):
-                raise ValueError("Expected a complete training run from its signed Act 3 map")
-            for r in run["rooms"]:
-                icon, before, after = r["icon"], r["before"], r["after"]
-                if r["act"] != 3 or icon not in ("Elite", "Monster", "Unknown"):
-                    continue
-                mark = digest([run["seed"], r])
-                if mark in seen:
-                    continue
-                seen.add(mark)
-                counts[icon] += 1
-                deaths[icon] += int(r["died"])
-                vector = np.array(
-                    [
-                        1,
-                        r["died"],
-                        *[
-                            0 if r["died"] else after[k] - before[k]
-                            for k in (
-                                "hp",
-                                "gold",
-                                "relics",
-                                "upgrades",
-                                "potions",
-                                "cards",
-                                "max_hp",
-                            )
-                        ],
-                    ]
-                )
-                for key in _keys(
-                    icon, 3, r["row"], before["hp"] / before["max_hp"], before["gold"]
-                )[1:]:
-                    cells[key] += vector
+    for run in training_runs(a.source, keys):
+        for r in run["rooms"]:
+            icon, before = r["icon"], r["before"]
+            if r["act"] != 3 or icon not in ("Elite", "Monster", "Unknown"):
+                continue
+            mark = digest([run["seed"], r])
+            if mark in seen:
+                continue
+            seen.add(mark)
+            counts[icon] += 1
+            deaths[icon] += int(r["died"])
+            vector = observation(r)
+            for key in _keys(icon, 3, r["row"], before["hp"] / before["max_hp"], before["gold"])[
+                1:
+            ]:
+                cells[key] += vector
     if not seen:
         raise ValueError("No training visits")
     for key, observed in cells.items():
@@ -84,6 +113,9 @@ def main():
     overrides = {k: getattr(a, k) for k in ("risk", "health", "elite") if getattr(a, k) is not None}
     if overrides:
         model["act3_weights"] = overrides
+    pool_receipt = None
+    if a.pool_observations:
+        model["act3_context"], pool_receipt = fit_pool(a.pool_observations, keys)
     a.output.mkdir(parents=True, exist_ok=False)
     save_json(a.output / "late-room.json", model)
     opts["late_room_model"] = a.output / "late-room.json"
@@ -97,6 +129,7 @@ def main():
             "visits_sha256": digest(sorted(seen)),
             "prior": a.prior,
             "act3_weights": overrides,
+            "encounter_pool": pool_receipt,
             "base_sha256": hashlib.sha256(a.base.read_bytes()).hexdigest(),
         },
     )

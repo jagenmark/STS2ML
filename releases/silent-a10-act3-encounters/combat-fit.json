@@ -1,0 +1,225 @@
+{
+  "receipt": "37da08d107529c1da360ee3d50b958ff88e0aecdcae60a79a977d701832f29d0",
+  "parameters": {
+    "mode": "linear",
+    "ridge": 36.0,
+    "margin": 1.0,
+    "min_cases": 3
+  },
+  "train_roots": [
+    "002969ca4e92f11c489739ff1e75e7951df50aba348778401f561ffa70d67972",
+    "0c2493d4354442c1ffe8cfa79e3112c6cbff46d81b26d0d24852add3bf9044ba",
+    "0c8fced2c5b92cf81705fd6c1e72e08119ad68ae6a1642db4a29e29611b946ad",
+    "0ccf9eecc447ab0487fd2fe9f2efce44459fa06e9cc61fd3c5624b7cb62887fc",
+    "0e6eb8356a48b2cd8fe8b7a63216f0e7e28b00bd7ec424cbd973f5f44d81e49c",
+    "116be4c58fc1c8900ac52820b25827f53a167a3908f643f0a353732d160856fc",
+    "11d49df50fc6e190971416887db19db068416b84b7f3bfe588d835d6cce2f0db",
+    "134755064b67199e1c4dc60d302aea41ce711f74dd2022bcecc0d53f1fe3d553",
+    "141283c296f35497049c8040358caa9348ecc15a54259298d0161da908632f67",
+    "1418399aaa7b3937c408cfee7f13ea8a4b208e2fbfb23f0604a97152180ca17b",
+    "1df85afa4f9b377b88a7eae754bd5877fc3bf5c0795650b508762da6752166cc",
+    "20a65a6a9466d0c81897370d7cbcef1377b6d41a704ce0beefa3a9050462c29b",
+    "24a8c6b167bf6e43ee232ff4f1af95fbca0f34e09716f4056dde30bd0c4c803f",
+    "26cebbc4624e3f954a1f73afd703f52ffc1596a586df1af3e5436e5c96796a58",
+    "292500caeb41d2a7d42e4db019bec1249e8515013a2cbc56721ce53bbd53f283",
+    "296099d2a349e12aa4f220a8d257d4cb4d6fd137fd65bf65b9a11b876047869d",
+    "2a2449d8a87b9d4df18707b5974a621bda094e4f7a3efc63b92d09f0bd5d2081",
+    "2dbcbd5342f7bc1100466e7e70be5a415b5d3c98d248808dc186f97af9f24007",
+    "30014382ebfcf1065564497df189666fd869b28d9e223102d15e364b693cd03e",
+    "302470a51b1100126260d40f909502ee6404aef43b0fff4b3bcbda7d90f867de",
+    "32fd8909a2d12e173fe2388cf7c472ceb2fd13f0b72d7169676cd6c84573f36e",
+    "34eae71abbeec1e6d0380312142bef92e68639fd301857e14aea4c1ac0f942df",
+    "354675f6bc9cdf01e31bd9bb439d5fac652d4227dc00a34740c36f30f78e387f",
+    "35eb0fac15f079fca7f6f05d229f1bfe95b90a0d97fc1fec6d556bda78ab590f",
+    "379ed3d7632137f08efdbcad7e32e26918b5dc2ee5f4bcd7dea92037f662ccae",
+    "3959d4fdd1c46ea0b66f46fc952d2c2140959a515a3d8dcbb5aefcb5069bfa89",
+    "3a2a0f163395f2c7ac9e950ff557017eae3ee367483081ffdd22127a53db040c",
+    "3a90416ad8e0b8ea2357cdd70c52207ed4c2945173cd609d75900fd5c9538836",
+    "3fa1945caf89ba43fc4f8cf1cf638d37d094eef1d38d85b14613d6230d62e6c9",
+    "409bae993f39923bf4a9b3c3845f615faa350df69c03d520b71c2bbf605c0301",
+    "460812941d61c10eb81880e07be17bed1fa10f622e6404d054d056b039eb5581",
+    "55f837bb9d1d7e795ec83ead20ff87d4f736f963091722f1b6ba339a60d520c2",
+    "5c0556df074bcee986c0b6c8b1286aaa3bf49d6218ecffa4ffeb333354c31fd7",
+    "5cd3538bd2261c896ff289526f8f63282d8fcf192eda624408d68ab9753df9ac",
+    "6628d334e6c99ee046fa58174f233f0513cd71629f9b253133923d1536cf2262",
+    "6918eb40ea47e39d429cd66df7f591c9d04510a639f09b4f1b75466435ae6e4e",
+    "6cd6993661e5320e427597791c89dc41a788f9dfe2b94bd4dc84ab7db0a58a15",
+    "707f8030380880a7d43a4dd7f56664b6ab089ccfa01b883423fa8e5f1d674b76",
+    "7283131ed01f7b491fba239ef4565154dcbbbfc5782a0889c3168681dc59d732",
+    "7358dca5df24bee44f7f54455be59f87e43bde3351b51a35875a10bcfea8c307",
+    "774d8192cab7a6d34a1cd717efe0fcc152a1e8c4c665a3241a1b0c501c462eb1",
+    "84c35fa5ef132e9c17efb587fcb4cd594411e5b0ec734f96716fc2a2cdf23872",
+    "8e74e1e00dd9331aefadb73cbde5fe95468e17a0b86b448608231b080fbaa65d",
+    "9e2e1ad1b3a79939a2328db2955fa27b58f38803b2142c9fd50e7048efca3a0f",
+    "a311298bc613b89f6ceda884732fb32d14d7ab2ff8387ae9081aa5163ec0fd80",
+    "a3534623520f1f05c3ec400e4003f4998761f38ac7a2778242faa533d43a1548",
+    "a4346a39db6fac6dd2e333a071ae081974e2c10fd3f421f1c9b09ebf3a7b57e5",
+    "acbdc6ca249bd673f867a9ed518d5e6d600d0e79f7ce162bc05f273241022c2e",
+    "b664ed1f43f73c91c1e22156233e21a0a3050f73ad345d1a71ab0af7585db8d9",
+    "bd27ccea8ad984f225bd1cd7e6df9b3a606d5648780fbb986d8e58b28d69cc95",
+    "be3207e44db455995336f453b7a027b0d406306257b117dfc6c2cd5dd055cef7",
+    "c254619cd4727a57208c54e1bf38f48faf78f6d13beefa88334296c9b5756ee1",
+    "ca42768346d756fa26faa7062a2dcfdd3c0114aa6c8a1b5a33ac214af325c755",
+    "cac40cf1e644c606b701754e981749458dd0449f573c20d03d5f69cd5afddbbc",
+    "cf66cd76b006441acc1ddbc852d63341f9383e29b61dd549708ae73105b0d1ee",
+    "e1f4b994eae3dfd87317f6636bc6d618fe07cc27aeda7f4caf5424b5ffb9086a",
+    "e5c100d95fcb509b7dc40829aab5cb948c083fbece08c054879ad299f50789f3",
+    "efb602078e4d90a23d5ca3c2bfed9183b3eab098e9ed09959618e0cc86b990f4"
+  ],
+  "validation_roots": [
+    "03225f709f245b03c625578a9e325f9939633eaa82f58f7dee827c7098211a1c",
+    "056683e20f3c95e3fd2dde23800544f2f4e2c978c5d6d9bdd31d30067559f86a",
+    "13fb2fc606883886f1834b434c922ec86ed4e150603a382b6c16c3d2a9f9a360",
+    "2edf087b300a928df9d933207e8f9d957a61f5de2eee217d276aec35803846b3",
+    "318d14f1e6544a1392385e0fec79d6eb5211e5b78cfbf6b6acde2cad8448c51e",
+    "31c302a014bea22b430e308c0c71261e83ab3931bcd9ad98e3ae2847a1ababbe",
+    "326d6086bd0e85d0daa84724c447a6719631b0fa8b590f72eb7bada878338bde",
+    "38d427f6d96d42e7602f0a7c55e9a5fde79156f8bc463ab1873d568ad8e55402",
+    "38da7865b25564678f05dc225a087b5d252f5a9ee47789df239a6a00447f1d89",
+    "518101eb4d98eef9c7578dcdaa211b8ae28ac704ec1097bc839a91d47aafcb02",
+    "562003d6e14479c79ac3ab4c3a9f2efe0c50a67ec2bb470261113b731f8e9f63",
+    "673ead0da05e4e8ff73d82eb7e467f87aef11f1b7fce729fdd6a4b149cb059fe",
+    "942c62341d6940b1c4811647539f49b2160362b62e8cc374481da4262e552c6e",
+    "a6c26fac53bb5398d30f2577a686e0de9d4e08edd11edc1a5386359cd2913631",
+    "cc491a20cd46a55d0c8523c5150a3f073ce007a1352299e094b4f734d9dc1f9d",
+    "fd1f30e7b24e81a710e84287e8bd86a02def4c67e8279bbb3557877670d007ec"
+  ],
+  "separate_hunter_bundle": null,
+  "formations": {
+    "DEVOTED_SCULPTOR": "guard",
+    "FABRICATOR": "beam",
+    "SOUL_NEXUS": "guard"
+  },
+  "train": {
+    "scored_roots": 58,
+    "baseline": {
+      "wins": 42,
+      "exit_hp": 2020,
+      "potions_left": 61
+    },
+    "selected": {
+      "wins": 43,
+      "exit_hp": 2202,
+      "potions_left": 52
+    },
+    "gain": 142.60547199131045,
+    "per_arm": {
+      "baseline": {
+        "wins": 42,
+        "exit_hp": 2020,
+        "potions_left": 61
+      },
+      "engine_tools": {
+        "wins": 40,
+        "exit_hp": 2089,
+        "potions_left": 31
+      },
+      "guard": {
+        "wins": 41,
+        "exit_hp": 2104,
+        "potions_left": 31
+      },
+      "pressure": {
+        "wins": 42,
+        "exit_hp": 1985,
+        "potions_left": 47
+      },
+      "sweep": {
+        "wins": 39,
+        "exit_hp": 2041,
+        "potions_left": 27
+      },
+      "tempo": {
+        "wins": 41,
+        "exit_hp": 1944,
+        "potions_left": 33
+      },
+      "beam": {
+        "wins": 40,
+        "exit_hp": 2040,
+        "potions_left": 28
+      },
+      "frontload": {
+        "wins": 40,
+        "exit_hp": 2010,
+        "potions_left": 28
+      },
+      "scale": {
+        "wins": 39,
+        "exit_hp": 2078,
+        "potions_left": 28
+      },
+      "focus": {
+        "wins": 41,
+        "exit_hp": 2122,
+        "potions_left": 29
+      }
+    }
+  },
+  "validation": {
+    "scored_roots": 16,
+    "baseline": {
+      "wins": 10,
+      "exit_hp": 408,
+      "potions_left": 10
+    },
+    "selected": {
+      "wins": 9,
+      "exit_hp": 390,
+      "potions_left": 8
+    },
+    "gain": -57.177669389434094,
+    "per_arm": {
+      "baseline": {
+        "wins": 10,
+        "exit_hp": 408,
+        "potions_left": 10
+      },
+      "engine_tools": {
+        "wins": 10,
+        "exit_hp": 408,
+        "potions_left": 9
+      },
+      "guard": {
+        "wins": 10,
+        "exit_hp": 405,
+        "potions_left": 10
+      },
+      "pressure": {
+        "wins": 10,
+        "exit_hp": 363,
+        "potions_left": 10
+      },
+      "sweep": {
+        "wins": 10,
+        "exit_hp": 419,
+        "potions_left": 9
+      },
+      "tempo": {
+        "wins": 10,
+        "exit_hp": 394,
+        "potions_left": 9
+      },
+      "beam": {
+        "wins": 9,
+        "exit_hp": 406,
+        "potions_left": 8
+      },
+      "frontload": {
+        "wins": 10,
+        "exit_hp": 417,
+        "potions_left": 9
+      },
+      "scale": {
+        "wins": 10,
+        "exit_hp": 420,
+        "potions_left": 8
+      },
+      "focus": {
+        "wins": 10,
+        "exit_hp": 410,
+        "potions_left": 8
+      }
+    }
+  }
+}
