@@ -235,20 +235,27 @@ def collect(task):
     try:
         if continuation_mode == "bundle" and selected:
             first_fork = selected[0][4]
-            session = NativeSession(
-                ROOT,
-                folder / f"engine-{len(errors):03d}",
-                host_path=host,
-                ascension=10,
-                timeout=45,
-                act_list=first_fork.specification.get("act_list", "default"),
-            )
-            snapshots = replay_controller_snapshots(
-                session,
-                source,
-                DeployedController.from_bundle(bundle, macro_seed=split_seed),
-                [len(fork.history) for _, _, _, _, fork in selected],
-            )
+            try:
+                session = NativeSession(
+                    ROOT,
+                    folder / f"engine-{len(errors):03d}",
+                    host_path=host,
+                    ascension=10,
+                    timeout=45,
+                    act_list=first_fork.specification.get("act_list", "default"),
+                )
+                snapshots = replay_controller_snapshots(
+                    session,
+                    source,
+                    DeployedController.from_bundle(bundle, macro_seed=split_seed),
+                    [len(fork.history) for _, _, _, _, fork in selected],
+                )
+            except Exception as exc:
+                errors.append({"root": "prefix_replay", "arm": "prefix_replay", "error": str(exc)})
+                if session is not None:
+                    session.close()
+                    session = None
+                selected = []
         for _, _, kind, state, fork in selected:
             base_controller = snapshots.get(len(fork.history))
             arm_policy = base_controller.policy if base_controller is not None else RunPolicy(weights)
