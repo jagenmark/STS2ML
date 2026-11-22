@@ -44,12 +44,20 @@ class Hand:
     first: int | None
 
 
-def choose_turn(state, policy, *, width=6, depth=5, survival_priority=False):
+def choose_turn(state, policy, *, width=6, depth=5, survival_priority=False, facing=None, score_adjust=None):
     if survival_priority:
         actions = legal_actions(state)
         if state["decision"] != "combat_play" or len(actions) <= 1:
             return policy(state)
-        best, _ = _search_survival_lines(state, policy, actions, width=max(width, 8), depth=depth)
+        best, _ = _search_survival_lines(
+            state,
+            policy,
+            actions,
+            width=max(width, 8),
+            depth=depth,
+            facing=facing,
+            score_adjust=score_adjust,
+        )
         return actions[best[-1]]
     actions = legal_actions(state)
     if state["decision"] != "combat_play" or len(actions) <= 2:
@@ -294,6 +302,8 @@ class _SurvivalHand:
     extra: float
     first: int | None
     stopped: bool = False
+    enemy_curl_up: tuple = ()
+    facing: int | None = None
 
 
 def _poison_tick_loss(stacks, accelerant, intangible):
@@ -329,10 +339,21 @@ def _apply_hit_damage(hit_dmg, block, buffer_stacks, intangible):
     return rem, block, buffer_stacks
 
 
-def _resolve_attack_hits(raw_damage, hits, e_block, e_buffer, e_slippery, e_hard_cap, e_intangible):
-    """Resolve an attack's per-hit damage against enemy Block, Buffer, Slippery, and caps."""
+def _resolve_attack_hits(
+    raw_damage,
+    hits,
+    e_block,
+    e_buffer,
+    e_slippery,
+    e_hard_cap,
+    e_intangible,
+    e_curl_up=0.0,
+    *,
+    triggers_curl_up=True,
+):
+    """Resolve an attack's per-hit damage against enemy Block, Buffer, Slippery, Curl Up, and caps."""
     if raw_damage <= 0 or hits <= 0:
-        return 0.0, e_block, e_buffer, e_slippery
+        return 0.0, e_block, e_buffer, e_slippery, e_curl_up
     per_hit = raw_damage / hits
     hp_loss = 0.0
     for _ in range(int(hits)):
@@ -353,7 +374,11 @@ def _resolve_attack_hits(raw_damage, hits, e_block, e_buffer, e_slippery, e_hard
                 e_buffer -= 1
             else:
                 hp_loss += rem
-    return hp_loss, e_block, e_buffer, e_slippery
+    if hp_loss > 0 and triggers_curl_up and e_curl_up > 0:
+        # Native Curl Up triggers once after the full powered attack card resolves.
+        e_block += e_curl_up
+        e_curl_up = 0.0
+    return hp_loss, e_block, e_buffer, e_slippery, e_curl_up
 
 
 def _enemy_attack_hits_list(intent_total, hits_count, already_weak, newly_weak, str_drop, intangible):
@@ -380,8 +405,12 @@ def _enemy_attack_hits_list(intent_total, hits_count, already_weak, newly_weak, 
     return (per_hit,) * n
 
 
-def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_first=None):
+def _search_survival_lines(
+    state, policy, actions, *, width=8, depth=5, forced_first=None, facing=None, score_adjust=None
+):
     scores = policy.combat_scores(state, actions)
+    if score_adjust is not None:
+        score_adjust(scores)
     end = next(i for i, a in enumerate(actions) if a.kind == "end_turn")
     enemies = [e for e in state["enemies"] if e["hp"] > 0]
     size = len(enemies)
@@ -390,6 +419,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
         best = (1, 1, 0, scores[idx], scores[idx], -idx, idx)
         return best, {idx: best}
 
+    act2_mech = bool(getattr(policy, "act2_mechanics", False))
     e_hp = tuple(e["hp"] for e in enemies)
     e_block = tuple(float(e.get("block", 0)) for e in enemies)
     e_total = tuple(e["hp"] + e.get("block", 0) for e in enemies)
@@ -400,6 +430,16 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
     e_hard_cap = tuple(max(0, _power(e.get("powers"), "HARD_TO_KILL")) for e in enemies)
     e_thorns = tuple(max(0, _power(e.get("powers"), "THORNS")) for e in enemies)
     e_reflect = tuple(_power(e.get("powers"), "REFLECT") > 0 for e in enemies)
+    e_curl_up = (
+        tuple(float(max(0, _power(e.get("powers"), "CURL_UP"))) for e in enemies)
+        if act2_mech
+        else (0.0,) * size
+    )
+    e_crab_rage = (
+        tuple(_power(e.get("powers"), "CRAB_RAGE") > 0 for e in enemies)
+        if act2_mech
+        else (False,) * size
+    )
     e_minion = tuple(_power(e.get("powers"), "MINION") > 0 for e in enemies)
     has_leader = any(not m for m in e_minion)
     e_weak = tuple(_power(e.get("powers"), "WEAK") > 0 for e in enemies)
@@ -425,8 +465,25 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
     start_buffer = max(0, _power(powers, "BUFFER"))
     start_afterimage = max(0, _power(powers, "AFTERIMAGE"))
     accelerant = max(0, _power(powers, "ACCELERANT"))
+    surrounded = (
+        act2_mech and facing is not None and size == 2 and _power(powers, "SURROUNDED") > 0
+    )
+    start_facing_pos = (
+        next((i for i, e in enumerate(enemies) if e["index"] == facing), None)
+        if surrounded
+        else None
+    )
     revive = any(
         _power(e.get("powers"), "ILLUSION") or _power(e.get("powers"), "INFESTED") for e in enemies
+    )
+    leader_revive = (
+        any(
+            (not e_minion[i])
+            and (_power(e.get("powers"), "ILLUSION") or _power(e.get("powers"), "INFESTED"))
+            for i, e in enumerate(enemies)
+        )
+        if act2_mech
+        else revive
     )
     cards = {c["index"]: c for c in state["hand"]}
     potions = {p["index"]: p for p in player["potions"]}
@@ -447,6 +504,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
         intangible,
         buffer_stacks,
         self_loss,
+        cur_facing=None,
     ):
         giant = None
         if solo_giant:
@@ -477,17 +535,41 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
         leaders_dead = has_leader and all(
             killed_flags[i] for i in range(size) if not e_minion[i]
         )
-        if leaders_dead and not revive and not giant_eruption:
+        if leaders_dead and not leader_revive and not giant_eruption:
             all_hits = []
             guaranteed_alive = 0
         else:
             guaranteed_alive = sum(not k for k in killed_flags)
+            ally_died = any(killed_flags)
+            both_alive_surrounded = (
+                surrounded
+                and start_facing_pos is not None
+                and cur_facing is not None
+                and cur_facing != start_facing_pos
+                and not killed_flags[0]
+                and not killed_flags[1]
+            )
             all_hits = []
             for i in range(size):
                 if killed_flags[i]:
                     continue
                 inc_i = 0 if (giant and giant.eruption_forced) else e_intents[i]
                 if inc_i > 0:
+                    hits_i = max(1, int(e_hits[i]))
+                    if both_alive_surrounded:
+                        per_hit = inc_i / hits_i
+                        inc_i = hits_i * (
+                            math.floor(per_hit * 1.5)
+                            if i == start_facing_pos
+                            else math.ceil(per_hit / 1.5)
+                        )
+                    elif ally_died and surrounded and start_facing_pos is not None and i != start_facing_pos:
+                        # When one enemy dies, Silent turns toward the sole survivor (losing Back Attack bonus).
+                        per_hit = inc_i / hits_i
+                        inc_i = hits_i * math.ceil(per_hit / 1.5)
+                    if ally_died and e_crab_rage[i]:
+                        # Crab Rage grants +6 Strength at A10 immediately when the partner dies.
+                        inc_i += 6 * hits_i
                     all_hits.extend(
                         _enemy_attack_hits_list(
                             inc_i,
@@ -516,7 +598,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
         # Surviving a displayed DeathBlow ends combat (Giant removes itself after DeathBlow).
         clears = (
             (giant_deathblow and survives)
-            or (guaranteed_alive == 0 and not revive and not giant_eruption)
+            or (guaranteed_alive == 0 and not leader_revive and not giant_eruption)
         )
         return offense, end_turn_loss, hp_loss, survives, clears
 
@@ -530,6 +612,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
         start_intangible,
         start_buffer,
         0.0,
+        cur_facing=start_facing_pos,
     )
     block_weight = w.block * (1.0 + min(2.0, root_end_loss / max(1, player_hp)))
 
@@ -549,6 +632,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
             hand.intangible,
             hand.buffer,
             hand.self_hp_loss,
+            cur_facing=hand.facing,
         )
         utility = board_value(offense, end_loss) + hand.extra
         if clears:
@@ -680,8 +764,16 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
         for i in range(size):
             if gd[i] > 0:
                 eb = 0.0 if clears_block else e_block[i]
-                hp_dmg, _, _, _ = _resolve_attack_hits(
-                    gd[i], max(1, hits) if is_attack else 1, eb, e_buffer[i], e_slippery[i], e_hard_cap[i], e_intangible[i]
+                hp_dmg, _, _, _, _ = _resolve_attack_hits(
+                    gd[i],
+                    max(1, hits) if is_attack else 1,
+                    eb,
+                    e_buffer[i],
+                    e_slippery[i],
+                    e_hard_cap[i],
+                    e_intangible[i],
+                    e_curl_up[i],
+                    triggers_curl_up=is_attack,
                 )
                 step_gd[i] = hp_dmg
                 if is_attack:
@@ -708,6 +800,8 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
             )
             step_self += loss
 
+        # Keep cur_facing=start_facing_pos for residual extraction because scores[j]
+        # (from combat_scores + adjust_focus) does not include the Surrounded facing delta.
         s_off, s_end_loss, _, _, _ = evaluate_state(
             tuple(d),
             tuple(step_gd),
@@ -718,6 +812,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
             step_int,
             step_buf,
             step_self,
+            cur_facing=start_facing_pos,
         )
         step_delta = board_value(s_off, s_end_loss) - root_board
         intrinsic = scores[j] * max(1, effective_cost) ** cost_exp
@@ -784,6 +879,8 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
         energy,
         0.0,
         None,
+        enemy_curl_up=e_curl_up,
+        facing=start_facing_pos,
     )
     end_quality = line_quality(start, end)
     best_overall = end_quality
@@ -808,8 +905,12 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                     if hand.energy < m.cost:
                         continue
                     next_energy = hand.energy - m.cost + m.energy_gain
-                if m.target is not None and hand.damage[m.target] >= e_total[m.target]:
-                    continue
+                if m.target is not None:
+                    if act2_mech:
+                        if hand.guaranteed_damage[m.target] >= e_hp[m.target]:
+                            continue
+                    elif hand.damage[m.target] >= e_total[m.target]:
+                        continue
 
                 prior_cards = (card_mask & hand.used).bit_count() if tender else 0
                 damage_deltas = list(m.damage)
@@ -843,6 +944,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                 new_eblock = list(hand.enemy_block)
                 new_ebuf = list(hand.enemy_buffer)
                 new_eslip = list(hand.enemy_slippery)
+                new_ecurl = list(hand.enemy_curl_up) if hand.enemy_curl_up else [0.0] * size
                 new_gd = list(hand.guaranteed_damage)
                 weak = hand.weak
                 poison = list(hand.poison)
@@ -854,7 +956,8 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                         new_eblock[i] = 0.0
                     if gd_deltas[i] > 0:
                         pre_eb = new_eblock[i]
-                        hp_dmg, eb_after, ebuf_after, eslip_after = _resolve_attack_hits(
+                        pre_gd = new_gd[i]
+                        hp_dmg, eb_after, ebuf_after, eslip_after, ecurl_after = _resolve_attack_hits(
                             gd_deltas[i],
                             m.hits,
                             new_eblock[i],
@@ -862,11 +965,19 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                             new_eslip[i],
                             e_hard_cap[i],
                             e_intangible[i],
+                            new_ecurl[i],
+                            triggers_curl_up=m.is_attack,
                         )
                         new_gd[i] = min(float(e_hp[i]), new_gd[i] + hp_dmg)
                         new_eblock[i] = eb_after
                         new_ebuf[i] = ebuf_after
                         new_eslip[i] = eslip_after
+                        new_ecurl[i] = ecurl_after
+                        if pre_gd < e_hp[i] <= new_gd[i]:
+                            # Crab Rage immediately grants surviving partners 99 Block on ally death.
+                            for j in range(size):
+                                if j != i and e_crab_rage[j] and new_gd[j] < e_hp[j]:
+                                    new_eblock[j] += 99.0
                         if m.is_attack:
                             for _ in range(m.hits):
                                 if e_thorns[i] > 0:
@@ -898,6 +1009,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                     cur_self += loss
 
                 artifact_t = tuple(new_artifact)
+                next_facing = m.target if (surrounded and m.target is not None) else hand.facing
                 first = m.action_index if hand.first is None else hand.first
                 projection = _SurvivalHand(
                     damage,
@@ -921,6 +1033,8 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                     hand.extra + m.extra,
                     first,
                     stopped=m.stops_expansion,
+                    enemy_curl_up=tuple(new_ecurl),
+                    facing=next_facing,
                 )
                 quality = line_quality(projection, first)
                 if quality > best_overall:
@@ -937,6 +1051,9 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                     projection.used,
                     projection.energy,
                     projection.damage,
+                    projection.guaranteed_damage if act2_mech else (),
+                    projection.enemy_block if act2_mech else (),
+                    projection.enemy_curl_up if act2_mech else (),
                     projection.poison,
                     projection.block,
                     projection.weak,
@@ -944,6 +1061,7 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
                     projection.buffer,
                     projection.afterimage,
                     artifact_t,
+                    projection.facing,
                 )
                 previous = next_hands.get(key)
                 if previous is None or quality > previous[0]:
@@ -970,7 +1088,9 @@ def _search_survival_lines(state, policy, actions, *, width=8, depth=5, forced_f
     return best_overall, best_by_first
 
 
-def choose_turn_survival(state, policy, proposed, *, width=8, depth=5):
+def choose_turn_survival(
+    state, policy, proposed, *, width=8, depth=5, facing=None, score_adjust=None
+):
     """Override a proposed greedy combat action only when a lethal threat demands a better line."""
     actions = legal_actions(state)
     if state["decision"] != "combat_play" or len(actions) <= 1:
@@ -989,6 +1109,17 @@ def choose_turn_survival(state, policy, proposed, *, width=8, depth=5):
     accelerant = max(0, _power(powers, "ACCELERANT"))
     giant = solo_waterfall_forecast(state, enemies)
     giant_eruption = bool(giant and giant.eruption_damage is not None)
+    act2_mech = bool(getattr(policy, "act2_mechanics", False))
+    surrounded_flip = act2_mech and (
+        (
+            facing is not None
+            and len(enemies) == 2
+            and _power(powers, "SURROUNDED") > 0
+            and proposed.args.get("target_index") is not None
+            and proposed.args.get("target_index") != facing
+        )
+        or any(_power(e.get("powers"), "CRAB_RAGE") > 0 for e in enemies)
+    )
 
     self_risk = 0.0
     if proposed.kind == "play_card":
@@ -1035,18 +1166,31 @@ def choose_turn_survival(state, policy, proposed, *, width=8, depth=5):
             loss, rem_block, rem_buf = _apply_hit_damage(eh, rem_block, rem_buf, False)
             end_loss += loss
 
-    if end_loss + self_risk < player["hp"]:
+    if not surrounded_flip and end_loss + self_risk < player["hp"]:
         return proposed
 
     proposed_idx = next((i for i, a in enumerate(actions) if a == proposed), None)
     best_overall, best_by_first = _search_survival_lines(
-        state, policy, actions, width=width, depth=depth
+        state,
+        policy,
+        actions,
+        width=width,
+        depth=depth,
+        facing=facing,
+        score_adjust=score_adjust,
     )
     best_proposed = best_by_first.get(proposed_idx) if proposed_idx is not None else None
     # Before overriding a proposal, run a dedicated forced-first pass in case width pruning dropped its continuation.
     if proposed_idx is not None and (best_proposed is None or best_proposed[:3] < best_overall[:3]):
         _, forced = _search_survival_lines(
-            state, policy, actions, width=width, depth=depth, forced_first=proposed_idx
+            state,
+            policy,
+            actions,
+            width=width,
+            depth=depth,
+            forced_first=proposed_idx,
+            facing=facing,
+            score_adjust=score_adjust,
         )
         if proposed_idx in forced and (best_proposed is None or forced[proposed_idx] > best_proposed):
             best_proposed = forced[proposed_idx]

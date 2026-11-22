@@ -478,11 +478,11 @@ def test_checked_in_release_bundles_keep_legacy_flags_and_batch1_builder_freezes
         if "encounter_model" in settings:
             enc = EncounterModel.load(settings["encounter_model"])
             if is_v2_release:
-                assert enc.survival_search and enc.scorer_fixes
+                assert enc.survival_search and enc.scorer_fixes and enc.act2_mechanics
                 assert enc.overrides.get("THE_KIN_BOSS") == "isolate"
                 assert enc.overrides.get("SOUL_FYSH_BOSS") == "isolate"
             else:
-                assert not enc.survival_search and not enc.scorer_fixes
+                assert not enc.survival_search and not enc.scorer_fixes and not enc.act2_mechanics
                 assert enc.potion_effects_from_act == 4 and enc.draw_potions_from_act == 4
         if "deck_model" in settings:
             deck = DeckPolicy.load(settings["deck_model"])

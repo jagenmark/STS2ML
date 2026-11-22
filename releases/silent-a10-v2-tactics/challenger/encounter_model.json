@@ -657,5 +657,6 @@
       "INFESTED_PRISM": "prism_isolate",
       "MYTE+MYTE": "myte_pot_aggr"
     }
-  }
+  },
+  "act2_mechanics": true
 }

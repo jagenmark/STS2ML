@@ -90,7 +90,7 @@ class EncounterPolicy(RunPolicy):
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
         tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0, mecha_plan=None,
-        scorer_fixes=False,
+        scorer_fixes=False, act2_mechanics=False,
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
@@ -103,6 +103,7 @@ class EncounterPolicy(RunPolicy):
         self.potion_timing = potion_timing
         self.mecha_tactics = MechaTactics(mecha_plan) if mecha_plan else None
         self.scorer_fixes = scorer_fixes
+        self.act2_mechanics = act2_mechanics
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -225,8 +226,9 @@ class EncounterPolicy(RunPolicy):
             for e in targets:
                 powers_e = e.get("powers") or []
                 minion = bool(_power(powers_e, "MINION"))
-                leader_weight = w.leader if minion else 1.0
-                if minion and w.leader > 1 and hp_pool < 35:
+                illusion_minion = self.act2_mechanics and minion and bool(_power(powers_e, "ILLUSION"))
+                leader_weight = 0.08 if illusion_minion else (w.leader if minion else 1.0)
+                if minion and not illusion_minion and w.leader > 1 and hp_pool < 35:
                     # The encounter ends when the leader dies, including when it has surviving followers.
                     leader_weight = 0.45
                 artifact = _power(powers_e, "ARTIFACT") > 0
@@ -354,7 +356,7 @@ class EncounterPolicy(RunPolicy):
                 if flask_kill_prob is not None:
                     if flask_kill_prob > 0:
                         mitigation += threat * flask_kill_prob
-                        if not (giant and giant.eruption_damage is not None):
+                        if not (giant and giant.eruption_damage is not None) and not illusion_minion:
                             kill_bonus = (
                                 11 if minion else (
                                     25 if len(enemies) == 1
@@ -366,7 +368,21 @@ class EncounterPolicy(RunPolicy):
                 elif dmg > 0 or poison > 0:
                     if dmg >= hp_e or max(0.0, dmg - e.get("block", 0)) + poison_end >= e["hp"]:
                         mitigation += threat
-                        if not (giant and giant.eruption_damage is not None):
+                        if (
+                            self.act2_mechanics
+                            and not minion
+                            and all(
+                                o["index"] == e["index"] or _power(o.get("powers"), "MINION")
+                                for o in enemies
+                            )
+                        ):
+                            # Killing the sole remaining non-minion leader ends combat and cancels minion attacks.
+                            mitigation += sum(
+                                (incoming(o) if not intangible else count_hits(o))
+                                for o in enemies
+                                if o["index"] != e["index"]
+                            )
+                        if not (giant and giant.eruption_damage is not None) and not illusion_minion:
                             offense += (
                                 11 if minion else (
                                     25 if len(enemies) == 1
@@ -374,6 +390,16 @@ class EncounterPolicy(RunPolicy):
                                     else 15
                                 )
                             )
+                if (
+                    self.act2_mechanics
+                    and is_attack
+                    and not potion
+                    and _power(powers_e, "CURL_UP") > 0
+                    and dmg > e.get("block", 0)
+                    and dmg < hp_e
+                    and max_attack > dmg * 1.25
+                ):
+                    setup -= 0.45 * min(_power(powers_e, "CURL_UP"), max_attack - dmg)
                 weak = stats.get("weakpower", 0)
                 vuln = stats.get("vulnerablepower", 0)
                 if name == "EXPOSE":
@@ -754,6 +780,7 @@ class EncounterModel:
         self.potion_effects_from_act = data.get("potion_effects_from_act", 4)
         self.draw_potions_from_act = data.get("draw_potions_from_act", 4)
         self.scorer_fixes = data.get("scorer_fixes", False)
+        self.act2_mechanics = data.get("act2_mechanics", False)
         self.survival_search = data.get("survival_search", False)
         self.survival_beam = data.get("survival_beam", False)
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
@@ -843,6 +870,7 @@ class EncounterModel:
                 intent_forecast=self.act3_intents if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else None,
                 potion_timing=self.act3_potion_timing if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else 0,
                 scorer_fixes=plan.get("scorer_fixes", self.scorer_fixes),
+                act2_mechanics=plan.get("act2_mechanics", self.act2_mechanics),
             )
             self.key = key
 
@@ -860,7 +888,15 @@ class EncounterModel:
         ctx = state["context"]
         self.prepare(state, base_policy)
         actions = legal_actions(state)
-        if self.boss_tactics and self.boss_tactics.plan.get("facing"):
+        facing_plan = bool(self.boss_tactics and self.boss_tactics.plan.get("facing"))
+        actor_act2_mech = bool(getattr(self.actor, "act2_mechanics", False))
+        facing = self.boss_tactics.facing if (facing_plan and actor_act2_mech) else None
+        focus_adjust = (
+            (lambda sc: self.boss_tactics.adjust_focus(state, actions, sc))
+            if (facing_plan and actor_act2_mech)
+            else None
+        )
+        if facing_plan and not (actor_act2_mech and self.search_hand and self.survival_beam):
             scores = self.actor.combat_scores(state, actions)
             self.boss_tactics.adjust_targets(state, actions, scores)
             action = actions[max(range(len(actions)), key=scores.__getitem__)]
@@ -871,7 +907,13 @@ class EncounterModel:
                 if stage and stage in self.mecha_plan.get("search", {}):
                     search_hand = self.mecha_plan["search"][stage] == "beam"
             action = (
-                choose_turn(state, self.actor, survival_priority=self.survival_beam)
+                choose_turn(
+                    state,
+                    self.actor,
+                    survival_priority=self.survival_beam,
+                    facing=facing,
+                    score_adjust=focus_adjust,
+                )
                 if search_hand
                 else self.actor.combat(state, actions)
             )
@@ -879,8 +921,14 @@ class EncounterModel:
             action = rerank(self.action_ranker, state, actions, action, self.actor)
         if self.actor.mecha_tactics:
             action = self.actor.mecha_tactics.rank(state, actions, action, self.actor)
-        if self.survival_search and not (self.boss_tactics and self.boss_tactics.plan.get("facing")):
-            action = choose_turn_survival(state, self.actor, action)
+        if self.survival_search and (actor_act2_mech or not facing_plan):
+            action = choose_turn_survival(
+                state,
+                self.actor,
+                action,
+                facing=facing,
+                score_adjust=focus_adjust,
+            )
         if self.sandpit_threshold and ctx["room_type"] == "Boss":
             threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
             action = escape_action(state, actions, action, threshold)

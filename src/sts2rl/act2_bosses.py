@@ -35,6 +35,19 @@ class BossTactics:
             if self.plan.get("focus") == next(e["id"] for e in enemies if e["index"] == target):
                 scores[i] += self.plan.get("focus_bonus", 0)
 
+    def adjust_focus(self, state, actions, scores):
+        focus = self.plan.get("focus")
+        bonus = self.plan.get("focus_bonus", 0)
+        if not focus or not bonus:
+            return
+        enemies = {e["index"]: e["id"] for e in state["enemies"] if e["hp"] > 0}
+        if len(enemies) < 2:
+            return
+        for i, action in enumerate(actions):
+            target = action.args.get("target_index")
+            if target is not None and enemies.get(target) == focus:
+                scores[i] += bonus
+
     def observe(self, action):
         if "target_index" in action.args:
             self.facing = action.args["target_index"]

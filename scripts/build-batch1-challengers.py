@@ -11,6 +11,7 @@ Supports independent ablations:
 - all_v2: combines Batch 1 + Batch 2
 - all_v2_clean: live-verified Batch 1 + Batch 2 without marginal_removal, plus THE_KIN_BOSS=isolate
 - all_v2_tactics: all_v2_clean plus REP512-validated Act 2 Boss, Soul Fysh, and Act 2 Hallway tactics
+- all_v2_mech: all_v2_tactics plus 896-seed-validated act2_mechanics (guaranteed_damage cutoff, Illusion+Minion, Curl Up, Kaiser Crab Surrounded/Crab Rage survival)
 """
 
 from __future__ import annotations
@@ -33,6 +34,7 @@ PROFILES = (
     "all_v2",
     "all_v2_clean",
     "all_v2_tactics",
+    "all_v2_mech",
 )
 
 
@@ -40,6 +42,7 @@ _ENCOUNTER_KEYS = (
     "survival_search",
     "survival_beam",
     "scorer_fixes",
+    "act2_mechanics",
     "potion_effects_from_act",
     "draw_potions_from_act",
 )
@@ -76,7 +79,7 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
     if dirty:
         raise ValueError("Base bundle already has Batch 1/2 settings; start from a clean baseline")
 
-    full_v2 = ("all_v2", "all_v2_clean", "all_v2_tactics")
+    full_v2 = ("all_v2", "all_v2_clean", "all_v2_tactics", "all_v2_mech")
     if profile in ("route", "batch2", *full_v2):
         routers = [(name, payload) for name, payload in (("room_model", room), ("late_room_model", late_room)) if payload is not None]
         if not routers:
@@ -98,9 +101,9 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
         encounter["draw_potions_from_act"] = 1
         if isinstance(encounter.get("mecha_knight"), dict):
             encounter["mecha_knight"] = {**encounter["mecha_knight"], "v2_burn": True}
-    if profile in ("all_v2_clean", "all_v2_tactics"):
+    if profile in ("all_v2_clean", "all_v2_tactics", "all_v2_mech"):
         encounter["overrides"] = {**(encounter.get("overrides") or {}), "THE_KIN_BOSS": "isolate"}
-    if profile == "all_v2_tactics":
+    if profile in ("all_v2_tactics", "all_v2_mech"):
         encounter["overrides"] = {**encounter["overrides"], "SOUL_FYSH_BOSS": "isolate"}
         boss_plans = dict(encounter.get("act2_boss_plans") or {})
         boss_plans["THE_INSATIABLE_BOSS"] = {"style": "tempo", "escape": "cheap"}
@@ -129,11 +132,13 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
                 "MYTE+MYTE": "myte_pot_aggr",
             },
         }
+    if profile == "all_v2_mech":
+        encounter["act2_mechanics"] = True
     if profile in ("shop", "all", *full_v2):
         deck["optional_selections"] = True
         merchant = dict(deck.get("merchant") or {"reserve": 1.0, "permanent": 1.1})
         merchant.update(
-            marginal_removal=(profile not in ("all_v2_clean", "all_v2_tactics")),
+            marginal_removal=(profile not in ("all_v2_clean", "all_v2_tactics", "all_v2_mech")),
             gold_curve=True,
             potion_capacity=True,
         )
