@@ -471,16 +471,22 @@ def test_optional_deck_selections_skip_negative_ev_and_separate_prompt_goals():
 def test_checked_in_release_bundles_keep_legacy_flags_and_batch1_builder_freezes_cleanly(tmp_path):
     root = Path(__file__).resolve().parents[1]
     bundle_paths = sorted(root.glob("releases/**/policy.json"))
-    assert len(bundle_paths) >= 5
+    assert len(bundle_paths) >= 6
     for path in bundle_paths:
         _, settings = load_bundle(path)
+        is_v2_release = "silent-a10-v2-tactics" in path.parts
         if "encounter_model" in settings:
             enc = EncounterModel.load(settings["encounter_model"])
-            assert not enc.survival_search and not enc.scorer_fixes
-            assert enc.potion_effects_from_act == 4 and enc.draw_potions_from_act == 4
+            if is_v2_release:
+                assert enc.survival_search and enc.scorer_fixes
+                assert enc.overrides.get("THE_KIN_BOSS") == "isolate"
+                assert enc.overrides.get("SOUL_FYSH_BOSS") == "isolate"
+            else:
+                assert not enc.survival_search and not enc.scorer_fixes
+                assert enc.potion_effects_from_act == 4 and enc.draw_potions_from_act == 4
         if "deck_model" in settings:
             deck = DeckPolicy.load(settings["deck_model"])
-            assert not deck.optional_selections
+            assert deck.optional_selections == is_v2_release
 
     builder = runpy.run_path(str(root / "scripts/build-batch1-challengers.py"))["build_batch1_bundle"]
     base = root / "releases/silent-a10-mecha-knight/challenger/policy.json"

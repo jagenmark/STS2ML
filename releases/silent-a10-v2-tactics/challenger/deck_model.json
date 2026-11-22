@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "runtime_identity": {
+    "character": "SILENT",
+    "ascension": 10,
+    "assembly_version": "0.1.0+41cef1ea4657c524aa50e870df009e56337e8c32"
+  },
+  "prompt_aware": true,
+  "scope": [
+    "shop",
+    "rest_site"
+  ],
+  "merchant": {
+    "reserve": 1.0,
+    "permanent": 1.1,
+    "marginal_removal": false,
+    "gold_curve": true,
+    "potion_capacity": true
+  },
+  "optional_selections": true
+}

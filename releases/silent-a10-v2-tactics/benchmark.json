@@ -1,0 +1,348 @@
+{
+  "schema": "silent-a10-v2-tactics-benchmark-v1",
+  "base_incumbent": "releases/silent-a10-mecha-knight/challenger/policy.json",
+  "challenger_profile": "all_v2_tactics",
+  "rep512_all_v2_clean_vs_incumbent": {
+    "default256": {
+      "n": 256,
+      "seconds": 230.67,
+      "biomes": {
+        "Overgrowth": 256
+      },
+      "avg_floor_inc": 18.719,
+      "avg_floor_cur": 20.734,
+      "delta_floor": 2.016,
+      "se": 0.592,
+      "t": 3.407,
+      "floor_wins": 102,
+      "floor_losses": 68,
+      "a1_boss": {
+        "inc": 198,
+        "cur": 212,
+        "gain": 35,
+        "loss": 21,
+        "p": 0.0814
+      },
+      "a1_clear": {
+        "inc": 89,
+        "cur": 125,
+        "gain": 63,
+        "loss": 27,
+        "p": 0.0002
+      },
+      "a2_boss": {
+        "inc": 20,
+        "cur": 34,
+        "gain": 23,
+        "loss": 9,
+        "p": 0.0201
+      },
+      "a2_clear": {
+        "inc": 2,
+        "cur": 7,
+        "gain": 7,
+        "loss": 2,
+        "p": 0.1797
+      },
+      "a3_boss": {
+        "inc": 1,
+        "cur": 2,
+        "gain": 2,
+        "loss": 1,
+        "p": 1.0
+      },
+      "win": {
+        "inc": 0,
+        "cur": 0,
+        "gain": 0,
+        "loss": 0,
+        "p": 1.0
+      }
+    },
+    "seeded256": {
+      "n": 256,
+      "seconds": 230.67,
+      "biomes": {
+        "Overgrowth": 125,
+        "Underdocks": 131
+      },
+      "avg_floor_inc": 17.973,
+      "avg_floor_cur": 20.297,
+      "delta_floor": 2.324,
+      "se": 0.585,
+      "t": 3.972,
+      "floor_wins": 109,
+      "floor_losses": 59,
+      "a1_boss": {
+        "inc": 180,
+        "cur": 208,
+        "gain": 45,
+        "loss": 17,
+        "p": 0.0005
+      },
+      "a1_clear": {
+        "inc": 83,
+        "cur": 111,
+        "gain": 57,
+        "loss": 29,
+        "p": 0.0034
+      },
+      "a2_boss": {
+        "inc": 23,
+        "cur": 33,
+        "gain": 24,
+        "loss": 14,
+        "p": 0.1433
+      },
+      "a2_clear": {
+        "inc": 1,
+        "cur": 5,
+        "gain": 5,
+        "loss": 1,
+        "p": 0.2188
+      },
+      "a3_boss": {
+        "inc": 0,
+        "cur": 0,
+        "gain": 0,
+        "loss": 0,
+        "p": 1.0
+      },
+      "win": {
+        "inc": 0,
+        "cur": 0,
+        "gain": 0,
+        "loss": 0,
+        "p": 1.0
+      }
+    },
+    "pooled512": {
+      "n": 512,
+      "seconds": 461.35,
+      "biomes": {
+        "Overgrowth": 381,
+        "Underdocks": 131
+      },
+      "avg_floor_inc": 18.346,
+      "avg_floor_cur": 20.516,
+      "delta_floor": 2.17,
+      "se": 0.416,
+      "t": 5.22,
+      "floor_wins": 211,
+      "floor_losses": 127,
+      "a1_boss": {
+        "inc": 378,
+        "cur": 420,
+        "gain": 80,
+        "loss": 38,
+        "p": 0.0001
+      },
+      "a1_clear": {
+        "inc": 172,
+        "cur": 236,
+        "gain": 120,
+        "loss": 56,
+        "p": 0.0
+      },
+      "a2_boss": {
+        "inc": 43,
+        "cur": 67,
+        "gain": 47,
+        "loss": 23,
+        "p": 0.0056
+      },
+      "a2_clear": {
+        "inc": 3,
+        "cur": 12,
+        "gain": 12,
+        "loss": 3,
+        "p": 0.0352
+      },
+      "a3_boss": {
+        "inc": 1,
+        "cur": 2,
+        "gain": 2,
+        "loss": 1,
+        "p": 1.0
+      },
+      "win": {
+        "inc": 0,
+        "cur": 0,
+        "gain": 0,
+        "loss": 0,
+        "p": 1.0
+      }
+    }
+  },
+  "heldout384_all_v2_clean_vs_incumbent": {
+    "n": 384,
+    "seconds": 188.14,
+    "biomes": {
+      "Underdocks": 57,
+      "Overgrowth": 327
+    },
+    "avg_floor_inc": 18.828,
+    "avg_floor_cur": 20.568,
+    "delta_floor": 1.74,
+    "se": 0.446,
+    "t": 3.901,
+    "floor_wins": 164,
+    "floor_losses": 89,
+    "a1_boss": {
+      "inc": 289,
+      "cur": 317,
+      "gain": 46,
+      "loss": 18,
+      "p": 0.0006
+    },
+    "a1_clear": {
+      "inc": 143,
+      "cur": 173,
+      "gain": 81,
+      "loss": 51,
+      "p": 0.0113
+    },
+    "a2_boss": {
+      "inc": 33,
+      "cur": 46,
+      "gain": 35,
+      "loss": 22,
+      "p": 0.1112
+    },
+    "a2_clear": {
+      "inc": 9,
+      "cur": 8,
+      "gain": 7,
+      "loss": 8,
+      "p": 1.0
+    },
+    "a3_boss": {
+      "inc": 4,
+      "cur": 2,
+      "gain": 1,
+      "loss": 3,
+      "p": 0.625
+    },
+    "win": {
+      "inc": 0,
+      "cur": 0,
+      "gain": 0,
+      "loss": 0,
+      "p": 1.0
+    }
+  },
+  "heldout384_all_v2_tactics_vs_incumbent": {
+    "n": 384,
+    "seconds": 191.97,
+    "biomes": {
+      "Underdocks": 57,
+      "Overgrowth": 327
+    },
+    "avg_floor_ref": 18.828,
+    "avg_floor_cur": 20.607,
+    "delta_floor": 1.779,
+    "se": 0.447,
+    "t": 3.977,
+    "floor_wins": 165,
+    "floor_losses": 88,
+    "a1_boss": {
+      "ref": 289,
+      "cur": 317,
+      "gain": 46,
+      "loss": 18,
+      "p": 0.0006
+    },
+    "a1_clear": {
+      "ref": 143,
+      "cur": 173,
+      "gain": 81,
+      "loss": 51,
+      "p": 0.0113
+    },
+    "a2_boss": {
+      "ref": 33,
+      "cur": 48,
+      "gain": 36,
+      "loss": 21,
+      "p": 0.0627
+    },
+    "a2_clear": {
+      "ref": 9,
+      "cur": 8,
+      "gain": 7,
+      "loss": 8,
+      "p": 1.0
+    },
+    "a3_boss": {
+      "ref": 4,
+      "cur": 4,
+      "gain": 3,
+      "loss": 3,
+      "p": 1.0
+    },
+    "win": {
+      "ref": 0,
+      "cur": 0,
+      "gain": 0,
+      "loss": 0,
+      "p": 1.0
+    }
+  },
+  "heldout384_all_v2_tactics_vs_all_v2_clean": {
+    "n": 384,
+    "seconds": 191.97,
+    "biomes": {
+      "Underdocks": 57,
+      "Overgrowth": 327
+    },
+    "avg_floor_ref": 20.568,
+    "avg_floor_cur": 20.607,
+    "delta_floor": 0.039,
+    "se": 0.081,
+    "t": 0.484,
+    "floor_wins": 9,
+    "floor_losses": 6,
+    "a1_boss": {
+      "ref": 317,
+      "cur": 317,
+      "gain": 0,
+      "loss": 0,
+      "p": 1.0
+    },
+    "a1_clear": {
+      "ref": 173,
+      "cur": 173,
+      "gain": 0,
+      "loss": 0,
+      "p": 1.0
+    },
+    "a2_boss": {
+      "ref": 46,
+      "cur": 48,
+      "gain": 2,
+      "loss": 0,
+      "p": 0.5
+    },
+    "a2_clear": {
+      "ref": 8,
+      "cur": 8,
+      "gain": 2,
+      "loss": 2,
+      "p": 1.0
+    },
+    "a3_boss": {
+      "ref": 2,
+      "cur": 4,
+      "gain": 2,
+      "loss": 0,
+      "p": 0.5
+    },
+    "win": {
+      "ref": 0,
+      "cur": 0,
+      "gain": 0,
+      "loss": 0,
+      "p": 1.0
+    }
+  }
+}
