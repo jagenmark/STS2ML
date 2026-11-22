@@ -100,3 +100,96 @@ def read_labeled_runs(folders, filename, expected):
                     row = json.loads(line)
                     require_provenance(row, "label_provenance", expected)
                     yield row
+
+
+HEADLESS_PATCHES = (
+    "scripts/headless-runtime-identity.patch",
+    "scripts/headless-public-observation.patch",
+    "scripts/headless-training.patch",
+    "scripts/headless-a10-run.patch",
+    "scripts/headless-combat-completion.patch",
+    "scripts/headless-public-shop-and-events.patch",
+    "scripts/headless-selection-race.patch",
+    "scripts/headless-seeded-acts.patch",
+    "scripts/headless-gardener-math.patch",
+    "scripts/headless-confirm-async-end.patch",
+    "scripts/headless-knowledge-choice.patch",
+)
+
+
+def headless_patch_digest(root=None, *, host_path=None):
+    """Canonical ordered digest of the native patch chain, helper C# files, and optional host DLL."""
+    repo_root = Path(root).resolve() if root is not None else Path(__file__).resolve().parents[2]
+    entries = []
+    for rel in HEADLESS_PATCHES:
+        path = repo_root / rel
+        if not path.is_file():
+            raise FileNotFoundError(f"Missing pinned headless patch: {path}")
+        normalized = path.read_text(encoding="utf-8").encode("utf-8")
+        entries.append([rel, hashlib.sha256(normalized).hexdigest()])
+    helpers_dir = repo_root / "scripts/headless"
+    if helpers_dir.is_dir():
+        for helper in sorted(helpers_dir.glob("*.cs")):
+            rel = helper.relative_to(repo_root).as_posix()
+            normalized = helper.read_text(encoding="utf-8").encode("utf-8")
+            entries.append([rel, hashlib.sha256(normalized).hexdigest()])
+    patch_sha = _digest(entries)
+    result = {"schema": "headless-patch-chain-v1", "entries": entries, "patch_chain_sha256": patch_sha}
+    if host_path is not None:
+        result["host_dll_sha256"] = hashlib.sha256(Path(host_path).read_bytes()).hexdigest()
+    return result
+
+
+def strategy_label_provenance(
+    bundle_path,
+    *,
+    continuation="legacy",
+    host_path=None,
+    root=None,
+    collector=None,
+    style=None,
+    room_model=None,
+    unified_draft=False,
+    deck_size_penalty=0.12,
+):
+    """Provenance stamp binding macro strategy labels to their continuation bundle and patch chain."""
+    bundle_path = Path(bundle_path).resolve()
+    bundle_data = json.loads(bundle_path.read_text(encoding="utf-8"))
+    modules = (
+        "deck_policy",
+        "deployed_controller",
+        "encounter",
+        "merchant",
+        "offer_policy",
+        "routing",
+        "run_policy",
+        "selections",
+        "strategy",
+        "survival_route",
+        "turn_planning",
+    )
+    stamp = {
+        "schema": "strategy-continuation-v1",
+        "continuation": continuation,
+        "code_sha256": _source_hash(modules),
+        "bundle_sha256": hashlib.sha256(bundle_path.read_bytes()).hexdigest(),
+        "bundle_files": bundle_data.get("files", {}),
+        "style": style,
+        "room_model_sha256": (
+            hashlib.sha256(Path(room_model).read_bytes()).hexdigest()
+            if room_model is not None
+            else None
+        ),
+        "unified_draft": bool(unified_draft),
+        "deck_size_penalty": float(deck_size_penalty),
+    }
+    if collector is not None:
+        stamp["collector_sha256"] = hashlib.sha256(
+            Path(collector).read_text(encoding="utf-8").encode("utf-8")
+        ).hexdigest()
+    if host_path is not None or root is not None:
+        patch_info = headless_patch_digest(root, host_path=host_path)
+        stamp["patch_chain_sha256"] = patch_info["patch_chain_sha256"]
+        if "host_dll_sha256" in patch_info:
+            stamp["host_dll_sha256"] = patch_info["host_dll_sha256"]
+    return stamp

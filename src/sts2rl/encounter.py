@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import dataclass, replace
 import json
+from math import comb
 from pathlib import Path
 
 from .card_effects import deck_engines
@@ -83,9 +85,12 @@ def _sly(card):
 
 
 class EncounterPolicy(RunPolicy):
+    cost_exponent = 0.74
+
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
-        tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0, mecha_plan=None
+        tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0, mecha_plan=None,
+        scorer_fixes=False,
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
@@ -97,6 +102,7 @@ class EncounterPolicy(RunPolicy):
         self.intent_forecast = intent_forecast
         self.potion_timing = potion_timing
         self.mecha_tactics = MechaTactics(mecha_plan) if mecha_plan else None
+        self.scorer_fixes = scorer_fixes
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -260,15 +266,67 @@ class EncounterPolicy(RunPolicy):
                             setup -= min(4.5, horizon * 0.9) * min(
                                 3, hits * _power(powers_e, "PERSONAL_HIVE")
                             )
-                poison = stats.get("poisonpower", 0) + (
-                    hit_envenom * hits if is_attack and dmg > e.get("block", 0) else 0
-                )
-                if self.mechanics and name == "BOUNCING_FLASK":
-                    # Each bounce applies the full dose. Artifact can absorb individual applications.
-                    poison *= max(0, hits - _power(powers_e, "ARTIFACT"))
-                    artifact = False
-                if name == "BUBBLE_BUBBLE" and not existing or artifact:
-                    poison = 0
+                flask_kill_prob = None
+                if self.scorer_fixes:
+                    envenom_poison = 0
+                    rem_art = _power(powers_e, "ARTIFACT")
+                    if is_attack and hit_envenom > 0 and dmg > 0 and hits > 0:
+                        rem_block = e.get("block", 0)
+                        per_hit = dmg / hits
+                        for _ in range(int(hits)):
+                            if per_hit > rem_block:
+                                rem_block = 0
+                                if rem_art > 0:
+                                    rem_art -= 1
+                                else:
+                                    envenom_poison += hit_envenom
+                            else:
+                                rem_block -= per_hit
+                    if name == "BOUNCING_FLASK":
+                        flask_item = (
+                            item
+                            if item.get("target_type") == "RandomEnemy"
+                            else {**item, "target_type": "RandomEnemy"}
+                        )
+                        apps = debuff_order(flask_item, stats, e, energy=energy)
+                        landed_flask = landed_debuffs(
+                            flask_item, apps, rem_art, targets=len(targets)
+                        )
+                        poison = landed_flask.get("poison", 0)
+                        # Compute exact bounce-count kill probability rather than thresholding mean poison.
+                        n_bounces = len(apps)
+                        dose = apps[0][1] if apps else 0
+                        p_hit = 1.0 / max(1, len(targets))
+                        kill_prob = 0.0
+                        for k in range(n_bounces + 1):
+                            landed_k = max(0, k - rem_art) * dose
+                            if (existing + landed_k) * poison_triggers >= e["hp"]:
+                                kill_prob += comb(n_bounces, k) * (p_hit**k) * ((1.0 - p_hit) ** (n_bounces - k))
+                        flask_kill_prob = kill_prob
+                        if random_target and len(targets) > 1:
+                            # Outer random_target block divides offense and mitigation by len(targets).
+                            poison *= len(targets)
+                            flask_kill_prob *= len(targets)
+                        artifact = False
+                    else:
+                        base_poison = stats.get("poisonpower", 0)
+                        if name == "BUBBLE_BUBBLE" and not existing:
+                            base_poison = 0
+                        elif base_poison > 0 and rem_art > 0:
+                            rem_art -= 1
+                            base_poison = 0
+                        artifact = rem_art > 0
+                        poison = base_poison + envenom_poison
+                else:
+                    poison = stats.get("poisonpower", 0) + (
+                        hit_envenom * hits if is_attack and dmg > e.get("block", 0) else 0
+                    )
+                    if self.mechanics and name == "BOUNCING_FLASK":
+                        # Each bounce applies the full dose. Artifact can absorb individual applications.
+                        poison *= max(0, hits - _power(powers_e, "ARTIFACT"))
+                        artifact = False
+                    if name == "BUBBLE_BUBBLE" and not existing or artifact:
+                        poison = 0
                 if name == "OUTBREAK":
                     dmg += (existing + poison) * poison_triggers
                 hp_e = e["hp"] + e.get("block", 0)
@@ -293,7 +351,19 @@ class EncounterPolicy(RunPolicy):
                     * w.poison
                     * min(max(0.0, e["hp"] - existing), poison_triggers * psn_value)
                 )
-                if dmg > 0 or poison > 0:
+                if flask_kill_prob is not None:
+                    if flask_kill_prob > 0:
+                        mitigation += threat * flask_kill_prob
+                        if not (giant and giant.eruption_damage is not None):
+                            kill_bonus = (
+                                11 if minion else (
+                                    25 if len(enemies) == 1
+                                    or any(_power(o.get("powers"), "MINION") for o in enemies)
+                                    else 15
+                                )
+                            )
+                            offense += kill_bonus * flask_kill_prob
+                elif dmg > 0 or poison > 0:
                     if dmg >= hp_e or max(0.0, dmg - e.get("block", 0)) + poison_end >= e["hp"]:
                         mitigation += threat
                         if not (giant and giant.eruption_damage is not None):
@@ -382,11 +452,15 @@ class EncounterPolicy(RunPolicy):
                 shiv = len(hand) - 1
             if name == "CUNNING_POTION":
                 shiv = stats.get("cards", 0)
-            shiv = (
-                min(shiv, max(0, 10 - len(hand) + (not potion)))
-                if name != "STORM_OF_STEEL"
-                else shiv
-            )
+            if self.scorer_fixes and name == "HIDDEN_DAGGERS":
+                actual_discards = min(max(0, len(hand) - 1), stats.get("cards", 1))
+                shiv = min(shiv, max(0, 10 - max(0, len(hand) - 1 - actual_discards)))
+            else:
+                shiv = (
+                    min(shiv, max(0, 10 - len(hand) + (not potion)))
+                    if name != "STORM_OF_STEEL"
+                    else shiv
+                )
             if not giant_defeated:
                 shiv_hit = shiv_damage + (2 if name == "CUNNING_POTION" else 0)
                 if tender:
@@ -397,7 +471,7 @@ class EncounterPolicy(RunPolicy):
             if name in ("ESCAPE_PLAN", "FINESSE", "FLASH_OF_STEEL"):
                 draw = 1
             if name == "CALCULATED_GAMBLE":
-                draw = max(0, len(hand) - 1 - energy)
+                draw = max(0, len(hand) - 1) if self.scorer_fixes else max(0, len(hand) - 1 - energy)
             if name in (
                 "HIDDEN_DAGGERS",
                 "PREPARED",
@@ -414,7 +488,19 @@ class EncounterPolicy(RunPolicy):
                     if name in ("PREPARED", "HIDDEN_DAGGERS")
                     else 1
                 )
-                setup += sum(discard_payoff[:count]) * 0.85
+                payoffs = (
+                    sorted(
+                        (
+                            max(2.0, self.card_value(c))
+                            for idx, c in hand.items()
+                            if idx != item["index"] and _sly(c)
+                        ),
+                        reverse=True,
+                    )
+                    if self.scorer_fixes
+                    else discard_payoff
+                )
+                setup += sum(payoffs[:count]) * 0.85
             if name in ("DODGE_AND_ROLL", "TORIC_TOUGHNESS", "SHIP_IN_A_BOTTLE"):
                 setup += min(horizon - 1, stats.get("turns", 1)) * 0.8 * block
             if name == "BLUR":
@@ -506,6 +592,8 @@ class EncounterPolicy(RunPolicy):
                         (c.get("stats") or {}).get("weakpower", 0) > 0) for c in deck)
                     chance = 1 - (1 - defenses / max(1, len(deck))) ** draw
                     setup += chance * min(need, 9) * block_value
+            elif self.scorer_fixes and not potion and name == "CALCULATED_GAMBLE":
+                draw = min(draw, 10)
             else:
                 draw = min(draw, max(0, 10 - len(hand) + (not potion)))
             if self.persistent and not potion:
@@ -663,6 +751,11 @@ class EncounterModel:
         self.prompt_aware = data.get("prompt_aware", False)
         self.mechanics_from_act = data.get("mechanics_from_act", 4)
         self.persistent_from_act = data.get("persistent_from_act", 4)
+        self.potion_effects_from_act = data.get("potion_effects_from_act", 4)
+        self.draw_potions_from_act = data.get("draw_potions_from_act", 4)
+        self.scorer_fixes = data.get("scorer_fixes", False)
+        self.survival_search = data.get("survival_search", False)
+        self.survival_beam = data.get("survival_beam", False)
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
         self.hallways = HallwayPlans(data["act2_hallways"], STYLES) if "act2_hallways" in data else None
         self.act3_hallways = HallwayPlans(data["act3_hallways"], STYLES, act=3) if "act3_hallways" in data else None
@@ -692,23 +785,18 @@ class EncounterModel:
         self.key = self.actor = None
 
     @classmethod
+    def from_data(cls, data):
+        return cls(deepcopy(data))
+
+    @classmethod
     def load(cls, path):
-        return cls(json.loads(Path(path).read_text(encoding="utf-8")))
+        return cls.from_data(json.loads(Path(path).read_text(encoding="utf-8")))
 
     def applies(self, state):
         return not self.rooms or state["context"]["room_type"] in self.rooms
 
-    def choose(self, state, base_policy):
-        from .turn_planning import choose_turn
-
-        if state["decision"] != "combat_play":
-            if self.boss_tactics and (choice := self.boss_tactics.curse_choice(state)) is not None:
-                return choice
-            if self.prompt_aware and state["decision"] in ("card_select", "card_reward"):
-                from .selections import combat_selection
-
-                return combat_selection(state, self.actor or base_policy)
-            return (self.actor or base_policy)(state)
+    def prepare(self, state, base_policy):
+        """Initialize fight-scoped encounter actor and boss tactics on a combat_play state."""
         ctx = state["context"]
         key = (ctx["act"], ctx["floor"], ctx["room_type"])
         if key != self.key or self.actor is None:
@@ -749,13 +837,28 @@ class EncounterModel:
                 mechanics=plan.get("mechanics", ctx["act"] >= self.mechanics_from_act),
                 persistent=plan.get("persistent", ctx["act"] >= self.persistent_from_act),
                 tender=plan.get("tender", False),
-                potion_effects=plan.get("potion_effects", False),
-                draw_potions=plan.get("draw_potions", False),
+                potion_effects=plan.get("potion_effects", ctx["act"] >= self.potion_effects_from_act),
+                draw_potions=plan.get("draw_potions", ctx["act"] >= self.draw_potions_from_act),
                 mecha_plan=self.mecha_plan if ctx["act"] == 3 and ctx["room_type"] == "Elite" and formation_key(state) == "MECHA_KNIGHT" else None,
                 intent_forecast=self.act3_intents if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else None,
                 potion_timing=self.act3_potion_timing if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else 0,
+                scorer_fixes=plan.get("scorer_fixes", self.scorer_fixes),
             )
             self.key = key
+
+    def choose(self, state, base_policy):
+        from .turn_planning import choose_turn, choose_turn_survival
+
+        if state["decision"] != "combat_play":
+            if self.boss_tactics and (choice := self.boss_tactics.curse_choice(state)) is not None:
+                return choice
+            if self.prompt_aware and state["decision"] in ("card_select", "card_reward"):
+                from .selections import combat_selection
+
+                return combat_selection(state, self.actor or base_policy)
+            return (self.actor or base_policy)(state)
+        ctx = state["context"]
+        self.prepare(state, base_policy)
         actions = legal_actions(state)
         if self.boss_tactics and self.boss_tactics.plan.get("facing"):
             scores = self.actor.combat_scores(state, actions)
@@ -767,11 +870,17 @@ class EncounterModel:
                 stage = self.actor.mecha_tactics.observe(state)
                 if stage and stage in self.mecha_plan.get("search", {}):
                     search_hand = self.mecha_plan["search"][stage] == "beam"
-            action = choose_turn(state, self.actor) if search_hand else self.actor.combat(state, actions)
+            action = (
+                choose_turn(state, self.actor, survival_priority=self.survival_beam)
+                if search_hand
+                else self.actor.combat(state, actions)
+            )
         if self.rerank_fight and state["round"] <= self.action_ranker.get("max_round", float("inf")):
             action = rerank(self.action_ranker, state, actions, action, self.actor)
         if self.actor.mecha_tactics:
             action = self.actor.mecha_tactics.rank(state, actions, action, self.actor)
+        if self.survival_search and not (self.boss_tactics and self.boss_tactics.plan.get("facing")):
+            action = choose_turn_survival(state, self.actor, action)
         if self.sandpit_threshold and ctx["room_type"] == "Boss":
             threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
             action = escape_action(state, actions, action, threshold)

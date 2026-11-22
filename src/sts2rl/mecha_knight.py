@@ -42,7 +42,7 @@ def block_in_hand(hand, energy):
     return values[-1]
 
 
-def item_features(state, actions, stage):
+def item_features(state, actions, stage, *, v2_burn=False):
     """Estimate marginal effects using visible previews, hand contents and current powers."""
     player, hand = state["player"], state["hand"]
     enemy = next(e for e in state["enemies"] if e["hp"] > 0)
@@ -90,12 +90,16 @@ def item_features(state, actions, stage):
         block = block_preview(stats)
         benefit = {"burn": 0.0, "carry": 0.0, "potions": 0.0, "attack": 0.0, "guard": 0.0}
         benefit["burn"] = min(block, burn_exposure)
-        discard = (
-            wound
-            if name in ("CALCULATED_GAMBLE", "STORM_OF_STEEL", "GAMBLERS_BREW", "GLOWWATER_POTION")
-            else min(wound, stats.get("cards", 1) if name == "PREPARED" else 1)
-            if name
-            in (
+        discard_cards = (
+            (
+                "SURVIVOR",
+                "PREPARED",
+                "ACROBATICS",
+                "DAGGER_THROW",
+                "HIDDEN_DAGGERS",
+            )
+            if v2_burn
+            else (
                 "SURVIVOR",
                 "PREPARED",
                 "ACROBATICS",
@@ -103,10 +107,28 @@ def item_features(state, actions, stage):
                 "HIDDEN_DAGGERS",
                 "TOOLS_OF_THE_TRADE",
             )
+        )
+        discard = (
+            wound
+            if name in ("CALCULATED_GAMBLE", "STORM_OF_STEEL", "GAMBLERS_BREW", "GLOWWATER_POTION")
+            else min(wound, stats.get("cards", 1) if name in ("PREPARED", "HIDDEN_DAGGERS") else 1)
+            if name in discard_cards
             else 0
         )
         if wind:
-            benefit["burn"] += min(burn_exposure, 2 * discard)
+            if v2_burn:
+                burn_hits = sorted(
+                    (
+                        1 if protected else max(0, (c.get("stats") or {}).get("damage", 2))
+                        for c in hand
+                        if c["id"] == "CARD.BURN"
+                    ),
+                    reverse=True,
+                )
+                rem_burn = max(0.0, burn_exposure - benefit["burn"])
+                benefit["burn"] += min(rem_burn, float(sum(burn_hits[: int(discard)])))
+            else:
+                benefit["burn"] += min(burn_exposure, 2 * discard)
             if name in ("DODGE_AND_ROLL", "TORIC_TOUGHNESS", "SHIP_IN_A_BOTTLE"):
                 benefit["carry"] += min(cleave, block)
             if name == "BLUR":
@@ -199,7 +221,8 @@ class MechaTactics:
         if not stage:
             return
         weights = self.plan.get("weights", {})
-        for i, features in enumerate(item_features(state, actions, stage)):
+        v2_burn = bool(self.plan.get("v2_burn", False))
+        for i, features in enumerate(item_features(state, actions, stage, v2_burn=v2_burn)):
             scores[i] += sum(weights.get(k, 0) * v for k, v in features.items())
 
     def rank(self, state, actions, original, actor):

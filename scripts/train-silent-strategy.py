@@ -10,17 +10,61 @@ from random import Random
 from statistics import fmean
 
 from sts2rl.act1 import save_json
+from sts2rl.deployed_controller import DeployedController
 from sts2rl.encounter import EncounterPolicy
-from sts2rl.native import NativeSession
+from sts2rl.native import Action, NativeSession, ReplayFork, digest
 from sts2rl.offer_policy import OfferModel, offer_type
+from sts2rl.provenance import require_provenance, strategy_label_provenance
 from sts2rl.routing import RoomModel
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_policy import RunPolicy, RunWeights
 from sts2rl.strategy import StrategyModel, strategy_arms, strategy_kind
-from sts2rl.trajectory import strategy_roots
+from sts2rl.trajectory import natural_specification, strategy_roots
 from sts2rl.turn_planning import choose_turn
 
 ROOT = Path(__file__).resolve().parents[1]
+_UNSET = object()
+
+
+def replay_controller_snapshots(session, source: Path, controller: DeployedController, target_steps):
+    """Replay the recorded prefix once and return cloned DeployedController snapshots at target steps."""
+    wanted = set(target_steps)
+    if not wanted:
+        return {}
+    max_step = max(wanted)
+    with (Path(source) / "game/rpc.jsonl").open(encoding="utf-8") as stream:
+        first = json.loads(next(stream))
+        spec = natural_specification(first["command"])
+        commands, fingerprints = [], [first["response_digest"]]
+        for line in stream:
+            row = json.loads(line)
+            if row["command"]["cmd"] == "get_map":
+                continue
+            if row["command"]["cmd"] != "action":
+                raise ValueError("Unexpected control command in recorded run")
+            commands.append(row["command"])
+            fingerprints.append(row["response_digest"])
+            if len(commands) >= max_step:
+                break
+    if len(commands) < max_step:
+        raise ValueError("Recorded trace shorter than requested strategy root")
+    state = session.restore(ReplayFork(spec, (), fingerprints[0]))
+    controller._sync_act(state)
+    snapshots = {}
+    if 0 in wanted:
+        snapshots[0] = controller.clone()
+    for step, cmd in enumerate(commands[:max_step]):
+        # Construct the recorded Action directly so large multi-card selections do not enumerate the power set.
+        kind, args = cmd["action"], cmd.get("args") or {}
+        action = Action(digest([kind, args])[:20], kind, args, digest(state))
+        before = state
+        state = session.step(action)
+        if digest(state) != fingerprints[step + 1]:
+            raise ValueError("Prefix replay diverged from recorded trace")
+        controller.observe(before, action, state)
+        if step + 1 in wanted:
+            snapshots[step + 1] = controller.clone()
+    return snapshots
 
 
 def follow(game, state, actor, router, opening, initial, start_act):
@@ -49,7 +93,7 @@ def follow(game, state, actor, router, opening, initial, start_act):
                 + 0.05 * state["player"]["hp"] * clear,
             }
         if action is None:
-            if state["decision"] == "map_select":
+            if state["decision"] == "map_select" and router is not None:
                 action = router.choose(state, game.public_map())
             elif state["decision"] == "combat_play":
                 action = (
@@ -71,25 +115,110 @@ def follow(game, state, actor, router, opening, initial, start_act):
     raise RuntimeError("Continuation exceeded action budget")
 
 
+def follow_deployed(game, state, controller: DeployedController, initial, start_act):
+    """Roll out the full deployed bundle from a forced root action until act clear or defeat."""
+    action = initial
+    boss_damage = 0.0
+    for _ in range(1100):
+        ctx = state["context"]
+        if state["decision"] == "combat_play" and ctx["room_type"] == "Boss":
+            enemies = state["enemies"]
+            if enemies:
+                boss_damage = max(
+                    boss_damage,
+                    1 - sum(e["hp"] for e in enemies) / max(1, sum(e["max_hp"] for e in enemies)),
+                )
+        if state["decision"] == "game_over" or ctx["act"] > start_act:
+            clear = ctx["act"] > start_act or state.get("victory", False)
+            floor = 17 if clear else ctx["floor"]
+            return {
+                "clear": clear,
+                "floor": floor,
+                "hp": state["player"]["hp"],
+                "return": floor
+                + 10 * clear
+                + 2 * boss_damage
+                + 0.05 * state["player"]["hp"] * clear,
+            }
+        if action is None:
+            action = controller.choose(state, game)
+        before = state
+        state = game.step(action)
+        controller.observe(before, action, state)
+        action = None
+    raise RuntimeError("Continuation exceeded action budget")
+
+
 def collect(task):
-    folder, source, host, bundle, split_seed, max_roots, kinds, min_act, style, room_path = task
+    (
+        folder,
+        source,
+        host,
+        bundle,
+        split_seed,
+        max_roots,
+        kinds,
+        min_act,
+        style,
+        room_path,
+        continuation_mode,
+        unified_draft,
+        deck_size_penalty,
+    ) = task
     folder.mkdir(parents=True, exist_ok=False)
     _, settings = load_bundle(bundle)
+    if continuation_mode == "bundle":
+        # Validate bundle compatibility up front before spawning native sessions.
+        DeployedController.from_bundle(bundle, macro_seed=split_seed)
     weights = RunWeights.load(settings["weights"])
-    router = RoomModel.load(room_path or settings["room_model"])
+    late_weights = (
+        RunWeights.load(settings["late_weights"]) if settings.get("late_weights") else None
+    )
+    deck_effects = bool(settings.get("deck_effects", False))
+    router_file = room_path or settings.get("room_model")
+    router = RoomModel.load(router_file) if router_file else None
     opening = OfferModel.load(settings["offer_model"]) if settings.get("offer_model") else None
+    stamp = strategy_label_provenance(
+        bundle,
+        continuation=continuation_mode,
+        host_path=host,
+        root=ROOT,
+        collector=__file__,
+        style=style,
+        room_model=room_path,
+        unified_draft=unified_draft,
+        deck_size_penalty=deck_size_penalty,
+    )
     roots = defaultdict(list)
     seed = None
     for state, fork in strategy_roots(source):
         seed = fork.specification["seed"]
         kind = strategy_kind(state)
+        act = state["context"]["act"]
+        arm_policy = (
+            RunPolicy(
+                late_weights if (act >= 2 and late_weights is not None) else weights,
+                deck_effects=deck_effects,
+            )
+            if continuation_mode == "bundle"
+            else RunPolicy(weights)
+        )
         if (
             kind
             and (not kinds or kind in kinds)
-            and state["context"]["act"] >= min_act
-            and len(strategy_arms(state, RunPolicy(weights), opening)) > 1
+            and act >= min_act
+            and len(
+                strategy_arms(
+                    state,
+                    arm_policy,
+                    opening,
+                    unified_draft=unified_draft,
+                    deck_size_penalty=deck_size_penalty,
+                )
+            )
+            > 1
         ):
-            roots[(state["context"]["act"], kind)].append((state, fork))
+            roots[(act, kind)].append((state, fork))
     rng = Random(f"{split_seed}/{seed}")
     chosen = []
     for (act, kind), candidates in roots.items():
@@ -99,11 +228,58 @@ def collect(task):
             for s, fork in rng.sample(candidates, min(n, len(candidates)))
         )
     chosen.sort(key=lambda sample: (-sample[0], sample[1]))
+    selected = chosen[:max_roots]
     session = None
     errors, rows = [], []
+    snapshots = {}
     try:
-        for _, _, kind, state, fork in chosen[:max_roots]:
-            arms = strategy_arms(state, RunPolicy(weights), opening)
+        if continuation_mode == "bundle" and selected:
+            first_fork = selected[0][4]
+            session = NativeSession(
+                ROOT,
+                folder / f"engine-{len(errors):03d}",
+                host_path=host,
+                ascension=10,
+                timeout=45,
+                act_list=first_fork.specification.get("act_list", "default"),
+            )
+            snapshots = replay_controller_snapshots(
+                session,
+                source,
+                DeployedController.from_bundle(bundle, macro_seed=split_seed),
+                [len(fork.history) for _, _, _, _, fork in selected],
+            )
+        for _, _, kind, state, fork in selected:
+            base_controller = snapshots.get(len(fork.history))
+            arm_policy = base_controller.policy if base_controller is not None else RunPolicy(weights)
+            use_matchups = bool(
+                base_controller is not None
+                and base_controller.strategy is not None
+                and base_controller.strategy.uses_matchups
+            )
+            group_prob = (
+                base_controller.pool.group_probability
+                if (base_controller is not None and base_controller.pool is not None)
+                else None
+            )
+            arms = strategy_arms(
+                state,
+                arm_policy,
+                opening,
+                matchups=use_matchups,
+                group_probability=group_prob,
+                unified_draft=unified_draft,
+                deck_size_penalty=deck_size_penalty,
+            )
+            if base_controller is not None and kind == "shop":
+                # Drop stale already-paid relic purchases that native shop state rejects.
+                arms = [
+                    item
+                    for item in arms
+                    if base_controller.paid_relics.corrected_view(state, item[0]) is None
+                ]
+            if len(arms) <= 1:
+                continue
             # Sample expensive merchant inventories uniformly, retaining leave as the reference.
             if kind == "shop" and len(arms) > 6:
                 leave = next(a for a in arms if a[0].kind == "leave_room")
@@ -121,20 +297,29 @@ def collect(task):
                             act_list=fork.specification.get("act_list", "default"),
                         )
                     confirmed = session.restore(fork)
-                    continuation = (
-                        EncounterPolicy(weights, macro_seed=split_seed, style=style)
-                        if style
-                        else RunPolicy(weights, macro_seed=split_seed)
-                    )
-                    result = follow(
-                        session,
-                        confirmed,
-                        continuation,
-                        router,
-                        opening,
-                        arm,
-                        state["context"]["act"],
-                    )
+                    if continuation_mode == "bundle":
+                        result = follow_deployed(
+                            session,
+                            confirmed,
+                            base_controller.clone(),
+                            arm,
+                            state["context"]["act"],
+                        )
+                    else:
+                        continuation = (
+                            EncounterPolicy(weights, macro_seed=split_seed, style=style)
+                            if style
+                            else RunPolicy(weights, macro_seed=split_seed)
+                        )
+                        result = follow(
+                            session,
+                            confirmed,
+                            continuation,
+                            router,
+                            opening,
+                            arm,
+                            state["context"]["act"],
+                        )
                     outcomes.append({"id": arm.id, "prior": prior, "features": features, **result})
                 except Exception as exc:
                     errors.append({"root": fork.expected_digest, "arm": arm.id, "error": str(exc)})
@@ -149,14 +334,119 @@ def collect(task):
                         "kind": kind,
                         "act": state["context"]["act"],
                         "root": fork.expected_digest,
+                        "unified_draft": unified_draft,
+                        "deck_size_penalty": deck_size_penalty,
+                        "label_provenance": stamp,
                         "arms": outcomes,
                     }
                 )
     finally:
         if session is not None:
             session.close()
-    save_json(folder / "labels.json", {"seed": seed, "roots": rows, "errors": errors})
+    save_json(
+        folder / "labels.json",
+        {"seed": seed, "label_provenance": stamp, "roots": rows, "errors": errors},
+    )
     return len(rows), len(errors)
+
+
+def fit_strategy_roots(
+    folders,
+    *,
+    continuation="legacy",
+    unified_draft=False,
+    deck_size_penalty=0.12,
+    offset_scale=None,
+    ridge=16.0,
+    strength=1.0,
+):
+    roots = []
+    expected_stamp = _UNSET
+    for folder in folders:
+        for path in sorted(Path(folder).glob("run-*/labels.json")):
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            file_stamp = payload.get("label_provenance")
+            if expected_stamp is _UNSET:
+                expected_stamp = file_stamp
+            elif file_stamp != expected_stamp:
+                raise ValueError("Mixed strategy label provenance across input files")
+            if file_stamp is None:
+                if continuation != "legacy" or unified_draft:
+                    raise ValueError(
+                        "Unstamped legacy labels cannot be fitted with --continuation bundle or --unified-draft"
+                    )
+            else:
+                if file_stamp.get("continuation") != continuation:
+                    raise ValueError(
+                        f"Label continuation {file_stamp.get('continuation')!r} does not match --continuation {continuation!r}"
+                    )
+                if bool(file_stamp.get("unified_draft", False)) != bool(unified_draft):
+                    raise ValueError(
+                        "Label unified_draft setting does not match --unified-draft fit flag"
+                    )
+                if unified_draft and abs(float(file_stamp.get("deck_size_penalty", 0.12)) - deck_size_penalty) > 1e-9:
+                    raise ValueError(
+                        f"Label deck_size_penalty {file_stamp.get('deck_size_penalty')} != --deck-size-penalty {deck_size_penalty}"
+                    )
+            for r in payload["roots"]:
+                if expected_stamp is not None:
+                    require_provenance(r, "label_provenance", expected_stamp)
+                elif "label_provenance" in r:
+                    raise ValueError("Mixed stamped and unstamped roots in input files")
+                if "unified_draft" in r and bool(r["unified_draft"]) != bool(unified_draft):
+                    raise ValueError("Root unified_draft setting does not match --unified-draft")
+                if (
+                    unified_draft
+                    and "deck_size_penalty" in r
+                    and abs(float(r["deck_size_penalty"]) - deck_size_penalty) > 1e-9
+                ):
+                    raise ValueError("Root deck_size_penalty does not match --deck-size-penalty")
+                roots.append(r)
+    if len({(r["group"], r["root"]) for r in roots}) != len(roots):
+        raise ValueError("Duplicate native roots in training inputs")
+
+    def validation(root):
+        return int.from_bytes(hashlib.sha256(root["group"].encode()).digest()[:4], "big") % 5 == 0
+
+    train = [r for r in roots if not validation(r)]
+    if not train:
+        raise ValueError("No training roots")
+    effective_offset_scale = (
+        (0.0 if unified_draft else 1.0) if offset_scale is None else float(offset_scale)
+    )
+    model = StrategyModel(
+        OfferModel.fit(train, ridge=ridge).weights,
+        {r["kind"] for r in train},
+        strength,
+        unified_draft=unified_draft,
+        deck_size_penalty=deck_size_penalty,
+        offset_scale=effective_offset_scale,
+    )
+    metrics = {}
+    for kind in model.kinds:
+        dev = [r for r in roots if validation(r) and r["kind"] == kind]
+        if dev:
+
+            def gain(r):
+                arms = r["arms"]
+                initial = max(arms, key=lambda a: a["prior"])
+                fitted = max(
+                    arms,
+                    key=lambda a: a["prior"] + strength * model.predict(0.0, a["features"]),
+                )
+                return fitted["return"] - initial["return"]
+
+            metrics[kind] = {"roots": len(dev), "mean_gain": fmean(map(gain, dev))}
+    report = {
+        "roots": len(roots),
+        "seeds": len({r["group"] for r in roots}),
+        "fit_seeds": len({r["group"] for r in train}),
+        "fit_roots": len(train),
+        "branches": sum(len(r["arms"]) for r in roots),
+        "by_kind": dict(Counter(r["kind"] for r in roots)),
+        "validation": metrics,
+    }
+    return model, report
 
 
 def main():
@@ -175,9 +465,15 @@ def main():
     )
     p.add_argument("--style", help="Use a fight-aware continuation policy for labels")
     p.add_argument("--room-model", type=Path)
+    p.add_argument("--continuation", choices=("legacy", "bundle"), default="legacy")
+    p.add_argument("--unified-draft", action="store_true")
+    p.add_argument("--deck-size-penalty", type=float, default=0.12)
+    p.add_argument("--offset-scale", type=float, default=None)
     p.add_argument("--ridge", type=float, default=16.0)
     p.add_argument("--strength", type=float, default=1.0)
     args = p.parse_args()
+    if args.continuation == "bundle" and (args.style or args.room_model):
+        p.error("--continuation bundle uses the bundle's own encounter and room models")
     args.output.mkdir(parents=True, exist_ok=False)
     if args.mode == "collect":
         if not args.host or not args.bundle:
@@ -205,6 +501,9 @@ def main():
                 args.min_act,
                 args.style,
                 args.room_model,
+                args.continuation,
+                args.unified_draft,
+                args.deck_size_penalty,
             )
             for i, source in enumerate(sources[: args.seeds])
         ]
@@ -213,49 +512,16 @@ def main():
                 if i % 10 == 0:
                     print(i, result, flush=True)
         return
-    roots = [
-        r
-        for folder in args.source
-        for path in sorted(folder.glob("run-*/labels.json"))
-        for r in json.loads(path.read_text())["roots"]
-    ]
-    if len({(r["group"], r["root"]) for r in roots}) != len(roots):
-        raise ValueError("Duplicate native roots in training inputs")
-
-    def validation(root):
-        return int.from_bytes(hashlib.sha256(root["group"].encode()).digest()[:4], "big") % 5 == 0
-
-    train = [r for r in roots if not validation(r)]
-    if not train:
-        raise ValueError("No training roots")
-    model = StrategyModel(
-        OfferModel.fit(train, ridge=args.ridge).weights, {r["kind"] for r in train}, args.strength
+    model, report = fit_strategy_roots(
+        args.source,
+        continuation=args.continuation,
+        unified_draft=args.unified_draft,
+        deck_size_penalty=args.deck_size_penalty,
+        offset_scale=args.offset_scale,
+        ridge=args.ridge,
+        strength=args.strength,
     )
     model.save(args.output / "strategy.json")
-    metrics = {}
-    for kind in model.kinds:
-        dev = [r for r in roots if validation(r) and r["kind"] == kind]
-        if dev:
-
-            def gain(r):
-                arms = r["arms"]
-                initial = max(arms, key=lambda a: a["prior"])
-                fitted = max(
-                    arms,
-                    key=lambda a: a["prior"] + args.strength * model.predict(0.0, a["features"]),
-                )
-                return fitted["return"] - initial["return"]
-
-            metrics[kind] = {"roots": len(dev), "mean_gain": fmean(map(gain, dev))}
-    report = {
-        "roots": len(roots),
-        "seeds": len({r["group"] for r in roots}),
-        "fit_seeds": len({r["group"] for r in train}),
-        "fit_roots": len(train),
-        "branches": sum(len(r["arms"]) for r in roots),
-        "by_kind": dict(Counter(r["kind"] for r in roots)),
-        "validation": metrics,
-    }
     save_json(args.output / "report.json", report)
     print(json.dumps(report))
 

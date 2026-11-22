@@ -2,6 +2,7 @@
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
 import gzip
+import hashlib
 import json
 from pathlib import Path
 from time import monotonic
@@ -12,8 +13,9 @@ from .boss_search import BossSearch
 from .combat_search import CombatSearch
 from .encounter import EncounterModel
 from .deck_policy import DeckPolicy
+from .host_pool import lease_native_session
 from .merchant import PendingRelicPurchase
-from .native import NativeSession, ReplayFork, digest, legal_actions, runtime_identity
+from .native import ReplayFork, digest, legal_actions, runtime_identity
 from .offer_policy import OfferModel, offer_type
 from .run_policy import INFERENCE_IDENTITY, RunPolicy, RunWeights
 from .routing import RoomModel
@@ -24,6 +26,19 @@ from .turn_planning import choose_turn
 _micro_cache = {}
 _student_cache = {}
 _return_cache = {}
+_json_cache = {}
+
+
+def _load_cached_json(path):
+    """Cache validated parsed JSON payloads per worker while keeping callers isolated via from_data."""
+    resolved = Path(path).resolve()
+    raw = resolved.read_bytes()
+    key = (str(resolved), hashlib.sha256(raw).hexdigest())
+    payload = _json_cache.get(key)
+    if payload is None:
+        payload = json.loads(raw.decode("utf-8"))
+        _json_cache[key] = payload
+    return payload
 
 
 def inventory(state):
@@ -98,6 +113,8 @@ def play_episode(task, *, decision_hook=None):
 
 def _play_episode(task, ascension, decision_hook):
     root, host, folder, seed, index, role, weights, checkpoint, options = task
+    if "act_list" in options:
+        raise ValueError("Use boolean 'seeded_acts' in episode options instead of 'act_list'")
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=False)
     row = {"act_list": "seeded" if options.get("seeded_acts") else "default", "act_names": [], "seed": seed, "index": index, "role": role, "status": "error", "ascension": ascension,
@@ -144,20 +161,61 @@ def _play_episode(task, ascension, decision_hook):
             if path not in _student_cache:
                 _student_cache[path] = TacticalStudent(path)
             student = _student_cache[path]
-        router = RoomModel.load(options["room_model"]) if options.get("room_model") and role not in (
-            "baseline", "prior", "original-macro", "no-route") else None
-        late_router = RoomModel.load(options["late_room_model"]) if options.get("late_room_model") and role not in (
-            "baseline", "prior", "original-macro", "no-route") else None
-        offers = OfferModel.load(options["offer_model"]) if options.get("offer_model") and role not in (
-            "baseline", "prior", "original-macro", "no-offer") else None
-        strategy = StrategyModel.load(options["strategy_model"]) if options.get("strategy_model") and role not in (
-            "baseline", "prior", "original-macro") else None
-        deck_model = DeckPolicy.load(options["deck_model"]) if options.get("deck_model") and role not in (
-            "baseline", "prior", "original-macro") else None
-        encounter = EncounterModel.load(options["encounter_model"]) if options.get("encounter_model") and role not in (
-            "baseline", "prior", "original-combat") else None
+        router = (
+            RoomModel.from_data(_load_cached_json(options["room_model"]))
+            if options.get("room_model")
+            and role not in ("baseline", "prior", "original-macro", "no-route")
+            else None
+        )
+        late_router = (
+            RoomModel.from_data(_load_cached_json(options["late_room_model"]))
+            if options.get("late_room_model")
+            and role not in ("baseline", "prior", "original-macro", "no-route")
+            else None
+        )
+        offers = (
+            OfferModel.from_data(_load_cached_json(options["offer_model"]))
+            if options.get("offer_model")
+            and role not in ("baseline", "prior", "original-macro", "no-offer")
+            else None
+        )
+        strategy = (
+            StrategyModel.from_data(_load_cached_json(options["strategy_model"]))
+            if options.get("strategy_model")
+            and role not in ("baseline", "prior", "original-macro")
+            else None
+        )
+        deck_model = (
+            DeckPolicy.from_data(_load_cached_json(options["deck_model"]))
+            if options.get("deck_model")
+            and role not in ("baseline", "prior", "original-macro")
+            else None
+        )
+        encounter = (
+            EncounterModel.from_data(_load_cached_json(options["encounter_model"]))
+            if options.get("encounter_model")
+            and role not in ("baseline", "prior", "original-combat")
+            else None
+        )
         turn_search = options.get("turn_search") and role not in ("baseline", "prior", "original-combat", "no-turn")
-        if options.get("combat_search") and role == "candidate":
+        deployed_search = bool(options.get("combat_search_deployed")) and role not in (
+            "baseline",
+            "prior",
+            "original-combat",
+        )
+        if deployed_search:
+            search = CombatSearch(
+                Path(root),
+                host,
+                folder / "search",
+                index,
+                policy,
+                encounter=encounter,
+                deployed_continuation=True,
+                ascension=ascension,
+                turn_search=bool(turn_search),
+            )
+        elif options.get("combat_search") and role == "candidate":
             search = CombatSearch(Path(root), host, folder / "search", index, policy)
         if checkpoint:
             import torch
@@ -172,7 +230,15 @@ def _play_episode(task, ascension, decision_hook):
         repeated = Counter()
         room = None
         act3_normal_count = 0
-        with NativeSession(Path(root), folder / "game", ascension=ascension, host_path=host, timeout=45, act_list=row["act_list"]) as game:
+        with lease_native_session(
+            Path(root),
+            folder / "game",
+            ascension=ascension,
+            host_path=host,
+            timeout=45,
+            act_list=row["act_list"],
+            reuse_host=bool(options.get("reuse_host", False)),
+        ) as game:
             if options.get("start_trace"):
                 fork = act_start(options["start_trace"], row["start_act"])
                 if fork.specification["seed"] != seed or fork.specification["ascension"] != ascension:
@@ -215,6 +281,7 @@ def _play_episode(task, ascension, decision_hook):
                         raise ValueError("Missing native terminal result")
                     if state["victory"] and not verified_victory(row["boss_fights"], ascension):
                         row["status"] = "unverified_victory"
+                        game.close()
                     else:
                         row.update(status="complete", win=state["victory"])
                         if state.get("abandoned"):

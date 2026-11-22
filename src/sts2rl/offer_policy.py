@@ -1,6 +1,7 @@
 """Fit a regularized ranker to paired native continuations of public offers."""
 from __future__ import annotations
 
+from copy import deepcopy
 import json
 from pathlib import Path
 
@@ -99,8 +100,11 @@ class OfferModel:
             json.dump({"version": 1, "runtime_identity": IDENTITY, "weights": self.weights}, stream, indent=2)
 
     @classmethod
-    def load(cls, path):
-        data = json.loads(Path(path).read_text(encoding="utf-8"))
+    def from_data(cls, data):
         if data.get("version") != 1 or data.get("runtime_identity") != IDENTITY:
             raise ValueError("Incompatible offer ranker")
-        return cls(data["weights"])
+        return cls(deepcopy(data["weights"]))
+
+    @classmethod
+    def load(cls, path):
+        return cls.from_data(json.loads(Path(path).read_text(encoding="utf-8")))

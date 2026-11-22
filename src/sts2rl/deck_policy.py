@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 import json
 from pathlib import Path
 
@@ -90,6 +91,7 @@ class DeckPolicy:
         self.learned = data.get("learned", {})
         self.merchant = data.get("merchant")
         self.prompt_aware = data.get("prompt_aware", False)
+        self.optional_selections = data.get("optional_selections", False)
         self.prompt = None
         self.scope = frozenset(
             data.get("scope", ["card_reward", "bundle_select", "shop", "rest_site"])
@@ -100,8 +102,12 @@ class DeckPolicy:
             raise ValueError("Final Act 2 campfire threshold must be a fraction")
 
     @classmethod
+    def from_data(cls, data):
+        return cls(deepcopy(data))
+
+    @classmethod
     def load(cls, path):
-        return cls(json.loads(Path(path).read_text(encoding="utf-8")))
+        return cls.from_data(json.loads(Path(path).read_text(encoding="utf-8")))
 
     def terms(self, card, ctx, deck_info):
         counts, copies = deck_info
@@ -238,7 +244,7 @@ class DeckPolicy:
 
     def observe(self, state, action):
         if self.prompt_aware and not state.get("in_combat") and state["decision"] != "card_select":
-            self.prompt = selection_goal(state, action)
+            self.prompt = selection_goal(state, action, detailed=self.optional_selections)
 
     def choose(self, state, base):
         d = state["decision"]
@@ -260,15 +266,40 @@ class DeckPolicy:
                 gain = grade({**c, **up}) - grade(c)
                 return gain + 0.08 * max(0, grade(c) + self.threshold)
 
-            if self.prompt in ("enhance", "take"):
+            prompt = self.prompt
+            self.prompt = None
+            if self.optional_selections:
+                from .merchant import marginal_removal_value
+
+                if prompt in ("duplicate", "take"):
+                    benefits = grade
+                elif prompt in ("enhance", "enchant"):
+                    # Enchanting upgrades an existing card in place; never apply the new-card threshold to skip it.
+                    def benefits(c):
+                        if c.get("type") in ("Curse", "Status", "Quest"):
+                            return -10.0
+                        return max(0.5, grade(c) + self.threshold)
+                elif prompt in ("remove", "transform"):
+
+                    def benefits(c):
+                        return marginal_removal_value(c, deck, grade, act=ctx.get("act", 1))
+                else:
+                    benefits = benefit
+                ranks = sorted(state["cards"], key=benefits, reverse=True)
+                min_sel = state.get("min_select", 0)
+                max_sel = min(len(ranks), state["max_select"])
+                positive = sum(benefits(c) > 0 for c in ranks)
+                n = min(max_sel, max(min_sel, positive))
+                return selected_cards(state, [c["index"] for c in ranks[:n]])
+
+            if prompt in ("enhance", "take"):
                 benefits = grade
-            elif self.prompt == "remove":
+            elif prompt == "remove":
 
                 def benefits(c):
                     return -grade(c)
             else:
                 benefits = benefit
-            self.prompt = None
             ranks = sorted(state["cards"], key=benefits, reverse=True)
             n = min(len(ranks), state["max_select"])
             return selected_cards(state, [c["index"] for c in ranks[:n]])

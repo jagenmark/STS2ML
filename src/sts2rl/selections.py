@@ -5,9 +5,26 @@ from .run_policy import _cost, _hits, _shiv_count
 from .teacher import incoming
 
 
-def selection_goal(state, action):
+def selection_goal(state, action, *, detailed=False):
     if state["decision"] == "shop" and action.kind == "remove_card":
         return "remove"
+    if detailed and state["decision"] == "shop" and action.kind == "buy_relic":
+        relic = next(
+            (r for r in state.get("relics", []) if r["index"] == action.args.get("relic_index")),
+            {},
+        )
+        text = (relic.get("description") or "").lower()
+        if "transform" in text:
+            return "transform"
+        if "remove" in text:
+            return "remove"
+        if "upgrade" in text and "random" not in text:
+            return "upgrade"
+        if "duplicate" in text or "additional copy" in text:
+            return "duplicate"
+        if "enchant" in text:
+            return "enchant"
+        return None
     if state["decision"] not in ("rest_site", "event_choice"):
         return None
     option = next(
@@ -16,6 +33,20 @@ def selection_goal(state, action):
     if option.get("option_id") == "SMITH":
         return "upgrade"
     text = (option.get("description") or "").lower()
+    if detailed:
+        if "transform" in text:
+            return "transform"
+        if "remove" in text:
+            return "remove"
+        if "upgrade" in text and "random" not in text:
+            return "upgrade"
+        if "duplicate" in text or "additional copy" in text:
+            return "duplicate"
+        if "enchant" in text:
+            return "enchant"
+        if ("choose" in text or "select" in text) and ("add" in text or "obtain" in text):
+            return "take"
+        return None
     if "transform" in text or "remove" in text and "deck" in text:
         return "remove"
     if "upgrade" in text and "random" not in text:

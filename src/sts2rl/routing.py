@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from copy import deepcopy
 from functools import lru_cache
 import json
 from pathlib import Path
@@ -55,14 +56,18 @@ class RoomModel:
             json.dump({"version": 1, "runtime_identity": IDENTITY, "cells": self.cells}, f, indent=2)
 
     @classmethod
-    def load(cls, path):
-        data = json.loads(Path(path).read_text(encoding="utf-8"))
+    def from_data(cls, data):
         if data.get("version") in (2, 3) and data.get("runtime_identity") == IDENTITY:
             from .survival_route import SurvivalRouter
-            return SurvivalRouter(data)
+
+            return SurvivalRouter.from_data(data)
         if data.get("version") != 1 or data.get("runtime_identity") != IDENTITY:
             raise ValueError("Incompatible room model")
-        return cls(data["cells"])
+        return cls(deepcopy(data["cells"]))
+
+    @classmethod
+    def load(cls, path):
+        return cls.from_data(json.loads(Path(path).read_text(encoding="utf-8")))
 
     def estimate(self, icon, act, row, hp_fraction, gold):
         mean = NEUTRAL

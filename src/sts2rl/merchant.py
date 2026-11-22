@@ -4,7 +4,68 @@ from .native import legal_actions
 from .run_policy import _card_id
 
 
-def merchant_choice(state, grade, *, reserve, permanent):
+def _is_removable(card):
+    cid = _card_id(card)
+    if cid == "ASCENDERS_BANE" or card.get("removable") is False:
+        return False
+    return "Eternal" not in (card.get("keywords") or ())
+
+
+def marginal_removal_value(card, deck, grade, *, act=1):
+    """Estimate the marginal gain of permanently deleting one eligible card."""
+    if not _is_removable(card):
+        return -100.0
+    cid = _card_id(card)
+    card_score = grade(card)
+    if card.get("type") in ("Curse", "Status", "Quest"):
+        return 15.0 + max(0.0, -card_score) * 0.35
+    removable = [c for c in deck if _is_removable(c)]
+    if not removable:
+        return 0.0
+    deck_mean = sum(grade(c) for c in removable) / len(removable)
+    drag = max(0.0, deck_mean - card_score)
+    is_basic = card.get("rarity") == "Basic" or cid in ("STRIKE_SILENT", "DEFEND_SILENT")
+    value = drag * 0.75 + (4.2 if is_basic else 0.0)
+    if len(deck) > 12:
+        value += min(3.0, (len(deck) - 12) * 0.25)
+    if card.get("upgrades", 0) or card.get("upgraded"):
+        value -= 1.5
+    attacks = sum(c.get("type") == "Attack" for c in deck)
+    blocks = sum(
+        bool((c.get("stats") or {}).get("block") or (c.get("stats") or {}).get("calculatedblock"))
+        for c in deck
+    )
+    if act == 1 and card.get("type") == "Attack" and attacks <= 4:
+        value -= 2.5
+    card_has_block = bool(
+        (card.get("stats") or {}).get("block") or (card.get("stats") or {}).get("calculatedblock")
+    )
+    if card_has_block and blocks <= 4:
+        value -= 2.5
+    if card_score > deck_mean + 1.0 and not is_basic:
+        value = min(value, deck_mean - card_score)
+    return value
+
+
+def _retained_gold_value(gold, unit, act, floor):
+    """Concave value of retained gold: high utility up to 200g, diminishing above 400g."""
+    g = max(0.0, float(gold))
+    tier1 = min(g, 200.0)
+    tier2 = min(max(0.0, g - 200.0), 200.0)
+    tier3 = max(0.0, g - 400.0)
+    return unit * (tier1 + 0.55 * tier2 + 0.20 * tier3)
+
+
+def merchant_choice(
+    state,
+    grade,
+    *,
+    reserve,
+    permanent,
+    marginal_removal=False,
+    gold_curve=False,
+    potion_capacity=False,
+):
     player = state["player"]
     gold = player["gold"]
     act = state["context"]["act"]
@@ -23,8 +84,16 @@ def merchant_choice(state, grade, *, reserve, permanent):
             continue
         if kind == "remove_card":
             cost = state["card_removal_cost"]
-            curse = any(c.get("type") == "Curse" and _card_id(c) != "ASCENDERS_BANE" for c in cards)
-            value = 15.0 if curse else 3.0 + min(4.0, max(0, len(cards) - 13) * 0.28)
+            if marginal_removal:
+                value = max(
+                    (marginal_removal_value(c, cards, grade, act=act) for c in cards),
+                    default=0.0,
+                )
+            else:
+                curse = any(
+                    c.get("type") == "Curse" and _card_id(c) != "ASCENDERS_BANE" for c in cards
+                )
+                value = 15.0 if curse else 3.0 + min(4.0, max(0, len(cards) - 13) * 0.28)
         else:
             category, key = {
                 "buy_card": ("cards", "card_index"),
@@ -93,20 +162,59 @@ def merchant_choice(state, grade, *, reserve, permanent):
                 value *= permanent
         offers.append((action, cost, value))
     # Each listed purchase is available at most once at the current prices. Replan after the best first purchase.
-    states = {0: (0.0, ())}
-    for i, (_, cost, value) in enumerate(offers):
-        for spent, (benefit, basket) in list(states.items()):
-            price = spent + cost
-            if price <= budget and benefit + value > states.get(price, (-float("inf"), ()))[0]:
-                states[price] = (benefit + value, basket + (i,))
+    if potion_capacity:
+        if "max_potions" in player:
+            potion_cap = max(0, int(player["max_potions"]) - len(player["potions"]))
+        else:
+            # Standard A10 runs have at least 2 slots; when already >=2 held (e.g. Potion Belt), plan 1 and reobserve.
+            potion_cap = max(1, 2 - len(player["potions"]))
+        states = {(0, 0): (0.0, ())}
+        for i, (act_i, cost, value) in enumerate(offers):
+            is_pot = int(act_i.kind == "buy_potion")
+            for (spent, pots), (benefit, basket) in list(states.items()):
+                price = spent + cost
+                next_pots = pots + is_pot
+                if (
+                    price <= budget
+                    and next_pots <= potion_cap
+                    and benefit + value > states.get((price, next_pots), (-float("inf"), ()))[0]
+                ):
+                    states[(price, next_pots)] = (benefit + value, basket + (i,))
 
-    def quality(entry):
-        spent, (benefit, _) = entry
-        retained = gold - spent
-        savings = 0.0 if act == 3 else min(140, retained) * 0.019 * reserve
-        return benefit - spent * unit + savings
+        def quality(entry):
+            (spent, _), (benefit, _) = entry
+            retained = gold - spent
+            if gold_curve:
+                return (
+                    benefit
+                    + _retained_gold_value(retained, unit, act, floor)
+                    - _retained_gold_value(gold, unit, act, floor)
+                )
+            savings = 0.0 if act == 3 else min(140, retained) * 0.019 * reserve
+            return benefit - spent * unit + savings
 
-    _, (_, best) = max(states.items(), key=quality)
+        _, (_, best) = max(states.items(), key=quality)
+    else:
+        states = {0: (0.0, ())}
+        for i, (_, cost, value) in enumerate(offers):
+            for spent, (benefit, basket) in list(states.items()):
+                price = spent + cost
+                if price <= budget and benefit + value > states.get(price, (-float("inf"), ()))[0]:
+                    states[price] = (benefit + value, basket + (i,))
+
+        def quality(entry):
+            spent, (benefit, _) = entry
+            retained = gold - spent
+            if gold_curve:
+                return (
+                    benefit
+                    + _retained_gold_value(retained, unit, act, floor)
+                    - _retained_gold_value(gold, unit, act, floor)
+                )
+            savings = 0.0 if act == 3 else min(140, retained) * 0.019 * reserve
+            return benefit - spent * unit + savings
+
+        _, (_, best) = max(states.items(), key=quality)
     if not best:
         return leave
     first = max(

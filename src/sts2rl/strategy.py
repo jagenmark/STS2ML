@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 import json
 from pathlib import Path
 import re
@@ -76,7 +77,16 @@ def _event_terms(option, hp, maximum, gold):
     }
 
 
-def strategy_arms(state, policy, opening=None, *, matchups=False, group_probability=None):
+def strategy_arms(
+    state,
+    policy,
+    opening=None,
+    *,
+    matchups=False,
+    group_probability=None,
+    unified_draft=False,
+    deck_size_penalty=0.12,
+):
     kind = strategy_kind(state)
     if not kind or state.get("runtime_identity") != INFERENCE_IDENTITY.get():
         raise ValueError("Expected a public Silent A10 strategy decision")
@@ -206,10 +216,17 @@ def strategy_arms(state, policy, opening=None, *, matchups=False, group_probabil
                 }
                 if matchups and kind == "card":
                     features.update(matchup_features(card, deck, state["context"], group_probability))
-                prior = draft_prior(value, copies, len(deck), policy.weights.draft_threshold, 0.35)
-                if kind == "card" and opening and offer_type(state):
-                    prior = opening.predict(*offer_features(state, action, policy))
-            elif kind == "card" and opening and offer_type(state):
+                if unified_draft and kind == "card":
+                    # Single monotone take-vs-skip score: skip is 0, size penalty applies once.
+                    features.pop("take:deck-size", None)
+                    prior = 0.35 * (value - 1.5 * copies - policy.weights.draft_threshold) - (
+                        deck_size_penalty * max(0, len(deck) - 12)
+                    )
+                else:
+                    prior = draft_prior(value, copies, len(deck), policy.weights.draft_threshold, 0.35)
+                    if kind == "card" and opening and offer_type(state):
+                        prior = opening.predict(*offer_features(state, action, policy))
+            elif kind == "card" and not unified_draft and opening and offer_type(state):
                 prior = opening.predict(*offer_features(state, action, policy))
             if kind == "shop" and action.kind != "leave_room":
                 features["shop:" + action.kind] = 1.0
@@ -242,28 +259,51 @@ def strategy_arms(state, policy, opening=None, *, matchups=False, group_probabil
 
 
 class StrategyModel(OfferModel):
-    def __init__(self, weights, kinds, strength=1.0, strengths_by_kind=None, card_offsets=None):
+    def __init__(
+        self,
+        weights,
+        kinds,
+        strength=1.0,
+        strengths_by_kind=None,
+        card_offsets=None,
+        *,
+        unified_draft=False,
+        deck_size_penalty=0.12,
+        offset_scale=1.0,
+    ):
         super().__init__(weights)
         self.kinds = frozenset(kinds)
         self.strength = strength
         self.strengths_by_kind = strengths_by_kind or {}
         self.card_offsets = card_offsets or {}
+        self.unified_draft = bool(unified_draft)
+        if deck_size_penalty < 0:
+            raise ValueError("deck_size_penalty must be nonnegative")
+        self.deck_size_penalty = float(deck_size_penalty)
+        self.offset_scale = float(offset_scale)
         self.uses_matchups = any(k.startswith("matchup/") for k in weights)
 
     def choose(self, state, policy, opening=None, *, group_probability=None, explanation=None):
-        arms = strategy_arms(state, policy, opening, matchups=self.uses_matchups,
-                             group_probability=group_probability)
+        arms = strategy_arms(
+            state,
+            policy,
+            opening,
+            matchups=self.uses_matchups,
+            group_probability=group_probability,
+            unified_draft=self.unified_draft,
+            deck_size_penalty=self.deck_size_penalty,
+        )
         kind = strategy_kind(state)
         strength = self.strengths_by_kind.get(kind, self.strength)
         offsets = {}
-        if kind == "card" and self.card_offsets:
+        if kind == "card" and self.card_offsets and self.offset_scale != 0.0:
             act = state["context"]["act"] - 1
             for card in state["cards"]:
                 name = _card_id(card)
                 key = name + "+" if card.get("upgrades") or card.get("upgraded") else name
                 values = self.card_offsets.get(key, self.card_offsets.get(name))
                 if values is not None:
-                    offsets[card["index"]] = values[act]
+                    offsets[card["index"]] = self.offset_scale * values[act]
         totals = []
         options = []
         for action, prior, features in arms:
@@ -276,12 +316,27 @@ class StrategyModel(OfferModel):
                 card = next((c for c in state["cards"] if c["index"] == index), None)
                 base = prior
                 prior_terms = {}
-                if opening is not None and offer_type(state):
-                    base, opening_features = offer_features(state, action, policy)
-                    prior_terms = opening.contributions(opening_features)
-                base_parts = draft_prior_parts(
-                    card, state["player"]["deck"], policy, 0.2 if opening and offer_type(state) else 0.35,
-                )
+                if self.unified_draft:
+                    if card is None:
+                        base_parts = {"value": 0.0, "copies": 0.0, "size": 0.0, "threshold": 0.0}
+                    else:
+                        deck_cards = state["player"]["deck"]
+                        cid = _card_id(card)
+                        copies = sum(_card_id(c) == cid for c in deck_cards)
+                        value = policy.card_value(card, deck=deck_cards)
+                        base_parts = {
+                            "value": 0.35 * value,
+                            "copies": -0.35 * 1.5 * copies,
+                            "size": -self.deck_size_penalty * max(0, len(deck_cards) - 12),
+                            "threshold": -0.35 * policy.weights.draft_threshold,
+                        }
+                else:
+                    if opening is not None and offer_type(state):
+                        base, opening_features = offer_features(state, action, policy)
+                        prior_terms = opening.contributions(opening_features)
+                    base_parts = draft_prior_parts(
+                        card, state["player"]["deck"], policy, 0.2 if opening and offer_type(state) else 0.35,
+                    )
                 options.append({
                     "action": action.command(), "card": card["id"] if card else "skip",
                     "prior_base": base, "prior_base_parts": base_parts, "prior_terms": prior_terms, "prior": prior,
@@ -290,39 +345,53 @@ class StrategyModel(OfferModel):
                 })
         winner = max(range(len(arms)), key=totals.__getitem__)
         if explanation is not None and kind == "card":
+            prior_source = (
+                "unified_draft"
+                if self.unified_draft
+                else ("opening_model" if opening is not None and offer_type(state) else "card_heuristic")
+            )
             explanation.update({
                 "context": state["context"], "group_probability": group_probability,
-                "prior_source": "opening_model" if opening is not None and offer_type(state) else "card_heuristic",
+                "prior_source": prior_source,
                 "strategy_strength": strength, "chosen": options[winner]["card"],
                 "chosen_action": arms[winner][0].command(), "options": options,
             })
         return arms[winner][0]
 
     def save(self, path):
+        payload = {
+            "version": 1,
+            "runtime_identity": IDENTITY,
+            "weights": self.weights,
+            "kinds": sorted(self.kinds),
+            "strength": self.strength,
+            "strengths_by_kind": self.strengths_by_kind,
+            "card_offsets": self.card_offsets,
+        }
+        if self.unified_draft:
+            payload["unified_draft"] = True
+            payload["deck_size_penalty"] = self.deck_size_penalty
+        if self.offset_scale != 1.0:
+            payload["offset_scale"] = self.offset_scale
         with Path(path).open("x", encoding="utf-8") as stream:
-            json.dump(
-                {
-                    "version": 1,
-                    "runtime_identity": IDENTITY,
-                    "weights": self.weights,
-                    "kinds": sorted(self.kinds),
-                    "strength": self.strength,
-                    "strengths_by_kind": self.strengths_by_kind,
-                    "card_offsets": self.card_offsets,
-                },
-                stream,
-                indent=2,
-            )
+            json.dump(payload, stream, indent=2)
+
+    @classmethod
+    def from_data(cls, data):
+        if data.get("version") != 1 or data.get("runtime_identity") != IDENTITY:
+            raise ValueError("Incompatible strategy model")
+        copied = deepcopy(data)
+        return cls(
+            copied["weights"],
+            copied["kinds"],
+            copied["strength"],
+            copied.get("strengths_by_kind"),
+            copied.get("card_offsets"),
+            unified_draft=copied.get("unified_draft", False),
+            deck_size_penalty=copied.get("deck_size_penalty", 0.12),
+            offset_scale=copied.get("offset_scale", 1.0),
+        )
 
     @classmethod
     def load(cls, path):
-        data = json.loads(Path(path).read_text(encoding="utf-8"))
-        if data.get("version") != 1 or data.get("runtime_identity") != IDENTITY:
-            raise ValueError("Incompatible strategy model")
-        return cls(
-            data["weights"],
-            data["kinds"],
-            data["strength"],
-            data.get("strengths_by_kind"),
-            data.get("card_offsets"),
-        )
+        return cls.from_data(json.loads(Path(path).read_text(encoding="utf-8")))
