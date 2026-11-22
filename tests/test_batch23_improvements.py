@@ -574,6 +574,42 @@ def test_strategy_fit_validates_provenance_flags_and_preserves_explicit_offset_s
     assert m_default.offset_scale == 0.0
     assert m_explicit.offset_scale == 1.0
 
+    # 4. Card-only residual fit preserves all base kinds, weights, strength, and card_offsets.
+    base_raw = json.loads((root_bundle.parent / "strategy_model.json").read_text())
+    base_strat_path = tmp_path / "base_unified_strategy.json"
+    base_strat_path.write_text(
+        json.dumps({**base_raw, "unified_draft": True, "deck_size_penalty": 0.12, "offset_scale": 0.0}),
+        encoding="utf-8",
+    )
+    m_zero, rep_zero = fit_roots(
+        [d_ok],
+        continuation="bundle",
+        unified_draft=True,
+        base_strategy=base_strat_path,
+        residual_alpha=0.0,
+    )
+    assert rep_zero["mode"] == "card_residual"
+    assert m_zero.kinds == frozenset(base_raw["kinds"])
+    assert m_zero.strength == base_raw["strength"]
+    assert m_zero.card_offsets == base_raw["card_offsets"]
+    assert m_zero.weights == pytest.approx(base_raw["weights"])
+
+    m_res, rep_res = fit_roots(
+        [d_ok],
+        continuation="bundle",
+        unified_draft=True,
+        base_strategy=base_strat_path,
+        ridge=32.0,
+        residual_alpha=1.0,
+    )
+    assert m_res.kinds == frozenset(base_raw["kinds"])
+    assert m_res.strength == base_raw["strength"]
+    assert rep_res["delta_nonzero"] >= 1
+    # Non-card weights (e.g. event/neow) are never altered by the card-only residual.
+    for k, v in base_raw["weights"].items():
+        if k.startswith(("event:", "event/", "ancient/", "camp:", "heal:")):
+            assert m_res.weights[k] == v
+
 
 def test_deployed_controller_fails_closed_reconciles_forced_facing_and_scopes_to_upgrade(tmp_path):
     root = Path(__file__).resolve().parents[1]

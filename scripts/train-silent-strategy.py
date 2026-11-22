@@ -359,6 +359,8 @@ def fit_strategy_roots(
     offset_scale=None,
     ridge=16.0,
     strength=1.0,
+    base_strategy=None,
+    residual_alpha=1.0,
 ):
     roots = []
     expected_stamp = _UNSET
@@ -407,6 +409,91 @@ def fit_strategy_roots(
 
     def validation(root):
         return int.from_bytes(hashlib.sha256(root["group"].encode()).digest()[:4], "big") % 5 == 0
+
+    if base_strategy is not None:
+        base = StrategyModel.load(base_strategy)
+        if base.unified_draft != bool(unified_draft):
+            raise ValueError("Base strategy unified_draft does not match fit --unified-draft")
+        if unified_draft and abs(base.deck_size_penalty - deck_size_penalty) > 1e-9:
+            raise ValueError("Base strategy deck_size_penalty does not match --deck-size-penalty")
+        if base.card_offsets and base.offset_scale != 0.0:
+            raise ValueError("Card-only residual fit requires base strategy offset_scale == 0.0")
+        card_roots = [r for r in roots if r["kind"] == "card"]
+        if not card_roots:
+            raise ValueError("No card roots available for card-only residual fit")
+        card_strength = float(base.strengths_by_kind.get("card", base.strength))
+        if card_strength <= 0:
+            raise ValueError("Base strategy card strength must be positive")
+        residual_roots = [
+            {
+                **r,
+                "arms": [
+                    {
+                        **a,
+                        "prior": a["prior"] + card_strength * base.predict(0.0, a["features"]),
+                    }
+                    for a in r["arms"]
+                ],
+            }
+            for r in card_roots
+        ]
+        train = [r for r in residual_roots if not validation(r)]
+        if not train:
+            raise ValueError("No training card roots")
+        delta_weights = OfferModel.fit(train, ridge=ridge).weights
+        merged_weights = dict(base.weights)
+        for key, value in delta_weights.items():
+            merged_weights[key] = merged_weights.get(key, 0.0) + (residual_alpha / card_strength) * value
+        model = StrategyModel(
+            merged_weights,
+            set(base.kinds) | {"card"},
+            base.strength,
+            dict(base.strengths_by_kind),
+            dict(base.card_offsets),
+            unified_draft=base.unified_draft,
+            deck_size_penalty=base.deck_size_penalty,
+            offset_scale=base.offset_scale if offset_scale is None else float(offset_scale),
+        )
+        metrics = {}
+        dev = [r for r in residual_roots if validation(r)]
+        if dev:
+            def gain(r):
+                arms = r["arms"]
+                deployed = max(arms, key=lambda a: a["prior"])
+                updated = max(
+                    arms,
+                    key=lambda a: a["prior"]
+                    + residual_alpha * sum(delta_weights.get(k, 0.0) * v for k, v in a["features"].items()),
+                )
+                return updated["return"] - deployed["return"]
+
+            changed = sum(
+                max(r["arms"], key=lambda a: a["prior"])["id"]
+                != max(
+                    r["arms"],
+                    key=lambda a: a["prior"]
+                    + residual_alpha * sum(delta_weights.get(k, 0.0) * v for k, v in a["features"].items()),
+                )["id"]
+                for r in dev
+            )
+            metrics["card"] = {
+                "roots": len(dev),
+                "changed_roots": changed,
+                "mean_gain_vs_deployed": fmean(map(gain, dev)),
+            }
+        report = {
+            "mode": "card_residual",
+            "roots": len(card_roots),
+            "seeds": len({r["group"] for r in card_roots}),
+            "fit_seeds": len({r["group"] for r in train}),
+            "fit_roots": len(train),
+            "branches": sum(len(r["arms"]) for r in card_roots),
+            "ridge": ridge,
+            "residual_alpha": residual_alpha,
+            "delta_nonzero": sum(abs(v) > 1e-12 for v in delta_weights.values()),
+            "validation": metrics,
+        }
+        return model, report
 
     train = [r for r in roots if not validation(r)]
     if not train:
@@ -471,6 +558,8 @@ def main():
     p.add_argument("--offset-scale", type=float, default=None)
     p.add_argument("--ridge", type=float, default=16.0)
     p.add_argument("--strength", type=float, default=1.0)
+    p.add_argument("--base-strategy", type=Path, help="Fit a regularized card-only residual over this StrategyModel")
+    p.add_argument("--residual-alpha", type=float, default=1.0)
     args = p.parse_args()
     if args.continuation == "bundle" and (args.style or args.room_model):
         p.error("--continuation bundle uses the bundle's own encounter and room models")
@@ -520,6 +609,8 @@ def main():
         offset_scale=args.offset_scale,
         ridge=args.ridge,
         strength=args.strength,
+        base_strategy=args.base_strategy,
+        residual_alpha=args.residual_alpha,
     )
     model.save(args.output / "strategy.json")
     save_json(args.output / "report.json", report)
