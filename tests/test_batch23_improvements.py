@@ -989,6 +989,16 @@ def test_builder_rejects_v1_router_missing_strategy_and_dirty_offset_scale(tmp_p
     assert clean_deck["merchant"]["marginal_removal"] is False
     assert clean_deck["merchant"]["gold_curve"] is True and clean_deck["merchant"]["potion_capacity"] is True
 
+    # 4b. all_v2_tactics layers REP512-validated Act 2 Boss / Hallway / Soul Fysh plans cleanly.
+    tactics_bundle = builder(base, tmp_path / "all_v2_tactics", profile="all_v2_tactics")
+    _, tac_opts = load_bundle(tactics_bundle)
+    tac_enc = json.loads(tac_opts["encounter_model"].read_text())
+    assert tac_enc["overrides"]["SOUL_FYSH_BOSS"] == "isolate"
+    assert tac_enc["act2_boss_plans"]["THE_INSATIABLE_BOSS"]["escape"] == "cheap"
+    assert tac_enc["act2_hallways"]["by_formation"]["HUNTER_KILLER"] == "hunter_tender_beam"
+    # Verify EncounterModel parses and validates the frozen tactics bundle cleanly.
+    EncounterModel.load(tac_opts["encounter_model"])
+
     # 5. play_episode rejects raw 'act_list' option to prevent silent default-biome mismatch.
     with pytest.raises(ValueError, match="seeded_acts"):
         play_episode((tmp_path, None, tmp_path / "ep", "S1", 0, "candidate", {}, None, {"act_list": "seeded"}))

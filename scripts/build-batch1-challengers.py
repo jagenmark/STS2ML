@@ -10,6 +10,7 @@ Supports independent ablations:
 - batch2: combines Batch 2 (route + draft)
 - all_v2: combines Batch 1 + Batch 2
 - all_v2_clean: live-verified Batch 1 + Batch 2 without marginal_removal, plus THE_KIN_BOSS=isolate
+- all_v2_tactics: all_v2_clean plus REP512-validated Act 2 Boss, Soul Fysh, and Act 2 Hallway tactics
 """
 
 from __future__ import annotations
@@ -21,7 +22,18 @@ from pathlib import Path
 from sts2rl.act1 import save_json
 from sts2rl.run_bundle import freeze_bundle, load_bundle
 
-PROFILES = ("survival", "scorer", "shop", "all", "route", "draft", "batch2", "all_v2", "all_v2_clean")
+PROFILES = (
+    "survival",
+    "scorer",
+    "shop",
+    "all",
+    "route",
+    "draft",
+    "batch2",
+    "all_v2",
+    "all_v2_clean",
+    "all_v2_tactics",
+)
 
 
 _ENCOUNTER_KEYS = (
@@ -64,20 +76,21 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
     if dirty:
         raise ValueError("Base bundle already has Batch 1/2 settings; start from a clean baseline")
 
-    if profile in ("route", "batch2", "all_v2", "all_v2_clean"):
+    full_v2 = ("all_v2", "all_v2_clean", "all_v2_tactics")
+    if profile in ("route", "batch2", *full_v2):
         routers = [(name, payload) for name, payload in (("room_model", room), ("late_room_model", late_room)) if payload is not None]
         if not routers:
             raise ValueError(f"Profile {profile!r} requires at least one v2 room model in the base bundle")
         for name, payload in routers:
             if payload.get("version") != 2:
                 raise ValueError(f"Profile {profile!r} requires a v2 {name} (got version={payload.get('version')!r})")
-    if profile in ("draft", "batch2", "all_v2", "all_v2_clean") and strategy is None:
+    if profile in ("draft", "batch2", *full_v2) and strategy is None:
         raise ValueError(f"Profile {profile!r} requires a strategy_model in the base bundle")
 
-    if profile in ("survival", "all", "all_v2", "all_v2_clean"):
+    if profile in ("survival", "all", *full_v2):
         encounter["survival_search"] = True
         encounter["survival_beam"] = True
-    if profile in ("scorer", "all", "all_v2", "all_v2_clean"):
+    if profile in ("scorer", "all", *full_v2):
         encounter["scorer_fixes"] = True
         encounter["mechanics_from_act"] = 1
         encounter["persistent_from_act"] = 1
@@ -85,43 +98,72 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
         encounter["draw_potions_from_act"] = 1
         if isinstance(encounter.get("mecha_knight"), dict):
             encounter["mecha_knight"] = {**encounter["mecha_knight"], "v2_burn": True}
-    if profile == "all_v2_clean":
+    if profile in ("all_v2_clean", "all_v2_tactics"):
         encounter["overrides"] = {**(encounter.get("overrides") or {}), "THE_KIN_BOSS": "isolate"}
-    if profile in ("shop", "all", "all_v2", "all_v2_clean"):
+    if profile == "all_v2_tactics":
+        encounter["overrides"] = {**encounter["overrides"], "SOUL_FYSH_BOSS": "isolate"}
+        boss_plans = dict(encounter.get("act2_boss_plans") or {})
+        boss_plans["THE_INSATIABLE_BOSS"] = {"style": "tempo", "escape": "cheap"}
+        boss_plans["KNOWLEDGE_DEMON_BOSS"] = {
+            **(boss_plans.get("KNOWLEDGE_DEMON_BOSS") or {}),
+            "style": "engine",
+            "style_weights": {"potion": 0.30, "guard": 1.65},
+        }
+        boss_plans["KAISER_CRAB_BOSS"] = {
+            **(boss_plans.get("KAISER_CRAB_BOSS") or {}),
+            "focus": "MONSTER.CRUSHER",
+            "focus_bonus": 5,
+        }
+        encounter["act2_boss_plans"] = boss_plans
+        encounter["act2_hallways"] = {
+            "plans": {
+                "hunter_tender_beam": {"style": "engine", "tender": True, "search": "beam"},
+                "entomancer_tempo": {"style": "tempo"},
+                "prism_isolate": {"style": "isolate"},
+                "myte_pot_aggr": {"style": "engine", "style_weights": {"potion": 0.30, "guard": 1.65}},
+            },
+            "by_formation": {
+                "HUNTER_KILLER": "hunter_tender_beam",
+                "ENTOMANCER": "entomancer_tempo",
+                "INFESTED_PRISM": "prism_isolate",
+                "MYTE+MYTE": "myte_pot_aggr",
+            },
+        }
+    if profile in ("shop", "all", *full_v2):
         deck["optional_selections"] = True
         merchant = dict(deck.get("merchant") or {"reserve": 1.0, "permanent": 1.1})
         merchant.update(
-            marginal_removal=(profile != "all_v2_clean"),
+            marginal_removal=(profile not in ("all_v2_clean", "all_v2_tactics")),
             gold_curve=True,
             potion_capacity=True,
         )
         deck["merchant"] = merchant
-    if profile in ("route", "batch2", "all_v2", "all_v2_clean"):
+    if profile in ("route", "batch2", *full_v2):
         if room is not None:
             room["survival_weighted"] = True
         if late_room is not None:
             late_room["survival_weighted"] = True
-    if profile in ("draft", "batch2", "all_v2", "all_v2_clean") and strategy is not None:
+    if profile in ("draft", "batch2", *full_v2) and strategy is not None:
         strategy["unified_draft"] = True
         strategy["deck_size_penalty"] = 0.12
         strategy["offset_scale"] = 0.0
 
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
-    if profile in ("survival", "scorer", "all", "all_v2", "all_v2_clean"):
+    if profile in ("survival", "scorer", "all", *full_v2):
         save_json(output / "encounter_model.json", encounter)
         opts["encounter_model"] = output / "encounter_model.json"
-    if profile in ("shop", "all", "all_v2", "all_v2_clean"):
+    if profile in ("shop", "all", *full_v2):
         save_json(output / "deck_model.json", deck)
         opts["deck_model"] = output / "deck_model.json"
-    if profile in ("route", "batch2", "all_v2", "all_v2_clean"):
+    if profile in ("route", "batch2", *full_v2):
         if room is not None:
             save_json(output / "room_model.json", room)
             opts["room_model"] = output / "room_model.json"
         if late_room is not None:
             save_json(output / "late_room_model.json", late_room)
             opts["late_room_model"] = output / "late_room_model.json"
-    if profile in ("draft", "batch2", "all_v2", "all_v2_clean") and strategy is not None:
+    if profile in ("draft", "batch2", *full_v2) and strategy is not None:
         save_json(output / "strategy_model.json", strategy)
         opts["strategy_model"] = output / "strategy_model.json"
     return freeze_bundle({"args": {**opts, "roles": [role]}}, output / "policy")
