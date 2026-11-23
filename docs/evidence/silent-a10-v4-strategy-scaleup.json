@@ -47,6 +47,1141 @@
     "dev_gate": "Require 384/384 matched completed native starts, lower endpoint > 0 for two-sided Bonferroni-adjusted paired floor bootstrap (95% for one candidate, 97.5% for two), and nondecreasing counts for Act 1 clear, Act 2 boss entry and Act 2 clear. Among passing arms choose largest mean floor gain, ties prefer smaller alpha.",
     "bootstrap": "30000 paired seed resamples with replacement, NumPy default_rng(261123), percentile interval. Total floor = 17*(terminal_act-1)+terminal_act_floor.",
     "final_gate": "Only run the selected frozen candidate on all 896 fresh reserved final starts. Require all pairs, lower endpoint > 0 for two-sided 95% paired floor bootstrap and nondecreasing Act 1 clears, Act 2 boss entries, Act 2 clears and full wins. No tuning after dev.",
-    "root_sampling": "Plan 2350 training card roots. Take all Act 3 first, fill to 1750 with Act 2 and then to 2350 with Act 1. Within each act, round-robin across distinct seeds (SHA-256 of act/index as tiebreaker); within seed order by SHA-256 of the public root digest, preferring public floors 8 through 16 in Act 1. Preserve complete original seed, replay trace, action and original macro index. Plan is generated without branch outcomes. Exclude an entire root if any arm fails or its factual (terminal act, floor, victory) disagrees with the natural episode."
+    "root_sampling": "Plan 2350 training card roots. Take all Act 3 first, fill to 1750 with Act 2 and then to 2350 with Act 1. Within each act, round-robin across distinct seeds (SHA-256 of act/index as tiebreaker); within seed order by SHA-256 of the public root digest, preferring public floors 8 through 16 in Act 1. Preserve complete original seed, replay trace, action and original macro index. Plan is generated without branch outcomes. Exclude an entire root if any arm fails or its factual (terminal act, floor, victory) disagrees with the natural episode.",
+    "registered_dev_arms": [
+      "r16a50",
+      "r64a100"
+    ],
+    "dev_ci_level": 0.975
+  },
+  "training": {
+    "episodes": 1024,
+    "complete": 1024,
+    "act_lists": {
+      "default": 512,
+      "seeded": 512
+    },
+    "a1_clear": 572,
+    "a2_boss": 234,
+    "a2_clear": 40,
+    "episode_manifest_sha256": "202e6c6dd6a647c4e928c220ca38b30f52846f46f50b16820cdd6c4c0c657197",
+    "root_plan_sha256": "3554209f9e34b16e4212273de358ce1d299265e22efdfb8ed2b823270d4eb59c",
+    "available_by_act": {
+      "1": 7350,
+      "2": 2492,
+      "3": 142
+    },
+    "planned_by_act": {
+      "1": 600,
+      "2": 1608,
+      "3": 142
+    },
+    "planned": 2350,
+    "incomplete_roots": 36,
+    "collector_errors": {
+      "Prefix replay diverged from recorded trace": 7,
+      "Combat stopped without confirmed native completion": 10,
+      "Action 'select_map_node' failed: InvalidOperationException: Queue empty.": 3
+    },
+    "raw_complete_roots": 2314,
+    "factual_mismatches": [],
+    "clean_roots": 2314,
+    "clean_seeds": 839,
+    "factual_match": 2314,
+    "branches": 9256,
+    "cross_act_branches": 1710,
+    "clean_by_act": {
+      "2": 1588,
+      "1": 597,
+      "3": 129
+    },
+    "terminal_act_by_root_act": {
+      "2": {
+        "2": 5896,
+        "3": 456
+      },
+      "1": {
+        "2": 1184,
+        "3": 70,
+        "1": 1134
+      },
+      "3": {
+        "3": 516
+      }
+    },
+    "provenance": {
+      "schema": "strategy-continuation-v1",
+      "continuation": "bundle",
+      "code_sha256": "1a09e9cef5a9575903fd7f785ac7acc4531ca56eb694df85cefa75397ff3d7b6",
+      "bundle_sha256": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+      "bundle_files": {
+        "weights": {
+          "name": "weights.json",
+          "sha256": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+        },
+        "room_model": {
+          "name": "room_model.json",
+          "sha256": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192"
+        },
+        "late_room_model": {
+          "name": "late_room_model.json",
+          "sha256": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd"
+        },
+        "offer_model": {
+          "name": "offer_model.json",
+          "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+        },
+        "strategy_model": {
+          "name": "strategy_model.json",
+          "sha256": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f"
+        },
+        "encounter_model": {
+          "name": "encounter_model.json",
+          "sha256": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29"
+        },
+        "deck_model": {
+          "name": "deck_model.json",
+          "sha256": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f"
+        }
+      },
+      "style": null,
+      "room_model_sha256": null,
+      "unified_draft": true,
+      "deck_size_penalty": 0.0,
+      "horizon": "run",
+      "collector_sha256": "1dfaf2d36d324c4a0f417287dd950549fb345c92f323925e6b4bb51a26772c62",
+      "patch_chain_sha256": "5b702d620c3ca863a9ad85ca6d2a46fdc3efac69b4fa461f706b4f7b368b990e",
+      "host_dll_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+    },
+    "clean_roots_jsonl_sha256": "d016660e8e1e4111bfcc285f24b7e504f5d3e965f82524f2a152505ab9ca9d36",
+    "clean_ids_sha256": "73f032294684f44acb4e7e5e9f08645c0fa3ecdf4a871d6b01e28caaf9432c34",
+    "target_audit": {
+      "act1_factual_act2_boss_entry_agree": 597,
+      "act1_factual_act2_boss_entry_checked": 597,
+      "terminal_categories": {
+        "act2_boss": {
+          "n": 2672,
+          "mean": 34.046507209337506,
+          "min": 33.13084112149533,
+          "max": 34.888563049853374
+        },
+        "act3": {
+          "n": 1042,
+          "mean": 45.72851743758215,
+          "min": 36.0,
+          "max": 51.567567567567565
+        },
+        "act2_before_boss": {
+          "n": 4408,
+          "mean": 25.442377495462797,
+          "min": 20.0,
+          "max": 31.0
+        },
+        "act1": {
+          "n": 1134,
+          "mean": 16.157392075730815,
+          "min": 3.0,
+          "max": 18.992
+        }
+      },
+      "adjacent_category_within_root_mean_differences": {
+        "act2_boss_to_act3": {
+          "n": 174,
+          "mean": 9.842063794345721,
+          "min": 1.443792766373413,
+          "max": 17.14646904969485
+        },
+        "act2_before_boss_to_act2_boss": {
+          "n": 384,
+          "mean": 6.218141560576936,
+          "min": 2.1355140186915875,
+          "max": 13.578947368421055
+        }
+      },
+      "definition": "Act 2 boss denotes reaching combat from the root in Act 2 or reaching Act 3. Categories partition the branches; Act 3 includes surviving Act 2. Within-root differences give each qualifying root equal weight."
+    },
+    "natural_wins": 0,
+    "branch_wins": 0
+  },
+  "offline_sweep": [
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 16,
+      "residual_alpha": 0.25,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 40,
+          "mean_gain_vs_deployed": 0.04318238285347636
+        }
+      },
+      "name": "r16a25",
+      "changed_percent": 8.438818565400844,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": -0.03702187191795284,
+          "min": -4.0,
+          "max": 0.11027568922305875
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.1212573418278521,
+          "min": 0.0,
+          "max": 12.398496240601503
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.002531567783747421,
+          "min": -11.513196480938419,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.12597306857081245,
+          "min": -0.509345794392523,
+          "max": 12.837092731829571
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 16,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 92,
+          "mean_gain_vs_deployed": 0.10097498031411734
+        }
+      },
+      "name": "r16a50",
+      "changed_percent": 19.40928270042194,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": -0.012310565544444579,
+          "min": -10.911214953271028,
+          "max": 11.694656488549619
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.26321643102176556,
+          "min": -3.0,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.06508755349692441,
+          "min": -15.394314933061295,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.1359465773100989,
+          "min": -2.0,
+          "max": 12.837092731829571
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 16,
+      "residual_alpha": 0.75,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 188,
+          "mean_gain_vs_deployed": 0.2662463938188774
+        }
+      },
+      "name": "r16a75",
+      "changed_percent": 39.66244725738397,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": 0.22643913444746475,
+          "min": -10.911214953271028,
+          "max": 15.362677465903268
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.13926214194578854,
+          "min": -10.682242990654203,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.34104114502078453,
+          "min": -15.846576239593958,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.38859739664184634,
+          "min": -2.0,
+          "max": 12.837092731829571
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 16,
+      "residual_alpha": 1.0,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 312,
+          "mean_gain_vs_deployed": 0.12052847029328738
+        }
+      },
+      "name": "r16a100",
+      "changed_percent": 65.82278481012658,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": 0.24576404024643683,
+          "min": -10.911214953271028,
+          "max": 15.362677465903268
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.13289935482727924,
+          "min": -10.873015873015873,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": -0.3298780383887463,
+          "min": -15.354113928036167,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.4064843078723825,
+          "min": -5.574766355140184,
+          "max": 12.837092731829571
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 32,
+      "residual_alpha": 0.25,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 35,
+          "mean_gain_vs_deployed": 0.016364282750899233
+        }
+      },
+      "name": "r32a25",
+      "changed_percent": 7.383966244725738,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": -0.03702187191795284,
+          "min": -4.0,
+          "max": 0.11027568922305875
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.1212573418278521,
+          "min": 0.0,
+          "max": 12.398496240601503
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.0036812309324448108,
+          "min": -11.513196480938419,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": -0.0036945347810014113,
+          "min": -0.509345794392523,
+          "max": 0.14662756598240634
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 32,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 87,
+          "mean_gain_vs_deployed": 0.07859786782052192
+        }
+      },
+      "name": "r32a50",
+      "changed_percent": 18.354430379746834,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": -0.012310565544444579,
+          "min": -10.911214953271028,
+          "max": 11.694656488549619
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.2635086897518256,
+          "min": -3.0,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": -0.06354018698523292,
+          "min": -15.394314933061295,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.1701004325783237,
+          "min": -2.0,
+          "max": 12.837092731829571
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 32,
+      "residual_alpha": 0.75,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 173,
+          "mean_gain_vs_deployed": 0.15305145588969732
+        }
+      },
+      "name": "r32a75",
+      "changed_percent": 36.49789029535865,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": 0.08282567659794428,
+          "min": -10.911214953271028,
+          "max": 15.362677465903268
+        },
+        "1": {
+          "n": 111,
+          "mean": -0.020503785451003814,
+          "min": -15.717590653074524,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.2984527217894471,
+          "min": -15.846576239593958,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.29750488615198845,
+          "min": -2.0,
+          "max": 12.837092731829571
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 32,
+      "residual_alpha": 1.0,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 298,
+          "mean_gain_vs_deployed": 0.21892961758755178
+        }
+      },
+      "name": "r32a100",
+      "changed_percent": 62.869198312236286,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": 0.3256896607493069,
+          "min": -10.911214953271028,
+          "max": 15.362677465903268
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.15784245107767603,
+          "min": -15.717590653074524,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": -0.087902782463487,
+          "min": -15.846576239593958,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.4580972983763133,
+          "min": -5.574766355140184,
+          "max": 12.837092731829571
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 64,
+      "residual_alpha": 0.25,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 33,
+          "mean_gain_vs_deployed": 0.06690077903324237
+        }
+      },
+      "name": "r64a25",
+      "changed_percent": 6.962025316455696,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": -0.03702187191795284,
+          "min": -4.0,
+          "max": 0.11027568922305875
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.11224833281884308,
+          "min": 0.0,
+          "max": 12.398496240601503
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.23261975605015717,
+          "min": -0.21495327102803685,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": -0.0036945347810014113,
+          "min": -0.509345794392523,
+          "max": 0.14662756598240634
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 64,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 70,
+          "mean_gain_vs_deployed": 0.048418389951749984
+        }
+      },
+      "name": "r64a50",
+      "changed_percent": 14.767932489451477,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": 0.08639308233014087,
+          "min": -4.0,
+          "max": 11.694656488549619
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.0894393543921677,
+          "min": -15.717590653074524,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": -0.06666106728871166,
+          "min": -15.394314933061295,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.06967350578683447,
+          "min": -0.509345794392523,
+          "max": 3.6598130841121517
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 64,
+      "residual_alpha": 0.75,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 149,
+          "mean_gain_vs_deployed": 0.16071251800492742
+        }
+      },
+      "name": "r64a75",
+      "changed_percent": 31.434599156118143,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": 0.10614724551873893,
+          "min": -10.911214953271028,
+          "max": 15.362677465903268
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.2030768790630507,
+          "min": -15.717590653074524,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.21114891143396794,
+          "min": -15.846576239593958,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.14311258138010038,
+          "min": -2.0,
+          "max": 11.17289719626168
+        }
+      }
+    },
+    {
+      "mode": "card_residual",
+      "roots": 2314,
+      "seeds": 839,
+      "fit_seeds": 668,
+      "fit_roots": 1840,
+      "branches": 9256,
+      "ridge": 64,
+      "residual_alpha": 1.0,
+      "delta_nonzero": 271,
+      "validation": {
+        "card": {
+          "roots": 474,
+          "changed_roots": 283,
+          "mean_gain_vs_deployed": 0.30677395404502233
+        }
+      },
+      "name": "r64a100",
+      "changed_percent": 59.70464135021097,
+      "validation_subgroups": {
+        "0": {
+          "n": 155,
+          "mean": 0.4317629578514624,
+          "min": -10.911214953271028,
+          "max": 16.712850829363482
+        },
+        "1": {
+          "n": 111,
+          "mean": 0.19539292724816032,
+          "min": -15.717590653074524,
+          "max": 16.0
+        },
+        "2": {
+          "n": 109,
+          "mean": 0.13907424607311844,
+          "min": -15.846576239593958,
+          "max": 15.271168424852597
+        },
+        "3": {
+          "n": 99,
+          "mean": 0.42060492933180016,
+          "min": -5.574766355140184,
+          "max": 12.837092731829571
+        }
+      }
+    }
+  ],
+  "validation_subgroups": "Four diagnostic seed subgroups indexed by zero-based byte 4 of SHA-256(seed) modulo 4 within the fixed held-out split.",
+  "dev_candidates": {
+    "r16a50": {
+      "ridge": 16,
+      "alpha": 0.5,
+      "bundle_sha256": "3c792106fe31ef17f9f73ddd0b1a6d7ec280444a19c5c3cd466afe234060d17e",
+      "strategy_sha256": "0fd43f8308652b1efbaa9cb4bf99323a57261ab1bb4785f0af8b83f53d4e17d7",
+      "top_weight_changes": {
+        "cards": {
+          "up": [
+            {
+              "key": "card:BLADE_OF_INK",
+              "v4": 0.0,
+              "fitted": 0.7610312834586266,
+              "delta": 0.7610312834586266
+            },
+            {
+              "key": "card:ACCURACY",
+              "v4": -0.5224314703846532,
+              "fitted": 0.23637327473190495,
+              "delta": 0.7588047451165582
+            },
+            {
+              "key": "card:BACKFLIP",
+              "v4": -0.2671518924586955,
+              "fitted": 0.4544667613961995,
+              "delta": 0.721618653854895
+            },
+            {
+              "key": "card:PINPOINT",
+              "v4": -0.2980305568033334,
+              "fitted": 0.38713205963873515,
+              "delta": 0.6851626164420686
+            },
+            {
+              "key": "card:DANSE_MACABRE",
+              "v4": 0.0,
+              "fitted": 0.6784768826183383,
+              "delta": 0.6784768826183383
+            },
+            {
+              "key": "card:PIERCING_WAIL",
+              "v4": -0.6197567797032033,
+              "fitted": -0.04028579002106869,
+              "delta": 0.5794709896821346
+            },
+            {
+              "key": "card:CALCULATED_GAMBLE",
+              "v4": 0.12037168211653006,
+              "fitted": 0.675927431263593,
+              "delta": 0.555555749147063
+            },
+            {
+              "key": "card:ASSASSINATE",
+              "v4": 0.0,
+              "fitted": 0.5405484149107622,
+              "delta": 0.5405484149107622
+            }
+          ],
+          "down": [
+            {
+              "key": "card:SNAKEBITE",
+              "v4": 0.033132096156408816,
+              "fitted": -0.6138307513419973,
+              "delta": -0.646962847498406
+            },
+            {
+              "key": "card:UP_MY_SLEEVE",
+              "v4": -0.03242936052872442,
+              "fitted": -0.6640353326894829,
+              "delta": -0.6316059721607584
+            },
+            {
+              "key": "card:BUBBLE_BUBBLE",
+              "v4": -0.27089878050527755,
+              "fitted": -0.8350067357537867,
+              "delta": -0.5641079552485091
+            },
+            {
+              "key": "card:HAND_TRICK",
+              "v4": -0.05843633211547135,
+              "fitted": -0.6189305851750793,
+              "delta": -0.5604942530596079
+            },
+            {
+              "key": "card:GRAND_FINALE",
+              "v4": -0.0414291600507762,
+              "fitted": -0.5509333922165032,
+              "delta": -0.5095042321657269
+            },
+            {
+              "key": "card:DEFLECT",
+              "v4": 0.7431447573274897,
+              "fitted": 0.24300106781289088,
+              "delta": -0.5001436895145989
+            },
+            {
+              "key": "card:PREDATOR",
+              "v4": 0.44006293267451735,
+              "fitted": -0.04433666340748055,
+              "delta": -0.4843995960819979
+            },
+            {
+              "key": "card:UNTOUCHABLE",
+              "v4": -0.08956534508368334,
+              "fitted": -0.5397699234057718,
+              "delta": -0.45020457832208843
+            }
+          ]
+        },
+        "features": {
+          "up": [
+            {
+              "key": "card:take",
+              "v4": 1.0426404450302418,
+              "fitted": 2.107967179050071,
+              "delta": 1.0653267340198294
+            },
+            {
+              "key": "take:poison-deck",
+              "v4": -1.1687055996171751,
+              "fitted": -0.36262720133540394,
+              "delta": 0.8060783982817712
+            },
+            {
+              "key": "boss/VANTOM_BOSS/block",
+              "v4": -0.2615647694465468,
+              "fitted": 0.5047223505226719,
+              "delta": 0.7662871199692187
+            },
+            {
+              "key": "boss/SOUL_FYSH_BOSS/block",
+              "v4": 0.0,
+              "fitted": 0.702560591623758,
+              "delta": 0.702560591623758
+            },
+            {
+              "key": "type:Skill",
+              "v4": 0.2710528962842906,
+              "fitted": 0.8027142625685584,
+              "delta": 0.5316613662842677
+            },
+            {
+              "key": "take:block",
+              "v4": -0.34713353876425673,
+              "fitted": 0.09675463030584719,
+              "delta": 0.4438881690701039
+            },
+            {
+              "key": "take:sly-deck",
+              "v4": -0.389232030134495,
+              "fitted": 0.032684747138709,
+              "delta": 0.421916777273204
+            },
+            {
+              "key": "boss/THE_KIN_BOSS/block",
+              "v4": -0.3922291131451642,
+              "fitted": 0.023064918935180923,
+              "delta": 0.4152940320803451
+            }
+          ],
+          "down": [
+            {
+              "key": "take:value",
+              "v4": -1.5474727205602283,
+              "fitted": -3.508201969505982,
+              "delta": -1.9607292489457535
+            },
+            {
+              "key": "boss/WATERFALL_GIANT_BOSS/attack",
+              "v4": 0.0,
+              "fitted": -0.859317915990002,
+              "delta": -0.859317915990002
+            },
+            {
+              "key": "take:shiv",
+              "v4": -0.012867850447062436,
+              "fitted": -0.5275151124723216,
+              "delta": -0.5146472620252592
+            },
+            {
+              "key": "boss/KNOWLEDGE_DEMON_BOSS/block",
+              "v4": -0.006214533241473715,
+              "fitted": -0.4479421277800575,
+              "delta": -0.4417275945385838
+            },
+            {
+              "key": "take:poison",
+              "v4": 0.5747189457906275,
+              "fitted": 0.13905665971256803,
+              "delta": -0.4356622860780595
+            },
+            {
+              "key": "take:low-offense",
+              "v4": 0.7872073918669783,
+              "fitted": 0.3633953872289148,
+              "delta": -0.4238120046380635
+            },
+            {
+              "key": "boss/THE_INSATIABLE_BOSS/block",
+              "v4": -0.12107018873499421,
+              "fitted": -0.51900598930357,
+              "delta": -0.3979358005685758
+            },
+            {
+              "key": "boss/CEREMONIAL_BEAST_BOSS/attack",
+              "v4": 0.3779547986530742,
+              "fitted": 0.07147883616174422,
+              "delta": -0.30647596249132997
+            }
+          ]
+        }
+      }
+    },
+    "r64a100": {
+      "ridge": 64,
+      "alpha": 1.0,
+      "bundle_sha256": "48df0c7b4a5f83363fd0be23ac13163a662f5cde10289d014948b0b802371f37",
+      "strategy_sha256": "62f936bf37a18e56794f898db1b0fad446571851d673a49ce39f45e89e614935",
+      "top_weight_changes": {
+        "cards": {
+          "up": [
+            {
+              "key": "card:BACKFLIP",
+              "v4": -0.2671518924586955,
+              "fitted": 0.844984848019656,
+              "delta": 1.1121367404783515
+            },
+            {
+              "key": "card:ACCURACY",
+              "v4": -0.5224314703846532,
+              "fitted": 0.38530547713524954,
+              "delta": 0.9077369475199027
+            },
+            {
+              "key": "card:DAGGER_THROW",
+              "v4": 0.014922365823489816,
+              "fitted": 0.7538993712182273,
+              "delta": 0.7389770053947374
+            },
+            {
+              "key": "card:PINPOINT",
+              "v4": -0.2980305568033334,
+              "fitted": 0.4386037283039374,
+              "delta": 0.7366342851072708
+            },
+            {
+              "key": "card:PIERCING_WAIL",
+              "v4": -0.6197567797032033,
+              "fitted": 0.09115005689765643,
+              "delta": 0.7109068366008597
+            },
+            {
+              "key": "card:CALCULATED_GAMBLE",
+              "v4": 0.12037168211653006,
+              "fitted": 0.8113861498880149,
+              "delta": 0.6910144677714849
+            },
+            {
+              "key": "card:BLADE_OF_INK",
+              "v4": 0.0,
+              "fitted": 0.5176273247514155,
+              "delta": 0.5176273247514155
+            },
+            {
+              "key": "card:EXPOSE",
+              "v4": 0.5273992970012623,
+              "fitted": 1.0257166630488197,
+              "delta": 0.4983173660475574
+            }
+          ],
+          "down": [
+            {
+              "key": "card:UP_MY_SLEEVE",
+              "v4": -0.03242936052872442,
+              "fitted": -0.7474903646577675,
+              "delta": -0.715061004129043
+            },
+            {
+              "key": "card:PREDATOR",
+              "v4": 0.44006293267451735,
+              "fitted": -0.25521214199157116,
+              "delta": -0.6952750746660885
+            },
+            {
+              "key": "card:SNAKEBITE",
+              "v4": 0.033132096156408816,
+              "fitted": -0.6317903317896235,
+              "delta": -0.6649224279460323
+            },
+            {
+              "key": "card:DEFLECT",
+              "v4": 0.7431447573274897,
+              "fitted": 0.1511951392793337,
+              "delta": -0.591949618048156
+            },
+            {
+              "key": "card:CLOAK_AND_DAGGER",
+              "v4": -0.34944511312660276,
+              "fitted": -0.941057554220178,
+              "delta": -0.5916124410935752
+            },
+            {
+              "key": "card:SPEEDSTER",
+              "v4": 0.0949058483959337,
+              "fitted": -0.4839583564606546,
+              "delta": -0.5788642048565883
+            },
+            {
+              "key": "card:HAND_TRICK",
+              "v4": -0.05843633211547135,
+              "fitted": -0.5916049199384272,
+              "delta": -0.5331685878229558
+            },
+            {
+              "key": "card:BUBBLE_BUBBLE",
+              "v4": -0.27089878050527755,
+              "fitted": -0.8014070980805836,
+              "delta": -0.530508317575306
+            }
+          ]
+        },
+        "features": {
+          "up": [
+            {
+              "key": "card:take",
+              "v4": 1.0426404450302418,
+              "fitted": 2.8682339729804713,
+              "delta": 1.8255935279502296
+            },
+            {
+              "key": "take:poison-deck",
+              "v4": -1.1687055996171751,
+              "fitted": -0.12276813266248787,
+              "delta": 1.0459374669546873
+            },
+            {
+              "key": "type:Skill",
+              "v4": 0.2710528962842906,
+              "fitted": 1.2926236901185735,
+              "delta": 1.0215707938342828
+            },
+            {
+              "key": "boss/VANTOM_BOSS/block",
+              "v4": -0.2615647694465468,
+              "fitted": 0.433275746389111,
+              "delta": 0.6948405158356578
+            },
+            {
+              "key": "take:aoe",
+              "v4": -0.5404340268144688,
+              "fitted": 0.12694435376050284,
+              "delta": 0.6673783805749717
+            },
+            {
+              "key": "boss/SOUL_FYSH_BOSS/block",
+              "v4": 0.0,
+              "fitted": 0.5917009062362829,
+              "delta": 0.5917009062362829
+            },
+            {
+              "key": "take:copies",
+              "v4": 0.06930731322600127,
+              "fitted": 0.659120447305323,
+              "delta": 0.5898131340793218
+            },
+            {
+              "key": "type:Attack",
+              "v4": 0.4689051002090963,
+              "fitted": 0.9881736518393087,
+              "delta": 0.5192685516302125
+            }
+          ],
+          "down": [
+            {
+              "key": "take:value",
+              "v4": -1.5474727205602283,
+              "fitted": -5.133181836081041,
+              "delta": -3.585709115520813
+            },
+            {
+              "key": "take:poison",
+              "v4": 0.5747189457906275,
+              "fitted": -0.3499337610501351,
+              "delta": -0.9246527068407626
+            },
+            {
+              "key": "take:shiv",
+              "v4": -0.012867850447062436,
+              "fitted": -0.923856823312202,
+              "delta": -0.9109889728651396
+            },
+            {
+              "key": "take:low-offense",
+              "v4": 0.7872073918669783,
+              "fitted": 0.07223532613618555,
+              "delta": -0.7149720657307927
+            },
+            {
+              "key": "boss/WATERFALL_GIANT_BOSS/attack",
+              "v4": 0.0,
+              "fitted": -0.6852019043837816,
+              "delta": -0.6852019043837816
+            },
+            {
+              "key": "boss/CEREMONIAL_BEAST_BOSS/attack",
+              "v4": 0.3779547986530742,
+              "fitted": -0.17282777446493508,
+              "delta": -0.5507825731180093
+            },
+            {
+              "key": "boss/KNOWLEDGE_DEMON_BOSS/block",
+              "v4": -0.006214533241473715,
+              "fitted": -0.536826918022414,
+              "delta": -0.5306123847809403
+            },
+            {
+              "key": "boss/THE_INSATIABLE_BOSS/block",
+              "v4": -0.12107018873499421,
+              "fitted": -0.5911876864786378,
+              "delta": -0.47011749774364364
+            }
+          ]
+        }
+      }
+    }
   }
 }
