@@ -184,6 +184,7 @@ class State:
     schema: int = SCHEMA
     floor: int = 0
     seal_gold: int = 0
+    additional_public_energy: int = 0
 
 
 @dataclass(frozen=True, slots=True)

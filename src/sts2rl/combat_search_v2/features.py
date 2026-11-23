@@ -184,7 +184,9 @@ def extract_leaf_features(state, *, schema=VERSION):
     if state.outcome != "completed":
         raise Unsupported("leaf is outside the next-turn boundary")
     board, live, retained, sizes = _state_inputs(state)
-    return _pack(board, state.act, state.floor, state.room, state.energy - state.max_energy,
+    # The frozen training schema encodes only the pre-turn sources in _energy_buff.
+    buff = state.energy - state.max_energy - state.additional_public_energy
+    return _pack(board, state.act, state.floor, state.room, buff,
                  live, retained, sizes, schema)
 
 

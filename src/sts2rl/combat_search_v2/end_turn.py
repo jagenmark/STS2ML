@@ -222,12 +222,14 @@ def _start_player(state, prior_powers):
     max_energy = state.max_energy
     energy = max_energy + power(powers, "ENERGY_NEXT_TURN")
     powers = set_power(powers, "ENERGY_NEXT_TURN", 0)
+    additional_public_energy = 0
     if power(powers, "CLARITY"):
         powers = add_power(powers, "CLARITY", -1)
         bonus_draw += 1
     if power(powers, "RADIANCE"):
         powers = add_power(powers, "RADIANCE", -1)
         energy += 1
+        additional_public_energy += 1
     relics = []
     for relic in state.relics:
         if relic.name in ("HAPPY_FLOWER", "PENDULUM") and relic.counter is not None and not relic.used:
@@ -245,8 +247,10 @@ def _start_player(state, prior_powers):
                     return boundary(state, "seal of gold insufficient funds")
                 state = replace(state, seal_gold=state.seal_gold - 3)
                 energy += power(relic.stats, "energy")
+                additional_public_energy += power(relic.stats, "energy")
             if relic.name == "CHANDELIER" and state.round == 2:
                 energy += power(relic.stats, "energy")
+                additional_public_energy += power(relic.stats, "energy")
             if relic.name == "POCKETWATCH":
                 if relic.status == "Active":
                     bonus_draw += power(relic.stats, "cards")
@@ -256,6 +260,7 @@ def _start_player(state, prior_powers):
             if relic.name == "ART_OF_WAR":
                 if relic.status == "Active":
                     energy += power(relic.stats, "energy")
+                    additional_public_energy += power(relic.stats, "energy")
                 relic = replace(relic, status="Active")
             if relic.name == "RIPPLE_BASIN":
                 relic = replace(relic, status="Active")
@@ -310,7 +315,7 @@ def _start_player(state, prior_powers):
                 if state.boundary:
                     return state
     return replace(state, hp=hp, block=block, powers=powers, energy=energy, max_energy=max_energy,
-                   round=state.round + 1,
+                   round=state.round + 1, additional_public_energy=additional_public_energy,
                    relics=tuple(relics), boundary=reveal, outcome=outcome)
 
 

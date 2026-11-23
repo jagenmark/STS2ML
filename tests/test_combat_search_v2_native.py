@@ -715,7 +715,12 @@ def test_phase3_native_relic_triggers(oracle, tmp_path, deck, relics, encounter)
     for _ in range(4):
         for _ in range(3):
             _check_qualified_board(oracle, oracle.step("play_card", deck[0]))
-        _check_qualified_board(oracle, oracle.step("end_turn"))
+        before = oracle.public
+        predicted = oracle.step("end_turn")
+        _check_qualified_board(oracle, predicted)
+        from sts2rl.combat_search_v2.features import extract_leaf_features, extract_post_eot_features
+
+        assert abs(extract_post_eot_features(before, oracle.public) - extract_leaf_features(predicted)).max() < 1e-5
 
 
 def test_phase3_prism_buff_censors_zone_reaffliction(oracle):
