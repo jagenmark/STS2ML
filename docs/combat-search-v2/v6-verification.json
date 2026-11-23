@@ -1,0 +1,2223 @@
+{
+  "frozen_control_repeat": {
+    "episodes": 256,
+    "matched": "all terminal outcomes, counts, late-fight exits, coverage and raw audit results"
+  },
+  "challenger_files": {
+    "combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+    "combat_value_v2.npz": "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b",
+    "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+    "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+    "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+    "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+    "policy.json": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+    "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+    "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+    "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+  },
+  "run_manifests": {
+    "v5": {
+      "arm": "v5",
+      "workers": 12,
+      "git": "7c2e4d5d0642ac58ed5777b4c6d69229056a80fc",
+      "host_sha256": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+      "game_sha256": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+      "policy_sha256": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+      "lock_sha256": "96d62dae6b90dd1086b387a64e721c35a47ae2aab17a5f2420fb6a7a2ca63964",
+      "config_sha256": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+      "openblas_threads": 1,
+      "omp_threads": 1
+    },
+    "schema3": {
+      "arm": "schema3",
+      "workers": 12,
+      "git": "7c2e4d5d0642ac58ed5777b4c6d69229056a80fc",
+      "host_sha256": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+      "game_sha256": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+      "policy_sha256": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+      "lock_sha256": "96d62dae6b90dd1086b387a64e721c35a47ae2aab17a5f2420fb6a7a2ca63964",
+      "config_sha256": "2b4623c4e6f007a5aedebfe4ff5ac27eee22c497ec7f592a231ae99741217080",
+      "openblas_threads": 1,
+      "omp_threads": 1
+    },
+    "heuristic": {
+      "arm": "heuristic",
+      "workers": 12,
+      "git": "7c2e4d5d0642ac58ed5777b4c6d69229056a80fc",
+      "host_sha256": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+      "game_sha256": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+      "policy_sha256": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+      "lock_sha256": "96d62dae6b90dd1086b387a64e721c35a47ae2aab17a5f2420fb6a7a2ca63964",
+      "config_sha256": "2b4623c4e6f007a5aedebfe4ff5ac27eee22c497ec7f592a231ae99741217080",
+      "openblas_threads": 1,
+      "omp_threads": 1
+    }
+  },
+  "qualification_history": {
+    "discovery/schema3": {
+      "episodes": 256,
+      "native": {
+        "match": 41044,
+        "unresolved": 3621,
+        "mismatch": 6
+      },
+      "differences": {
+        "board/enemies": 6
+      },
+      "mechanics": {
+        "end_turn": 2,
+        "ULTIMATE_STRIKE": 3,
+        "SURVIVOR": 1
+      },
+      "affected_lobbies": {
+        "CSV4DEV_DEFAULT_0020": 1,
+        "CSV4DEV_SEEDED_0039": 4,
+        "CSV4DEV_DEFAULT_0103": 1
+      }
+    },
+    "discovery/v5": {
+      "episodes": 256,
+      "native": {
+        "match": 39489,
+        "unresolved": 3268,
+        "mismatch": 4
+      },
+      "differences": {
+        "zones": 4
+      },
+      "mechanics": {
+        "DASH": 2,
+        "PREDATOR": 1,
+        "SNAKEBITE": 1
+      },
+      "affected_lobbies": {
+        "CSV4DEV_DEFAULT_0061": 4
+      }
+    },
+    "qualified/heuristic": {
+      "episodes": 256,
+      "native": {
+        "match": 41098,
+        "unresolved": 3618,
+        "mismatch": 7
+      },
+      "differences": {
+        "board/relics": 6,
+        "board/enemies": 1
+      },
+      "mechanics": {
+        "end_turn": 2,
+        "PREDATOR": 1,
+        "PRECISE_CUT": 1,
+        "SLICE": 1,
+        "FLICK_FLACK": 1,
+        "STRIKE_SILENT": 1
+      },
+      "affected_lobbies": {
+        "CSV4DEV_DEFAULT_0023": 1,
+        "CSV4DEV_DEFAULT_0083": 1,
+        "CSV4DEV_SEEDED_0105": 5
+      }
+    },
+    "qualified/schema3": {
+      "episodes": 256,
+      "native": {
+        "match": 41552,
+        "unresolved": 3635,
+        "mismatch": 13
+      },
+      "differences": {
+        "board/powers": 4,
+        "board/relics": 5,
+        "board/enemies": 3,
+        "board/block": 1
+      },
+      "mechanics": {
+        "end_turn": 11,
+        "HAZE": 2
+      },
+      "affected_lobbies": {
+        "CSV4DEV_DEFAULT_0011": 4,
+        "CSV4DEV_DEFAULT_0023": 1,
+        "CSV4DEV_DEFAULT_0038": 1,
+        "CSV4DEV_SEEDED_0042": 2,
+        "CSV4DEV_DEFAULT_0083": 1,
+        "CSV4DEV_SEEDED_0105": 4
+      }
+    },
+    "expanded/heuristic": {
+      "episodes": 256,
+      "native": {
+        "match": 41599,
+        "unresolved": 3683,
+        "mismatch": 5
+      },
+      "differences": {
+        "zones": 3,
+        "board/powers": 2
+      },
+      "mechanics": {
+        "PHANTOM_BLADES": 3,
+        "end_turn": 2
+      },
+      "affected_lobbies": {
+        "CSV4DEV_SEEDED_0078": 1,
+        "CSV4DEV_DEFAULT_0097": 2,
+        "CSV4DEV_DEFAULT_0100": 1,
+        "CSV4DEV_SEEDED_0123": 1
+      }
+    },
+    "expanded/schema3": {
+      "episodes": 256,
+      "native": {
+        "match": 41774,
+        "unresolved": 3600,
+        "mismatch": 4
+      },
+      "differences": {
+        "board/powers": 2,
+        "zones": 2
+      },
+      "mechanics": {
+        "end_turn": 2,
+        "PHANTOM_BLADES": 2
+      },
+      "affected_lobbies": {
+        "CSV4DEV_SEEDED_0017": 1,
+        "CSV4DEV_SEEDED_0025": 1,
+        "CSV4DEV_SEEDED_0078": 1,
+        "CSV4DEV_DEFAULT_0100": 1
+      }
+    },
+    "final/schema3": {
+      "episodes": 73,
+      "native": {
+        "match": 10702,
+        "unresolved": 930,
+        "mismatch": 458
+      },
+      "differences": {
+        "board/potions": 458
+      },
+      "mechanics": {
+        "SURVIVOR": 25,
+        "NEUTRALIZE": 34,
+        "STRIKE_SILENT": 82,
+        "end_turn": 99,
+        "DEFEND_SILENT": 90,
+        "DAGGER_SPRAY": 10,
+        "POISONED_STAB": 8,
+        "BACKSTAB": 1,
+        "DEADLY_POISON": 17,
+        "BUBBLE_BUBBLE": 2,
+        "BLADE_DANCE": 7,
+        "SHIV": 37,
+        "SUCKER_PUNCH": 8,
+        "DASH": 5,
+        "PREDATOR": 8,
+        "SLICE": 11,
+        "LEADING_STRIKE": 6,
+        "SNAKEBITE": 4,
+        "ENERGY_POTION": 1,
+        "SKEWER": 1,
+        "HAZE": 2
+      },
+      "affected_lobbies": {
+        "CSV4DEV_SEEDED_0001": 72,
+        "CSV4DEV_SEEDED_0002": 121,
+        "CSV4DEV_DEFAULT_0018": 180,
+        "CSV4DEV_DEFAULT_0019": 38,
+        "CSV4DEV_SEEDED_0025": 14,
+        "CSV4DEV_DEFAULT_0027": 33
+      }
+    },
+    "verified/heuristic": {
+      "episodes": 256,
+      "native": {
+        "match": 41646,
+        "unresolved": 3686
+      },
+      "differences": {},
+      "mechanics": {},
+      "affected_lobbies": {}
+    },
+    "verified/schema3": {
+      "episodes": 256,
+      "native": {
+        "match": 41723,
+        "unresolved": 3580
+      },
+      "differences": {},
+      "mechanics": {},
+      "affected_lobbies": {}
+    },
+    "verified/v5": {
+      "episodes": 22,
+      "native": {
+        "match": 3393,
+        "unresolved": 243
+      },
+      "differences": {},
+      "mechanics": {},
+      "affected_lobbies": {}
+    }
+  },
+  "physical_gates": {
+    "base-active": [
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          0,
+          "complete",
+          201,
+          157,
+          "279819e6f73217c03734183d9262365415dc4b3c47cb81f688536e96918b9a1b"
+        ],
+        {
+          "unresolved": 19,
+          "match": 98
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          0,
+          "complete",
+          294,
+          243,
+          "758011ca83220b32590681fd54972abdc2010eb8a69ce0936f8b9685bde7bd5e"
+        ],
+        {
+          "match": 158,
+          "unresolved": 8
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          0,
+          "complete",
+          80,
+          59,
+          "9bb0cb9a2bc75dfdc6bd56ce8f837fa5b59697d0c529c210a7edfd2998dd051a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          0,
+          "complete",
+          356,
+          252,
+          "ce5cef8eedf567143206ded6ce6d010fb199a389de584262b602694042b026b4"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          1,
+          "complete",
+          276,
+          234,
+          "89d15455b8ffacb8ea577768f5b75df98fa7ad5b59641ede8e4a9f8ca835ef0d"
+        ],
+        {
+          "match": 189,
+          "unresolved": 20
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          1,
+          "complete",
+          390,
+          307,
+          "cfb9d50b327ca6d76dab8089b72aa7246ed5513bba3ee66da4c94013dd561689"
+        ],
+        {
+          "match": 228,
+          "unresolved": 19
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          1,
+          "complete",
+          211,
+          151,
+          "144d11be983e2adb0b254d51fb78690e0fad050807757475a23c3389099f1471"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          1,
+          "complete",
+          412,
+          290,
+          "ba61a949bee2d7a73bff6e55e6919058992aea0c9a239207aa0226679691145c"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          2,
+          "complete",
+          401,
+          271,
+          "1990f86f4b7df383a68c7ef49e55909652101059a4fc24d43ec433a8049c09e5"
+        ],
+        {
+          "match": 181,
+          "unresolved": 19
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          2,
+          "complete",
+          317,
+          274,
+          "39479cc07585419f80d2cdc38a63e933dba3eb6b3dc05b695fde652b040a64ba"
+        ],
+        {
+          "match": 212,
+          "unresolved": 5
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          2,
+          "complete",
+          419,
+          279,
+          "0d9228bbd16b3df0b401f297e373178efe9b26470ee5918d13c5c7010e55d053"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          2,
+          "complete",
+          185,
+          123,
+          "2e30417e20c95215c57e010c8f6d507d9fe97897b01619b5468ae6f3984c157a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          3,
+          "complete",
+          364,
+          284,
+          "1cea33e7c299ccf26a5db0663e72370433fedc530136a90d951daa586bd7f31b"
+        ],
+        {
+          "match": 209,
+          "unresolved": 9
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          3,
+          "complete",
+          285,
+          243,
+          "6cdbf7c5c78d50a821c561389015a487febeae28f3d760c2293e652c321b71a1"
+        ],
+        {
+          "match": 193,
+          "unresolved": 6
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          3,
+          "complete",
+          199,
+          140,
+          "42ab0ac59e1b18253941ed67f99faeaa38f406e77226c277cdcc85ec6b702bec"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          3,
+          "complete",
+          221,
+          155,
+          "6ebf7e2ebdeecdb3ee6ae43d2c8b8561565399ad1aa120616f4847340cd5c7c9"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          4,
+          "complete",
+          184,
+          152,
+          "91006b176c0829b0f93447e485eee499b3ac7bbd71dc885573adde2f7358edc8"
+        ],
+        {
+          "match": 58,
+          "unresolved": 4
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          4,
+          "complete",
+          274,
+          232,
+          "727786abd6635f92688ee7d9b04dce482bfe769dc15fdefb4ab15fa0deced649"
+        ],
+        {
+          "match": 199,
+          "unresolved": 17
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          4,
+          "complete",
+          197,
+          140,
+          "2544e6f3d59db22efa1e166051d57d20a22a266d543542dfa5cd5f89ea85a09e"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          4,
+          "complete",
+          173,
+          134,
+          "62a31129e76b98ae8f6d1382a528636f7dd5be06c4efaccc614d951011c4b6c6"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          5,
+          "complete",
+          409,
+          315,
+          "0ea9ff92da9c4183bf5824cef7d5248c36ed6bb78c2a4a4826b865ab27cdc8be"
+        ],
+        {
+          "match": 156,
+          "unresolved": 31
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          5,
+          "complete",
+          492,
+          374,
+          "c6d18f4da0417377c57fded077a9a42eb9c3aa522108faa5a0ff73d4c274d874"
+        ],
+        {
+          "match": 245,
+          "unresolved": 14
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          5,
+          "complete",
+          412,
+          282,
+          "248b3d742c3e78e6f25b6d78171a380c90fb64a88fa86aff58cb7f89ead80c9d"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          5,
+          "complete",
+          129,
+          107,
+          "94b7e982e43cec2eff81e169e39d1f391b5874bb214d6887613e455614afa7b3"
+        ],
+        {}
+      ]
+    ],
+    "base-off": [
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          0,
+          "complete",
+          216,
+          172,
+          "8ec5810be56fc823b3deac2a8a6208a74bd967fd2a2b6ecf2b5b66b2541ff5d5"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          0,
+          "complete",
+          409,
+          383,
+          "2f5aa4acfd13531f561232e884150e3da2f7066fb6646bdd0da52ba287ccdebd"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          0,
+          "complete",
+          80,
+          59,
+          "9bb0cb9a2bc75dfdc6bd56ce8f837fa5b59697d0c529c210a7edfd2998dd051a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          0,
+          "complete",
+          356,
+          252,
+          "ce5cef8eedf567143206ded6ce6d010fb199a389de584262b602694042b026b4"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          1,
+          "complete",
+          401,
+          319,
+          "9c05fad04866290ce951b946b7e3223001d4ca47a26a965b358760d53b7becbb"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          1,
+          "complete",
+          405,
+          326,
+          "8c9af7026333302b7437d0752a9e1b36ccdf56dc4f811c25a23fc0b7f9541191"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          1,
+          "complete",
+          211,
+          151,
+          "144d11be983e2adb0b254d51fb78690e0fad050807757475a23c3389099f1471"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          1,
+          "complete",
+          412,
+          290,
+          "ba61a949bee2d7a73bff6e55e6919058992aea0c9a239207aa0226679691145c"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          2,
+          "complete",
+          236,
+          170,
+          "bb69cac0a6ae62f5be21a99b8f1a0d7ea8149af4acc8c9bd494ab098d9c2ae98"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          2,
+          "complete",
+          242,
+          191,
+          "a116dc26924152ab913c0d0e55a5188b9c962cd31ae46d490134db998baac3af"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          2,
+          "complete",
+          419,
+          279,
+          "0d9228bbd16b3df0b401f297e373178efe9b26470ee5918d13c5c7010e55d053"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          2,
+          "complete",
+          185,
+          123,
+          "2e30417e20c95215c57e010c8f6d507d9fe97897b01619b5468ae6f3984c157a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          3,
+          "complete",
+          344,
+          252,
+          "bd552555d9d957819631cc5678181a0b27f3adf15ad02b7268e11420c21342ac"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          3,
+          "complete",
+          408,
+          341,
+          "a33d8849ee5d9ef334244af991b533e57399d708de26a7d9e0c8953e3faa7ba4"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          3,
+          "complete",
+          199,
+          140,
+          "42ab0ac59e1b18253941ed67f99faeaa38f406e77226c277cdcc85ec6b702bec"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          3,
+          "complete",
+          221,
+          155,
+          "6ebf7e2ebdeecdb3ee6ae43d2c8b8561565399ad1aa120616f4847340cd5c7c9"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          4,
+          "complete",
+          141,
+          111,
+          "7601addc3cd588fa7f22414a6e32144c68aab4b667d83de6861b01a1217205f6"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          4,
+          "complete",
+          394,
+          300,
+          "8201caa8a6753cd61e4a443844e50ef224c880803b7fa078cdc0ea66276d5650"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          4,
+          "complete",
+          197,
+          140,
+          "2544e6f3d59db22efa1e166051d57d20a22a266d543542dfa5cd5f89ea85a09e"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          4,
+          "complete",
+          173,
+          134,
+          "62a31129e76b98ae8f6d1382a528636f7dd5be06c4efaccc614d951011c4b6c6"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          5,
+          "complete",
+          353,
+          286,
+          "77d6e3e9d06f9e4259747cf74c6b931f9dad8e706a7607e70c4df686538953d2"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          5,
+          "complete",
+          578,
+          451,
+          "94ce2fe02038f8b5b2d110a41107ee27f514c94357c31da53b0531e396efe4f8"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          5,
+          "complete",
+          412,
+          282,
+          "248b3d742c3e78e6f25b6d78171a380c90fb64a88fa86aff58cb7f89ead80c9d"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          5,
+          "complete",
+          129,
+          107,
+          "94b7e982e43cec2eff81e169e39d1f391b5874bb214d6887613e455614afa7b3"
+        ],
+        {}
+      ]
+    ],
+    "active": [
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          0,
+          "complete",
+          201,
+          157,
+          "279819e6f73217c03734183d9262365415dc4b3c47cb81f688536e96918b9a1b"
+        ],
+        {
+          "unresolved": 19,
+          "match": 98
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          0,
+          "complete",
+          294,
+          243,
+          "758011ca83220b32590681fd54972abdc2010eb8a69ce0936f8b9685bde7bd5e"
+        ],
+        {
+          "match": 158,
+          "unresolved": 8
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          0,
+          "complete",
+          80,
+          59,
+          "9bb0cb9a2bc75dfdc6bd56ce8f837fa5b59697d0c529c210a7edfd2998dd051a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          0,
+          "complete",
+          356,
+          252,
+          "ce5cef8eedf567143206ded6ce6d010fb199a389de584262b602694042b026b4"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          1,
+          "complete",
+          276,
+          234,
+          "89d15455b8ffacb8ea577768f5b75df98fa7ad5b59641ede8e4a9f8ca835ef0d"
+        ],
+        {
+          "match": 189,
+          "unresolved": 20
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          1,
+          "complete",
+          390,
+          307,
+          "cfb9d50b327ca6d76dab8089b72aa7246ed5513bba3ee66da4c94013dd561689"
+        ],
+        {
+          "match": 228,
+          "unresolved": 19
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          1,
+          "complete",
+          211,
+          151,
+          "144d11be983e2adb0b254d51fb78690e0fad050807757475a23c3389099f1471"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          1,
+          "complete",
+          412,
+          290,
+          "ba61a949bee2d7a73bff6e55e6919058992aea0c9a239207aa0226679691145c"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          2,
+          "complete",
+          401,
+          271,
+          "1990f86f4b7df383a68c7ef49e55909652101059a4fc24d43ec433a8049c09e5"
+        ],
+        {
+          "match": 181,
+          "unresolved": 19
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          2,
+          "complete",
+          317,
+          274,
+          "39479cc07585419f80d2cdc38a63e933dba3eb6b3dc05b695fde652b040a64ba"
+        ],
+        {
+          "match": 212,
+          "unresolved": 5
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          2,
+          "complete",
+          419,
+          279,
+          "0d9228bbd16b3df0b401f297e373178efe9b26470ee5918d13c5c7010e55d053"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          2,
+          "complete",
+          185,
+          123,
+          "2e30417e20c95215c57e010c8f6d507d9fe97897b01619b5468ae6f3984c157a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          3,
+          "complete",
+          364,
+          284,
+          "1cea33e7c299ccf26a5db0663e72370433fedc530136a90d951daa586bd7f31b"
+        ],
+        {
+          "match": 209,
+          "unresolved": 9
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          3,
+          "complete",
+          285,
+          243,
+          "6cdbf7c5c78d50a821c561389015a487febeae28f3d760c2293e652c321b71a1"
+        ],
+        {
+          "match": 193,
+          "unresolved": 6
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          3,
+          "complete",
+          199,
+          140,
+          "42ab0ac59e1b18253941ed67f99faeaa38f406e77226c277cdcc85ec6b702bec"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          3,
+          "complete",
+          221,
+          155,
+          "6ebf7e2ebdeecdb3ee6ae43d2c8b8561565399ad1aa120616f4847340cd5c7c9"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          4,
+          "complete",
+          184,
+          152,
+          "91006b176c0829b0f93447e485eee499b3ac7bbd71dc885573adde2f7358edc8"
+        ],
+        {
+          "match": 58,
+          "unresolved": 4
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          4,
+          "complete",
+          274,
+          232,
+          "727786abd6635f92688ee7d9b04dce482bfe769dc15fdefb4ab15fa0deced649"
+        ],
+        {
+          "match": 199,
+          "unresolved": 17
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          4,
+          "complete",
+          197,
+          140,
+          "2544e6f3d59db22efa1e166051d57d20a22a266d543542dfa5cd5f89ea85a09e"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          4,
+          "complete",
+          173,
+          134,
+          "62a31129e76b98ae8f6d1382a528636f7dd5be06c4efaccc614d951011c4b6c6"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          5,
+          "complete",
+          409,
+          315,
+          "0ea9ff92da9c4183bf5824cef7d5248c36ed6bb78c2a4a4826b865ab27cdc8be"
+        ],
+        {
+          "match": 156,
+          "unresolved": 31
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          5,
+          "complete",
+          492,
+          374,
+          "c6d18f4da0417377c57fded077a9a42eb9c3aa522108faa5a0ff73d4c274d874"
+        ],
+        {
+          "match": 245,
+          "unresolved": 14
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          5,
+          "complete",
+          412,
+          282,
+          "248b3d742c3e78e6f25b6d78171a380c90fb64a88fa86aff58cb7f89ead80c9d"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          5,
+          "complete",
+          129,
+          107,
+          "94b7e982e43cec2eff81e169e39d1f391b5874bb214d6887613e455614afa7b3"
+        ],
+        {}
+      ]
+    ],
+    "off": [
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          0,
+          "complete",
+          216,
+          172,
+          "8ec5810be56fc823b3deac2a8a6208a74bd967fd2a2b6ecf2b5b66b2541ff5d5"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          0,
+          "complete",
+          409,
+          383,
+          "2f5aa4acfd13531f561232e884150e3da2f7066fb6646bdd0da52ba287ccdebd"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          0,
+          "complete",
+          80,
+          59,
+          "9bb0cb9a2bc75dfdc6bd56ce8f837fa5b59697d0c529c210a7edfd2998dd051a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          0,
+          "complete",
+          356,
+          252,
+          "ce5cef8eedf567143206ded6ce6d010fb199a389de584262b602694042b026b4"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          1,
+          "complete",
+          401,
+          319,
+          "9c05fad04866290ce951b946b7e3223001d4ca47a26a965b358760d53b7becbb"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          1,
+          "complete",
+          405,
+          326,
+          "8c9af7026333302b7437d0752a9e1b36ccdf56dc4f811c25a23fc0b7f9541191"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          1,
+          "complete",
+          211,
+          151,
+          "144d11be983e2adb0b254d51fb78690e0fad050807757475a23c3389099f1471"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          1,
+          "complete",
+          412,
+          290,
+          "ba61a949bee2d7a73bff6e55e6919058992aea0c9a239207aa0226679691145c"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          2,
+          "complete",
+          236,
+          170,
+          "bb69cac0a6ae62f5be21a99b8f1a0d7ea8149af4acc8c9bd494ab098d9c2ae98"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          2,
+          "complete",
+          242,
+          191,
+          "a116dc26924152ab913c0d0e55a5188b9c962cd31ae46d490134db998baac3af"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          2,
+          "complete",
+          419,
+          279,
+          "0d9228bbd16b3df0b401f297e373178efe9b26470ee5918d13c5c7010e55d053"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          2,
+          "complete",
+          185,
+          123,
+          "2e30417e20c95215c57e010c8f6d507d9fe97897b01619b5468ae6f3984c157a"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          3,
+          "complete",
+          344,
+          252,
+          "bd552555d9d957819631cc5678181a0b27f3adf15ad02b7268e11420c21342ac"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          3,
+          "complete",
+          408,
+          341,
+          "a33d8849ee5d9ef334244af991b533e57399d708de26a7d9e0c8953e3faa7ba4"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          3,
+          "complete",
+          199,
+          140,
+          "42ab0ac59e1b18253941ed67f99faeaa38f406e77226c277cdcc85ec6b702bec"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          3,
+          "complete",
+          221,
+          155,
+          "6ebf7e2ebdeecdb3ee6ae43d2c8b8561565399ad1aa120616f4847340cd5c7c9"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          4,
+          "complete",
+          141,
+          111,
+          "7601addc3cd588fa7f22414a6e32144c68aab4b667d83de6861b01a1217205f6"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          4,
+          "complete",
+          394,
+          300,
+          "8201caa8a6753cd61e4a443844e50ef224c880803b7fa078cdc0ea66276d5650"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          4,
+          "complete",
+          197,
+          140,
+          "2544e6f3d59db22efa1e166051d57d20a22a266d543542dfa5cd5f89ea85a09e"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          4,
+          "complete",
+          173,
+          134,
+          "62a31129e76b98ae8f6d1382a528636f7dd5be06c4efaccc614d951011c4b6c6"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          5,
+          "complete",
+          353,
+          286,
+          "77d6e3e9d06f9e4259747cf74c6b931f9dad8e706a7607e70c4df686538953d2"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          5,
+          "complete",
+          578,
+          451,
+          "94ce2fe02038f8b5b2d110a41107ee27f514c94357c31da53b0531e396efe4f8"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          5,
+          "complete",
+          412,
+          282,
+          "248b3d742c3e78e6f25b6d78171a380c90fb64a88fa86aff58cb7f89ead80c9d"
+        ],
+        {}
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          5,
+          "complete",
+          129,
+          107,
+          "94b7e982e43cec2eff81e169e39d1f391b5874bb214d6887613e455614afa7b3"
+        ],
+        {}
+      ]
+    ],
+    "shadow": [
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          0,
+          "complete",
+          216,
+          172,
+          "8ec5810be56fc823b3deac2a8a6208a74bd967fd2a2b6ecf2b5b66b2541ff5d5"
+        ],
+        {
+          "unresolved": 18,
+          "match": 120
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          0,
+          "complete",
+          409,
+          383,
+          "2f5aa4acfd13531f561232e884150e3da2f7066fb6646bdd0da52ba287ccdebd"
+        ],
+        {
+          "match": 244,
+          "unresolved": 10
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          0,
+          "complete",
+          80,
+          59,
+          "9bb0cb9a2bc75dfdc6bd56ce8f837fa5b59697d0c529c210a7edfd2998dd051a"
+        ],
+        {
+          "unresolved": 3,
+          "match": 53
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          0,
+          "complete",
+          356,
+          252,
+          "ce5cef8eedf567143206ded6ce6d010fb199a389de584262b602694042b026b4"
+        ],
+        {
+          "match": 135,
+          "unresolved": 15
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          1,
+          "complete",
+          401,
+          319,
+          "9c05fad04866290ce951b946b7e3223001d4ca47a26a965b358760d53b7becbb"
+        ],
+        {
+          "match": 262,
+          "unresolved": 26
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          1,
+          "complete",
+          405,
+          326,
+          "8c9af7026333302b7437d0752a9e1b36ccdf56dc4f811c25a23fc0b7f9541191"
+        ],
+        {
+          "match": 231,
+          "unresolved": 30
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          1,
+          "complete",
+          211,
+          151,
+          "144d11be983e2adb0b254d51fb78690e0fad050807757475a23c3389099f1471"
+        ],
+        {
+          "match": 119,
+          "unresolved": 11
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          1,
+          "complete",
+          412,
+          290,
+          "ba61a949bee2d7a73bff6e55e6919058992aea0c9a239207aa0226679691145c"
+        ],
+        {
+          "match": 158,
+          "unresolved": 31
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          2,
+          "complete",
+          236,
+          170,
+          "bb69cac0a6ae62f5be21a99b8f1a0d7ea8149af4acc8c9bd494ab098d9c2ae98"
+        ],
+        {
+          "match": 148,
+          "unresolved": 10
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          2,
+          "complete",
+          242,
+          191,
+          "a116dc26924152ab913c0d0e55a5188b9c962cd31ae46d490134db998baac3af"
+        ],
+        {
+          "match": 128,
+          "unresolved": 7
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          2,
+          "complete",
+          419,
+          279,
+          "0d9228bbd16b3df0b401f297e373178efe9b26470ee5918d13c5c7010e55d053"
+        ],
+        {
+          "match": 158,
+          "unresolved": 15
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          2,
+          "complete",
+          185,
+          123,
+          "2e30417e20c95215c57e010c8f6d507d9fe97897b01619b5468ae6f3984c157a"
+        ],
+        {
+          "match": 96,
+          "unresolved": 4
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          3,
+          "complete",
+          344,
+          252,
+          "bd552555d9d957819631cc5678181a0b27f3adf15ad02b7268e11420c21342ac"
+        ],
+        {
+          "match": 179,
+          "unresolved": 6
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          3,
+          "complete",
+          408,
+          341,
+          "a33d8849ee5d9ef334244af991b533e57399d708de26a7d9e0c8953e3faa7ba4"
+        ],
+        {
+          "match": 242,
+          "unresolved": 14
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          3,
+          "complete",
+          199,
+          140,
+          "42ab0ac59e1b18253941ed67f99faeaa38f406e77226c277cdcc85ec6b702bec"
+        ],
+        {
+          "match": 113,
+          "unresolved": 1
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          3,
+          "complete",
+          221,
+          155,
+          "6ebf7e2ebdeecdb3ee6ae43d2c8b8561565399ad1aa120616f4847340cd5c7c9"
+        ],
+        {
+          "match": 95,
+          "unresolved": 12
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          4,
+          "complete",
+          141,
+          111,
+          "7601addc3cd588fa7f22414a6e32144c68aab4b667d83de6861b01a1217205f6"
+        ],
+        {
+          "match": 52,
+          "unresolved": 2
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          4,
+          "complete",
+          394,
+          300,
+          "8201caa8a6753cd61e4a443844e50ef224c880803b7fa078cdc0ea66276d5650"
+        ],
+        {
+          "match": 238,
+          "unresolved": 33
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          4,
+          "complete",
+          197,
+          140,
+          "2544e6f3d59db22efa1e166051d57d20a22a266d543542dfa5cd5f89ea85a09e"
+        ],
+        {
+          "match": 67,
+          "unresolved": 4
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          4,
+          "complete",
+          173,
+          134,
+          "62a31129e76b98ae8f6d1382a528636f7dd5be06c4efaccc614d951011c4b6c6"
+        ],
+        {
+          "match": 124,
+          "unresolved": 18
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          5,
+          "complete",
+          353,
+          286,
+          "77d6e3e9d06f9e4259747cf74c6b931f9dad8e706a7607e70c4df686538953d2"
+        ],
+        {
+          "match": 154,
+          "unresolved": 35
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          5,
+          "complete",
+          578,
+          451,
+          "94ce2fe02038f8b5b2d110a41107ee27f514c94357c31da53b0531e396efe4f8"
+        ],
+        {
+          "match": 234,
+          "unresolved": 13
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          5,
+          "complete",
+          412,
+          282,
+          "248b3d742c3e78e6f25b6d78171a380c90fb64a88fa86aff58cb7f89ead80c9d"
+        ],
+        {
+          "match": 152,
+          "unresolved": 31
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          5,
+          "complete",
+          129,
+          107,
+          "94b7e982e43cec2eff81e169e39d1f391b5874bb214d6887613e455614afa7b3"
+        ],
+        {
+          "match": 32,
+          "unresolved": 2
+        }
+      ]
+    ],
+    "shadow6": [
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          0,
+          "complete",
+          216,
+          172,
+          "8ec5810be56fc823b3deac2a8a6208a74bd967fd2a2b6ecf2b5b66b2541ff5d5"
+        ],
+        {
+          "unresolved": 18,
+          "match": 120
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          0,
+          "complete",
+          409,
+          383,
+          "2f5aa4acfd13531f561232e884150e3da2f7066fb6646bdd0da52ba287ccdebd"
+        ],
+        {
+          "match": 244,
+          "unresolved": 10
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          0,
+          "complete",
+          80,
+          59,
+          "9bb0cb9a2bc75dfdc6bd56ce8f837fa5b59697d0c529c210a7edfd2998dd051a"
+        ],
+        {
+          "unresolved": 3,
+          "match": 53
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          0,
+          "complete",
+          356,
+          252,
+          "ce5cef8eedf567143206ded6ce6d010fb199a389de584262b602694042b026b4"
+        ],
+        {
+          "match": 135,
+          "unresolved": 15
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          1,
+          "complete",
+          401,
+          319,
+          "9c05fad04866290ce951b946b7e3223001d4ca47a26a965b358760d53b7becbb"
+        ],
+        {
+          "match": 262,
+          "unresolved": 26
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          1,
+          "complete",
+          405,
+          326,
+          "8c9af7026333302b7437d0752a9e1b36ccdf56dc4f811c25a23fc0b7f9541191"
+        ],
+        {
+          "match": 231,
+          "unresolved": 30
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          1,
+          "complete",
+          211,
+          151,
+          "144d11be983e2adb0b254d51fb78690e0fad050807757475a23c3389099f1471"
+        ],
+        {
+          "match": 119,
+          "unresolved": 11
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          1,
+          "complete",
+          412,
+          290,
+          "ba61a949bee2d7a73bff6e55e6919058992aea0c9a239207aa0226679691145c"
+        ],
+        {
+          "match": 158,
+          "unresolved": 31
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          2,
+          "complete",
+          236,
+          170,
+          "bb69cac0a6ae62f5be21a99b8f1a0d7ea8149af4acc8c9bd494ab098d9c2ae98"
+        ],
+        {
+          "match": 148,
+          "unresolved": 10
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          2,
+          "complete",
+          242,
+          191,
+          "a116dc26924152ab913c0d0e55a5188b9c962cd31ae46d490134db998baac3af"
+        ],
+        {
+          "match": 128,
+          "unresolved": 7
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          2,
+          "complete",
+          419,
+          279,
+          "0d9228bbd16b3df0b401f297e373178efe9b26470ee5918d13c5c7010e55d053"
+        ],
+        {
+          "match": 187,
+          "unresolved": 19
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          2,
+          "complete",
+          185,
+          123,
+          "2e30417e20c95215c57e010c8f6d507d9fe97897b01619b5468ae6f3984c157a"
+        ],
+        {
+          "match": 96,
+          "unresolved": 4
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          3,
+          "complete",
+          344,
+          252,
+          "bd552555d9d957819631cc5678181a0b27f3adf15ad02b7268e11420c21342ac"
+        ],
+        {
+          "match": 194,
+          "unresolved": 5
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          3,
+          "complete",
+          408,
+          341,
+          "a33d8849ee5d9ef334244af991b533e57399d708de26a7d9e0c8953e3faa7ba4"
+        ],
+        {
+          "match": 242,
+          "unresolved": 14
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          3,
+          "complete",
+          199,
+          140,
+          "42ab0ac59e1b18253941ed67f99faeaa38f406e77226c277cdcc85ec6b702bec"
+        ],
+        {
+          "match": 113,
+          "unresolved": 1
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          3,
+          "complete",
+          221,
+          155,
+          "6ebf7e2ebdeecdb3ee6ae43d2c8b8561565399ad1aa120616f4847340cd5c7c9"
+        ],
+        {
+          "match": 95,
+          "unresolved": 12
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          4,
+          "complete",
+          141,
+          111,
+          "7601addc3cd588fa7f22414a6e32144c68aab4b667d83de6861b01a1217205f6"
+        ],
+        {
+          "match": 52,
+          "unresolved": 2
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          4,
+          "complete",
+          394,
+          300,
+          "8201caa8a6753cd61e4a443844e50ef224c880803b7fa078cdc0ea66276d5650"
+        ],
+        {
+          "match": 238,
+          "unresolved": 33
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          4,
+          "complete",
+          197,
+          140,
+          "2544e6f3d59db22efa1e166051d57d20a22a266d543542dfa5cd5f89ea85a09e"
+        ],
+        {
+          "match": 67,
+          "unresolved": 4
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          4,
+          "complete",
+          173,
+          134,
+          "62a31129e76b98ae8f6d1382a528636f7dd5be06c4efaccc614d951011c4b6c6"
+        ],
+        {
+          "match": 124,
+          "unresolved": 18
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "default",
+          5,
+          "complete",
+          353,
+          286,
+          "77d6e3e9d06f9e4259747cf74c6b931f9dad8e706a7607e70c4df686538953d2"
+        ],
+        {
+          "match": 154,
+          "unresolved": 35
+        }
+      ],
+      [
+        [
+          "silent-a10-v2-tactics",
+          "seeded",
+          5,
+          "complete",
+          578,
+          451,
+          "94ce2fe02038f8b5b2d110a41107ee27f514c94357c31da53b0531e396efe4f8"
+        ],
+        {
+          "match": 320,
+          "unresolved": 21
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "default",
+          5,
+          "complete",
+          412,
+          282,
+          "248b3d742c3e78e6f25b6d78171a380c90fb64a88fa86aff58cb7f89ead80c9d"
+        ],
+        {
+          "match": 169,
+          "unresolved": 38
+        }
+      ],
+      [
+        [
+          "silent-a10-mecha-knight",
+          "seeded",
+          5,
+          "complete",
+          129,
+          107,
+          "94b7e982e43cec2eff81e169e39d1f391b5874bb214d6887613e455614afa7b3"
+        ],
+        {
+          "match": 32,
+          "unresolved": 2
+        }
+      ]
+    ]
+  }
+}

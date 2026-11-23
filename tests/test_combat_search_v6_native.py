@@ -458,3 +458,22 @@ def test_belt_buckle_last_potion(oracle, tmp_path):
         player["potions"] = [{"id": "POTION.BLOCK_POTION", "slot_index": 0}]
     load_relics(oracle, tmp_path, {"BELT_BUCKLE"}, ["DEFLECT"] * 10, "THE_INSATIABLE_BOSS", edit=add_potion)
     check(oracle, action(oracle, "use_potion"), stop="belt buckle")
+
+
+def test_subject_enrage_after_survivor_choice(oracle):
+    oracle.start("SUBJECT_DISCARD", ["SURVIVOR", "DEFLECT", "DEFEND_SILENT"], encounter="TEST_SUBJECT_BOSS")
+    predicted = check(oracle, named_card(oracle, "SURVIVOR"))
+    assert predicted.prompt and "STRENGTH" not in dict(predicted.enemies[0].powers)
+    selected = legal_actions(oracle.public)[0]
+    after = advance(predicted, legal(predicted)[0])
+    oracle.public = oracle.command(**selected.command())
+    assert not _difference(after, project(oracle.public).state)
+    assert dict(after.enemies[0].powers)["STRENGTH"] == dict(after.enemies[0].powers)["ENRAGE"]
+
+
+def test_aeonglass_sixth_play_boundary(oracle):
+    oracle.start("WITHER", ["SLICE"] * 16, encounter="AEONGLASS_BOSS")
+    for count in range(5):
+        check(oracle, named_card(oracle, "SLICE"), aeon=count)
+    check(oracle, named_card(oracle, "SLICE"), aeon=5, stop="creates wither")
+    assert any(c["id"] == "CARD.WITHER" for c in oracle.public["hand"])

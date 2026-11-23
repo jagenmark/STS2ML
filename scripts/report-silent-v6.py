@@ -3,6 +3,7 @@ import argparse
 from collections import Counter
 import gzip
 import json
+import shutil
 from pathlib import Path
 
 import numpy as np
@@ -10,6 +11,13 @@ import numpy as np
 ARMS = ("v5", "schema3", "heuristic")
 ROOT = Path(__file__).resolve().parents[1]
 LOCK = ROOT / "docs/combat-search-v2/v6-dev-lock.json"
+
+
+def pack(directory, path):
+    with path.open("xb") as file, gzip.GzipFile(filename="", mode="wb", fileobj=file, mtime=0) as archive:
+        for arm in ARMS:
+            with (directory / (arm + ".jsonl")).open("rb") as stream:
+                shutil.copyfileobj(stream, archive)
 
 
 def summarize(path):
@@ -26,8 +34,11 @@ def summarize(path):
             assert r["status"] == "complete" and not r.get("abandoned")
 
     rng = np.random.default_rng(406)
-    resamples = np.concatenate([rng.choice(indices := [i for i, row in enumerate(registry) if row[2] == m],
-                                           (10000, len(indices))) for m in ("default", "seeded")], axis=1)
+    strata = []
+    for mode in ("default", "seeded"):
+        indices = [i for i, row in enumerate(registry) if row[2] == mode]
+        strata.append(rng.choice(indices, (10000, len(indices))))
+    resamples = np.concatenate(strata, axis=1)
 
     def pairs(rows):
         return [{tuple(f[:4]): f[4] for f in r["late_fights"]} for r in rows]
@@ -36,6 +47,7 @@ def summarize(path):
         return np.array([17 * (r["act"] - 1) + r["floor"] for r in rows])
 
     reference = arms["v5"]
+    reference_fights = pairs(reference)
     metrics = {}
     for arm, rows in arms.items():
         delta = floors(rows) - floors(reference)
@@ -47,8 +59,9 @@ def summarize(path):
                              "fallbacks": dict((k, n) for k, n in counts.most_common() if k != "covered")}
         fights = [f for r in rows for f in r["late_fights"]]
         matched = {}
+        arm_fights = pairs(rows)
         for act in (2, 3):
-            observations = [(a[k], b[k]) for a, b in zip(pairs(rows), pairs(reference), strict=True)
+            observations = [(a[k], b[k]) for a, b in zip(arm_fights, reference_fights, strict=True)
                             for k in a.keys() & b.keys() if k[0] == act]
             values = np.asarray(observations)
             matched[act] = {"fights": len(values), "exit_hp": values[:, 0].mean(),
@@ -67,10 +80,19 @@ def summarize(path):
             act3_deaths=dict(Counter((r["death"].get("formation") or r["death"]["room"]) for r in rows
                              if r.get("death") and r["death"]["act"] == 3)),
         )
+    control = arms["v5"]
+    metrics["v5"]["independent_native"] = dict(sum((Counter(r["independent_native"]) for r in control), Counter()))
+    gap = floors(arms["heuristic"]) - floors(arms["schema3"])
+    metrics["heuristic_minus_schema3"] = {"delta": gap.mean(),
+            "ci": np.quantile(gap[resamples].mean(axis=1), [0.025, 0.975]).tolist()}
     return metrics
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("receipts", type=Path)
-    print(json.dumps(summarize(p.parse_args().receipts), indent=2))
+    p.add_argument("--pack", type=Path, help="create receipts from three audited arm JSONL files before summarizing")
+    args = p.parse_args()
+    if args.pack:
+        pack(args.pack, args.receipts)
+    print(json.dumps(summarize(args.receipts), indent=2))
