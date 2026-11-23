@@ -104,6 +104,7 @@ RELICS = PASSIVE_RELICS | {
 }
 KEYWORDS = {"Exhaust", "Ethereal", "Innate", "Retain", "Sly", "Unplayable", "Eternal"}
 MAX_EVENTS = 40
+HALLWAY_RELICS = {"DOLLYS_MIRROR", "BURNING_STICKS", "BEATING_REMNANT"}
 SIMPLE_CARDS = {"STRIKE_SILENT", "DEFEND_SILENT", "SLICE", "SHIV", "DEFLECT", "BACKSTAB", "DASH"}
 DEBUFFS = {
     "NEUTRALIZE": (("WEAK", 1, 1),), "SUCKER_PUNCH": (("WEAK", 1, 1),),
@@ -148,15 +149,24 @@ def admission(projected):
 def admission_reasons(projected):
     state = projected.state
     for name, _ in state.powers:
+        if state.hallway and name == "TENDER":
+            if state.tender_plays < 0 or power(state.powers, "ARTIFACT"):
+                yield "unwitnessed tender count or artifact"
+            continue
         if name not in PLAYER_POWERS and not (state.late and name in late_encounters.PLAYER):
             yield f"player power/{name}"
     for relic in state.relics:
+        if state.hallway and relic.name == "BEATING_REMNANT" and state.remnant_floor is None:
+            yield "unwitnessed remnant damage"
+        if state.hallway and relic.name == "TOY_BOX" and (relic.used or relic.counter == 0):
+            yield "spent toy box wax relic"
         if relic.name == "VAMBRACE" and relic.status == "Active" and (
             power(state.powers, "AFTERIMAGE") or any(r.name in ("ORNAMENTAL_FAN", "DAUGHTER_OF_THE_WIND", "TUNING_FORK")
                                                      for r in state.relics)
         ):
             yield "vambrace triggered block ordering"
-        if (relic.name not in RELICS and not (state.late and relic.name in late_encounters.RELICS)) or relic.stacks != 1:
+        if (relic.name not in RELICS and not (state.late and relic.name in late_encounters.RELICS)
+                and not (state.hallway and relic.name in HALLWAY_RELICS)) or relic.stacks != 1:
             yield f"relic/{relic.name}"
     for card, playable in zip(state.hand, projected.playable):
         v = card.variant
@@ -527,6 +537,9 @@ def _start_play(state, play):
 
 
 def _after_play(state, play, afterimage):
+    if state.hallway and power(state.powers, "TENDER"):
+        powers = add_power(add_power(state.powers, "STRENGTH", -1), "DEXTERITY", -1)
+        state = replace(state, powers=powers, tender_plays=state.tender_plays + 1)
     if state.late:
         if play.card.variant.kind == "Skill":
             if any(c.variant.name == "PINPOINT" for c in state.hand):
@@ -771,6 +784,10 @@ def advance(state, move):
     if state.late and move.target >= 0 and power(state.powers, "SURROUNDED"):
         state = replace(state, facing=move.target)
     result = _advance(state, move)
+    if (state.hallway and any(r.name == "BURNING_STICKS" and r.status == "Active" for r in state.relics)
+            and len(result.exhaust) > len(state.exhaust)
+            and sum(v.kind == "Skill" for v in result.exhaust) > sum(v.kind == "Skill" for v in state.exhaust)):
+        return boundary(replace(result, outcome=""), "burning sticks generated skill")
     if result.late and (not result.boundary or result.outcome == "completed"):
         for i, relic in enumerate(result.relics):
             if relic.name == "MEAT_ON_THE_BONE" and not relic.used:
@@ -816,6 +833,8 @@ def _advance(state, move):
         return _potion(state, move)
     card = next(c for c in state.hand if c.slot == move.slot)
     v = card.variant
+    if state.hallway and power(state.powers, "TENDER") and late_encounters.untracked_plays(state, v):
+        return boundary(state, "tender automatic play count")
     if state.late:
         if late_encounters.bound(v):
             state = replace(state, bound_used=True)
@@ -838,6 +857,7 @@ def _advance(state, move):
     if state.late and v.name == "SHIV" and any(r.name == "HELICAL_DART" for r in state.relics):
         return boundary(state, "helical dart temporary dexterity")
     if (v.name in SIMPLE_CARDS and not (state.late and (power(state.powers, "DANSE_MACABRE") or
+            (state.hallway and power(state.powers, "TENDER")) or
             any(c.variant.name == "PINPOINT" for c in state.hand) or
             any(power(e.powers, "ENRAGE") for e in state.enemies) or
             any(r.name in ("IRON_CLUB", "SHURIKEN", "KUNAI") for r in state.relics)))

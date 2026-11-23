@@ -76,6 +76,23 @@ def _completed_zones(state):
             _zone(state.exhaust), _zone(state.play))
 
 
+def _deadline_escape(public, enumerate_actions):
+    if public.get("decision") != "combat_play":
+        return None
+    ctx = public.get("context") or {}
+    if ctx.get("act") != 2 or ctx.get("room_type") != "Boss":
+        return None
+    if not any(e["id"] == "MONSTER.THE_INSATIABLE" and e["hp"] > 0 and any(
+            p["id"] == "POWER.SANDPIT_POWER" and 0 < p["amount"] <= 2 for p in e.get("powers") or ())
+            for e in public["enemies"]):
+        return None
+    escapes = [c for c in public["hand"] if c["id"] == "CARD.FRANTIC_ESCAPE" and c["can_play"]]
+    if escapes:
+        slot = min(escapes, key=lambda c: (c["cost"], c["index"]))["index"]
+        return next(a for a in enumerate_actions(public) if a.kind == "play_card" and a.args["card_index"] == slot)
+    return None
+
+
 def _after_draw_prompt(suspended, public):
     """Resume only the witnessed discard prompt of this just-executed play."""
     if (suspended.boundary.reason != "draw" or public.get("decision") != "card_select"
@@ -149,6 +166,7 @@ class CombatSearchV2:
         self._played_from = None
         self._bound_used = False
         self._aeon_plays = -1
+        self._remnant_start_hp = None
 
     def clone(self):
         clone = copy(self)
@@ -176,8 +194,9 @@ class CombatSearchV2:
         if self.records is None:
             return
         config = asdict(self.config)
-        if not config["v6_late_coverage"]:
-            del config["v6_late_coverage"]
+        for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe"):
+            if not config[switch]:
+                del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
         metadata = {"schema": SCHEMA, "config": config, "config_sha256": hashlib.sha256(canonical).hexdigest(),
                     "mode": "shadow" if self.shadow else "act"}
@@ -188,7 +207,7 @@ class CombatSearchV2:
             for row in self.records:
                 stream.write(json.dumps(row, separators=(",", ":")) + "\n")
 
-    def choose(self, public, champion, enumerate_actions, *, facing=None):
+    def choose(self, public, champion, enumerate_actions, *, facing=None, curse_preferences=None):
         started = perf_counter_ns() if self.records is not None else 0
         projected = None
         previous_prompt, self._prompt = self._prompt, None
@@ -201,11 +220,10 @@ class CombatSearchV2:
             if public.get("runtime_identity") != runtime_identity(10):
                 raise Unsupported("runtime")
             ctx = public.get("combat_state", public).get("context") or {}
-            late_root = self.config.v6_late_coverage and (
-                ctx.get("act") == 3 or (ctx.get("act") == 2 and ctx.get("room_type") == "Boss"))
+            late_root = self.config.late_root(ctx.get("act"), ctx.get("room_type"))
             projected = project(public, late_prompts=late_root)
             state = projected.state
-            if self.config.v6_late_coverage and any(v.name == "RIGHT_HAND_HAND" for v in state.discard):
+            if (late_root or self.config.v6_late_coverage) and any(v.name == "RIGHT_HAND_HAND" for v in state.discard):
                 state = replace(state, right_hand_return=True)
                 projected = replace(projected, state=state)
             if late_root:
@@ -215,9 +233,18 @@ class CombatSearchV2:
                     side = 0
                 plays = self._plays if self._round_key == key else -1
                 self._played_from = state
+                floor = None
+                if (self._round_key == key and self._remnant_start_hp is not None and
+                        any(r.name == "BEATING_REMNANT" for r in state.relics)):
+                    floor = max(0, self._remnant_start_hp - 20)
                 projected = replace(projected, state=replace(state, late=True, facing=side, preview_facing=side,
                                                              sloth_plays=plays, bound_used=self._bound_used,
-                                                             aeon_plays=self._aeon_plays))
+                                                             aeon_plays=self._aeon_plays, tender_plays=plays,
+                                                             remnant_floor=floor))
+            if self.config.v61_boss_safe and state.act == 2 and state.room == "Boss" and state.curse_options:
+                # The champion has already selected a physical card in this
+                # observed offer. Resume search on the next combat-play root.
+                raise Unsupported("champion knowledge curse")
             if projected.state.prompt:
                 if previous_prompt is None or _difference(previous_prompt, projected.state):
                     raise Unsupported("unreconciled prompt")
@@ -226,7 +253,7 @@ class CombatSearchV2:
             moves = _native_legal(projected, actions)
             primary = root_move(projected, champion.kind, champion.args)
             result = search(projected, moves, primary, self.config, model=self.model,
-                            record_timing=self.records is not None)
+                            record_timing=self.records is not None, curse_preferences=curse_preferences)
             fallback = result.fallback
             changed = result.choice != primary
             if changed and not self.shadow and not fallback:
@@ -235,6 +262,11 @@ class CombatSearchV2:
                 self._decision = projected, moves
         except (Unsupported, NativeError, KeyError, TypeError, ValueError) as error:
             fallback = str(error) if isinstance(error, Unsupported) else f"projection/{type(error).__name__}"
+        if (self.config.v61_boss_safe and not self.shadow and public.get("runtime_identity") == runtime_identity(10)
+                and not (result and not fallback and result.line and result.line.state.outcome == "victory")):
+            escape = _deadline_escape(public, enumerate_actions)
+            if escape is not None and escape != actual:
+                actual, changed, fallback = escape, escape != champion, "sandpit deadline"
         if self.records is not None:
             view = public.get("combat_state", public)
             formation = [entry(e["id"]) for e in view.get("enemies", ())]
@@ -270,13 +302,24 @@ class CombatSearchV2:
         return observer.records[0].get("oracle")
 
     def observe(self, action, after, enumerate_actions):
-        if self.config.v6_late_coverage:
+        if self.config.v6_late_coverage or self.config.v61_act2_hallways_act3 or self.config.v61_boss_safe:
             prior, self._played_from = self._played_from, None
             view = after.get("combat_state", after)
             ctx = view.get("context") or {}
             key = (ctx.get("act"), ctx.get("floor"), view.get("round"))
             uncertain = action.kind == "play_card" and (
                 prior is None or late_encounters.untracked_plays(prior, prior.hand[action.args["card_index"]].variant))
+            if self.config.v61_act2_hallways_act3 or self.config.v61_boss_safe:
+                if key != self._round_key:
+                    # The cap resets at player-side start. Only witness an
+                    # ordinary new turn with no start-turn self-damage.
+                    witnessed = ((key[-1] == 1 or (action.kind == "end_turn" and prior and
+                                  not dict(prior.powers).get("POISON"))) and
+                                 any(r["id"] == "RELIC.BEATING_REMNANT" for r in view.get("player", {}).get("relics", ())))
+                    self._remnant_start_hp = view["player"]["hp"] if witnessed else None
+                elif self._remnant_start_hp is not None and (uncertain or prior is None or
+                        action.kind == "use_potion" or view["player"]["hp"] != prior.hp):
+                    self._remnant_start_hp = None
             if key != self._round_key:
                 self._plays = 0
                 self._bound_used = False
@@ -326,6 +369,8 @@ class CombatSearchV2:
                         self._prompt = replace(self._prompt, late=True, facing=predicted.facing,
                                                preview_facing=predicted.facing, sloth_plays=self._plays,
                                                bound_used=self._bound_used, aeon_plays=self._aeon_plays,
+                                               tender_plays=predicted.tender_plays,
+                                               remnant_floor=predicted.remnant_floor,
                                                right_hand_return=predicted.right_hand_return)
                 except (Unsupported, ValueError, KeyError, TypeError):
                     self._prompt = None
@@ -389,7 +434,10 @@ def choose_encounter(mode, encounter, public, policy, enumerate_actions):
     tactics = encounter.boss_tactics
     original_facing = tactics.facing if tactics is not None else None
     champion = encounter.choose(public, policy)
-    if mode.config.v6_late_coverage:
+    if mode.config.v61_boss_safe:
+        preferences = tactics.plan.get("curse") if tactics is not None else None
+        action = mode.choose(public, champion, enumerate_actions, facing=original_facing, curse_preferences=preferences)
+    elif mode.config.v6_late_coverage:
         action = mode.choose(public, champion, enumerate_actions, facing=original_facing)
     else:
         action = mode.choose(public, champion, enumerate_actions)

@@ -18,10 +18,20 @@ class Config:
     potion_reserve: float = 7.0
     value_win_weight: float = 0.0
     v6_late_coverage: bool = False
+    v61_act2_hallways_act3: bool = False
+    v61_boss_safe: bool = False
+
+    def late_root(self, act, room):
+        if act == 3:
+            return self.v6_late_coverage or self.v61_act2_hallways_act3 or self.v61_boss_safe
+        if act == 2 and room == "Boss":
+            return self.v6_late_coverage or self.v61_boss_safe
+        return act == 2 and room in ("Monster", "Elite") and (self.v61_act2_hallways_act3 or self.v61_boss_safe)
 
     def __post_init__(self):
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
-                or type(self.v6_late_coverage) is not bool
+                or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
+                                                      self.v61_boss_safe))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
@@ -68,7 +78,7 @@ class _Node:
 
 
 class _Search:
-    def __init__(self, root_moves, champion, config, model, record_timing):
+    def __init__(self, root_moves, champion, config, model, record_timing, boss_safe, curse_preferences):
         self.config = config
         self.champion = champion
         self.root_moves = root_moves
@@ -82,6 +92,17 @@ class _Search:
         self.model = model
         self.record_timing = record_timing
         self.leaf_ns = None
+        self.boss_safe = boss_safe
+        self.curse_preferences = curse_preferences
+
+    def continuations(self, state):
+        if self.boss_safe and state.curse_options:
+            if self.curse_preferences is None:
+                return ()
+            other = state.curse_options[1][0]
+            index = int(other in self.curse_preferences)
+            return (Move("select_cards", selection=(index,)),)
+        return legal(state)
 
     def key(self, line):
         return line.score, line.root == self.champion, -line.root, -len(line.path)
@@ -92,7 +113,8 @@ class _Search:
             self.boundaries[reason] = self.boundaries.get(reason, 0) + 1
         started = (perf_counter_ns() if self.record_timing and self.leaf_ns is None
                    and state.outcome == "completed" else None)
-        score = leaf_value(state, self.config.potion_reserve, self.model, self.config.value_win_weight)
+        score = leaf_value(state, self.config.potion_reserve, self.model, self.config.value_win_weight,
+                           boss_safe=self.boss_safe)
         if started is not None:
             self.leaf_ns = perf_counter_ns() - started
         line = Line(state, path, score, root)
@@ -123,13 +145,13 @@ class _Search:
         if successor.boundary or successor.outcome:
             self.leaf(successor, path, root)
             return None
-        return _Node(successor, path, root, interim(successor, self.config.potion_reserve))
+        return _Node(successor, path, root, interim(successor, self.config.potion_reserve, boss_safe=self.boss_safe))
 
     def finish(self, node):
         if node.state.prompt is None:
             pending = self.child(node.state, node.path, node.root, END_TURN)
             if pending and pending.state.curse_options:
-                for move in legal(pending.state):
+                for move in self.continuations(pending.state):
                     self.child(pending.state, pending.path, pending.root, move)
 
     def _rank(self, node, axis=0):
@@ -198,7 +220,7 @@ class _Search:
             if node.state.prompt is None:
                 self.finish(node)
                 continue
-            for move in legal(node.state):
+            for move in self.continuations(node.state):
                 child = self.child(node.state, node.path, node.root, move)
                 if child:
                     self.finish(child)
@@ -211,7 +233,7 @@ class _Search:
             parents = self.beam(frontier)
             frontier = []
             # Round-robin widths preserve the reserved nodes under a late cap.
-            moves = [iter(move for move in legal(node.state) if move != END_TURN) for node in parents]
+            moves = [iter(move for move in self.continuations(node.state) if move != END_TURN) for node in parents]
             active = list(zip(parents, moves))
             while active and not self.child_cap:
                 remaining = []
@@ -255,12 +277,15 @@ class _Search:
                       self.leaf_ns)
 
 
-def search(projected, roots, champion, config=Config(), *, model=None, record_timing=False):
+def search(projected, roots, champion, config=Config(), *, model=None, record_timing=False, curse_preferences=None):
     """Only a projection and local action coordinates enter the online kernel."""
     state = projected.state
-    late = config.v6_late_coverage and (state.act == 3 or (state.act == 2 and state.room == "Boss"))
+    late = config.late_root(state.act, state.room)
     if state.late != late:
         projected = replace(projected, state=replace(state, late=late))
+    boss_safe = config.v61_boss_safe and state.act == 2 and state.room == "Boss"
+    if boss_safe and state.curse_options:
+        return Result(champion, root_count=len(roots), fallback="champion knowledge curse")
     if reason := encounter_reason(projected.state) or admission(projected):
         return Result(champion, root_count=len(roots), fallback=reason)
     if champion not in roots or roots != legal(projected.state):
@@ -269,4 +294,4 @@ def search(projected, roots, champion, config=Config(), *, model=None, record_ti
         return Result(champion, root_count=len(roots), fallback="forced")
     if len(roots) > config.children:
         return Result(champion, root_count=len(roots), fallback="root exceeds child cap", child_cap=True)
-    return _Search(roots, roots.index(champion), config, model, record_timing).run(projected.state)
+    return _Search(roots, roots.index(champion), config, model, record_timing, boss_safe, curse_preferences).run(projected.state)

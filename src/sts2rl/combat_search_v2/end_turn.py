@@ -24,6 +24,8 @@ def _player_damage(state, hp, block, powers, amount, *, bypass=False):
 
 def _hurt(state, amount, *, bypass=False):
     hp, block, powers = _player_damage(state, state.hp, state.block, state.powers, amount, bypass=bypass)
+    if state.remnant_floor is not None:
+        hp = max(hp, state.remnant_floor)
     if hp < state.hp and _puzzle(state):
         return boundary(state, "centennial puzzle draw")
     state = replace(state, hp=hp, block=block, powers=powers)
@@ -84,6 +86,8 @@ def _hand_end(state):
         if state.outcome or state.boundary:
             return state
     if regen := power(state.powers, "REGEN"):
+        if state.remnant_floor is not None:
+            return boundary(state, "remnant heal ordering")
         if any(c.variant.name in _HAND_DAMAGE for c in hand) or power(state.powers, "CONSTRICT"):
             return boundary(state, "regen and hand damage ordering")
         state = replace(state, hp=min(state.max_hp, state.hp + regen), powers=add_power(state.powers, "REGEN", -1))
@@ -216,6 +220,8 @@ def _enemy_actions(state):
             for _ in range(intent.hits):
                 before = hp
                 hp, block, powers = _player_damage(state, hp, block, powers, amount)
+                if state.remnant_floor is not None:
+                    hp = max(hp, state.remnant_floor)
                 if state.late and hp < before and (cut := power(enemy.powers, "PAPER_CUTS")):
                     if state.max_hp <= cut:
                         return boundary(state, "paper cuts lethal max HP")
@@ -437,9 +443,14 @@ def resolve(state):
         return state
     if reason := encounter_reason(state):
         return boundary(state, reason)
+    if state.hallway and state.reattach_pending and any(e.name.startswith("DECIMILLIPEDE_SEGMENT_") for e in state.enemies):
+        return boundary(state, "segment due to reattach")
     state = _hand_end(state)
     if state.outcome or state.boundary:
         return state
+    if state.hallway and power(state.powers, "TENDER"):
+        powers = add_power(add_power(state.powers, "STRENGTH", state.tender_plays), "DEXTERITY", state.tender_plays)
+        state = replace(state, powers=powers, tender_plays=0)
     state = _enemy_start(state)
     if state.outcome or state.boundary:
         return state

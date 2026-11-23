@@ -194,6 +194,13 @@ class State:
     aeon_plays: int = -1
     curse_number: int = -1
     curse_options: tuple = ()
+    tender_plays: int = -1
+    reattach_pending: bool = True
+    remnant_floor: int | None = None
+
+    @property
+    def hallway(self):
+        return self.late and self.act == 2 and self.room in ("Monster", "Elite")
 
 
 @dataclass(frozen=True, slots=True)
@@ -296,6 +303,16 @@ def project(public, *, late_prompts=False):
                   power(powers, "INTANGIBLE") > 0, floor=integer(ctx.get("floor", 0)),
                   seal_gold=integer(player["gold"]) if any(r.name == "SEAL_OF_GOLD" for r in relics) else 0)
     prompt_indices = ()
+    if late_prompts and state.act == 2 and state.room == "Elite" and any(
+            e.name.startswith("DECIMILLIPEDE_SEGMENT_") for e in enemies):
+        history = view.get("public_combat_history") or ()
+        # A segment which was alive at this turn's public opening can miss
+        # its first move. An earlier knockout might already be due to revive.
+        names = {e.name for e in enemies if e.hp > 0}
+        if history and history[-1].get("round") == state.round:
+            names = {entry(e["id"]) for e in history[-1]["enemies"] if e["hp"] > 0}
+        state = replace(state, reattach_pending=names != {
+            "DECIMILLIPEDE_SEGMENT_FRONT", "DECIMILLIPEDE_SEGMENT_MIDDLE", "DECIMILLIPEDE_SEGMENT_BACK"})
     if late_prompts and tuple(e.name for e in enemies) == ("KNOWLEDGE_DEMON",):
         history = view.get("public_combat_history") or ()
         if ([h.get("round") for h in history] == list(range(1, state.round + 1))

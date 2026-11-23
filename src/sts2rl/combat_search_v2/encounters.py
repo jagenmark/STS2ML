@@ -46,7 +46,7 @@ def encounter_reason(state):
     living = tuple(e.name for e in state.enemies if e.hp > 0)
     if state.late and (reason := late_encounters.reason(state)):
         return reason
-    if any(name.startswith("DECIMILLIPEDE_SEGMENT_") for name in living) and len(living) != 3:
+    if not state.hallway and any(name.startswith("DECIMILLIPEDE_SEGMENT_") for name in living) and len(living) != 3:
         return "segment reattachment"
     if not living:
         return "no living enemy"
@@ -81,6 +81,10 @@ def after_death(state, enemy):
     if any(r.name == "GREMLIN_HORN" and not r.used for r in state.relics):
         return replace(state, boundary=Boundary("gremlin horn death trigger"))
     if power(enemy.powers, "REATTACH"):
+        if state.hallway and enemy.name.startswith("DECIMILLIPEDE_SEGMENT_"):
+            if any(e.hp > 0 for e in state.enemies):
+                return state
+            return replace(state, outcome="victory", queue=(), prompt=None)
         return replace(state, boundary=Boundary("segment reattachment"))
     if power(enemy.powers, "INFESTED"):
         return replace(state, boundary=Boundary("infested death phase"))
@@ -126,6 +130,8 @@ def after_damage(state, before, enemy):
         return _update(state, enemy.slot, powers=set_power(powers, "BURROWED", 0), intents=STUN)
     if enemy.hp < before.hp:
         if power(powers, "SLUMBER"):
+            if state.hallway and enemy.name == "SLUMBERING_BEETLE" and power(powers, "SLUMBER") > 1:
+                return _update(state, enemy.slot, powers=add_power(powers, "SLUMBER", -1))
             return replace(state, boundary=Boundary("slumber wake on damage"))
         if (plow := power(powers, "PLOW")) and enemy.hp <= plow:
             powers = set_power(set_power(powers, "PLOW", 0), "STRENGTH", 0)
@@ -233,6 +239,10 @@ def after_move(state, enemy):
         if not kinds or kinds == {"Buff"}:
             return _update(state, enemy.slot, block=plating, powers=powers)
     if profile == "SLUMBERING_BEETLE" and (kinds == {"Sleep"} or power(enemy.powers, "PLATING")):
+        if state.hallway and kinds == {"Sleep"} and (slumber := power(enemy.powers, "SLUMBER")):
+            plating = max(0, power(enemy.powers, "PLATING") - int(state.round > 1))
+            powers = set_power(add_power(enemy.powers, "SLUMBER", -1), "PLATING", plating if slumber > 1 else 0)
+            return _update(state, enemy.slot, powers=powers, block=plating)
         return replace(state, boundary=Boundary("slumber wake countdown"))
     if profile == "SLUMBERING_BEETLE" and kinds == {"Buff"}:
         return _strength(state, enemy, 2)
