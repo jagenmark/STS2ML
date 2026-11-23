@@ -4,7 +4,7 @@ import hashlib
 
 import numpy as np
 
-from .features import FEATURE_NAMES, VERSION, extract_leaf_features
+from .features import FEATURE_NAMES, SCHEMA2_NAMES, VERSION, extract_leaf_features
 
 ARTIFACT_VERSION = 1
 SCHEMA_SHA256 = hashlib.sha256("\n".join(FEATURE_NAMES).encode()).hexdigest()
@@ -21,12 +21,15 @@ class CombatValueModel:
     scale: np.ndarray
     layers: tuple[tuple[np.ndarray, np.ndarray], ...]
     calibration: np.ndarray
+    schema: int = VERSION
 
     @classmethod
     def load(cls, path):
         with np.load(path, allow_pickle=False) as data:
-            if (data["version"].item() != ARTIFACT_VERSION or data["schema"].item() != VERSION
-                    or data["schema_sha256"].item() != SCHEMA_SHA256):
+            schema = data["schema"].item()
+            names = {2: SCHEMA2_NAMES, VERSION: FEATURE_NAMES}.get(schema)
+            if (data["version"].item() != ARTIFACT_VERSION or names is None
+                    or data["schema_sha256"].item() != hashlib.sha256("\n".join(names).encode()).hexdigest()):
                 raise ValueError("Incompatible combat value v2 feature schema")
             widths = tuple(data["widths"].tolist())
             if widths not in WIDTHS:
@@ -39,11 +42,11 @@ class CombatValueModel:
                 vector.flags.writeable = False
                 return vector
 
-            dimensions = (len(FEATURE_NAMES), *widths, 2)
+            dimensions = (len(names), *widths, 2)
             n = dimensions[0]
             layers = tuple((array(f"w{i}", (left, right)), array(f"b{i}", (right,)))
                            for i, (left, right) in enumerate(zip(dimensions, dimensions[1:])))
-            model = cls(array("mean", (n,)), array("scale", (n,)), layers, array("calibration", (2,)))
+            model = cls(array("mean", (n,)), array("scale", (n,)), layers, array("calibration", (2,)), schema)
             if np.any(model.scale <= 0) or model.calibration[0] <= 0:
                 raise ValueError("Invalid combat value v2 normalization")
             return model
@@ -58,7 +61,7 @@ class CombatValueModel:
         return sigmoid(logits)
 
     def leaf(self, state):
-        probability, fraction = self.predict(extract_leaf_features(state))
+        probability, fraction = self.predict(extract_leaf_features(state, schema=self.schema))
         return float(probability), float(fraction)
 
 

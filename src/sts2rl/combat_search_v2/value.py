@@ -7,6 +7,14 @@ UNRESOLVED = 1
 DEAD = 0
 
 
+def _damage_progress(enemy):
+    # In the Giant's eruption phase its displayed HP is infinite until the
+    # scripted exit. Attacking that display cannot advance the knockout.
+    if enemy.name == "WATERFALL_GIANT" and enemy.max_hp == 999_999_999:
+        return 0
+    return enemy.max_hp - enemy.hp
+
+
 def _progress(state):
     progress = 0
     pressure = 0
@@ -21,7 +29,7 @@ def _progress(state):
             if sandpit := power(enemy.powers, "SANDPIT"):
                 deadline += 9 / sandpit
             progress -= enemy.block * 0.08
-        progress += enemy.max_hp - enemy.hp
+        progress += _damage_progress(enemy)
     return progress, pressure, deadline
 
 
@@ -50,7 +58,7 @@ def interim(state, reserve_price):
     progress = 0
     pressure = 0
     for enemy in state.enemies:
-        progress += enemy.max_hp - enemy.hp
+        progress += _damage_progress(enemy)
         if enemy.hp > 0:
             poison = power(enemy.powers, "POISON")
             progress += min(enemy.hp, poison) * 0.8

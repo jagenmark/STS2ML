@@ -8,7 +8,9 @@ import json
 from pathlib import Path
 
 from sts2rl.combat_search_v2.recording import observer_path
-from sts2rl.combat_search_v2.seed_registry import load_confirmation_registry, load_registry, registry_sha256
+from sts2rl.combat_search_v2.seed_registry import (
+    load_confirmation_registry, load_phase3_registry, load_registry, registry_sha256,
+)
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_evaluation import play_episode
 from sts2rl.run_policy import RunWeights
@@ -89,6 +91,7 @@ def main():
     parser.add_argument("--workers", type=int, default=12)
     parser.add_argument("--observer", type=Path)
     cohorts = parser.add_mutually_exclusive_group()
+    cohorts.add_argument("--phase3", choices=("fit", "test", "held"))
     cohorts.add_argument("--fit-only", action="store_true", help="Rebuild train and development data with the test split closed")
     cohorts.add_argument("--confirmation-only", action="store_true", help="Collect the separately locked test-only lobbies")
     args = parser.parse_args()
@@ -96,13 +99,21 @@ def main():
     observer = observer_path(ROOT, args.observer)
     if sha(host) != PINNED_HOST_SHA256:
         parser.error("The collection requires the pinned v0.111.0 headless host")
-    registry = load_confirmation_registry() if args.confirmation_only else load_registry()
-    rows = [lobby for lobby in registry if not args.fit_only or lobby.split != "test"]
+    if args.phase3:
+        registry = load_phase3_registry()
+        splits = ("train", "dev") if args.phase3 == "fit" else (args.phase3,)
+        rows = [row for row in registry if row.split in splits]
+        if sha(CHAMPION) != "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b":
+            parser.error("Phase 3 requires all_v2_p1_v4")
+    else:
+        registry = load_confirmation_registry() if args.confirmation_only else load_registry()
+        rows = [lobby for lobby in registry if not args.fit_only or lobby.split != "test"]
     role, settings = load_bundle(CHAMPION)
     settings["combat_v2_observer"] = str(observer)
     weights = asdict(RunWeights.load(settings["weights"]))
     args.output.mkdir(parents=True, exist_ok=True)
     manifest = {"version": 1, "registry_sha256": registry_sha256(registry), "count": len(rows), "actor": role,
+                **({"phase3": args.phase3} if args.phase3 else {}),
                 **({"fit_only": True} if args.fit_only else {}),
                 **({"confirmation_only": True} if args.confirmation_only else {}),
                 "champion_sha256": sha(CHAMPION), "host_sha256": sha(host), "observer_sha256": sha(observer),

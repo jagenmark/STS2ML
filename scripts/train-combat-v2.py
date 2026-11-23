@@ -12,9 +12,11 @@ import numpy as np
 
 from sts2rl.combat_search_v2.artifact import CombatValueModel, export_model, sigmoid
 from sts2rl.combat_search_v2.features import FEATURE_NAMES, VERSION
-from sts2rl.combat_search_v2.seed_registry import load_confirmation_registry, load_registry, registry_sha256
+from sts2rl.combat_search_v2.seed_registry import (
+    load_confirmation_registry, load_phase3_registry, load_registry, registry_sha256,
+)
 
-ARCHITECTURES = {"linear": (), "mlp32": (32, 16), "mlp64": (64, 32)}
+ARCHITECTURES = {"linear": (), "mlp32": (32, 16), "mlp64": (64, 32), "residual": ()}
 RANDOM_SEED = 20261123
 
 
@@ -98,7 +100,7 @@ def split_dev(rows):
     return calibration, selection
 
 
-def fit_model(dataset, widths, *, features=None):
+def fit_model(dataset, widths, *, features=None, residual=False):
     import torch
     from torch import nn
     from torch.nn import functional as loss
@@ -110,7 +112,28 @@ def fit_model(dataset, widths, *, features=None):
     mean = np.average(x, weights=dataset.weight, axis=0).astype(np.float32)
     variance = np.average((x - mean) ** 2, weights=dataset.weight, axis=0)
     scale = np.float32(1) / np.maximum(np.sqrt(variance), np.float32(0.1))
-    x = torch.tensor((x - mean) * scale, device=device)
+    standardized = (x - mean) * scale
+    prior = np.zeros((mean.size, 2), dtype=np.float32)
+    fixed = []
+    if residual:
+        # Fit contextual corrections around a monotone public HP/block/damage
+        # heuristic. Folding the affine prior into the export keeps inference
+        # identical to an ordinary two-head linear model.
+        for i, name in enumerate(FEATURE_NAMES):
+            if name in ("player.hp", "player.block", "living_hp", "living_count",
+                        "effective_poison_progress", "damage_dealt_fraction", "living_log_hp",
+                        "player.hp_fraction") or (
+                            name.startswith("enemy.") and name.split(".")[1].isdigit()
+                            and name.split(".")[-1] in ("hp", "hp_fraction", "log_hp")):
+                fixed.append(i)
+        for name, coefficient in {"player.hp": .07, "player.block": .025, "living_hp": -.012,
+                                  "living_count": -.15, "enemy.0.hp": -.004,
+                                  "damage_dealt_fraction": .35, "effective_poison_progress": .28}.items():
+            i = FEATURE_NAMES.index(name)
+            prior[i] = np.asarray([coefficient, coefficient * .65]) / scale[i]
+    offset = torch.tensor(standardized @ prior, device=device)
+    standardized[:, fixed] = 0
+    x = torch.tensor(standardized, device=device)
     y = torch.tensor(dataset.win, device=device)
     hp = torch.tensor(dataset.exit_fraction, device=device)
     weight = torch.tensor(dataset.weight / dataset.weight.mean(), device=device)
@@ -126,7 +149,7 @@ def fit_model(dataset, widths, *, features=None):
         order = rng.permutation(len(x))
         for start in range(0, len(x), 1024):
             i = torch.as_tensor(order[start:start + 1024], device=device)
-            z = model(x[i])
+            z = model(x[i]) + offset[i]
             win_loss = loss.binary_cross_entropy_with_logits(z[:, 0], y[i], reduction="none")
             hp_loss = loss.huber_loss(z[:, 1].sigmoid(), hp[i], reduction="none", delta=0.1)
             objective = (weight[i] * (win_loss + 4 * y[i] * hp_loss)).mean()
@@ -137,6 +160,8 @@ def fit_model(dataset, widths, *, features=None):
     torch.cuda.synchronize(device)
     layers = tuple((layer.weight.detach().cpu().numpy().T.copy(), layer.bias.detach().cpu().numpy().copy())
                    for layer in linears)
+    if residual:
+        layers[0][0][fixed] = prior[fixed]
     return mean, scale, layers
 
 
@@ -251,7 +276,7 @@ def fit(args, rows):
               "calibration": calibration.summary, "selection": dev.summary, "candidates": {}}
     for name, widths in ARCHITECTURES.items():
         print(f"{name} on {report['device']}", flush=True)
-        params = fit_model(train, widths)
+        params = fit_model(train, widths, residual=name == "residual")
         platt = fit_platt(logits(calibration.x, params)[:, 0], calibration)
         raw = logits(dev.x, params)
         artifact = args.output / f"{name}.npz"
@@ -264,7 +289,8 @@ def fit(args, rows):
                                       "calibrated": detailed_metrics(dev, prediction)}
         save(args.output / "dev-metrics.json", report)
     best = min(report["candidates"], key=lambda name: report["candidates"][name]["calibrated"]["overall"]["brier"])
-    potion_params = fit_model(train, ARCHITECTURES[best], features=train.with_potions(train_potions))
+    potion_params = fit_model(train, ARCHITECTURES[best], features=train.with_potions(train_potions),
+                             residual=best == "residual")
     potion_platt = fit_platt(logits(calibration.with_potions(calibration_potions), potion_params)[:, 0], calibration)
     potion_metrics = metrics(dev, calibrated(logits(dev.with_potions(dev_potions), potion_params), potion_platt))
     report["offline_potion_count"] = {"model": best, "metrics": potion_metrics,
@@ -277,6 +303,7 @@ def finalize(args, rows):
     report = json.loads((args.output / "dev-metrics.json").read_bytes())
     times = json.loads((args.output / "cpu-latency.json").read_bytes())
     eligible = [name for name, receipt in times.items() if receipt["p95_ms"] < .1
+                and min(receipt["damage_sensitivity"].values()) > 1e-4
                 and receipt["artifact_sha256"] == report["candidates"][name]["sha256"]]
     if not eligible:
         raise SystemExit("No candidate satisfies the CPU p95 latency gate")
@@ -305,7 +332,8 @@ def finalize(args, rows):
 def confirm(args, rows):
     freeze = json.loads((args.output / "selection-freeze.json").read_bytes())
     path = args.output / "combat_value_v2.npz"
-    if (freeze["registry_sha256"] != registry_sha256(load_registry())
+    registry = load_phase3_registry() if args.phase3 else load_registry()
+    if (freeze["registry_sha256"] != registry_sha256(registry)
             or freeze["artifact_sha256"] != fingerprint(path)):
         raise ValueError("Correction selection or model checksum mismatch")
     model = CombatValueModel.load(path)
@@ -324,19 +352,29 @@ def main():
     parser.add_argument("stage", choices=("fit", "select", "finalize", "confirm"))
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--phase3", action="store_true")
     args = parser.parse_args()
     confirmation = args.stage == "confirm"
-    rows = load_confirmation_registry() if confirmation else load_registry()
+    rows = load_phase3_registry() if args.phase3 else load_confirmation_registry() if confirmation else load_registry()
     collection = json.loads((args.data / "collection.json").read_bytes())
     census = json.loads((args.data / "coverage-census.json").read_bytes())
     fit_only = collection.get("fit_only", False)
-    expected = sum(row.split != "test" for row in rows) if fit_only else len(rows)
+    if args.phase3:
+        phase = "test" if confirmation else "fit"
+        if args.stage == "finalize" or collection.get("phase3") != phase or collection["champion_sha256"] != (
+                "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b"):
+            parser.error("Phase 3 selection and one-pass sealed evaluation require separate v4 collections")
+        expected = sum(row.split in (("test",) if confirmation else ("train", "dev")) for row in rows)
+    else:
+        expected = sum(row.split != "test" for row in rows) if fit_only else len(rows)
     if collection["registry_sha256"] != registry_sha256(rows) or census["runs"] != expected:
         parser.error("Complete locked collection required")
     if args.stage == "finalize" and fit_only:
         parser.error("Sealed test is absent from this collection")
-    if bool(collection.get("confirmation_only")) != confirmation:
+    if not args.phase3 and bool(collection.get("confirmation_only")) != confirmation:
         parser.error("Confirm requires the separate locked test collection")
+    if args.phase3 and confirmation:
+        rows = [row for row in rows if row.split == "test"]
     {"fit": fit, "select": finalize, "finalize": finalize, "confirm": confirm}[args.stage](args, rows)
 
 

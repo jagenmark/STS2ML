@@ -5,13 +5,15 @@ excluded. Card identities are counted across the live zones before encoding.
 """
 from collections import Counter
 from functools import lru_cache
+from math import log1p
 from zlib import crc32
 
 import numpy as np
 
 from .state import Unsupported, entry
 
-VERSION = 2
+VERSION = 3
+HP_CAP = 2000
 PLAYER_POWERS = (
     "STRENGTH", "DEXTERITY", "WEAK", "VULNERABLE", "FRAIL", "AFTERIMAGE", "BLUR",
     "BUFFER", "INTANGIBLE", "CONSTRICT", "SHRINK", "ARTIFACT", "POISON", "FOOTWORK",
@@ -26,7 +28,7 @@ CARD_TYPES = ("Attack", "Skill", "Power", "Status", "Curse")
 ROOM_TYPES = ("Monster", "Elite", "Boss")
 FORMATION_BINS, CARD_BINS = 24, 48
 
-FEATURE_NAMES = (
+SCHEMA2_NAMES = (
     "player.hp", "player.max_hp", "player.hp_fraction", "player.block", "player.max_energy",
     "player.energy_buff", "round", "floor", "act.1", "act.2", "act.3",
     *(f"room.{room}" for room in ROOM_TYPES),
@@ -41,6 +43,10 @@ FEATURE_NAMES = (
     *(f"live.card.{i}" for i in range(CARD_BINS)),
     *(f"retained.card.{i}" for i in range(16)),
 )
+
+FEATURE_NAMES = (*SCHEMA2_NAMES, "sentinel_enemy", "living_log_hp", "damage_dealt_fraction",
+                 "effective_poison_progress", *(f"enemy.{i}.hp_fraction" for i in range(4)),
+                 *(f"enemy.{i}.log_hp" for i in range(4)))
 
 
 @lru_cache(maxsize=4096)
@@ -91,13 +97,28 @@ def _card_vector(cards, width):
     return buckets, kinds, upgrades
 
 
-def _pack(board, act, floor, room, energy_buff, live, retained, sizes):
+def _pack(board, act, floor, room, energy_buff, live, retained, sizes, schema=VERSION):
     hp, max_hp, block, energy, round_number, powers, enemies = board
     enemy_powers = Counter()
     formation = [0] * FORMATION_BINS
     slots = [0] * 12
+    fractions = [0.] * 4
+    log_hp = [0.] * 4
+    sentinel = damage = effective_poison = 0
+    ordinary_max = 0
     total_hp = total_max_hp = total_block = 0
     for i, (name, current, maximum, shield, active) in enumerate(enemies):
+        if schema == 3:
+            if maximum > HP_CAP:
+                sentinel += 1
+                current, maximum = min(current, HP_CAP), HP_CAP
+            else:
+                ordinary_max += maximum
+                damage += maximum - current
+                effective_poison += min(current, max(0, dict(active).get("POISON", 0)))
+            if i < 4:
+                fractions[i] = current / max(1, maximum)
+                log_hp[i] = log1p(current)
         total_hp += current
         total_max_hp += maximum
         total_block += shield
@@ -107,6 +128,8 @@ def _pack(board, act, floor, room, energy_buff, live, retained, sizes):
             slots[i * 3:i * 3 + 3] = current, maximum, shield
     card_bins, kinds, upgrades = _card_vector(live, CARD_BINS)
     retain_bins, retain_kinds, retain_upgrades = _card_vector(retained, 16)
+    progress = (sentinel, log1p(total_hp), damage / max(1, ordinary_max),
+                effective_poison / max(1, ordinary_max), *fractions, *log_hp) if schema == 3 else ()
     return np.asarray((
         hp, max_hp, hp / max_hp, block, energy, energy_buff, round_number, floor,
         act == 1, act == 2, act == 3, *(room == r for r in ROOM_TYPES),
@@ -115,7 +138,7 @@ def _pack(board, act, floor, room, energy_buff, live, retained, sizes):
         *_powers_vector(enemy_powers, ENEMY_POWERS),
         *slots, *formation, sum(live.values()), *sizes, sum(retained.values()), upgrades, retain_upgrades,
         *(kinds[k] for k in CARD_TYPES), *(retain_kinds[k] for k in CARD_TYPES),
-        *card_bins, *retain_bins,
+        *card_bins, *retain_bins, *progress,
     ), dtype=np.float32)
 
 
@@ -156,13 +179,13 @@ def _state_inputs(state):
     return board, live, retained, (len(state.exhaust), len(state.draw), len(state.discard))
 
 
-def extract_leaf_features(state):
+def extract_leaf_features(state, *, schema=VERSION):
     """Encode the resolver's completed state, at its pre-reveal boundary."""
     if state.outcome != "completed":
         raise Unsupported("leaf is outside the next-turn boundary")
     board, live, retained, sizes = _state_inputs(state)
     return _pack(board, state.act, state.floor, state.room, state.energy - state.max_energy,
-                 live, retained, sizes)
+                 live, retained, sizes, schema)
 
 
 def extract_post_eot_features(s_pre_eot, s_next_turn, *, witness=None):
