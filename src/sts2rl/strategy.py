@@ -169,6 +169,10 @@ def strategy_arms(
                     variables.get("cards", 1) if "upgrade" in words and "pickup" in words else 0
                 )
                 strength = variables.get("strengthpower", 0) if "turn" in words else 0
+                if (getattr(policy, "v6_lategame_fixes", False)
+                        and key == "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE"):
+                    # The enemies receive this Strength at combat start.
+                    strength = -strength
                 carry = {
                     "energy": float(energy),
                     "draw": float(ongoing_draw),

@@ -80,6 +80,7 @@ class DeployedController:
         policy = RunPolicy(
             weights,
             macro_seed=macro_seed,
+            v6_lategame_fixes=settings.get("v6_lategame_fixes", False),
             deck_effects=bool(settings.get("deck_effects", False)),
         )
         combat_v2 = None

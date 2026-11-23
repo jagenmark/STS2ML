@@ -105,11 +105,12 @@ def _draw_count(card):
 
 
 class RunPolicy:
-    def __init__(self, weights, *, macro_seed=0, deck_effects=False, legacy_features=False):
+    def __init__(self, weights, *, macro_seed=0, deck_effects=False, legacy_features=False, v6_lategame_fixes=False):
         self.weights = weights
         self.fallback = MacroPolicy(macro_seed)
         self.selection = None
         self.deck_effects = deck_effects
+        self.v6_lategame_fixes = v6_lategame_fixes
         # v1 neural inputs include the historical action scores as features.
         self.legacy_features = legacy_features
 

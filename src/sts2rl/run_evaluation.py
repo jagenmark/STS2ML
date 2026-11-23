@@ -115,6 +115,7 @@ def play_episode(task, *, decision_hook=None):
 
 def _play_episode(task, ascension, decision_hook):
     root, host, folder, seed, index, role, weights, checkpoint, options = task
+    transition_hook = options.get("transition_hook")
     if "act_list" in options:
         raise ValueError("Use boolean 'seeded_acts' in episode options instead of 'act_list'")
     folder = Path(folder)
@@ -126,6 +127,7 @@ def _play_episode(task, ascension, decision_hook):
     started = monotonic()
     macro = MacroPolicy(7103 + index)
     policy = RunPolicy(RunWeights(**weights), macro_seed=7103 + index,
+                       v6_lategame_fixes=options.get("v6_lategame_fixes", False) and role == "candidate",
                        deck_effects=options.get("deck_effects", False) and role not in ("baseline", "prior"))
     late = (RunWeights.load(options["late_weights"]) if options.get("late_weights")
             and role not in ("baseline", "prior", "no-late") else None)
@@ -417,12 +419,15 @@ def _play_episode(task, ascension, decision_hook):
                     deck_model.observe(state, action)
                 before = state
                 state = game.step(action)
-                if compact is not None:
+                if compact is not None or transition_hook is not None:
                     fallback = None
                     if combat_v2 is not None:
                         fallback = (combat_v2.last_fallback if combat and encounter.applies(before)
                                     else "outside encounter scope")
-                    compact.observe(before, state, fallback)
+                    if compact is not None:
+                        compact.observe(before, state, fallback)
+                    if transition_hook is not None:
+                        transition_hook(step, before, action, state, fallback)
                 if recorder is not None:
                     recorder.observe(before, action, state, step, native_step=len(game.history) - 1)
                 if combat_v2 is not None:

@@ -351,6 +351,14 @@ class DeckPolicy:
                 if options.get(a.args.get("option_index")) in ("HEAL", "SMITH"):
                     target = "HEAL" if player["hp"] / player["max_hp"] < self.act2_final_rest_threshold else "SMITH"
                     a = next((act for act in acts if options.get(act.args.get("option_index")) == target), a)
+            if getattr(base, "v6_lategame_fixes", False) and ctx.get("act", 0) >= 2:
+                options = {o["index"]: o["option_id"] for o in state["options"]}
+                if options.get(a.args.get("option_index")) == "SMITH" and any(
+                    r.get("id") == "RELIC.PUMPKIN_CANDLE" and r.get("counter") == 0
+                    for r in player.get("relics", ())
+                ):
+                    a = next((x for x in acts if options.get(x.args.get("option_index")) == "KINDLE"), a)
+                    base.selection = "upgrade" if options.get(a.args.get("option_index")) == "SMITH" else None
             self.to_upgrade = any(
                 o.get("option_id") == "SMITH" and o["index"] == a.args.get("option_index")
                 for o in state["options"]
