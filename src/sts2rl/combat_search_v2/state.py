@@ -12,7 +12,7 @@ POTION_STATS = (
     "Block", "Cards", "Damage", "DexterityPower", "Energy", "IntangiblePower",
     "PlatingPower", "PoisonPower", "StrengthPower", "ThornsPower", "VulnerablePower", "WeakPower",
 )
-RELIC_STATS = ("Block", "Cards", "Damage", "DexterityPower", "Energy", "StrengthPower", "Turns")
+RELIC_STATS = ("Block", "Cards", "Damage", "DexterityPower", "Energy", "ExtraDamage", "StrengthPower", "Turns")
 
 
 class Unsupported(ValueError):

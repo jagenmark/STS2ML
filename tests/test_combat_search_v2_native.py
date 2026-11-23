@@ -646,6 +646,137 @@ def test_phase2_native_single_discard_is_automatic(oracle):
     assert not predicted.hand and predicted.prompt is None
 
 
+@pytest.mark.parametrize("encounter,start,turns", [
+    ("CORPSE_SLUGS_WEAK", 0, 3), ("SEAPUNK_WEAK", 0, 4), ("SEAPUNK_NORMAL", 0, 3),
+    ("FOGMOG_NORMAL", 1, 3), ("BOWLBUGS_NORMAL", 0, 3), ("OVICOPTER_NORMAL", 2, 2),
+    ("SLUDGE_SPINNER_WEAK", 0, 3), ("TOADPOLES_WEAK", 0, 3),
+    ("TWO_TAILED_RATS_NORMAL", 0, 1), ("HAUNTED_SHIP_NORMAL", 0, 3),
+    ("SEWER_CLAM_NORMAL", 0, 4), ("RUBY_RAIDERS_NORMAL", 0, 1),
+    ("PHROG_PARASITE_ELITE", 1, 1), ("SLUMBERING_BEETLE_NORMAL", 3, 1),
+    ("CULTISTS_NORMAL", 0, 3), ("DEVOTED_SCULPTOR_WEAK", 0, 3), ("PUNCH_CONSTRUCT_NORMAL", 0, 3),
+])
+def test_phase3_visible_enemy_moves(oracle, encounter, start, turns):
+    oracle.start(encounter, ["DEFEND_SILENT"] * 16, encounter=encounter,
+                 hp=500, seed="CSV3FIX_MOVES_" + encounter)
+    for _ in range(start):
+        oracle.public = oracle.command(cmd="action", action="end_turn", args={})
+    oracle.refresh()
+    for _ in range(turns):
+        _check_qualified_board(oracle, oracle.step("play_card", "DEFEND_SILENT"))
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+def test_phase3_accelerant_poison_ticks(oracle):
+    oracle.start("ACCEL", ["ACCELERANT", "DEADLY_POISON", "DEFEND_SILENT"],
+                 ["POISON_POTION"], encounter="SEAPUNK_WEAK", seed="CSV3FIX_ACCEL")
+    oracle.step("play_card", "ACCELERANT")
+    oracle.step("use_potion", "POISON_POTION", target=0)
+    hp = oracle.simulated.enemies[0].hp
+    poison = dict(oracle.simulated.enemies[0].powers)["POISON"]
+    _check_qualified_board(oracle, oracle.step("end_turn"))
+    assert hp - oracle.simulated.enemies[0].hp == 2 * poison - 1
+
+
+def test_phase3_pendulum_and_second_turn_block(oracle, tmp_path):
+    save = tmp_path / "pendulum.save"
+    with NativeSession(ROOT, tmp_path / "pendulum", host_path=HOST) as fixture:
+        fixture.reset("CSV3FIX_PENDULUM")
+        fixture._request({"cmd": "set_player", "deck": ["DEFEND_SILENT"] * 16,
+                          "relics": ["PENDULUM", "HORN_CLEAT", "TUNING_FORK"]})
+        fixture._request({"cmd": "write_continue_save", "path": str(save)})
+    oracle.command(cmd="load_save", path=str(save))
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="NIBBITS_WEAK")
+    oracle.refresh()
+    for _ in range(4):
+        for _ in range(3):
+            _check_qualified_board(oracle, oracle.step("play_card", "DEFEND_SILENT"))
+        predicted = oracle.step("end_turn")
+        assert len(oracle.public["hand"]) == predicted.boundary.count
+        _check_qualified_board(oracle, predicted)
+
+
+@pytest.mark.parametrize("deck,relics,encounter", [
+    (["SLICE"] * 16, ["ORNAMENTAL_FAN", "NUNCHAKU"], "WATERFALL_GIANT_BOSS"),
+    (["DEFEND_SILENT"] * 16, ["CAPTAINS_WHEEL", "LETTER_OPENER"], "WATERFALL_GIANT_BOSS"),
+    (["DEADLY_POISON"] * 16, ["SNECKO_SKULL"], "WATERFALL_GIANT_BOSS"),
+    (["STRIKE_SILENT"] * 16, ["STRIKE_DUMMY", "MINIATURE_CANNON", "BELLOWS"], "WATERFALL_GIANT_BOSS"),
+])
+def test_phase3_native_relic_triggers(oracle, tmp_path, deck, relics, encounter):
+    save = tmp_path / "relics.save"
+    with NativeSession(ROOT, tmp_path / "setup", host_path=HOST) as fixture:
+        fixture.reset("CSV3FIX_TRIGGER_" + relics[0])
+        fixture._request({"cmd": "set_player", "hp": 70, "deck": deck, "relics": relics})
+        fixture._request({"cmd": "write_continue_save", "path": str(save)})
+    oracle.command(cmd="load_save", path=str(save))
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter=encounter)
+    oracle.refresh()
+    for _ in range(4):
+        for _ in range(3):
+            _check_qualified_board(oracle, oracle.step("play_card", deck[0]))
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+def test_phase3_prism_buff_censors_zone_reaffliction(oracle):
+    oracle.start("PRISM", ["DEFEND_SILENT"] * 16, encounter="INFESTED_PRISMS_ELITE",
+                 hp=70, seed="CSV3FIX_PRISM")
+    for _ in range(3):
+        oracle.step("play_card", "DEFEND_SILENT")
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+    result = advance(oracle.simulated, root_move(project(oracle.public), "end_turn", {}))
+    assert result.boundary.reason == "vital spark reapplies skill afflictions"
+    after = oracle.command(cmd="action", action="end_turn", args={})
+    assert after["hand"][0]["affliction_state"]["amount"] == 6
+
+
+def test_phase3_public_draw_prompt_resume(oracle):
+    from sts2rl.combat_search_v2.integration import _after_draw_prompt
+
+    oracle.start("ACRO", ["ACROBATICS"] * 12, seed="CSV3FIX_ACRO_PROMPT")
+    action = next(a for a in legal_actions(oracle.public) if a.kind == "play_card")
+    frozen = advance(oracle.simulated, root_move(project(oracle.public), action.kind, action.args))
+    assert frozen.boundary.reason == "draw"
+    oracle.public = oracle.command(**action.command())
+    oracle.simulated = _after_draw_prompt(frozen, oracle.public)
+    assert oracle.simulated and oracle.simulated.queue
+    _check_qualified_board(oracle, oracle.step("select_cards", "ACROBATICS"))
+
+
+def test_phase3_mixed_crawler_hidden_base_attack(oracle):
+    oracle.start("CRAWLERS", ["NEUTRALIZE", "DEFEND_SILENT"], ["GHOST_IN_A_JAR"],
+                 encounter="OVERGROWTH_CRAWLERS", seed="CSV3FIX_MOVES_OVERGROWTH_CRAWLERS")
+    oracle.step("use_potion", "GHOST_IN_A_JAR")
+    oracle.refresh()
+    action = next(a for a in legal_actions(oracle.public) if a.kind == "play_card"
+                  and a.args.get("target_index") == 1)
+    frozen = advance(oracle.simulated, root_move(project(oracle.public), action.kind, action.args))
+    assert frozen.boundary.reason == "ambiguous attack preview"
+    after = oracle.command(**action.command())
+    assert after["enemies"][1]["intents"][0]["damage"] == 1
+
+
+def test_phase3_giant_knockout_and_hopper_departure(oracle):
+    from sts2rl.combat_search_v2.encounters import encounter_reason
+
+    oracle.start("GIANT", ["GRAND_FINALE"] * 5, encounter="WATERFALL_GIANT_BOSS",
+                 seed="CSV3FIX_GIANT_KNOCKOUT")
+    # Let Pressurize install Steam Eruption before delivering the knockout.
+    oracle.public = oracle.command(cmd="action", action="end_turn", args={})
+    for _ in range(5):
+        action = next(a for a in legal_actions(oracle.public) if a.kind == "play_card")
+        oracle.public = oracle.command(**action.command())
+    giant = project(oracle.public).state
+    assert giant.enemies[0].max_hp == 999_999_999
+    assert encounter_reason(giant) == "waterfall post-knockout eruption"
+
+    oracle.start("HOPPER_END", ["DEFEND_SILENT"] * 16, encounter="THIEVING_HOPPER_WEAK",
+                 hp=70, seed="CSV3FIX_HOPPER_END")
+    for _ in range(4):
+        oracle.public = oracle.command(cmd="action", action="end_turn", args={})
+    last = project(oracle.public)
+    assert dict(last.state.enemies[0].powers)["ESCAPE_ARTIST"] == 1
+    assert advance(last.state, root_move(last, "end_turn", {})).boundary.reason == "thieving hopper departure"
+
+
 def test_phase2_attack_relic_counters_and_end_turn(oracle, tmp_path):
     save_path = tmp_path / "attack-relics.save"
     with NativeSession(ROOT, tmp_path / "fixture", host_path=HOST) as fixture:

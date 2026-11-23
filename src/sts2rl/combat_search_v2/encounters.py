@@ -18,6 +18,12 @@ FORMATIONS = ORDINARY | {
     "BOWLBUG_NECTAR", "ENTOMANCER", "BYRDONIS", "EXOSKELETON", "HUNTER_KILLER",
     "VINE_SHAMBLER", "SPINY_TOAD", "LOUSE_PROGENITOR", "MYTE",
     "THE_OBSCURA", "PARAFRIGHT", "THIEVING_HOPPER",
+    "CORPSE_SLUG", "SEAPUNK", "CALCIFIED_CULTIST", "FOGMOG", "EYE_WITH_TEETH",
+    "BOWLBUG_SILK", "OVICOPTER", "TOUGH_EGG",
+    "SLUDGE_SPINNER", "TOADPOLE", "TWO_TAILED_RAT", "HAUNTED_SHIP", "SEWER_CLAM",
+    "ASSASSIN_RUBY_RAIDER", "TRACKER_RUBY_RAIDER", "AXE_RUBY_RAIDER", "BRUTE_RUBY_RAIDER",
+    "CROSSBOW_RUBY_RAIDER", "PHROG_PARASITE", "SLUMBERING_BEETLE",
+    "DAMP_CULTIST", "DEVOTED_SCULPTOR", "PUNCH_CONSTRUCT",
 }
 DAZED = Variant("DAZED", "Status", 0, "None", keywords=("Ethereal", "Unplayable"))
 WOUND = Variant("WOUND", "Status", 0, "None", keywords=("Unplayable",))
@@ -47,11 +53,15 @@ def encounter_reason(state):
         return "vital spark formation"
     if "KIN_FOLLOWER" in living and living.count("KIN_PRIEST") != 1:
         return "kin leader dependency"
-    if any(power(e.powers, "MINION") and e.name not in ("KIN_FOLLOWER", "PARAFRIGHT")
+    if any(power(e.powers, "MINION") and e.name not in ("KIN_FOLLOWER", "PARAFRIGHT", "EYE_WITH_TEETH", "TOUGH_EGG")
            for e in state.enemies if e.hp > 0):
         return "unqualified minion dependency"
     if "THE_OBSCURA" in living and state.round > 1 and "PARAFRIGHT" not in living:
         return "obscura hidden revival state"
+    if "FOGMOG" in living and state.round > 1 and "EYE_WITH_TEETH" not in living:
+        return "fogmog hidden revival state"
+    if any(e.name == "WATERFALL_GIANT" and e.max_hp == 999_999_999 for e in state.enemies):
+        return "waterfall post-knockout eruption"
     if power(state.powers, "CONSTRICT") and living.count(STRANGLER) != 1:
         return "constrict source"
     if power(state.powers, "SHRINK") and living.count(BEETLE) != 1:
@@ -60,6 +70,10 @@ def encounter_reason(state):
 
 
 def after_death(state, enemy):
+    if any(r.name == "GREMLIN_HORN" and not r.used for r in state.relics):
+        return replace(state, boundary=Boundary("gremlin horn death trigger"))
+    if power(enemy.powers, "INFESTED"):
+        return replace(state, boundary=Boundary("infested death phase"))
     if enemy.name not in FORMATIONS:
         reason = ENCOUNTER_BOUNDARIES.get(enemy.name, f"death phase/{enemy.name}")
         return replace(state, boundary=Boundary(reason))
@@ -67,10 +81,14 @@ def after_death(state, enemy):
         return replace(state, boundary=Boundary("steam eruption on death"))
     if power(enemy.powers, "THORNS"):
         return replace(state, boundary=Boundary("lethal thorns ordering"))
-    if enemy.name == "PARAFRIGHT":
+    if any(e.hp > 0 and power(e.powers, "RAVENOUS") for e in state.enemies):
+        return replace(state, boundary=Boundary("ravenous ally death"))
+    if enemy.name in ("PARAFRIGHT", "EYE_WITH_TEETH"):
         return replace(state, boundary=Boundary("illusion revival"))
-    if enemy.name in ("KIN_PRIEST", "THE_OBSCURA"):
-        minion = "KIN_FOLLOWER" if enemy.name == "KIN_PRIEST" else "PARAFRIGHT"
+    minions = {"KIN_PRIEST": "KIN_FOLLOWER", "THE_OBSCURA": "PARAFRIGHT",
+               "FOGMOG": "EYE_WITH_TEETH", "OVICOPTER": "TOUGH_EGG"}
+    if enemy.name in minions:
+        minion = minions[enemy.name]
         state = replace(state, enemies=tuple(replace(e, hp=0) if e.name == minion else e
                                              for e in state.enemies))
     if not any(e.hp > 0 for e in state.enemies):
@@ -86,6 +104,8 @@ def after_damage(state, before, enemy):
     if power(powers, "BURROWED") and before.block > 0 and enemy.block == 0:
         return _update(state, enemy.slot, powers=set_power(powers, "BURROWED", 0), intents=STUN)
     if enemy.hp < before.hp:
+        if power(powers, "SLUMBER"):
+            return replace(state, boundary=Boundary("slumber wake on damage"))
         if (plow := power(powers, "PLOW")) and enemy.hp <= plow:
             powers = set_power(set_power(powers, "PLOW", 0), "STRENGTH", 0)
             return _update(state, enemy.slot, powers=powers, intents=STUN)
@@ -152,14 +172,16 @@ def after_move(state, enemy):
     """Resolve the pinned non-attack portion of a known current move."""
     kinds = {intent.kind for intent in enemy.intents if intent.damage is None}
     profile = enemy.name
-    if profile == "SPINY_TOAD":
+    if profile in ("SPINY_TOAD", "TOADPOLE"):
         if kinds == {"Buff"}:
-            return _update(state, enemy.slot, powers=set_power(enemy.powers, "THORNS", 5))
+            return _update(state, enemy.slot, powers=set_power(enemy.powers, "THORNS", 5 if profile == "SPINY_TOAD" else 2))
         if power(enemy.powers, "THORNS"):
             return _update(state, enemy.slot, powers=set_power(enemy.powers, "THORNS", 0))
     if profile == "BYRDONIS" and not kinds:
         return _strength(state, enemy, power(enemy.powers, "TERRITORIAL"))
     if profile == "THIEVING_HOPPER":
+        if power(enemy.powers, "ESCAPE_ARTIST") <= 1:
+            return replace(state, boundary=Boundary("thieving hopper departure"))
         if "Escape" in kinds or "CardDebuff" in kinds:
             return replace(state, boundary=Boundary("thieving hopper steal or escape"))
         powers = add_power(enemy.powers, "ESCAPE_ARTIST", -1)
@@ -167,8 +189,52 @@ def after_move(state, enemy):
             powers = add_power(powers, "FLUTTER", 5)
         if not kinds or kinds in ({"Buff"}, {"Stun"}):
             return _update(state, enemy.slot, powers=powers)
+    if profile in ("CALCIFIED_CULTIST", "DEVOTED_SCULPTOR", "DAMP_CULTIST"):
+        if kinds == {"Buff"}:
+            ritual = {"CALCIFIED_CULTIST": 2, "DAMP_CULTIST": 6, "DEVOTED_SCULPTOR": 9}[profile]
+            return _update(state, enemy.slot, powers=add_power(enemy.powers, "RITUAL", ritual))
+        if not kinds:
+            return _strength(state, enemy, power(enemy.powers, "RITUAL"))
+    if profile == "SEWER_CLAM":
+        plating = max(0, power(enemy.powers, "PLATING") - int(state.round > 1))
+        powers = set_power(enemy.powers, "PLATING", plating)
+        if kinds == {"Buff"}:
+            powers = add_power(powers, "STRENGTH", 4)
+        if not kinds or kinds == {"Buff"}:
+            return _update(state, enemy.slot, block=plating, powers=powers)
+    if profile == "SLUMBERING_BEETLE" and (kinds == {"Sleep"} or power(enemy.powers, "PLATING")):
+        return replace(state, boundary=Boundary("slumber wake countdown"))
+    if profile == "SLUMBERING_BEETLE" and kinds == {"Buff"}:
+        return _strength(state, enemy, 2)
     if not kinds or kinds == {"Stun"}:
         return state
+    if profile in ("SLUDGE_SPINNER", "TWO_TAILED_RAT", "TRACKER_RUBY_RAIDER") and kinds == {"Debuff"}:
+        return player_debuff(state, "WEAK" if profile == "SLUDGE_SPINNER" else "FRAIL",
+                             2 if profile == "TRACKER_RUBY_RAIDER" else 1)
+    if profile == "AXE_RUBY_RAIDER" and kinds == {"Defend"}:
+        return _update(state, enemy.slot, block=6)
+    if profile == "SLUDGE_SPINNER" and kinds == {"Buff"}:
+        return _strength(state, enemy, 3)
+    if profile == "HAUNTED_SHIP" and kinds == {"Debuff", "StatusCard"}:
+        return add_cards(player_debuff(state, "WEAK", 3), "discard", DAZED, 5)
+    if profile == "PUNCH_CONSTRUCT" and kinds == {"Defend"}:
+        return _update(state, enemy.slot, block=10)
+    if profile == "PUNCH_CONSTRUCT" and kinds == {"Debuff"}:
+        return player_debuff(state, "FRAIL", 1)
+    if profile == "CORPSE_SLUG" and kinds == {"Debuff"}:
+        return player_debuff(state, "FRAIL", 2)
+    if profile == "SEAPUNK" and kinds == {"Buff", "Defend"}:
+        return _strength(_update(state, enemy.slot, block=8), enemy, 2)
+    if profile == "BOWLBUG_SILK" and kinds == {"Debuff"}:
+        return player_debuff(state, "WEAK", 1)
+    if profile == "FOGMOG" and kinds == {"Buff"}:
+        return _strength(state, enemy, 1)
+    if profile == "EYE_WITH_TEETH" and kinds == {"StatusCard"}:
+        return add_cards(state, "discard", DAZED, 3)
+    if profile == "OVICOPTER" and kinds == {"Debuff"}:
+        return player_debuff(state, "VULNERABLE", 2)
+    if profile == "OVICOPTER" and kinds == {"Buff"}:
+        return _strength(state, enemy, 4)
     if profile == "THE_OBSCURA":
         if kinds == {"Defend"}:
             return _update(state, enemy.slot, block=7)
@@ -204,6 +270,8 @@ def after_move(state, enemy):
     if profile == "BOWLBUG_NECTAR" and kinds == {"Buff"}:
         return _strength(state, enemy, 16)
     if profile == "ENTOMANCER" and kinds == {"Buff"}:
+        if power(enemy.powers, "PERSONAL_HIVE") >= 3:
+            return replace(state, boundary=Boundary("entomancer late buff"))
         return _update(state, enemy.slot, powers=add_power(add_power(enemy.powers, "STRENGTH", 1),
                                                           "PERSONAL_HIVE", 1))
     if profile == "HUNTER_KILLER" and kinds == {"Debuff"}:
@@ -285,7 +353,7 @@ def after_move(state, enemy):
     if enemy.name == PRISM and kinds == {"Defend"}:
         return _update(state, enemy.slot, block=13)
     if enemy.name == PRISM and kinds == {"Buff", "Defend"}:
-        return _update(state, enemy.slot, block=22, powers=add_power(enemy.powers, "VITAL_SPARK", 3))
+        return replace(state, boundary=Boundary("vital spark reapplies skill afflictions"))
     return replace(state, boundary=Boundary(f"enemy intent/{enemy.name}/{'+'.join(sorted(kinds))}"))
 
 

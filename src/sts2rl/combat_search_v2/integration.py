@@ -73,6 +73,28 @@ def _completed_zones(state):
             _zone(state.exhaust), _zone(state.play))
 
 
+def _after_draw_prompt(suspended, public):
+    """Resume only the witnessed discard prompt of this just-executed play."""
+    if (suspended.boundary.reason != "draw" or public.get("decision") != "card_select"
+            or not suspended.queue or suspended.queue[0].kind != "prompt"):
+        return None
+    current = project(public).state
+    event, *tail = suspended.queue
+    if (current.prompt.operation != event.play.card.variant.name or not tail
+            or any(op.kind not in ("after_play", "finish") for op in tail)
+            or current.prompt.minimum != current.prompt.maximum
+            or current.prompt.minimum != min(len(current.hand), event.amount)
+            or _board(suspended) != _board(current) or _intents(suspended) != _intents(current)
+            or len(current.hand) != len(suspended.hand) + suspended.boundary.count
+            or _completed_zones(suspended) != _completed_zones(current)):
+        return None
+    # The draw is now public. The queued after-play/finish operations refer
+    # only to the source card. Use its public play-zone variant when finishing.
+    source, = current.play
+    return replace(current, queue=tuple(replace(op, play=replace(op.play,
+                   card=replace(op.play.card, variant=source))) for op in tail))
+
+
 def _difference(predicted, actual):
     """Compare deterministic attributes. Completed turns cross the native reveal."""
     for name, expected, observed in zip(
@@ -220,6 +242,11 @@ class CombatSearchV2:
         if predicted.boundary and not predicted.outcome:
             evidence = "unresolved"
             reason = predicted.boundary.reason
+            if reason == "draw" and after.get("decision") == "card_select":
+                try:
+                    self._prompt = _after_draw_prompt(predicted, after)
+                except (Unsupported, ValueError, KeyError, TypeError):
+                    self._prompt = None
         elif predicted.outcome in ("victory", "dead"):
             matches = (after.get("decision") == "game_over" and after["player"]["hp"] == 0
                        if predicted.outcome == "dead" else not after.get("in_combat"))
@@ -248,6 +275,21 @@ class CombatSearchV2:
             elif move.kind == "select_cards":
                 mechanic = state.prompt.operation + "/discard"
             self.records[-1]["oracle"] = [mechanic, evidence, reason]
+            if evidence == "mismatch":
+                # Post-action diagnostics only. The after-board deliberately
+                # omits hands, energy and intentions across a turn boundary.
+                def summary(board):
+                    return {"hp": board.hp, "block": board.block, "powers": board.powers,
+                            "enemies": [(e.name, e.hp, e.block, e.powers) for e in board.enemies if e.hp > 0],
+                            "relics": [(r.name, r.counter, r.status) for r in board.relics]}
+
+                details = {"floor": state.floor, "round": state.round, "root": summary(state),
+                           "expected": summary(predicted), "decision": after.get("decision")}
+                try:
+                    details["observed"] = summary(project(after).state)
+                except (Unsupported, KeyError, ValueError, TypeError):
+                    pass
+                self.records[-1]["difference"] = details
 
 
 def choose_encounter(mode, encounter, public, policy, enumerate_actions):

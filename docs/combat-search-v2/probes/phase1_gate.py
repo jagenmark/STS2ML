@@ -5,6 +5,7 @@ from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict
 import hashlib
 import json
+import os
 from pathlib import Path
 import struct
 from statistics import median, quantiles
@@ -28,6 +29,7 @@ def episode(job):
     elif act:
         settings["combat_search_v2"] = True
     if record_combat:
+        settings["combat_v2_observer"] = os.environ.get("CSV2DEV_OBSERVER")
         settings["record_combat_v2"] = True
         settings["verify_combat_v2_parity"] = True
     folder = output / bundle / mode / str(index)

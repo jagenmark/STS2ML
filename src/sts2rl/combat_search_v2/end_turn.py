@@ -9,6 +9,8 @@ _HAND_DAMAGE = {"BURN": 2, "WITHER": 3, "INFECTION": 3, "TOXIC": 5, "BECKON": 6}
 
 
 def _lethal(state):
+    if any(r.name == "LIZARD_TAIL" and not r.used for r in state.relics):
+        return boundary(replace(state, outcome=""), "automatic lizard tail")
     if any(p.name == "FAIRY_IN_A_BOTTLE" for p in state.potions):
         return boundary(replace(state, outcome=""), "automatic fairy potion")
     return replace(state, outcome="dead")
@@ -16,8 +18,14 @@ def _lethal(state):
 
 def _hurt(state, amount, *, bypass=False):
     hp, block, powers = lose_hp(state.hp, state.block, state.powers, amount, bypass=bypass)
+    if hp < state.hp and _puzzle(state):
+        return boundary(state, "centennial puzzle draw")
     state = replace(state, hp=hp, block=block, powers=powers)
     return state if hp else _lethal(state)
+
+
+def _puzzle(state):
+    return any(r.name == "CENTENNIAL_PUZZLE" and not r.used for r in state.relics)
 
 
 def _hand_end(state):
@@ -31,8 +39,12 @@ def _hand_end(state):
             state = replace(state, block=power(relic.stats, "block"))
         if relic.name == "RIPPLE_BASIN" and relic.status == "Active":
             state = replace(state, block=state.block + power(relic.stats, "block"))
+        if relic.name == "PARRYING_SHIELD" and state.block >= power(relic.stats, "block"):
+            return boundary(state, "parrying shield target")
     constrict = power(state.powers, "CONSTRICT")
     if constrict and any(e.name == STRANGLER and e.hp > 0 for e in state.enemies):
+        if power(state.powers, "PLATING"):
+            return boundary(state, "plating and constrict ordering")
         state = _hurt(state, constrict)
         if state.outcome or state.boundary:
             return state
@@ -73,16 +85,18 @@ def _enemy_start(state):
         if not poison and not enemy.block:
             continue
         carried = enemy.block if power(enemy.powers, "BURROWED") else 0
-        hp, block, powers = lose_hp(enemy.hp, carried, enemy.powers, poison, bypass=True)
-        if poison:
-            powers = add_power(powers, "POISON", -1)
-        before = enemy
-        enemy = replace(enemy, hp=hp, block=block, powers=powers)
-        state = replace(state, enemies=(*state.enemies[:slot], enemy, *state.enemies[slot + 1:]))
-        if enemy.hp < before.hp:
-            state = after_damage(state, before, enemy)
-            if state.outcome or state.boundary:
-                return state
+        for _ in range(1 + min(max(0, poison - 1), power(state.powers, "ACCELERANT"))):
+            enemy = state.enemies[slot]
+            poison = power(enemy.powers, "POISON")
+            hp, block, powers = lose_hp(enemy.hp, carried, enemy.powers, poison, bypass=True)
+            if poison:
+                powers = add_power(powers, "POISON", -1)
+            updated = replace(enemy, hp=hp, block=block, powers=powers)
+            state = replace(state, enemies=(*state.enemies[:slot], updated, *state.enemies[slot + 1:]))
+            if hp < enemy.hp:
+                state = after_damage(state, enemy, updated)
+                if state.outcome or state.boundary:
+                    return state
     return state
 
 
@@ -139,10 +153,13 @@ def _enemy_actions(state):
                 return boundary(state, "ambiguous attack preview")
             fully_blocked = amount > 0 and block >= amount * intent.hits
             for _ in range(intent.hits):
+                before = hp
                 hp, block, powers = lose_hp(hp, block, powers, amount)
+                if hp < before and _puzzle(state):
+                    return boundary(state, "centennial puzzle draw")
                 if not hp:
                     return _lethal(replace(state, hp=0, block=block, powers=powers))
-                if amount and thorns:
+                if thorns:
                     from .transitions import _damage
 
                     if state.enemies[slot].hp <= thorns:
@@ -188,18 +205,19 @@ def _start_player(state, prior_powers):
     powers = set_power(powers, "ENERGY_NEXT_TURN", 0)
     relics = []
     for relic in state.relics:
-        if relic.name == "HAPPY_FLOWER" and relic.counter is not None and not relic.used:
+        if relic.name in ("HAPPY_FLOWER", "PENDULUM") and relic.counter is not None and not relic.used:
             threshold = power(relic.stats, "turns")
             if threshold <= 0:
                 return boundary(state, "happy flower counter")
             counter = (relic.counter + 1) % threshold
             if not counter:
                 energy += power(relic.stats, "energy")
+                bonus_draw += power(relic.stats, "cards")
             relic = replace(relic, counter=counter, status="Active" if counter == threshold - 1 else "Normal")
         if not relic.used:
             if relic.name == "RIPPLE_BASIN":
                 relic = replace(relic, status="Active")
-            if relic.name == "KUSARIGAMA":
+            if relic.name in ("KUSARIGAMA", "LETTER_OPENER", "ORNAMENTAL_FAN"):
                 relic = replace(relic, counter=0, status="Normal")
             if relic.name == "SPARKLING_ROUGE" and state.round == 2:
                 powers = add_power(powers, "STRENGTH", power(relic.stats, "strengthpower"))
@@ -220,9 +238,15 @@ def _start_player(state, prior_powers):
                     relic = replace(relic, counter=None, status="Active")
         relics.append(relic)
     block = state.block if power(state.powers, "BLUR") else 0
+    if state.round == 1:
+        block += sum(power(r.stats, "block") for r in state.relics if r.name == "HORN_CLEAT" and not r.used)
+    if state.round == 2:
+        block += sum(power(r.stats, "block") for r in state.relics if r.name == "CAPTAINS_WHEEL" and not r.used)
     hp = state.hp
     if poison := power(powers, "POISON"):
         hp, block, powers = lose_hp(hp, block, powers, poison, bypass=True)
+        if hp < state.hp and _puzzle(state):
+            return boundary(state, "centennial puzzle draw")
         powers = add_power(powers, "POISON", -1)
     if not hp:
         return _lethal(replace(state, hp=hp, block=block, powers=powers))
@@ -241,6 +265,8 @@ def _start_player(state, prior_powers):
         for enemy in state.enemies:
             if enemy.hp > 0:
                 state = _debuff(state, enemy.slot, "POISON", fumes)
+                if state.boundary:
+                    return state
     return replace(state, hp=hp, block=block, powers=powers, energy=energy, max_energy=max_energy,
                    round=state.round + 1,
                    relics=tuple(relics), boundary=reveal, outcome=outcome)
