@@ -182,6 +182,7 @@ class State:
     outcome: str = ""  # victory, dead, or completed
     spent: int = 0
     schema: int = SCHEMA
+    floor: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -276,7 +277,7 @@ def project(public):
                   integer(ctx["act"]), ctx["room_type"], powers, tuple(enemies),
                   tuple(Card(i, _variant(card)) for i, card in enumerate(hand)),
                   *piles, potions, relics, len(hand), power(powers, "VULNERABLE") > 0,
-                  power(powers, "INTANGIBLE") > 0)
+                  power(powers, "INTANGIBLE") > 0, floor=integer(ctx.get("floor", 0)))
     prompt_indices = ()
     if is_prompt:
         state, prompt_indices = _public_prompt(public, state)

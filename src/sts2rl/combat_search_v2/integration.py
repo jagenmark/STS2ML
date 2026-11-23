@@ -1,5 +1,6 @@
 """Opt-in bridge from stamped public choices to the pure beam."""
 from collections import Counter
+from copy import copy, deepcopy
 from dataclasses import asdict, replace
 import hashlib
 import json
@@ -96,6 +97,11 @@ class CombatSearchV2:
         self.records = [] if record else None
         self._prompt = None
         self._decision = None
+
+    def clone(self):
+        clone = copy(self)
+        clone.records = deepcopy(self.records)
+        return clone
 
     @classmethod
     def from_options(cls, options, *, record=False):

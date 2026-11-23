@@ -474,3 +474,64 @@ def test_optional_bundle_settings_and_config_hash(tmp_path):
     settings["combat_search_v2_config"].write_text("{}", encoding="utf8")
     with pytest.raises(ValueError, match="checksum mismatch"):
         load_bundle(path)
+
+
+def test_clone_keeps_combat_v2_state_and_prepare_is_idempotent():
+    from sts2rl.combat_search_v2.integration import CombatSearchV2
+    from sts2rl.deployed_controller import DeployedController
+    from sts2rl.encounter import EncounterModel
+    from sts2rl.run_policy import IDENTITY, RunPolicy, RunWeights
+
+    public = view(DEFEND)
+    public["context"]["floor"] = 3
+    encounter = EncounterModel.from_data({"version": 1, "runtime_identity": IDENTITY, "default": "balanced"})
+    mode = CombatSearchV2(record=True)
+    controller = DeployedController(RunPolicy(RunWeights()), encounter=encounter, combat_v2=mode)
+    encounter.prepare(public, controller.policy)
+    mode.records.append({"history": ["root"]})
+    mode._decision = (project(public), (Move("end_turn"),))
+    clone = controller.clone()
+
+    assert clone.combat_v2 is not mode
+    assert clone.combat_v2._decision == mode._decision
+    clone.combat_v2.records[0]["history"].append("child")
+    assert mode.records == [{"history": ["root"]}]
+    actor = clone.encounter.actor
+    assert actor is not encounter.actor
+    clone.encounter.prepare(public, clone.policy)
+    assert clone.encounter.actor is actor
+
+
+def test_phase2_bounds_and_seed_lock():
+    from collections import Counter
+
+    from sts2rl.combat_search_v2.planner import Config
+    from sts2rl.combat_search_v2.seed_registry import load_registry
+
+    assert (Config().width, Config().depth, Config().children) == (8, 10, 256)
+    assert Config(width=32, children=1024).width == 32
+    with pytest.raises(ValueError):
+        Config(width=33)
+    with pytest.raises(ValueError):
+        Config(children=1025)
+    rows = load_registry()
+    assert len({r.seed for r in rows}) == len(rows) == 2048
+    assert Counter((r.mode, r.split) for r in rows) == {
+        (mode, split): count for mode in ("default", "seeded")
+        for split, count in (("train", 716), ("dev", 154), ("test", 154))
+    }
+
+
+def test_smoke_bomb_transition_labels_only_when_combat_ends():
+    from types import SimpleNamespace
+
+    from sts2rl.combat_search_v2.recording import terminal_label
+
+    action = SimpleNamespace(kind="use_potion", args={"potion_index": 0})
+    before = view(DEFEND, potions=(potion("SMOKE_BOMB"),))
+    witness = {"hp": 31, "max_hp": 70, "escaped": True}
+    assert terminal_label(before, action, before, witness) is None
+    after = {"in_combat": False, "decision": "map_select", "player": {"hp": 35}}
+    assert terminal_label(before, action, after, witness) == {
+        "outcome": "escape", "exit_hp": 31, "exit_max_hp": 70
+    }

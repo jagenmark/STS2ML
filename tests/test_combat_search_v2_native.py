@@ -365,3 +365,109 @@ def test_native_escape_replay_cost(oracle):
     oracle.step("use_potion", "DUPLICATOR")
     successor = oracle.step("play_card", "FRANTIC_ESCAPE")
     assert dict(successor.enemies[0].powers)["SANDPIT"] == 6
+
+
+@pytest.fixture
+def recorded_oracle(tmp_path):
+    from sts2rl.combat_search_v2.recording import observer_environment, observer_path
+
+    path = os.environ.get("CSV2DEV_OBSERVER")
+    if not path:
+        pytest.skip("set CSV2DEV_OBSERVER to the Phase 2 startup hook")
+    receipt_path = tmp_path / "observer.jsonl"
+    with observer_environment(observer_path(ROOT, path), receipt_path):
+        with NativeSession(ROOT, tmp_path / "engine", host_path=HOST) as game:
+            yield Oracle(game), receipt_path
+
+
+def _draw_receipt(path):
+    return [row["draw"] for line in path.read_text().splitlines()
+            if (row := json.loads(line)).get("draw")][-1]
+
+
+def test_native_recorded_features_and_hidden_draw_permutation(tmp_path):
+    from sts2rl.combat_search_v2.end_turn import resolve
+    from sts2rl.combat_search_v2.features import extract_leaf_features, extract_post_eot_features
+    from sts2rl.combat_search_v2.recording import observer_environment, observer_path
+
+    import numpy as np
+
+    path = os.environ.get("CSV2DEV_OBSERVER")
+    if not path:
+        pytest.skip("set CSV2DEV_OBSERVER to the Phase 2 startup hook")
+    results = []
+    hands = []
+    for reverse in (False, True):
+        receipt_path = tmp_path / f"observer-{reverse}.jsonl"
+        with observer_environment(observer_path(ROOT, path), receipt_path):
+            with NativeSession(ROOT, tmp_path / f"engine-{reverse}", host_path=HOST) as game:
+                oracle = Oracle(game)
+                oracle.start("PERMUTATION", ["STRIKE_SILENT"] * 9 + ["DEFEND_SILENT"] * 9)
+                before = oracle.public
+                order = sorted([c["id"].split(".")[-1] for c in before["draw_pile"]], reverse=reverse)
+                oracle.command(cmd="set_draw_order", cards=order)
+                oracle.step("end_turn")
+                after = oracle.public
+                hands.append([c["id"] for c in after["hand"]])
+                x = extract_post_eot_features(before, after, witness=_draw_receipt(receipt_path))
+                np.testing.assert_allclose(x, extract_leaf_features(resolve(project(before).state)),
+                                           rtol=0, atol=1e-5)
+                np.testing.assert_array_equal(x, extract_post_eot_features(before, after))
+                after["energy"] = -123456
+                after["player"]["potions"] = [{"private_rng": object()}]
+                after["enemies"][0]["intents"] = object()
+                np.testing.assert_array_equal(x, extract_post_eot_features(
+                    before, after, witness=_draw_receipt(receipt_path)))
+                results.append(x)
+    assert hands[0] != hands[1]
+    np.testing.assert_array_equal(*results)
+
+
+def test_native_draw_created_card_is_censored(recorded_oracle):
+    from sts2rl.combat_search_v2.features import extract_post_eot_features
+    from sts2rl.combat_search_v2.state import Unsupported
+
+    oracle, receipt_path = recorded_oracle
+    oracle.start("DRAW_SIZE", ["STRIKE_SILENT"] * 9 + ["DEFEND_SILENT"] * 9)
+    before = oracle.public
+    after = oracle.command(cmd="action", action="end_turn")
+    # Inject the same public multiset change as a draw-created card.
+    after["hand"].append({**after["hand"][0], "id": "CARD.ENDLESS_AGONY"})
+    with pytest.raises(Unsupported, match="live deck size"):
+        extract_post_eot_features(before, after, witness=_draw_receipt(receipt_path))
+
+
+def test_native_act1_boss_labels_before_act_heal(recorded_oracle):
+    from sts2rl.combat_search_v2.recording import terminal_label
+
+    oracle, receipt_path = recorded_oracle
+    oracle.game.reset("CSV2DEV_ORACLE_BOSS_EXIT")
+    oracle.command(cmd="set_player", hp=48, deck=["BACKSTAB"] * 40,
+                   potions=["EXPLOSIVE_AMPOULE"] * 3)
+    state = oracle.command(cmd="enter_room", type="monster", encounter="CEREMONIAL_BEAST_BOSS")
+    assert state["context"]["room_type"] == "Boss"
+    for _ in range(100):
+        before = state
+        actions = legal_actions(state)
+        action = next((a for a in actions if a.kind == "use_potion"), actions[0])
+        state = oracle.command(**action.command())
+        if not state["in_combat"]:
+            break
+    assert not state["in_combat"]
+    witness = json.loads(receipt_path.read_text().splitlines()[-1])["exit"]
+    label = terminal_label(before, action, state, witness)
+    assert label["outcome"] == "victory"
+    assert label["exit_hp"] == before["player"]["hp"]
+    for _ in range(10):
+        if state["context"]["act"] == 2:
+            break
+        action = legal_actions(state)[-1]
+        state = oracle.command(**action.command())
+    assert state["context"]["act"] == 2
+    assert state["player"]["hp"] > label["exit_hp"]
+
+
+def test_pinned_host_smoke_bomb_model_is_absent(oracle):
+    oracle.game.reset("CSV2DEV_ORACLE_SMOKE_BOMB")
+    with pytest.raises(AssertionError, match=r"Model id=POTION.SMOKE_BOMB not found"):
+        oracle.command(cmd="set_player", potions=["SMOKE_BOMB"])

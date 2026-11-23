@@ -21,12 +21,15 @@ BUNDLES = ("silent-a10-v2-tactics", "silent-a10-mecha-knight")
 
 
 def episode(job):
-    host, output, bundle, mode, index, shadow, act = job
+    host, output, bundle, mode, index, shadow, act, record_combat = job
     role, settings = load_bundle(ROOT / "releases" / bundle / "challenger/policy.json")
     if shadow:
         settings["combat_search_v2_shadow"] = True
     elif act:
         settings["combat_search_v2"] = True
+    if record_combat:
+        settings["record_combat_v2"] = True
+        settings["verify_combat_v2_parity"] = True
     folder = output / bundle / mode / str(index)
     scores = []
     decisions = []
@@ -150,13 +153,14 @@ def main():
     parser.add_argument("--reference", type=Path)
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--per-mode", type=int, default=6)
+    parser.add_argument("--record-combat-v2", action="store_true")
     switches = parser.add_mutually_exclusive_group()
     switches.add_argument("--combat-search-v2-shadow", action="store_true")
     switches.add_argument("--combat-search-v2", action="store_true")
     args = parser.parse_args()
     args.output.mkdir(parents=True)
     jobs = [(args.host.resolve(), args.output.resolve(), bundle, mode, i,
-             args.combat_search_v2_shadow, args.combat_search_v2)
+             args.combat_search_v2_shadow, args.combat_search_v2, args.record_combat_v2)
             for i in range(args.per_mode) for bundle in BUNDLES for mode in ("default", "seeded")]
     with ProcessPoolExecutor(args.workers) as pool:
         rows = list(pool.map(episode, jobs))
@@ -171,6 +175,13 @@ def main():
         raise SystemExit("Gate differs from reference")
     if args.reference and (args.combat_search_v2 or args.combat_search_v2_shadow):
         compare_search_records(args.reference, args.output)
+    if args.record_combat_v2:
+        parity = sum_counters(Counter({k: v for k, v in act.items() if k.startswith("parity ")})
+                              for path in args.output.rglob("combat-v2-census.json")
+                              for act in json.loads(path.read_text()).values())
+        print(json.dumps({"feature_parity": parity}))
+        if not parity["parity tested"] or parity["parity mismatch"]:
+            raise SystemExit("Completed-turn feature parity gate failed")
 
 
 if __name__ == "__main__":

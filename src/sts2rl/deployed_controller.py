@@ -101,7 +101,8 @@ class DeployedController:
         )
 
     def clone(self) -> DeployedController:
-        return deepcopy(self)
+        memo = {id(self.combat_v2): self.combat_v2.clone()} if self.combat_v2 is not None else None
+        return deepcopy(self, memo)
 
     def _sync_act(self, state):
         act = (state.get("context") or {}).get("act", self.act)

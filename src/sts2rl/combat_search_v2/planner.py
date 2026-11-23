@@ -18,8 +18,8 @@ class Config:
 
     def __post_init__(self):
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
-                or self.version != 1 or not 2 <= self.width <= 8 or not 2 <= self.depth <= 10
-                or not self.width <= self.children <= 256
+                or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
+                or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
                 or not math.isfinite(self.potion_reserve) or self.potion_reserve < 0):
             raise ValueError("Invalid combat search v2 configuration")

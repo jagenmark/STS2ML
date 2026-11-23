@@ -79,33 +79,36 @@ def can_play(state, v):
 
 
 def admission(projected):
+    return next(admission_reasons(projected), None)
+
+
+def admission_reasons(projected):
     state = projected.state
     for name, _ in state.powers:
         if name not in PLAYER_POWERS:
-            return f"player power/{name}"
+            yield f"player power/{name}"
     for relic in state.relics:
         if relic.name not in RELICS or relic.stacks != 1:
-            return f"relic/{relic.name}"
+            yield f"relic/{relic.name}"
     for card, playable in zip(state.hand, projected.playable):
         v = card.variant
         if not card_supported(v):
-            return f"card/{v.name}"
-        if v.modifier and not any(
+            yield f"card/{v.name}"
+        elif v.modifier and not any(
             e.name == "INFESTED_PRISM" and power(e.powers, "VITAL_SPARK") == v.modifier[0][2]
             for e in state.enemies
         ):
-            return f"tainted source/{v.name}"
+            yield f"tainted source/{v.name}"
         # During a pending prompt CanPlay is a UI preview rather than an action.
-        if not state.prompt and playable != can_play(state, v):
-            return f"legality/{v.name}"
+        elif not state.prompt and playable != can_play(state, v):
+            yield f"legality/{v.name}"
     for enemy in state.enemies:
         for name, _ in enemy.powers:
             if name not in ENEMY_POWERS:
-                return f"enemy power/{name}"
+                yield f"enemy power/{name}"
     for v in state.play:
         if not state.prompt:
-            return f"active play pile/{v.name}"
-    return None
+            yield f"active play pile/{v.name}"
 
 
 def targets(state, target):
