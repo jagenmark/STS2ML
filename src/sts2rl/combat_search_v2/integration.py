@@ -264,7 +264,8 @@ class CombatSearchV2:
         except (Unsupported, NativeError, KeyError, TypeError, ValueError) as error:
             fallback = str(error) if isinstance(error, Unsupported) else f"projection/{type(error).__name__}"
         if (self.config.v61_boss_safe and not self.shadow and public.get("runtime_identity") == runtime_identity(10)
-                and not (result and not fallback and result.line and result.line.state.outcome == "victory")):
+                and not (result and not fallback and result.line and len(result.line.path) == 1
+                         and result.line.state.outcome == "victory")):
             escape = _deadline_escape(public, enumerate_actions)
             if escape is not None and escape != actual:
                 actual, changed, fallback = escape, escape != champion, "sandpit deadline"

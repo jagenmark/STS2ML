@@ -149,6 +149,8 @@ def admission(projected):
 def admission_reasons(projected):
     state = projected.state
     for name, _ in state.powers:
+        if state.v61_rules and name == "THE_HUNT":
+            continue  # The extra reward is resolved after combat.
         if state.hallway and name == "TENDER":
             if state.tender_plays < 0 or power(state.powers, "ARTIFACT"):
                 yield "unwitnessed tender count or artifact"
@@ -417,6 +419,10 @@ def _card_effect(state, play):
                     return boundary(before, "crab rage area hit ordering")
                 if state.outcome or state.boundary:
                     return state
+                if state.v61_rules and name == "THE_HUNT" and state.enemies[slot].hp == 0:
+                    if any(power(before.enemies[slot].powers, p) for p in ("MINION", "REATTACH", "ILLUSION", "INFESTED")):
+                        return boundary(state, "the hunt fatal eligibility")
+                    state = _add_player_power(state, "THE_HUNT", 1)
                 if state.late and name == "ECHOING_SLASH" and not state.enemies[slot].hp:
                     return boundary(state, "echoing slash repeats after kill")
     if state.late:

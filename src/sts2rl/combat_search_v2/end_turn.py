@@ -284,6 +284,8 @@ def _start_player(state, prior_powers):
     for name in ("BURST", "DUPLICATION", "NO_DRAW", "TAINTED", "DRAW_CARDS_NEXT_TURN"):
         powers = set_power(powers, name, 0)
     mittens = state.late and any(r.name == "TOASTY_MITTENS" for r in state.relics)
+    if mittens and state.v61_rules and (power(powers, "CLARITY") or any(r.name == "HAPPY_FLOWER" for r in state.relics)):
+        return boundary(state, "toasty mittens delayed start triggers")
     if not mittens:
         powers = _tick(powers, ("PLATING",))
     max_energy = state.max_energy
