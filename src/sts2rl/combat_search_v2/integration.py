@@ -10,6 +10,7 @@ from time import perf_counter_ns
 
 from ..native import NativeError, runtime_identity
 from .encounters import encounter_reason
+from . import late_encounters
 from .end_turn import attack_amount
 from .planner import Config, search
 from .state import SCHEMA, Unsupported, entry, project, root_move
@@ -50,6 +51,8 @@ def _prompt_signature(state):
     if state.prompt is None:
         return None
     prompt = state.prompt
+    if prompt.operation == "KNOWLEDGE_CURSE":
+        return (prompt.operation, state.curse_options, prompt.minimum, prompt.maximum)
     positions = {c.slot: i for i, c in enumerate(state.hand)}
     return (prompt.operation, tuple(positions[i] for i in prompt.candidates),
             prompt.minimum, prompt.maximum)
@@ -61,7 +64,7 @@ def _normalized_legal(state):
     potions = {p.slot: i for i, p in enumerate(state.potions)}
     return tuple((m.kind, hand[m.slot] if m.kind == "play_card" else potions.get(m.slot, -1)
                   if m.kind == "use_potion" else -1, enemies.get(m.target, -1),
-                  tuple(hand[i] for i in m.selection)) for m in legal(state))
+                  m.selection if state.curse_options else tuple(hand[i] for i in m.selection)) for m in legal(state))
 
 
 def _native_legal(projected, actions):
@@ -106,6 +109,12 @@ def _difference(predicted, actual):
         if expected != observed:
             return f"board/{name}"
     if predicted.outcome == "completed":
+        if predicted.late and (chains := dict(predicted.powers).get("CHAINS_OF_BINDING")):
+            count = sum(late_encounters.bound(c.variant) for c in actual.hand)
+            if count != min(chains, predicted.boundary.count):
+                return "drawn bound count"
+            actual = replace(actual, hand=tuple(replace(c, variant=late_encounters.unbind(c.variant))
+                                                for c in actual.hand))
         if _completed_zones(predicted) != _completed_zones(actual):
             return "completed zones"
         return ""
@@ -135,6 +144,11 @@ class CombatSearchV2:
         self.last_fallback = None
         self._prompt = None
         self._decision = None
+        self._round_key = None
+        self._plays = -1
+        self._played_from = None
+        self._bound_used = False
+        self._aeon_plays = -1
 
     def clone(self):
         clone = copy(self)
@@ -162,6 +176,8 @@ class CombatSearchV2:
         if self.records is None:
             return
         config = asdict(self.config)
+        if not config["v6_late_coverage"]:
+            del config["v6_late_coverage"]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
         metadata = {"schema": SCHEMA, "config": config, "config_sha256": hashlib.sha256(canonical).hexdigest(),
                     "mode": "shadow" if self.shadow else "act"}
@@ -172,7 +188,7 @@ class CombatSearchV2:
             for row in self.records:
                 stream.write(json.dumps(row, separators=(",", ":")) + "\n")
 
-    def choose(self, public, champion, enumerate_actions):
+    def choose(self, public, champion, enumerate_actions, *, facing=None):
         started = perf_counter_ns() if self.records is not None else 0
         projected = None
         previous_prompt, self._prompt = self._prompt, None
@@ -184,7 +200,21 @@ class CombatSearchV2:
         try:
             if public.get("runtime_identity") != runtime_identity(10):
                 raise Unsupported("runtime")
-            projected = project(public)
+            projected = project(public, late_prompts=self.config.v6_late_coverage)
+            state = projected.state
+            if self.config.v6_late_coverage and any(v.name == "RIGHT_HAND_HAND" for v in state.discard):
+                state = replace(state, right_hand_return=True)
+                projected = replace(projected, state=state)
+            if self.config.v6_late_coverage and (state.act == 3 or (state.act == 2 and state.room == "Boss")):
+                key = (state.act, state.floor, state.round)
+                side = projected.enemy_indices.index(facing) if facing in projected.enemy_indices else -1
+                if len(state.enemies) == 1 and state.enemies[0].name in ("CRUSHER", "ROCKET"):
+                    side = 0
+                plays = self._plays if self._round_key == key else -1
+                self._played_from = state
+                projected = replace(projected, state=replace(state, late=True, facing=side, preview_facing=side,
+                                                             sloth_plays=plays, bound_used=self._bound_used,
+                                                             aeon_plays=self._aeon_plays))
             if projected.state.prompt:
                 if previous_prompt is None or _difference(previous_prompt, projected.state):
                     raise Unsupported("unreconciled prompt")
@@ -224,6 +254,35 @@ class CombatSearchV2:
         return actual
 
     def observe(self, action, after, enumerate_actions):
+        if self.config.v6_late_coverage:
+            prior, self._played_from = self._played_from, None
+            view = after.get("combat_state", after)
+            ctx = view.get("context") or {}
+            key = (ctx.get("act"), ctx.get("floor"), view.get("round"))
+            if key != self._round_key:
+                self._plays = 0
+                self._bound_used = False
+            elif action.kind == "play_card" and self._plays >= 0:
+                # Automatic plays and replays may count towards Sloth. Resume at
+                # the next observed turn start if their count was not witnessed.
+                if (not prior or any(name in ("DUPLICATION", "BURST") for name, _ in prior.powers)
+                        or any("Sly" in c.variant.keywords for c in prior.hand)):
+                    self._plays = -1
+                else:
+                    self._plays += 1
+            if action.kind == "play_card" and prior and key == self._round_key:
+                card = prior.hand[action.args["card_index"]].variant
+                self._bound_used |= late_encounters.bound(card)
+            if (self._round_key is None or key[:2] != self._round_key[:2]
+                    or (view.get("round") == 1 and self._round_key[-1] is None)):
+                self._aeon_plays = 0 if view.get("round") == 1 else -1
+            elif action.kind == "play_card" and self._aeon_plays >= 0:
+                if (not prior or any(name in ("BURST", "DUPLICATION") for name, _ in prior.powers)
+                        or any("Sly" in c.variant.keywords for c in prior.hand)):
+                    self._aeon_plays = -1
+                else:
+                    self._aeon_plays += 1
+            self._round_key = key
         context, self._decision = self._decision, None
         self._prompt = None
         if context is None:
@@ -247,6 +306,9 @@ class CombatSearchV2:
             if reason == "draw" and after.get("decision") == "card_select":
                 try:
                     self._prompt = _after_draw_prompt(predicted, after)
+                    if self._prompt and predicted.late:
+                        self._prompt = replace(self._prompt, late=True, facing=predicted.facing,
+                                               preview_facing=predicted.facing, sloth_plays=self._plays)
                 except (Unsupported, ValueError, KeyError, TypeError):
                     self._prompt = None
         elif predicted.outcome in ("victory", "dead"):
@@ -254,9 +316,14 @@ class CombatSearchV2:
                        if predicted.outcome == "dead" else not after.get("in_combat"))
             evidence = "match" if matches else "mismatch"
             reason = "" if matches else "outcome"
-        elif self.records is not None or predicted.prompt:
+        elif (self.records is not None or predicted.prompt or (predicted.late and predicted.outcome == "completed"
+                and after.get("decision") == "card_select")):
             try:
-                actual = project(after)
+                actual = project(after, late_prompts=predicted.late)
+                if predicted.late:
+                    actual = replace(actual, state=replace(actual.state, late=True, facing=predicted.facing,
+                                     preview_facing=predicted.facing, sloth_plays=self._plays,
+                                     bound_used=self._bound_used, aeon_plays=self._aeon_plays))
                 reason = _difference(predicted, actual.state)
                 if not reason and not predicted.outcome:
                     expected = _normalized_legal(predicted)
@@ -264,7 +331,10 @@ class CombatSearchV2:
                     if native != legal(actual.state) or expected != _normalized_legal(actual.state):
                         reason = "legality"
                 evidence = "mismatch" if reason else "match"
-                if predicted.prompt and not reason:
+                if (predicted.late and predicted.outcome == "completed" and not reason and actual.state.prompt
+                        and actual.state.prompt.operation == "TOASTY_MITTENS"):
+                    self._prompt = actual.state
+                elif predicted.prompt and not reason:
                     self._prompt = predicted
             except (Unsupported, NativeError, KeyError, ValueError, TypeError) as error:
                 evidence, reason = "mismatch", str(error)
@@ -301,7 +371,10 @@ def choose_encounter(mode, encounter, public, policy, enumerate_actions):
     tactics = encounter.boss_tactics
     original_facing = tactics.facing if tactics is not None else None
     champion = encounter.choose(public, policy)
-    action = mode.choose(public, champion, enumerate_actions)
+    if mode.config.v6_late_coverage:
+        action = mode.choose(public, champion, enumerate_actions, facing=original_facing)
+    else:
+        action = mode.choose(public, champion, enumerate_actions)
     if tactics is not None and action is not champion:
         tactics.facing = original_facing
         tactics.observe(action)

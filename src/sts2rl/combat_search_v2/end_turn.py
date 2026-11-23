@@ -1,5 +1,6 @@
 """Current round resolution up to the next public reveal."""
 from dataclasses import replace
+from . import late_encounters
 
 from .encounters import STRANGLER, STUN, after_damage, after_move, before_move, encounter_reason
 from .state import Boundary, HAND_CAP, add_power, power, set_power
@@ -16,8 +17,13 @@ def _lethal(state):
     return replace(state, outcome="dead")
 
 
+def _player_damage(state, hp, block, powers, amount, *, bypass=False):
+    rod = state.late and any(r.name == "TUNGSTEN_ROD" and not r.used for r in state.relics)
+    return lose_hp(hp, block, powers, amount, bypass=bypass, reduction=int(rod))
+
+
 def _hurt(state, amount, *, bypass=False):
-    hp, block, powers = lose_hp(state.hp, state.block, state.powers, amount, bypass=bypass)
+    hp, block, powers = _player_damage(state, state.hp, state.block, state.powers, amount, bypass=bypass)
     if hp < state.hp and _puzzle(state):
         return boundary(state, "centennial puzzle draw")
     state = replace(state, hp=hp, block=block, powers=powers)
@@ -30,6 +36,16 @@ def _puzzle(state):
 
 def _hand_end(state):
     hand = state.hand
+    if state.late:
+        if any(r.name == "STONE_CALENDAR" and r.counter == 7 for r in state.relics):
+            return boundary(state, "stone calendar damage")
+        if any("Ethereal" in c.variant.keywords for c in hand):
+            if any(r.name == "FORGOTTEN_SOUL" for r in state.relics) and (
+                    any(c.variant.name in _HAND_DAMAGE for c in hand) or power(state.powers, "CONSTRICT")):
+                return boundary(state, "forgotten soul end turn ordering")
+            state = late_encounters.on_exhaust(state, sum("Ethereal" in c.variant.keywords for c in hand))
+            if state.boundary or state.outcome:
+                return state
     if not state.block and any(r.name == "ORICHALCUM" and not r.used for r in state.relics) and any(
         r.name in ("RIPPLE_BASIN", "CLOAK_CLASP") and not r.used
         and (r.status == "Active" if r.name == "RIPPLE_BASIN" else bool(hand)) for r in state.relics
@@ -91,6 +107,8 @@ def _hand_end(state):
     powers = state.powers
     if ritual := power(powers, "RITUAL"):
         powers = add_power(powers, "STRENGTH", ritual)
+    if state.late and (flex := power(powers, "FLEX_POTION")):
+        powers = add_power(set_power(powers, "FLEX_POTION", 0), "STRENGTH", -flex)
     for name in ("SPEED_POTION", "ANTICIPATE"):
         if temporary := power(powers, name):
             powers = add_power(set_power(powers, name, 0), "DEXTERITY", -temporary)
@@ -133,20 +151,25 @@ def attack_amount(state, enemy, intent):
     before = (weak if enemy.preview_weak else 20) * (3 if state.preview_vulnerable else 2)
     after = (weak if after_weak else 20) * (
         3 if power(state.powers, "VULNERABLE") else 2)
+    scale = 40
+    if state.late and power(state.powers, "SURROUNDED"):
+        before *= 3 if enemy.slot != state.preview_facing else 2
+        after *= 3 if enemy.slot != state.facing else 2
+        scale *= 2
     delta = power(enemy.powers, "STRENGTH") - enemy.preview_strength + enemy.attack_delta
     shown = intent.damage
     intangible = power(state.powers, "INTANGIBLE") > 0
     if state.preview_intangible and shown == 1:
-        minimum = (40 + before - 1) // before
-        return 1 if intangible and max(0, minimum + delta) * after // 40 >= 1 else None
+        minimum = (scale + before - 1) // before
+        return 1 if intangible and max(0, minimum + delta) * after // scale >= 1 else None
     if delta == 0 and before == after and not intangible:
         return shown
     if shown == 0 and delta > 0:
         return None
-    minimum = (40 * shown + before - 1) // before
-    maximum = (40 * (shown + 1) - 1) // before
-    lo = max(0, minimum + delta) * after // 40
-    hi = max(0, maximum + delta) * after // 40
+    minimum = (scale * shown + before - 1) // before
+    maximum = (scale * (shown + 1) - 1) // before
+    lo = max(0, minimum + delta) * after // scale
+    hi = max(0, maximum + delta) * after // scale
     if intangible:
         lo, hi = min(lo, 1), min(hi, 1)
     return lo if lo == hi else None
@@ -178,7 +201,15 @@ def _enemy_actions(state):
             fully_blocked = amount > 0 and block >= amount * intent.hits
             for _ in range(intent.hits):
                 before = hp
-                hp, block, powers = lose_hp(hp, block, powers, amount)
+                hp, block, powers = _player_damage(state, hp, block, powers, amount)
+                if state.late and hp < before and (cut := power(enemy.powers, "PAPER_CUTS")):
+                    if state.max_hp <= cut:
+                        return boundary(state, "paper cuts lethal max HP")
+                    state = replace(state, max_hp=state.max_hp - cut)
+                    hp = min(hp, state.max_hp)
+                if state.late and hp < before and (stabs := power(enemy.powers, "PAINFUL_STABS")):
+                    from .encounters import WOUND, add_cards
+                    state = add_cards(state, "discard", WOUND, stabs)
                 if hp < before and _puzzle(state):
                     return boundary(state, "centennial puzzle draw")
                 if not hp:
@@ -197,9 +228,18 @@ def _enemy_actions(state):
         if (hp, block, powers) != (state.hp, state.block, state.powers):
             state = replace(state, hp=hp, block=block, powers=powers)
         state = after_move(state, state.enemies[slot])
-        if state.boundary:
+        if state.boundary or state.prompt:
             return state
         enemy = state.enemies[slot]
+        if state.late and (demise := power(enemy.powers, "DEMISE")):
+            if demise >= enemy.hp or power(enemy.powers, "INTANGIBLE"):
+                return boundary(state, "demise lethal or intangible")
+            updated = replace(enemy, hp=enemy.hp - demise)
+            state = replace(state, enemies=(*state.enemies[:slot], updated, *state.enemies[slot + 1:]))
+            state = after_damage(state, enemy, updated)
+            if state.boundary or state.outcome:
+                return state
+            enemy = state.enemies[slot]
         powers = _tick(enemy.powers, (name for name in ("WEAK", "VULNERABLE", "INTANGIBLE")
                                       if power(prior_powers, name)))
         intents = STUN if fully_blocked and power(powers, "IMBALANCED") else enemy.intents
@@ -226,6 +266,19 @@ def _start_player(state, prior_powers):
     powers = _tick(powers, ("PLATING",))
     max_energy = state.max_energy
     energy = max_energy + power(powers, "ENERGY_NEXT_TURN")
+    if state.late:
+        bonus_draw -= power(powers, "MIND_ROT")
+        if prep := power(powers, "PREP_TIME"):
+            powers = add_power(powers, "VIGOR", prep)
+        if power(powers, "CHAINS_OF_BINDING"):
+            state = replace(state, hand=tuple(replace(c, variant=late_encounters.unbind(c.variant)) for c in state.hand),
+                            **{z: tuple(sorted(late_encounters.unbind(v) for v in getattr(state, z)))
+                               for z in ("draw", "discard", "exhaust")})
+        if blades := power(powers, "INFINITE_BLADES"):
+            from .transitions import _shiv
+            if power(powers, "PHANTOM_BLADES") or len(state.hand) + blades + 5 >= HAND_CAP:
+                return boundary(state, "infinite blades hand ordering")
+            state = _shiv(state, blades)
     powers = set_power(powers, "ENERGY_NEXT_TURN", 0)
     additional_public_energy = 0
     if power(powers, "CLARITY"):
@@ -237,6 +290,33 @@ def _start_player(state, prior_powers):
         additional_public_energy += 1
     relics = []
     for relic in state.relics:
+        if state.late and not relic.used:
+            if relic.name == "BREAD" and state.round == 1:
+                max_energy += 1
+                energy += 1
+            if relic.name == "ICE_CREAM":
+                energy += state.energy
+                additional_public_energy += state.energy
+            if relic.name == "FIDDLE":
+                bonus_draw += power(relic.stats, "cards")
+            if relic.name in ("SHURIKEN", "KUNAI"):
+                relic = replace(relic, counter=0, status="Normal")
+            if relic.name == "STONE_CALENDAR":
+                if relic.counter is None or relic.counter >= 6:
+                    return boundary(state, "stone calendar activation")
+                relic = replace(relic, counter=relic.counter + 1)
+            if relic.name in ("MR_STRUGGLES", "MERCURY_HOURGLASS"):
+                from .transitions import _damage
+
+                dmg = state.round + 1 if relic.name == "MR_STRUGGLES" else power(relic.stats, "damage")
+                for enemy in state.enemies:
+                    if enemy.hp <= 0:
+                        continue
+                    if enemy.hp <= dmg or power(enemy.powers, "ASLEEP"):
+                        return boundary(state, "start turn damage death or wake")
+                    state = _damage(state, enemy.slot, dmg)
+                    if state.boundary or state.outcome:
+                        return state
         if relic.name in ("HAPPY_FLOWER", "PENDULUM") and relic.counter is not None and not relic.used:
             threshold = power(relic.stats, "turns")
             if threshold <= 0:
@@ -289,14 +369,19 @@ def _start_player(state, prior_powers):
                     energy += buff
                     relic = replace(relic, counter=None, status="Active")
         relics.append(relic)
+    if state.late and (rampart := sum(power(e.powers, "RAMPART") for e in state.enemies if e.hp > 0)):
+        state = replace(state, enemies=tuple(replace(e, block=e.block + rampart) if e.name == "TURRET_OPERATOR"
+                                            else e for e in state.enemies))
     block = state.block if power(state.powers, "BLUR") else 0
+    if state.late and not block:
+        block = min(state.block, sum(power(r.stats, "block") for r in state.relics if r.name == "STURDY_CLAMP"))
     if state.round == 1:
         block += sum(power(r.stats, "block") for r in state.relics if r.name == "HORN_CLEAT" and not r.used)
     if state.round == 2:
         block += sum(power(r.stats, "block") for r in state.relics if r.name == "CAPTAINS_WHEEL" and not r.used)
     hp = state.hp
     if poison := power(powers, "POISON"):
-        hp, block, powers = lose_hp(hp, block, powers, poison, bypass=True)
+        hp, block, powers = _player_damage(state, hp, block, powers, poison, bypass=True)
         if hp < state.hp and _puzzle(state):
             return boundary(state, "centennial puzzle draw")
         powers = add_power(powers, "POISON", -1)
@@ -310,6 +395,10 @@ def _start_player(state, prior_powers):
             break
     if outcome == "completed":
         count = min(5 + bonus_draw, HAND_CAP - len(state.hand), len(state.draw) + len(state.discard))
+        if state.late and any(r.name == "TOASTY_MITTENS" for r in state.relics) and (
+                len(state.hand) + count < 2 or power(powers, "INFINITE_BLADES") or power(powers, "NOXIOUS_FUMES")
+                or any(r.name in ("MERCURY_HOURGLASS", "MR_STRUGGLES") for r in state.relics)):
+            return boundary(state, "toasty mittens start turn ordering")
         reveal = Boundary("next turn", count, count > len(state.draw))
     if fumes := power(powers, "NOXIOUS_FUMES"):
         from .transitions import _debuff
@@ -321,7 +410,7 @@ def _start_player(state, prior_powers):
                     return state
     return replace(state, hp=hp, block=block, powers=powers, energy=energy, max_energy=max_energy,
                    round=state.round + 1, additional_public_energy=additional_public_energy,
-                   relics=tuple(relics), boundary=reveal, outcome=outcome)
+                   relics=tuple(relics), boundary=reveal, outcome=outcome, sloth_plays=0 if state.late else -1)
 
 
 def resolve(state):
@@ -337,6 +426,6 @@ def resolve(state):
         return state
     prior_powers = state.powers
     state = _enemy_actions(state)
-    if state.outcome or state.boundary:
+    if state.outcome or state.boundary or state.prompt:
         return state
     return _start_player(state, prior_powers)

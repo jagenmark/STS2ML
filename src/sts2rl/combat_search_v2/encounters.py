@@ -1,5 +1,6 @@
 """Encounter-specific hooks with visible preconditions."""
 from dataclasses import replace
+from . import late_encounters
 
 from .state import Boundary, Intent, Variant, add_power, power, set_power
 
@@ -43,6 +44,8 @@ ENCOUNTER_BOUNDARIES = {
 
 def encounter_reason(state):
     living = tuple(e.name for e in state.enemies if e.hp > 0)
+    if state.late and (reason := late_encounters.reason(state)):
+        return reason
     if any(name.startswith("DECIMILLIPEDE_SEGMENT_") for name in living) and len(living) != 3:
         return "segment reattachment"
     if not living:
@@ -50,7 +53,7 @@ def encounter_reason(state):
     for name in living:
         if name == "KNOWLEDGE_DEMON" and power(state.powers, "DISINTEGRATION"):
             continue
-        if name not in FORMATIONS:
+        if name not in FORMATIONS and not (state.late and name in late_encounters.PROFILES):
             return ENCOUNTER_BOUNDARIES.get(name, f"profile/{name}")
     if INSATIABLE in living and living != (INSATIABLE,):
         return "sandpit formation"
@@ -59,7 +62,7 @@ def encounter_reason(state):
     if "KIN_FOLLOWER" in living and living.count("KIN_PRIEST") != 1:
         return "kin leader dependency"
     if any(power(e.powers, "MINION") and e.name not in ("KIN_FOLLOWER", "PARAFRIGHT", "EYE_WITH_TEETH", "TOUGH_EGG")
-           for e in state.enemies if e.hp > 0):
+           for e in state.enemies if e.hp > 0 and not (state.late and e.name in ("TORCH_HEAD_AMALGAM", "ZAPBOT", "NOISEBOT"))):
         return "unqualified minion dependency"
     if "THE_OBSCURA" in living and state.round > 1 and "PARAFRIGHT" not in living:
         return "obscura hidden revival state"
@@ -81,7 +84,18 @@ def after_death(state, enemy):
         return replace(state, boundary=Boundary("segment reattachment"))
     if power(enemy.powers, "INFESTED"):
         return replace(state, boundary=Boundary("infested death phase"))
-    if enemy.name not in FORMATIONS:
+    if state.late and enemy.name in ("CRUSHER", "ROCKET"):
+        living = [e for e in state.enemies if e.hp > 0]
+        if not living:
+            return replace(state, outcome="victory", queue=(), prompt=None)
+        if len(living) == 1 and power(living[0].powers, "CRAB_RAGE"):
+            ally = living[0]
+            powers = add_power(set_power(ally.powers, "CRAB_RAGE", 0), "STRENGTH", 6)
+            return replace(_update(state, ally.slot, powers=powers, block=ally.block + 99), facing=ally.slot)
+        return replace(state, boundary=Boundary("crab rage formation"))
+    ordinary_death = {"SCROLL_OF_BITING", "TURRET_OPERATOR", "LIVING_SHIELD", "SLIMED_BERSERKER",
+                      "OWL_MAGISTRATE", "FROG_KNIGHT", "KNOWLEDGE_DEMON", "GLOBE_HEAD"}
+    if enemy.name not in FORMATIONS and not (state.late and enemy.name in ordinary_death):
         reason = ENCOUNTER_BOUNDARIES.get(enemy.name, f"death phase/{enemy.name}")
         return replace(state, boundary=Boundary(reason))
     if power(enemy.powers, "STEAM_ERUPTION"):
@@ -181,6 +195,8 @@ def after_move(state, enemy):
     """Resolve the pinned non-attack portion of a known current move."""
     kinds = {intent.kind for intent in enemy.intents if intent.damage is None}
     profile = enemy.name
+    if state.late and profile in late_encounters.PROFILES:
+        return late_encounters.move(state, enemy, kinds)
     if profile.startswith("DECIMILLIPEDE_SEGMENT_"):
         if kinds == {"Buff"}:
             return _strength(state, enemy, 2)

@@ -1,6 +1,7 @@
 """Deterministic player actions and visible operation continuations."""
 from dataclasses import replace
 from itertools import combinations
+from . import late_encounters
 
 from .state import (END_TURN, HAND_CAP, Boundary, Card, Effect, Move, Play, Prompt, Variant,
                     add_power, power)
@@ -112,11 +113,15 @@ DEBUFFS = {
 }
 
 
-def card_supported(v):
+def card_supported(v, late=False):
     tainted = (len(v.modifier) == 1 and v.modifier[0][:2] == ("affliction_state", "TAINTED")
                and v.kind == "Skill")
     ember = len(v.modifier) == 1 and v.modifier[0][:2] == ("enchantment_state", "TEZCATARAS_EMBER")
-    return (v.name in CARDS and v.upgrade in (0, 1) and (not v.modifier or tainted or ember)
+    hexed = (late and len(v.modifier) == 1 and v.modifier[0][:2] == ("affliction_state", "HEXED")
+             and "Ethereal" in v.keywords)
+    return ((v.name in CARDS or (late and v.name in late_encounters.CARDS))
+            and v.upgrade in (0, 1) and (not v.modifier or tainted or ember or hexed or
+                                         (late and len(v.modifier) == 1 and late_encounters.bound(v)))
             and all(k in KEYWORDS for k in v.keywords)
             and all(f in ("costs_x", "exhaust_on_next_play", "retain_this_turn", "sly_this_turn")
                     for f in v.flags)
@@ -124,6 +129,10 @@ def card_supported(v):
 
 
 def can_play(state, v):
+    if state.late and state.bound_used and late_encounters.bound(v):
+        return False
+    if state.late and (limit := power(state.powers, "SLOTH")) and state.sloth_plays >= limit:
+        return False
     return (not any(r.name == "VELVET_CHOKER" and (r.counter or 0) >= power(r.stats, "cards") for r in state.relics)
             and v.name not in UNPLAYABLE and "Unplayable" not in v.keywords
             and (v.name != "GRAND_FINALE" or not state.draw)
@@ -137,7 +146,7 @@ def admission(projected):
 def admission_reasons(projected):
     state = projected.state
     for name, _ in state.powers:
-        if name not in PLAYER_POWERS:
+        if name not in PLAYER_POWERS and not (state.late and name in late_encounters.PLAYER):
             yield f"player power/{name}"
     for relic in state.relics:
         if relic.name == "VAMBRACE" and relic.status == "Active" and (
@@ -145,13 +154,13 @@ def admission_reasons(projected):
                                                      for r in state.relics)
         ):
             yield "vambrace triggered block ordering"
-        if relic.name not in RELICS or relic.stacks != 1:
+        if (relic.name not in RELICS and not (state.late and relic.name in late_encounters.RELICS)) or relic.stacks != 1:
             yield f"relic/{relic.name}"
     for card, playable in zip(state.hand, projected.playable):
         v = card.variant
-        if not card_supported(v):
+        if not card_supported(v, state.late):
             yield f"card/{v.name}"
-        elif v.modifier and v.modifier[0][0] == "affliction_state" and not any(
+        elif v.modifier and v.modifier[0][:2] == ("affliction_state", "TAINTED") and not any(
             e.name == "INFESTED_PRISM" and power(e.powers, "VITAL_SPARK") == v.modifier[0][2]
             for e in state.enemies
         ):
@@ -161,7 +170,7 @@ def admission_reasons(projected):
             yield f"legality/{v.name}"
     for enemy in state.enemies:
         for name, _ in enemy.powers:
-            if name not in ENEMY_POWERS:
+            if name not in ENEMY_POWERS and not (state.late and name in late_encounters.ENEMY):
                 yield f"enemy power/{name}"
     for v in state.play:
         if not state.prompt:
@@ -195,6 +204,8 @@ def boundary(state, reason, count=0, shuffle=False):
 
 
 def draw(state, count):
+    if state.late and any(r.name == "FIDDLE" and not r.used for r in state.relics):
+        return state
     count = min(count, HAND_CAP - len(state.hand), len(state.draw) + len(state.discard))
     if count > 0 and not power(state.powers, "NO_DRAW"):
         return boundary(state, "draw", count, count > len(state.draw))
@@ -221,7 +232,7 @@ def block_gain(base, powers, modified=True):
     return max(0, base)
 
 
-def lose_hp(hp, block, powers, amount, *, bypass=False):
+def lose_hp(hp, block, powers, amount, *, bypass=False, reduction=0):
     if amount <= 0:
         return hp, block, powers
     if power(powers, "INTANGIBLE"):
@@ -238,7 +249,7 @@ def lose_hp(hp, block, powers, amount, *, bypass=False):
         powers = add_power(powers, "SLIPPERY", -1)
     if amount and (cap := power(powers, "HARD_TO_KILL")):
         amount = min(amount, cap)
-    return max(0, hp - amount), block, powers
+    return max(0, hp - max(0, amount - reduction)), block, powers
 
 
 def _enemy_change(state, slot, fn):
@@ -255,6 +266,8 @@ def _enemy_change(state, slot, fn):
 
 
 def _damage(state, slot, base, *, attacker_powers=None, gigantification=False):
+    if state.late and attacker_powers is not None and power(state.enemies[slot].powers, "SOAR"):
+        return boundary(state, "soaring owl damage")
     def resolve(enemy):
         value = base
         if attacker_powers is not None:
@@ -271,6 +284,10 @@ def _damage(state, slot, base, *, attacker_powers=None, gigantification=False):
     state = _enemy_change(state, slot, resolve)
     if attacker_powers is not None and previous.hp > 0 and not state.outcome and not state.boundary:
         from .encounters import after_attack
+        if state.late and state.enemies[slot].hp < previous.hp and (venom := power(state.powers, "ENVENOM")):
+            state = _debuff(state, slot, "POISON", venom)
+            if state.boundary:
+                return state
         return after_attack(state, previous, state.enemies[slot])
     return state
 
@@ -301,10 +318,12 @@ def _queue(state, *events):
     return replace(state, queue=(*events, *state.queue))
 
 
-def _shiv(state, count):
+def _shiv(state, count, upgrade=0):
+    if state.late and power(state.powers, "HEX"):
+        return boundary(state, "hexed created shiv")
     in_hand = min(count, HAND_CAP - len(state.hand))
     target = "AllEnemies" if power(state.powers, "FAN_OF_KNIVES") else "AnyEnemy"
-    variant = Variant("SHIV", "Attack", 0, target, keywords=("Exhaust",))
+    variant = Variant("SHIV", "Attack", 0, target, upgrade, keywords=("Exhaust",))
     return replace(state, hand=(*state.hand, *(Card(state.next_slot + i, variant) for i in range(in_hand))),
                    discard=tuple(sorted((*state.discard, *((variant,) * (count - in_hand))))),
                    next_slot=state.next_slot + in_hand)
@@ -334,13 +353,13 @@ def _card_effect(state, play):
         return boundary(state, "vambrace first card block")
     if name == "DASH":
         state = replace(state, block=state.block + block_gain(BLOCKS[name][up], state.powers))
-    if name in ATTACKS:
+    if name in ATTACKS or (state.late and name in late_encounters.ATTACKS):
         hits = {"SKEWER": play.x, "DAGGER_SPRAY": 2, "PECK": 3 + up}.get(name, 1)
         if name == "FLECHETTES":
             hits = sum(c.variant.kind == "Skill" for c in state.hand)
         if hits > 1 and any(power(state.enemies[slot].powers, "CURL_UP") for slot in slots):
             return boundary(state, "multi-hit curl up ordering")
-        damage = ATTACKS[name][up]
+        damage = (ATTACKS[name] if name in ATTACKS else late_encounters.ATTACKS[name])[up]
         if name == "PRECISE_CUT":
             damage = max(0, damage - 2 * len(state.hand))
         if power(state.powers, "VIGOR"):
@@ -350,7 +369,8 @@ def _card_effect(state, play):
         if name == "SHIV":
             damage += power(state.powers, "ACCURACY")
         for relic in state.relics:
-            if not relic.used and ((relic.name == "STRIKE_DUMMY" and name in ("STRIKE_SILENT", "LEADING_STRIKE"))
+            if not relic.used and ((relic.name == "STRIKE_DUMMY" and (name in ("STRIKE_SILENT", "LEADING_STRIKE")
+                                    or (state.late and name == "ULTIMATE_STRIKE")))
                                    or (relic.name == "MINIATURE_CANNON" and up)):
                 damage += power(relic.stats, "extradamage")
         gigantic = power(state.powers, "GIGANTIFICATION") > 0
@@ -361,9 +381,30 @@ def _card_effect(state, play):
             # The next repeated hit sees the removal of a killed power source.
             attacker_powers = state.powers
             for slot in slots:
+                before = state
                 state = _damage(state, slot, damage, attacker_powers=attacker_powers, gigantification=gigantic)
+                if (state.late and len(slots) > 1 and slot != slots[-1] and not state.enemies[slot].hp
+                        and power(state.enemies[slot].powers, "CRAB_RAGE")):
+                    return boundary(before, "crab rage area hit ordering")
                 if state.outcome or state.boundary:
                     return state
+    if state.late:
+        if name == "HIDDEN_DAGGERS":
+            if power(state.powers, "PHANTOM_BLADES"):
+                return boundary(state, "phantom blades created shiv")
+            return _queue(state, Effect("prompt", 2, play), Effect("hidden_daggers_shivs", up))
+        if name == "INFINITE_BLADES":
+            return _add_player_power(state, name, 1)
+        if name == "ASSASSINATE":
+            return _debuff(state, play.target, "VULNERABLE", 1 + up)
+        if name in ("DANSE_MACABRE", "PREP_TIME"):
+            return _add_player_power(state, name, 4 + 2 * up)
+        if name == "RELAX":
+            if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
+                return boundary(state, "vambrace first card block")
+            state = replace(state, block=state.block + block_gain(16 + 2 * up, state.powers))
+            return _add_player_power(_add_player_power(state, "DRAW_CARDS_NEXT_TURN", 2 + up),
+                                     "ENERGY_NEXT_TURN", 2 + up)
     if name in BLOCKS and name != "DASH":
         state = replace(state, block=state.block + block_gain(BLOCKS[name][up], state.powers))
     if name in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW"):
@@ -437,6 +478,22 @@ def _start_play(state, play):
 
 
 def _after_play(state, play, afterimage):
+    if state.late:
+        if play.card.variant.kind == "Skill":
+            state = replace(state, enemies=tuple(replace(e, powers=add_power(e.powers, "STRENGTH", n))
+                            if e.hp > 0 and (n := power(e.powers, "ENRAGE")) else e for e in state.enemies))
+        if (play.x if "costs_x" in play.card.variant.flags else play.card.variant.cost) >= 2:
+            state = replace(state, block=state.block + power(state.powers, "DANSE_MACABRE"))
+        for i, relic in enumerate(state.relics):
+            if relic.used or relic.name != "IRON_CLUB":
+                continue
+            count = ((relic.counter or 0) + 1) % power(relic.stats, "cards")
+            updated = replace(relic, counter=count, status="Active" if count == power(relic.stats, "cards") - 1 else "Normal")
+            state = replace(state, relics=(*state.relics[:i], updated, *state.relics[i + 1:]))
+            if not count:
+                state = draw(state, 1)
+                if state.boundary:
+                    return state
     for i, relic in enumerate(state.relics):
         if relic.name not in ("VELVET_CHOKER", "POCKETWATCH") or relic.used:
             continue
@@ -483,6 +540,12 @@ def _attack_relics(state):
     extra_damage = 0
     relics = []
     for relic in state.relics:
+        if state.late and not relic.used and relic.name in ("SHURIKEN", "KUNAI"):
+            count = ((relic.counter or 0) + 1) % power(relic.stats, "cards")
+            if not count:
+                name = "STRENGTH" if relic.name == "SHURIKEN" else "DEXTERITY"
+                state = _add_player_power(state, name, power(relic.stats, name.lower() + "power"))
+            relic = replace(relic, counter=count, status="Active" if count == power(relic.stats, "cards") - 1 else "Normal")
         if not relic.used and relic.name == "PEN_NIB":
             counter = (relic.counter or 0) + 1
             relic = replace(relic, counter=counter, status="Active" if counter == 9 else "Normal")
@@ -515,6 +578,9 @@ def _discard_cards(state, slots):
     if slots and any(r.name == "TINGSHA" and not r.used for r in state.relics):
         return boundary(state, "tingsha discard target")
     cards = tuple(c for c in state.hand if c.slot in slots)
+    if state.late and cards:
+        gain = sum(power(r.stats, "block") for r in state.relics if r.name == "TOUGH_BANDAGES" and not r.used)
+        state = replace(state, block=state.block + gain * len(cards))
     state = replace(state, hand=tuple(c for c in state.hand if c.slot not in slots))
     triggered = []
     for card in cards:
@@ -548,6 +614,13 @@ def _finish(state, play, plays):
 
 def _finish_card(state, play, plays=1):
     v = play.card.variant
+    if state.right_hand_return and (play.x if "costs_x" in v.flags else v.cost) >= 2:
+        returns = [copy for copy in state.discard if copy.name == "RIGHT_HAND_HAND"]
+        if returns:
+            if len(returns) != 1 or len(state.hand) >= HAND_CAP or plays != 1:
+                return boundary(state, "right hand return ordering")
+            state = replace(state, discard=tuple(c for c in state.discard if c.name != "RIGHT_HAND_HAND"),
+                            hand=(*state.hand, Card(state.next_slot, returns[0])), next_slot=state.next_slot + 1)
     if v.kind != "Power":
         exhausted = "Exhaust" in v.keywords or "exhaust_on_next_play" in v.flags
         if exhausted and any(r.name == "JOSS_PAPER" for r in state.relics):
@@ -557,6 +630,10 @@ def _finish_card(state, play, plays=1):
         if "costs_x" in v.flags:
             v = replace(v, cost=play.x)
         state = _put(state, "exhaust" if exhausted else "discard", v)
+        if state.late and exhausted:
+            state = late_encounters.on_exhaust(state)
+            if state.outcome or state.boundary:
+                return state
     if not state.hand and any(r.name == "UNCEASING_TOP" and not r.used for r in state.relics):
         return draw(state, 1)
     return state
@@ -590,6 +667,8 @@ def _drain(state):
                 state = _discard_cards(state, event.slots)
             case "sly":
                 state = _sly(state, event.play.card)
+            case "hidden_daggers_shivs":
+                state = _shiv(state, 2, event.amount)
     return boundary(state, "automatic event cap") if state.queue else state
 
 
@@ -628,8 +707,11 @@ def _potion(state, move):
 
 
 def advance(state, move):
+    if state.late and move.target >= 0 and power(state.powers, "SURROUNDED"):
+        state = replace(state, facing=move.target)
     result = _advance(state, move)
-    if (not result.outcome and not result.boundary and result.enemies != state.enemies
+    if (result.late and not result.boundary and not result.outcome and result.facing != result.preview_facing
+            or not result.outcome and not result.boundary and result.enemies != state.enemies
             and any(e.preview_weak or e.attack_delta or state.preview_intangible for e in result.enemies)):
         from .end_turn import attack_amount
 
@@ -645,6 +727,15 @@ def _advance(state, move):
         from .end_turn import resolve
         return resolve(state)
     if move.kind == "select_cards":
+        if state.late and state.prompt.operation == "KNOWLEDGE_CURSE":
+            return late_encounters.choose_curse(state, move.selection[0])
+        if state.late and state.prompt.operation == "TOASTY_MITTENS":
+            card = next(c for c in state.hand if c.slot == move.selection[0])
+            if any(r.name == "JOSS_PAPER" for r in state.relics):
+                return boundary(state, "joss paper exhaust counter")
+            state = replace(state, prompt=None, hand=tuple(c for c in state.hand if c.slot != card.slot))
+            state = late_encounters.on_exhaust(_put(state, "exhaust", card.variant))
+            return state if state.boundary or state.outcome else _add_player_power(state, "STRENGTH", 1)
         if not state.queue and state.play:
             v, = state.play
             state = _queue(state, Effect("after_play", power(state.powers, "AFTERIMAGE"), Play(Card(-1, v))),
@@ -654,13 +745,31 @@ def _advance(state, move):
         return _potion(state, move)
     card = next(c for c in state.hand if c.slot == move.slot)
     v = card.variant
-    if not card_supported(v):
+    if state.late:
+        if late_encounters.bound(v):
+            state = replace(state, bound_used=True)
+        if any(power(e.powers, "WITHERING_PRESENCE") for e in state.enemies):
+            if power(state.powers, "BURST") or power(state.powers, "DUPLICATION") or state.aeon_plays < 0:
+                return boundary(state, "withering presence automatic play count")
+            if state.aeon_plays % 6 == 5:
+                return boundary(state, "withering presence creates wither")
+            state = replace(state, aeon_plays=state.aeon_plays + 1)
+        if power(state.powers, "SLOTH"):
+            if power(state.powers, "DUPLICATION") or power(state.powers, "BURST") or any(
+                    "Sly" in c.variant.keywords for c in state.hand):
+                return boundary(state, "sloth automatic play count")
+            state = replace(state, sloth_plays=state.sloth_plays + 1)
+    if not card_supported(v, state.late):
         return boundary(state, f"card/{v.name}")
     x = state.energy if "costs_x" in v.flags else 0
     state = replace(state, energy=state.energy - (x if "costs_x" in v.flags else v.cost),
                     hand=tuple(c for c in state.hand if c.slot != move.slot))
     play = Play(card, move.target, x)
-    if (v.name in SIMPLE_CARDS
+    if state.late and v.name == "SHIV" and any(r.name == "HELICAL_DART" for r in state.relics):
+        return boundary(state, "helical dart temporary dexterity")
+    if (v.name in SIMPLE_CARDS and not (state.late and (power(state.powers, "DANSE_MACABRE") or
+            any(power(e.powers, "ENRAGE") for e in state.enemies) or
+            any(r.name in ("IRON_CLUB", "SHURIKEN", "KUNAI") for r in state.relics)))
             and not any(r.name in ("VELVET_CHOKER", "POCKETWATCH", "ART_OF_WAR", "PEN_NIB") for r in state.relics)
             and not any(power(state.powers, p) for p in ("DUPLICATION", "BURST", "AFTERIMAGE"))
             and (v.kind != "Attack" or not any(

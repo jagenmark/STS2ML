@@ -185,6 +185,15 @@ class State:
     floor: int = 0
     seal_gold: int = 0
     additional_public_energy: int = 0
+    late: bool = False
+    facing: int = -1
+    preview_facing: int = -1
+    sloth_plays: int = -1
+    right_hand_return: bool = False
+    bound_used: bool = False
+    aeon_plays: int = -1
+    curse_number: int = -1
+    curse_options: tuple = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -234,7 +243,7 @@ def _indices(rows):
     return indices
 
 
-def project(public):
+def project(public, *, late_prompts=False):
     """Read explicit fields only, with stable local slots and unordered piles."""
     decision = public["decision"]
     is_prompt = decision == "card_select"
@@ -286,19 +295,45 @@ def project(public):
                   power(powers, "INTANGIBLE") > 0, floor=integer(ctx.get("floor", 0)),
                   seal_gold=integer(player["gold"]) if any(r.name == "SEAL_OF_GOLD" for r in relics) else 0)
     prompt_indices = ()
+    if late_prompts and tuple(e.name for e in enemies) == ("KNOWLEDGE_DEMON",):
+        history = view.get("public_combat_history") or ()
+        if ([h.get("round") for h in history] == list(range(1, state.round + 1))
+                and all(len(h["enemies"]) == 1 and h["enemies"][0]["id"] == "MONSTER.KNOWLEDGE_DEMON"
+                        for h in history)):
+            prior = [h["enemies"][0]["intents"] for h in history[:-1]]
+            if all(not any(i["type"] == "Stun" for i in intents) for intents in prior):
+                state = replace(state, curse_number=sum(intents == [{"type": "Debuff"}] for intents in prior))
     if is_prompt:
-        state, prompt_indices = _public_prompt(public, state)
+        state, prompt_indices = _public_prompt(public, state, late_prompts)
     return Projection(state, _indices(hand), _indices(enemy_rows), _indices(potion_rows), prompt_indices,
                       tuple(card["can_play"] for card in hand),
                       tuple(e.name for e in enemies))
 
 
-def _public_prompt(public, state):
+def _public_prompt(public, state, late_prompts=False):
     source = public.get("selection_source") or {}
     card = entry(source.get("id", ""))
-    if source.get("kind") != "play_card" or card not in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW"):
+    if (late_prompts and source == {"kind": "end_turn"} and len(state.enemies) == 1
+            and state.enemies[0].name == "KNOWLEDGE_DEMON" and not state.play
+            and public.get("min_select") == public.get("max_select") == 1):
+        from .late_encounters import curse_options
+        rows = public["cards"]
+        for ordinal in range(3):
+            options = curse_options(ordinal)
+            if len(rows) == 2 and all(entry(row["id"]) == name and
+                (row.get("stats") or {}).get(name.lower().replace("_", "") + "power") == amount
+                for (name, amount), row in zip(options, rows)):
+                return replace(state, prompt=Prompt("KNOWLEDGE_CURSE", (0, 1), 1, 1),
+                               curse_number=ordinal, curse_options=options), _indices(rows)
+    mittens = (late_prompts and state.round > 1 and source == {"kind": "end_turn"} and not state.play
+               and any(r.name == "TOASTY_MITTENS" for r in state.relics)
+               and public.get("min_select") == public.get("max_select") == 1)
+    if mittens:
+        card = "TOASTY_MITTENS"
+    elif source.get("kind") != "play_card" or (card not in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW")
+                                              and not (late_prompts and card == "HIDDEN_DAGGERS")):
         raise Unsupported("selection operation")
-    if len(state.play) != 1 or state.play[0].name != card:
+    if not mittens and (len(state.play) != 1 or state.play[0].name != card):
         raise Unsupported("selection continuation")
     rows = public["cards"]
     if len(rows) != len(state.hand) or any(

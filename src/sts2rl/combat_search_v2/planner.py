@@ -17,9 +17,11 @@ class Config:
     children: int = 256
     potion_reserve: float = 7.0
     value_win_weight: float = 0.0
+    v6_late_coverage: bool = False
 
     def __post_init__(self):
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
+                or type(self.v6_late_coverage) is not bool
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
@@ -125,7 +127,10 @@ class _Search:
 
     def finish(self, node):
         if node.state.prompt is None:
-            self.child(node.state, node.path, node.root, END_TURN)
+            pending = self.child(node.state, node.path, node.root, END_TURN)
+            if pending and pending.state.curse_options:
+                for move in legal(pending.state):
+                    self.child(pending.state, pending.path, pending.root, move)
 
     def _rank(self, node, axis=0):
         return (*node.priority[axis:], *node.priority[:axis], node.root == self.champion, -node.root)
