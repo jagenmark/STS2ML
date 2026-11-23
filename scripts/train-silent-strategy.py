@@ -128,6 +128,7 @@ def follow_deployed(game, state, controller: DeployedController, initial, start_
     action = initial
     boss_damage = 0.0
     boss = None
+    boss_fights_after_root = []
     act, floor = start_act, 0
     for _ in range(3000 if horizon == "run" else 1100):
         ctx = state["context"]
@@ -138,6 +139,7 @@ def follow_deployed(game, state, controller: DeployedController, initial, start_
         if state["decision"] == "combat_play" and ctx["room_type"] == "Boss":
             if horizon == "run" and (act, ctx["floor"]) != boss:
                 boss, boss_damage = (act, ctx["floor"]), 0.0
+                boss_fights_after_root.append(boss)
             enemies = state["enemies"]
             if enemies:
                 boss_damage = max(
@@ -152,6 +154,7 @@ def follow_deployed(game, state, controller: DeployedController, initial, start_
                 "clear": act > start_act or win,
                 "act": act,
                 "win": win,
+                "boss_fights_after_root": boss_fights_after_root,
                 "floor": floor,
                 "hp": state["player"]["hp"],
                 "return": 17 * (act - 1) + floor + 10 * win + 2 * boss_damage,

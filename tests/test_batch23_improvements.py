@@ -713,7 +713,11 @@ def test_deployed_strategy_run_labels_cross_acts_and_score_the_last_boss():
     assert len(observed) == 1
     loss, observed = run(later_states, horizon="run")
     assert len(observed) == len(later_states)
-    assert loss == {"act": 3, "clear": True, "floor": 18, "hp": 0, "win": False, "return": 52.5}
+    assert "boss_fights_after_root" not in local
+    assert loss == {
+        "act": 3, "clear": True, "floor": 18, "hp": 0, "win": False, "return": 52.5,
+        "boss_fights_after_root": [(2, 16), (3, 17), (3, 18)],
+    }
     win, _ = run([*later_states[:-1], state(3, 18, "game_over", victory=True)], horizon="run")
     assert win["win"] and win["return"] == loss["return"] + 10
 

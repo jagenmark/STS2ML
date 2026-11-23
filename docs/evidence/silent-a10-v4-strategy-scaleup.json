@@ -1,0 +1,52 @@
+{
+  "base_commit": "58fcec6ed61c8e6f1f93bb2b3108d3a1927ab540",
+  "champion": "all_v2_p1_v4",
+  "champion_bundle_sha256": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+  "native_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410",
+  "seed_lock": {
+    "panels": {
+      "train": [
+        "S4UT",
+        1024
+      ],
+      "dev": [
+        "S4UD",
+        384
+      ],
+      "final": [
+        "S4UF",
+        896
+      ]
+    },
+    "generation": "In panel order train, dev, final, generate [i, prefix + \"261123\" + four-digit zero-padded i, \"default\" for even i or \"seeded\" for odd i] from i=0 through count-1. Serialize the object as compact ASCII JSON with one trailing LF. Each panel digest uses the same encoding on its array.",
+    "sha256": "13caf32f4a95cd0f7cf77f52cf3f28c89021452795210e43b9f3918b271136c7",
+    "panel_sha256": {
+      "train": "8cd19ac4454bd2122ef83c660e4af361453182fd423e9768c160730355b91549",
+      "dev": "8680fde632346a87df46257fac423edaadf7ab204df97f528a47004f986c85f6",
+      "final": "6a44668bb13ce95e8b27651a30a19bb605ae19d101d59e0ababa9d8e30cca8a9"
+    },
+    "excluded_prefixes": [
+      "VAL256_DEF_",
+      "VAL256_SED_",
+      "SEEDED128_",
+      "TRUE_SEEDED_",
+      "REP512_DEF_",
+      "REP512_SED_",
+      "M4TR",
+      "M4DX",
+      "M4DV",
+      "CSV2DATA",
+      "CSV3"
+    ],
+    "overlaps": 0
+  },
+  "design": {
+    "target": "Unmodified whole-run return = 17*(terminal_act-1) + terminal_act_floor + 10*win + 2*maximum_boss_damage_fraction_in_last_boss_of_terminal_act.",
+    "fit": "Existing seed-grouped SHA-256 80/20 split. Ridge [16,32,64] crossed with residual_alpha [0.25,0.5,0.75,1.0], on the frozen v4 card strategy only.",
+    "dev_selection": "Select highest held-out mean return gain in each alpha band [0.25,0.5] and [0.75,1.0]. Ties prefer higher ridge then smaller alpha. Freeze both bundles before dev evaluation.",
+    "dev_gate": "Require 384/384 matched completed native starts, lower endpoint > 0 for two-sided Bonferroni-adjusted paired floor bootstrap (95% for one candidate, 97.5% for two), and nondecreasing counts for Act 1 clear, Act 2 boss entry and Act 2 clear. Among passing arms choose largest mean floor gain, ties prefer smaller alpha.",
+    "bootstrap": "30000 paired seed resamples with replacement, NumPy default_rng(261123), percentile interval. Total floor = 17*(terminal_act-1)+terminal_act_floor.",
+    "final_gate": "Only run the selected frozen candidate on all 896 fresh reserved final starts. Require all pairs, lower endpoint > 0 for two-sided 95% paired floor bootstrap and nondecreasing Act 1 clears, Act 2 boss entries, Act 2 clears and full wins. No tuning after dev.",
+    "root_sampling": "Plan 2350 training card roots. Take all Act 3 first, fill to 1750 with Act 2 and then to 2350 with Act 1. Within each act, round-robin across distinct seeds (SHA-256 of act/index as tiebreaker); within seed order by SHA-256 of the public root digest, preferring public floors 8 through 16 in Act 1. Preserve complete original seed, replay trace, action and original macro index. Plan is generated without branch outcomes. Exclude an entire root if any arm fails or its factual (terminal act, floor, victory) disagrees with the natural episode."
+  }
+}
