@@ -24,6 +24,7 @@ def main():
     p.add_argument("--stop", type=int)
     p.add_argument("--ascension", type=int, choices=(7, 8, 10), default=10)
     p.add_argument("--workers", type=int, default=3)
+    p.add_argument("--record-strategy", action="store_true", help="Save public macro roots")
     a = p.parse_args()
     registry = json.loads(a.seed_lock.read_bytes())
     if registry.get("ascension", 10) != a.ascension:
@@ -55,7 +56,8 @@ def main():
             role,
             weights,
             opts.get("micro"),
-            {**opts, "seeded_acts": True, "rooms": True, "ascension": a.ascension},
+            {**opts, "seeded_acts": True, "rooms": True, "ascension": a.ascension,
+             "opening_partition": a.partition, "record_strategy": a.record_strategy},
         )
         for i in range(a.start, stop)
     ]

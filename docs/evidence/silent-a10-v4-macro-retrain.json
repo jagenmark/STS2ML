@@ -1,0 +1,441 @@
+{
+  "design": {
+    "champion_commit": "93456cd",
+    "protected_seed_count": 896,
+    "protected_seed_keys_sha256": "73d77343b2707c4e7b46b7b68f79a4f1be77c13b6f65364fbc9f731ef9cbe981",
+    "train": "M4TR2611230000\u2013M4TR2611230767",
+    "strategy_labels": "Training indices 0\u2013383; up to two card roots per seed, sampled with later acts first, plus up to two Act 3 card roots per seed for all 14 Act 3 entries in training indices 384\u2013767",
+    "strategy_fit": {
+      "horizon": "run",
+      "ridge": 64,
+      "residual_alpha": 0.25,
+      "deck_size_penalty": 0
+    },
+    "routing_fit": "Both deployed SurvivalRouters retain their settings and replace global statistics using all 768 paired-mode training starts. Penalized boss-logit Newton steps use loss-decreasing backtracking.",
+    "dev": "M4DX2611230000\u2013M4DX2611230191",
+    "lobbies": "Even indices default, odd indices seeded in each fresh split",
+    "dev_gate": "All 192 paired starts must complete. Positive lower bound of a Bonferroni-adjusted paired bootstrap interval for total floors across the three ablations, with at least as many Act 2 boss entries and Act 2 clears as v4. If several pass, select the highest mean paired floor gain.",
+    "final_gate": "On fresh disjoint locked test seeds, positive lower bound of a 95% paired interval for total floors, with at least as many Act 2 boss entries, Act 2 clears and full wins as v4.",
+    "diagnostic_dev": "M4DV2611230000\u2013M4DV2611230191"
+  },
+  "seed_lock_sha256": "f62a78a033b8b1b6941bb194f7ed380c60cb53c1c30fd66930cee031626488de",
+  "native_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410",
+  "champion_bundle_sha256": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+  "training": {
+    "routes": {
+      "episodes": 768,
+      "complete": 768,
+      "boss_counts": {
+        "1": 675,
+        "2": 172,
+        "3": 8
+      },
+      "room_transitions_by_act": {
+        "1": 11544,
+        "2": 4894,
+        "3": 252
+      },
+      "a1_clear": 439,
+      "a2_clear": 26,
+      "win": 0,
+      "manifests_sha256": {
+        "train": "c3bd49136f722dd5e23bf1b53c5eb0de6d225779a8403663bf91f6aec691e722",
+        "train-extra": "d71d6fc99b321ed8370d8387df45ca2fff9cefa0e2d7b0fe0bc9feeeeccbd06e"
+      }
+    },
+    "strategy": {
+      "mode": "card_residual",
+      "roots": 778,
+      "seeds": 394,
+      "fit_seeds": 317,
+      "fit_roots": 627,
+      "branches": 3112,
+      "ridge": 64.0,
+      "residual_alpha": 0.25,
+      "delta_nonzero": 178,
+      "validation": {
+        "card": {
+          "roots": 151,
+          "changed_roots": 7,
+          "mean_gain_vs_deployed": 0.01405500506232471
+        }
+      }
+    },
+    "strategy_label_receipt": {
+      "seeds": 398,
+      "roots": 778,
+      "branches": 3112,
+      "factual_match": 778,
+      "cross_act_branches": 237,
+      "wins": 0,
+      "roots_by_act": {
+        "2": 415,
+        "1": 322,
+        "3": 41
+      },
+      "terminal_acts_by_root_act": {
+        "2": {
+          "2": 1620,
+          "3": 40
+        },
+        "1": {
+          "2": 192,
+          "1": 1091,
+          "3": 5
+        },
+        "3": {
+          "3": 164
+        }
+      },
+      "errors": {
+        "Combat stopped without confirmed native completion": 5,
+        "Prefix replay diverged from recorded trace": 3
+      },
+      "factual_mismatch_examples": []
+    },
+    "strategy_label_provenance": {
+      "schema": "strategy-continuation-v1",
+      "continuation": "bundle",
+      "code_sha256": "8c8773640109dc6dcbee3154ce9d2fb54f41d8fca17fb1e66bec2732e343f9f5",
+      "bundle_sha256": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+      "bundle_files": {
+        "weights": {
+          "name": "weights.json",
+          "sha256": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+        },
+        "room_model": {
+          "name": "room_model.json",
+          "sha256": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192"
+        },
+        "late_room_model": {
+          "name": "late_room_model.json",
+          "sha256": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd"
+        },
+        "offer_model": {
+          "name": "offer_model.json",
+          "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+        },
+        "strategy_model": {
+          "name": "strategy_model.json",
+          "sha256": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f"
+        },
+        "encounter_model": {
+          "name": "encounter_model.json",
+          "sha256": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29"
+        },
+        "deck_model": {
+          "name": "deck_model.json",
+          "sha256": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f"
+        }
+      },
+      "style": null,
+      "room_model_sha256": null,
+      "unified_draft": true,
+      "deck_size_penalty": 0.0,
+      "horizon": "run",
+      "collector_sha256": "170aeb575ebba24e5d2bad342620f4b8be4aa81abe431ebedfc17d5587b03200",
+      "patch_chain_sha256": "5b702d620c3ca863a9ad85ca6d2a46fdc3efac69b4fa461f706b4f7b368b990e",
+      "host_dll_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+    }
+  },
+  "bundle_sha256": {
+    "strategy": "02cd0abaccb35fc090351a977ee808aa16c0b1539f45136a72e541f490764162",
+    "route": "b76260ae48f80185a6c59c34725301e810c750b16bed9a8d0b336116e663dacc",
+    "both": "89d08390759ab0fd615584d3595fb386746e0e0fc12e2d1b35b37ff157a78df1"
+  },
+  "dev": {
+    "split": "dev",
+    "seed_keys_sha256": "1022138430ccea7d77503111a96553fad2463098e224896b825a36bfa452725a",
+    "expected": 192,
+    "paired": 192,
+    "act_lists": {
+      "default": 96,
+      "seeded": 96
+    },
+    "incomplete": {
+      "v4": [],
+      "strategy": [],
+      "route": [],
+      "both": []
+    },
+    "arms": {
+      "v4": {
+        "a1_boss": 165,
+        "a1_clear": 105,
+        "a2_boss": 43,
+        "a2_clear": 7,
+        "a3_boss": 2,
+        "win": 0,
+        "mean_floor": 22.890625
+      },
+      "strategy": {
+        "a1_boss": 164,
+        "a1_clear": 109,
+        "a2_boss": 54,
+        "a2_clear": 11,
+        "a3_boss": 4,
+        "win": 0,
+        "mean_floor": 23.552083333333332
+      },
+      "route": {
+        "a1_boss": 162,
+        "a1_clear": 104,
+        "a2_boss": 42,
+        "a2_clear": 11,
+        "a3_boss": 3,
+        "win": 0,
+        "mean_floor": 22.671875
+      },
+      "both": {
+        "a1_boss": 160,
+        "a1_clear": 104,
+        "a2_boss": 44,
+        "a2_clear": 12,
+        "a3_boss": 4,
+        "win": 0,
+        "mean_floor": 22.645833333333332
+      }
+    },
+    "paired_differences": {
+      "strategy": {
+        "a1_boss": {
+          "delta": -0.005208333333333333,
+          "gain": 1,
+          "loss": 2,
+          "sign_p": 1.0
+        },
+        "a1_clear": {
+          "delta": 0.020833333333333332,
+          "gain": 10,
+          "loss": 6,
+          "sign_p": 0.454498291015625
+        },
+        "a2_boss": {
+          "delta": 0.057291666666666664,
+          "gain": 16,
+          "loss": 5,
+          "sign_p": 0.02660369873046875
+        },
+        "a2_clear": {
+          "delta": 0.020833333333333332,
+          "gain": 5,
+          "loss": 1,
+          "sign_p": 0.21875
+        },
+        "a3_boss": {
+          "delta": 0.010416666666666666,
+          "gain": 2,
+          "loss": 0,
+          "sign_p": 0.5
+        },
+        "win": {
+          "delta": 0.0,
+          "gain": 0,
+          "loss": 0,
+          "sign_p": 1.0
+        },
+        "floor": {
+          "delta": 0.6614583333333334,
+          "gain": 28,
+          "loss": 19,
+          "sign_p": 0.24296021728332562,
+          "ci": [
+            -0.1354600694444444,
+            1.59375
+          ],
+          "ci_level": 0.9833333333333333
+        },
+        "passed": false
+      },
+      "route": {
+        "a1_boss": {
+          "delta": -0.015625,
+          "gain": 8,
+          "loss": 11,
+          "sign_p": 0.6476058959960938
+        },
+        "a1_clear": {
+          "delta": -0.005208333333333333,
+          "gain": 24,
+          "loss": 25,
+          "sign_p": 1.0
+        },
+        "a2_boss": {
+          "delta": -0.005208333333333333,
+          "gain": 19,
+          "loss": 20,
+          "sign_p": 1.0
+        },
+        "a2_clear": {
+          "delta": 0.020833333333333332,
+          "gain": 8,
+          "loss": 4,
+          "sign_p": 0.3876953125
+        },
+        "a3_boss": {
+          "delta": 0.005208333333333333,
+          "gain": 2,
+          "loss": 1,
+          "sign_p": 1.0
+        },
+        "win": {
+          "delta": 0.0,
+          "gain": 0,
+          "loss": 0,
+          "sign_p": 1.0
+        },
+        "floor": {
+          "delta": -0.21875,
+          "gain": 54,
+          "loss": 52,
+          "sign_p": 0.9226851594412759,
+          "ci": [
+            -1.7292100694444446,
+            1.28125
+          ],
+          "ci_level": 0.9833333333333333
+        },
+        "passed": false
+      },
+      "both": {
+        "a1_boss": {
+          "delta": -0.026041666666666668,
+          "gain": 8,
+          "loss": 13,
+          "sign_p": 0.38331031799316406
+        },
+        "a1_clear": {
+          "delta": -0.005208333333333333,
+          "gain": 26,
+          "loss": 27,
+          "sign_p": 1.0
+        },
+        "a2_boss": {
+          "delta": 0.005208333333333333,
+          "gain": 21,
+          "loss": 20,
+          "sign_p": 1.0
+        },
+        "a2_clear": {
+          "delta": 0.026041666666666668,
+          "gain": 9,
+          "loss": 4,
+          "sign_p": 0.266845703125
+        },
+        "a3_boss": {
+          "delta": 0.010416666666666666,
+          "gain": 3,
+          "loss": 1,
+          "sign_p": 0.625
+        },
+        "win": {
+          "delta": 0.0,
+          "gain": 0,
+          "loss": 0,
+          "sign_p": 1.0
+        },
+        "floor": {
+          "delta": -0.24479166666666666,
+          "gain": 56,
+          "loss": 57,
+          "sign_p": 1.0,
+          "ci": [
+            -1.8072916666666667,
+            1.3229166666666667
+          ],
+          "ci_level": 0.9833333333333333
+        },
+        "passed": false
+      }
+    },
+    "selected": null,
+    "gate": "All 192 paired starts must complete. Positive lower bound of a Bonferroni-adjusted paired bootstrap interval for total floors across the three ablations, with at least as many Act 2 boss entries and Act 2 clears as v4. If several pass, select the highest mean paired floor gain."
+  },
+  "dev_calibration_on_v4_observed_rooms": {
+    "1/Boss": {
+      "n": 165,
+      "mortality": 0.36363636363636365,
+      "models": {
+        "v4": {
+          "predicted_mortality": 0.6616377133743956,
+          "brier": 0.295625388124702
+        },
+        "route": {
+          "predicted_mortality": 0.34175575083602594,
+          "brier": 0.19776912629167723
+        }
+      }
+    },
+    "1/Other": {
+      "n": 2708,
+      "mortality": 0.009970457902511078,
+      "models": {
+        "v4": {
+          "predicted_mortality": 0.020494887599205328,
+          "brier": 0.008214414293149497
+        },
+        "route": {
+          "predicted_mortality": 0.008251413586684636,
+          "brier": 0.007923586422918315
+        }
+      }
+    },
+    "2/Boss": {
+      "n": 43,
+      "mortality": 0.8372093023255814,
+      "models": {
+        "v4": {
+          "predicted_mortality": 0.8440274593578019,
+          "brier": 0.15073046315480013
+        },
+        "route": {
+          "predicted_mortality": 0.8304448762260779,
+          "brier": 0.15448842122089093
+        }
+      }
+    },
+    "2/Other": {
+      "n": 1209,
+      "mortality": 0.05128205128205128,
+      "models": {
+        "v4": {
+          "predicted_mortality": 0.07822499636525541,
+          "brier": 0.036624022464276144
+        },
+        "route": {
+          "predicted_mortality": 0.052333738942139364,
+          "brier": 0.03374507938127426
+        }
+      }
+    },
+    "3/Boss": {
+      "n": 2,
+      "mortality": 1.0,
+      "models": {
+        "v4": {
+          "predicted_mortality": 0.7825193397856108,
+          "brier": 0.054183553000719135
+        },
+        "route": {
+          "predicted_mortality": 0.9106489171767349,
+          "brier": 0.009723801725070987
+        }
+      }
+    },
+    "3/Other": {
+      "n": 68,
+      "mortality": 0.07352941176470588,
+      "models": {
+        "v4": {
+          "predicted_mortality": 0.07059293635590487,
+          "brier": 0.04865815538462861
+        },
+        "route": {
+          "predicted_mortality": 0.06968951109673949,
+          "brier": 0.03215798933071217
+        }
+      }
+    }
+  },
+  "disposition": "no_dev_arm_promoted"
+}

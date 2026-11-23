@@ -85,7 +85,7 @@ class SurvivalRouter:
         return cls(deepcopy(data))
 
     @classmethod
-    def fit(cls, episodes):
+    def fit(cls, episodes, *, damped_boss_fit=False):
         cells = defaultdict(lambda: np.zeros(9))
         bosses = defaultdict(list)
         for episode in episodes:
@@ -130,10 +130,24 @@ class SurvivalRouter:
                 y = np.array([b for _, b in values])
                 reference = beta.copy()
                 penalty = np.array([2.0, 5.0, 7.0, 6.0, 7.0, 8.0, 10.0])
+
+                def objective(candidate):
+                    logits = x @ candidate
+                    return (
+                        np.sum(np.logaddexp(0, logits) - y * logits)
+                        + 0.5 * np.sum(penalty * (candidate - reference) ** 2)
+                    )
+
                 for _ in range(18):
                     p = 1 / (1 + np.exp(-np.clip(x @ beta, -20.0, 20.0)))
                     gradient = x.T @ (y - p) - penalty * (beta - reference)
                     step = np.linalg.solve((x.T * (p * (1 - p))) @ x + np.diag(penalty), gradient)
+                    if damped_boss_fit:
+                        # Later acts may have a very different base clear rate.
+                        # Backtrack a Newton step when the transferred prior overshoots.
+                        previous_loss = objective(beta)
+                        while objective(beta + step) > previous_loss:
+                            step *= 0.5
                     beta += step
                     if abs(step).max() < 1e-7:
                         break

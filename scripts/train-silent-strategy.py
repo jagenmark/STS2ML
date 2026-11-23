@@ -26,7 +26,9 @@ ROOT = Path(__file__).resolve().parents[1]
 _UNSET = object()
 
 
-def replay_controller_snapshots(session, source: Path, controller: DeployedController, target_steps):
+def replay_controller_snapshots(
+    session, source: Path, controller: DeployedController, target_steps, *, verify_policy=False
+):
     """Replay the recorded prefix once and return cloned DeployedController snapshots at target steps."""
     wanted = set(target_steps)
     if not wanted:
@@ -57,6 +59,12 @@ def replay_controller_snapshots(session, source: Path, controller: DeployedContr
         # Construct the recorded Action directly so large multi-card selections do not enumerate the power set.
         kind, args = cmd["action"], cmd.get("args") or {}
         action = Action(digest([kind, args])[:20], kind, args, digest(state))
+        if verify_policy:
+            proposed = controller.choose(state, session)
+            if proposed.command() != cmd:
+                raise ValueError(
+                    f"Bundle replay diverged at action {step}: {proposed.command()} != {cmd}"
+                )
         before = state
         state = session.step(action)
         if digest(state) != fingerprints[step + 1]:
@@ -115,20 +123,40 @@ def follow(game, state, actor, router, opening, initial, start_act):
     raise RuntimeError("Continuation exceeded action budget")
 
 
-def follow_deployed(game, state, controller: DeployedController, initial, start_act):
-    """Roll out the full deployed bundle from a forced root action until act clear or defeat."""
+def follow_deployed(game, state, controller: DeployedController, initial, start_act, *, horizon="act"):
+    """Follow the deployed bundle through the requested act or to the native run ending."""
     action = initial
     boss_damage = 0.0
-    for _ in range(1100):
+    boss = None
+    act, floor = start_act, 0
+    for _ in range(3000 if horizon == "run" else 1100):
         ctx = state["context"]
+        if horizon == "run":
+            if ctx["act"] != act:
+                act, floor, boss, boss_damage = ctx["act"], 0, None, 0.0
+            floor = max(floor, ctx["floor"])
         if state["decision"] == "combat_play" and ctx["room_type"] == "Boss":
+            if horizon == "run" and (act, ctx["floor"]) != boss:
+                boss, boss_damage = (act, ctx["floor"]), 0.0
             enemies = state["enemies"]
             if enemies:
                 boss_damage = max(
                     boss_damage,
                     1 - sum(e["hp"] for e in enemies) / max(1, sum(e["max_hp"] for e in enemies)),
                 )
-        if state["decision"] == "game_over" or ctx["act"] > start_act:
+        if horizon == "run" and state["decision"] == "game_over":
+            win = state["victory"]
+            if type(win) is not bool or state.get("abandoned") or (win and act != 3):
+                raise ValueError("Continuation lacks a complete native run outcome")
+            return {
+                "clear": act > start_act or win,
+                "act": act,
+                "win": win,
+                "floor": floor,
+                "hp": state["player"]["hp"],
+                "return": 17 * (act - 1) + floor + 10 * win + 2 * boss_damage,
+            }
+        if horizon == "act" and (state["decision"] == "game_over" or ctx["act"] > start_act):
             clear = ctx["act"] > start_act or state.get("victory", False)
             floor = 17 if clear else ctx["floor"]
             return {
@@ -164,12 +192,19 @@ def collect(task):
         continuation_mode,
         unified_draft,
         deck_size_penalty,
+        horizon,
     ) = task
     folder.mkdir(parents=True, exist_ok=False)
     _, settings = load_bundle(bundle)
+    macro_seed = split_seed
+    if horizon == "run":
+        result = json.loads((source / "result.json").read_text(encoding="utf-8"))
+        macro_seed = 7103 + result["index"]
+    deployed = None
     if continuation_mode == "bundle":
         # Validate bundle compatibility up front before spawning native sessions.
-        DeployedController.from_bundle(bundle, macro_seed=split_seed)
+        deployed = DeployedController.from_bundle(bundle, macro_seed=macro_seed)
+    event_fixes_v4 = bool(deployed and deployed.strategy and deployed.strategy.event_fixes_v4)
     weights = RunWeights.load(settings["weights"])
     late_weights = (
         RunWeights.load(settings["late_weights"]) if settings.get("late_weights") else None
@@ -188,6 +223,7 @@ def collect(task):
         room_model=room_path,
         unified_draft=unified_draft,
         deck_size_penalty=deck_size_penalty,
+        horizon=horizon,
     )
     roots = defaultdict(list)
     seed = None
@@ -214,6 +250,7 @@ def collect(task):
                     opening,
                     unified_draft=unified_draft,
                     deck_size_penalty=deck_size_penalty,
+                    event_fixes_v4=event_fixes_v4,
                 )
             )
             > 1
@@ -247,8 +284,9 @@ def collect(task):
                 snapshots = replay_controller_snapshots(
                     session,
                     source,
-                    DeployedController.from_bundle(bundle, macro_seed=split_seed),
+                    deployed,
                     [len(fork.history) for _, _, _, _, fork in selected],
+                    verify_policy=horizon == "run",
                 )
             except Exception as exc:
                 errors.append({"root": "prefix_replay", "arm": "prefix_replay", "error": str(exc)})
@@ -277,6 +315,7 @@ def collect(task):
                 group_probability=group_prob,
                 unified_draft=unified_draft,
                 deck_size_penalty=deck_size_penalty,
+                event_fixes_v4=event_fixes_v4,
             )
             if base_controller is not None and kind == "shop":
                 # Drop stale already-paid relic purchases that native shop state rejects.
@@ -311,6 +350,7 @@ def collect(task):
                             base_controller.clone(),
                             arm,
                             state["context"]["act"],
+                            horizon=horizon,
                         )
                     else:
                         continuation = (
@@ -368,6 +408,7 @@ def fit_strategy_roots(
     strength=1.0,
     base_strategy=None,
     residual_alpha=1.0,
+    horizon="act",
 ):
     roots = []
     expected_stamp = _UNSET
@@ -380,11 +421,13 @@ def fit_strategy_roots(
             elif file_stamp != expected_stamp:
                 raise ValueError("Mixed strategy label provenance across input files")
             if file_stamp is None:
-                if continuation != "legacy" or unified_draft:
+                if continuation != "legacy" or unified_draft or horizon != "act":
                     raise ValueError(
                         "Unstamped legacy labels cannot be fitted with --continuation bundle or --unified-draft"
                     )
             else:
+                if file_stamp.get("horizon", "act") != horizon:
+                    raise ValueError("Label horizon does not match --horizon")
                 if file_stamp.get("continuation") != continuation:
                     raise ValueError(
                         f"Label continuation {file_stamp.get('continuation')!r} does not match --continuation {continuation!r}"
@@ -460,6 +503,7 @@ def fit_strategy_roots(
             unified_draft=base.unified_draft,
             deck_size_penalty=base.deck_size_penalty,
             offset_scale=base.offset_scale if offset_scale is None else float(offset_scale),
+            event_fixes_v4=base.event_fixes_v4,
         )
         metrics = {}
         dev = [r for r in residual_roots if validation(r)]
@@ -560,6 +604,10 @@ def main():
     p.add_argument("--style", help="Use a fight-aware continuation policy for labels")
     p.add_argument("--room-model", type=Path)
     p.add_argument("--continuation", choices=("legacy", "bundle"), default="legacy")
+    p.add_argument(
+        "--horizon", choices=("act", "run"), default="act",
+        help="Use whole-run returns from explicitly partitioned training trajectories",
+    )
     p.add_argument("--unified-draft", action="store_true")
     p.add_argument("--deck-size-penalty", type=float, default=0.12)
     p.add_argument("--offset-scale", type=float, default=None)
@@ -570,6 +618,8 @@ def main():
     args = p.parse_args()
     if args.continuation == "bundle" and (args.style or args.room_model):
         p.error("--continuation bundle uses the bundle's own encounter and room models")
+    if args.horizon == "run" and args.continuation != "bundle":
+        p.error("--horizon run requires --continuation bundle")
     args.output.mkdir(parents=True, exist_ok=False)
     if args.mode == "collect":
         if not args.host or not args.bundle:
@@ -580,6 +630,8 @@ def main():
             for path in sorted(folder.glob("run-*/result.json"))
             if (result := json.loads(path.read_text()))["status"] == "complete"
             and result.get("opening_partition") != "test"
+            and (args.horizon == "act" or result.get("opening_partition") == "train")
+            and not result.get("abandoned")
             and result["act"] >= args.min_act
             and path.with_name("strategy.jsonl.gz").exists()
         ]
@@ -600,6 +652,7 @@ def main():
                 args.continuation,
                 args.unified_draft,
                 args.deck_size_penalty,
+                args.horizon,
             )
             for i, source in enumerate(sources[: args.seeds])
         ]
@@ -618,6 +671,7 @@ def main():
         strength=args.strength,
         base_strategy=args.base_strategy,
         residual_alpha=args.residual_alpha,
+        horizon=args.horizon,
     )
     model.save(args.output / "strategy.json")
     save_json(args.output / "report.json", report)

@@ -1,7 +1,9 @@
 from copy import deepcopy
 import json
+from math import exp
 from pathlib import Path
 import runpy
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -24,7 +26,7 @@ from sts2rl.run_bundle import freeze_bundle, load_bundle
 from sts2rl.run_evaluation import _load_cached_json, play_episode
 from sts2rl.run_policy import IDENTITY, RunPolicy, RunWeights
 from sts2rl.strategy import StrategyModel, strategy_arms
-from sts2rl.survival_route import SurvivalRouter, deck_readiness
+from sts2rl.survival_route import SurvivalRouter, _strength, deck_readiness
 
 
 def test_survival_weighted_router_uses_exact_probability_bellman_without_sign_inversion():
@@ -68,6 +70,61 @@ def test_survival_weighted_router_uses_exact_probability_bellman_without_sign_in
     legacy = SurvivalRouter(base_data)
     assert not legacy.survival_weighted
     assert legacy.choose(state, graph) in legal_actions(state)
+
+
+def test_router_refit_preserves_settings_and_requires_training_partition(tmp_path, monkeypatch):
+    mod = runpy.run_path(str(Path(__file__).resolve().parents[1] / "scripts/fit-room-model.py"))
+    base = tmp_path / "base.json"
+    base.write_text(json.dumps({
+        "version": 2, "runtime_identity": IDENTITY, "cells": {"old": [0.0] * 9},
+        "boss_coefficients": {}, "survival_weighted": True, "elite": -0.7,
+    }))
+    run = tmp_path / "run-0000"
+    run.mkdir()
+    inventory = {"hp": 60, "max_hp": 70, "cards": 5, "upgrades": 2, "potions": 1,
+                 "relics": 3, "gold": 50}
+    result = {
+        "seed": "TRAIN", "status": "complete", "ascension": 10,
+        "rooms": [
+            {"act": 1, "row": row, "icon": icon, "before": inventory,
+             "after": inventory, "died": False}
+            for row, icon in [(2, "Monster"), (16, "Boss")]
+        ],
+    }
+    output = tmp_path / "refit.json"
+    result_path = run / "result.json"
+    monkeypatch.setattr(sys, "argv", [
+        "fit-room-model.py", str(tmp_path), "--survival", "--base", str(base),
+        "--output", str(output),
+    ])
+    result_path.write_text(json.dumps({**result, "opening_partition": "development"}))
+    with pytest.raises(SystemExit):
+        mod["main"]()
+    assert not output.exists()
+
+    result_path.write_text(json.dumps({**result, "opening_partition": "train"}))
+    mod["main"]()
+    router = SurvivalRouter.from_data(json.loads(output.read_bytes()))
+    assert router.survival_weighted and router.elite == -0.7
+    assert "old" not in router.cells
+    assert router.cells["Monster"][0] == 1
+    assert router.data["boss_counts"] == {"1": 1, "2": 0, "3": 0}
+
+
+def test_damped_boss_fit_handles_a_sharp_drop_in_later_act_clear_rate():
+    rooms = []
+    for act, clears, total in [(1, 450, 500), (2, 25, 200)]:
+        inventory = {"hp": 65, "max_hp": 70, "gold": 0, "relics": 3 * act,
+                     "upgrades": 3 * act, "potions": 2, "cards": 6 * act}
+        rooms.extend(
+            {"act": act, "icon": "Boss", "row": 16, "before": inventory,
+             "after": inventory, "died": i >= clears}
+            for i in range(total)
+        )
+    rooms.append({**rooms[0], "icon": "Monster", "row": 1})
+    router = SurvivalRouter.fit([{"status": "complete", "rooms": rooms}], damped_boss_fit=True)
+    logit = sum(a * b for a, b in zip(_strength(rooms[-2]["before"]), router.boss["2"], strict=True))
+    assert 1 / (1 + exp(-logit)) == pytest.approx(25 / 200, abs=0.025)
 
 
 def test_unified_draft_fixes_early_deck_size_inversion_across_floors_12_and_13():
@@ -573,12 +630,15 @@ def test_strategy_fit_validates_provenance_flags_and_preserves_explicit_offset_s
     m_explicit, _ = fit_roots([d_ok], continuation="bundle", unified_draft=True, offset_scale=1.0)
     assert m_default.offset_scale == 0.0
     assert m_explicit.offset_scale == 1.0
+    with pytest.raises(ValueError, match="Label horizon"):
+        fit_roots([d_ok], continuation="bundle", unified_draft=True, horizon="run")
 
-    # 4. Card-only residual fit preserves all base kinds, weights, strength, and card_offsets.
+    # A card-only residual preserves the base event policy.
     base_raw = json.loads((root_bundle.parent / "strategy_model.json").read_text())
     base_strat_path = tmp_path / "base_unified_strategy.json"
     base_strat_path.write_text(
-        json.dumps({**base_raw, "unified_draft": True, "deck_size_penalty": 0.12, "offset_scale": 0.0}),
+        json.dumps({**base_raw, "unified_draft": True, "deck_size_penalty": 0.12,
+                    "offset_scale": 0.0, "event_fixes_v4": True}),
         encoding="utf-8",
     )
     m_zero, rep_zero = fit_roots(
@@ -604,11 +664,58 @@ def test_strategy_fit_validates_provenance_flags_and_preserves_explicit_offset_s
     )
     assert m_res.kinds == frozenset(base_raw["kinds"])
     assert m_res.strength == base_raw["strength"]
+    assert m_res.event_fixes_v4
     assert rep_res["delta_nonzero"] >= 1
     # Non-card weights (e.g. event/neow) are never altered by the card-only residual.
     for k, v in base_raw["weights"].items():
         if k.startswith(("event:", "event/", "ancient/", "camp:", "heal:")):
             assert m_res.weights[k] == v
+
+
+def test_deployed_strategy_run_labels_cross_acts_and_score_the_last_boss():
+    mod = runpy.run_path(str(Path(__file__).resolve().parents[1] / "scripts/train-silent-strategy.py"))
+    follow = mod["follow_deployed"]
+
+    def state(act, floor, decision, *, boss_hp=None, victory=False):
+        return {
+            "context": {"act": act, "floor": floor, "room_type": "Boss" if boss_hp is not None else "Map"},
+            "decision": decision,
+            "enemies": [] if boss_hp is None else [{"hp": boss_hp, "max_hp": 100}],
+            "player": {"hp": 0 if decision == "game_over" and not victory else 22},
+            "victory": victory,
+        }
+
+    root = state(1, 13, "card_reward")
+    next_act = state(2, 1, "map_select")
+    later_states = [
+        next_act,
+        state(2, 16, "combat_play", boss_hp=5),
+        state(3, 1, "map_select"),
+        state(3, 17, "combat_play", boss_hp=10),
+        state(3, 18, "combat_play", boss_hp=75),
+        state(3, 18, "game_over"),
+    ]
+
+    def run(states, **kwargs):
+        steps = iter(states)
+        observed = []
+        game = SimpleNamespace(step=lambda _: next(steps))
+        controller = SimpleNamespace(
+            choose=lambda *_: "policy",
+            observe=lambda before, action, after: observed.append((before, action, after)),
+        )
+        result = follow(game, root, controller, "forced", 1, **kwargs)
+        assert observed[0] == (root, "forced", next_act)
+        return result, observed
+
+    local, observed = run(later_states)
+    assert local["clear"] and local["floor"] == 17
+    assert len(observed) == 1
+    loss, observed = run(later_states, horizon="run")
+    assert len(observed) == len(later_states)
+    assert loss == {"act": 3, "clear": True, "floor": 18, "hp": 0, "win": False, "return": 52.5}
+    win, _ = run([*later_states[:-1], state(3, 18, "game_over", victory=True)], horizon="run")
+    assert win["win"] and win["return"] == loss["return"] + 10
 
 
 def test_deployed_controller_fails_closed_reconciles_forced_facing_and_scopes_to_upgrade(tmp_path):

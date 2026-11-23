@@ -151,6 +151,7 @@ def strategy_label_provenance(
     room_model=None,
     unified_draft=False,
     deck_size_penalty=0.12,
+    horizon="act",
 ):
     """Provenance stamp binding macro strategy labels to their continuation bundle and patch chain."""
     bundle_path = Path(bundle_path).resolve()
@@ -183,6 +184,8 @@ def strategy_label_provenance(
         "unified_draft": bool(unified_draft),
         "deck_size_penalty": float(deck_size_penalty),
     }
+    if horizon != "act":
+        stamp["horizon"] = horizon
     if collector is not None:
         stamp["collector_sha256"] = hashlib.sha256(
             Path(collector).read_text(encoding="utf-8").encode("utf-8")
