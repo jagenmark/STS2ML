@@ -1,0 +1,3052 @@
+{
+  "schema": 1,
+  "collection": {
+    "lock": {
+      "bundles": {
+        "boss": "975eee9fff280da7aff16db2912793f36d68bdf822b2b48f61643e1f8a928535",
+        "combined": "2e6f09f77dee5c57f5221544825a79ba8551b77393d50fc81f80fc59f4ae946c",
+        "draft": "3c48eb389aa10f91a46a1d7bab9c7ce4c8545ba5cb8cd62e9015b3a307c4b935",
+        "macro": "6babf71f2e0f2c9e207959726a75be8e92007fae2c6adf7b567499d6e5d02e7f",
+        "v5": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb"
+      },
+      "commit": "3f79519d6aed5e4e8d6549cd8e02d001e28d21d8",
+      "panel_sha256": "53b6f1cb00bf63aeb33069451b97fa0b62b5e045237dc82f1d497f4135c71b43",
+      "prereg_sha256": "a6c570f0f68163161789d7539a7b30bff0952d47f8beb6ab6637c474c24096b7"
+    },
+    "failed_attempts": [],
+    "victory_replays": []
+  },
+  "complete_episodes": 1280,
+  "host_sha256": "f640ffd826fdd7543a1ea614b726415b8a253aeb04e3743623a3362951d89a00",
+  "game_sha256": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b",
+  "preregistration": "silent-a10-v51-dev-panel.json",
+  "arms": {
+    "v5": [],
+    "draft": [
+      "v51_draft_fixes"
+    ],
+    "boss": [
+      "v51_boss_tactics"
+    ],
+    "macro": [
+      "v51_macro_fixes"
+    ],
+    "combined": [
+      "v51_draft_fixes",
+      "v51_boss_tactics",
+      "v51_macro_fixes"
+    ]
+  },
+  "analysis": {
+    "global_floor": "17 * (act - 1) + floor",
+    "paired_reference": "v5",
+    "strata": [
+      "default",
+      "seeded"
+    ],
+    "bootstrap": "paired percentile, 10000 resamples within act-list mode",
+    "bootstrap_seed": 510024,
+    "primary": "mean paired global-floor difference",
+    "secondary": [
+      "floor W/L/T",
+      "Act 1 clear",
+      "Act 2 boss entry",
+      "Act 2 clears per start and per entered boss",
+      "Act 3 boss entry",
+      "native verified full wins",
+      "free Accelerant takes/offers and shop buys",
+      "fatal and all Sandpit=1 end turns",
+      "basic cards/all plays while Sloth active"
+    ],
+    "combination": "all three components, fixed before outcomes; five arms do not estimate pairwise interactions"
+  },
+  "receipt_file": "silent-a10-v51-receipts.jsonl.gz",
+  "receipt_sha256": "a05f7fb1a2f58f9ba84f437d754eff525f229a4e9f303c4231390b2dd2f969fc",
+  "macro_first_divergence": {
+    "SMITH -> KINDLE": {
+      "pairs": 2,
+      "sum_floor_change": 0,
+      "floor_wlt": [
+        0,
+        0,
+        2
+      ],
+      "a2_clear_change": 0
+    },
+    "ORNATE -> PLAIN": {
+      "pairs": 8,
+      "sum_floor_change": -2,
+      "floor_wlt": [
+        1,
+        1,
+        6
+      ],
+      "a2_clear_change": -1
+    }
+  },
+  "boss_first_changes": [
+    {
+      "first": {
+        "act": 2,
+        "boss": "SNAKEBITE",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 26,
+        "playable_powers": [],
+        "round": 6,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "5d322b04b94b0831211ab2b5a15206bdb17315e834cda1010d26e0f90093c5fc",
+        "step_zero_based": 464,
+        "v5": "NEUTRALIZE"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0005"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "FRANTIC_ESCAPE",
+        "boss_id": "THE_INSATIABLE_BOSS",
+        "floor": 16,
+        "hp": 64,
+        "playable_powers": [],
+        "round": 2,
+        "sandpit": 4,
+        "search_fallback": "card/ENLIGHTENMENT",
+        "sloth": 0,
+        "snapshot": "41886288821f303e33fc300597b88e1ee7cdf9e28c20f2106b0e613305564d72",
+        "step_zero_based": 370,
+        "v5": "STRIKE_SILENT"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0021"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "FRANTIC_ESCAPE",
+        "boss_id": "THE_INSATIABLE_BOSS",
+        "floor": 16,
+        "hp": 54,
+        "playable_powers": [],
+        "round": 2,
+        "sandpit": 4,
+        "search_fallback": "champion continuation unresolved",
+        "sloth": 0,
+        "snapshot": "4c9182d62b5ceb873b7eda9444b6a82ea3b8351c5d1b1e94486ef69fb50d87cb",
+        "step_zero_based": 359,
+        "v5": "POUNCE"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0036"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "DEFEND_SILENT",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 43,
+        "playable_powers": [],
+        "round": 7,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "0f9fc2ad1c4e92c6c53e09b0eda6c04e81e9a827d6688d2d5597d43bc7a8c551",
+        "step_zero_based": 419,
+        "v5": "STRIKE_SILENT"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0047"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "PREDATOR",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 33,
+        "playable_powers": [
+          "FAN_OF_KNIVES"
+        ],
+        "round": 6,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "59a2ab869194add4e58c90c3fede317b5bd3815d5c510486d49b97846afa3a81",
+        "step_zero_based": 365,
+        "v5": "ULTIMATE_STRIKE"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0056"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "STRIKE_SILENT",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 20,
+        "playable_powers": [],
+        "round": 6,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "1ac922c7e848a130f68f7d886523f87a86fc186516620a9a5a29334bf1afa582",
+        "step_zero_based": 383,
+        "v5": "BLADE_DANCE"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0089"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "FRANTIC_ESCAPE",
+        "boss_id": "THE_INSATIABLE_BOSS",
+        "floor": 16,
+        "hp": 80,
+        "playable_powers": [],
+        "round": 2,
+        "sandpit": 4,
+        "search_fallback": "relic/MERCURY_HOURGLASS",
+        "sloth": 0,
+        "snapshot": "e6bebd4db50ac707546fe450594354f92ac90770020f0ee54062007cdc0856b8",
+        "step_zero_based": 330,
+        "v5": "ECHOING_SLASH"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0102"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "DAGGER_SPRAY",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 51,
+        "playable_powers": [],
+        "round": 7,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "b9043bcd4777aa286e19a8434948d31b52164d81cdcbd4c4ccba1f283fc2d3be",
+        "step_zero_based": 441,
+        "v5": "BLADE_DANCE"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0103"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "DAGGER_SPRAY",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 27,
+        "playable_powers": [],
+        "round": 6,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "1c2e1943b2196709578c49457801bd333fcfc3fe6ed4ce57c3279ec12b39f09a",
+        "step_zero_based": 410,
+        "v5": "SLICE"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0120"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "STRIKE_SILENT",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 14,
+        "playable_powers": [],
+        "round": 7,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "b39cbd887de023dbc8ed7dc7c2d8a56ea855713b6684579fc54f616a00755960",
+        "step_zero_based": 359,
+        "v5": "BLADE_DANCE"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0174"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "FRANTIC_ESCAPE",
+        "boss_id": "THE_INSATIABLE_BOSS",
+        "floor": 16,
+        "hp": 99,
+        "playable_powers": [],
+        "round": 2,
+        "sandpit": 4,
+        "search_fallback": "player power/INFINITE_BLADES",
+        "sloth": 0,
+        "snapshot": "de1605b519ab80665156eba842f7fa2141818db3204818c1740d21a52c511117",
+        "step_zero_based": 461,
+        "v5": "STRIKE_SILENT"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0179"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "STRIKE_SILENT",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 12,
+        "playable_powers": [],
+        "round": 6,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "0125653474e610b38d7a12a058b494a0f602b84efb005052a6938b1b30ff36af",
+        "step_zero_based": 374,
+        "v5": "LEADING_STRIKE"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0194"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "DEADLY_POISON",
+        "boss_id": "KNOWLEDGE_DEMON_BOSS",
+        "floor": 16,
+        "hp": 23,
+        "playable_powers": [],
+        "round": 7,
+        "sandpit": 0,
+        "search_fallback": "knowledge demon prompt/sloth",
+        "sloth": 3,
+        "snapshot": "47180fc58026f4f853130ea57510560877ff3eb4d6acb5d93872e5e802b18369",
+        "step_zero_based": 302,
+        "v5": "BLADE_DANCE"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0195"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "FRANTIC_ESCAPE",
+        "boss_id": "THE_INSATIABLE_BOSS",
+        "floor": 16,
+        "hp": 31,
+        "playable_powers": [],
+        "round": 6,
+        "sandpit": 2,
+        "search_fallback": "relic/STURDY_CLAMP",
+        "sloth": 0,
+        "snapshot": "147e6bcaaeffd54ebf5c974df84e60f8c51b72f83d8f761f84c7371fe855fe4c",
+        "step_zero_based": 298,
+        "v5": "DEFEND_SILENT"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0224"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "FRANTIC_ESCAPE",
+        "boss_id": "THE_INSATIABLE_BOSS",
+        "floor": 16,
+        "hp": 10,
+        "playable_powers": [],
+        "round": 4,
+        "sandpit": 2,
+        "search_fallback": "card/SURVIVOR",
+        "sloth": 0,
+        "snapshot": "a62ca2c4487bdf7ec6b692fb783e7919bf2861b5c6ef4464583b16e21a59f4ca",
+        "step_zero_based": 328,
+        "v5": "end_turn"
+      },
+      "mode": "default",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0246"
+    },
+    {
+      "first": {
+        "act": 2,
+        "boss": "FRANTIC_ESCAPE",
+        "boss_id": "THE_INSATIABLE_BOSS",
+        "floor": 16,
+        "hp": 34,
+        "playable_powers": [],
+        "round": 2,
+        "sandpit": 4,
+        "search_fallback": "player power/CONFUSED",
+        "sloth": 0,
+        "snapshot": "b0dbddd5c22f846265f105e5812cb5a02ddbbafecec77e3682e18fd82f6e1dcf",
+        "step_zero_based": 348,
+        "v5": "NEUTRALIZE"
+      },
+      "mode": "seeded",
+      "replay_matches_base": true,
+      "seed": "V51DEV_0253"
+    }
+  ],
+  "historical_audit": {
+    "source": "silent-a10-v5-lategame-autopsy.json",
+    "free_and_paid": {
+      "ACCELERANT": {
+        "offered": 132,
+        "offered_with_poison": 95,
+        "taken": 0,
+        "whole_offer_skipped": 20,
+        "whole_offer_skipped_with_poison": 14,
+        "shop_buys": 47
+      },
+      "ACCURACY": {
+        "offered": 110,
+        "taken": 0,
+        "whole_offer_skipped": 25,
+        "shop_buys": 10
+      },
+      "PHANTOM_BLADES": {
+        "offered": 113,
+        "taken": 0,
+        "whole_offer_skipped": 12,
+        "shop_buys": 11
+      },
+      "INFINITE_BLADES": {
+        "offered": 118,
+        "taken": 0,
+        "whole_offer_skipped": 21,
+        "shop_buys": 17
+      },
+      "AFTERIMAGE": {
+        "offered": 36,
+        "taken": 0,
+        "whole_offer_skipped": 17,
+        "shop_buys": 0
+      },
+      "WELL_LAID_PLANS": {
+        "offered": 51,
+        "taken": 0,
+        "whole_offer_skipped": 24,
+        "shop_buys": 0
+      },
+      "TOOLS_OF_THE_TRADE": {
+        "offered": 34,
+        "taken": 0,
+        "whole_offer_skipped": 19,
+        "shop_buys": 0
+      },
+      "SPEEDSTER": {
+        "offered": 107,
+        "taken": 0,
+        "whole_offer_skipped": 15,
+        "shop_buys": 0
+      },
+      "CALCULATED_GAMBLE": {
+        "offered": 106,
+        "taken": 0,
+        "whole_offer_skipped": 12,
+        "shop_buys": 1
+      },
+      "NOXIOUS_FUMES": {
+        "offered": 114,
+        "taken": 59,
+        "whole_offer_skipped": 0,
+        "shop_buys": 57
+      },
+      "FOOTWORK": {
+        "offered": 119,
+        "taken": 46,
+        "whole_offer_skipped": 0,
+        "shop_buys": 1
+      },
+      "CORROSIVE_WAVE": {
+        "offered": 41,
+        "taken": 0,
+        "whole_offer_skipped": 19,
+        "shop_buys": 0
+      },
+      "MIRAGE": {
+        "offered": 133,
+        "taken": 0,
+        "whole_offer_skipped": 25,
+        "shop_buys": 0
+      },
+      "SERPENT_FORM": {
+        "offered": 50,
+        "taken": 0,
+        "whole_offer_skipped": 19,
+        "shop_buys": 0
+      },
+      "ENVENOM": {
+        "offered": 38,
+        "taken": 0,
+        "whole_offer_skipped": 21,
+        "shop_buys": 0
+      },
+      "OUTBREAK": {
+        "offered": 36,
+        "taken": 35,
+        "whole_offer_skipped": 0,
+        "shop_buys": 1
+      },
+      "ACROBATICS": {
+        "offered": 111,
+        "taken": 0,
+        "whole_offer_skipped": 29,
+        "shop_buys": 0
+      },
+      "BACKFLIP": {
+        "offered": 345,
+        "taken": 76,
+        "whole_offer_skipped": 7,
+        "shop_buys": 9
+      }
+    },
+    "accelerant": {
+      "free_dispatch": "StrategyModel unified draft, RunPolicy.card_value with deck_effects=false",
+      "free_features": "generic Power setup; take:poison and take:poison-deck both zero",
+      "free_first_cost_one_raw": 3.69012320825935,
+      "free_first_cost_one_prior": -1.3011453483694146,
+      "skip": 0,
+      "shop_dispatch": "DeckPolicy.terms -> grade -> merchant_choice",
+      "shop_scaling_before_act_and_cost": "accelerant * min(29, 1.45 * poison + 5 * noxious)"
+    },
+    "ornate": {
+      "taken": 75,
+      "removals": 32,
+      "removal_gold": 3200,
+      "plain_hp_cost": 6,
+      "plain_gold_observed_range": [
+        41,
+        68
+      ]
+    },
+    "queen": {
+      "queen_targets": 33,
+      "torch_head_targets": 12,
+      "observed_power_on_torch_head": "POWER.MINION_POWER",
+      "targeting_change": false
+    },
+    "same_state": {
+      "accelerant_frozen_score_range": [
+        -1.7886841394747117,
+        -0.7310606397423015
+      ],
+      "displaced_cards": {
+        "ACCELERANT": {
+          "BACKFLIP": 4,
+          "BACKSTAB": 2,
+          "BLADE_DANCE": 2,
+          "BOUNCING_FLASK": 1,
+          "BUBBLE_BUBBLE": 1,
+          "CLOAK_AND_DAGGER": 1,
+          "DAGGER_THROW": 3,
+          "DASH": 2,
+          "DEADLY_POISON": 1,
+          "DEFLECT": 1,
+          "ECHOING_SLASH": 1,
+          "FLICK_FLACK": 3,
+          "FOOTWORK": 1,
+          "HAND_TRICK": 2,
+          "HAZE": 1,
+          "HIDDEN_DAGGERS": 2,
+          "LEADING_STRIKE": 7,
+          "LEG_SWEEP": 3,
+          "POISONED_STAB": 4,
+          "POUNCE": 2,
+          "PREDATOR": 3,
+          "SKEWER": 1,
+          "SLICE": 2,
+          "SNAKEBITE": 7,
+          "THE_HUNT": 1,
+          "UP_MY_SLEEVE": 1,
+          "skip": 12
+        },
+        "ACCURACY": {
+          "ANTICIPATE": 1,
+          "BACKFLIP": 1,
+          "CLOAK_AND_DAGGER": 2,
+          "DAGGER_THROW": 2,
+          "DEADLY_POISON": 2,
+          "ECHOING_SLASH": 1,
+          "FLICK_FLACK": 2,
+          "FOOTWORK": 2,
+          "HAZE": 2,
+          "HIDDEN_DAGGERS": 2,
+          "LEADING_STRIKE": 1,
+          "POISONED_STAB": 2,
+          "PRECISE_CUT": 1,
+          "PREDATOR": 1,
+          "SLICE": 1,
+          "STRANGLE": 1,
+          "SUCKER_PUNCH": 1,
+          "skip": 10
+        },
+        "INFINITE_BLADES": {
+          "BACKSTAB": 1,
+          "BLADE_DANCE": 4,
+          "BOUNCING_FLASK": 1,
+          "CLOAK_AND_DAGGER": 5,
+          "DAGGER_SPRAY": 6,
+          "DAGGER_THROW": 3,
+          "DASH": 1,
+          "DEADLY_POISON": 4,
+          "DEFLECT": 1,
+          "ECHOING_SLASH": 3,
+          "ESCAPE_PLAN": 1,
+          "FLICK_FLACK": 3,
+          "FOOTWORK": 2,
+          "HAND_TRICK": 1,
+          "HAZE": 1,
+          "HIDDEN_DAGGERS": 1,
+          "LEADING_STRIKE": 4,
+          "LEG_SWEEP": 2,
+          "MEMENTO_MORI": 1,
+          "POISONED_STAB": 5,
+          "POUNCE": 1,
+          "PRECISE_CUT": 2,
+          "PREDATOR": 8,
+          "RICOCHET": 4,
+          "SLICE": 4,
+          "SNAKEBITE": 4,
+          "STRANGLE": 2,
+          "SUCKER_PUNCH": 3,
+          "UP_MY_SLEEVE": 2,
+          "skip": 20
+        },
+        "PHANTOM_BLADES": {
+          "BACKFLIP": 1,
+          "BLADE_DANCE": 4,
+          "BOUNCING_FLASK": 2,
+          "CLOAK_AND_DAGGER": 2,
+          "DAGGER_SPRAY": 5,
+          "DAGGER_THROW": 3,
+          "DEADLY_POISON": 2,
+          "DEFLECT": 2,
+          "ECHOING_SLASH": 1,
+          "FAN_OF_KNIVES": 1,
+          "FOOTWORK": 1,
+          "HAZE": 1,
+          "HIDDEN_DAGGERS": 1,
+          "LEADING_STRIKE": 4,
+          "PINPOINT": 3,
+          "POISONED_STAB": 3,
+          "PREDATOR": 1,
+          "RICOCHET": 1,
+          "SKEWER": 1,
+          "SNAKEBITE": 1,
+          "SUCKER_PUNCH": 2,
+          "UP_MY_SLEEVE": 1,
+          "skip": 4
+        }
+      },
+      "example": {
+        "act": 1,
+        "floor": 12,
+        "learned": 0.47910841814319255,
+        "prior": -1.3011453483694146,
+        "seed": "V5DIAG_0028",
+        "shop_grade_same_card_and_deck": 4.125,
+        "total": -0.822036930226222
+      },
+      "fatal_boss_plays": {
+        "escape_legal_in_fatal_turn": 0,
+        "escape_legal_in_previous_turn": 9,
+        "escape_played_in_previous_turn": 6,
+        "fatal_sandpit_one": 16,
+        "sloth_basic": 51,
+        "sloth_basic_other_card_playable": 36,
+        "sloth_basic_power_playable": 3,
+        "sloth_plays": 177
+      },
+      "free_rewards": {
+        "ACCELERANT": {
+          "fixed_same_offer": 71,
+          "frozen": 0,
+          "offers": 132
+        },
+        "ACCURACY": {
+          "fixed_same_offer": 35,
+          "frozen": 0,
+          "offers": 110
+        },
+        "INFINITE_BLADES": {
+          "fixed_same_offer": 100,
+          "frozen": 0,
+          "offers": 118
+        },
+        "PHANTOM_BLADES": {
+          "fixed_same_offer": 47,
+          "frozen": 0,
+          "offers": 113
+        }
+      },
+      "this_or_that": {
+        "changed_to_plain": 12,
+        "offered": 75
+      }
+    }
+  },
+  "results": {
+    "all": {
+      "v5": {
+        "n": 256,
+        "mean_floor": 23.015625,
+        "delta_floor": 0.0,
+        "paired_floor_ci95": [
+          0.0,
+          0.0
+        ],
+        "floor_wlt": [
+          0,
+          0,
+          256
+        ],
+        "milestones": {
+          "a1_clear": 146,
+          "a2_entry": 59,
+          "a2_clear": 6,
+          "a3_entry": 2,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 146
+          },
+          "a2_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 59
+          },
+          "a2_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 6
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 2
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 18,
+            "clears": 1,
+            "entry_hp_mean": 57.333333333333336,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 18
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 1
+            },
+            "common_entries": 18,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 18,
+            "clears": 3,
+            "entry_hp_mean": 49.888888888888886,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 18
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 3
+            },
+            "common_entries": 18,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 23,
+            "clears": 2,
+            "entry_hp_mean": 64.21739130434783,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 23
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 23,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 53,
+          "ACCELERANT_free_offers": 69,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 25,
+          "ACCURACY_affordable_shops": 56,
+          "ACCURACY_free_offers": 61,
+          "ACCURACY_free_takes": 0,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 71,
+          "INFINITE_BLADES_free_offers": 82,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 5,
+          "ORNATE": 46,
+          "PHANTOM_BLADES_affordable_shops": 59,
+          "PHANTOM_BLADES_free_offers": 74,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 7,
+          "ancient_available": 152,
+          "ancient_visited": 152,
+          "camp_HEAL": 688,
+          "camp_SMITH": 363,
+          "clumsy_gold": 3000,
+          "clumsy_removals": 30,
+          "escape_plays": 31,
+          "kindle_legal": 31,
+          "last_a2_camp_HEAL": 43,
+          "last_a2_camp_SMITH": 16,
+          "sandpit_one_ends": 15,
+          "sandpit_one_fatal_ends": 14,
+          "sloth_basics": 34,
+          "sloth_plays": 128,
+          "sloth_powers": 5
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 27,
+          "sandpit_one_ends": 14,
+          "sandpit_one_fatal_ends": 14,
+          "sloth_basics": 24,
+          "sloth_plays": 91,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 256,
+        "victories": []
+      },
+      "draft": {
+        "n": 256,
+        "mean_floor": 23.22265625,
+        "delta_floor": 0.20703125,
+        "paired_floor_ci95": [
+          -0.33984375,
+          0.77734375
+        ],
+        "floor_wlt": [
+          28,
+          25,
+          203
+        ],
+        "milestones": {
+          "a1_clear": 151,
+          "a2_entry": 56,
+          "a2_clear": 9,
+          "a3_entry": 3,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 13,
+            "loss": 8,
+            "both": 138
+          },
+          "a2_entry": {
+            "gain": 8,
+            "loss": 11,
+            "both": 48
+          },
+          "a2_clear": {
+            "gain": 5,
+            "loss": 2,
+            "both": 4
+          },
+          "a3_entry": {
+            "gain": 1,
+            "loss": 0,
+            "both": 2
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 17,
+            "clears": 2,
+            "entry_hp_mean": 62.94117647058823,
+            "paired_entries": {
+              "gain": 3,
+              "loss": 4,
+              "both": 14
+            },
+            "paired_clears": {
+              "gain": 1,
+              "loss": 0,
+              "both": 1
+            },
+            "common_entries": 14,
+            "clear_gain_loss_among_common_entries": [
+              1,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 19,
+            "clears": 4,
+            "entry_hp_mean": 51.578947368421055,
+            "paired_entries": {
+              "gain": 4,
+              "loss": 3,
+              "both": 15
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 1,
+              "both": 2
+            },
+            "common_entries": 15,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              1
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 20,
+            "clears": 3,
+            "entry_hp_mean": 63.8,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 4,
+              "both": 19
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 1,
+              "both": 1
+            },
+            "common_entries": 19,
+            "clear_gain_loss_among_common_entries": [
+              2,
+              1
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 53,
+          "ACCELERANT_free_offers": 71,
+          "ACCELERANT_free_takes": 34,
+          "ACCELERANT_shop_buys": 25,
+          "ACCURACY_affordable_shops": 55,
+          "ACCURACY_free_offers": 62,
+          "ACCURACY_free_takes": 14,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 72,
+          "INFINITE_BLADES_free_offers": 81,
+          "INFINITE_BLADES_free_takes": 55,
+          "INFINITE_BLADES_shop_buys": 7,
+          "ORNATE": 44,
+          "PHANTOM_BLADES_affordable_shops": 58,
+          "PHANTOM_BLADES_free_offers": 69,
+          "PHANTOM_BLADES_free_takes": 25,
+          "PHANTOM_BLADES_shop_buys": 6,
+          "ancient_available": 160,
+          "ancient_visited": 160,
+          "camp_HEAL": 690,
+          "camp_SMITH": 359,
+          "clumsy_gold": 2800,
+          "clumsy_removals": 28,
+          "escape_plays": 27,
+          "kindle_legal": 24,
+          "last_a2_camp_HEAL": 44,
+          "last_a2_camp_SMITH": 12,
+          "sandpit_one_ends": 13,
+          "sandpit_one_fatal_ends": 11,
+          "sloth_basics": 27,
+          "sloth_plays": 150,
+          "sloth_powers": 4
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 23,
+          "sandpit_one_ends": 11,
+          "sandpit_one_fatal_ends": 11,
+          "sloth_basics": 17,
+          "sloth_plays": 107,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 151,
+        "victories": []
+      },
+      "boss": {
+        "n": 256,
+        "mean_floor": 23.0625,
+        "delta_floor": 0.046875,
+        "paired_floor_ci95": [
+          0.0,
+          0.12109375
+        ],
+        "floor_wlt": [
+          2,
+          0,
+          254
+        ],
+        "milestones": {
+          "a1_clear": 146,
+          "a2_entry": 59,
+          "a2_clear": 8,
+          "a3_entry": 2,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 146
+          },
+          "a2_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 59
+          },
+          "a2_clear": {
+            "gain": 2,
+            "loss": 0,
+            "both": 6
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 2
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 18,
+            "clears": 1,
+            "entry_hp_mean": 57.333333333333336,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 18
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 1
+            },
+            "common_entries": 18,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 18,
+            "clears": 3,
+            "entry_hp_mean": 49.888888888888886,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 18
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 3
+            },
+            "common_entries": 18,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 23,
+            "clears": 4,
+            "entry_hp_mean": 64.21739130434783,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 23
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 23,
+            "clear_gain_loss_among_common_entries": [
+              2,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 53,
+          "ACCELERANT_free_offers": 69,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 25,
+          "ACCURACY_affordable_shops": 56,
+          "ACCURACY_free_offers": 62,
+          "ACCURACY_free_takes": 0,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 71,
+          "INFINITE_BLADES_free_offers": 82,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 5,
+          "ORNATE": 46,
+          "PHANTOM_BLADES_affordable_shops": 59,
+          "PHANTOM_BLADES_free_offers": 74,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 7,
+          "ancient_available": 154,
+          "ancient_visited": 154,
+          "camp_HEAL": 688,
+          "camp_SMITH": 363,
+          "clumsy_gold": 3000,
+          "clumsy_removals": 30,
+          "escape_plays": 43,
+          "kindle_legal": 31,
+          "last_a2_camp_HEAL": 43,
+          "last_a2_camp_SMITH": 16,
+          "sandpit_one_ends": 12,
+          "sandpit_one_fatal_ends": 10,
+          "sloth_basics": 37,
+          "sloth_plays": 126,
+          "sloth_powers": 5
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 29,
+          "sandpit_one_ends": 10,
+          "sandpit_one_fatal_ends": 10,
+          "sloth_basics": 28,
+          "sloth_plays": 91,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 240,
+        "victories": []
+      },
+      "macro": {
+        "n": 256,
+        "mean_floor": 23.0078125,
+        "delta_floor": -0.0078125,
+        "paired_floor_ci95": [
+          -0.08203125,
+          0.05859375
+        ],
+        "floor_wlt": [
+          1,
+          1,
+          254
+        ],
+        "milestones": {
+          "a1_clear": 146,
+          "a2_entry": 60,
+          "a2_clear": 5,
+          "a3_entry": 2,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 146
+          },
+          "a2_entry": {
+            "gain": 1,
+            "loss": 0,
+            "both": 59
+          },
+          "a2_clear": {
+            "gain": 0,
+            "loss": 1,
+            "both": 5
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 2
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 18,
+            "clears": 0,
+            "entry_hp_mean": 57.166666666666664,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 18
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 1,
+              "both": 0
+            },
+            "common_entries": 18,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              1
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 19,
+            "clears": 3,
+            "entry_hp_mean": 49.78947368421053,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 0,
+              "both": 18
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 3
+            },
+            "common_entries": 18,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 23,
+            "clears": 2,
+            "entry_hp_mean": 64.21739130434783,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 23
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 23,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 55,
+          "ACCELERANT_free_offers": 69,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 26,
+          "ACCURACY_affordable_shops": 56,
+          "ACCURACY_free_offers": 63,
+          "ACCURACY_free_takes": 0,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 72,
+          "INFINITE_BLADES_free_offers": 82,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 5,
+          "ORNATE": 38,
+          "PHANTOM_BLADES_affordable_shops": 59,
+          "PHANTOM_BLADES_free_offers": 74,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 7,
+          "PLAIN": 8,
+          "ancient_available": 151,
+          "ancient_visited": 151,
+          "camp_HEAL": 693,
+          "camp_KINDLE": 2,
+          "camp_SMITH": 357,
+          "clumsy_gold": 2500,
+          "clumsy_removals": 25,
+          "escape_plays": 31,
+          "kindle_legal": 31,
+          "last_a2_camp_HEAL": 44,
+          "last_a2_camp_KINDLE": 2,
+          "last_a2_camp_SMITH": 14,
+          "sandpit_one_ends": 15,
+          "sandpit_one_fatal_ends": 14,
+          "sloth_basics": 36,
+          "sloth_plays": 133,
+          "sloth_powers": 5
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 27,
+          "sandpit_one_ends": 14,
+          "sandpit_one_fatal_ends": 14,
+          "sloth_basics": 26,
+          "sloth_plays": 96,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 246,
+        "victories": []
+      },
+      "combined": {
+        "n": 256,
+        "mean_floor": 23.21484375,
+        "delta_floor": 0.19921875,
+        "paired_floor_ci95": [
+          -0.3360351562499999,
+          0.75390625
+        ],
+        "floor_wlt": [
+          29,
+          26,
+          201
+        ],
+        "milestones": {
+          "a1_clear": 150,
+          "a2_entry": 57,
+          "a2_clear": 10,
+          "a3_entry": 3,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 12,
+            "loss": 8,
+            "both": 138
+          },
+          "a2_entry": {
+            "gain": 9,
+            "loss": 11,
+            "both": 48
+          },
+          "a2_clear": {
+            "gain": 6,
+            "loss": 2,
+            "both": 4
+          },
+          "a3_entry": {
+            "gain": 1,
+            "loss": 0,
+            "both": 2
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 17,
+            "clears": 1,
+            "entry_hp_mean": 62.76470588235294,
+            "paired_entries": {
+              "gain": 3,
+              "loss": 4,
+              "both": 14
+            },
+            "paired_clears": {
+              "gain": 1,
+              "loss": 1,
+              "both": 0
+            },
+            "common_entries": 14,
+            "clear_gain_loss_among_common_entries": [
+              1,
+              1
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 20,
+            "clears": 4,
+            "entry_hp_mean": 51.95,
+            "paired_entries": {
+              "gain": 5,
+              "loss": 3,
+              "both": 15
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 1,
+              "both": 2
+            },
+            "common_entries": 15,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              1
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 20,
+            "clears": 5,
+            "entry_hp_mean": 63.8,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 4,
+              "both": 19
+            },
+            "paired_clears": {
+              "gain": 3,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 19,
+            "clear_gain_loss_among_common_entries": [
+              3,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 55,
+          "ACCELERANT_free_offers": 72,
+          "ACCELERANT_free_takes": 34,
+          "ACCELERANT_shop_buys": 26,
+          "ACCURACY_affordable_shops": 55,
+          "ACCURACY_free_offers": 64,
+          "ACCURACY_free_takes": 15,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 73,
+          "INFINITE_BLADES_free_offers": 81,
+          "INFINITE_BLADES_free_takes": 55,
+          "INFINITE_BLADES_shop_buys": 7,
+          "ORNATE": 36,
+          "PHANTOM_BLADES_affordable_shops": 58,
+          "PHANTOM_BLADES_free_offers": 71,
+          "PHANTOM_BLADES_free_takes": 27,
+          "PHANTOM_BLADES_shop_buys": 6,
+          "PLAIN": 8,
+          "ancient_available": 160,
+          "ancient_visited": 160,
+          "camp_HEAL": 693,
+          "camp_KINDLE": 1,
+          "camp_SMITH": 354,
+          "clumsy_gold": 2400,
+          "clumsy_removals": 24,
+          "escape_plays": 39,
+          "kindle_legal": 24,
+          "last_a2_camp_HEAL": 45,
+          "last_a2_camp_KINDLE": 1,
+          "last_a2_camp_SMITH": 11,
+          "sandpit_one_ends": 9,
+          "sandpit_one_fatal_ends": 7,
+          "sloth_basics": 37,
+          "sloth_plays": 170,
+          "sloth_powers": 5
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 23,
+          "sandpit_one_ends": 7,
+          "sandpit_one_fatal_ends": 7,
+          "sloth_basics": 24,
+          "sloth_plays": 118,
+          "sloth_powers": 4
+        },
+        "identical_public_decision_hashes": 135,
+        "victories": []
+      }
+    },
+    "default": {
+      "v5": {
+        "n": 128,
+        "mean_floor": 23.2421875,
+        "delta_floor": 0.0,
+        "paired_floor_ci95": [
+          0.0,
+          0.0
+        ],
+        "floor_wlt": [
+          0,
+          0,
+          128
+        ],
+        "milestones": {
+          "a1_clear": 70,
+          "a2_entry": 31,
+          "a2_clear": 3,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 70
+          },
+          "a2_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 31
+          },
+          "a2_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 3
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 7,
+            "clears": 1,
+            "entry_hp_mean": 64.42857142857143,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 1
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 11,
+            "clears": 0,
+            "entry_hp_mean": 40.81818181818182,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 11
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 11,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 13,
+            "clears": 2,
+            "entry_hp_mean": 68.53846153846153,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 13
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 13,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 29,
+          "ACCELERANT_free_offers": 31,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 11,
+          "ACCURACY_affordable_shops": 21,
+          "ACCURACY_free_offers": 31,
+          "ACCURACY_free_takes": 0,
+          "INFINITE_BLADES_affordable_shops": 41,
+          "INFINITE_BLADES_free_offers": 42,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 4,
+          "ORNATE": 30,
+          "PHANTOM_BLADES_affordable_shops": 34,
+          "PHANTOM_BLADES_free_offers": 47,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 3,
+          "ancient_available": 73,
+          "ancient_visited": 73,
+          "camp_HEAL": 347,
+          "camp_SMITH": 178,
+          "clumsy_gold": 1700,
+          "clumsy_removals": 17,
+          "escape_plays": 20,
+          "kindle_legal": 17,
+          "last_a2_camp_HEAL": 21,
+          "last_a2_camp_SMITH": 10,
+          "sandpit_one_ends": 9,
+          "sandpit_one_fatal_ends": 8,
+          "sloth_basics": 13,
+          "sloth_plays": 59,
+          "sloth_powers": 3
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 16,
+          "sandpit_one_ends": 8,
+          "sandpit_one_fatal_ends": 8,
+          "sloth_basics": 13,
+          "sloth_plays": 59,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 128,
+        "victories": []
+      },
+      "draft": {
+        "n": 128,
+        "mean_floor": 23.5703125,
+        "delta_floor": 0.328125,
+        "paired_floor_ci95": [
+          -0.46875,
+          1.15625
+        ],
+        "floor_wlt": [
+          12,
+          8,
+          108
+        ],
+        "milestones": {
+          "a1_clear": 73,
+          "a2_entry": 33,
+          "a2_clear": 6,
+          "a3_entry": 2,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 5,
+            "loss": 2,
+            "both": 68
+          },
+          "a2_entry": {
+            "gain": 4,
+            "loss": 2,
+            "both": 29
+          },
+          "a2_clear": {
+            "gain": 4,
+            "loss": 1,
+            "both": 2
+          },
+          "a3_entry": {
+            "gain": 1,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 7,
+            "clears": 2,
+            "entry_hp_mean": 65.85714285714286,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 1,
+              "loss": 0,
+              "both": 1
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              1,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 13,
+            "clears": 2,
+            "entry_hp_mean": 44.61538461538461,
+            "paired_entries": {
+              "gain": 3,
+              "loss": 1,
+              "both": 10
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 10,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 13,
+            "clears": 2,
+            "entry_hp_mean": 64.23076923076923,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 1,
+              "both": 12
+            },
+            "paired_clears": {
+              "gain": 1,
+              "loss": 1,
+              "both": 1
+            },
+            "common_entries": 12,
+            "clear_gain_loss_among_common_entries": [
+              1,
+              1
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 28,
+          "ACCELERANT_free_offers": 33,
+          "ACCELERANT_free_takes": 16,
+          "ACCELERANT_shop_buys": 11,
+          "ACCURACY_affordable_shops": 20,
+          "ACCURACY_free_offers": 31,
+          "ACCURACY_free_takes": 6,
+          "INFINITE_BLADES_affordable_shops": 43,
+          "INFINITE_BLADES_free_offers": 44,
+          "INFINITE_BLADES_free_takes": 29,
+          "INFINITE_BLADES_shop_buys": 5,
+          "ORNATE": 30,
+          "PHANTOM_BLADES_affordable_shops": 35,
+          "PHANTOM_BLADES_free_offers": 45,
+          "PHANTOM_BLADES_free_takes": 13,
+          "PHANTOM_BLADES_shop_buys": 3,
+          "ancient_available": 79,
+          "ancient_visited": 79,
+          "camp_HEAL": 350,
+          "camp_SMITH": 175,
+          "clumsy_gold": 1700,
+          "clumsy_removals": 17,
+          "escape_plays": 19,
+          "kindle_legal": 15,
+          "last_a2_camp_HEAL": 26,
+          "last_a2_camp_SMITH": 7,
+          "sandpit_one_ends": 8,
+          "sandpit_one_fatal_ends": 7,
+          "sloth_basics": 11,
+          "sloth_plays": 78,
+          "sloth_powers": 2
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 18,
+          "sandpit_one_ends": 7,
+          "sandpit_one_fatal_ends": 7,
+          "sloth_basics": 6,
+          "sloth_plays": 57,
+          "sloth_powers": 2
+        },
+        "identical_public_decision_hashes": 77,
+        "victories": []
+      },
+      "boss": {
+        "n": 128,
+        "mean_floor": 23.2421875,
+        "delta_floor": 0.0,
+        "paired_floor_ci95": [
+          0.0,
+          0.0
+        ],
+        "floor_wlt": [
+          0,
+          0,
+          128
+        ],
+        "milestones": {
+          "a1_clear": 70,
+          "a2_entry": 31,
+          "a2_clear": 3,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 70
+          },
+          "a2_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 31
+          },
+          "a2_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 3
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 7,
+            "clears": 1,
+            "entry_hp_mean": 64.42857142857143,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 1
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 11,
+            "clears": 0,
+            "entry_hp_mean": 40.81818181818182,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 11
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 11,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 13,
+            "clears": 2,
+            "entry_hp_mean": 68.53846153846153,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 13
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 13,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 29,
+          "ACCELERANT_free_offers": 31,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 11,
+          "ACCURACY_affordable_shops": 21,
+          "ACCURACY_free_offers": 31,
+          "ACCURACY_free_takes": 0,
+          "INFINITE_BLADES_affordable_shops": 41,
+          "INFINITE_BLADES_free_offers": 42,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 4,
+          "ORNATE": 30,
+          "PHANTOM_BLADES_affordable_shops": 34,
+          "PHANTOM_BLADES_free_offers": 47,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 3,
+          "ancient_available": 73,
+          "ancient_visited": 73,
+          "camp_HEAL": 347,
+          "camp_SMITH": 178,
+          "clumsy_gold": 1700,
+          "clumsy_removals": 17,
+          "escape_plays": 22,
+          "kindle_legal": 17,
+          "last_a2_camp_HEAL": 21,
+          "last_a2_camp_SMITH": 10,
+          "sandpit_one_ends": 8,
+          "sandpit_one_fatal_ends": 7,
+          "sloth_basics": 15,
+          "sloth_plays": 59,
+          "sloth_powers": 3
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 17,
+          "sandpit_one_ends": 7,
+          "sandpit_one_fatal_ends": 7,
+          "sloth_basics": 15,
+          "sloth_plays": 59,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 120,
+        "victories": []
+      },
+      "macro": {
+        "n": 128,
+        "mean_floor": 23.2265625,
+        "delta_floor": -0.015625,
+        "paired_floor_ci95": [
+          -0.1640625,
+          0.1171875
+        ],
+        "floor_wlt": [
+          1,
+          1,
+          126
+        ],
+        "milestones": {
+          "a1_clear": 70,
+          "a2_entry": 32,
+          "a2_clear": 2,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 70
+          },
+          "a2_entry": {
+            "gain": 1,
+            "loss": 0,
+            "both": 31
+          },
+          "a2_clear": {
+            "gain": 0,
+            "loss": 1,
+            "both": 2
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 7,
+            "clears": 0,
+            "entry_hp_mean": 64,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 1,
+              "both": 0
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              1
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 12,
+            "clears": 0,
+            "entry_hp_mean": 41.416666666666664,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 0,
+              "both": 11
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 11,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 13,
+            "clears": 2,
+            "entry_hp_mean": 68.53846153846153,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 13
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 13,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 31,
+          "ACCELERANT_free_offers": 31,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 12,
+          "ACCURACY_affordable_shops": 21,
+          "ACCURACY_free_offers": 32,
+          "ACCURACY_free_takes": 0,
+          "INFINITE_BLADES_affordable_shops": 42,
+          "INFINITE_BLADES_free_offers": 42,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 4,
+          "ORNATE": 25,
+          "PHANTOM_BLADES_affordable_shops": 34,
+          "PHANTOM_BLADES_free_offers": 47,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 3,
+          "PLAIN": 5,
+          "ancient_available": 72,
+          "ancient_visited": 72,
+          "camp_HEAL": 350,
+          "camp_KINDLE": 2,
+          "camp_SMITH": 174,
+          "clumsy_gold": 1300,
+          "clumsy_removals": 13,
+          "escape_plays": 20,
+          "kindle_legal": 17,
+          "last_a2_camp_HEAL": 22,
+          "last_a2_camp_KINDLE": 2,
+          "last_a2_camp_SMITH": 8,
+          "sandpit_one_ends": 9,
+          "sandpit_one_fatal_ends": 8,
+          "sloth_basics": 15,
+          "sloth_plays": 64,
+          "sloth_powers": 3
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 16,
+          "sandpit_one_ends": 8,
+          "sandpit_one_fatal_ends": 8,
+          "sloth_basics": 15,
+          "sloth_plays": 64,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 121,
+        "victories": []
+      },
+      "combined": {
+        "n": 128,
+        "mean_floor": 23.609375,
+        "delta_floor": 0.3671875,
+        "paired_floor_ci95": [
+          -0.421875,
+          1.1796875
+        ],
+        "floor_wlt": [
+          13,
+          9,
+          106
+        ],
+        "milestones": {
+          "a1_clear": 73,
+          "a2_entry": 34,
+          "a2_clear": 6,
+          "a3_entry": 2,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 5,
+            "loss": 2,
+            "both": 68
+          },
+          "a2_entry": {
+            "gain": 5,
+            "loss": 2,
+            "both": 29
+          },
+          "a2_clear": {
+            "gain": 4,
+            "loss": 1,
+            "both": 2
+          },
+          "a3_entry": {
+            "gain": 1,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 7,
+            "clears": 1,
+            "entry_hp_mean": 65.42857142857143,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 1,
+              "loss": 1,
+              "both": 0
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              1,
+              1
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 14,
+            "clears": 2,
+            "entry_hp_mean": 45.642857142857146,
+            "paired_entries": {
+              "gain": 4,
+              "loss": 1,
+              "both": 10
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 10,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 13,
+            "clears": 3,
+            "entry_hp_mean": 64.23076923076923,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 1,
+              "both": 12
+            },
+            "paired_clears": {
+              "gain": 1,
+              "loss": 0,
+              "both": 2
+            },
+            "common_entries": 12,
+            "clear_gain_loss_among_common_entries": [
+              1,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 30,
+          "ACCELERANT_free_offers": 34,
+          "ACCELERANT_free_takes": 16,
+          "ACCELERANT_shop_buys": 12,
+          "ACCURACY_affordable_shops": 20,
+          "ACCURACY_free_offers": 32,
+          "ACCURACY_free_takes": 7,
+          "INFINITE_BLADES_affordable_shops": 44,
+          "INFINITE_BLADES_free_offers": 44,
+          "INFINITE_BLADES_free_takes": 29,
+          "INFINITE_BLADES_shop_buys": 5,
+          "ORNATE": 25,
+          "PHANTOM_BLADES_affordable_shops": 35,
+          "PHANTOM_BLADES_free_offers": 47,
+          "PHANTOM_BLADES_free_takes": 15,
+          "PHANTOM_BLADES_shop_buys": 3,
+          "PLAIN": 5,
+          "ancient_available": 79,
+          "ancient_visited": 79,
+          "camp_HEAL": 353,
+          "camp_KINDLE": 1,
+          "camp_SMITH": 172,
+          "clumsy_gold": 1400,
+          "clumsy_removals": 14,
+          "escape_plays": 24,
+          "kindle_legal": 15,
+          "last_a2_camp_HEAL": 27,
+          "last_a2_camp_KINDLE": 1,
+          "last_a2_camp_SMITH": 6,
+          "sandpit_one_ends": 7,
+          "sandpit_one_fatal_ends": 5,
+          "sloth_basics": 18,
+          "sloth_plays": 99,
+          "sloth_powers": 3
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 17,
+          "sandpit_one_ends": 5,
+          "sandpit_one_fatal_ends": 5,
+          "sloth_basics": 10,
+          "sloth_plays": 68,
+          "sloth_powers": 3
+        },
+        "identical_public_decision_hashes": 66,
+        "victories": []
+      }
+    },
+    "seeded": {
+      "v5": {
+        "n": 128,
+        "mean_floor": 22.7890625,
+        "delta_floor": 0.0,
+        "paired_floor_ci95": [
+          0.0,
+          0.0
+        ],
+        "floor_wlt": [
+          0,
+          0,
+          128
+        ],
+        "milestones": {
+          "a1_clear": 76,
+          "a2_entry": 28,
+          "a2_clear": 3,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 76
+          },
+          "a2_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 28
+          },
+          "a2_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 3
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 11,
+            "clears": 0,
+            "entry_hp_mean": 52.81818181818182,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 11
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 11,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 7,
+            "clears": 3,
+            "entry_hp_mean": 64.14285714285714,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 3
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 10,
+            "clears": 0,
+            "entry_hp_mean": 58.6,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 10
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 10,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 24,
+          "ACCELERANT_free_offers": 38,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 14,
+          "ACCURACY_affordable_shops": 35,
+          "ACCURACY_free_offers": 30,
+          "ACCURACY_free_takes": 0,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 30,
+          "INFINITE_BLADES_free_offers": 40,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 1,
+          "ORNATE": 16,
+          "PHANTOM_BLADES_affordable_shops": 25,
+          "PHANTOM_BLADES_free_offers": 27,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 4,
+          "ancient_available": 79,
+          "ancient_visited": 79,
+          "camp_HEAL": 341,
+          "camp_SMITH": 185,
+          "clumsy_gold": 1300,
+          "clumsy_removals": 13,
+          "escape_plays": 11,
+          "kindle_legal": 14,
+          "last_a2_camp_HEAL": 22,
+          "last_a2_camp_SMITH": 6,
+          "sandpit_one_ends": 6,
+          "sandpit_one_fatal_ends": 6,
+          "sloth_basics": 21,
+          "sloth_plays": 69,
+          "sloth_powers": 2
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 11,
+          "sandpit_one_ends": 6,
+          "sandpit_one_fatal_ends": 6,
+          "sloth_basics": 11,
+          "sloth_plays": 32,
+          "sloth_powers": 0
+        },
+        "identical_public_decision_hashes": 128,
+        "victories": []
+      },
+      "draft": {
+        "n": 128,
+        "mean_floor": 22.875,
+        "delta_floor": 0.0859375,
+        "paired_floor_ci95": [
+          -0.6953125,
+          0.875
+        ],
+        "floor_wlt": [
+          16,
+          17,
+          95
+        ],
+        "milestones": {
+          "a1_clear": 78,
+          "a2_entry": 23,
+          "a2_clear": 3,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 8,
+            "loss": 6,
+            "both": 70
+          },
+          "a2_entry": {
+            "gain": 4,
+            "loss": 9,
+            "both": 19
+          },
+          "a2_clear": {
+            "gain": 1,
+            "loss": 1,
+            "both": 2
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 10,
+            "clears": 0,
+            "entry_hp_mean": 60.9,
+            "paired_entries": {
+              "gain": 3,
+              "loss": 4,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 6,
+            "clears": 2,
+            "entry_hp_mean": 66.66666666666667,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 2,
+              "both": 5
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 1,
+              "both": 2
+            },
+            "common_entries": 5,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              1
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 7,
+            "clears": 1,
+            "entry_hp_mean": 63,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 3,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 1,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              1,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 25,
+          "ACCELERANT_free_offers": 38,
+          "ACCELERANT_free_takes": 18,
+          "ACCELERANT_shop_buys": 14,
+          "ACCURACY_affordable_shops": 35,
+          "ACCURACY_free_offers": 31,
+          "ACCURACY_free_takes": 8,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 29,
+          "INFINITE_BLADES_free_offers": 37,
+          "INFINITE_BLADES_free_takes": 26,
+          "INFINITE_BLADES_shop_buys": 2,
+          "ORNATE": 14,
+          "PHANTOM_BLADES_affordable_shops": 23,
+          "PHANTOM_BLADES_free_offers": 24,
+          "PHANTOM_BLADES_free_takes": 12,
+          "PHANTOM_BLADES_shop_buys": 3,
+          "ancient_available": 81,
+          "ancient_visited": 81,
+          "camp_HEAL": 340,
+          "camp_SMITH": 184,
+          "clumsy_gold": 1100,
+          "clumsy_removals": 11,
+          "escape_plays": 8,
+          "kindle_legal": 9,
+          "last_a2_camp_HEAL": 18,
+          "last_a2_camp_SMITH": 5,
+          "sandpit_one_ends": 5,
+          "sandpit_one_fatal_ends": 4,
+          "sloth_basics": 16,
+          "sloth_plays": 72,
+          "sloth_powers": 2
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 5,
+          "sandpit_one_ends": 4,
+          "sandpit_one_fatal_ends": 4,
+          "sloth_basics": 11,
+          "sloth_plays": 50,
+          "sloth_powers": 1
+        },
+        "identical_public_decision_hashes": 74,
+        "victories": []
+      },
+      "boss": {
+        "n": 128,
+        "mean_floor": 22.8828125,
+        "delta_floor": 0.09375,
+        "paired_floor_ci95": [
+          0.0,
+          0.2421875
+        ],
+        "floor_wlt": [
+          2,
+          0,
+          126
+        ],
+        "milestones": {
+          "a1_clear": 76,
+          "a2_entry": 28,
+          "a2_clear": 5,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 76
+          },
+          "a2_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 28
+          },
+          "a2_clear": {
+            "gain": 2,
+            "loss": 0,
+            "both": 3
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 11,
+            "clears": 0,
+            "entry_hp_mean": 52.81818181818182,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 11
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 11,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 7,
+            "clears": 3,
+            "entry_hp_mean": 64.14285714285714,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 3
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 10,
+            "clears": 2,
+            "entry_hp_mean": 58.6,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 10
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 10,
+            "clear_gain_loss_among_common_entries": [
+              2,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 24,
+          "ACCELERANT_free_offers": 38,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 14,
+          "ACCURACY_affordable_shops": 35,
+          "ACCURACY_free_offers": 31,
+          "ACCURACY_free_takes": 0,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 30,
+          "INFINITE_BLADES_free_offers": 40,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 1,
+          "ORNATE": 16,
+          "PHANTOM_BLADES_affordable_shops": 25,
+          "PHANTOM_BLADES_free_offers": 27,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 4,
+          "ancient_available": 81,
+          "ancient_visited": 81,
+          "camp_HEAL": 341,
+          "camp_SMITH": 185,
+          "clumsy_gold": 1300,
+          "clumsy_removals": 13,
+          "escape_plays": 21,
+          "kindle_legal": 14,
+          "last_a2_camp_HEAL": 22,
+          "last_a2_camp_SMITH": 6,
+          "sandpit_one_ends": 4,
+          "sandpit_one_fatal_ends": 3,
+          "sloth_basics": 22,
+          "sloth_plays": 67,
+          "sloth_powers": 2
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 12,
+          "sandpit_one_ends": 3,
+          "sandpit_one_fatal_ends": 3,
+          "sloth_basics": 13,
+          "sloth_plays": 32,
+          "sloth_powers": 0
+        },
+        "identical_public_decision_hashes": 120,
+        "victories": []
+      },
+      "macro": {
+        "n": 128,
+        "mean_floor": 22.7890625,
+        "delta_floor": 0.0,
+        "paired_floor_ci95": [
+          0.0,
+          0.0
+        ],
+        "floor_wlt": [
+          0,
+          0,
+          128
+        ],
+        "milestones": {
+          "a1_clear": 76,
+          "a2_entry": 28,
+          "a2_clear": 3,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 76
+          },
+          "a2_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 28
+          },
+          "a2_clear": {
+            "gain": 0,
+            "loss": 0,
+            "both": 3
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 11,
+            "clears": 0,
+            "entry_hp_mean": 52.81818181818182,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 11
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 11,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 7,
+            "clears": 3,
+            "entry_hp_mean": 64.14285714285714,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 3
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 10,
+            "clears": 0,
+            "entry_hp_mean": 58.6,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 0,
+              "both": 10
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 10,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 24,
+          "ACCELERANT_free_offers": 38,
+          "ACCELERANT_free_takes": 0,
+          "ACCELERANT_shop_buys": 14,
+          "ACCURACY_affordable_shops": 35,
+          "ACCURACY_free_offers": 31,
+          "ACCURACY_free_takes": 0,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 30,
+          "INFINITE_BLADES_free_offers": 40,
+          "INFINITE_BLADES_free_takes": 0,
+          "INFINITE_BLADES_shop_buys": 1,
+          "ORNATE": 13,
+          "PHANTOM_BLADES_affordable_shops": 25,
+          "PHANTOM_BLADES_free_offers": 27,
+          "PHANTOM_BLADES_free_takes": 0,
+          "PHANTOM_BLADES_shop_buys": 4,
+          "PLAIN": 3,
+          "ancient_available": 79,
+          "ancient_visited": 79,
+          "camp_HEAL": 343,
+          "camp_SMITH": 183,
+          "clumsy_gold": 1200,
+          "clumsy_removals": 12,
+          "escape_plays": 11,
+          "kindle_legal": 14,
+          "last_a2_camp_HEAL": 22,
+          "last_a2_camp_SMITH": 6,
+          "sandpit_one_ends": 6,
+          "sandpit_one_fatal_ends": 6,
+          "sloth_basics": 21,
+          "sloth_plays": 69,
+          "sloth_powers": 2
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 11,
+          "sandpit_one_ends": 6,
+          "sandpit_one_fatal_ends": 6,
+          "sloth_basics": 11,
+          "sloth_plays": 32,
+          "sloth_powers": 0
+        },
+        "identical_public_decision_hashes": 125,
+        "victories": []
+      },
+      "combined": {
+        "n": 128,
+        "mean_floor": 22.8203125,
+        "delta_floor": 0.03125,
+        "paired_floor_ci95": [
+          -0.734375,
+          0.7890625
+        ],
+        "floor_wlt": [
+          16,
+          17,
+          95
+        ],
+        "milestones": {
+          "a1_clear": 77,
+          "a2_entry": 23,
+          "a2_clear": 4,
+          "a3_entry": 1,
+          "win": 0
+        },
+        "paired_milestones": {
+          "a1_clear": {
+            "gain": 7,
+            "loss": 6,
+            "both": 70
+          },
+          "a2_entry": {
+            "gain": 4,
+            "loss": 9,
+            "both": 19
+          },
+          "a2_clear": {
+            "gain": 2,
+            "loss": 1,
+            "both": 2
+          },
+          "a3_entry": {
+            "gain": 0,
+            "loss": 0,
+            "both": 1
+          },
+          "win": {
+            "gain": 0,
+            "loss": 0,
+            "both": 0
+          }
+        },
+        "bosses": {
+          "KAISER_CRAB_BOSS": {
+            "entries": 10,
+            "clears": 0,
+            "entry_hp_mean": 60.9,
+            "paired_entries": {
+              "gain": 3,
+              "loss": 4,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              0
+            ]
+          },
+          "KNOWLEDGE_DEMON_BOSS": {
+            "entries": 6,
+            "clears": 2,
+            "entry_hp_mean": 66.66666666666667,
+            "paired_entries": {
+              "gain": 1,
+              "loss": 2,
+              "both": 5
+            },
+            "paired_clears": {
+              "gain": 0,
+              "loss": 1,
+              "both": 2
+            },
+            "common_entries": 5,
+            "clear_gain_loss_among_common_entries": [
+              0,
+              1
+            ]
+          },
+          "THE_INSATIABLE_BOSS": {
+            "entries": 7,
+            "clears": 2,
+            "entry_hp_mean": 63,
+            "paired_entries": {
+              "gain": 0,
+              "loss": 3,
+              "both": 7
+            },
+            "paired_clears": {
+              "gain": 2,
+              "loss": 0,
+              "both": 0
+            },
+            "common_entries": 7,
+            "clear_gain_loss_among_common_entries": [
+              2,
+              0
+            ]
+          }
+        },
+        "decisions": {
+          "ACCELERANT_affordable_shops": 25,
+          "ACCELERANT_free_offers": 38,
+          "ACCELERANT_free_takes": 18,
+          "ACCELERANT_shop_buys": 14,
+          "ACCURACY_affordable_shops": 35,
+          "ACCURACY_free_offers": 32,
+          "ACCURACY_free_takes": 8,
+          "ACCURACY_shop_buys": 3,
+          "INFINITE_BLADES_affordable_shops": 29,
+          "INFINITE_BLADES_free_offers": 37,
+          "INFINITE_BLADES_free_takes": 26,
+          "INFINITE_BLADES_shop_buys": 2,
+          "ORNATE": 11,
+          "PHANTOM_BLADES_affordable_shops": 23,
+          "PHANTOM_BLADES_free_offers": 24,
+          "PHANTOM_BLADES_free_takes": 12,
+          "PHANTOM_BLADES_shop_buys": 3,
+          "PLAIN": 3,
+          "ancient_available": 81,
+          "ancient_visited": 81,
+          "camp_HEAL": 340,
+          "camp_SMITH": 182,
+          "clumsy_gold": 1000,
+          "clumsy_removals": 10,
+          "escape_plays": 15,
+          "kindle_legal": 9,
+          "last_a2_camp_HEAL": 18,
+          "last_a2_camp_SMITH": 5,
+          "sandpit_one_ends": 2,
+          "sandpit_one_fatal_ends": 2,
+          "sloth_basics": 19,
+          "sloth_plays": 71,
+          "sloth_powers": 2
+        },
+        "decisions_in_fatal_a2_boss_fights": {
+          "escape_plays": 6,
+          "sandpit_one_ends": 2,
+          "sandpit_one_fatal_ends": 2,
+          "sloth_basics": 14,
+          "sloth_plays": 50,
+          "sloth_powers": 1
+        },
+        "identical_public_decision_hashes": 69,
+        "victories": []
+      }
+    }
+  },
+  "v6_recommendation": {
+    "v51_boss_tactics": {
+      "decision": "advance as v6 candidate",
+      "basis": "Two paired Insatiable clear gains, no floor losses. Sloth basics increased and Demon clears were flat."
+    },
+    "v51_draft_fixes": {
+      "decision": "keep experimental and isolate Accelerant before promotion",
+      "basis": "Free picks and Act 2 clears increased, while entries fell and the paired floor interval crosses zero."
+    },
+    "v51_macro_fixes": {
+      "decision": "keep off",
+      "basis": "Clumsy removal spend fell by 500 gold with one lost Kaiser clear. Kindle tied on floors and all baseline Ancients were visited."
+    },
+    "combined": "keep off given an uncertain floor gain and zero full victories across all arms"
+  }
+}

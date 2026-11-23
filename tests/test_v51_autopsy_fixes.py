@@ -14,6 +14,7 @@ from sts2rl.deployed_controller import DeployedController
 from sts2rl.native import NativeSession, digest, legal_actions
 from sts2rl.run_bundle import V51_SWITCHES, freeze_bundle, load_bundle
 from sts2rl.run_policy import IDENTITY
+from sts2rl.turn_planning import _search_survival_lines
 from test_teacher_status import hand
 from test_v5_lategame_autopsy import camp
 
@@ -110,9 +111,9 @@ def test_expensive_escape_banked_at_two_but_preserves_kill_and_lethal_block():
 
 def test_sloth_values_the_last_slot_and_only_counts_executed_cards():
     state = boss_state("KNOWLEDGE_DEMON", ("CARD.STRIKE_SILENT", "AnyEnemy", {"damage": 6}),
-                       ("CARD.PREDATOR", "AnyEnemy", {"damage": 13}))
+                       ("CARD.DASH", "AnyEnemy", {"damage": 13}))
     state["hand"][0].update(type="Attack", cost=0)
-    state["hand"][1].update(type="Attack", cost=2, id="CARD.DASH")
+    state["hand"][1].update(type="Attack", cost=2)
     state["player_powers"] = [{"id": "POWER.SLOTH_POWER", "amount": 3}]
 
     def choose_outside_search(fallback):
@@ -139,6 +140,29 @@ def test_sloth_values_the_last_slot_and_only_counts_executed_cards():
     assert fallback.encounter.sloth_plays == 1
     state["player_powers"] = []
     assert fallback.choose(state, None).args["card_index"] == 0
+
+
+def test_sloth_survival_cannot_spend_two_cards_in_last_slot_but_can_add_a_potion():
+    block = ("CARD.DEFEND_SILENT", "Self", {"block": 5})
+    state = boss_state("KNOWLEDGE_DEMON", block, block)
+    state["player"]["hp"] = 8
+    state["enemies"][0]["intents"] = [{"type": "Attack", "damage": 15, "hits": 1}]
+    ctrl = controller("v51_boss_tactics")
+    ctrl.encounter.prepare(state, ctrl.policy)
+    actor = ctrl.encounter.actor
+
+    def survives():
+        best, _ = _search_survival_lines(state, actor, legal_actions(state))
+        return bool(best[0])
+
+    actor.sloth_slots = 2
+    assert survives()
+    actor.sloth_slots = 1
+    assert not survives()
+    state["player"]["potions"] = [
+        {"id": "POTION.BLOCK_POTION", "index": 0, "target_type": "Self", "can_use": True, "vars": {"Block": 5}}
+    ]
+    assert survives()
 
 
 def test_ornate_prices_observed_removal_debt_only_with_hp_to_spare():
