@@ -2,6 +2,7 @@
 from collections import Counter
 from copy import copy, deepcopy
 from dataclasses import asdict, replace
+from functools import lru_cache
 import hashlib
 import json
 from pathlib import Path
@@ -95,11 +96,20 @@ def _difference(predicted, actual):
     return ""
 
 
+@lru_cache(maxsize=8)
+def _load_value(path, sha256):
+    from .artifact import CombatValueModel
+
+    return CombatValueModel.load(path)
+
+
 class CombatSearchV2:
-    def __init__(self, config=Config(), *, shadow=False, record=False):
+    def __init__(self, config=Config(), *, shadow=False, record=False, model=None, model_sha256=None):
         self.config = config
         self.shadow = shadow
         self.records = [] if record else None
+        self.model = model
+        self.model_sha256 = model_sha256
         self._prompt = None
         self._decision = None
 
@@ -116,7 +126,10 @@ class CombatSearchV2:
             raise ValueError("Choose either active or shadow combat search v2")
         path = options.get("combat_search_v2_config")
         config = Config(**json.loads(Path(path).read_bytes())) if path else Config()
-        return cls(config, shadow=shadow, record=record)
+        model_path = options.get("combat_value_v2")
+        sha256 = hashlib.sha256(Path(model_path).read_bytes()).hexdigest() if model_path else None
+        model = _load_value(Path(model_path).resolve(), sha256) if model_path else None
+        return cls(config, shadow=shadow, record=record, model=model, model_sha256=sha256)
 
     def _record(self, record):
         if self.records is not None:
@@ -129,6 +142,8 @@ class CombatSearchV2:
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
         metadata = {"schema": SCHEMA, "config": config, "config_sha256": hashlib.sha256(canonical).hexdigest(),
                     "mode": "shadow" if self.shadow else "act"}
+        if self.model_sha256 is not None:
+            metadata["combat_value_v2_sha256"] = self.model_sha256
         with (Path(folder) / "combat-search-v2.jsonl").open("w", encoding="utf-8") as stream:
             stream.write(json.dumps(metadata, separators=(",", ":")) + "\n")
             for row in self.records:
@@ -154,7 +169,8 @@ class CombatSearchV2:
             actions = enumerate_actions(public)
             moves = _native_legal(projected, actions)
             primary = root_move(projected, champion.kind, champion.args)
-            result = search(projected, moves, primary, self.config)
+            result = search(projected, moves, primary, self.config, model=self.model,
+                            record_timing=self.records is not None)
             fallback = result.fallback
             changed = result.choice != primary
             if changed and not self.shadow and not fallback:
@@ -178,6 +194,8 @@ class CombatSearchV2:
                            width_pruned=result.width_pruned, boundaries=dict(result.boundary_counts),
                            no_potion=result.no_potion.score if result.no_potion else None,
                            with_potion=result.with_potion.score if result.with_potion else None)
+                if result.leaf_ns is not None:
+                    row["leaf_ns"] = result.leaf_ns
             self._record(row)
         return actual
 

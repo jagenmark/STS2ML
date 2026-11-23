@@ -25,7 +25,11 @@ def _progress(state):
     return progress, pressure, deadline
 
 
-def leaf_value(state, reserve_price):
+def leaf_value(state, reserve_price, model=None, win_weight=0.0):
+    if model is not None and state.outcome == "completed":
+        win_probability, win_hp_fraction = model.leaf(state)
+        value = win_probability * (state.max_hp * win_hp_fraction + win_weight)
+        return SURVIVED, round(value - reserve_price * state.spent, 8)
     progress, pressure, deadline = _progress(state)
     persistent = sum(power(state.powers, name) * weight for name, weight in (
         ("AFTERIMAGE", 3.5), ("WELL_LAID_PLANS", 4), ("STRENGTH", 1.5),

@@ -138,6 +138,7 @@ def compare_search_records(reference, output):
         for line in path.read_text().splitlines():
             row = json.loads(line)
             row.pop("ns", None)
+            row.pop("leaf_ns", None)
             yield row
 
     for before in reference.rglob("combat-search-v2.jsonl"):

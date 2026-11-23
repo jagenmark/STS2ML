@@ -1,6 +1,7 @@
 """Fixed-work whole-turn beam over the immutable public state."""
 from dataclasses import dataclass
 import math
+from time import perf_counter_ns
 
 from .encounters import encounter_reason
 from .state import END_TURN, Move, State
@@ -15,13 +16,16 @@ class Config:
     depth: int = 10
     children: int = 256
     potion_reserve: float = 7.0
+    value_win_weight: float = 0.0
 
     def __post_init__(self):
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
-                or not math.isfinite(self.potion_reserve) or self.potion_reserve < 0):
+                or not math.isfinite(self.potion_reserve) or self.potion_reserve < 0
+                or type(self.value_win_weight) not in (int, float)
+                or not math.isfinite(self.value_win_weight) or self.value_win_weight < 0):
             raise ValueError("Invalid combat search v2 configuration")
 
 
@@ -50,6 +54,7 @@ class Result:
     depth_cap: bool = False
     fallback: str = ""
     boundary_counts: tuple[tuple[str, int], ...] = ()
+    leaf_ns: int | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -61,7 +66,7 @@ class _Node:
 
 
 class _Search:
-    def __init__(self, root_moves, champion, config):
+    def __init__(self, root_moves, champion, config, model, record_timing):
         self.config = config
         self.champion = champion
         self.root_moves = root_moves
@@ -72,6 +77,9 @@ class _Search:
         self.certified = [None] * len(root_moves)
         self.strata = [None, None]
         self.seen = {}
+        self.model = model
+        self.record_timing = record_timing
+        self.leaf_ns = None
 
     def key(self, line):
         return line.score, line.root == self.champion, -line.root, -len(line.path)
@@ -80,7 +88,12 @@ class _Search:
         if state.boundary and not state.outcome:
             reason = state.boundary.reason
             self.boundaries[reason] = self.boundaries.get(reason, 0) + 1
-        line = Line(state, path, leaf_value(state, self.config.potion_reserve), root)
+        started = (perf_counter_ns() if self.record_timing and self.leaf_ns is None
+                   and state.outcome == "completed" else None)
+        score = leaf_value(state, self.config.potion_reserve, self.model, self.config.value_win_weight)
+        if started is not None:
+            self.leaf_ns = perf_counter_ns() - started
+        line = Line(state, path, score, root)
         previous = self.scores[root]
         if previous is None or self.key(line) > self.key(previous):
             self.scores[root] = line
@@ -233,10 +246,11 @@ class _Search:
         return Result(choice, best, tuple(line.score if line else None for line in self.scores),
                       *self.strata, len(self.root_moves), sum(line is not None for line in self.scores),
                       self.attempts, self.duplicates, self.width_pruned, self.reached_depth,
-                      self.child_cap, self.depth_cap, fallback, tuple(sorted(self.boundaries.items())))
+                      self.child_cap, self.depth_cap, fallback, tuple(sorted(self.boundaries.items())),
+                      self.leaf_ns)
 
 
-def search(projected, roots, champion, config=Config()):
+def search(projected, roots, champion, config=Config(), *, model=None, record_timing=False):
     """Only a projection and local action coordinates enter the online kernel."""
     if reason := encounter_reason(projected.state) or admission(projected):
         return Result(champion, root_count=len(roots), fallback=reason)
@@ -246,4 +260,4 @@ def search(projected, roots, champion, config=Config()):
         return Result(champion, root_count=len(roots), fallback="forced")
     if len(roots) > config.children:
         return Result(champion, root_count=len(roots), fallback="root exceeds child cap", child_cap=True)
-    return _Search(roots, roots.index(champion), config).run(projected.state)
+    return _Search(roots, roots.index(champion), config, model, record_timing).run(projected.state)
