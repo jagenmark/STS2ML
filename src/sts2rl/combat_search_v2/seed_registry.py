@@ -57,3 +57,23 @@ def load_confirmation_registry(path=CONFIRMATION_LOCK):
     if {row.seed for row in rows}.intersection(row.seed for row in load_registry()):
         raise ValueError("Phase 2 confirmation seeds overlap the natural registry")
     return rows
+
+
+def phase3_registry():
+    rows = []
+    for mode, tag in (("default", "DEF"), ("seeded", "SED")):
+        names = [f"CSV3ML_{tag}_{i:04d}" for i in range(sum(COUNTS))]
+        ranked = sorted(names, key=lambda seed: hashlib.sha256(f"CSV3/split/{seed}".encode()).digest())
+        splits = dict(zip(ranked, (s for s, n in zip(SPLITS, COUNTS) for _ in range(n)), strict=True))
+        rows.extend(Lobby(seed, i, mode, splits[seed]) for i, seed in enumerate(names))
+        rows.extend(Lobby(f"CSV3HELD_{tag}_{i:04d}", i, mode, "held") for i in range(128))
+    return rows
+
+
+def load_phase3_registry():
+    rows = phase3_registry()
+    lock = json.loads(LOCK.with_name("phase3-seed-lock.json").read_bytes())
+    if lock != {"counts_per_mode": dict(zip((*SPLITS, "held"), (*COUNTS, 128))),
+                "sha256": registry_sha256(rows), "count": len(rows)}:
+        raise ValueError("Phase 3 cohort identity mismatch")
+    return rows

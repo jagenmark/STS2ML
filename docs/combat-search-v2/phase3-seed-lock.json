@@ -1,0 +1,10 @@
+{
+  "counts_per_mode": {
+    "train": 716,
+    "dev": 154,
+    "test": 154,
+    "held": 128
+  },
+  "sha256": "f6e82973d81a85dc3fc5a427b6f3e59ca8743864a51a061947393e0b548b674b",
+  "count": 2304
+}
