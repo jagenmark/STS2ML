@@ -132,5 +132,1307 @@
     "ci": "Total floors = 17*(terminal_act-1)+terminal_floor. Use 30000 paired seed bootstrap replicates with replacement, identical draws for both contrasts, NumPy default_rng(261123), two-sided Bonferroni percentile interval [0.0125,0.9875] for each contrast.",
     "conditional": "Count runs with Act 1 clear and Act 2 boss entry / runs with Act 1 clear in that arm.",
     "handoff": "A dev pass qualifies the frozen strategy for later integration with v5. Sealed panels are outside this dev experiment."
+  },
+  "offline_sweep": [
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 32,
+      "residual_alpha": 0.2,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 5,
+          "mean_gain_vs_deployed": 0.0046770419750074834,
+          "changed_percent": 4.065040650406504
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": -0.0005988621618924062
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.0022618037885214484
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.02098765432098773
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": 0.0005452562704471983
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.6346379173665172,
+        "card:SNAKEBITE": -0.2655530720692456,
+        "card:PREDATOR": -0.338205836735978,
+        "card:BUBBLE_BUBBLE": -0.04928598572144817
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.3544682339602527,
+          "card:ACCURACY": 0.3540907226147787,
+          "card:DAGGER_THROW": 0.32310192220253087,
+          "card:LEG_SWEEP": 0.3028855554173161,
+          "card:BLADE_OF_INK": 0.2704889954546483
+        },
+        "down": {
+          "card:PREDATOR": -0.338205836735978,
+          "card:SNAKEBITE": -0.2655530720692456,
+          "card:UNTOUCHABLE": -0.2397844581064465,
+          "card:FINISHER": -0.2276475003236559,
+          "card:HAND_TRICK": -0.2253049689257321
+        }
+      },
+      "name": "act1_r32_a20"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 32,
+      "residual_alpha": 0.35,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 12,
+          "mean_gain_vs_deployed": 0.22684975084661507,
+          "changed_percent": 9.75609756097561
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": 0.000705202171948017
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.594854396381114
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.4718343913150916
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": 0.0005452562704471983
+        }
+      },
+      "watched_deltas": {
+        "take:value": -1.1106163553914048,
+        "card:SNAKEBITE": -0.46471787612117976,
+        "card:PREDATOR": -0.5918602142879613,
+        "card:BUBBLE_BUBBLE": -0.08625047501253427
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.6203194094304421,
+          "card:ACCURACY": 0.6196587645758626,
+          "card:DAGGER_THROW": 0.5654283638544289,
+          "card:LEG_SWEEP": 0.5300497219803031,
+          "card:BLADE_OF_INK": 0.47335574204563435
+        },
+        "down": {
+          "card:PREDATOR": -0.5918602142879613,
+          "card:SNAKEBITE": -0.46471787612117976,
+          "card:UNTOUCHABLE": -0.4196228016862813,
+          "card:FINISHER": -0.39838312556639777,
+          "card:HAND_TRICK": -0.39428369562003107
+        }
+      },
+      "name": "act1_r32_a35"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 32,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 22,
+          "mean_gain_vs_deployed": 0.3391305408571595,
+          "changed_percent": 17.88617886178862
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": 0.06309092687622833
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.5884286258044702
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.4718343913150916
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": 0.4041683567912432
+        }
+      },
+      "watched_deltas": {
+        "take:value": -1.5865947934162927,
+        "card:SNAKEBITE": -0.663882680173114,
+        "card:PREDATOR": -0.8455145918399449,
+        "card:BUBBLE_BUBBLE": -0.12321496430362042
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.8861705849006316,
+          "card:ACCURACY": 0.8852268065369466,
+          "card:DAGGER_THROW": 0.8077548055063271,
+          "card:LEG_SWEEP": 0.7572138885432903,
+          "card:BLADE_OF_INK": 0.6762224886366206
+        },
+        "down": {
+          "card:PREDATOR": -0.8455145918399449,
+          "card:SNAKEBITE": -0.663882680173114,
+          "card:UNTOUCHABLE": -0.5994611452661162,
+          "card:FINISHER": -0.5691187508091398,
+          "card:HAND_TRICK": -0.5632624223143302
+        }
+      },
+      "name": "act1_r32_a50"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 64,
+      "residual_alpha": 0.2,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 5,
+          "mean_gain_vs_deployed": 0.001750212706714776,
+          "changed_percent": 4.065040650406504
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": -0.0005988621618924062
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.0022618037885214484
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.02098765432098773
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": -0.012311886586695766
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.5643741772603097,
+        "card:SNAKEBITE": -0.17698000691122645,
+        "card:PREDATOR": -0.22755990370989676,
+        "card:BUBBLE_BUBBLE": -0.047302459741794214
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.24679751645935638,
+          "card:DAGGER_THROW": 0.21556741243213595,
+          "card:ACCURACY": 0.20073236645878803,
+          "card:LEG_SWEEP": 0.18514161543077987,
+          "card:BLADE_OF_INK": 0.14417581669704857
+        },
+        "down": {
+          "card:PREDATOR": -0.22755990370989676,
+          "card:SNAKEBITE": -0.17698000691122645,
+          "card:CLOAK_AND_DAGGER": -0.1469704970428783,
+          "card:UNTOUCHABLE": -0.1466025299425147,
+          "card:UP_MY_SLEEVE": -0.13101653587789833
+        }
+      },
+      "name": "act1_r64_a20"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 64,
+      "residual_alpha": 0.35,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 11,
+          "mean_gain_vs_deployed": 0.251219336767195,
+          "changed_percent": 8.94308943089431
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": -0.014237610194765273
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.594854396381114
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.6318343913150916
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": -0.012311886586695766
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.9876548102055418,
+        "card:SNAKEBITE": -0.30971501209464625,
+        "card:PREDATOR": -0.3982298314923192,
+        "card:BUBBLE_BUBBLE": -0.08277930454813986
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.43189565380387357,
+          "card:DAGGER_THROW": 0.37724297175623783,
+          "card:ACCURACY": 0.351281641302879,
+          "card:LEG_SWEEP": 0.3239978270038647,
+          "card:BLADE_OF_INK": 0.25230767921983493
+        },
+        "down": {
+          "card:PREDATOR": -0.3982298314923192,
+          "card:SNAKEBITE": -0.30971501209464625,
+          "card:CLOAK_AND_DAGGER": -0.2571983698250369,
+          "card:UNTOUCHABLE": -0.25655442739940065,
+          "card:UP_MY_SLEEVE": -0.22927893778632202
+        }
+      },
+      "name": "act1_r64_a35"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 64,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 19,
+          "mean_gain_vs_deployed": 0.2964931475335945,
+          "changed_percent": 15.447154471544716
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": 0.21637241357493558
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.5819820890540771
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.4718343913150916
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": -0.012311886586695766
+        }
+      },
+      "watched_deltas": {
+        "take:value": -1.4109354431507743,
+        "card:SNAKEBITE": -0.4424500172780661,
+        "card:PREDATOR": -0.5688997592747418,
+        "card:BUBBLE_BUBBLE": -0.11825614935448553
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.6169937911483909,
+          "card:DAGGER_THROW": 0.5389185310803398,
+          "card:ACCURACY": 0.5018309161469701,
+          "card:LEG_SWEEP": 0.4628540385769496,
+          "card:BLADE_OF_INK": 0.3604395417426214
+        },
+        "down": {
+          "card:PREDATOR": -0.5688997592747418,
+          "card:SNAKEBITE": -0.4424500172780661,
+          "card:CLOAK_AND_DAGGER": -0.3674262426071957,
+          "card:UNTOUCHABLE": -0.3665063248562867,
+          "card:UP_MY_SLEEVE": -0.3275413396947458
+        }
+      },
+      "name": "act1_r64_a50"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 128,
+      "residual_alpha": 0.2,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 5,
+          "mean_gain_vs_deployed": -0.003141928276911686,
+          "changed_percent": 4.065040650406504
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": -0.014237610194765273
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.0022618037885214484
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.02098765432098773
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": -0.012857142857142964
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.48169873299594146,
+        "card:SNAKEBITE": -0.11296030924221877,
+        "card:PREDATOR": -0.1387231269381455,
+        "card:BUBBLE_BUBBLE": -0.041164167202856906
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.15567624479515985,
+          "card:DAGGER_THROW": 0.12949446276572416,
+          "card:ACCURACY": 0.10819510408379392,
+          "card:LEG_SWEEP": 0.1060424473466404,
+          "card:PIERCING_WAIL": 0.0814086381947977
+        },
+        "down": {
+          "card:PREDATOR": -0.1387231269381455,
+          "card:SNAKEBITE": -0.11296030924221877,
+          "card:CLOAK_AND_DAGGER": -0.08710359647254101,
+          "card:UNTOUCHABLE": -0.07728211787243368,
+          "card:UP_MY_SLEEVE": -0.0753000848452748
+        }
+      },
+      "name": "act1_r128_a20"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 128,
+      "residual_alpha": 0.35,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 8,
+          "mean_gain_vs_deployed": -0.0010438427799276855,
+          "changed_percent": 6.504065040650406
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": -0.014237610194765273
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.01181974883033745
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.02098765432098773
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": -0.012857142857142964
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.8429727827428973,
+        "card:SNAKEBITE": -0.1976805411738828,
+        "card:PREDATOR": -0.2427654721417546,
+        "card:BUBBLE_BUBBLE": -0.07203729260499957
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.2724334283915297,
+          "card:DAGGER_THROW": 0.22661530984001724,
+          "card:ACCURACY": 0.18934143214663932,
+          "card:LEG_SWEEP": 0.18557428285662064,
+          "card:PIERCING_WAIL": 0.14246511684089594
+        },
+        "down": {
+          "card:PREDATOR": -0.2427654721417546,
+          "card:SNAKEBITE": -0.1976805411738828,
+          "card:CLOAK_AND_DAGGER": -0.15243129382694673,
+          "card:UNTOUCHABLE": -0.1352437062767589,
+          "card:UP_MY_SLEEVE": -0.13177514847923089
+        }
+      },
+      "name": "act1_r128_a35"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 597,
+      "seeds": 597,
+      "fit_seeds": 474,
+      "fit_roots": 474,
+      "branches": 2388,
+      "ridge": 128,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 115,
+      "validation": {
+        "card": {
+          "roots": 123,
+          "changed_roots": 12,
+          "mean_gain_vs_deployed": 0.25943976693708554,
+          "changed_percent": 9.75609756097561
+        }
+      },
+      "act_band": "act1",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 43,
+          "mean_gain": 0.3744333393253157
+        },
+        "1": {
+          "roots": 27,
+          "mean_gain": 0.5794728290462318
+        },
+        "2": {
+          "roots": 25,
+          "mean_gain": 0.02098765432098773
+        },
+        "3": {
+          "roots": 28,
+          "mean_gain": -0.012857142857142964
+        }
+      },
+      "watched_deltas": {
+        "take:value": -1.2042468324898534,
+        "card:SNAKEBITE": -0.2824007731055469,
+        "card:PREDATOR": -0.34680781734536376,
+        "card:BUBBLE_BUBBLE": -0.10291041800714226
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:BACKFLIP": 0.3891906119878996,
+          "card:DAGGER_THROW": 0.3237361569143104,
+          "card:ACCURACY": 0.2704877602094848,
+          "card:LEG_SWEEP": 0.265106118366601,
+          "card:PIERCING_WAIL": 0.20352159548699422
+        },
+        "down": {
+          "card:PREDATOR": -0.34680781734536376,
+          "card:SNAKEBITE": -0.2824007731055469,
+          "card:CLOAK_AND_DAGGER": -0.2177589911813525,
+          "card:UNTOUCHABLE": -0.1932052946810842,
+          "card:UP_MY_SLEEVE": -0.188250212113187
+        }
+      },
+      "name": "act1_r128_a50"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 16,
+      "residual_alpha": 0.25,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 17,
+          "mean_gain_vs_deployed": 0.01849692268798521,
+          "changed_percent": 4.843304843304844
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.05045898708721065
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.14760114572144648
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.003036351448269076
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 5.404201457767459e-06
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.9589623271713856,
+        "card:SNAKEBITE": -0.11331577599192698,
+        "card:PREDATOR": -0.06698979494481247,
+        "card:BUBBLE_BUBBLE": -0.29368571546891303
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:DANSE_MACABRE": 0.33844368961077137,
+          "card:ASSASSINATE": 0.28233017298474217,
+          "card:FINISHER": 0.23967729621733566,
+          "card:EXPOSE": 0.23326574767243044,
+          "card:THE_SCYTHE": 0.23274790922016417
+        },
+        "down": {
+          "card:DEFLECT": -0.3107484535771894,
+          "card:BUBBLE_BUBBLE": -0.29368571546891303,
+          "card:INFINITE_BLADES": -0.26686660321818445,
+          "card:LEADING_STRIKE": -0.24682660233058745,
+          "card:NECRO_MASTERY": -0.22136903651971782
+        }
+      },
+      "name": "act2_plus_r16_a25"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 16,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 67,
+          "mean_gain_vs_deployed": -0.052441526088713095,
+          "changed_percent": 19.08831908831909
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.1825760788821185
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": -0.00775698294948641
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.04139465263068663
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.08690538825906352
+        }
+      },
+      "watched_deltas": {
+        "take:value": -1.9179246543427713,
+        "card:SNAKEBITE": -0.22663155198385396,
+        "card:PREDATOR": -0.13397958988962494,
+        "card:BUBBLE_BUBBLE": -0.5873714309378261
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:DANSE_MACABRE": 0.6768873792215427,
+          "card:ASSASSINATE": 0.5646603459694843,
+          "card:FINISHER": 0.4793545924346713,
+          "card:EXPOSE": 0.4665314953448609,
+          "card:THE_SCYTHE": 0.46549581844032833
+        },
+        "down": {
+          "card:DEFLECT": -0.6214969071543788,
+          "card:BUBBLE_BUBBLE": -0.5873714309378261,
+          "card:INFINITE_BLADES": -0.5337332064363689,
+          "card:LEADING_STRIKE": -0.4936532046611749,
+          "card:NECRO_MASTERY": -0.44273807303943563
+        }
+      },
+      "name": "act2_plus_r16_a50"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 16,
+      "residual_alpha": 0.75,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 128,
+          "mean_gain_vs_deployed": -0.0003013922346722339,
+          "changed_percent": 36.46723646723647
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": 0.01791715285591395
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": -0.042478002087192275
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.12673270337677423
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.17043928823578688
+        }
+      },
+      "watched_deltas": {
+        "take:value": -2.876886981514157,
+        "card:SNAKEBITE": -0.3399473279757809,
+        "card:PREDATOR": -0.2009693848344374,
+        "card:BUBBLE_BUBBLE": -0.881057146406739
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:DANSE_MACABRE": 1.015331068832314,
+          "card:ASSASSINATE": 0.8469905189542264,
+          "card:FINISHER": 0.719031888652007,
+          "card:EXPOSE": 0.6997972430172913,
+          "card:THE_SCYTHE": 0.6982437276604925
+        },
+        "down": {
+          "card:DEFLECT": -0.932245360731568,
+          "card:BUBBLE_BUBBLE": -0.881057146406739,
+          "card:INFINITE_BLADES": -0.8005998096545532,
+          "card:LEADING_STRIKE": -0.7404798069917623,
+          "card:NECRO_MASTERY": -0.6641071095591534
+        }
+      },
+      "name": "act2_plus_r16_a75"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 16,
+      "residual_alpha": 1.0,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 249,
+          "mean_gain_vs_deployed": -0.013074946331940557,
+          "changed_percent": 70.94017094017094
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.01770280972393401
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": -0.01489376332642162
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.13719790697033685
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.14322688495066455
+        }
+      },
+      "watched_deltas": {
+        "take:value": -3.8358493086855425,
+        "card:SNAKEBITE": -0.4532631039677079,
+        "card:PREDATOR": -0.2679591797792499,
+        "card:BUBBLE_BUBBLE": -1.1747428618756521
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:DANSE_MACABRE": 1.3537747584430855,
+          "card:ASSASSINATE": 1.1293206919389687,
+          "card:FINISHER": 0.9587091848693426,
+          "card:EXPOSE": 0.9330629906897218,
+          "card:THE_SCYTHE": 0.9309916368806567
+        },
+        "down": {
+          "card:DEFLECT": -1.2429938143087575,
+          "card:BUBBLE_BUBBLE": -1.1747428618756521,
+          "card:INFINITE_BLADES": -1.0674664128727378,
+          "card:LEADING_STRIKE": -0.9873064093223498,
+          "card:NECRO_MASTERY": -0.8854761460788713
+        }
+      },
+      "name": "act2_plus_r16_a100"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 32,
+      "residual_alpha": 0.25,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 17,
+          "mean_gain_vs_deployed": 0.018914665041211438,
+          "changed_percent": 4.843304843304844
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.05045898708721065
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.14760114572144648
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.003036351448269076
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.0020705811871254624
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.9207274946450859,
+        "card:SNAKEBITE": -0.06146989607834998,
+        "card:PREDATOR": -0.04876425932981821,
+        "card:BUBBLE_BUBBLE": -0.19658008801191035
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.1943886105219225,
+          "card:EXPOSE": 0.18705183560036862,
+          "card:FINISHER": 0.1840260452521324,
+          "card:BACKFLIP": 0.18096378254998274,
+          "card:DANSE_MACABRE": 0.1732849300444032
+        },
+        "down": {
+          "card:DEFLECT": -0.2507047672849034,
+          "card:LEADING_STRIKE": -0.20536401307159025,
+          "card:BUBBLE_BUBBLE": -0.19658008801191035,
+          "card:INFINITE_BLADES": -0.1889531080563191,
+          "card:POISONED_STAB": -0.16137152476844513
+        }
+      },
+      "name": "act2_plus_r32_a25"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 32,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 56,
+          "mean_gain_vs_deployed": 0.006646149593080801,
+          "changed_percent": 15.954415954415955
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.12188331308913135
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.05506788632699579
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": 0.10808619233888019
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.032095591059443526
+        }
+      },
+      "watched_deltas": {
+        "take:value": -1.8414549892901717,
+        "card:SNAKEBITE": -0.12293979215669996,
+        "card:PREDATOR": -0.09752851865963642,
+        "card:BUBBLE_BUBBLE": -0.3931601760238207
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.388777221043845,
+          "card:EXPOSE": 0.37410367120073723,
+          "card:FINISHER": 0.3680520905042648,
+          "card:BACKFLIP": 0.3619275650999655,
+          "card:DANSE_MACABRE": 0.3465698600888064
+        },
+        "down": {
+          "card:DEFLECT": -0.5014095345698067,
+          "card:LEADING_STRIKE": -0.4107280261431805,
+          "card:BUBBLE_BUBBLE": -0.3931601760238207,
+          "card:INFINITE_BLADES": -0.3779062161126382,
+          "card:POISONED_STAB": -0.32274304953689026
+        }
+      },
+      "name": "act2_plus_r32_a50"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 32,
+      "residual_alpha": 0.75,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 116,
+          "mean_gain_vs_deployed": 0.06642384127781878,
+          "changed_percent": 33.04843304843305
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.09454757783732358
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.10966161591466188
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": 0.01193508045229993
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.3336616128376034
+        }
+      },
+      "watched_deltas": {
+        "take:value": -2.7621824839352573,
+        "card:SNAKEBITE": -0.18440968823504994,
+        "card:PREDATOR": -0.14629277798945461,
+        "card:BUBBLE_BUBBLE": -0.589740264035731
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.5831658315657674,
+          "card:EXPOSE": 0.5611555068011058,
+          "card:FINISHER": 0.5520781357563972,
+          "card:BACKFLIP": 0.5428913476499482,
+          "card:DANSE_MACABRE": 0.5198547901332097
+        },
+        "down": {
+          "card:DEFLECT": -0.7521143018547101,
+          "card:LEADING_STRIKE": -0.6160920392147707,
+          "card:BUBBLE_BUBBLE": -0.589740264035731,
+          "card:INFINITE_BLADES": -0.5668593241689572,
+          "card:POISONED_STAB": -0.4841145743053354
+        }
+      },
+      "name": "act2_plus_r32_a75"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 32,
+      "residual_alpha": 1.0,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 233,
+          "mean_gain_vs_deployed": -0.0830205877232799,
+          "changed_percent": 66.38176638176638
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.16955988419599485
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.011628315038974688
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.25351674471060576
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.14322688495066455
+        }
+      },
+      "watched_deltas": {
+        "take:value": -3.6829099785803434,
+        "card:SNAKEBITE": -0.24587958431339993,
+        "card:PREDATOR": -0.19505703731927285,
+        "card:BUBBLE_BUBBLE": -0.7863203520476414
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.77755444208769,
+          "card:EXPOSE": 0.7482073424014745,
+          "card:FINISHER": 0.7361041810085296,
+          "card:BACKFLIP": 0.723855130199931,
+          "card:DANSE_MACABRE": 0.6931397201776128
+        },
+        "down": {
+          "card:DEFLECT": -1.0028190691396135,
+          "card:LEADING_STRIKE": -0.821456052286361,
+          "card:BUBBLE_BUBBLE": -0.7863203520476414,
+          "card:INFINITE_BLADES": -0.7558124322252764,
+          "card:POISONED_STAB": -0.6454860990737805
+        }
+      },
+      "name": "act2_plus_r32_a100"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 64,
+      "residual_alpha": 0.25,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 17,
+          "mean_gain_vs_deployed": 0.030310676437222836,
+          "changed_percent": 4.843304843304844
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.01474470137292494
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.14760114572144648
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.003036351448269076
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.0020705811871254624
+        }
+      },
+      "watched_deltas": {
+        "take:value": -0.8531850607324968,
+        "card:SNAKEBITE": -0.03376786194013919,
+        "card:PREDATOR": -0.029195530293937698,
+        "card:BUBBLE_BUBBLE": -0.13592099554514406
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.14296629138481934,
+          "card:BACKFLIP": 0.14118975863284935,
+          "card:EXPOSE": 0.1405162510893699,
+          "card:FINISHER": 0.1308009511003065,
+          "card:CALCULATED_GAMBLE": 0.1208209987425013
+        },
+        "down": {
+          "card:DEFLECT": -0.18083677630731607,
+          "card:LEADING_STRIKE": -0.16350646267211605,
+          "card:BUBBLE_BUBBLE": -0.13592099554514406,
+          "card:POISONED_STAB": -0.11999172892693986,
+          "card:INFINITE_BLADES": -0.11967619778986895
+        }
+      },
+      "name": "act2_plus_r64_a25"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 64,
+      "residual_alpha": 0.5,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 46,
+          "mean_gain_vs_deployed": 0.025164929757080436,
+          "changed_percent": 13.105413105413106
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.04952440764795834
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.02406662951928739
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": 0.10808619233888019
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.04618009810169705
+        }
+      },
+      "watched_deltas": {
+        "take:value": -1.7063701214649936,
+        "card:SNAKEBITE": -0.06753572388027838,
+        "card:PREDATOR": -0.058391060587875396,
+        "card:BUBBLE_BUBBLE": -0.2718419910902881
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.2859325827696387,
+          "card:BACKFLIP": 0.2823795172656987,
+          "card:EXPOSE": 0.2810325021787398,
+          "card:FINISHER": 0.261601902200613,
+          "card:CALCULATED_GAMBLE": 0.2416419974850026
+        },
+        "down": {
+          "card:DEFLECT": -0.36167355261463213,
+          "card:LEADING_STRIKE": -0.3270129253442321,
+          "card:BUBBLE_BUBBLE": -0.2718419910902881,
+          "card:POISONED_STAB": -0.23998345785387973,
+          "card:INFINITE_BLADES": -0.2393523955797379
+        }
+      },
+      "name": "act2_plus_r64_a50"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 64,
+      "residual_alpha": 0.75,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 108,
+          "mean_gain_vs_deployed": 0.06656753747181055,
+          "changed_percent": 30.76923076923077
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.1269658625870417
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.005630766552742829
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": 0.15896821736668207
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.33463475511440116
+        }
+      },
+      "watched_deltas": {
+        "take:value": -2.5595551821974905,
+        "card:SNAKEBITE": -0.10130358582041758,
+        "card:PREDATOR": -0.08758659088181309,
+        "card:BUBBLE_BUBBLE": -0.40776298663543215
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.42889887415445804,
+          "card:BACKFLIP": 0.4235692758985481,
+          "card:EXPOSE": 0.42154875326810975,
+          "card:FINISHER": 0.39240285330091956,
+          "card:CALCULATED_GAMBLE": 0.3624629962275039
+        },
+        "down": {
+          "card:DEFLECT": -0.5425103289219482,
+          "card:LEADING_STRIKE": -0.49051938801634815,
+          "card:BUBBLE_BUBBLE": -0.40776298663543215,
+          "card:POISONED_STAB": -0.3599751867808196,
+          "card:INFINITE_BLADES": -0.35902859336960685
+        }
+      },
+      "name": "act2_plus_r64_a75"
+    },
+    {
+      "mode": "card_residual",
+      "roots": 1717,
+      "seeds": 570,
+      "fit_seeds": 452,
+      "fit_roots": 1366,
+      "branches": 6868,
+      "ridge": 64,
+      "residual_alpha": 1.0,
+      "delta_nonzero": 257,
+      "validation": {
+        "card": {
+          "roots": 351,
+          "changed_roots": 217,
+          "mean_gain_vs_deployed": -0.012448406533810864,
+          "changed_percent": 61.82336182336182
+        }
+      },
+      "act_band": "act2_plus",
+      "holdout_subgroups": {
+        "0": {
+          "roots": 112,
+          "mean_gain": -0.06531324456621279
+        },
+        "1": {
+          "roots": 84,
+          "mean_gain": 0.0036619706064648823
+        },
+        "2": {
+          "roots": 84,
+          "mean_gain": -0.05367876865102347
+        },
+        "3": {
+          "roots": 71,
+          "mean_gain": 0.10066343287029776
+        }
+      },
+      "watched_deltas": {
+        "take:value": -3.412740242929987,
+        "card:SNAKEBITE": -0.13507144776055677,
+        "card:PREDATOR": -0.11678212117575079,
+        "card:BUBBLE_BUBBLE": -0.5436839821805762
+      },
+      "top_card_deltas": {
+        "up": {
+          "card:NOXIOUS_FUMES": 0.5718651655392774,
+          "card:BACKFLIP": 0.5647590345313974,
+          "card:EXPOSE": 0.5620650043574796,
+          "card:FINISHER": 0.523203804401226,
+          "card:CALCULATED_GAMBLE": 0.4832839949700052
+        },
+        "down": {
+          "card:DEFLECT": -0.7233471052292643,
+          "card:LEADING_STRIKE": -0.6540258506884642,
+          "card:BUBBLE_BUBBLE": -0.5436839821805762,
+          "card:POISONED_STAB": -0.47996691570775946,
+          "card:INFINITE_BLADES": -0.4787047911594758
+        }
+      },
+      "name": "act2_plus_r64_a100"
+    }
+  ],
+  "eligible_act1": [],
+  "candidates": {
+    "act2_plus_only_low": {
+      "fits": [
+        "act2_plus_r64_a25"
+      ],
+      "path": "docs/evidence/silent-a10-v4-act-gated/act2_plus_only_low/strategy_model.json",
+      "strategy_sha256": "56a3f2b1a788e462aae1afc45580bfba85ccf860275714e1e51243b6ce5473ff",
+      "bundle_sha256": "5067d0c886bd50f74b780f6146713335c078f336039e9352c46bcdd2a795335e"
+    },
+    "act2_plus_only_mid": {
+      "fits": [
+        "act2_plus_r64_a50"
+      ],
+      "path": "docs/evidence/silent-a10-v4-act-gated/act2_plus_only_mid/strategy_model.json",
+      "strategy_sha256": "2ee3148c04d1f137be2429458dd7100778de16ff8c552f8c7bdee9602cfa2463",
+      "bundle_sha256": "dcf54554829821f98698584cf2d201e836f963d0c487bc71074b32e376ae882c"
+    }
   }
 }
