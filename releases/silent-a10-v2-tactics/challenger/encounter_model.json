@@ -660,5 +660,7 @@
   },
   "act2_mechanics": true,
   "enemy_mechanics": true,
-  "card_potion_mechanics": true
+  "card_potion_mechanics": true,
+  "selection_fixes_v4": true,
+  "combat_fixes_v4": true
 }

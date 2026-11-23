@@ -268,6 +268,7 @@ class DeckPolicy:
 
             prompt = self.prompt
             self.prompt = None
+            keep_quests = bool((self.merchant or {}).get("shop_fixes_v4", False))
             if self.optional_selections:
                 from .merchant import marginal_removal_value
 
@@ -282,10 +283,21 @@ class DeckPolicy:
                 elif prompt in ("remove", "transform"):
 
                     def benefits(c):
-                        return marginal_removal_value(c, deck, grade, act=ctx.get("act", 1))
+                        return marginal_removal_value(
+                            c, deck, grade, act=ctx.get("act", 1), keep_quests=keep_quests
+                        )
                 else:
                     benefits = benefit
-                ranks = sorted(state["cards"], key=benefits, reverse=True)
+                ranks = sorted(
+                    state["cards"],
+                    key=lambda c: (
+                        c.get("type") != "Quest"
+                        if (keep_quests and prompt in ("remove", "transform"))
+                        else True,
+                        benefits(c),
+                    ),
+                    reverse=True,
+                )
                 min_sel = state.get("min_select", 0)
                 max_sel = min(len(ranks), state["max_select"])
                 positive = sum(benefits(c) > 0 for c in ranks)
@@ -300,8 +312,20 @@ class DeckPolicy:
                     return -grade(c)
             else:
                 benefits = benefit
-            ranks = sorted(state["cards"], key=benefits, reverse=True)
+            ranks = sorted(
+                state["cards"],
+                key=lambda c: (
+                    c.get("type") != "Quest"
+                    if (keep_quests and prompt in ("remove", "transform"))
+                    else True,
+                    benefits(c),
+                ),
+                reverse=True,
+            )
             n = min(len(ranks), state["max_select"])
+            if keep_quests and prompt in ("remove", "transform"):
+                non_quests = sum(c.get("type") != "Quest" for c in ranks)
+                n = min(n, max(state.get("min_select", 0), non_quests))
             return selected_cards(state, [c["index"] for c in ranks[:n]])
         self.to_upgrade = False
         acts = legal_actions(state)

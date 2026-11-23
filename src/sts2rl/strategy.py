@@ -39,7 +39,7 @@ def _deck_strength(deck):
     return attacks, block, poison, shivs, discards, sly
 
 
-def _event_terms(option, hp, maximum, gold):
+def _event_terms(option, hp, maximum, gold, *, event_fixes_v4=False):
     desc = (option.get("description") or "").lower()
     var = {
         k.lower(): v for k, v in (option.get("vars") or {}).items() if isinstance(v, (int, float))
@@ -48,25 +48,57 @@ def _event_terms(option, hp, maximum, gold):
 
     def amount(pattern):
         match = re.search(pattern, text)
-        return float(match[1]) if match else 0.0
+        if not match:
+            return 0.0
+        for grp in match.groups():
+            if grp is not None:
+                return float(grp)
+        return 0.0
 
-    heal = min(maximum - hp, amount(r"heal (\d+) hp"))
-    hp_cost = amount(r"lose (\d+) hp")
+    if event_fixes_v4 and ("heal to full" in text or "heal all" in text):
+        heal = float(max(0, maximum - hp))
+    else:
+        heal = min(maximum - hp, amount(r"heal (\d+) hp"))
+    hp_cost = (
+        amount(r"(?:lose (\d+) hp|take (\d+) damage)")
+        if event_fixes_v4
+        else amount(r"lose (\d+) hp")
+    )
     max_hp = (
         amount(r"(?:gain|raise your max hp by) (\d+)(?: max hp|\b)") if "max hp" in text else 0.0
+    )
+    gold_gain = (
+        amount(r"(?:gain|obtain) (\d+) gold")
+        if event_fixes_v4
+        else amount(r"gain (\d+) gold")
+    )
+    effective_hp = hp
+    if event_fixes_v4 and max_hp > 0:
+        max_pos = text.find("max hp")
+        take_pos = text.find("take ")
+        if max_pos != -1 and (take_pos == -1 or max_pos < take_pos):
+            effective_hp = hp + max_hp
+    clean_desc = re.sub(r"\[/?[^\]]+\]", "", desc)
+    curse_term = float(
+        "curse" in desc
+        or "guilty" in desc
+        or (
+            event_fixes_v4
+            and bool(re.search(r"\b(?:add|gain|obtain|receive)\b[^.\n]*\bregret\b", clean_desc))
+        )
     )
     return {
         "heal": heal / 12,
         "hurt": hp_cost / 12,
-        "danger": float(hp_cost > 0 and hp_cost >= hp),
+        "danger": float(hp_cost > 0 and hp_cost >= effective_hp),
         "maxhp": (max_hp - amount(r"lose (\d+) max hp")) / 8,
         "gold": (
-            amount(r"gain (\d+) gold")
+            gold_gain
             - amount(r"(?:lose|pay) (\d+) gold")
             - (gold if "lose all" in text and "gold" in text else 0)
         )
         / 75,
-        "curse": float("curse" in desc or "guilty" in desc),
+        "curse": curse_term,
         "relic": float("relic" in desc and ("obtain" in desc or "gain" in desc)),
         "upgrade": float("upgrade" in desc),
         "transform": float("transform" in desc),
@@ -86,6 +118,7 @@ def strategy_arms(
     group_probability=None,
     unified_draft=False,
     deck_size_penalty=0.12,
+    event_fixes_v4=False,
 ):
     kind = strategy_kind(state)
     if not kind or state.get("runtime_identity") != INFERENCE_IDENTITY.get():
@@ -106,7 +139,9 @@ def strategy_arms(
                 (o for o in state["options"] if o["index"] == action.args.get("option_index")), {}
             )
             key = option.get("text_key") or option.get("title", action.kind)
-            term = _event_terms(option, player["hp"], player["max_hp"], player["gold"])
+            term = _event_terms(
+                option, player["hp"], player["max_hp"], player["gold"], event_fixes_v4=event_fixes_v4
+            )
             features = {"event:" + key: 1.0, **{"event/" + k: v for k, v in term.items() if v}}
             prior = (
                 2.3 * term["heal"]
@@ -270,6 +305,7 @@ class StrategyModel(OfferModel):
         unified_draft=False,
         deck_size_penalty=0.12,
         offset_scale=1.0,
+        event_fixes_v4=False,
     ):
         super().__init__(weights)
         self.kinds = frozenset(kinds)
@@ -281,6 +317,7 @@ class StrategyModel(OfferModel):
             raise ValueError("deck_size_penalty must be nonnegative")
         self.deck_size_penalty = float(deck_size_penalty)
         self.offset_scale = float(offset_scale)
+        self.event_fixes_v4 = bool(event_fixes_v4)
         self.uses_matchups = any(k.startswith("matchup/") for k in weights)
 
     def choose(self, state, policy, opening=None, *, group_probability=None, explanation=None):
@@ -292,6 +329,7 @@ class StrategyModel(OfferModel):
             group_probability=group_probability,
             unified_draft=self.unified_draft,
             deck_size_penalty=self.deck_size_penalty,
+            event_fixes_v4=self.event_fixes_v4,
         )
         kind = strategy_kind(state)
         strength = self.strengths_by_kind.get(kind, self.strength)
@@ -373,6 +411,8 @@ class StrategyModel(OfferModel):
             payload["deck_size_penalty"] = self.deck_size_penalty
         if self.offset_scale != 1.0:
             payload["offset_scale"] = self.offset_scale
+        if self.event_fixes_v4:
+            payload["event_fixes_v4"] = True
         with Path(path).open("x", encoding="utf-8") as stream:
             json.dump(payload, stream, indent=2)
 
@@ -390,6 +430,7 @@ class StrategyModel(OfferModel):
             unified_draft=copied.get("unified_draft", False),
             deck_size_penalty=copied.get("deck_size_penalty", 0.12),
             offset_scale=copied.get("offset_scale", 1.0),
+            event_fixes_v4=copied.get("event_fixes_v4", False),
         )
 
     @classmethod

@@ -1,6 +1,6 @@
-# Silent A10 `all_v2_mech_v3` Challenger (`silent-a10-v2-tactics`)
+# Silent A10 `all_v2_p1_v4` Challenger (`silent-a10-v2-tactics`)
 
-Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger/policy.json` via `scripts/build-batch1-challengers.py --profile all_v2_mech_v3`. All prior release bundles remain untouched and bit-for-bit invariant.
+Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger/policy.json` via `scripts/build-batch1-challengers.py --profile all_v2_p1_v4`. All prior release bundles remain untouched and bit-for-bit invariant.
 
 ## What Changed vs Incumbent (`silent-a10-mecha-knight`)
 - **Combat (`encounter_model.json`):**
@@ -17,6 +17,9 @@ Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger
     - `ADAPTABLE_POWER` (`TEST_SUBJECT`): suppresses false encounter clears while retaining phase-knockout attack cancellation; `SLOW_POWER` (`BYGONE_EFFIGY`) non-attack-before-attack ordering.
     - Force-multiplier potions (`FLEX_POTION`, `DUPLICATOR`, `GIGANTIFICATION_POTION`, `SPEED_POTION`) accurately budgeted & prioritized on `Boss`/`Elite`/lethal turns without hallway potion burning, plus exact beam modeling of consumable Gigantification 3×, Flex/Strength Vulnerable/Weak scaling, and `SHADOWMELD` (`2^amount` owner Block gain on cards, Afterimage, and Block potions).
     - Previously unmodeled Silent cards & combat discards: `KNIFE_TRAP` (with per-Shiv Thorns/Reflect/Curl Up/Afterimage), `STRANGLE`, `PANACHE`, `LETHALITY`, `DEBILITATE` (50% Weak), `SHARED_FATE` (mutual Strength loss), `ENLIGHTENMENT`, `NIGHTMARE`, `FINISHER`/`FLECHETTES`/`PRECISE_CUT` ordering, and `combat_selection` unplayable-card / `GRAND_FINALE` discard handling.
+  - **`combat_fixes_v4: true` & `selection_fixes_v4: true`** (896-seed verified & 2× adversarially reviewed):
+    - Card-generating potions (`ATTACK_POTION`/`SKILL_POTION`/`POWER_POTION`/`COLORLESS_POTION`) and `DISCOVERY` kept free instead of mistakenly discarded; `Tools of the Trade` start-of-turn discard separated from `Well-Laid Plans` end-of-turn retain.
+    - Exact Constrict/Strangler direct-kill vs Poison-tick ordering, native enemy hit order with Buffer, `NO_BLOCK` preserving Afterimage/Fortifier/Plating (`PANIC_BUTTON` dynamic no-block + `SHADOWMELD` scaling), sequential replay/Gigantification/Burst/Thorns/corpse-cutoff simulation, fast-path replay recoil/self-damage accounting, unified Energy Potion/Adrenaline delayed-unlock move building (including X-cost/star-cost/Frantic Escape), `PRECISE_CUT` projected hand-size math, and survival-planner priority over Sandpit `escape_action`.
   - Boss overrides: `THE_KIN_BOSS -> isolate`, `SOUL_FYSH_BOSS -> isolate`.
   - Act 2 boss & hallway tactics:
     - `THE_INSATIABLE_BOSS`: `tempo` + `escape="cheap"` Sandpit pacing.
@@ -24,31 +27,34 @@ Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger
     - `KAISER_CRAB_BOSS`: `focus="MONSTER.CRUSHER"` + facing tactics + survival search.
     - `act2_hallways`: `HUNTER_KILLER` (`engine + tender + beam`), `ENTOMANCER` (`tempo`), `INFESTED_PRISM` (`isolate`), `MYTE+MYTE` (`engine`, `potion=0.30, guard=1.65`).
 - **Routing (`room_model.json`, `late_room_model.json`):** Exact probability-Bellman routing (`survival_weighted: true`) with deck-readiness log-odds, fractional potion accumulation, and Bayes-consistent Unknown-room survival splits.
-- **Drafting (`strategy_model.json`):** Unified monotone take-vs-skip drafting (`unified_draft: true`, `deck_size_penalty: 0.12`, `offset_scale: 0.0`).
-- **Shops & Selections (`deck_model.json`):** Optional selection support (`optional_selections: true`), concave retained gold (`gold_curve: true`), and potion capacity tracking (`potion_capacity: true`), keeping incumbent removal pricing (`marginal_removal: false`).
+- **Drafting (`strategy_model.json`):** Unified monotone take-vs-skip drafting (`unified_draft: true`, `deck_size_penalty: 0.0` [Phase 15B 896-seed verified breakthrough, replacing `0.12`], `offset_scale: 0.0`) and **`event_fixes_v4: true`** (exact event option parsing for `heal to full`/`heal all`, `take N damage`, `obtain N gold`, Abyssal Baths max-HP/damage survival ordering, and explicit `Regret` curse avoidance).
+- **Shops & Selections (`deck_model.json`):** Optional selection support (`optional_selections: true`), concave retained gold (`gold_curve: true`), potion capacity tracking (`potion_capacity: true`), keeping incumbent removal pricing (`marginal_removal: false`), plus **`shop_fixes_v4: true`** (`THE_GAMBIT`/`PANIC_BUTTON` shop-trap avoidance, one-time empty-belt potion bonus, and `Quest` / `Spoils Map` protection in both shop removals and transforms).
 
 ## Live Native A10 Benchmark Summary ([benchmark.json](benchmark.json))
 
-### 1. Pooled 896-Lobby Verification (`VAL256 + SEEDED128 + REP512`: 1,792 paired games)
+### 1. Pooled 896-Lobby Verification (`VAL256 + SEEDED128 + REP512`: 1,792 paired games per comparison)
 
 | Comparison (`n = 896`) | A1 Boss | A1 Clear | A2 Boss | A2 Clear (Act 3) | A3 Boss | Avg Floor (`Δ`, `t`) |
 |---|---:|---:|---:|---:|---:|---:|
-| **`all_v2_mech_v3` vs Incumbent** | 667 → **745** (`p=6.8e-9`) | 315 → **440** (`p=1.0e-12`, +39.7%) | 76 → **128** (`p=3.4e-6`, +68.4%) | 12 → **27** (`p=0.0167`, 2.25×) | 5 → **10** (2.0×) | 18.55 → **21.13** (**+2.58**, `t=+8.51`, `402`W/`202`L) |
-| **`all_v2_mech_v3` vs `all_v2_mech`** | 736 → **745** (`p=0.0225`) | 416 → **440** (`p=0.0012`, `+38/-14`) | 125 → **128** (`+24/-21`) | 25 → **27** (`+8/-6`) | 9 → **10** (`+4/-3`) | 20.78 → **21.13** (**+0.36**, `t=+2.86`, `88`W/`51`L) |
+| **`all_v2_p1_v4` vs Incumbent** | 667 → **783** (`p=7.6e-17`) | 315 → **533** (`p=1.6e-32`, +69.2%) | 76 → **201** (`p=9.2e-21`, 2.64×) | 12 → **39** (`p=6.6e-5`, 3.25×) | 5 → **17** (`p=0.0075`, 3.40×) | 18.55 → **23.10** (**+4.55**, `t=+13.63`, `488`W/`155`L) |
+| **`all_v2_p1_v4` vs `all_v2_mech_v3`** | 745 → **783** (`p=3.2e-5`) | 440 → **533** (`p=7.8e-11`, +21.1%) | 128 → **201** (`p=9.7e-9`, +57.0%) | 27 → **39** (`p=0.073`, `+25/-13`) | 10 → **17** (`p=0.092`, `+10/-3`) | 21.13 → **23.10** (**+1.97**, `t=+8.01`, `336`W/`154`L) |
+| **`all_v2_p1_v4` vs `dsp_000`** | 746 → **783** (`p=2.0e-6`) | 460 → **533** (`p=7.4e-10`, `+108/-35`) | 160 → **201** (`p=0.00014`, `+77/-36`) | 28 → **39** (`p=0.080`, `+22/-11`) | 10 → **17** (`p=0.118`, `+11/-4`) | 21.61 → **23.10** (**+1.50**, `t=+6.90`, `245`W/`93`L) |
 
 ### 2. Cohort Breakdown (`Held-Out 384` and `REP512`)
 
 | Cohort | Comparison | A1 Clear | A2 Boss | A2 Clear | A3 Boss | Avg Floor (`Δ`, `t`) |
 |---|---|---:|---:|---:|---:|---:|
-| **Held-Out 384** (`VAL256 + SEEDED128`) | vs Incumbent | 143 → **193** (`p=1.4e-5`) | 33 → **57** (`p=0.0018`) | 9 → **10** | 4 → 3 | 18.83 → **21.26** (`+2.44`, `t=+5.64`) |
-| **Held-Out 384** (`VAL256 + SEEDED128`) | vs `all_v2_mech` | 179 → **193** (`p=0.0094`, `+20/-6`) | 51 → **57** (`+12/-6`) | 10 → 10 | 4 → 3 | 20.83 → **21.26** (`+0.43`, `t=+2.28`, `46`W/`22`L) |
-| **Unseen `REP512`** (`256` default + `256` seeded) | vs Incumbent | 172 → **247** (`p=2.4e-8`) | 43 → **71** (`p=0.0009`) | 3 → **17** (`p=0.0013`, 5.67×) | 1 → **7** (`p=0.031`, 7×) | 18.35 → **21.04** (`+2.69`, `t=+6.39`) |
-| **Unseen `REP512`** (`256` default + `256` seeded) | vs `all_v2_mech` | 237 → **247** (`p=0.0755`, `+18/-8`) | 74 → 71 | 15 → **17** (`+5/-3`) | 5 → **7** (`+3/-1`) | 20.74 → **21.04** (`+0.30`, `t=+1.81`, `42`W/`29`L) |
+| **Held-Out 384** (`VAL256 + SEEDED128`) | vs Incumbent | 143 → **224** (`p=3.4e-11`) | 33 → **90** (`p=4.3e-10`) | 9 → **16** | 4 → **6** | 18.83 → **23.09** (`+4.26`, `t=+8.63`, `214`W/`68`L) |
+| **Held-Out 384** (`VAL256 + SEEDED128`) | vs `all_v2_mech_v3` | 193 → **224** (`p=0.0019`, `+63/-32`) | 57 → **90** (`p=0.00014`, `+53/-20`) | 10 → **16** (`+12/-6`) | 3 → **6** (`+5/-2`) | 21.26 → **23.09** (`+1.83`, `t=+4.70`, `136`W/`71`L) |
+| **Held-Out 384** (`VAL256 + SEEDED128`) | vs `dsp_000` | 192 → **224** (`p=0.00010`, `+49/-17`) | 72 → **90** (`p=0.011`, `+32/-14`) | 13 → **16** (`+8/-5`) | 3 → **6** (`+5/-2`) | 21.73 → **23.09** (`+1.36`, `t=+3.98`, `104`W/`43`L) |
+| **Unseen `REP512`** (`256` default + `256` seeded) | vs Incumbent | 172 → **309** (`p=3.6e-23`) | 43 → **111** (`p=8.2e-12`) | 3 → **23** (`p=3.6e-5`, 7.67×) | 1 → **11** (`p=0.0020`, 11×) | 18.35 → **23.11** (`+4.76`, `t=+10.55`, `274`W/`87`L) |
+| **Unseen `REP512`** (`256` default + `256` seeded) | vs `all_v2_mech_v3` | 247 → **309** (`p=3.2e-9`, `+87/-25`) | 71 → **111** (`p=3.0e-5`, `+65/-25`) | 17 → **23** (`+13/-7`) | 7 → **11** (`+5/-1`) | 21.04 → **23.11** (`+2.07`, `t=+6.55`, `200`W/`83`L) |
+| **Unseen `REP512`** (`256` default + `256` seeded) | vs `dsp_000` | 268 → **309** (`p=3.1e-6`, `+59/-18`) | 88 → **111** (`p=0.0067`, `+45/-22`) | 15 → **23** (`+14/-6`) | 7 → **11** (`+6/-2`) | 21.51 → **23.11** (`+1.60`, `t=+5.70`, `141`W/`50`L) |
 
 ## Reproduce Frozen Bundle
 ```bash
 .venv/bin/python scripts/build-batch1-challengers.py \
   --base releases/silent-a10-mecha-knight/challenger/policy.json \
-  --profile all_v2_mech_v3 \
-  --output /tmp/repro-all-v2-mech-v3
+  --profile all_v2_p1_v4 \
+  --output /tmp/repro-all-v2-p1-v4
 ```

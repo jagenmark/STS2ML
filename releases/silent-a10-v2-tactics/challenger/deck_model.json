@@ -15,7 +15,8 @@
     "permanent": 1.1,
     "marginal_removal": false,
     "gold_curve": true,
-    "potion_capacity": true
+    "potion_capacity": true,
+    "shop_fixes_v4": true
   },
   "optional_selections": true
 }

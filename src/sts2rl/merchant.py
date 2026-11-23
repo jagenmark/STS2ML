@@ -11,14 +11,17 @@ def _is_removable(card):
     return "Eternal" not in (card.get("keywords") or ())
 
 
-def marginal_removal_value(card, deck, grade, *, act=1):
+def marginal_removal_value(card, deck, grade, *, act=1, keep_quests=False):
     """Estimate the marginal gain of permanently deleting one eligible card."""
     if not _is_removable(card):
         return -100.0
     cid = _card_id(card)
     card_score = grade(card)
-    if card.get("type") in ("Curse", "Status", "Quest"):
+    bad_types = ("Curse", "Status") if keep_quests else ("Curse", "Status", "Quest")
+    if card.get("type") in bad_types:
         return 15.0 + max(0.0, -card_score) * 0.35
+    if keep_quests and card.get("type") == "Quest":
+        return -90.0
     removable = [c for c in deck if _is_removable(c)]
     if not removable:
         return 0.0
@@ -65,6 +68,7 @@ def merchant_choice(
     marginal_removal=False,
     gold_curve=False,
     potion_capacity=False,
+    shop_fixes_v4=False,
 ):
     player = state["player"]
     gold = player["gold"]
@@ -86,7 +90,12 @@ def merchant_choice(
             cost = state["card_removal_cost"]
             if marginal_removal:
                 value = max(
-                    (marginal_removal_value(c, cards, grade, act=act) for c in cards),
+                    (
+                        marginal_removal_value(
+                            c, cards, grade, act=act, keep_quests=shop_fixes_v4
+                        )
+                        for c in cards
+                    ),
                     default=0.0,
                 )
             else:
@@ -105,10 +114,21 @@ def merchant_choice(
             desc = (item.get("description") or "").lower()
             name = item.get("name", "")
             if kind == "buy_card":
-                value = 1.4 + max(-6, grade(item))
+                if shop_fixes_v4:
+                    raw_cid = item.get("id") or item.get("name") or ""
+                    cid = raw_cid.removeprefix("CARD.").upper().replace(" ", "_") if isinstance(raw_cid, str) else ""
+                    if cid == "THE_GAMBIT":
+                        value = -10.0
+                    elif cid == "PANIC_BUTTON":
+                        value = -4.0
+                    else:
+                        value = 1.4 + max(-6, grade(item))
+                else:
+                    value = 1.4 + max(-6, grade(item))
             elif kind == "buy_potion":
+                empty_bonus = 2.7 if (not shop_fixes_v4 and not player["potions"]) else 0.0
                 value = (
-                    (5.0 if not player["potions"] else 2.3)
+                    (2.3 + empty_bonus)
                     + (2 if floor >= 12 else 0)
                     + 2 * (1 - hp)
                 )
@@ -174,12 +194,50 @@ def merchant_choice(
             for (spent, pots), (benefit, basket) in list(states.items()):
                 price = spent + cost
                 next_pots = pots + is_pot
+                extra_first_pot = (
+                    2.7
+                    if (shop_fixes_v4 and is_pot and pots == 0 and not player["potions"])
+                    else 0.0
+                )
                 if (
                     price <= budget
                     and next_pots <= potion_cap
-                    and benefit + value > states.get((price, next_pots), (-float("inf"), ()))[0]
+                    and benefit + value + extra_first_pot
+                    > states.get((price, next_pots), (-float("inf"), ()))[0]
                 ):
-                    states[(price, next_pots)] = (benefit + value, basket + (i,))
+                    states[(price, next_pots)] = (
+                        benefit + value + extra_first_pot,
+                        basket + (i,),
+                    )
+
+        def quality(entry):
+            (spent, _), (benefit, _) = entry
+            retained = gold - spent
+            if gold_curve:
+                return (
+                    benefit
+                    + _retained_gold_value(retained, unit, act, floor)
+                    - _retained_gold_value(gold, unit, act, floor)
+                )
+            savings = 0.0 if act == 3 else min(140, retained) * 0.019 * reserve
+            return benefit - spent * unit + savings
+
+        _, (_, best) = max(states.items(), key=quality)
+    elif shop_fixes_v4 and not player["potions"]:
+        states = {(0, 0): (0.0, ())}
+        for i, (act_i, cost, value) in enumerate(offers):
+            is_pot = int(act_i.kind == "buy_potion")
+            for (spent, has_pot), (benefit, basket) in list(states.items()):
+                price = spent + cost
+                next_has_pot = 1 if (has_pot or is_pot) else 0
+                extra_first_pot = 2.7 if (is_pot and has_pot == 0) else 0.0
+                cand_benefit = benefit + value + extra_first_pot
+                if (
+                    price <= budget
+                    and cand_benefit
+                    > states.get((price, next_has_pot), (-float("inf"), ()))[0]
+                ):
+                    states[(price, next_has_pot)] = (cand_benefit, basket + (i,))
 
         def quality(entry):
             (spent, _), (benefit, _) = entry

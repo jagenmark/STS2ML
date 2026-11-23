@@ -63,12 +63,20 @@ def combat_selection(state, actor):
     if not view:
         return actor.select_cards(state)
     card_pot_mech = bool(getattr(actor, "card_potion_mechanics", False))
+    sel_fixes_v4 = bool(getattr(actor, "selection_fixes_v4", False))
     player = view["player"]
     enemies = view["enemies"]
     energy = view["energy"]
     source = state.get("selection_source") or {}
     origin = source.get("id", "").split(".")[-1]
-    keep = source.get("kind") == "end_turn" or origin in {
+    potions = {
+        "ATTACK_POTION",
+        "SKILL_POTION",
+        "POWER_POTION",
+        "COLORLESS_POTION",
+        "LIQUID_MEMORIES",
+    }
+    keep_origins = {
         "SEEKER_STRIKE",
         "NIGHTMARE",
         "HEADBUTT",
@@ -78,16 +86,29 @@ def combat_selection(state, actor):
         "TOUCH_OF_INSANITY",
         "DROPLET_OF_PRECOGNITION",
     }
+    if sel_fixes_v4:
+        keep_origins |= {
+            "ATTACK_POTION",
+            "SKILL_POTION",
+            "POWER_POTION",
+            "COLORLESS_POTION",
+            "DISCOVERY",
+        }
+        has_wlp = any(
+            "WELL_LAID_PLANS" in p.get("id", "") and p.get("amount", 0) > 0
+            for p in (view.get("player_powers") or ())
+        )
+        end_turn_retain = (
+            source.get("kind") == "end_turn"
+            and state.get("min_select", 0) == 0
+            and has_wlp
+        )
+        keep = end_turn_retain or origin in keep_origins
+    else:
+        keep = source.get("kind") == "end_turn" or origin in keep_origins
     if state["decision"] == "card_reward":
         keep = True
-    potions = {
-        "ATTACK_POTION",
-        "SKILL_POTION",
-        "POWER_POTION",
-        "COLORLESS_POTION",
-        "LIQUID_MEMORIES",
-    }
-    free = origin in potions
+    free = origin in potions or (sel_fixes_v4 and origin == "DISCOVERY")
     need = max(0, sum(incoming(e) for e in enemies) - player["block"])
 
     def usefulness(c):

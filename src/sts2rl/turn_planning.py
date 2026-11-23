@@ -11,7 +11,7 @@ import math
 from .combat_effects import block_preview, debuff_order
 from .enemy_forecast import WATERFALL_GIANT, attack_hits, solo_waterfall_forecast, waterfall_forecast
 from .native import legal_actions
-from .run_policy import _cost, _damage, _draw_count, _hits, _power
+from .run_policy import _cost, _damage, _draw_count, _hits, _power, _shiv_count
 from .teacher import incoming
 
 
@@ -284,6 +284,17 @@ class _SurvivalMove:
     strength_gain: int = 0
     burst_gain: int = 0
     debilitate_order: tuple = ()
+    delayed_only: bool = False
+    precise_extra: int = 0
+    hand_delta: int = 0
+    escapes_sandpit: bool = False
+    applies_no_block: bool = False
+    per_hit_x_damage: tuple = ()
+    x_malaise_amt: int = 0
+    shivs_added: int = 0
+    draws_added: int = 0
+    precise_raw_base: tuple = ()
+    is_random_multi: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -318,16 +329,21 @@ class _SurvivalHand:
     burst_rem: int = 0
     dup_rem: int = 0
     debilitate: int = 0
+    hand_delta: int = 0
+    escaped_sandpit: bool = False
+    no_block: bool = False
+    hand_size: int = 0
+    rem_draws: int | None = None
 
 
-def _poison_tick_loss(stacks, accelerant, intangible, slippery=0, buffer=0):
+def _poison_tick_loss(stacks, accelerant, intangible, slippery=0, buffer=0, hard_cap=0):
     if stacks <= 0:
         return 0
     n_stacks = int(stacks)
     if n_stacks <= 0:
         return 0
     ticks = min(n_stacks, 1 + max(0, int(accelerant)))
-    if buffer <= 0 and slippery <= 0:
+    if buffer <= 0 and slippery <= 0 and hard_cap <= 0:
         if intangible:
             return ticks
         return ticks * n_stacks - ticks * (ticks - 1) // 2
@@ -339,20 +355,31 @@ def _poison_tick_loss(stacks, accelerant, intangible, slippery=0, buffer=0):
             rem_buf -= 1
             continue
         if intangible:
-            total += 1
+            dmg = 1
         elif rem_sl > 0:
-            total += 1
+            dmg = 1
             rem_sl -= 1
         else:
-            total += n_stacks - t
+            dmg = n_stacks - t
+        if hard_cap > 0:
+            dmg = min(dmg, int(hard_cap))
+        total += dmg
     return total
 
 
-def _hand_burn_hits(hand, intangible):
+def _hand_burn_hits(hand, intangible, *, include_wither=False, used_mask=0):
     hits = []
     for c in hand:
-        if c.get("id") == "CARD.BURN":
+        idx = c.get("index")
+        if used_mask and idx is not None and idx >= 0 and (used_mask & (1 << idx)):
+            continue
+        cid = c.get("id")
+        if cid == "CARD.BURN":
             dmg = max(0, (c.get("stats") or {}).get("damage", 2))
+            if dmg > 0:
+                hits.append(1.0 if intangible else float(dmg))
+        elif include_wither and cid == "CARD.WITHER":
+            dmg = max(0, (c.get("stats") or {}).get("damage", 3))
             if dmg > 0:
                 hits.append(1.0 if intangible else float(dmg))
     return hits
@@ -385,13 +412,21 @@ def _resolve_attack_hits(
     triggers_curl_up=True,
     slippery_after_block=False,
     curl_up_per_hit=False,
+    enemy_hp=None,
+    return_hits_landed=False,
 ):
     """Resolve an attack's per-hit damage against enemy Block, Buffer, Slippery, Curl Up, and caps."""
-    if raw_damage <= 0 or hits <= 0:
+    if raw_damage <= 0 or hits <= 0 or (enemy_hp is not None and enemy_hp <= 0):
+        if return_hits_landed:
+            return 0.0, e_block, e_buffer, e_slippery, e_curl_up, 0
         return 0.0, e_block, e_buffer, e_slippery, e_curl_up
     per_hit = raw_damage / hits
     hp_loss = 0.0
+    hits_landed = 0
     for _ in range(int(hits)):
+        if enemy_hp is not None and hp_loss >= enemy_hp:
+            break
+        hits_landed += 1
         h = per_hit
         if not slippery_after_block and e_slippery > 0:
             h = min(h, 1.0)
@@ -419,6 +454,8 @@ def _resolve_attack_hits(
         # Native Curl Up triggers once after the full powered attack card resolves.
         e_block += e_curl_up
         e_curl_up = 0.0
+    if return_hits_landed:
+        return hp_loss, e_block, e_buffer, e_slippery, e_curl_up, hits_landed
     return hp_loss, e_block, e_buffer, e_slippery, e_curl_up
 
 
@@ -500,7 +537,9 @@ def _search_survival_lines(
     act2_mech = bool(getattr(policy, "act2_mechanics", False))
     enemy_mech = bool(getattr(policy, "enemy_mechanics", False))
     card_pot_mech = bool(getattr(policy, "card_potion_mechanics", False))
+    fixes_v4 = bool(getattr(policy, "combat_fixes_v4", False))
     v3_mech = enemy_mech or card_pot_mech
+    v3_or_v4 = v3_mech or fixes_v4
     e_hp = tuple(e["hp"] for e in enemies)
     e_block = tuple(float(e.get("block", 0)) for e in enemies)
     e_total = tuple(e["hp"] + e.get("block", 0) for e in enemies)
@@ -569,13 +608,25 @@ def _search_survival_lines(
     start_afterimage = max(0, _power(powers, "AFTERIMAGE"))
     start_shadowmeld = max(0, _power(powers, "SHADOWMELD")) if card_pot_mech else 0
     start_giga = max(0, _power(powers, "GIGANTIFICATION")) if card_pot_mech else 0
-    start_burst = max(0, _power(powers, "BURST")) if v3_mech else 0
+    start_burst = max(0, _power(powers, "BURST")) if v3_or_v4 else 0
     start_dup = (
         sum(max(0, int(p.get("amount", 0))) for p in powers if "DUPLICAT" in p.get("id", ""))
-        if v3_mech
+        if v3_or_v4
         else 0
     )
     accelerant = max(0, _power(powers, "ACCELERANT"))
+    constrict = max(0, _power(powers, "CONSTRICT")) if fixes_v4 else 0
+    strangler_indices = (
+        tuple(i for i, e in enumerate(enemies) if e.get("id") == "MONSTER.SLITHERING_STRANGLER")
+        if fixes_v4
+        else ()
+    )
+    sandpit_idx = (
+        next((i for i, e in enumerate(enemies) if _power(e.get("powers"), "SANDPIT") == 1), None)
+        if fixes_v4
+        else None
+    )
+    no_block = fixes_v4 and _power(powers, "NO_BLOCK") > 0
     player_weak = _power(powers, "WEAK") > 0
     shiv_damage = max(0, 4 + _power(powers, "STRENGTH") + _power(powers, "ACCURACY"))
     surrounded = (
@@ -613,6 +664,13 @@ def _search_survival_lines(
     card_mask = sum(1 << index for index in cards) if tender else 0
     energy = state["energy"]
     hand_list = list(state["hand"])
+    start_hand_size = len(hand_list)
+    has_precise_cut = fixes_v4 and any(c.get("id") == "CARD.PRECISE_CUT" for c in hand_list)
+    start_rem_draws = (
+        (int(state.get("draw_pile_count", 0)) + int(state.get("discard_pile_count", 0)))
+        if (fixes_v4 and ("draw_pile_count" in state or "discard_pile_count" in state))
+        else None
+    )
 
     def evaluate_state(
         damage,
@@ -629,6 +687,9 @@ def _search_survival_lines(
         cur_ebuf=None,
         skills_played=0,
         debilitate_mask=0,
+        escaped_sandpit=False,
+        used_mask=0,
+        total_shadowmeld=0,
     ):
         giant = None
         if solo_giant:
@@ -641,6 +702,7 @@ def _search_survival_lines(
             )
         giant_eruption = bool(giant and giant.eruption_damage is not None)
         offense = 0.0
+        direct_killed = [False] * size
         killed_flags = [False] * size
         plow_stunned_flags = [False] * size
         for i in range(size):
@@ -652,6 +714,10 @@ def _search_survival_lines(
                 e_intangible[i],
                 slippery=slip_i,
                 buffer=buf_i,
+                hard_cap=e_hard_cap[i] if fixes_v4 else 0,
+            )
+            direct_killed[i] = (
+                (not giant_eruption) and (not giant_deathblow) and (guaranteed_damage[i] >= e_hp[i])
             )
             g_killed = (not giant_eruption) and (not giant_deathblow) and (
                 guaranteed_damage[i] + p_loss >= e_hp[i]
@@ -673,6 +739,18 @@ def _search_survival_lines(
             ):
                 plow_stunned_flags[i] = True
                 offense += 14.0 + 3.0 * e_strength[i]
+
+        direct_leaders_dead = has_leader and all(
+            direct_killed[i] for i in range(size) if not e_minion[i]
+        )
+        direct_clears = (
+            fixes_v4
+            and (not giant_eruption)
+            and (not giant_deathblow)
+            and ((all(direct_killed) and not revive) or (direct_leaders_dead and not leader_revive))
+        )
+        if direct_clears:
+            return offense, 0.0, self_loss, (self_loss < player_hp), True, any(plow_stunned_flags)
 
         # Killing all non-minion leaders ends the encounter immediately (minions flee).
         leaders_dead = has_leader and all(
@@ -727,20 +805,37 @@ def _search_survival_lines(
                         )
                     )
 
-        # End-of-turn resolution: Plating applies, then Burns in hand, then enemy hits in order.
-        rem_block = cur_block + plating
+        # End-of-turn resolution: Plating applies, then Burns/Wither/Constrict (player end), then Poison -> enemy hits.
+        plating_eff = plating * (1 << total_shadowmeld) if (fixes_v4 and card_pot_mech) else plating
+        rem_block = cur_block + plating_eff
         rem_buf = buffer_stacks
         end_turn_loss = 0.0
-        for bh in _hand_burn_hits(hand_list, intangible > 0):
+        for bh in _hand_burn_hits(
+            hand_list, intangible > 0, include_wither=fixes_v4, used_mask=used_mask if fixes_v4 else 0
+        ):
             loss, rem_block, rem_buf = _apply_hit_damage(bh, rem_block, rem_buf, intangible > 0)
             end_turn_loss += loss
-        # Order enemy hits conservatively (largest unblocked potential).
-        for eh in sorted(all_hits, reverse=True):
+        if constrict > 0 and (
+            not strangler_indices or any(not direct_killed[idx] for idx in strangler_indices)
+        ):
+            loss, rem_block, rem_buf = _apply_hit_damage(
+                float(constrict), rem_block, rem_buf, intangible > 0
+            )
+            end_turn_loss += loss
+        # Under combat_fixes_v4, preserve native enemy execution order; legacy keeps worst-case descending sort.
+        ordered_hits = all_hits if fixes_v4 else sorted(all_hits, reverse=True)
+        for eh in ordered_hits:
             loss, rem_block, rem_buf = _apply_hit_damage(eh, rem_block, rem_buf, False)
             end_turn_loss += loss
 
         hp_loss = self_loss + end_turn_loss
-        survives = hp_loss < player_hp
+        sandpit_dead = (
+            sandpit_idx is not None
+            and not killed_flags[sandpit_idx]
+            and not (fixes_v4 and leaders_dead and not leader_revive and not giant_eruption)
+            and not escaped_sandpit
+        )
+        survives = (hp_loss < player_hp) and not sandpit_dead
         # Surviving a displayed DeathBlow ends combat (Giant removes itself after DeathBlow).
         clears = (
             (giant_deathblow and survives)
@@ -763,6 +858,8 @@ def _search_survival_lines(
         cur_ebuf=e_buffer,
         skills_played=0,
         debilitate_mask=0,
+        used_mask=0,
+        total_shadowmeld=start_shadowmeld,
     )
     block_weight = w.block * (1.0 + min(2.0, root_end_loss / max(1, player_hp)))
 
@@ -787,6 +884,9 @@ def _search_survival_lines(
             cur_ebuf=hand.enemy_buffer,
             skills_played=hand.skills_played,
             debilitate_mask=hand.debilitate,
+            escaped_sandpit=hand.escaped_sandpit,
+            used_mask=hand.used,
+            total_shadowmeld=start_shadowmeld + hand.shadowmeld,
         )
         utility = board_value(offense, end_loss) + hand.extra
         if clears:
@@ -819,27 +919,20 @@ def _search_survival_lines(
         )
         return q, None, hp_loss, hand.potions_used
 
-    moves = []
-    for j, a in enumerate(actions):
-        if j == end:
-            continue
-        potion = a.kind == "use_potion"
+    def _build_move(action_index, item, *, potion, target, delayed_only=False):
         if potion:
-            item = potions[a.args["potion_index"]]
             stats = {k.lower(): v for k, v in (item.get("vars") or {}).items()}
             source = max(cards, default=-1) + 1 + item["index"]
             cost = 0
         else:
-            item = cards[a.args["card_index"]]
             stats = item.get("stats") or {}
             source = item["index"]
             cost = _cost(item)
         name = item.get("id", "").split(".")[-1]
         is_x = bool(item.get("costs_x"))
         effective_cost = energy if is_x else cost
-        indices = [i for i, e in enumerate(enemies) if e["index"] == a.args.get("target_index")]
-        target = indices[0] if indices else None
-        targets = [target] if target is not None else range(size)
+        is_self_only = fixes_v4 and item.get("target_type") in ("Self", "AnyPlayer", "AnyAlly")
+        targets = () if is_self_only else ([target] if target is not None else range(size))
         random_multi = (
             item.get("target_type") == "RandomEnemy" or name == "BOUNCING_FLASK"
         ) and size > 1
@@ -864,6 +957,12 @@ def _search_survival_lines(
         poison_apps = [() for _ in range(size)]
         str_drop = [() for _ in range(size)]
         debuffs = [0] * size
+        per_hit_x_dmg = [0.0] * size
+        x_malaise_amt = (
+            int(bool(item.get("upgrades") or item.get("upgraded")))
+            if (fixes_v4 and not potion and is_x and name == "MALAISE")
+            else 0
+        )
 
         for i in targets:
             raw_d = 0.0
@@ -871,7 +970,27 @@ def _search_survival_lines(
                 raw_d = float(stats.get("damage", 0))
             elif is_attack:
                 if is_x:
-                    raw_d = float(stats.get("damage", 0) * hits) if hits > 0 else 0.0
+                    if fixes_v4 and name in ("SKEWER", "VOLLEY", "STARDUST"):
+                        preview = next(
+                            (
+                                p
+                                for p in (item.get("damage_by_target") or ())
+                                if p.get("target_index") == enemies[i]["index"]
+                            ),
+                            {},
+                        )
+                        if energy > 0 and "total_damage" in preview and hits > 0:
+                            ph = float(preview["total_damage"]) / hits
+                        else:
+                            ph = float(
+                                preview.get(
+                                    "damage", stats.get("calculateddamage", stats.get("damage", 0))
+                                )
+                            )
+                        per_hit_x_dmg[i] = ph / size if random_multi else ph
+                        raw_d = ph * hits if hits > 0 else 0.0
+                    else:
+                        raw_d = float(stats.get("damage", 0) * hits) if hits > 0 else 0.0
                 else:
                     raw_d = float(_damage(item, enemies[i]))
             elif is_knife_trap:
@@ -885,7 +1004,7 @@ def _search_survival_lines(
 
             if not random_multi:
                 effects = list(debuff_order(item, stats, enemies[i], energy=energy))
-                if card_pot_mech and not potion:
+                if card_pot_mech and not potion and not is_self_only:
                     esl = int(stats.get("enemystrengthloss", 0))
                     if esl > 0:
                         effects.append(("strength_loss", esl))
@@ -913,10 +1032,10 @@ def _search_survival_lines(
                     if kind == "strength_loss"
                 )
 
-        card_block = float(block_preview(stats))
+        card_block = 0.0 if (no_block and not potion) else float(block_preview(stats))
         is_fortifier = potion and name == "FORTIFIER"
         afterimage_gain = int(stats.get("afterimagepower", 0)) if not potion else 0
-        burst_gain = int(stats.get("skills", 1)) if (v3_mech and not potion and name == "BURST") else 0
+        burst_gain = int(stats.get("skills", 1)) if (v3_or_v4 and not potion and name == "BURST") else 0
         shadowmeld_gain = (
             int(stats.get("power", 1))
             if (card_pot_mech and not potion and name == "SHADOWMELD")
@@ -937,7 +1056,48 @@ def _search_survival_lines(
         buffer_gain = int(stats.get("bufferpower", 0))
         self_loss = float(stats.get("hploss", 0))
         foul_damage = float(stats.get("damage", 0)) if potion and name == "FOUL_POTION" else 0.0
-        e_gain = int(stats.get("energy", 0)) if potion and name == "ENERGY_POTION" else 0
+        e_gain = (
+            int(stats.get("energy", 0))
+            if (
+                (potion and name == "ENERGY_POTION")
+                or (fixes_v4 and not potion and name == "ADRENALINE")
+            )
+            else 0
+        )
+        precise_extra = (
+            int(stats.get("extradamage", 2))
+            if (fixes_v4 and not potion and name == "PRECISE_CUT")
+            else 0
+        )
+        precise_raw_base = ()
+        if precise_extra > 0:
+            up_pc = bool(item.get("upgrades") or item.get("upgraded"))
+            native_base = float((16 if up_pc else 13) + _power(powers, "STRENGTH"))
+            bases = [0.0] * size
+            root_other = max(0, start_hand_size - 1)
+            for i in targets:
+                root_mult = (
+                    (1.5 if e_vuln[i] else 1.0)
+                    * (0.75 if player_weak else 1.0)
+                    * (3.0 if (card_pot_mech and start_giga > 0) else 1.0)
+                )
+                expected_root = math.floor(
+                    max(0.0, native_base - precise_extra * root_other) * root_mult
+                )
+                if expected_root == int(round(d[i])):
+                    bases[i] = native_base
+                elif d[i] > 0:
+                    bases[i] = float(
+                        math.ceil(d[i] / max(1e-6, root_mult)) + precise_extra * root_other
+                    )
+                else:
+                    bases[i] = native_base
+            precise_raw_base = tuple(bases)
+        shivs_added = _shiv_count(item) if (fixes_v4 and not potion) else 0
+        draws_added = _draw_count(item) if (fixes_v4 and not potion) else 0
+        hand_delta_m = (1 - _shiv_count(item)) if (fixes_v4 and not potion) else 0
+        escapes_sp = fixes_v4 and not potion and name == "FRANTIC_ESCAPE"
+        applies_nb = fixes_v4 and not potion and name == "PANIC_BUTTON"
         # Stop speculative chaining on redraws AND mandatory discards (remaining hand cannot be guaranteed).
         stops = name in _REDRAW_ITEMS or (not potion and name in _MANDATORY_DISCARD_CARDS)
         draws = (
@@ -949,156 +1109,241 @@ def _search_survival_lines(
         clears_block = item.get("id") == "CARD.EXPOSE"
         req_poison = item.get("id") == "CARD.BUBBLE_BUBBLE"
 
-        # Single-step delta from root so residual reconstructs intrinsic with zero double-counting.
-        step_gd = [0.0] * size
-        step_eslip = list(e_slippery)
-        step_ebuf = list(e_buffer)
-        step_weak = 0
-        step_debilitate = 0
-        step_poison = [0] * size
-        step_str = [0] * size
-        step_sm_after = start_shadowmeld + shadowmeld_gain
-        if is_fortifier:
-            step_block = start_block + 2.0 * start_block
-        elif potion and card_pot_mech and start_shadowmeld > 0 and card_block > 0:
-            step_block = start_block + card_block * (1 << start_shadowmeld)
+        if delayed_only:
+            residual = 0.0
         else:
-            step_block = start_block + card_block
-        if not potion:
-            ai_mult = (1 << step_sm_after) if card_pot_mech else 1
-            ai_triggers = 1 + (k_shivs if is_knife_trap else 0)
-            step_block += ai_triggers * start_afterimage * ai_mult
-        step_buf = start_buffer + buffer_gain
-        step_int = start_intangible + intangible_gain
-        step_self = self_loss
-        for i in range(size):
-            if gd[i] > 0:
-                eb = 0.0 if clears_block else e_block[i]
-                hp_dmg, _, ebuf_after, eslip_after, _ = _resolve_attack_hits(
-                    gd[i],
-                    max(1, hits) if (is_attack or is_knife_trap) else 1,
-                    eb,
-                    e_buffer[i],
-                    e_slippery[i],
-                    e_hard_cap[i],
-                    e_intangible[i],
-                    e_curl_up[i],
-                    triggers_curl_up=is_attack or is_knife_trap,
-                    slippery_after_block=v3_mech,
-                    curl_up_per_hit=is_knife_trap,
-                )
-                step_gd[i] = hp_dmg
-                step_eslip[i] = eslip_after
-                step_ebuf[i] = ebuf_after
-                if is_attack or is_knife_trap:
-                    for _ in range(max(1, hits)):
-                        if e_thorns[i] > 0:
+            # Single-step delta from root so residual reconstructs intrinsic with zero double-counting.
+            step_gd = [0.0] * size
+            step_eslip = list(e_slippery)
+            step_ebuf = list(e_buffer)
+            step_weak = 0
+            step_debilitate = 0
+            step_poison = [0] * size
+            step_str = [0] * size
+            step_sm_after = start_shadowmeld + shadowmeld_gain
+            if is_fortifier:
+                fort_s = 2.0 * start_block * ((1 << start_shadowmeld) if (fixes_v4 and card_pot_mech) else 1)
+                step_block = start_block + fort_s
+            elif potion and card_pot_mech and start_shadowmeld > 0 and card_block > 0:
+                step_block = start_block + card_block * (1 << start_shadowmeld)
+            else:
+                step_block = start_block + card_block
+            if not potion and (fixes_v4 or not no_block):
+                ai_mult = (1 << step_sm_after) if card_pot_mech else 1
+                ai_triggers = 1 + (k_shivs if is_knife_trap else 0)
+                step_block += ai_triggers * start_afterimage * ai_mult
+            step_buf = start_buffer + buffer_gain
+            step_int = start_intangible + intangible_gain
+            step_self = 0.0
+            if fixes_v4 and self_loss > 0:
+                s_hp_d, _, step_buf = _apply_hit_damage(self_loss, 0.0, step_buf, step_int > 0)
+                step_self += s_hp_d
+            elif not fixes_v4:
+                step_self = self_loss
+            for i in range(size):
+                if gd[i] > 0:
+                    eb = 0.0 if clears_block else e_block[i]
+                    res_hit = _resolve_attack_hits(
+                        gd[i],
+                        max(1, hits) if (is_attack or is_knife_trap) else 1,
+                        eb,
+                        e_buffer[i],
+                        e_slippery[i],
+                        e_hard_cap[i],
+                        e_intangible[i],
+                        e_curl_up[i],
+                        triggers_curl_up=is_attack or is_knife_trap,
+                        slippery_after_block=v3_mech,
+                        curl_up_per_hit=is_knife_trap,
+                        enemy_hp=float(e_hp[i]) if fixes_v4 else None,
+                        return_hits_landed=fixes_v4,
+                    )
+                    if fixes_v4:
+                        hp_dmg, _, ebuf_after, eslip_after, _, landed_h = res_hit
+                    else:
+                        hp_dmg, _, ebuf_after, eslip_after, _ = res_hit
+                        landed_h = max(1, hits)
+                    step_gd[i] = hp_dmg
+                    step_eslip[i] = eslip_after
+                    step_ebuf[i] = ebuf_after
+                    if is_attack or is_knife_trap:
+                        for _ in range(landed_h):
+                            if e_thorns[i] > 0:
+                                loss, step_block, step_buf = _apply_hit_damage(
+                                    e_thorns[i], step_block, step_buf, step_int > 0
+                                )
+                                step_self += loss
+                        if e_reflect[i] and eb > 0:
                             loss, step_block, step_buf = _apply_hit_damage(
-                                e_thorns[i], step_block, step_buf, step_int > 0
+                                min(gd[i], eb), step_block, step_buf, step_int > 0
                             )
                             step_self += loss
-                    if e_reflect[i] and eb > 0:
-                        loss, step_block, step_buf = _apply_hit_damage(
-                            min(gd[i], eb), step_block, step_buf, step_int > 0
-                        )
-                        step_self += loss
-            rem = 0 if clears_block else shields[i]
-            if weak_order[i] > rem:
-                step_weak |= 1 << i
-            if card_pot_mech and debilitate_order[i] > rem:
-                step_debilitate |= 1 << i
-            if not req_poison or e_poison[i] > 0:
-                step_poison[i] = sum(amt for order, amt in poison_apps[i] if order > rem)
-            step_str[i] = sum(amt for order, amt in str_drop[i] if order > rem)
-        if foul_damage > 0:
-            loss, step_block, step_buf = _apply_hit_damage(
-                foul_damage, step_block, step_buf, step_int > 0
-            )
-            step_self += loss
+                rem = 0 if clears_block else shields[i]
+                if weak_order[i] > rem:
+                    step_weak |= 1 << i
+                if card_pot_mech and debilitate_order[i] > rem:
+                    step_debilitate |= 1 << i
+                if not req_poison or e_poison[i] > 0:
+                    step_poison[i] = sum(amt for order, amt in poison_apps[i] if order > rem)
+                step_str[i] = sum(amt for order, amt in str_drop[i] if order > rem)
+            if foul_damage > 0:
+                loss, step_block, step_buf = _apply_hit_damage(
+                    foul_damage, step_block, step_buf, step_int > 0
+                )
+                step_self += loss
 
-        step_skill_plays = 0
-        if enemy_mech and is_skill:
-            step_skill_plays = 1 + int(start_dup > 0) + int(start_burst > 0)
-        # Keep cur_facing=start_facing_pos for residual extraction because scores[j]
-        # (from combat_scores + adjust_focus) does not include the Surrounded facing delta.
-        s_off, s_end_loss, _, _, _, _ = evaluate_state(
-            tuple(d),
-            tuple(step_gd),
-            tuple(step_poison),
-            step_block,
-            step_weak,
-            tuple(step_str),
-            step_int,
-            step_buf,
-            step_self,
-            cur_facing=start_facing_pos,
-            cur_slippery=tuple(step_eslip),
-            cur_ebuf=tuple(step_ebuf),
-            skills_played=step_skill_plays,
-            debilitate_mask=step_debilitate,
-        )
-        step_delta = board_value(s_off, s_end_loss) - root_board
-        intrinsic = scores[j] * max(1, effective_cost) ** cost_exp
-        if e_gain > 0:
-            intrinsic -= e_gain * min(7.0, max(0.0, (len(cards) - energy - 1) * 2.5))
-        if card_pot_mech and shadowmeld_gain > 0:
-            # Beam computes Shadowmeld's value directly from doubled chained Block cards.
-            intrinsic = 0.0
-        if card_pot_mech and potion and name == "FLEX_POTION":
-            # Keep the potion reserve penalty while letting chained attacks supply the damage gain.
-            rt = state.get("context", {}).get("room_type")
-            w_pot = getattr(getattr(policy, "style", None), "potion", 1.0)
-            base_res = (7.0 if rt == "Boss" else 10.5 if rt == "Elite" else 14.0) * w_pot
-            est_res = base_res / (
-                1.0 + 0.53 * (len(potions) >= 2) + min(2.0, root_end_loss / max(1, player_hp))
-            )
-            intrinsic = -est_res
-        residual = intrinsic - step_delta
-        moves.append(
-            _SurvivalMove(
-                j,
-                1 << source,
-                name,
-                effective_cost,
-                is_x,
-                e_gain,
-                target,
-                is_attack,
-                max(1, hits) if (is_attack or is_knife_trap) else 1,
+            step_skill_plays = 0
+            if enemy_mech and is_skill:
+                step_skill_plays = 1 + int(start_dup > 0) + int(start_burst > 0)
+            # Keep cur_facing=start_facing_pos for residual extraction because scores[j]
+            # (from combat_scores + adjust_focus) does not include the Surrounded facing delta.
+            s_off, s_end_loss, _, _, _, _ = evaluate_state(
                 tuple(d),
-                tuple(gd),
-                card_block,
-                is_fortifier,
-                afterimage_gain,
-                tuple(weak_order),
-                tuple(poison_apps),
-                tuple(str_drop),
-                tuple(debuffs),
-                clears_block,
-                req_poison,
-                intangible_gain,
-                buffer_gain,
-                self_loss,
-                foul_damage,
-                potion,
-                stops,
-                draws,
-                residual,
-                _hits(item) if tender and is_attack else 0,
-                bool(
-                    tender
-                    and not potion
-                    and ("block" in stats or "calculatedblock" in stats)
-                ),
-                is_skill=is_skill,
-                is_knife_trap=is_knife_trap,
-                knife_trap_shivs=k_shivs,
-                shadowmeld_gain=shadowmeld_gain,
-                strength_gain=strength_gain,
-                burst_gain=burst_gain,
-                debilitate_order=tuple(debilitate_order),
+                tuple(step_gd),
+                tuple(step_poison),
+                step_block,
+                step_weak,
+                tuple(step_str),
+                step_int,
+                step_buf,
+                step_self,
+                cur_facing=start_facing_pos,
+                cur_slippery=tuple(step_eslip),
+                cur_ebuf=tuple(step_ebuf),
+                skills_played=step_skill_plays,
+                debilitate_mask=step_debilitate,
+                used_mask=1 << source,
+                total_shadowmeld=step_sm_after,
             )
+            step_delta = board_value(s_off, s_end_loss) - root_board
+            intrinsic = scores[action_index] * max(1, effective_cost) ** cost_exp
+            if e_gain > 0:
+                intrinsic -= e_gain * min(7.0, max(0.0, (len(cards) - energy - 1) * 2.5))
+            if card_pot_mech and shadowmeld_gain > 0:
+                # Beam computes Shadowmeld's value directly from doubled chained Block cards.
+                intrinsic = 0.0
+            if card_pot_mech and potion and name == "FLEX_POTION":
+                # Keep the potion reserve penalty while letting chained attacks supply the damage gain.
+                rt = state.get("context", {}).get("room_type")
+                w_pot = getattr(getattr(policy, "style", None), "potion", 1.0)
+                base_res = (7.0 if rt == "Boss" else 10.5 if rt == "Elite" else 14.0) * w_pot
+                est_res = base_res / (
+                    1.0 + 0.53 * (len(potions) >= 2) + min(2.0, root_end_loss / max(1, player_hp))
+                )
+                intrinsic = -est_res
+            residual = intrinsic - step_delta
+
+        return _SurvivalMove(
+            action_index,
+            1 << source,
+            name,
+            effective_cost,
+            is_x,
+            e_gain,
+            target,
+            is_attack,
+            max(1, hits) if (is_attack or is_knife_trap) else 1,
+            tuple(d),
+            tuple(gd),
+            card_block,
+            is_fortifier,
+            afterimage_gain,
+            tuple(weak_order),
+            tuple(poison_apps),
+            tuple(str_drop),
+            tuple(debuffs),
+            clears_block,
+            req_poison,
+            intangible_gain,
+            buffer_gain,
+            self_loss,
+            foul_damage,
+            potion,
+            stops,
+            draws,
+            residual,
+            _hits(item) if tender and is_attack else 0,
+            bool(
+                tender
+                and not potion
+                and ("block" in stats or "calculatedblock" in stats)
+            ),
+            is_skill=is_skill,
+            is_knife_trap=is_knife_trap,
+            knife_trap_shivs=k_shivs,
+            shadowmeld_gain=shadowmeld_gain,
+            strength_gain=strength_gain,
+            burst_gain=burst_gain,
+            debilitate_order=tuple(debilitate_order),
+            delayed_only=delayed_only,
+            precise_extra=precise_extra,
+            hand_delta=hand_delta_m,
+            escapes_sandpit=escapes_sp,
+            applies_no_block=applies_nb,
+            per_hit_x_damage=tuple(per_hit_x_dmg),
+            x_malaise_amt=x_malaise_amt,
+            shivs_added=shivs_added,
+            draws_added=draws_added,
+            precise_raw_base=precise_raw_base,
+            is_random_multi=random_multi,
         )
+
+    moves = []
+    for j, a in enumerate(actions):
+        if j == end:
+            continue
+        potion = a.kind == "use_potion"
+        item = potions[a.args["potion_index"]] if potion else cards[a.args["card_index"]]
+        indices = [i for i, e in enumerate(enemies) if e["index"] == a.args.get("target_index")]
+        target = indices[0] if indices else None
+        moves.append(_build_move(j, item, potion=potion, target=target, delayed_only=False))
+
+    # Unlock unaffordable-at-root hand cards when an Energy Potion or Adrenaline (+Burst/Duplication) is available.
+    max_e_gain = 0
+    if fixes_v4:
+        burst_in_hand = sum(
+            1 for c in hand_list if c.get("can_play") and c.get("id") == "CARD.BURST"
+        )
+        adren_replays = 1 + min(
+            2,
+            int(start_burst + burst_in_hand > 0) + int(start_dup > 0),
+        )
+        seen_e_sources = set()
+        for m in moves:
+            if m.energy_gain > 0 and m.source not in seen_e_sources:
+                seen_e_sources.add(m.source)
+                mult = adren_replays if (not m.potion and m.is_skill) else 1
+                max_e_gain += m.energy_gain * mult
+    if fixes_v4 and max_e_gain > 0:
+        normal_sources = {m.source for m in moves if not m.potion}
+        for item in hand_list:
+            if item.get("can_play") or (1 << item["index"]) in normal_sources:
+                continue
+            if (
+                "Unplayable" in (item.get("keywords") or ())
+                or item.get("id") in ("CARD.GRAND_FINALE", "CARD.CLASH")
+                or item.get("star_cost", 0) > state.get("stars", 0)
+                or (
+                    item.get("type") == "Attack"
+                    and (_power(powers, "ENTANGLED") > 0 or _power(powers, "NO_ATTACKS") > 0)
+                )
+                or (
+                    item.get("type") in ("Curse", "Status", "Quest")
+                    and item.get("id") != "CARD.FRANTIC_ESCAPE"
+                )
+            ):
+                continue
+            c_is_x = bool(item.get("costs_x"))
+            c_cost = _cost(item)
+            if c_is_x:
+                if energy > 0:
+                    continue
+            elif c_cost <= energy or c_cost > energy + max_e_gain:
+                continue
+            ttype = item.get("target_type")
+            t_options = list(range(size)) if ttype == "AnyEnemy" else [None]
+            for tgt in t_options:
+                moves.append(_build_move(-1, item, potion=False, target=tgt, delayed_only=True))
 
     start = _SurvivalHand(
         (0.0,) * size,
@@ -1126,6 +1371,9 @@ def _search_survival_lines(
         giga_rem=start_giga,
         burst_rem=start_burst,
         dup_rem=start_dup,
+        no_block=no_block,
+        hand_size=start_hand_size,
+        rem_draws=start_rem_draws,
     )
     end_quality, end_plow, _, _ = line_quality_and_meta(start, end)
     best_overall = end_quality
@@ -1140,18 +1388,12 @@ def _search_survival_lines(
             if hand.stopped:
                 continue
             for m in moves:
+                if step_idx == 0 and m.delayed_only:
+                    continue
                 if step_idx == 0 and forced_first is not None and m.action_index != forced_first:
                     continue
                 if hand.used & m.source:
                     continue
-                if m.x_cost:
-                    if hand.energy != energy:
-                        continue
-                    next_energy = 0
-                else:
-                    if hand.energy < m.cost:
-                        continue
-                    next_energy = hand.energy - m.cost + m.energy_gain
                 if m.target is not None:
                     if act2_mech:
                         if hand.guaranteed_damage[m.target] >= e_hp[m.target]:
@@ -1159,141 +1401,418 @@ def _search_survival_lines(
                     elif hand.damage[m.target] >= e_total[m.target]:
                         continue
 
-                prior_cards = (card_mask & hand.used).bit_count() if tender else 0
-                damage_deltas = list(m.damage)
-                gd_deltas = list(m.guaranteed_damage)
-                if card_pot_mech and start_giga > 0 and m.is_attack and hand.giga_rem <= 0:
-                    # Root previews include active Gigantification (3x); subsequent attacks deal unmultiplied damage.
-                    for i in range(size):
-                        if damage_deltas[i] > 0:
-                            damage_deltas[i] = float(math.floor(damage_deltas[i] / 3.0))
-                        if gd_deltas[i] > 0:
-                            gd_deltas[i] = float(math.floor(gd_deltas[i] / 3.0))
-                if card_pot_mech and hand.strength_gain != 0 and m.is_attack:
-                    for i in range(size):
-                        mult = (1.5 if e_vuln[i] else 1.0) * (0.75 if player_weak else 1.0)
-                        if hand.strength_gain > 0:
-                            str_delta = float(math.floor(hand.strength_gain * mult) * m.hits)
-                        else:
-                            str_delta = -float(math.ceil((-hand.strength_gain) * mult) * m.hits)
-                        if damage_deltas[i] > 0:
-                            damage_deltas[i] = max(0.0, damage_deltas[i] + str_delta)
-                        if gd_deltas[i] > 0:
-                            gd_deltas[i] = max(0.0, gd_deltas[i] + str_delta)
-                if tender and prior_cards and m.tender_hits:
-                    for i in range(size):
-                        if damage_deltas[i] > 0:
-                            damage_deltas[i] = max(0.0, damage_deltas[i] - prior_cards * m.tender_hits)
-                        if gd_deltas[i] > 0:
-                            gd_deltas[i] = max(0.0, gd_deltas[i] - prior_cards * m.tender_hits)
-
-                damage = tuple(
-                    min(h, prev + delta)
-                    for h, prev, delta in zip(e_total, hand.damage, damage_deltas, strict=True)
-                )
-
-                # Block: Fortifier triples current projected Block; Shadowmeld doubles owner Block gains (incl. Afterimage & potions).
-                cur_shadowmeld = hand.shadowmeld + m.shadowmeld_gain
-                total_sm = start_shadowmeld + cur_shadowmeld
-                cur_block = hand.block
-                if m.is_fortifier:
-                    cur_block += 2.0 * cur_block
-                else:
-                    c_blk = max(0.0, m.card_block - prior_cards) if (tender and prior_cards and m.tender_block) else m.card_block
-                    if card_pot_mech and c_blk > 0:
-                        if m.potion:
-                            c_blk *= 1 << total_sm
-                        elif hand.shadowmeld > 0:
-                            c_blk *= 1 << hand.shadowmeld
-                    cur_block += c_blk
-                if not m.potion:
-                    ai_mult = (1 << total_sm) if card_pot_mech else 1
-                    ai_triggers = 1 + (m.knife_trap_shivs if m.is_knife_trap else 0)
-                    cur_block += ai_triggers * hand.afterimage * ai_mult
-                cur_afterimage = hand.afterimage + m.afterimage_gain
-                cur_str_gain = hand.strength_gain + m.strength_gain
-                cur_giga = max(0, hand.giga_rem - int(m.is_attack)) if card_pot_mech else 0
                 cur_burst = hand.burst_rem
                 cur_dup = hand.dup_rem
                 replays = 1
-                if v3_mech and not m.potion:
+                if v3_or_v4 and not m.potion:
                     if cur_dup > 0:
                         replays += 1
                         cur_dup -= 1
                     if m.is_skill and cur_burst > 0:
                         replays += 1
                         cur_burst -= 1
-                    cur_burst += m.burst_gain
+                    n_exec_burst = replays if fixes_v4 else 1
+                    cur_burst += m.burst_gain * n_exec_burst
                 cur_skills_played = hand.skills_played + (replays if (enemy_mech and m.is_skill) else 0)
-                cur_int = hand.intangible + m.intangible
-                cur_buf = hand.buffer + m.buffer
-                cur_self = hand.self_hp_loss + m.self_hp_loss
+                n_exec = replays if fixes_v4 else 1
 
-                new_eblock = list(hand.enemy_block)
-                new_ebuf = list(hand.enemy_buffer)
-                new_eslip = list(hand.enemy_slippery)
-                new_ecurl = list(hand.enemy_curl_up) if hand.enemy_curl_up else [0.0] * size
-                new_gd = list(hand.guaranteed_damage)
-                weak = hand.weak
-                debilitate = hand.debilitate
-                poison = list(hand.poison)
-                str_drop = list(hand.str_drop)
-                new_artifact = list(hand.artifact)
+                if m.x_cost:
+                    if fixes_v4:
+                        if hand.energy < 0:
+                            continue
+                        x_energy = hand.energy
+                        next_energy = 0
+                    else:
+                        if hand.energy != energy:
+                            continue
+                        x_energy = energy
+                        next_energy = 0
+                else:
+                    if hand.energy < m.cost:
+                        continue
+                    x_energy = 0
+                    next_energy = hand.energy - m.cost + (m.energy_gain * n_exec if fixes_v4 else m.energy_gain)
 
-                for i in range(size):
-                    if m.clears_block and (m.target is None or m.target == i):
-                        new_eblock[i] = 0.0
-                    if gd_deltas[i] > 0:
-                        pre_eb = new_eblock[i]
-                        pre_gd = new_gd[i]
-                        hp_dmg, eb_after, ebuf_after, eslip_after, ecurl_after = _resolve_attack_hits(
-                            gd_deltas[i],
-                            m.hits,
-                            new_eblock[i],
-                            new_ebuf[i],
-                            new_eslip[i],
-                            e_hard_cap[i],
-                            e_intangible[i],
-                            new_ecurl[i],
-                            triggers_curl_up=m.is_attack or m.is_knife_trap,
-                            slippery_after_block=v3_mech,
-                            curl_up_per_hit=m.is_knife_trap,
+                prior_cards = (card_mask & hand.used).bit_count() if tender else 0
+
+                if fixes_v4:
+                    cur_damage = list(hand.damage)
+                    new_gd = list(hand.guaranteed_damage)
+                    cur_block = hand.block
+                    cur_shadowmeld = hand.shadowmeld
+                    cur_no_block = hand.no_block
+                    cur_afterimage = hand.afterimage
+                    cur_str_gain = hand.strength_gain
+                    cur_giga = hand.giga_rem
+                    cur_int = hand.intangible
+                    cur_buf = hand.buffer
+                    cur_self = hand.self_hp_loss
+                    cur_hand_size = hand.hand_size
+                    cur_rem_draws = hand.rem_draws
+                    new_eblock = list(hand.enemy_block)
+                    new_ebuf = list(hand.enemy_buffer)
+                    new_eslip = list(hand.enemy_slippery)
+                    new_ecurl = list(hand.enemy_curl_up) if hand.enemy_curl_up else [0.0] * size
+                    weak = hand.weak
+                    debilitate = hand.debilitate
+                    poison = list(hand.poison)
+                    str_drop = list(hand.str_drop)
+                    new_artifact = list(hand.artifact)
+
+                    for _exec_i in range(n_exec):
+                        exec_hits = (
+                            max(0, x_energy)
+                            if (m.x_cost and m.is_attack and m.name in ("SKEWER", "VOLLEY", "STARDUST"))
+                            else m.hits
                         )
-                        new_gd[i] = min(float(e_hp[i]), new_gd[i] + hp_dmg)
-                        new_eblock[i] = eb_after
-                        new_ebuf[i] = ebuf_after
-                        new_eslip[i] = eslip_after
-                        new_ecurl[i] = ecurl_after
-                        if pre_gd < e_hp[i] <= new_gd[i]:
-                            # Crab Rage immediately grants surviving partners 99 Block on ally death.
-                            for j in range(size):
-                                if j != i and e_crab_rage[j] and new_gd[j] < e_hp[j]:
-                                    new_eblock[j] += 99.0
-                        if m.is_attack or m.is_knife_trap:
-                            for _ in range(m.hits):
-                                if e_thorns[i] > 0:
+                        exec_dmg = [0.0] * size
+                        exec_gd = [0.0] * size
+                        for i in range(size):
+                            if m.target is not None and m.target != i:
+                                continue
+                            if m.precise_extra > 0 and m.is_attack:
+                                if m.precise_raw_base:
+                                    eff_other = max(0, cur_hand_size - (1 if _exec_i == 0 else 0))
+                                    raw_val = max(
+                                        0.0,
+                                        m.precise_raw_base[i]
+                                        + cur_str_gain
+                                        - m.precise_extra * eff_other,
+                                    )
+                                    mult = (
+                                        (1.5 if e_vuln[i] else 1.0)
+                                        * (0.75 if player_weak else 1.0)
+                                        * (3.0 if (card_pot_mech and cur_giga > 0) else 1.0)
+                                    )
+                                    val = float(math.floor(raw_val * mult))
+                                    if tender and prior_cards and m.tender_hits and val > 0:
+                                        val = max(0.0, val - prior_cards * m.tender_hits)
+                                    exec_dmg[i] = val
+                                    exec_gd[i] = val
+                            elif m.x_cost and m.is_attack and m.name in ("SKEWER", "VOLLEY", "STARDUST"):
+                                if exec_hits > 0 and m.per_hit_x_damage:
+                                    ph = m.per_hit_x_damage[i]
+                                    if ph > 0:
+                                        if card_pot_mech and start_giga > 0 and cur_giga <= 0:
+                                            ph = float(math.floor(ph / 3.0))
+                                        if card_pot_mech and cur_str_gain != 0:
+                                            mult = (
+                                                (1.5 if e_vuln[i] else 1.0)
+                                                * (0.75 if player_weak else 1.0)
+                                                * (3.0 if (card_pot_mech and cur_giga > 0) else 1.0)
+                                            )
+                                            if cur_str_gain > 0:
+                                                ph += float(math.floor(cur_str_gain * mult))
+                                            else:
+                                                ph = max(0.0, ph - float(math.ceil((-cur_str_gain) * mult)))
+                                        tot = ph * exec_hits
+                                        if tender and prior_cards and m.tender_hits:
+                                            tot = max(0.0, tot - prior_cards * exec_hits)
+                                        exec_dmg[i] = tot
+                                        exec_gd[i] = 0.0 if m.is_random_multi else tot
+                            else:
+                                dd = m.damage[i]
+                                gdd = m.guaranteed_damage[i]
+                                if card_pot_mech and start_giga > 0 and m.is_attack and cur_giga <= 0:
+                                    if dd > 0:
+                                        dd = float(math.floor(dd / 3.0))
+                                    if gdd > 0:
+                                        gdd = float(math.floor(gdd / 3.0))
+                                if card_pot_mech and cur_str_gain != 0 and m.is_attack:
+                                    mult = (
+                                        (1.5 if e_vuln[i] else 1.0)
+                                        * (0.75 if player_weak else 1.0)
+                                        * (3.0 if (card_pot_mech and cur_giga > 0) else 1.0)
+                                    )
+                                    if cur_str_gain > 0:
+                                        str_delta = float(math.floor(cur_str_gain * mult) * exec_hits)
+                                    else:
+                                        str_delta = -float(math.ceil((-cur_str_gain) * mult) * exec_hits)
+                                    if dd > 0:
+                                        dd = max(0.0, dd + str_delta)
+                                    if gdd > 0:
+                                        gdd = max(0.0, gdd + str_delta)
+                                if tender and prior_cards and m.tender_hits:
+                                    if dd > 0:
+                                        dd = max(0.0, dd - prior_cards * m.tender_hits)
+                                    if gdd > 0:
+                                        gdd = max(0.0, gdd - prior_cards * m.tender_hits)
+                                exec_dmg[i] = dd
+                                exec_gd[i] = gdd
+                        if m.is_attack and cur_giga > 0:
+                            cur_giga -= 1
+
+                        pre_ai = cur_afterimage
+                        if m.is_fortifier:
+                            fort_gain = 2.0 * cur_block * (
+                                (1 << (start_shadowmeld + cur_shadowmeld)) if card_pot_mech else 1
+                            )
+                            cur_block += fort_gain
+                        elif not (cur_no_block and not m.potion):
+                            c_blk = (
+                                max(0.0, m.card_block - prior_cards)
+                                if (tender and prior_cards and m.tender_block)
+                                else m.card_block
+                            )
+                            if card_pot_mech and c_blk > 0:
+                                if m.potion:
+                                    c_blk *= 1 << (start_shadowmeld + cur_shadowmeld)
+                                elif cur_shadowmeld > 0:
+                                    c_blk *= 1 << cur_shadowmeld
+                            cur_block += c_blk
+
+                        cur_shadowmeld += m.shadowmeld_gain
+                        if m.applies_no_block:
+                            cur_no_block = True
+                        cur_int += m.intangible
+                        cur_buf += m.buffer
+                        cur_str_gain += m.strength_gain
+                        cur_afterimage += m.afterimage_gain
+                        if m.self_hp_loss > 0:
+                            s_loss, _, cur_buf = _apply_hit_damage(
+                                m.self_hp_loss, 0.0, cur_buf, cur_int > 0
+                            )
+                            cur_self += s_loss
+
+                        for i in range(size):
+                            if new_gd[i] >= e_hp[i]:
+                                continue
+                            if m.clears_block and (m.target is None or m.target == i):
+                                new_eblock[i] = 0.0
+                            if exec_gd[i] > 0 and exec_hits > 0:
+                                pre_eb = new_eblock[i]
+                                pre_gd = new_gd[i]
+                                (
+                                    hp_dmg,
+                                    eb_after,
+                                    ebuf_after,
+                                    eslip_after,
+                                    ecurl_after,
+                                    landed_hits,
+                                ) = _resolve_attack_hits(
+                                    exec_gd[i],
+                                    exec_hits,
+                                    new_eblock[i],
+                                    new_ebuf[i],
+                                    new_eslip[i],
+                                    e_hard_cap[i],
+                                    e_intangible[i],
+                                    new_ecurl[i],
+                                    triggers_curl_up=m.is_attack or m.is_knife_trap,
+                                    slippery_after_block=v3_mech,
+                                    curl_up_per_hit=m.is_knife_trap,
+                                    enemy_hp=max(0.0, float(e_hp[i]) - new_gd[i]),
+                                    return_hits_landed=True,
+                                )
+                                new_gd[i] = min(float(e_hp[i]), new_gd[i] + hp_dmg)
+                                new_eblock[i] = eb_after
+                                new_ebuf[i] = ebuf_after
+                                new_eslip[i] = eslip_after
+                                new_ecurl[i] = ecurl_after
+                                if pre_gd < e_hp[i] <= new_gd[i]:
+                                    # Crab Rage immediately grants surviving partners 99 Block on ally death.
+                                    for j in range(size):
+                                        if j != i and e_crab_rage[j] and new_gd[j] < e_hp[j]:
+                                            new_eblock[j] += 99.0
+                                if m.is_attack or m.is_knife_trap:
+                                    for _ in range(landed_hits):
+                                        if e_thorns[i] > 0:
+                                            loss, cur_block, cur_buf = _apply_hit_damage(
+                                                e_thorns[i], cur_block, cur_buf, cur_int > 0
+                                            )
+                                            cur_self += loss
+                                    if e_reflect[i] and pre_eb > 0:
+                                        loss, cur_block, cur_buf = _apply_hit_damage(
+                                            min(exec_gd[i], pre_eb), cur_block, cur_buf, cur_int > 0
+                                        )
+                                        cur_self += loss
+                            rem = 0 if m.clears_block else new_artifact[i]
+                            if m.x_cost and m.name == "MALAISE":
+                                if m.target is None or m.target == i:
+                                    x_mal = x_energy + m.x_malaise_amt
+                                    if x_mal > 0:
+                                        if 1 > rem:
+                                            str_drop[i] += x_mal
+                                        if 2 > rem and not e_weak[i]:
+                                            weak |= 1 << i
+                                        new_artifact[i] = max(0, new_artifact[i] - 2)
+                            else:
+                                if m.weak_order[i] > rem:
+                                    weak |= 1 << i
+                                if card_pot_mech and m.debilitate_order[i] > rem:
+                                    debilitate |= 1 << i
+                                if (not m.requires_existing_poison) or (e_poison[i] + poison[i] > 0):
+                                    for order, amt in m.poison_apps[i]:
+                                        if order > rem:
+                                            poison[i] += amt
+                                for order, amt in m.str_drop[i]:
+                                    if order > rem:
+                                        str_drop[i] += amt
+                                new_artifact[i] = max(0, new_artifact[i] - m.debuffs[i])
+                            cur_damage[i] = min(e_total[i], cur_damage[i] + exec_dmg[i])
+
+                        if m.is_random_multi and (m.is_attack or m.is_knife_trap) and exec_hits > 0:
+                            worst_thorns = max(
+                                (e_thorns[i] for i in range(size) if new_gd[i] < e_hp[i]),
+                                default=0,
+                            )
+                            if worst_thorns > 0:
+                                for _ in range(exec_hits):
                                     loss, cur_block, cur_buf = _apply_hit_damage(
-                                        e_thorns[i], cur_block, cur_buf, cur_int > 0
+                                        worst_thorns, cur_block, cur_buf, cur_int > 0
                                     )
                                     cur_self += loss
-                            if e_reflect[i] and pre_eb > 0:
-                                loss, cur_block, cur_buf = _apply_hit_damage(
-                                    min(gd_deltas[i], pre_eb), cur_block, cur_buf, cur_int > 0
-                                )
-                                cur_self += loss
-                    rem = 0 if m.clears_block else hand.artifact[i]
-                    if m.weak_order[i] > rem:
-                        weak |= 1 << i
-                    if card_pot_mech and m.debilitate_order[i] > rem:
-                        debilitate |= 1 << i
-                    if (not m.requires_existing_poison) or (e_poison[i] + hand.poison[i] > 0):
-                        for order, amt in m.poison_apps[i]:
+
+                        if not m.potion and pre_ai > 0:
+                            ai_mult = (1 << (start_shadowmeld + cur_shadowmeld)) if card_pot_mech else 1
+                            ai_triggers = 1 + (m.knife_trap_shivs if m.is_knife_trap else 0)
+                            cur_block += ai_triggers * pre_ai * ai_mult
+
+                        actual_draws = (
+                            min(m.draws_added, cur_rem_draws)
+                            if cur_rem_draws is not None
+                            else m.draws_added
+                        )
+                        if cur_rem_draws is not None:
+                            cur_rem_draws = max(0, cur_rem_draws - actual_draws)
+                        cur_hand_size = min(
+                            10,
+                            max(
+                                0,
+                                cur_hand_size
+                                - (1 if (_exec_i == 0 and not m.potion) else 0)
+                                + m.shivs_added
+                                + actual_draws,
+                            ),
+                        )
+
+                    damage = tuple(cur_damage)
+                else:
+                    damage_deltas = list(m.damage)
+                    gd_deltas = list(m.guaranteed_damage)
+                    if card_pot_mech and start_giga > 0 and m.is_attack and hand.giga_rem <= 0:
+                        # Root previews include active Gigantification (3x); subsequent attacks deal unmultiplied damage.
+                        for i in range(size):
+                            if damage_deltas[i] > 0:
+                                damage_deltas[i] = float(math.floor(damage_deltas[i] / 3.0))
+                            if gd_deltas[i] > 0:
+                                gd_deltas[i] = float(math.floor(gd_deltas[i] / 3.0))
+                    if card_pot_mech and hand.strength_gain != 0 and m.is_attack:
+                        for i in range(size):
+                            mult = (1.5 if e_vuln[i] else 1.0) * (0.75 if player_weak else 1.0)
+                            if hand.strength_gain > 0:
+                                str_delta = float(math.floor(hand.strength_gain * mult) * m.hits)
+                            else:
+                                str_delta = -float(math.ceil((-hand.strength_gain) * mult) * m.hits)
+                            if damage_deltas[i] > 0:
+                                damage_deltas[i] = max(0.0, damage_deltas[i] + str_delta)
+                            if gd_deltas[i] > 0:
+                                gd_deltas[i] = max(0.0, gd_deltas[i] + str_delta)
+                    if tender and prior_cards and m.tender_hits:
+                        for i in range(size):
+                            if damage_deltas[i] > 0:
+                                damage_deltas[i] = max(0.0, damage_deltas[i] - prior_cards * m.tender_hits)
+                            if gd_deltas[i] > 0:
+                                gd_deltas[i] = max(0.0, gd_deltas[i] - prior_cards * m.tender_hits)
+
+                    damage = tuple(
+                        min(h, prev + delta)
+                        for h, prev, delta in zip(e_total, hand.damage, damage_deltas, strict=True)
+                    )
+
+                    # Block: Fortifier triples current projected Block; Shadowmeld doubles owner Block gains (incl. Afterimage & potions).
+                    cur_shadowmeld = hand.shadowmeld + m.shadowmeld_gain
+                    total_sm = start_shadowmeld + cur_shadowmeld
+                    cur_block = hand.block
+                    if m.is_fortifier:
+                        cur_block += 2.0 * cur_block
+                    else:
+                        c_blk = max(0.0, m.card_block - prior_cards) if (tender and prior_cards and m.tender_block) else m.card_block
+                        if card_pot_mech and c_blk > 0:
+                            if m.potion:
+                                c_blk *= 1 << total_sm
+                            elif hand.shadowmeld > 0:
+                                c_blk *= 1 << hand.shadowmeld
+                        cur_block += c_blk
+                    if not m.potion:
+                        ai_mult = (1 << total_sm) if card_pot_mech else 1
+                        ai_triggers = 1 + (m.knife_trap_shivs if m.is_knife_trap else 0)
+                        cur_block += ai_triggers * hand.afterimage * ai_mult
+                    cur_afterimage = hand.afterimage + m.afterimage_gain
+                    cur_str_gain = hand.strength_gain + m.strength_gain
+                    cur_giga = max(0, hand.giga_rem - int(m.is_attack)) if card_pot_mech else 0
+                    cur_int = hand.intangible + m.intangible
+                    cur_buf = hand.buffer + m.buffer
+                    cur_self = hand.self_hp_loss + m.self_hp_loss
+                    cur_no_block = False
+                    cur_hand_size = 0
+                    cur_rem_draws = None
+
+                    new_eblock = list(hand.enemy_block)
+                    new_ebuf = list(hand.enemy_buffer)
+                    new_eslip = list(hand.enemy_slippery)
+                    new_ecurl = list(hand.enemy_curl_up) if hand.enemy_curl_up else [0.0] * size
+                    new_gd = list(hand.guaranteed_damage)
+                    weak = hand.weak
+                    debilitate = hand.debilitate
+                    poison = list(hand.poison)
+                    str_drop = list(hand.str_drop)
+                    new_artifact = list(hand.artifact)
+
+                    for i in range(size):
+                        if m.clears_block and (m.target is None or m.target == i):
+                            new_eblock[i] = 0.0
+                        if gd_deltas[i] > 0:
+                            pre_eb = new_eblock[i]
+                            pre_gd = new_gd[i]
+                            hp_dmg, eb_after, ebuf_after, eslip_after, ecurl_after = _resolve_attack_hits(
+                                gd_deltas[i],
+                                m.hits,
+                                new_eblock[i],
+                                new_ebuf[i],
+                                new_eslip[i],
+                                e_hard_cap[i],
+                                e_intangible[i],
+                                new_ecurl[i],
+                                triggers_curl_up=m.is_attack or m.is_knife_trap,
+                                slippery_after_block=v3_mech,
+                                curl_up_per_hit=m.is_knife_trap,
+                            )
+                            new_gd[i] = min(float(e_hp[i]), new_gd[i] + hp_dmg)
+                            new_eblock[i] = eb_after
+                            new_ebuf[i] = ebuf_after
+                            new_eslip[i] = eslip_after
+                            new_ecurl[i] = ecurl_after
+                            if pre_gd < e_hp[i] <= new_gd[i]:
+                                # Crab Rage immediately grants surviving partners 99 Block on ally death.
+                                for j in range(size):
+                                    if j != i and e_crab_rage[j] and new_gd[j] < e_hp[j]:
+                                        new_eblock[j] += 99.0
+                            if m.is_attack or m.is_knife_trap:
+                                for _ in range(m.hits):
+                                    if e_thorns[i] > 0:
+                                        loss, cur_block, cur_buf = _apply_hit_damage(
+                                            e_thorns[i], cur_block, cur_buf, cur_int > 0
+                                        )
+                                        cur_self += loss
+                                if e_reflect[i] and pre_eb > 0:
+                                    loss, cur_block, cur_buf = _apply_hit_damage(
+                                        min(gd_deltas[i], pre_eb), cur_block, cur_buf, cur_int > 0
+                                    )
+                                    cur_self += loss
+                        rem = 0 if m.clears_block else hand.artifact[i]
+                        if m.weak_order[i] > rem:
+                            weak |= 1 << i
+                        if card_pot_mech and m.debilitate_order[i] > rem:
+                            debilitate |= 1 << i
+                        if (not m.requires_existing_poison) or (e_poison[i] + hand.poison[i] > 0):
+                            for order, amt in m.poison_apps[i]:
+                                if order > rem:
+                                    poison[i] += amt
+                        for order, amt in m.str_drop[i]:
                             if order > rem:
-                                poison[i] += amt
-                    for order, amt in m.str_drop[i]:
-                        if order > rem:
-                            str_drop[i] += amt
-                    new_artifact[i] = max(0, hand.artifact[i] - m.debuffs[i])
+                                str_drop[i] += amt
+                        new_artifact[i] = max(0, hand.artifact[i] - m.debuffs[i])
 
                 if m.foul_damage > 0:
                     loss, cur_block, cur_buf = _apply_hit_damage(
@@ -1335,6 +1854,11 @@ def _search_survival_lines(
                     burst_rem=cur_burst,
                     dup_rem=cur_dup,
                     debilitate=debilitate,
+                    hand_delta=(hand.hand_delta + m.hand_delta) if fixes_v4 else 0,
+                    escaped_sandpit=hand.escaped_sandpit or m.escapes_sandpit,
+                    no_block=cur_no_block,
+                    hand_size=cur_hand_size,
+                    rem_draws=cur_rem_draws if fixes_v4 else None,
                 )
                 quality, plow_q, _, _ = line_quality_and_meta(projection, first)
                 if quality > best_overall:
@@ -1376,9 +1900,13 @@ def _search_survival_lines(
                     projection.shadowmeld if card_pot_mech else 0,
                     projection.strength_gain if card_pot_mech else 0,
                     projection.giga_rem if card_pot_mech else 0,
-                    projection.burst_rem if v3_mech else 0,
-                    projection.dup_rem if v3_mech else 0,
+                    projection.burst_rem if v3_or_v4 else 0,
+                    projection.dup_rem if v3_or_v4 else 0,
                     projection.debilitate if card_pot_mech else 0,
+                    projection.escaped_sandpit if fixes_v4 else False,
+                    projection.no_block if fixes_v4 else False,
+                    projection.hand_size if has_precise_cut else 0,
+                    projection.rem_draws if has_precise_cut else None,
                 )
                 previous = next_hands.get(key)
                 if previous is None or quality > previous[0]:
@@ -1431,7 +1959,10 @@ def choose_turn_survival(
     act2_mech = bool(getattr(policy, "act2_mechanics", False))
     enemy_mech = bool(getattr(policy, "enemy_mechanics", False))
     card_pot_mech = bool(getattr(policy, "card_potion_mechanics", False))
+    fixes_v4 = bool(getattr(policy, "combat_fixes_v4", False))
     v3_mech = enemy_mech or card_pot_mech
+    start_shadowmeld = max(0, _power(powers, "SHADOWMELD")) if (fixes_v4 and card_pot_mech) else 0
+    plating_eff = plating * (1 << start_shadowmeld) if (fixes_v4 and card_pot_mech) else plating
     surrounded_flip = act2_mech and (
         (
             facing is not None
@@ -1452,7 +1983,16 @@ def choose_turn_survival(
     self_risk = 0.0
     if proposed.kind == "play_card":
         card = next((c for c in state["hand"] if c["index"] == proposed.args["card_index"]), {})
-        self_risk += float((card.get("stats") or {}).get("hploss", 0))
+        card_replays = (
+            (
+                1
+                + int(any("DUPLICAT" in p.get("id", "") and p.get("amount", 0) > 0 for p in powers))
+                + int(card.get("type") == "Skill" and _power(powers, "BURST") > 0)
+            )
+            if fixes_v4
+            else 1
+        )
+        self_risk += float((card.get("stats") or {}).get("hploss", 0)) * card_replays
         if enemy_mech and card.get("type") == "Skill" and not intangible:
             skill_plays = (
                 1
@@ -1469,19 +2009,21 @@ def choose_turn_survival(
             and int((card.get("stats") or {}).get("calculatedshivs", 0)) > 0
         )
         if card.get("type") == "Attack" or is_kt:
-            hits = (
-                int((card.get("stats") or {}).get("calculatedshivs", 0))
-                if is_kt
-                else max(1, _hits(card))
-            )
+            cname_p = card.get("id", "").split(".")[-1]
+            if is_kt:
+                hits = int((card.get("stats") or {}).get("calculatedshivs", 0))
+            elif fixes_v4 and card.get("costs_x") and cname_p in ("SKEWER", "VOLLEY", "STARDUST"):
+                hits = max(0, state["energy"])
+            else:
+                hits = max(1, _hits(card))
             target_idx = proposed.args.get("target_index")
             affected = [e for e in enemies if e["index"] == target_idx] if target_idx is not None else enemies
             for e in affected:
                 thorns = max(0, _power(e.get("powers"), "THORNS"))
                 if thorns > 0:
-                    self_risk += hits * (1.0 if intangible else float(thorns))
+                    self_risk += card_replays * hits * (1.0 if intangible else float(thorns))
                 if _power(e.get("powers"), "REFLECT") > 0 and e.get("block", 0) > 0:
-                    self_risk += 1.0 if intangible else float(e.get("block", 0))
+                    self_risk += card_replays * (1.0 if intangible else float(e.get("block", 0)))
     elif proposed.kind == "use_potion":
         pot = next(
             (p for p in player["potions"] if p["index"] == proposed.args["potion_index"]), {}
@@ -1489,13 +2031,21 @@ def choose_turn_survival(
         if pot.get("id") == "POTION.FOUL_POTION":
             self_risk += 1.0 if intangible else float((pot.get("vars") or {}).get("Damage", 0))
 
-    # Resolve worst-case End Turn damage (Burns + enemy hits) in order against Block + Plating + Buffer.
-    rem_block = start_block + plating
+    # Resolve End Turn damage (Plating -> Burns/Wither/Constrict -> Poison -> enemy hits).
+    rem_block = start_block + plating_eff
     rem_buf = buf_stacks
     end_loss = 0.0
-    for bh in _hand_burn_hits(state["hand"], intangible):
+    for bh in _hand_burn_hits(state["hand"], intangible, include_wither=fixes_v4):
         loss, rem_block, rem_buf = _apply_hit_damage(bh, rem_block, rem_buf, intangible)
         end_loss += loss
+    if fixes_v4:
+        constrict = max(0, _power(powers, "CONSTRICT"))
+        if constrict > 0:
+            loss, rem_block, rem_buf = _apply_hit_damage(
+                float(constrict), rem_block, rem_buf, intangible
+            )
+            end_loss += loss
+    sandpit_lethal = False
     if not (giant and giant.eruption_forced):
         all_hits = []
         for e in enemies:
@@ -1505,18 +2055,32 @@ def choose_turn_survival(
                 _power(e.get("powers"), "INTANGIBLE") > 0,
                 slippery=max(0, _power(e.get("powers"), "SLIPPERY")) if v3_mech else 0,
                 buffer=max(0, _power(e.get("powers"), "BUFFER")) if v3_mech else 0,
+                hard_cap=max(0, _power(e.get("powers"), "HARD_TO_KILL")) if fixes_v4 else 0,
             )
             if p_loss >= e["hp"] and not giant_eruption:
                 continue
+            if fixes_v4 and _power(e.get("powers"), "SANDPIT") == 1:
+                sandpit_lethal = True
             inc = incoming(e)
             if inc > 0:
                 all_hits.extend(_enemy_attack_hits_list(inc, attack_hits(e), False, False, 0, intangible))
-        for eh in sorted(all_hits, reverse=True):
+        ordered_hits = all_hits if fixes_v4 else sorted(all_hits, reverse=True)
+        for eh in ordered_hits:
             loss, rem_block, rem_buf = _apply_hit_damage(eh, rem_block, rem_buf, False)
             end_loss += loss
 
-    non_lethal_plow_only = plow_in_range and not surrounded_flip and end_loss + self_risk < player["hp"]
-    if not surrounded_flip and not plow_in_range and end_loss + self_risk < player["hp"]:
+    non_lethal_plow_only = (
+        plow_in_range
+        and not surrounded_flip
+        and not sandpit_lethal
+        and end_loss + self_risk < player["hp"]
+    )
+    if (
+        not surrounded_flip
+        and not plow_in_range
+        and not sandpit_lethal
+        and end_loss + self_risk < player["hp"]
+    ):
         return proposed
 
     proposed_idx = next((i for i, a in enumerate(actions) if a == proposed), None)
@@ -1532,11 +2096,95 @@ def choose_turn_survival(
     )
     best_proposed = best_by_first.get(proposed_idx) if proposed_idx is not None else None
     best_proposed_plow = best_plow_by_first.get(proposed_idx) if proposed_idx is not None else None
+    probed_indices = set()
+    # All-dead beam fallback: if narrow global beam found no surviving line, probe distinct first moves.
+    if fixes_v4 and best_overall[0] == 0:
+        cand_indices = [
+            i for i, a in enumerate(actions) if a.kind != "end_turn"
+        ]
+        # Rank candidate probes by best_by_first quality (highest utility/lowest deficit first).
+        cand_indices.sort(
+            key=lambda i: best_by_first.get(i, (0, 0, -1e9, -1e9, -1e9, -i, i)),
+            reverse=True,
+        )
+        seen_sig = set()
+        probes = []
+        cards_by_i = {c["index"]: c for c in state["hand"]}
+        pots_by_i = {p["index"]: p for p in player["potions"]}
+        for i in cand_indices:
+            a = actions[i]
+            if a.kind == "play_card":
+                c = cards_by_i.get(a.args["card_index"], {})
+                sig = (
+                    "card",
+                    c.get("id"),
+                    _cost(c),
+                    c.get("upgrades", 0),
+                    bool(c.get("upgraded")),
+                    c.get("enchantment"),
+                    c.get("enchantment_amount"),
+                    tuple(sorted((c.get("stats") or {}).items())),
+                    tuple(
+                        (p.get("target_index"), p.get("damage"), p.get("total_damage"))
+                        for p in (c.get("damage_by_target") or ())
+                    ),
+                    a.args.get("target_index"),
+                )
+            else:
+                p = pots_by_i.get(a.args["potion_index"], {})
+                sig = (
+                    "pot",
+                    p.get("id"),
+                    tuple(sorted((p.get("vars") or {}).items())),
+                    a.args.get("target_index"),
+                )
+            if sig in seen_sig:
+                continue
+            seen_sig.add(sig)
+            probes.append(i)
+            if len(probes) >= 6:
+                break
+        for probe_idx in probes:
+            probed_indices.add(probe_idx)
+            _, forced_p, _, forced_p_plow = _search_survival_lines(
+                state,
+                policy,
+                actions,
+                width=width,
+                depth=depth,
+                forced_first=probe_idx,
+                facing=facing,
+                score_adjust=score_adjust,
+                return_plow=True,
+            )
+            if probe_idx in forced_p:
+                cand_q = forced_p[probe_idx]
+                if probe_idx not in best_by_first or cand_q > best_by_first[probe_idx]:
+                    best_by_first[probe_idx] = cand_q
+                if cand_q > best_overall:
+                    best_overall = cand_q
+                if probe_idx == proposed_idx and (best_proposed is None or cand_q > best_proposed):
+                    best_proposed = cand_q
+            if probe_idx in forced_p_plow:
+                cand_pq = forced_p_plow[probe_idx]
+                prev_pf = best_plow_by_first.get(probe_idx)
+                if prev_pf is None or cand_pq > prev_pf:
+                    best_plow_by_first[probe_idx] = cand_pq
+                if best_plow_overall is None or cand_pq > best_plow_overall:
+                    best_plow_overall = cand_pq
+                if probe_idx == proposed_idx and (best_proposed_plow is None or cand_pq > best_proposed_plow):
+                    best_proposed_plow = cand_pq
+            if best_overall[0] == 1 and best_overall[1] == 1 and best_overall[2] == 0:
+                break
     # Before overriding a proposal, run a dedicated forced-first pass in case width pruning dropped its continuation.
-    needs_forced = proposed_idx is not None and (
-        best_proposed is None
-        or best_proposed[:3] < best_overall[:3]
-        or (non_lethal_plow_only and best_plow_overall is not None and best_proposed_plow is None)
+    needs_forced = (
+        proposed_idx is not None
+        and proposed_idx not in probed_indices
+        and (
+            best_proposed is None
+            or best_proposed[:3] < best_overall[:3]
+            or (non_lethal_plow_only and best_plow_overall is not None and best_proposed_plow is None)
+        )
     )
     if needs_forced:
         _, forced, _, forced_plow = _search_survival_lines(

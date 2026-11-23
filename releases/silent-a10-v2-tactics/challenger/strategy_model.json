@@ -1145,6 +1145,7 @@
     ]
   },
   "unified_draft": true,
-  "deck_size_penalty": 0.12,
-  "offset_scale": 0.0
+  "deck_size_penalty": 0.0,
+  "offset_scale": 0.0,
+  "event_fixes_v4": true
 }

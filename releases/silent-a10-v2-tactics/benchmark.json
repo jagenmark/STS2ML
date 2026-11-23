@@ -1,376 +1,889 @@
 {
   "comparisons": {
-    "HELD384 all_v2_mech_v3 vs all_v2_mech": {
+    "HELD384 all_v2_p1_v4 vs all_v2_mech_v3": {
       "n": 384,
       "a1_boss": {
-        "ref": 317,
-        "cur": 321,
-        "gain": 4,
-        "loss": 0,
-        "p": 0.125
+        "ref": 321,
+        "cur": 335,
+        "gain": 25,
+        "loss": 11,
+        "p": 0.028816719655878842,
+        "delta": 0.036458333333333336,
+        "se": 0.015534076912085538,
+        "t": 2.3469906541384953
       },
       "a1_clear": {
-        "ref": 179,
-        "cur": 193,
-        "gain": 20,
-        "loss": 6,
-        "p": 0.009355306625366211
+        "ref": 193,
+        "cur": 224,
+        "gain": 63,
+        "loss": 32,
+        "p": 0.001924347777526304,
+        "delta": 0.08072916666666667,
+        "se": 0.025078395879769733,
+        "t": 3.2190721868215406
       },
       "a2_boss": {
-        "ref": 51,
-        "cur": 57,
-        "gain": 12,
-        "loss": 6,
-        "p": 0.237884521484375
+        "ref": 57,
+        "cur": 90,
+        "gain": 53,
+        "loss": 20,
+        "p": 0.0001416370725355272,
+        "delta": 0.0859375,
+        "se": 0.021841998060388557,
+        "t": 3.9345072626781117
       },
       "a2_clear": {
         "ref": 10,
-        "cur": 10,
-        "gain": 3,
-        "loss": 3,
-        "p": 1
+        "cur": 16,
+        "gain": 12,
+        "loss": 6,
+        "p": 0.237884521484375,
+        "delta": 0.015625,
+        "se": 0.011034110342816102,
+        "t": 1.4160634173984725
       },
       "a3_boss": {
-        "ref": 4,
-        "cur": 3,
-        "gain": 1,
+        "ref": 3,
+        "cur": 6,
+        "gain": 5,
         "loss": 2,
-        "p": 1
+        "p": 0.453125,
+        "delta": 0.0078125,
+        "se": 0.006887406964948914,
+        "t": 1.1343165925520342
       },
       "win": {
         "ref": 0,
         "cur": 0,
         "gain": 0,
         "loss": 0,
-        "p": 1
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
       },
       "avg_floor": {
-        "ref": 20.830729166666668,
-        "cur": 21.263020833333332,
-        "delta": 0.4322916666666667,
-        "se": 0.1896945044006776,
-        "t": 2.2788834501687467,
-        "w": 46,
-        "l": 22
-      }
+        "ref": 21.263020833333332,
+        "cur": 23.091145833333332,
+        "delta": 1.828125,
+        "se": 0.3889613179157378,
+        "t": 4.700017497359554,
+        "w": 136,
+        "l": 71,
+        "p": 7.3541129376775995e-06
+      },
+      "a2_boss/a1_clear": [
+        [
+          57,
+          193
+        ],
+        [
+          90,
+          224
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          10,
+          193
+        ],
+        [
+          16,
+          224
+        ]
+      ]
     },
-    "HELD384 all_v2_mech_v3 vs incumbent": {
+    "HELD384 all_v2_p1_v4 vs incumbent": {
       "n": 384,
       "a1_boss": {
         "ref": 289,
-        "cur": 321,
-        "gain": 48,
+        "cur": 335,
+        "gain": 62,
         "loss": 16,
-        "p": 7.733076881287027e-05
+        "p": 1.5129781377543385e-07,
+        "delta": 0.11979166666666667,
+        "se": 0.02220101358430045,
+        "t": 5.395774666404326
       },
       "a1_clear": {
         "ref": 143,
-        "cur": 193,
-        "gain": 90,
-        "loss": 40,
-        "p": 1.3715068445175424e-05
+        "cur": 224,
+        "gain": 117,
+        "loss": 36,
+        "p": 3.402044217407137e-11,
+        "delta": 0.2109375,
+        "se": 0.030399553001632877,
+        "t": 6.938835580532047
       },
       "a2_boss": {
         "ref": 33,
-        "cur": 57,
-        "gain": 40,
-        "loss": 16,
-        "p": 0.0018415547884925443
+        "cur": 90,
+        "gain": 72,
+        "loss": 15,
+        "p": 4.2605364788467554e-10,
+        "delta": 0.1484375,
+        "se": 0.02310882465655015,
+        "t": 6.423411930555528
       },
       "a2_clear": {
         "ref": 9,
-        "cur": 10,
-        "gain": 9,
-        "loss": 8,
-        "p": 1
+        "cur": 16,
+        "gain": 14,
+        "loss": 7,
+        "p": 0.18924713134765625,
+        "delta": 0.018229166666666668,
+        "se": 0.011913000280059026,
+        "t": 1.5301910717806468
       },
       "a3_boss": {
         "ref": 4,
-        "cur": 3,
-        "gain": 2,
+        "cur": 6,
+        "gain": 5,
         "loss": 3,
-        "p": 1
+        "p": 0.7265625,
+        "delta": 0.005208333333333333,
+        "se": 0.007370501964551499,
+        "t": 0.7066456746613545
       },
       "win": {
         "ref": 0,
         "cur": 0,
         "gain": 0,
         "loss": 0,
-        "p": 1
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
       },
       "avg_floor": {
         "ref": 18.828125,
-        "cur": 21.263020833333332,
-        "delta": 2.4348958333333335,
-        "se": 0.43148980318719454,
-        "t": 5.64299739031607,
-        "w": 178,
-        "l": 79
-      }
+        "cur": 23.091145833333332,
+        "delta": 4.263020833333333,
+        "se": 0.49414843774282136,
+        "t": 8.627004575398484,
+        "w": 214,
+        "l": 68,
+        "p": 9.312189650200009e-19
+      },
+      "a2_boss/a1_clear": [
+        [
+          33,
+          143
+        ],
+        [
+          90,
+          224
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          9,
+          143
+        ],
+        [
+          16,
+          224
+        ]
+      ]
     },
-    "REP512 all_v2_mech_v3 vs all_v2_mech": {
-      "n": 512,
+    "HELD384 all_v2_p1_v4 vs dsp_000": {
+      "n": 384,
       "a1_boss": {
-        "ref": 419,
-        "cur": 424,
-        "gain": 7,
-        "loss": 2,
-        "p": 0.1796875
+        "ref": 317,
+        "cur": 335,
+        "gain": 24,
+        "loss": 6,
+        "p": 0.001430906355381012,
+        "delta": 0.046875,
+        "se": 0.014079940954121238,
+        "t": 3.3292043022580686
       },
       "a1_clear": {
-        "ref": 237,
-        "cur": 247,
-        "gain": 18,
-        "loss": 8,
-        "p": 0.07551869750022888
+        "ref": 192,
+        "cur": 224,
+        "gain": 49,
+        "loss": 17,
+        "p": 0.0001014771231679886,
+        "delta": 0.08333333333333333,
+        "se": 0.020751580238393522,
+        "t": 4.015758432659226
       },
       "a2_boss": {
-        "ref": 74,
-        "cur": 71,
-        "gain": 12,
-        "loss": 15,
-        "p": 0.7011080384254456
+        "ref": 72,
+        "cur": 90,
+        "gain": 32,
+        "loss": 14,
+        "p": 0.011351591436778108,
+        "delta": 0.046875,
+        "se": 0.017522413922314645,
+        "t": 2.675145114584075
       },
       "a2_clear": {
-        "ref": 15,
-        "cur": 17,
-        "gain": 5,
-        "loss": 3,
-        "p": 0.7265625
+        "ref": 13,
+        "cur": 16,
+        "gain": 8,
+        "loss": 5,
+        "p": 0.5810546875,
+        "delta": 0.0078125,
+        "se": 0.009393227312715604,
+        "t": 0.8317162717252914
       },
       "a3_boss": {
-        "ref": 5,
-        "cur": 7,
-        "gain": 3,
-        "loss": 1,
-        "p": 0.625
+        "ref": 3,
+        "cur": 6,
+        "gain": 5,
+        "loss": 2,
+        "p": 0.453125,
+        "delta": 0.0078125,
+        "se": 0.006887406964948914,
+        "t": 1.1343165925520342
       },
       "win": {
         "ref": 0,
         "cur": 0,
         "gain": 0,
         "loss": 0,
-        "p": 1
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
       },
       "avg_floor": {
-        "ref": 20.73828125,
-        "cur": 21.037109375,
-        "delta": 0.298828125,
-        "se": 0.16516610050724406,
-        "t": 1.8092582199510947,
-        "w": 42,
-        "l": 29
-      }
+        "ref": 21.7265625,
+        "cur": 23.091145833333332,
+        "delta": 1.3645833333333333,
+        "se": 0.34290170801116915,
+        "t": 3.979517457780891,
+        "w": 104,
+        "l": 43,
+        "p": 5.195289743459175e-07
+      },
+      "a2_boss/a1_clear": [
+        [
+          72,
+          192
+        ],
+        [
+          90,
+          224
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          13,
+          192
+        ],
+        [
+          16,
+          224
+        ]
+      ]
     },
-    "REP512 all_v2_mech_v3 vs incumbent": {
+    "REP512 all_v2_p1_v4 vs all_v2_mech_v3": {
+      "n": 512,
+      "a1_boss": {
+        "ref": 424,
+        "cur": 448,
+        "gain": 35,
+        "loss": 11,
+        "p": 0.0005355850721002753,
+        "delta": 0.046875,
+        "se": 0.013096546830914048,
+        "t": 3.57918775118284
+      },
+      "a1_clear": {
+        "ref": 247,
+        "cur": 309,
+        "gain": 87,
+        "loss": 25,
+        "p": 3.225116898887316e-09,
+        "delta": 0.12109375,
+        "se": 0.019984646930512814,
+        "t": 6.059338972614648
+      },
+      "a2_boss": {
+        "ref": 71,
+        "cur": 111,
+        "gain": 65,
+        "loss": 25,
+        "p": 2.966452922520188e-05,
+        "delta": 0.078125,
+        "se": 0.018222249060204754,
+        "t": 4.2873412465103335
+      },
+      "a2_clear": {
+        "ref": 17,
+        "cur": 23,
+        "gain": 13,
+        "loss": 7,
+        "p": 0.26317596435546875,
+        "delta": 0.01171875,
+        "se": 0.00872780056696235,
+        "t": 1.3426922292839043
+      },
+      "a3_boss": {
+        "ref": 7,
+        "cur": 11,
+        "gain": 5,
+        "loss": 1,
+        "p": 0.21875,
+        "delta": 0.0078125,
+        "se": 0.004776351325421444,
+        "t": 1.6356627617443238
+      },
+      "win": {
+        "ref": 0,
+        "cur": 0,
+        "gain": 0,
+        "loss": 0,
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
+      },
+      "avg_floor": {
+        "ref": 21.037109375,
+        "cur": 23.109375,
+        "delta": 2.072265625,
+        "se": 0.3162708291739632,
+        "t": 6.5521870303763,
+        "w": 200,
+        "l": 83,
+        "p": 2.6286236220711124e-12
+      },
+      "a2_boss/a1_clear": [
+        [
+          71,
+          247
+        ],
+        [
+          111,
+          309
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          17,
+          247
+        ],
+        [
+          23,
+          309
+        ]
+      ]
+    },
+    "REP512 all_v2_p1_v4 vs incumbent": {
       "n": 512,
       "a1_boss": {
         "ref": 378,
-        "cur": 424,
-        "gain": 82,
-        "loss": 36,
-        "p": 2.7583788780912006e-05
+        "cur": 448,
+        "gain": 97,
+        "loss": 27,
+        "p": 1.8545612885631625e-10,
+        "delta": 0.13671875,
+        "se": 0.020913365392775423,
+        "t": 6.537386376237172
       },
       "a1_clear": {
         "ref": 172,
-        "cur": 247,
-        "gain": 128,
-        "loss": 53,
-        "p": 2.4140870627060042e-08
+        "cur": 309,
+        "gain": 171,
+        "loss": 34,
+        "p": 3.5892425265364274e-23,
+        "delta": 0.267578125,
+        "se": 0.025365915927566898,
+        "t": 10.548727109404487
       },
       "a2_boss": {
         "ref": 43,
-        "cur": 71,
-        "gain": 48,
-        "loss": 20,
-        "p": 0.0009143907212875583
+        "cur": 111,
+        "gain": 86,
+        "loss": 18,
+        "p": 8.219918048937058e-12,
+        "delta": 0.1328125,
+        "se": 0.01905219115882853,
+        "t": 6.97098296425902
       },
       "a2_clear": {
         "ref": 3,
-        "cur": 17,
-        "gain": 16,
+        "cur": 23,
+        "gain": 22,
         "loss": 2,
-        "p": 0.001312255859375
+        "p": 3.5881996154785156e-05,
+        "delta": 0.0390625,
+        "se": 0.009420500721456103,
+        "t": 4.14654179804173
       },
       "a3_boss": {
         "ref": 1,
-        "cur": 7,
-        "gain": 6,
+        "cur": 11,
+        "gain": 10,
         "loss": 0,
-        "p": 0.03125
+        "p": 0.001953125,
+        "delta": 0.01953125,
+        "se": 0.006121691609938929,
+        "t": 3.190498843210243
       },
       "win": {
         "ref": 0,
         "cur": 0,
         "gain": 0,
         "loss": 0,
-        "p": 1
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
       },
       "avg_floor": {
         "ref": 18.345703125,
-        "cur": 21.037109375,
-        "delta": 2.69140625,
-        "se": 0.42106955976813215,
-        "t": 6.391832863629611,
-        "w": 224,
-        "l": 123
-      }
+        "cur": 23.109375,
+        "delta": 4.763671875,
+        "se": 0.4514158979265675,
+        "t": 10.55273395748883,
+        "w": 274,
+        "l": 87,
+        "p": 1.1530812277938002e-23
+      },
+      "a2_boss/a1_clear": [
+        [
+          43,
+          172
+        ],
+        [
+          111,
+          309
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          3,
+          172
+        ],
+        [
+          23,
+          309
+        ]
+      ]
     },
-    "POOLED896 all_v2_mech_v3 vs all_v2_mech": {
-      "n": 896,
+    "REP512 all_v2_p1_v4 vs dsp_000": {
+      "n": 512,
       "a1_boss": {
-        "ref": 736,
-        "cur": 745,
-        "gain": 11,
-        "loss": 2,
-        "p": 0.0224609375
+        "ref": 429,
+        "cur": 448,
+        "gain": 25,
+        "loss": 6,
+        "p": 0.0008779102936387062,
+        "delta": 0.037109375,
+        "se": 0.010760674333323452,
+        "t": 3.448610547117888
       },
       "a1_clear": {
-        "ref": 416,
-        "cur": 440,
-        "gain": 38,
-        "loss": 14,
-        "p": 0.001195120320007348
+        "ref": 268,
+        "cur": 309,
+        "gain": 59,
+        "loss": 18,
+        "p": 3.0550570254445797e-06,
+        "delta": 0.080078125,
+        "se": 0.01678563586004405,
+        "t": 4.770633991329171
       },
       "a2_boss": {
-        "ref": 125,
-        "cur": 128,
-        "gain": 24,
-        "loss": 21,
-        "p": 0.765991824244793
+        "ref": 88,
+        "cur": 111,
+        "gain": 45,
+        "loss": 22,
+        "p": 0.006741447363103126,
+        "delta": 0.044921875,
+        "se": 0.015878784979328063,
+        "t": 2.8290498963542827
       },
       "a2_clear": {
-        "ref": 25,
-        "cur": 27,
-        "gain": 8,
+        "ref": 15,
+        "cur": 23,
+        "gain": 14,
         "loss": 6,
-        "p": 0.79052734375
+        "p": 0.11531829833984375,
+        "delta": 0.015625,
+        "se": 0.008715817702829884,
+        "t": 1.792717623605966
       },
       "a3_boss": {
-        "ref": 9,
-        "cur": 10,
-        "gain": 4,
-        "loss": 3,
-        "p": 1
+        "ref": 7,
+        "cur": 11,
+        "gain": 6,
+        "loss": 2,
+        "p": 0.2890625,
+        "delta": 0.0078125,
+        "se": 0.005518863726989836,
+        "t": 1.4155993672743186
       },
       "win": {
         "ref": 0,
         "cur": 0,
         "gain": 0,
         "loss": 0,
-        "p": 1
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
       },
       "avg_floor": {
-        "ref": 20.777901785714285,
-        "cur": 21.133928571428573,
-        "delta": 0.3560267857142857,
-        "se": 0.12451736161344254,
-        "t": 2.859254172278013,
-        "w": 88,
-        "l": 51
-      }
+        "ref": 21.513671875,
+        "cur": 23.109375,
+        "delta": 1.595703125,
+        "se": 0.2797771457700491,
+        "t": 5.703479176642685,
+        "w": 141,
+        "l": 50,
+        "p": 3.126459879557895e-11
+      },
+      "a2_boss/a1_clear": [
+        [
+          88,
+          268
+        ],
+        [
+          111,
+          309
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          15,
+          268
+        ],
+        [
+          23,
+          309
+        ]
+      ]
     },
-    "POOLED896 all_v2_mech_v3 vs incumbent": {
+    "POOLED896 all_v2_p1_v4 vs all_v2_mech_v3": {
+      "n": 896,
+      "a1_boss": {
+        "ref": 745,
+        "cur": 783,
+        "gain": 60,
+        "loss": 22,
+        "p": 3.231712619889761e-05,
+        "delta": 0.04241071428571429,
+        "se": 0.010012237677137922,
+        "t": 4.235887685982074
+      },
+      "a1_clear": {
+        "ref": 440,
+        "cur": 533,
+        "gain": 150,
+        "loss": 57,
+        "p": 7.754573468540282e-11,
+        "delta": 0.10379464285714286,
+        "se": 0.015687359528305852,
+        "t": 6.616450822705923
+      },
+      "a2_boss": {
+        "ref": 128,
+        "cur": 201,
+        "gain": 118,
+        "loss": 45,
+        "p": 9.73663520261763e-09,
+        "delta": 0.08147321428571429,
+        "se": 0.013994482480630248,
+        "t": 5.821809730976568
+      },
+      "a2_clear": {
+        "ref": 27,
+        "cur": 39,
+        "gain": 25,
+        "loss": 13,
+        "p": 0.07295138851623051,
+        "delta": 0.013392857142857142,
+        "se": 0.006869196537898307,
+        "t": 1.9496977658110228
+      },
+      "a3_boss": {
+        "ref": 10,
+        "cur": 17,
+        "gain": 10,
+        "loss": 3,
+        "p": 0.09228515625,
+        "delta": 0.0078125,
+        "se": 0.004017822503619415,
+        "t": 1.9444612082694512
+      },
+      "win": {
+        "ref": 0,
+        "cur": 0,
+        "gain": 0,
+        "loss": 0,
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
+      },
+      "avg_floor": {
+        "ref": 21.133928571428573,
+        "cur": 23.1015625,
+        "delta": 1.9676339285714286,
+        "se": 0.24575927741606046,
+        "t": 8.00634649181648,
+        "w": 336,
+        "l": 154,
+        "p": 1.3044037366402485e-16
+      },
+      "a2_boss/a1_clear": [
+        [
+          128,
+          440
+        ],
+        [
+          201,
+          533
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          27,
+          440
+        ],
+        [
+          39,
+          533
+        ]
+      ]
+    },
+    "POOLED896 all_v2_p1_v4 vs incumbent": {
       "n": 896,
       "a1_boss": {
         "ref": 667,
-        "cur": 745,
-        "gain": 130,
-        "loss": 52,
-        "p": 6.790565857534408e-09
+        "cur": 783,
+        "gain": 159,
+        "loss": 43,
+        "p": 7.624232593172861e-17,
+        "delta": 0.12946428571428573,
+        "se": 0.015269842015913925,
+        "t": 8.478429939180813
       },
       "a1_clear": {
         "ref": 315,
-        "cur": 440,
-        "gain": 218,
-        "loss": 93,
-        "p": 1.0156996785112305e-12
+        "cur": 533,
+        "gain": 288,
+        "loss": 70,
+        "p": 1.6042175950677128e-32,
+        "delta": 0.24330357142857142,
+        "se": 0.019500950945404025,
+        "t": 12.476497792837794
       },
       "a2_boss": {
         "ref": 76,
-        "cur": 128,
-        "gain": 88,
-        "loss": 36,
-        "p": 3.3919214577622745e-06
+        "cur": 201,
+        "gain": 158,
+        "loss": 33,
+        "p": 9.21662410980767e-21,
+        "delta": 0.13950892857142858,
+        "se": 0.014711637992043334,
+        "t": 9.482895694339462
       },
       "a2_clear": {
         "ref": 12,
-        "cur": 27,
-        "gain": 25,
-        "loss": 10,
-        "p": 0.01667384780012071
+        "cur": 39,
+        "gain": 36,
+        "loss": 9,
+        "p": 6.57466324582856e-05,
+        "delta": 0.030133928571428572,
+        "se": 0.0074229871439455055,
+        "t": 4.0595420667011455
       },
       "a3_boss": {
         "ref": 5,
-        "cur": 10,
-        "gain": 8,
+        "cur": 17,
+        "gain": 15,
         "loss": 3,
-        "p": 0.2265625
+        "p": 0.007537841796875,
+        "delta": 0.013392857142857142,
+        "se": 0.004716536591721369,
+        "t": 2.8395533210459463
       },
       "win": {
         "ref": 0,
         "cur": 0,
         "gain": 0,
         "loss": 0,
-        "p": 1
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
       },
       "avg_floor": {
         "ref": 18.552455357142858,
-        "cur": 21.133928571428573,
-        "delta": 2.5814732142857144,
-        "se": 0.30333025464841495,
-        "t": 8.510437632664955,
-        "w": 402,
-        "l": 202
-      }
+        "cur": 23.1015625,
+        "delta": 4.549107142857143,
+        "se": 0.33366913983680335,
+        "t": 13.633586687345732,
+        "w": 488,
+        "l": 155,
+        "p": 4.992071906118704e-41
+      },
+      "a2_boss/a1_clear": [
+        [
+          76,
+          315
+        ],
+        [
+          201,
+          533
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          12,
+          315
+        ],
+        [
+          39,
+          533
+        ]
+      ]
+    },
+    "POOLED896 all_v2_p1_v4 vs dsp_000": {
+      "n": 896,
+      "a1_boss": {
+        "ref": 746,
+        "cur": 783,
+        "gain": 49,
+        "loss": 12,
+        "p": 1.969878418086636e-06,
+        "delta": 0.041294642857142856,
+        "se": 0.008611743937618216,
+        "t": 4.795154518791217
+      },
+      "a1_clear": {
+        "ref": 460,
+        "cur": 533,
+        "gain": 108,
+        "loss": 35,
+        "p": 7.381338353514592e-10,
+        "delta": 0.08147321428571429,
+        "se": 0.013073079065217938,
+        "t": 6.2321365823053
+      },
+      "a2_boss": {
+        "ref": 160,
+        "cur": 201,
+        "gain": 77,
+        "loss": 36,
+        "p": 0.00014401960112955247,
+        "delta": 0.04575892857142857,
+        "se": 0.01177167283928965,
+        "t": 3.887206958275426
+      },
+      "a2_clear": {
+        "ref": 28,
+        "cur": 39,
+        "gain": 22,
+        "loss": 11,
+        "p": 0.08014331245794892,
+        "delta": 0.012276785714285714,
+        "se": 0.006401783766380195,
+        "t": 1.9177132752841264
+      },
+      "a3_boss": {
+        "ref": 10,
+        "cur": 17,
+        "gain": 11,
+        "loss": 4,
+        "p": 0.11846923828125,
+        "delta": 0.0078125,
+        "se": 0.004317048996260446,
+        "t": 1.8096852750032293
+      },
+      "win": {
+        "ref": 0,
+        "cur": 0,
+        "gain": 0,
+        "loss": 0,
+        "p": 1,
+        "delta": 0,
+        "se": 0.0,
+        "t": null
+      },
+      "avg_floor": {
+        "ref": 21.604910714285715,
+        "cur": 23.1015625,
+        "delta": 1.4966517857142858,
+        "se": 0.21706429201440278,
+        "t": 6.8949700193663315,
+        "w": 245,
+        "l": 93,
+        "p": 6.341646644412426e-17
+      },
+      "a2_boss/a1_clear": [
+        [
+          160,
+          460
+        ],
+        [
+          201,
+          533
+        ]
+      ],
+      "a2_clear/a1_clear": [
+        [
+          28,
+          460
+        ],
+        [
+          39,
+          533
+        ]
+      ]
     }
   },
   "deaths": {
-    "POOLED896 all_v2_mech_v3": {
+    "POOLED896 all_v2_p1_v4": {
       "CEREMONIAL_BEAST": {
-        "ref": 70,
-        "arm": 66,
-        "delta": -4
+        "ref": 66,
+        "arm": 54,
+        "delta": -12
       },
       "VANTOM": {
-        "ref": 59,
-        "arm": 51,
-        "delta": -8
+        "ref": 51,
+        "arm": 46,
+        "delta": -5
       },
       "INFESTED_PRISM": {
         "ref": 30,
-        "arm": 30,
-        "delta": 0
+        "arm": 29,
+        "delta": -1
       },
       "BYGONE_EFFIGY": {
-        "ref": 13,
-        "arm": 12,
-        "delta": -1
+        "ref": 12,
+        "arm": 8,
+        "delta": -4
       },
       "THE_KIN": {
-        "ref": 114,
-        "arm": 109,
-        "delta": -5
+        "ref": 109,
+        "arm": 81,
+        "delta": -28
       },
       "TEST_SUBJECT": {
-        "ref": 4,
-        "arm": 3,
-        "delta": -1
+        "ref": 3,
+        "arm": 5,
+        "delta": 2
       },
       "QUEEN": {
-        "ref": 2,
-        "arm": 3,
-        "delta": 1
+        "ref": 3,
+        "arm": 7,
+        "delta": 4
       },
       "THE_INSATIABLE": {
         "ref": 32,
-        "arm": 32,
-        "delta": 0
+        "arm": 55,
+        "delta": 23
       },
       "KNOWLEDGE_DEMON": {
-        "ref": 37,
-        "arm": 39,
-        "delta": 2
+        "ref": 39,
+        "arm": 53,
+        "delta": 14
       },
       "KAISER_CRAB": {
         "ref": 0,
@@ -4866,5 +5379,1862 @@
         "seeded"
       ]
     ]
-  }
+  },
+  "complete": 896,
+  "HELD384 all_v2_p1_v4 act 1 killers": [
+    [
+      [
+        "MONSTER.KIN_PRIEST"
+      ],
+      31
+    ],
+    [
+      [
+        "MONSTER.VANTOM"
+      ],
+      29
+    ],
+    [
+      [
+        "MONSTER.CEREMONIAL_BEAST"
+      ],
+      24
+    ],
+    [
+      [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.SOUL_FYSH"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_PRIEST"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.WATERFALL_GIANT"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.BYRDONIS"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.NIBBIT",
+        "MONSTER.NIBBIT"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.BYGONE_EFFIGY"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.FUZZY_WURM_CRAWLER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.VINE_SHAMBLER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.ASSASSIN_RUBY_RAIDER",
+        "MONSTER.BRUTE_RUBY_RAIDER",
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.NIBBIT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.TRACKER_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FUZZY_WURM_CRAWLER",
+        "MONSTER.SHRINKER_BEETLE"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CROSSBOW_RUBY_RAIDER",
+        "MONSTER.TRACKER_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SNAPPING_JAXFRUIT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FLYCONID",
+        "MONSTER.SNAPPING_JAXFRUIT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CUBEX_CONSTRUCT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FLYCONID",
+        "MONSTER.TWIG_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.AXE_RUBY_RAIDER",
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SLITHERING_STRANGLER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.ASSASSIN_RUBY_RAIDER",
+        "MONSTER.AXE_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SHRINKER_BEETLE"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CALCIFIED_CULTIST",
+        "MONSTER.SEAPUNK"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.INKLET"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FOSSIL_STALKER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FLYCONID",
+        "MONSTER.LEAF_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.TERROR_EEL"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_PRIEST"
+      ],
+      1
+    ]
+  ],
+  "HELD384 all_v2_p1_v4 act 2 killers": [
+    [
+      [
+        "MONSTER.THE_INSATIABLE"
+      ],
+      25
+    ],
+    [
+      [
+        "MONSTER.CRUSHER",
+        "MONSTER.ROCKET"
+      ],
+      24
+    ],
+    [
+      [
+        "MONSTER.KNOWLEDGE_DEMON"
+      ],
+      24
+    ],
+    [
+      [
+        "MONSTER.ENTOMANCER"
+      ],
+      19
+    ],
+    [
+      [
+        "MONSTER.HUNTER_KILLER"
+      ],
+      18
+    ],
+    [
+      [
+        "MONSTER.INFESTED_PRISM"
+      ],
+      10
+    ],
+    [
+      [
+        "MONSTER.MYTE"
+      ],
+      9
+    ],
+    [
+      [
+        "MONSTER.MYTE",
+        "MONSTER.MYTE"
+      ],
+      9
+    ],
+    [
+      [
+        "MONSTER.PARAFRIGHT",
+        "MONSTER.THE_OBSCURA"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.SPINY_TOAD"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.LOUSE_PROGENITOR"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_SILK",
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK",
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.CHOMPER",
+        "MONSTER.CHOMPER"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.CHOMPER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_EGG",
+        "MONSTER.BOWLBUG_NECTAR"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_EGG",
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.TUNNELER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_NECTAR",
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CRUSHER"
+      ],
+      1
+    ]
+  ],
+  "HELD384 all_v2_p1_v4 act 3 killers": [
+    [
+      [
+        "MONSTER.AXEBOT"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.TEST_SUBJECT"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.AEONGLASS"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.OWL_MAGISTRATE"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.QUEEN",
+        "MONSTER.TORCH_HEAD_AMALGAM"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CUBEX_CONSTRUCT",
+        "MONSTER.CUBEX_CONSTRUCT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.TURRET_OPERATOR"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FROG_KNIGHT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SLIMED_BERSERKER"
+      ],
+      1
+    ]
+  ],
+  "HELD384 all_v2_p1_v4 wins": [],
+  "REP512 all_v2_p1_v4 act 1 killers": [
+    [
+      [
+        "MONSTER.KIN_PRIEST"
+      ],
+      32
+    ],
+    [
+      [
+        "MONSTER.CEREMONIAL_BEAST"
+      ],
+      30
+    ],
+    [
+      [
+        "MONSTER.WATERFALL_GIANT"
+      ],
+      18
+    ],
+    [
+      [
+        "MONSTER.VANTOM"
+      ],
+      17
+    ],
+    [
+      [
+        "MONSTER.SOUL_FYSH"
+      ],
+      16
+    ],
+    [
+      [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ],
+      15
+    ],
+    [
+      [
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_PRIEST"
+      ],
+      9
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.FUZZY_WURM_CRAWLER",
+        "MONSTER.SHRINKER_BEETLE"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.BYGONE_EFFIGY"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.MAWLER"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.DAMP_CULTIST"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_PRIEST"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.PHROG_PARASITE"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.BYRDONIS"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.FLYCONID",
+        "MONSTER.SNAPPING_JAXFRUIT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.AXE_RUBY_RAIDER",
+        "MONSTER.TRACKER_RUBY_RAIDER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.SHRINKER_BEETLE"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.FLYCONID"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.FUZZY_WURM_CRAWLER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.TWO_TAILED_RAT",
+        "MONSTER.TWO_TAILED_RAT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.FOSSIL_STALKER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.TERROR_EEL"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.BRUTE_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.LEAF_SLIME_M",
+        "MONSTER.TWIG_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FOGMOG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.AXE_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.VINE_SHAMBLER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.TWIG_SLIME_M",
+        "MONSTER.TWIG_SLIME_S"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.ASSASSIN_RUBY_RAIDER",
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CALCIFIED_CULTIST"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CALCIFIED_CULTIST",
+        "MONSTER.DAMP_CULTIST"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.AXE_RUBY_RAIDER",
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CORPSE_SLUG",
+        "MONSTER.CORPSE_SLUG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SEAPUNK"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.GREMLIN_MERC"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CALCIFIED_CULTIST",
+        "MONSTER.SEAPUNK"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.LEAF_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ]
+  ],
+  "REP512 all_v2_p1_v4 act 2 killers": [
+    [
+      [
+        "MONSTER.THE_INSATIABLE"
+      ],
+      30
+    ],
+    [
+      [
+        "MONSTER.KNOWLEDGE_DEMON"
+      ],
+      29
+    ],
+    [
+      [
+        "MONSTER.CRUSHER",
+        "MONSTER.ROCKET"
+      ],
+      29
+    ],
+    [
+      [
+        "MONSTER.HUNTER_KILLER"
+      ],
+      23
+    ],
+    [
+      [
+        "MONSTER.INFESTED_PRISM"
+      ],
+      19
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      18
+    ],
+    [
+      [
+        "MONSTER.SPINY_TOAD"
+      ],
+      12
+    ],
+    [
+      [
+        "MONSTER.PARAFRIGHT",
+        "MONSTER.THE_OBSCURA"
+      ],
+      11
+    ],
+    [
+      [
+        "MONSTER.ENTOMANCER"
+      ],
+      11
+    ],
+    [
+      [
+        "MONSTER.LOUSE_PROGENITOR"
+      ],
+      11
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_SILK",
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      10
+    ],
+    [
+      [
+        "MONSTER.MYTE",
+        "MONSTER.MYTE"
+      ],
+      9
+    ],
+    [
+      [
+        "MONSTER.THE_OBSCURA"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK",
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.CHOMPER"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_EGG",
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.MYTE"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.TUNNELER"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_EGG",
+        "MONSTER.BOWLBUG_NECTAR"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_NECTAR",
+        "MONSTER.BOWLBUG_ROCK"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_NECTAR",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.CHOMPER",
+        "MONSTER.CHOMPER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_NECTAR",
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK"
+      ],
+      1
+    ]
+  ],
+  "REP512 all_v2_p1_v4 act 3 killers": [
+    [
+      [
+        "MONSTER.QUEEN",
+        "MONSTER.TORCH_HEAD_AMALGAM"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.AEONGLASS"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.TEST_SUBJECT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.MECHA_KNIGHT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.FROG_KNIGHT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.CUBEX_CONSTRUCT",
+        "MONSTER.CUBEX_CONSTRUCT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FLAIL_KNIGHT",
+        "MONSTER.SPECTRAL_KNIGHT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.AXEBOT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.OWL_MAGISTRATE"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SCROLL_OF_BITING"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SOUL_NEXUS"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.MAGI_KNIGHT",
+        "MONSTER.SPECTRAL_KNIGHT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SLIMED_BERSERKER"
+      ],
+      1
+    ]
+  ],
+  "REP512 all_v2_p1_v4 wins": [],
+  "POOLED896 all_v2_p1_v4 act 1 killers": [
+    [
+      [
+        "MONSTER.KIN_PRIEST"
+      ],
+      63
+    ],
+    [
+      [
+        "MONSTER.CEREMONIAL_BEAST"
+      ],
+      54
+    ],
+    [
+      [
+        "MONSTER.VANTOM"
+      ],
+      46
+    ],
+    [
+      [
+        "MONSTER.WATERFALL_GIANT"
+      ],
+      24
+    ],
+    [
+      [
+        "MONSTER.SOUL_FYSH"
+      ],
+      23
+    ],
+    [
+      [
+        "MONSTER.LAGAVULIN_MATRIARCH"
+      ],
+      22
+    ],
+    [
+      [
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_PRIEST"
+      ],
+      15
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER"
+      ],
+      12
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.BYGONE_EFFIGY"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.BYRDONIS"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.FUZZY_WURM_CRAWLER",
+        "MONSTER.SHRINKER_BEETLE"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.FUZZY_WURM_CRAWLER"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.NIBBIT",
+        "MONSTER.NIBBIT"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.FLYCONID",
+        "MONSTER.SNAPPING_JAXFRUIT"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.VINE_SHAMBLER"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.SHRINKER_BEETLE"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.FOSSIL_STALKER"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.TERROR_EEL"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_FOLLOWER",
+        "MONSTER.KIN_PRIEST"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.MAWLER"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.DAMP_CULTIST"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.AXE_RUBY_RAIDER",
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.ASSASSIN_RUBY_RAIDER",
+        "MONSTER.BRUTE_RUBY_RAIDER",
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.CALCIFIED_CULTIST",
+        "MONSTER.SEAPUNK"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.PHROG_PARASITE"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.AXE_RUBY_RAIDER",
+        "MONSTER.TRACKER_RUBY_RAIDER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.FLYCONID"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.TWO_TAILED_RAT",
+        "MONSTER.TWO_TAILED_RAT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.NIBBIT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.TRACKER_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CROSSBOW_RUBY_RAIDER",
+        "MONSTER.TRACKER_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SNAPPING_JAXFRUIT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CUBEX_CONSTRUCT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FLYCONID",
+        "MONSTER.TWIG_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SLITHERING_STRANGLER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.ASSASSIN_RUBY_RAIDER",
+        "MONSTER.AXE_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.INKLET"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FLYCONID",
+        "MONSTER.LEAF_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.BRUTE_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER",
+        "MONSTER.WRIGGLER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.LEAF_SLIME_M",
+        "MONSTER.TWIG_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FOGMOG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.AXE_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.TWIG_SLIME_M",
+        "MONSTER.TWIG_SLIME_S"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.ASSASSIN_RUBY_RAIDER",
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CALCIFIED_CULTIST"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CALCIFIED_CULTIST",
+        "MONSTER.DAMP_CULTIST"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CORPSE_SLUG",
+        "MONSTER.CORPSE_SLUG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SEAPUNK"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CROSSBOW_RUBY_RAIDER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.GREMLIN_MERC"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.LEAF_SLIME_M"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER",
+        "MONSTER.PHANTASMAL_GARDENER"
+      ],
+      1
+    ]
+  ],
+  "POOLED896 all_v2_p1_v4 act 2 killers": [
+    [
+      [
+        "MONSTER.THE_INSATIABLE"
+      ],
+      55
+    ],
+    [
+      [
+        "MONSTER.CRUSHER",
+        "MONSTER.ROCKET"
+      ],
+      53
+    ],
+    [
+      [
+        "MONSTER.KNOWLEDGE_DEMON"
+      ],
+      53
+    ],
+    [
+      [
+        "MONSTER.HUNTER_KILLER"
+      ],
+      41
+    ],
+    [
+      [
+        "MONSTER.ENTOMANCER"
+      ],
+      30
+    ],
+    [
+      [
+        "MONSTER.INFESTED_PRISM"
+      ],
+      29
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      25
+    ],
+    [
+      [
+        "MONSTER.SPINY_TOAD"
+      ],
+      20
+    ],
+    [
+      [
+        "MONSTER.PARAFRIGHT",
+        "MONSTER.THE_OBSCURA"
+      ],
+      19
+    ],
+    [
+      [
+        "MONSTER.LOUSE_PROGENITOR"
+      ],
+      19
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_SILK",
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      18
+    ],
+    [
+      [
+        "MONSTER.MYTE",
+        "MONSTER.MYTE"
+      ],
+      18
+    ],
+    [
+      [
+        "MONSTER.MYTE"
+      ],
+      13
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK",
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      12
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.CHOMPER"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG"
+      ],
+      8
+    ],
+    [
+      [
+        "MONSTER.THE_OBSCURA"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_EGG",
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.SLUMBERING_BEETLE"
+      ],
+      6
+    ],
+    [
+      [
+        "MONSTER.CHOMPER",
+        "MONSTER.CHOMPER"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_EGG",
+        "MONSTER.BOWLBUG_NECTAR"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.TUNNELER"
+      ],
+      4
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON",
+        "MONSTER.EXOSKELETON"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT",
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_NECTAR",
+        "MONSTER.BOWLBUG_ROCK",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_NECTAR",
+        "MONSTER.BOWLBUG_ROCK"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.BOWLBUG_NECTAR",
+        "MONSTER.BOWLBUG_SILK"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.EXOSKELETON"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_FRONT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.CRUSHER"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG",
+        "MONSTER.TOUGH_EGG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_MIDDLE"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.OVICOPTER",
+        "MONSTER.TOUGH_EGG"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.DECIMILLIPEDE_SEGMENT_BACK"
+      ],
+      1
+    ]
+  ],
+  "POOLED896 all_v2_p1_v4 act 3 killers": [
+    [
+      [
+        "MONSTER.QUEEN",
+        "MONSTER.TORCH_HEAD_AMALGAM"
+      ],
+      7
+    ],
+    [
+      [
+        "MONSTER.AXEBOT"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.AEONGLASS"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.TEST_SUBJECT"
+      ],
+      5
+    ],
+    [
+      [
+        "MONSTER.OWL_MAGISTRATE"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.FROG_KNIGHT"
+      ],
+      3
+    ],
+    [
+      [
+        "MONSTER.CUBEX_CONSTRUCT",
+        "MONSTER.CUBEX_CONSTRUCT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.SLIMED_BERSERKER"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.MECHA_KNIGHT"
+      ],
+      2
+    ],
+    [
+      [
+        "MONSTER.TURRET_OPERATOR"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.FLAIL_KNIGHT",
+        "MONSTER.SPECTRAL_KNIGHT"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SCROLL_OF_BITING"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.SOUL_NEXUS"
+      ],
+      1
+    ],
+    [
+      [
+        "MONSTER.MAGI_KNIGHT",
+        "MONSTER.SPECTRAL_KNIGHT"
+      ],
+      1
+    ]
+  ],
+  "POOLED896 all_v2_p1_v4 wins": []
 }

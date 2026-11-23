@@ -91,6 +91,7 @@ class EncounterPolicy(RunPolicy):
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
         tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0, mecha_plan=None,
         scorer_fixes=False, act2_mechanics=False, enemy_mechanics=False, card_potion_mechanics=False,
+        selection_fixes_v4=False, combat_fixes_v4=False,
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
@@ -106,6 +107,8 @@ class EncounterPolicy(RunPolicy):
         self.act2_mechanics = act2_mechanics
         self.enemy_mechanics = enemy_mechanics
         self.card_potion_mechanics = card_potion_mechanics
+        self.selection_fixes_v4 = selection_fixes_v4
+        self.combat_fixes_v4 = combat_fixes_v4
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -164,8 +167,14 @@ class EncounterPolicy(RunPolicy):
         skills = [c for c in hand.values() if c["type"] == "Skill" and c.get("can_play")]
         strength = _power(powers, "STRENGTH")
         plating = max(0, _power(powers, "PLATING"))
+        shadowmeld = (
+            max(0, _power(powers, "SHADOWMELD"))
+            if (self.combat_fixes_v4 and self.card_potion_mechanics)
+            else 0
+        )
+        plating <<= shadowmeld
         intangible = _power(powers, "INTANGIBLE") > 0
-        afterimage = max(0, _power(powers, "AFTERIMAGE"))
+        afterimage = max(0, _power(powers, "AFTERIMAGE")) << shadowmeld
         shiv_damage = max(0, 4 + strength + _power(powers, "ACCURACY"))
         tender = self.tender and any(p["id"] == "POWER.TENDER_POWER" for p in powers)
         count_hits = attack_hits if giant else _count_hits
@@ -175,6 +184,10 @@ class EncounterPolicy(RunPolicy):
             inc = min(inc, incoming(enemies[0]))
         if giant and giant.eruption_forced:
             inc = 0
+        if self.combat_fixes_v4:
+            constrict = max(0, _power(powers, "CONSTRICT"))
+            if constrict > 0:
+                inc += 1 if intangible else constrict
         need = max(0.0, inc - player["block"] - plating)
         block_value = w.guard * (1.12 + 0.55 * (1 - hp / maxhp) + min(1.8, need / max(1, hp)))
         if need >= hp:
@@ -312,6 +325,43 @@ class EncounterPolicy(RunPolicy):
         )
         hit_envenom = _power(powers, "ENVENOM")
         poison_triggers = 1 + max(0, _power(powers, "ACCELERANT"))
+        enemy_doomed_by_poison = {}
+        all_leaders_doomed_by_poison = False
+        if self.combat_fixes_v4:
+            from .turn_planning import _poison_tick_loss
+
+            non_minions = []
+            for e in enemies:
+                pe = e.get("powers") or []
+                ex_p = max(0, _power(pe, "POISON"))
+                doomed_e = False
+                if (
+                    ex_p > 0
+                    and not (giant and giant.eruption_damage is not None)
+                    and not _power(pe, "ADAPTABLE")
+                    and not _power(pe, "REATTACH")
+                ):
+                    ex_loss = _poison_tick_loss(
+                        ex_p,
+                        poison_triggers - 1,
+                        bool(_power(pe, "INTANGIBLE")),
+                        slippery=max(0, _power(pe, "SLIPPERY")),
+                        buffer=max(0, _power(pe, "BUFFER")),
+                        hard_cap=max(0, _power(pe, "HARD_TO_KILL")),
+                    )
+                    doomed_e = ex_loss >= e["hp"]
+                enemy_doomed_by_poison[e["index"]] = doomed_e
+                if not _power(pe, "MINION"):
+                    non_minions.append(e)
+            all_leaders_doomed_by_poison = bool(
+                non_minions
+                and all(
+                    enemy_doomed_by_poison.get(e["index"], False)
+                    and not _power(e.get("powers") or [], "ILLUSION")
+                    and not _power(e.get("powers") or [], "INFESTED")
+                    for e in non_minions
+                )
+            )
         deck = player["deck"]
         attack_density = sum(c["type"] == "Attack" for c in deck) / max(1, len(deck))
 
@@ -342,9 +392,19 @@ class EncounterPolicy(RunPolicy):
             is_attack = item.get("type") == "Attack"
             offense = mitigation = setup = 0.0
             block = stats.get("calculatedblock", stats.get("block", 0))
+            if self.combat_fixes_v4 and not potion and _power(powers, "NO_BLOCK") > 0:
+                block = 0
             # The native hand exposes the resolved block preview (including Dexterity and Frail).
             if name == "FORTIFIER":
                 block = 2 * player["block"]
+            if (
+                self.combat_fixes_v4
+                and self.card_potion_mechanics
+                and shadowmeld > 0
+                and potion
+                and block > 0
+            ):
+                block <<= shadowmeld
             block += 0 if potion else afterimage
             hits = _hits(item)
             if item.get("costs_x") and name in ("SKEWER", "VOLLEY", "STARDUST"):
@@ -359,6 +419,13 @@ class EncounterPolicy(RunPolicy):
                     leader_weight = 0.45
                 artifact = _power(powers_e, "ARTIFACT") > 0
                 existing = max(0, _power(powers_e, "POISON"))
+                already_doomed_e = bool(
+                    self.combat_fixes_v4
+                    and (
+                        enemy_doomed_by_poison.get(e["index"], False)
+                        or (minion and all_leaders_doomed_by_poison)
+                    )
+                )
                 dmg = stats.get("damage", 0) if potion else _damage(item, e) if is_attack else 0
                 if (
                     is_attack
@@ -428,22 +495,26 @@ class EncounterPolicy(RunPolicy):
                         e_buf_f = max(0, _power(powers_e, "BUFFER"))
                         e_int_f = _power(powers_e, "INTANGIBLE") > 0
                         kill_prob = 0.0
-                        for k in range(n_bounces + 1):
-                            landed_k = max(0, k - rem_art) * dose
-                            if self.enemy_mechanics:
-                                from .turn_planning import _poison_tick_loss
+                        if not already_doomed_e:
+                            k_start = 1 if self.combat_fixes_v4 else 0
+                            hard_cap_f = max(0, _power(powers_e, "HARD_TO_KILL")) if self.combat_fixes_v4 else 0
+                            for k in range(k_start, n_bounces + 1):
+                                landed_k = max(0, k - rem_art) * dose
+                                if self.enemy_mechanics or self.combat_fixes_v4:
+                                    from .turn_planning import _poison_tick_loss
 
-                                tick_dmg = _poison_tick_loss(
-                                    existing + landed_k,
-                                    poison_triggers - 1,
-                                    e_int_f,
-                                    slippery=slippery,
-                                    buffer=e_buf_f,
-                                )
-                            else:
-                                tick_dmg = (existing + landed_k) * poison_triggers
-                            if tick_dmg >= e["hp"]:
-                                kill_prob += comb(n_bounces, k) * (p_hit**k) * ((1.0 - p_hit) ** (n_bounces - k))
+                                    tick_dmg = _poison_tick_loss(
+                                        existing + landed_k,
+                                        poison_triggers - 1,
+                                        e_int_f,
+                                        slippery=slippery,
+                                        buffer=e_buf_f,
+                                        hard_cap=hard_cap_f,
+                                    )
+                                else:
+                                    tick_dmg = (existing + landed_k) * poison_triggers
+                                if tick_dmg >= e["hp"]:
+                                    kill_prob += comb(n_bounces, k) * (p_hit**k) * ((1.0 - p_hit) ** (n_bounces - k))
                         flask_kill_prob = kill_prob
                         if random_target and len(targets) > 1:
                             # Outer random_target block divides offense and mitigation by len(targets).
@@ -478,7 +549,8 @@ class EncounterPolicy(RunPolicy):
                         if slippery:
                             k_cons = min(slippery, k_shivs)
                             k_dmg = max(0.0, k_dmg - k_cons * (shiv_damage - 1.0))
-                            setup += min(5.0, horizon) * k_cons
+                            if not already_doomed_e:
+                                setup += min(5.0, horizon) * k_cons
                         if _power(powers_e, "INTANGIBLE"):
                             k_dmg = min(k_dmg, float(k_shivs))
                         dmg += k_dmg
@@ -490,7 +562,10 @@ class EncounterPolicy(RunPolicy):
                     threat = min(threat, incoming(e))
                 if giant and giant.eruption_forced:
                     threat = 0
-                if self.enemy_mechanics and (slippery > 0 or _power(powers_e, "BUFFER") > 0):
+                hard_cap_e = max(0, _power(powers_e, "HARD_TO_KILL")) if self.combat_fixes_v4 else 0
+                if (self.enemy_mechanics or self.combat_fixes_v4) and (
+                    slippery > 0 or _power(powers_e, "BUFFER") > 0 or hard_cap_e > 0
+                ):
                     from .turn_planning import _poison_tick_loss, _resolve_attack_hits
 
                     raw_hit_dmg = (
@@ -524,6 +599,7 @@ class EncounterPolicy(RunPolicy):
                             _power(powers_e, "INTANGIBLE") > 0,
                             slippery=rem_eslip,
                             buffer=rem_ebuf,
+                            hard_cap=hard_cap_e,
                         ),
                     )
                 else:
@@ -531,86 +607,123 @@ class EncounterPolicy(RunPolicy):
                 focus = (
                     1.0 + 0.27 * (1 - e["hp"] / max(1, e["max_hp"])) if len(enemies) > 1 else 1.0
                 )
-                offense += leader_weight * focus * min(hp_e, dmg)
-                psn_turns = min(horizon, max(1.0, (e["hp"] - dmg) / (16 + existing)))
-                psn_value = max(
-                    0.0, min(poison * psn_turns, poison * (poison + 1) / 2 + existing * poison)
-                )
-                offense += (
-                    leader_weight
-                    * w.poison
-                    * min(max(0.0, e["hp"] - existing), poison_triggers * psn_value)
-                )
-                if self.enemy_mechanics:
-                    plow = _power(powers_e, "PLOW")
-                    if plow > 0 and (dmg > 0 or poison > 0):
-                        from .turn_planning import _poison_tick_loss, _resolve_attack_hits
+                if already_doomed_e:
+                    if (
+                        _power(powers, "CONSTRICT") > 0
+                        and e.get("id") == "MONSTER.SLITHERING_STRANGLER"
+                        and not random_target
+                    ):
+                        from .turn_planning import _resolve_attack_hits
 
-                        raw_hit_dmg = (
+                        raw_hit_d = (
                             stats.get("damage", 0)
                             if potion
                             else (_damage(item, e) if is_attack else 0)
                         )
                         if self.card_potion_mechanics and name == "KNIFE_TRAP":
-                            raw_hit_dmg += stats.get("calculatedshivs", 0) * shiv_damage
-                        eff_hits = (
+                            raw_hit_d += stats.get("calculatedshivs", 0) * shiv_damage
+                        eff_h = (
                             stats.get("calculatedshivs", 0)
                             if (self.card_potion_mechanics and name == "KNIFE_TRAP")
                             else max(1, hits)
                         )
-                        eff_hp_dmg, _, ebuf_after, eslip_after, _ = _resolve_attack_hits(
-                            float(raw_hit_dmg),
-                            max(1, int(eff_hits)),
-                            float(e.get("block", 0)),
-                            max(0, _power(powers_e, "BUFFER")),
-                            slippery,
-                            max(0, _power(powers_e, "HARD_TO_KILL")),
-                            _power(powers_e, "INTANGIBLE") > 0,
-                            triggers_curl_up=False,
-                            slippery_after_block=True,
-                        )
-                        plow_poison = _poison_tick_loss(
-                            int(round(existing + poison)),
-                            poison_triggers - 1,
-                            _power(powers_e, "INTANGIBLE") > 0,
-                            slippery=eslip_after,
-                            buffer=ebuf_after,
-                        )
-                        total_plow_dmg = eff_hp_dmg + plow_poison
-                        if total_plow_dmg > 0 and e["hp"] - total_plow_dmg <= plow:
-                            mitigation += threat
-                            setup += 14.0 + 3.0 * max(0, _power(powers_e, "STRENGTH"))
-                        elif 0 < e["hp"] - plow <= 45 and eff_hp_dmg > 0:
-                            offense += 0.35 * min(float(e["hp"] - plow), eff_hp_dmg)
-                if self.card_potion_mechanics and not potion:
-                    strangle = stats.get("stranglepower", 0)
-                    if strangle > 0 and not artifact and not giant_defeated:
-                        followups = _playable_followup_cards(max(0, energy - cost), item["index"])
-                        if followups > 0:
-                            per_card = 1.0 if (_power(powers_e, "INTANGIBLE") or slippery >= followups) else float(strangle)
-                            offense += leader_weight * min(float(e["hp"]), per_card * followups)
-                    debilitate = stats.get("debilitatepower", 0)
-                    if debilitate > 0 and not artifact:
-                        has_status = _power(powers_e, "WEAK") > 0 or _power(powers_e, "VULNERABLE") > 0
-                        setup += (5.0 if has_status else 2.5) * min(float(debilitate), horizon)
-                    esl = stats.get("enemystrengthloss", 0)
-                    if esl > 0 and not artifact:
-                        mitigation += min(threat, esl * count_hits(e))
-                        setup += esl * min(4.0, horizon) - stats.get("playerstrengthloss", 0) * 2.5 * attack_density
-                if flask_kill_prob is not None:
-                    if flask_kill_prob > 0:
-                        mitigation += threat * flask_kill_prob
-                        if not (giant and giant.eruption_damage is not None) and not illusion_minion:
-                            kill_bonus = (
-                                11 if minion else (
-                                    25 if len(enemies) == 1
-                                    or any(_power(o.get("powers"), "MINION") for o in enemies)
-                                    else 15
-                                )
+                        if raw_hit_d > 0 and eff_h > 0:
+                            dir_hp_dmg, _, _, _, _ = _resolve_attack_hits(
+                                float(raw_hit_d),
+                                max(1, int(eff_h)),
+                                float(e.get("block", 0)),
+                                max(0, _power(powers_e, "BUFFER")),
+                                slippery,
+                                hard_cap_e,
+                                _power(powers_e, "INTANGIBLE") > 0,
+                                triggers_curl_up=False,
+                                slippery_after_block=True,
                             )
-                            offense += kill_bonus * flask_kill_prob
-                elif dmg > 0 or poison > 0:
-                    if dmg >= hp_e or max(0.0, dmg - e.get("block", 0)) + poison_end >= e["hp"]:
+                            if dir_hp_dmg >= e["hp"]:
+                                mitigation += 1 if intangible else _power(powers, "CONSTRICT")
+                else:
+                    offense += leader_weight * focus * min(hp_e, dmg)
+                    psn_turns = min(horizon, max(1.0, (e["hp"] - dmg) / (16 + existing)))
+                    psn_value = max(
+                        0.0, min(poison * psn_turns, poison * (poison + 1) / 2 + existing * poison)
+                    )
+                    offense += (
+                        leader_weight
+                        * w.poison
+                        * min(max(0.0, e["hp"] - existing), poison_triggers * psn_value)
+                    )
+                    if self.enemy_mechanics:
+                        plow = _power(powers_e, "PLOW")
+                        if plow > 0 and (dmg > 0 or poison > 0):
+                            from .turn_planning import _poison_tick_loss, _resolve_attack_hits
+
+                            raw_hit_dmg = (
+                                stats.get("damage", 0)
+                                if potion
+                                else (_damage(item, e) if is_attack else 0)
+                            )
+                            if self.card_potion_mechanics and name == "KNIFE_TRAP":
+                                raw_hit_dmg += stats.get("calculatedshivs", 0) * shiv_damage
+                            eff_hits = (
+                                stats.get("calculatedshivs", 0)
+                                if (self.card_potion_mechanics and name == "KNIFE_TRAP")
+                                else max(1, hits)
+                            )
+                            eff_hp_dmg, _, ebuf_after, eslip_after, _ = _resolve_attack_hits(
+                                float(raw_hit_dmg),
+                                max(1, int(eff_hits)),
+                                float(e.get("block", 0)),
+                                max(0, _power(powers_e, "BUFFER")),
+                                slippery,
+                                max(0, _power(powers_e, "HARD_TO_KILL")),
+                                _power(powers_e, "INTANGIBLE") > 0,
+                                triggers_curl_up=False,
+                                slippery_after_block=True,
+                            )
+                            plow_poison = _poison_tick_loss(
+                                int(round(existing + poison)),
+                                poison_triggers - 1,
+                                _power(powers_e, "INTANGIBLE") > 0,
+                                slippery=eslip_after,
+                                buffer=ebuf_after,
+                                hard_cap=hard_cap_e,
+                            )
+                            total_plow_dmg = eff_hp_dmg + plow_poison
+                            if total_plow_dmg > 0 and e["hp"] - total_plow_dmg <= plow:
+                                mitigation += threat
+                                setup += 14.0 + 3.0 * max(0, _power(powers_e, "STRENGTH"))
+                            elif 0 < e["hp"] - plow <= 45 and eff_hp_dmg > 0:
+                                offense += 0.35 * min(float(e["hp"] - plow), eff_hp_dmg)
+                    if self.card_potion_mechanics and not potion:
+                        strangle = stats.get("stranglepower", 0)
+                        if strangle > 0 and not artifact and not giant_defeated:
+                            followups = _playable_followup_cards(max(0, energy - cost), item["index"])
+                            if followups > 0:
+                                per_card = 1.0 if (_power(powers_e, "INTANGIBLE") or slippery >= followups) else float(strangle)
+                                offense += leader_weight * min(float(e["hp"]), per_card * followups)
+                        debilitate = stats.get("debilitatepower", 0)
+                        if debilitate > 0 and not artifact:
+                            has_status = _power(powers_e, "WEAK") > 0 or _power(powers_e, "VULNERABLE") > 0
+                            setup += (5.0 if has_status else 2.5) * min(float(debilitate), horizon)
+                        esl = stats.get("enemystrengthloss", 0)
+                        if esl > 0 and not artifact:
+                            mitigation += min(threat, esl * count_hits(e))
+                            setup += esl * min(4.0, horizon) - stats.get("playerstrengthloss", 0) * 2.5 * attack_density
+                    if flask_kill_prob is not None:
+                        if flask_kill_prob > 0:
+                            mitigation += threat * flask_kill_prob
+                            if not (giant and giant.eruption_damage is not None) and not illusion_minion:
+                                kill_bonus = (
+                                    11 if minion else (
+                                        25 if len(enemies) == 1
+                                        or any(_power(o.get("powers"), "MINION") for o in enemies)
+                                        else 15
+                                    )
+                                )
+                                offense += kill_bonus * flask_kill_prob
+                    elif (dmg > 0 or poison > 0) and (
+                        dmg >= hp_e or max(0.0, dmg - e.get("block", 0)) + poison_end >= e["hp"]
+                    ):
                         mitigation += threat
                         if (
                             self.act2_mechanics
@@ -644,44 +757,45 @@ class EncounterPolicy(RunPolicy):
                     and max_attack > dmg * 1.25
                 ):
                     setup -= 0.45 * min(_power(powers_e, "CURL_UP"), max_attack - dmg)
-                weak = stats.get("weakpower", 0)
-                vuln = stats.get("vulnerablepower", 0)
-                if name == "EXPOSE":
-                    offense += min(17, e.get("block", 0)) * (energy > cost)
-                    vuln = stats.get("power", 2)
-                    artifact = False
-                if name == "MALAISE":
-                    weak = energy + int(item.get("upgrades", 0) > 0)
-                    if not artifact:
-                        setup += weak * min(8.0, horizon * 1.5)
-                        mitigation += min(threat, weak * count_hits(e))
-                if artifact and not self.legacy_features:
-                    # Haze applies Poison before Weak. Binding applies Weak
-                    # before Vulnerable. One Artifact stack stops one application.
-                    landed = landed_debuffs(item, debuff_order(item, stats, e, energy=energy),
-                                             _power(powers_e, "ARTIFACT"), targets=len(targets))
-                    weak = landed.get("weak", 0)
-                    vuln = landed.get("vulnerable", 0)
-                if (not artifact or not self.legacy_features) and weak > 0:
-                    current = _power(powers_e, "WEAK")
-                    if not current:
-                        mitigation += 0.25 * threat
-                    setup += min(weak, max(0.0, horizon - current)) * min(3.7, hp_pool / 35)
-                if (not artifact or not self.legacy_features) and vuln > 0:
-                    current = _power(powers_e, "VULNERABLE")
-                    vuln_scale = 0.15 if (self.enemy_mechanics and slippery >= 3) else 1.0
-                    setup += vuln_scale * min(vuln, max(0.0, horizon - current)) * (4.0 if hard else 3.0)
-                    if not current and (potion or energy > cost):
-                        setup += vuln_scale * min(4.0, 0.25 * max_attack)
-                drop = stats.get("strengthloss", 0) or (
-                    stats.get("strengthpower", 0) if name == "SHACKLING_POTION" else 0
-                )
-                if drop and not artifact:
-                    mitigation += min(threat, drop * count_hits(e))
-                if name == "BEETLE_JUICE" and not artifact:
-                    setup += 0.3 * min(4.0, horizon) * max(8, threat)
-                if name == "POWDERED_DEMISE":
-                    setup += stats.get("demise", 0) * min(5, horizon)
+                if not already_doomed_e:
+                    weak = stats.get("weakpower", 0)
+                    vuln = stats.get("vulnerablepower", 0)
+                    if name == "EXPOSE":
+                        offense += min(17, e.get("block", 0)) * (energy > cost)
+                        vuln = stats.get("power", 2)
+                        artifact = False
+                    if name == "MALAISE":
+                        weak = energy + int(item.get("upgrades", 0) > 0)
+                        if not artifact:
+                            setup += weak * min(8.0, horizon * 1.5)
+                            mitigation += min(threat, weak * count_hits(e))
+                    if artifact and not self.legacy_features:
+                        # Haze applies Poison before Weak. Binding applies Weak
+                        # before Vulnerable. One Artifact stack stops one application.
+                        landed = landed_debuffs(item, debuff_order(item, stats, e, energy=energy),
+                                                 _power(powers_e, "ARTIFACT"), targets=len(targets))
+                        weak = landed.get("weak", 0)
+                        vuln = landed.get("vulnerable", 0)
+                    if (not artifact or not self.legacy_features) and weak > 0:
+                        current = _power(powers_e, "WEAK")
+                        if not current:
+                            mitigation += 0.25 * threat
+                        setup += min(weak, max(0.0, horizon - current)) * min(3.7, hp_pool / 35)
+                    if (not artifact or not self.legacy_features) and vuln > 0:
+                        current = _power(powers_e, "VULNERABLE")
+                        vuln_scale = 0.15 if (self.enemy_mechanics and slippery >= 3) else 1.0
+                        setup += vuln_scale * min(vuln, max(0.0, horizon - current)) * (4.0 if hard else 3.0)
+                        if not current and (potion or energy > cost):
+                            setup += vuln_scale * min(4.0, 0.25 * max_attack)
+                    drop = stats.get("strengthloss", 0) or (
+                        stats.get("strengthpower", 0) if name == "SHACKLING_POTION" else 0
+                    )
+                    if drop and not artifact:
+                        mitigation += min(threat, drop * count_hits(e))
+                    if name == "BEETLE_JUICE" and not artifact:
+                        setup += 0.3 * min(4.0, horizon) * max(8, threat)
+                    if name == "POWDERED_DEMISE":
+                        setup += stats.get("demise", 0) * min(5, horizon)
             if random_target and len(targets) > 1:
                 offense /= len(targets)
                 mitigation /= len(targets)
@@ -1172,6 +1286,8 @@ class EncounterModel:
         self.act2_mechanics = data.get("act2_mechanics", False)
         self.enemy_mechanics = data.get("enemy_mechanics", False)
         self.card_potion_mechanics = data.get("card_potion_mechanics", False)
+        self.selection_fixes_v4 = data.get("selection_fixes_v4", False)
+        self.combat_fixes_v4 = data.get("combat_fixes_v4", False)
         self.survival_search = data.get("survival_search", False)
         self.survival_beam = data.get("survival_beam", False)
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
@@ -1264,6 +1380,8 @@ class EncounterModel:
                 act2_mechanics=plan.get("act2_mechanics", self.act2_mechanics),
                 enemy_mechanics=plan.get("enemy_mechanics", self.enemy_mechanics),
                 card_potion_mechanics=plan.get("card_potion_mechanics", self.card_potion_mechanics),
+                selection_fixes_v4=plan.get("selection_fixes_v4", self.selection_fixes_v4),
+                combat_fixes_v4=plan.get("combat_fixes_v4", self.combat_fixes_v4),
             )
             self.key = key
 
@@ -1314,6 +1432,10 @@ class EncounterModel:
             action = rerank(self.action_ranker, state, actions, action, self.actor)
         if self.actor.mecha_tactics:
             action = self.actor.mecha_tactics.rank(state, actions, action, self.actor)
+        fixes_v4 = bool(getattr(self.actor, "combat_fixes_v4", False))
+        if fixes_v4 and self.sandpit_threshold and ctx["room_type"] == "Boss":
+            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
+            action = escape_action(state, actions, action, threshold)
         if self.survival_search and (actor_act2_mech or not facing_plan):
             action = choose_turn_survival(
                 state,
@@ -1322,7 +1444,7 @@ class EncounterModel:
                 facing=facing,
                 score_adjust=focus_adjust,
             )
-        if self.sandpit_threshold and ctx["room_type"] == "Boss":
+        if (not fixes_v4) and self.sandpit_threshold and ctx["room_type"] == "Boss":
             threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
             action = escape_action(state, actions, action, threshold)
         if self.boss_tactics:
