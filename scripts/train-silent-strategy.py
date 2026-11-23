@@ -411,8 +411,13 @@ def fit_strategy_roots(
     strength=1.0,
     base_strategy=None,
     residual_alpha=1.0,
+    residual_act_band=None,
     horizon="act",
 ):
+    if residual_act_band is not None and (
+        residual_act_band not in ("act1", "act2_plus") or base_strategy is None
+    ):
+        raise ValueError("Act-scoped fitting requires a base strategy and a valid act band")
     roots = []
     expected_stamp = _UNSET
     for folder in folders:
@@ -472,6 +477,13 @@ def fit_strategy_roots(
         if base.card_offsets and base.offset_scale != 0.0:
             raise ValueError("Card-only residual fit requires base strategy offset_scale == 0.0")
         card_roots = [r for r in roots if r["kind"] == "card"]
+        if base.card_residuals_by_act and (
+            residual_act_band is None or residual_act_band in base.card_residuals_by_act
+        ):
+            raise ValueError("Choose an unfitted act band on this base strategy")
+        if residual_act_band:
+            acts = (1,) if residual_act_band == "act1" else (2, 3)
+            card_roots = [r for r in card_roots if r["act"] in acts]
         if not card_roots:
             raise ValueError("No card roots available for card-only residual fit")
         card_strength = float(base.strengths_by_kind.get("card", base.strength))
@@ -494,11 +506,16 @@ def fit_strategy_roots(
         if not train:
             raise ValueError("No training card roots")
         delta_weights = OfferModel.fit(train, ridge=ridge).weights
-        merged_weights = dict(base.weights)
-        for key, value in delta_weights.items():
-            merged_weights[key] = merged_weights.get(key, 0.0) + (residual_alpha / card_strength) * value
+        scaled = {key: (residual_alpha / card_strength) * v for key, v in delta_weights.items()}
+        weights = dict(base.weights)
+        bands = dict(base.card_residuals_by_act)
+        if residual_act_band:
+            bands[residual_act_band] = scaled
+        else:
+            for key, value in scaled.items():
+                weights[key] = weights.get(key, 0.0) + value
         model = StrategyModel(
-            merged_weights,
+            weights,
             set(base.kinds) | {"card"},
             base.strength,
             dict(base.strengths_by_kind),
@@ -507,33 +524,23 @@ def fit_strategy_roots(
             deck_size_penalty=base.deck_size_penalty,
             offset_scale=base.offset_scale if offset_scale is None else float(offset_scale),
             event_fixes_v4=base.event_fixes_v4,
+            card_residuals_by_act=bands,
         )
         metrics = {}
-        dev = [r for r in residual_roots if validation(r)]
+        dev = [r for r in card_roots if validation(r)]
         if dev:
-            def gain(r):
-                arms = r["arms"]
-                deployed = max(arms, key=lambda a: a["prior"])
-                updated = max(
-                    arms,
-                    key=lambda a: a["prior"]
-                    + residual_alpha * sum(delta_weights.get(k, 0.0) * v for k, v in a["features"].items()),
-                )
-                return updated["return"] - deployed["return"]
-
-            changed = sum(
-                max(r["arms"], key=lambda a: a["prior"])["id"]
-                != max(
-                    r["arms"],
-                    key=lambda a: a["prior"]
-                    + residual_alpha * sum(delta_weights.get(k, 0.0) * v for k, v in a["features"].items()),
-                )["id"]
-                for r in dev
-            )
+            gains = []
+            changed = 0
+            for r in dev:
+                ranker = model.card_ranker(r["act"]) if residual_act_band else model
+                deployed = max(r["arms"], key=lambda a: a["prior"] + card_strength * base.predict(0.0, a["features"]))
+                updated = max(r["arms"], key=lambda a: a["prior"] + card_strength * ranker.predict(0.0, a["features"]))
+                gains.append(updated["return"] - deployed["return"])
+                changed += updated["id"] != deployed["id"]
             metrics["card"] = {
                 "roots": len(dev),
                 "changed_roots": changed,
-                "mean_gain_vs_deployed": fmean(map(gain, dev)),
+                "mean_gain_vs_deployed": fmean(gains),
             }
         report = {
             "mode": "card_residual",
@@ -547,6 +554,8 @@ def fit_strategy_roots(
             "delta_nonzero": sum(abs(v) > 1e-12 for v in delta_weights.values()),
             "validation": metrics,
         }
+        if residual_act_band:
+            report["act_band"] = residual_act_band
         return model, report
 
     train = [r for r in roots if not validation(r)]
@@ -618,7 +627,11 @@ def main():
     p.add_argument("--strength", type=float, default=1.0)
     p.add_argument("--base-strategy", type=Path, help="Fit a regularized card-only residual over this StrategyModel")
     p.add_argument("--residual-alpha", type=float, default=1.0)
+    p.add_argument("--residual-act-band", choices=("act1", "act2_plus"),
+                   help="Fit only this band and store card-weight deltas relative to the base")
     args = p.parse_args()
+    if args.residual_act_band and (args.mode != "fit" or not args.base_strategy):
+        p.error("--residual-act-band requires fit and --base-strategy")
     if args.continuation == "bundle" and (args.style or args.room_model):
         p.error("--continuation bundle uses the bundle's own encounter and room models")
     if args.horizon == "run" and args.continuation != "bundle":
@@ -674,6 +687,7 @@ def main():
         strength=args.strength,
         base_strategy=args.base_strategy,
         residual_alpha=args.residual_alpha,
+        residual_act_band=args.residual_act_band,
         horizon=args.horizon,
     )
     model.save(args.output / "strategy.json")

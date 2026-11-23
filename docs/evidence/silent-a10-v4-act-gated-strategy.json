@@ -1,0 +1,136 @@
+{
+  "base_commit": "b820404b55beb6c6c4499f76413200fac3836ddc",
+  "native_host_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410",
+  "v4_bundle_sha256": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+  "training": {
+    "source": "b820404:docs/evidence/silent-a10-v4-strategy-scaleup.json",
+    "source_seed_lock_sha256": "13caf32f4a95cd0f7cf77f52cf3f28c89021452795210e43b9f3918b271136c7",
+    "episodes": 1024,
+    "clean_roots": 2314,
+    "clean_ids_sha256": "73f032294684f44acb4e7e5e9f08645c0fa3ecdf4a871d6b01e28caaf9432c34",
+    "clean_roots_jsonl_sha256": "d016660e8e1e4111bfcc285f24b7e504f5d3e965f82524f2a152505ab9ca9d36",
+    "branches": 9256,
+    "by_act": {
+      "2": 1588,
+      "1": 597,
+      "3": 129
+    },
+    "unique_seeds": 839,
+    "horizon": "run",
+    "provenance": {
+      "schema": "strategy-continuation-v1",
+      "continuation": "bundle",
+      "code_sha256": "1a09e9cef5a9575903fd7f785ac7acc4531ca56eb694df85cefa75397ff3d7b6",
+      "bundle_sha256": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+      "bundle_files": {
+        "weights": {
+          "name": "weights.json",
+          "sha256": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+        },
+        "room_model": {
+          "name": "room_model.json",
+          "sha256": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192"
+        },
+        "late_room_model": {
+          "name": "late_room_model.json",
+          "sha256": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd"
+        },
+        "offer_model": {
+          "name": "offer_model.json",
+          "sha256": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4"
+        },
+        "strategy_model": {
+          "name": "strategy_model.json",
+          "sha256": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f"
+        },
+        "encounter_model": {
+          "name": "encounter_model.json",
+          "sha256": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29"
+        },
+        "deck_model": {
+          "name": "deck_model.json",
+          "sha256": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f"
+        }
+      },
+      "style": null,
+      "room_model_sha256": null,
+      "unified_draft": true,
+      "deck_size_penalty": 0.0,
+      "horizon": "run",
+      "collector_sha256": "1dfaf2d36d324c4a0f417287dd950549fb345c92f323925e6b4bb51a26772c62",
+      "patch_chain_sha256": "5b702d620c3ca863a9ad85ca6d2a46fdc3efac69b4fa461f706b4f7b368b990e",
+      "host_dll_sha256": "5a8fa593ae5beb8fc43b575d6b32e9c53c54e3867db820a80b4cd49f7525c410"
+    }
+  },
+  "dev_panel": {
+    "path": "docs/evidence/silent-a10-v4-act-gated/dev-seeds.json",
+    "sha256": "8ba63d9f5cfd48712000dbc19ee17131566344cdd44e3c7799c8af2e5496057c",
+    "size": 384,
+    "default": 192,
+    "seeded": 192,
+    "prior_registry_keys_checked": 3456,
+    "overlaps": 0,
+    "excluded_prefixes": [
+      "VAL256_",
+      "SEEDED128_",
+      "TRUE_SEEDED_",
+      "REP512_",
+      "M4DX",
+      "M4DV",
+      "S4UD",
+      "S4UF",
+      "CSV2DATA",
+      "CSV3"
+    ],
+    "namespace_absent_from_remote_tips": [
+      "0696315443d02f8c8da6eef2f2fb4de94ae028e8",
+      "10003a6e1775852992547e6b7e1951c1ab187175",
+      "198086a328a4b873e3951bba0c00dbb55451e77d",
+      "2920efa021f0a816ddb87242ef7a60539c35e860",
+      "58fcec6ed61c8e6f1f93bb2b3108d3a1927ab540",
+      "90eebae2fd662b42c33f785773109d88b20e3471",
+      "93456cd920ae7c3f2dde8576b6c7bc9c3cef84ff",
+      "a4be4716e76ff8dd6df9a3a3e39d98bc5ee552c2",
+      "b820404b55beb6c6c4499f76413200fac3836ddc",
+      "d6df9a2520ce84cac1a064b6b2cd2f3f059987e0",
+      "d94113ff06692eef3f8d64b318026332c7c049df",
+      "e054d05ef99c27c72debddbba2cd50c89b1441cd"
+    ]
+  },
+  "design": {
+    "target": "Whole-run return inherited from b820404: 17*(terminal_act-1)+terminal_floor+10*win+2*last_boss_damage_fraction_in_terminal_act.",
+    "fit": "Fit centered ridge to within-root deployed-score residuals. By original run seed, SHA256(seed)[:4] big-endian mod 5 == 0 is held out for offline selection. Four validation subgroups use digest byte [4] mod 4. No refit on holdout.",
+    "grid": {
+      "act1": {
+        "ridge": [
+          32,
+          64,
+          128
+        ],
+        "alpha": [
+          0.2,
+          0.35,
+          0.5
+        ]
+      },
+      "act2_plus": {
+        "ridge": [
+          16,
+          32,
+          64
+        ],
+        "alpha": [
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ]
+      }
+    },
+    "selection": "Require Act 1 mean held-out gain > 0, each of the four subgroup means >= 0, and raw weight deltas >= -0.50 for take:value, Snakebite, Predator and Bubble Bubble. Among qualifiers maximize gain, then ridge, then prefer smaller alpha. If eligible, pair this Act 1 fit with the best Act 2+3 fit at alpha <= 0.75, and also run the same late fit alone. Otherwise test two late-only fits, best at alpha 0.25 and best at alpha 0.50. Rank late fits by the same tie rule. Report the full grid.",
+    "dev_gate": "384/384 matched complete nonabandoned starts for all three bundles. Candidate paired total-floor CI lower endpoint > 0 and no decreases in Act 1 clear, Act 2 boss entry or Act 2 clear counts. For late-only arms require exact per-seed Act 1 boss entry and clear agreement. If both pass select larger mean floor gain, ties prefer the smaller late alpha then the late-only arm.",
+    "ci": "Total floors = 17*(terminal_act-1)+terminal_floor. Use 30000 paired seed bootstrap replicates with replacement, identical draws for both contrasts, NumPy default_rng(261123), two-sided Bonferroni percentile interval [0.0125,0.9875] for each contrast.",
+    "conditional": "Count runs with Act 1 clear and Act 2 boss entry / runs with Act 1 clear in that arm.",
+    "handoff": "A dev pass qualifies the frozen strategy for later integration with v5. Sealed panels are outside this dev experiment."
+  }
+}

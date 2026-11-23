@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 import json
+from math import isfinite
 from pathlib import Path
 import re
 
@@ -306,6 +307,7 @@ class StrategyModel(OfferModel):
         deck_size_penalty=0.12,
         offset_scale=1.0,
         event_fixes_v4=False,
+        card_residuals_by_act=None,
     ):
         super().__init__(weights)
         self.kinds = frozenset(kinds)
@@ -320,6 +322,26 @@ class StrategyModel(OfferModel):
         self.event_fixes_v4 = bool(event_fixes_v4)
         self.uses_matchups = any(k.startswith("matchup/") for k in weights)
 
+        self.card_residuals_by_act = {} if card_residuals_by_act is None else card_residuals_by_act
+        self._card_rankers = {}
+        if not isinstance(self.card_residuals_by_act, dict):
+            raise ValueError("Expected a mapping of card residuals by act")
+        for band, residual in self.card_residuals_by_act.items():
+            if band not in ("act1", "act2_plus") or not isinstance(residual, dict):
+                raise ValueError(f"Invalid card residual band: {band}")
+            merged = dict(weights)
+            for key, delta in residual.items():
+                if type(delta) not in (float, int) or not isfinite(delta):
+                    raise ValueError(f"Invalid card residual weight: {key}")
+                if key.startswith("matchup/") and not self.uses_matchups:
+                    raise ValueError("Card residual requires base matchup features")
+                merged[key] = merged.get(key, 0.0) + delta
+            self._card_rankers[band] = OfferModel(merged)
+
+    def card_ranker(self, act):
+        """Use the base scorer verbatim outside an explicitly fitted act band."""
+        return self._card_rankers.get("act1" if act == 1 else "act2_plus", self)
+
     def choose(self, state, policy, opening=None, *, group_probability=None, explanation=None):
         arms = strategy_arms(
             state,
@@ -332,6 +354,7 @@ class StrategyModel(OfferModel):
             event_fixes_v4=self.event_fixes_v4,
         )
         kind = strategy_kind(state)
+        ranker = self.card_ranker(state["context"]["act"]) if kind == "card" else self
         strength = self.strengths_by_kind.get(kind, self.strength)
         offsets = {}
         if kind == "card" and self.card_offsets and self.offset_scale != 0.0:
@@ -347,7 +370,7 @@ class StrategyModel(OfferModel):
         for action, prior, features in arms:
             index = action.args.get("card_index")
             offset = offsets.get(index, 0.0)
-            strategy_score = strength * self.predict(0.0, features)
+            strategy_score = strength * ranker.predict(0.0, features)
             total = prior + strategy_score + offset
             totals.append(total)
             if explanation is not None and kind == "card":
@@ -378,7 +401,7 @@ class StrategyModel(OfferModel):
                 options.append({
                     "action": action.command(), "card": card["id"] if card else "skip",
                     "prior_base": base, "prior_base_parts": base_parts, "prior_terms": prior_terms, "prior": prior,
-                    "strategy_terms": self.contributions(features, strength),
+                    "strategy_terms": ranker.contributions(features, strength),
                     "strategy": strategy_score, "card_offset": offset, "total": total,
                 })
         winner = max(range(len(arms)), key=totals.__getitem__)
@@ -406,6 +429,8 @@ class StrategyModel(OfferModel):
             "strengths_by_kind": self.strengths_by_kind,
             "card_offsets": self.card_offsets,
         }
+        if self.card_residuals_by_act:
+            payload["card_residuals_by_act"] = self.card_residuals_by_act
         if self.unified_draft:
             payload["unified_draft"] = True
             payload["deck_size_penalty"] = self.deck_size_penalty
@@ -431,6 +456,7 @@ class StrategyModel(OfferModel):
             deck_size_penalty=copied.get("deck_size_penalty", 0.12),
             offset_scale=copied.get("offset_scale", 1.0),
             event_fixes_v4=copied.get("event_fixes_v4", False),
+            card_residuals_by_act=copied.get("card_residuals_by_act"),
         )
 
     @classmethod
