@@ -277,6 +277,13 @@ class _SurvivalMove:
     extra: float
     tender_hits: int = 0
     tender_block: bool = False
+    is_skill: bool = False
+    is_knife_trap: bool = False
+    knife_trap_shivs: int = 0
+    shadowmeld_gain: int = 0
+    strength_gain: int = 0
+    burst_gain: int = 0
+    debilitate_order: tuple = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -304,15 +311,41 @@ class _SurvivalHand:
     stopped: bool = False
     enemy_curl_up: tuple = ()
     facing: int | None = None
+    skills_played: int = 0
+    shadowmeld: int = 0
+    strength_gain: int = 0
+    giga_rem: int = 0
+    burst_rem: int = 0
+    dup_rem: int = 0
+    debilitate: int = 0
 
 
-def _poison_tick_loss(stacks, accelerant, intangible):
+def _poison_tick_loss(stacks, accelerant, intangible, slippery=0, buffer=0):
     if stacks <= 0:
         return 0
-    ticks = min(stacks, 1 + accelerant)
-    if intangible:
-        return ticks
-    return ticks * stacks - ticks * (ticks - 1) // 2
+    n_stacks = int(stacks)
+    if n_stacks <= 0:
+        return 0
+    ticks = min(n_stacks, 1 + max(0, int(accelerant)))
+    if buffer <= 0 and slippery <= 0:
+        if intangible:
+            return ticks
+        return ticks * n_stacks - ticks * (ticks - 1) // 2
+    total = 0
+    rem_buf = max(0, int(buffer))
+    rem_sl = max(0, int(slippery))
+    for t in range(ticks):
+        if rem_buf > 0:
+            rem_buf -= 1
+            continue
+        if intangible:
+            total += 1
+        elif rem_sl > 0:
+            total += 1
+            rem_sl -= 1
+        else:
+            total += n_stacks - t
+    return total
 
 
 def _hand_burn_hits(hand, intangible):
@@ -350,6 +383,8 @@ def _resolve_attack_hits(
     e_curl_up=0.0,
     *,
     triggers_curl_up=True,
+    slippery_after_block=False,
+    curl_up_per_hit=False,
 ):
     """Resolve an attack's per-hit damage against enemy Block, Buffer, Slippery, Curl Up, and caps."""
     if raw_damage <= 0 or hits <= 0:
@@ -358,7 +393,7 @@ def _resolve_attack_hits(
     hp_loss = 0.0
     for _ in range(int(hits)):
         h = per_hit
-        if e_slippery > 0:
+        if not slippery_after_block and e_slippery > 0:
             h = min(h, 1.0)
             e_slippery -= 1
         if e_hard_cap > 0:
@@ -373,31 +408,63 @@ def _resolve_attack_hits(
             if e_buffer > 0:
                 e_buffer -= 1
             else:
+                if slippery_after_block and e_slippery > 0:
+                    rem = min(rem, 1.0)
+                    e_slippery -= 1
                 hp_loss += rem
-    if hp_loss > 0 and triggers_curl_up and e_curl_up > 0:
+                if curl_up_per_hit and rem > 0 and triggers_curl_up and e_curl_up > 0:
+                    e_block += e_curl_up
+                    e_curl_up = 0.0
+    if not curl_up_per_hit and hp_loss > 0 and triggers_curl_up and e_curl_up > 0:
         # Native Curl Up triggers once after the full powered attack card resolves.
         e_block += e_curl_up
         e_curl_up = 0.0
     return hp_loss, e_block, e_buffer, e_slippery, e_curl_up
 
 
-def _enemy_attack_hits_list(intent_total, hits_count, already_weak, newly_weak, str_drop, intangible):
-    """Compute per-hit enemy attack values applying Strength loss BEFORE Weak."""
+def _enemy_attack_hits_list(
+    intent_total,
+    hits_count,
+    already_weak,
+    newly_weak,
+    str_drop,
+    intangible,
+    *,
+    already_debilitated=False,
+    newly_debilitated=False,
+):
+    """Compute per-hit enemy attack values applying Strength delta (positive=loss, negative=gain) BEFORE Weak."""
     if intent_total <= 0:
         return ()
     n = max(1, int(hits_count))
     per_hit = intent_total / n
+    old_mult = (0.5 if already_debilitated else 0.75) if already_weak else 1.0
+    weak_after = already_weak or newly_weak
+    new_mult = (0.5 if (already_debilitated or newly_debilitated) else 0.75) if weak_after else 1.0
     if str_drop > 0:
         if already_weak:
-            # Displayed intent already reflects Weak (floor(base * 0.75)); recover upper bound.
-            base = math.ceil(per_hit / 0.75)
+            # Displayed intent already reflects current Weak; recover conservative upper bound.
+            base = math.ceil(per_hit / old_mult)
             adj = max(0, base - str_drop)
-            per_hit = float(math.floor(adj * 0.75))
+            per_hit = float(math.floor(adj * new_mult))
         else:
             adj = max(0.0, per_hit - str_drop)
-            per_hit = float(math.floor(adj * 0.75)) if newly_weak else adj
+            per_hit = float(math.floor(adj * new_mult)) if weak_after else adj
+    elif str_drop < 0:
+        gain = -str_drop
+        if already_weak:
+            # Largest integer base satisfying floor(base * old_mult) <= per_hit.
+            base = math.ceil((per_hit + 1) / old_mult) - 1
+            adj = base + gain
+            per_hit = float(math.floor(adj * new_mult))
+        else:
+            adj = per_hit + gain
+            per_hit = float(math.floor(adj * new_mult)) if weak_after else adj
     elif newly_weak and not already_weak:
-        per_hit = float(math.floor(per_hit * 0.75))
+        per_hit = float(math.floor(per_hit * new_mult))
+    elif already_weak and newly_debilitated and not already_debilitated:
+        base = math.ceil(per_hit / 0.75)
+        per_hit = float(math.floor(base * 0.5))
     if per_hit <= 0:
         return ()
     if intangible:
@@ -406,7 +473,16 @@ def _enemy_attack_hits_list(intent_total, hits_count, already_weak, newly_weak, 
 
 
 def _search_survival_lines(
-    state, policy, actions, *, width=8, depth=5, forced_first=None, facing=None, score_adjust=None
+    state,
+    policy,
+    actions,
+    *,
+    width=8,
+    depth=5,
+    forced_first=None,
+    facing=None,
+    score_adjust=None,
+    return_plow=False,
 ):
     scores = policy.combat_scores(state, actions)
     if score_adjust is not None:
@@ -417,9 +493,14 @@ def _search_survival_lines(
     if size == 0:
         idx = max(range(len(actions)), key=scores.__getitem__)
         best = (1, 1, 0, scores[idx], scores[idx], -idx, idx)
+        if return_plow:
+            return best, {idx: best}, None, {}
         return best, {idx: best}
 
     act2_mech = bool(getattr(policy, "act2_mechanics", False))
+    enemy_mech = bool(getattr(policy, "enemy_mechanics", False))
+    card_pot_mech = bool(getattr(policy, "card_potion_mechanics", False))
+    v3_mech = enemy_mech or card_pot_mech
     e_hp = tuple(e["hp"] for e in enemies)
     e_block = tuple(float(e.get("block", 0)) for e in enemies)
     e_total = tuple(e["hp"] + e.get("block", 0) for e in enemies)
@@ -440,9 +521,31 @@ def _search_survival_lines(
         if act2_mech
         else (False,) * size
     )
+    e_plow = (
+        tuple(max(0, _power(e.get("powers"), "PLOW")) for e in enemies)
+        if enemy_mech
+        else (0,) * size
+    )
+    e_strength = (
+        tuple(max(0, _power(e.get("powers"), "STRENGTH")) for e in enemies)
+        if enemy_mech
+        else (0,) * size
+    )
+    e_vital_spark = (
+        tuple(max(0, _power(e.get("powers"), "VITAL_SPARK")) for e in enemies)
+        if enemy_mech
+        else (0,) * size
+    )
+    any_vital_spark = any(e_vital_spark)
     e_minion = tuple(_power(e.get("powers"), "MINION") > 0 for e in enemies)
     has_leader = any(not m for m in e_minion)
     e_weak = tuple(_power(e.get("powers"), "WEAK") > 0 for e in enemies)
+    e_vuln = tuple(_power(e.get("powers"), "VULNERABLE") > 0 for e in enemies)
+    e_debilitate = (
+        tuple(_power(e.get("powers"), "DEBILITATE") > 0 for e in enemies)
+        if card_pot_mech
+        else (False,) * size
+    )
     e_hits = tuple(attack_hits(e) for e in enemies)
     e_intents = tuple(incoming(e) for e in enemies)
     shields = tuple(max(0, _power(e.get("powers"), "ARTIFACT")) for e in enemies)
@@ -464,7 +567,17 @@ def _search_survival_lines(
     start_intangible = max(0, _power(powers, "INTANGIBLE"))
     start_buffer = max(0, _power(powers, "BUFFER"))
     start_afterimage = max(0, _power(powers, "AFTERIMAGE"))
+    start_shadowmeld = max(0, _power(powers, "SHADOWMELD")) if card_pot_mech else 0
+    start_giga = max(0, _power(powers, "GIGANTIFICATION")) if card_pot_mech else 0
+    start_burst = max(0, _power(powers, "BURST")) if v3_mech else 0
+    start_dup = (
+        sum(max(0, int(p.get("amount", 0))) for p in powers if "DUPLICAT" in p.get("id", ""))
+        if v3_mech
+        else 0
+    )
     accelerant = max(0, _power(powers, "ACCELERANT"))
+    player_weak = _power(powers, "WEAK") > 0
+    shiv_damage = max(0, 4 + _power(powers, "STRENGTH") + _power(powers, "ACCURACY"))
     surrounded = (
         act2_mech and facing is not None and size == 2 and _power(powers, "SURROUNDED") > 0
     )
@@ -474,12 +587,19 @@ def _search_survival_lines(
         else None
     )
     revive = any(
-        _power(e.get("powers"), "ILLUSION") or _power(e.get("powers"), "INFESTED") for e in enemies
+        _power(e.get("powers"), "ILLUSION")
+        or _power(e.get("powers"), "INFESTED")
+        or (enemy_mech and _power(e.get("powers"), "ADAPTABLE"))
+        for e in enemies
     )
     leader_revive = (
         any(
             (not e_minion[i])
-            and (_power(e.get("powers"), "ILLUSION") or _power(e.get("powers"), "INFESTED"))
+            and (
+                _power(e.get("powers"), "ILLUSION")
+                or _power(e.get("powers"), "INFESTED")
+                or (enemy_mech and _power(e.get("powers"), "ADAPTABLE"))
+            )
             for i, e in enumerate(enemies)
         )
         if act2_mech
@@ -505,6 +625,10 @@ def _search_survival_lines(
         buffer_stacks,
         self_loss,
         cur_facing=None,
+        cur_slippery=None,
+        cur_ebuf=None,
+        skills_played=0,
+        debilitate_mask=0,
     ):
         giant = None
         if solo_giant:
@@ -518,8 +642,17 @@ def _search_survival_lines(
         giant_eruption = bool(giant and giant.eruption_damage is not None)
         offense = 0.0
         killed_flags = [False] * size
+        plow_stunned_flags = [False] * size
         for i in range(size):
-            p_loss = _poison_tick_loss(e_poison[i] + poison[i], accelerant, e_intangible[i])
+            slip_i = (cur_slippery[i] if cur_slippery is not None else e_slippery[i]) if v3_mech else 0
+            buf_i = (cur_ebuf[i] if cur_ebuf is not None else e_buffer[i]) if v3_mech else 0
+            p_loss = _poison_tick_loss(
+                e_poison[i] + poison[i],
+                accelerant,
+                e_intangible[i],
+                slippery=slip_i,
+                buffer=buf_i,
+            )
             g_killed = (not giant_eruption) and (not giant_deathblow) and (
                 guaranteed_damage[i] + p_loss >= e_hp[i]
             )
@@ -530,6 +663,16 @@ def _search_survival_lines(
             if soft_killed and not giant_eruption and not giant_deathblow:
                 offense += 14.0
             killed_flags[i] = g_killed
+            # Native Plow stuns on any positive HP damage landing at or below the threshold.
+            if (
+                enemy_mech
+                and not g_killed
+                and e_plow[i] > 0
+                and (guaranteed_damage[i] + p_loss) > 0
+                and (e_hp[i] - guaranteed_damage[i] - p_loss) <= e_plow[i]
+            ):
+                plow_stunned_flags[i] = True
+                offense += 14.0 + 3.0 * e_strength[i]
 
         # Killing all non-minion leaders ends the encounter immediately (minions flee).
         leaders_dead = has_leader and all(
@@ -551,7 +694,7 @@ def _search_survival_lines(
             )
             all_hits = []
             for i in range(size):
-                if killed_flags[i]:
+                if killed_flags[i] or plow_stunned_flags[i]:
                     continue
                 inc_i = 0 if (giant and giant.eruption_forced) else e_intents[i]
                 if inc_i > 0:
@@ -570,14 +713,17 @@ def _search_survival_lines(
                     if ally_died and e_crab_rage[i]:
                         # Crab Rage grants +6 Strength at A10 immediately when the partner dies.
                         inc_i += 6 * hits_i
+                    net_str_drop = str_drop[i] - (skills_played * e_vital_spark[i] if enemy_mech else 0)
                     all_hits.extend(
                         _enemy_attack_hits_list(
                             inc_i,
                             e_hits[i],
                             e_weak[i],
                             bool(weak_mask & (1 << i)),
-                            str_drop[i],
+                            net_str_drop,
                             intangible > 0,
+                            already_debilitated=e_debilitate[i],
+                            newly_debilitated=bool(debilitate_mask & (1 << i)),
                         )
                     )
 
@@ -600,9 +746,9 @@ def _search_survival_lines(
             (giant_deathblow and survives)
             or (guaranteed_alive == 0 and not leader_revive and not giant_eruption)
         )
-        return offense, end_turn_loss, hp_loss, survives, clears
+        return offense, end_turn_loss, hp_loss, survives, clears, any(plow_stunned_flags)
 
-    root_offense, root_end_loss, root_hp_loss, _, _ = evaluate_state(
+    root_offense, root_end_loss, root_hp_loss, _, _, _ = evaluate_state(
         (0.0,) * size,
         (0.0,) * size,
         (0,) * size,
@@ -613,6 +759,10 @@ def _search_survival_lines(
         start_buffer,
         0.0,
         cur_facing=start_facing_pos,
+        cur_slippery=e_slippery,
+        cur_ebuf=e_buffer,
+        skills_played=0,
+        debilitate_mask=0,
     )
     block_weight = w.block * (1.0 + min(2.0, root_end_loss / max(1, player_hp)))
 
@@ -621,8 +771,8 @@ def _search_survival_lines(
 
     root_board = board_value(root_offense, root_end_loss)
 
-    def line_quality(hand, first_idx):
-        offense, end_loss, hp_loss, survives, clears = evaluate_state(
+    def line_quality_and_meta(hand, first_idx):
+        offense, end_loss, hp_loss, survives, clears, plow_stunned = evaluate_state(
             hand.damage,
             hand.guaranteed_damage,
             hand.poison,
@@ -633,12 +783,16 @@ def _search_survival_lines(
             hand.buffer,
             hand.self_hp_loss,
             cur_facing=hand.facing,
+            cur_slippery=hand.enemy_slippery,
+            cur_ebuf=hand.enemy_buffer,
+            skills_played=hand.skills_played,
+            debilitate_mask=hand.debilitate,
         )
         utility = board_value(offense, end_loss) + hand.extra
         if clears:
             utility += 35.0
         if survives:
-            return (
+            q = (
                 1,
                 int(clears),
                 -hand.potions_used if clears else 0,
@@ -647,8 +801,14 @@ def _search_survival_lines(
                 -first_idx,
                 first_idx,
             )
+            plow_q = (
+                (1, int(clears), -hand.potions_used, utility, -hp_loss, scores[first_idx], first_idx)
+                if plow_stunned
+                else None
+            )
+            return q, plow_q, hp_loss, hand.potions_used
         deficit = hp_loss - player_hp + 1.0
-        return (
+        q = (
             0,
             int(hand.has_escape),
             -deficit,
@@ -657,6 +817,7 @@ def _search_survival_lines(
             -first_idx,
             first_idx,
         )
+        return q, None, hp_loss, hand.potions_used
 
     moves = []
     for j, a in enumerate(actions):
@@ -683,13 +844,23 @@ def _search_survival_lines(
             item.get("target_type") == "RandomEnemy" or name == "BOUNCING_FLASK"
         ) and size > 1
         is_attack = (not potion) and item.get("type") == "Attack"
+        is_skill = (not potion) and item.get("type") == "Skill"
         hits = _hits(item)
         if is_x and name in ("SKEWER", "VOLLEY", "STARDUST"):
             hits = energy
+        k_shivs = (
+            int(stats.get("calculatedshivs", 0))
+            if (card_pot_mech and not potion and name == "KNIFE_TRAP")
+            else 0
+        )
+        is_knife_trap = k_shivs > 0
+        if is_knife_trap:
+            hits = k_shivs
 
         d = [0.0] * size
         gd = [0.0] * size
         weak_order = [0] * size
+        debilitate_order = [0] * size
         poison_apps = [() for _ in range(size)]
         str_drop = [() for _ in range(size)]
         debuffs = [0] * size
@@ -703,6 +874,8 @@ def _search_survival_lines(
                     raw_d = float(stats.get("damage", 0) * hits) if hits > 0 else 0.0
                 else:
                     raw_d = float(_damage(item, enemies[i]))
+            elif is_knife_trap:
+                raw_d = float(k_shivs * shiv_damage)
             if random_multi:
                 d[i] = raw_d / size
                 gd[i] = 0.0
@@ -711,7 +884,14 @@ def _search_survival_lines(
                 gd[i] = raw_d
 
             if not random_multi:
-                effects = debuff_order(item, stats, enemies[i], energy=energy)
+                effects = list(debuff_order(item, stats, enemies[i], energy=energy))
+                if card_pot_mech and not potion:
+                    esl = int(stats.get("enemystrengthloss", 0))
+                    if esl > 0:
+                        effects.append(("strength_loss", esl))
+                    deb_amt = int(stats.get("debilitatepower", 0))
+                    if deb_amt > 0:
+                        effects.append(("debilitate", deb_amt))
                 if item.get("id") == "CARD.EXPOSE":
                     debuffs[i] = len(effects) + shields[i]
                 else:
@@ -719,6 +899,10 @@ def _search_survival_lines(
                 if not e_weak[i]:
                     weak_order[i] = next(
                         (n for n, (kind, _) in enumerate(effects, 1) if kind == "weak"), 0
+                    )
+                if card_pot_mech and not e_debilitate[i]:
+                    debilitate_order[i] = next(
+                        (n for n, (kind, _) in enumerate(effects, 1) if kind == "debilitate"), 0
                     )
                 poison_apps[i] = tuple(
                     (n, amount) for n, (kind, amount) in enumerate(effects, 1) if kind == "poison"
@@ -732,6 +916,21 @@ def _search_survival_lines(
         card_block = float(block_preview(stats))
         is_fortifier = potion and name == "FORTIFIER"
         afterimage_gain = int(stats.get("afterimagepower", 0)) if not potion else 0
+        burst_gain = int(stats.get("skills", 1)) if (v3_mech and not potion and name == "BURST") else 0
+        shadowmeld_gain = (
+            int(stats.get("power", 1))
+            if (card_pot_mech and not potion and name == "SHADOWMELD")
+            else 0
+        )
+        strength_gain = (
+            int(stats.get("strengthpower", 0))
+            if (card_pot_mech and potion and name in ("FLEX_POTION", "STRENGTH_POTION", "FYSH_OIL"))
+            else (
+                -int(stats.get("playerstrengthloss", 0))
+                if (card_pot_mech and not potion and name == "SHARED_FATE")
+                else 0
+            )
+        )
         intangible_gain = (
             int(stats.get("intangiblepower", 1)) if name in ("WRAITH_FORM", "GHOST_IN_A_JAR") else 0
         )
@@ -752,31 +951,46 @@ def _search_survival_lines(
 
         # Single-step delta from root so residual reconstructs intrinsic with zero double-counting.
         step_gd = [0.0] * size
+        step_eslip = list(e_slippery)
+        step_ebuf = list(e_buffer)
         step_weak = 0
+        step_debilitate = 0
         step_poison = [0] * size
         step_str = [0] * size
-        step_block = start_block + (2.0 * start_block if is_fortifier else card_block)
+        step_sm_after = start_shadowmeld + shadowmeld_gain
+        if is_fortifier:
+            step_block = start_block + 2.0 * start_block
+        elif potion and card_pot_mech and start_shadowmeld > 0 and card_block > 0:
+            step_block = start_block + card_block * (1 << start_shadowmeld)
+        else:
+            step_block = start_block + card_block
         if not potion:
-            step_block += start_afterimage
+            ai_mult = (1 << step_sm_after) if card_pot_mech else 1
+            ai_triggers = 1 + (k_shivs if is_knife_trap else 0)
+            step_block += ai_triggers * start_afterimage * ai_mult
         step_buf = start_buffer + buffer_gain
         step_int = start_intangible + intangible_gain
         step_self = self_loss
         for i in range(size):
             if gd[i] > 0:
                 eb = 0.0 if clears_block else e_block[i]
-                hp_dmg, _, _, _, _ = _resolve_attack_hits(
+                hp_dmg, _, ebuf_after, eslip_after, _ = _resolve_attack_hits(
                     gd[i],
-                    max(1, hits) if is_attack else 1,
+                    max(1, hits) if (is_attack or is_knife_trap) else 1,
                     eb,
                     e_buffer[i],
                     e_slippery[i],
                     e_hard_cap[i],
                     e_intangible[i],
                     e_curl_up[i],
-                    triggers_curl_up=is_attack,
+                    triggers_curl_up=is_attack or is_knife_trap,
+                    slippery_after_block=v3_mech,
+                    curl_up_per_hit=is_knife_trap,
                 )
                 step_gd[i] = hp_dmg
-                if is_attack:
+                step_eslip[i] = eslip_after
+                step_ebuf[i] = ebuf_after
+                if is_attack or is_knife_trap:
                     for _ in range(max(1, hits)):
                         if e_thorns[i] > 0:
                             loss, step_block, step_buf = _apply_hit_damage(
@@ -791,6 +1005,8 @@ def _search_survival_lines(
             rem = 0 if clears_block else shields[i]
             if weak_order[i] > rem:
                 step_weak |= 1 << i
+            if card_pot_mech and debilitate_order[i] > rem:
+                step_debilitate |= 1 << i
             if not req_poison or e_poison[i] > 0:
                 step_poison[i] = sum(amt for order, amt in poison_apps[i] if order > rem)
             step_str[i] = sum(amt for order, amt in str_drop[i] if order > rem)
@@ -800,9 +1016,12 @@ def _search_survival_lines(
             )
             step_self += loss
 
+        step_skill_plays = 0
+        if enemy_mech and is_skill:
+            step_skill_plays = 1 + int(start_dup > 0) + int(start_burst > 0)
         # Keep cur_facing=start_facing_pos for residual extraction because scores[j]
         # (from combat_scores + adjust_focus) does not include the Surrounded facing delta.
-        s_off, s_end_loss, _, _, _ = evaluate_state(
+        s_off, s_end_loss, _, _, _, _ = evaluate_state(
             tuple(d),
             tuple(step_gd),
             tuple(step_poison),
@@ -813,11 +1032,27 @@ def _search_survival_lines(
             step_buf,
             step_self,
             cur_facing=start_facing_pos,
+            cur_slippery=tuple(step_eslip),
+            cur_ebuf=tuple(step_ebuf),
+            skills_played=step_skill_plays,
+            debilitate_mask=step_debilitate,
         )
         step_delta = board_value(s_off, s_end_loss) - root_board
         intrinsic = scores[j] * max(1, effective_cost) ** cost_exp
         if e_gain > 0:
             intrinsic -= e_gain * min(7.0, max(0.0, (len(cards) - energy - 1) * 2.5))
+        if card_pot_mech and shadowmeld_gain > 0:
+            # Beam computes Shadowmeld's value directly from doubled chained Block cards.
+            intrinsic = 0.0
+        if card_pot_mech and potion and name == "FLEX_POTION":
+            # Keep the potion reserve penalty while letting chained attacks supply the damage gain.
+            rt = state.get("context", {}).get("room_type")
+            w_pot = getattr(getattr(policy, "style", None), "potion", 1.0)
+            base_res = (7.0 if rt == "Boss" else 10.5 if rt == "Elite" else 14.0) * w_pot
+            est_res = base_res / (
+                1.0 + 0.53 * (len(potions) >= 2) + min(2.0, root_end_loss / max(1, player_hp))
+            )
+            intrinsic = -est_res
         residual = intrinsic - step_delta
         moves.append(
             _SurvivalMove(
@@ -829,7 +1064,7 @@ def _search_survival_lines(
                 e_gain,
                 target,
                 is_attack,
-                max(1, hits) if is_attack else 1,
+                max(1, hits) if (is_attack or is_knife_trap) else 1,
                 tuple(d),
                 tuple(gd),
                 card_block,
@@ -855,6 +1090,13 @@ def _search_survival_lines(
                     and not potion
                     and ("block" in stats or "calculatedblock" in stats)
                 ),
+                is_skill=is_skill,
+                is_knife_trap=is_knife_trap,
+                knife_trap_shivs=k_shivs,
+                shadowmeld_gain=shadowmeld_gain,
+                strength_gain=strength_gain,
+                burst_gain=burst_gain,
+                debilitate_order=tuple(debilitate_order),
             )
         )
 
@@ -881,10 +1123,15 @@ def _search_survival_lines(
         None,
         enemy_curl_up=e_curl_up,
         facing=start_facing_pos,
+        giga_rem=start_giga,
+        burst_rem=start_burst,
+        dup_rem=start_dup,
     )
-    end_quality = line_quality(start, end)
+    end_quality, end_plow, _, _ = line_quality_and_meta(start, end)
     best_overall = end_quality
     best_by_first = {end: end_quality}
+    best_plow_overall = end_plow
+    best_plow_by_first = {end: end_plow} if end_plow is not None else {}
 
     beam = [start]
     for step_idx in range(depth):
@@ -915,6 +1162,24 @@ def _search_survival_lines(
                 prior_cards = (card_mask & hand.used).bit_count() if tender else 0
                 damage_deltas = list(m.damage)
                 gd_deltas = list(m.guaranteed_damage)
+                if card_pot_mech and start_giga > 0 and m.is_attack and hand.giga_rem <= 0:
+                    # Root previews include active Gigantification (3x); subsequent attacks deal unmultiplied damage.
+                    for i in range(size):
+                        if damage_deltas[i] > 0:
+                            damage_deltas[i] = float(math.floor(damage_deltas[i] / 3.0))
+                        if gd_deltas[i] > 0:
+                            gd_deltas[i] = float(math.floor(gd_deltas[i] / 3.0))
+                if card_pot_mech and hand.strength_gain != 0 and m.is_attack:
+                    for i in range(size):
+                        mult = (1.5 if e_vuln[i] else 1.0) * (0.75 if player_weak else 1.0)
+                        if hand.strength_gain > 0:
+                            str_delta = float(math.floor(hand.strength_gain * mult) * m.hits)
+                        else:
+                            str_delta = -float(math.ceil((-hand.strength_gain) * mult) * m.hits)
+                        if damage_deltas[i] > 0:
+                            damage_deltas[i] = max(0.0, damage_deltas[i] + str_delta)
+                        if gd_deltas[i] > 0:
+                            gd_deltas[i] = max(0.0, gd_deltas[i] + str_delta)
                 if tender and prior_cards and m.tender_hits:
                     for i in range(size):
                         if damage_deltas[i] > 0:
@@ -927,16 +1192,39 @@ def _search_survival_lines(
                     for h, prev, delta in zip(e_total, hand.damage, damage_deltas, strict=True)
                 )
 
-                # Block: Fortifier doubles current projected Block; Tender reduces card Block BEFORE After Image.
+                # Block: Fortifier triples current projected Block; Shadowmeld doubles owner Block gains (incl. Afterimage & potions).
+                cur_shadowmeld = hand.shadowmeld + m.shadowmeld_gain
+                total_sm = start_shadowmeld + cur_shadowmeld
                 cur_block = hand.block
                 if m.is_fortifier:
                     cur_block += 2.0 * cur_block
                 else:
                     c_blk = max(0.0, m.card_block - prior_cards) if (tender and prior_cards and m.tender_block) else m.card_block
+                    if card_pot_mech and c_blk > 0:
+                        if m.potion:
+                            c_blk *= 1 << total_sm
+                        elif hand.shadowmeld > 0:
+                            c_blk *= 1 << hand.shadowmeld
                     cur_block += c_blk
                 if not m.potion:
-                    cur_block += hand.afterimage
+                    ai_mult = (1 << total_sm) if card_pot_mech else 1
+                    ai_triggers = 1 + (m.knife_trap_shivs if m.is_knife_trap else 0)
+                    cur_block += ai_triggers * hand.afterimage * ai_mult
                 cur_afterimage = hand.afterimage + m.afterimage_gain
+                cur_str_gain = hand.strength_gain + m.strength_gain
+                cur_giga = max(0, hand.giga_rem - int(m.is_attack)) if card_pot_mech else 0
+                cur_burst = hand.burst_rem
+                cur_dup = hand.dup_rem
+                replays = 1
+                if v3_mech and not m.potion:
+                    if cur_dup > 0:
+                        replays += 1
+                        cur_dup -= 1
+                    if m.is_skill and cur_burst > 0:
+                        replays += 1
+                        cur_burst -= 1
+                    cur_burst += m.burst_gain
+                cur_skills_played = hand.skills_played + (replays if (enemy_mech and m.is_skill) else 0)
                 cur_int = hand.intangible + m.intangible
                 cur_buf = hand.buffer + m.buffer
                 cur_self = hand.self_hp_loss + m.self_hp_loss
@@ -947,6 +1235,7 @@ def _search_survival_lines(
                 new_ecurl = list(hand.enemy_curl_up) if hand.enemy_curl_up else [0.0] * size
                 new_gd = list(hand.guaranteed_damage)
                 weak = hand.weak
+                debilitate = hand.debilitate
                 poison = list(hand.poison)
                 str_drop = list(hand.str_drop)
                 new_artifact = list(hand.artifact)
@@ -966,7 +1255,9 @@ def _search_survival_lines(
                             e_hard_cap[i],
                             e_intangible[i],
                             new_ecurl[i],
-                            triggers_curl_up=m.is_attack,
+                            triggers_curl_up=m.is_attack or m.is_knife_trap,
+                            slippery_after_block=v3_mech,
+                            curl_up_per_hit=m.is_knife_trap,
                         )
                         new_gd[i] = min(float(e_hp[i]), new_gd[i] + hp_dmg)
                         new_eblock[i] = eb_after
@@ -978,7 +1269,7 @@ def _search_survival_lines(
                             for j in range(size):
                                 if j != i and e_crab_rage[j] and new_gd[j] < e_hp[j]:
                                     new_eblock[j] += 99.0
-                        if m.is_attack:
+                        if m.is_attack or m.is_knife_trap:
                             for _ in range(m.hits):
                                 if e_thorns[i] > 0:
                                     loss, cur_block, cur_buf = _apply_hit_damage(
@@ -993,6 +1284,8 @@ def _search_survival_lines(
                     rem = 0 if m.clears_block else hand.artifact[i]
                     if m.weak_order[i] > rem:
                         weak |= 1 << i
+                    if card_pot_mech and m.debilitate_order[i] > rem:
+                        debilitate |= 1 << i
                     if (not m.requires_existing_poison) or (e_poison[i] + hand.poison[i] > 0):
                         for order, amt in m.poison_apps[i]:
                             if order > rem:
@@ -1035,13 +1328,26 @@ def _search_survival_lines(
                     stopped=m.stops_expansion,
                     enemy_curl_up=tuple(new_ecurl),
                     facing=next_facing,
+                    skills_played=cur_skills_played,
+                    shadowmeld=cur_shadowmeld,
+                    strength_gain=cur_str_gain,
+                    giga_rem=cur_giga,
+                    burst_rem=cur_burst,
+                    dup_rem=cur_dup,
+                    debilitate=debilitate,
                 )
-                quality = line_quality(projection, first)
+                quality, plow_q, _, _ = line_quality_and_meta(projection, first)
                 if quality > best_overall:
                     best_overall = quality
                 prev_first = best_by_first.get(first)
                 if prev_first is None or quality > prev_first:
                     best_by_first[first] = quality
+                if plow_q is not None:
+                    if best_plow_overall is None or plow_q > best_plow_overall:
+                        best_plow_overall = plow_q
+                    prev_pf = best_plow_by_first.get(first)
+                    if prev_pf is None or plow_q > prev_pf:
+                        best_plow_by_first[first] = plow_q
 
                 if quality[0] == 1 and quality[1] == 1:
                     continue
@@ -1051,17 +1357,28 @@ def _search_survival_lines(
                     projection.used,
                     projection.energy,
                     projection.damage,
-                    projection.guaranteed_damage if act2_mech else (),
-                    projection.enemy_block if act2_mech else (),
+                    projection.guaranteed_damage if (act2_mech or v3_mech) else (),
+                    projection.enemy_block if (act2_mech or v3_mech) else (),
+                    projection.enemy_buffer if v3_mech else (),
                     projection.enemy_curl_up if act2_mech else (),
+                    projection.enemy_slippery if v3_mech else (),
                     projection.poison,
                     projection.block,
                     projection.weak,
+                    projection.str_drop if v3_mech else (),
+                    projection.self_hp_loss if v3_mech else 0.0,
                     projection.intangible,
                     projection.buffer,
                     projection.afterimage,
                     artifact_t,
                     projection.facing,
+                    projection.skills_played if any_vital_spark else 0,
+                    projection.shadowmeld if card_pot_mech else 0,
+                    projection.strength_gain if card_pot_mech else 0,
+                    projection.giga_rem if card_pot_mech else 0,
+                    projection.burst_rem if v3_mech else 0,
+                    projection.dup_rem if v3_mech else 0,
+                    projection.debilitate if card_pot_mech else 0,
                 )
                 previous = next_hands.get(key)
                 if previous is None or quality > previous[0]:
@@ -1085,6 +1402,8 @@ def _search_survival_lines(
                 kept.append(pair)
                 kept_ids.add(id(pair[1]))
         beam = [h for _, h in kept]
+    if return_plow:
+        return best_overall, best_by_first, best_plow_overall, best_plow_by_first
     return best_overall, best_by_first
 
 
@@ -1110,6 +1429,9 @@ def choose_turn_survival(
     giant = solo_waterfall_forecast(state, enemies)
     giant_eruption = bool(giant and giant.eruption_damage is not None)
     act2_mech = bool(getattr(policy, "act2_mechanics", False))
+    enemy_mech = bool(getattr(policy, "enemy_mechanics", False))
+    card_pot_mech = bool(getattr(policy, "card_potion_mechanics", False))
+    v3_mech = enemy_mech or card_pot_mech
     surrounded_flip = act2_mech and (
         (
             facing is not None
@@ -1120,13 +1442,38 @@ def choose_turn_survival(
         )
         or any(_power(e.get("powers"), "CRAB_RAGE") > 0 for e in enemies)
     )
+    # Native Plow triggers on any positive HP damage landing at or below the threshold (even if HP already <= threshold).
+    plow_in_range = enemy_mech and any(
+        e["hp"] - _power(e.get("powers"), "PLOW") <= 55 and incoming(e) > 0
+        for e in enemies
+        if _power(e.get("powers"), "PLOW") > 0
+    )
 
     self_risk = 0.0
     if proposed.kind == "play_card":
         card = next((c for c in state["hand"] if c["index"] == proposed.args["card_index"]), {})
         self_risk += float((card.get("stats") or {}).get("hploss", 0))
-        if card.get("type") == "Attack":
-            hits = max(1, _hits(card))
+        if enemy_mech and card.get("type") == "Skill" and not intangible:
+            skill_plays = (
+                1
+                + int(any("DUPLICAT" in p.get("id", "") and p.get("amount", 0) > 0 for p in powers))
+                + int(_power(powers, "BURST") > 0)
+            )
+            for e in enemies:
+                vs = max(0, _power(e.get("powers"), "VITAL_SPARK"))
+                if vs > 0 and incoming(e) > 0:
+                    self_risk += skill_plays * attack_hits(e) * float(vs)
+        is_kt = (
+            card_pot_mech
+            and card.get("id") == "CARD.KNIFE_TRAP"
+            and int((card.get("stats") or {}).get("calculatedshivs", 0)) > 0
+        )
+        if card.get("type") == "Attack" or is_kt:
+            hits = (
+                int((card.get("stats") or {}).get("calculatedshivs", 0))
+                if is_kt
+                else max(1, _hits(card))
+            )
             target_idx = proposed.args.get("target_index")
             affected = [e for e in enemies if e["index"] == target_idx] if target_idx is not None else enemies
             for e in affected:
@@ -1156,6 +1503,8 @@ def choose_turn_survival(
                 max(0, _power(e.get("powers"), "POISON")),
                 accelerant,
                 _power(e.get("powers"), "INTANGIBLE") > 0,
+                slippery=max(0, _power(e.get("powers"), "SLIPPERY")) if v3_mech else 0,
+                buffer=max(0, _power(e.get("powers"), "BUFFER")) if v3_mech else 0,
             )
             if p_loss >= e["hp"] and not giant_eruption:
                 continue
@@ -1166,11 +1515,12 @@ def choose_turn_survival(
             loss, rem_block, rem_buf = _apply_hit_damage(eh, rem_block, rem_buf, False)
             end_loss += loss
 
-    if not surrounded_flip and end_loss + self_risk < player["hp"]:
+    non_lethal_plow_only = plow_in_range and not surrounded_flip and end_loss + self_risk < player["hp"]
+    if not surrounded_flip and not plow_in_range and end_loss + self_risk < player["hp"]:
         return proposed
 
     proposed_idx = next((i for i, a in enumerate(actions) if a == proposed), None)
-    best_overall, best_by_first = _search_survival_lines(
+    best_overall, best_by_first, best_plow_overall, best_plow_by_first = _search_survival_lines(
         state,
         policy,
         actions,
@@ -1178,11 +1528,18 @@ def choose_turn_survival(
         depth=depth,
         facing=facing,
         score_adjust=score_adjust,
+        return_plow=True,
     )
     best_proposed = best_by_first.get(proposed_idx) if proposed_idx is not None else None
+    best_proposed_plow = best_plow_by_first.get(proposed_idx) if proposed_idx is not None else None
     # Before overriding a proposal, run a dedicated forced-first pass in case width pruning dropped its continuation.
-    if proposed_idx is not None and (best_proposed is None or best_proposed[:3] < best_overall[:3]):
-        _, forced = _search_survival_lines(
+    needs_forced = proposed_idx is not None and (
+        best_proposed is None
+        or best_proposed[:3] < best_overall[:3]
+        or (non_lethal_plow_only and best_plow_overall is not None and best_proposed_plow is None)
+    )
+    if needs_forced:
+        _, forced, _, forced_plow = _search_survival_lines(
             state,
             policy,
             actions,
@@ -1191,11 +1548,25 @@ def choose_turn_survival(
             forced_first=proposed_idx,
             facing=facing,
             score_adjust=score_adjust,
+            return_plow=True,
         )
         if proposed_idx in forced and (best_proposed is None or forced[proposed_idx] > best_proposed):
             best_proposed = forced[proposed_idx]
+        if proposed_idx in forced_plow and (
+            best_proposed_plow is None or forced_plow[proposed_idx] > best_proposed_plow
+        ):
+            best_proposed_plow = forced_plow[proposed_idx]
     if best_proposed is None:
         return actions[best_overall[-1]]
+    if non_lethal_plow_only:
+        # On a non-lethal turn, override for a clear or a Plow stun that proposed misses without wasting a potion.
+        if best_overall[0] == 1 and best_overall[1] > best_proposed[1]:
+            return actions[best_overall[-1]]
+        if best_plow_overall is not None and best_proposed_plow is None:
+            potions_spent = -best_plow_overall[2]
+            if potions_spent == 0 or end_loss >= 10.0:
+                return actions[best_plow_overall[-1]]
+        return proposed
     if best_proposed[0] == 1 and best_proposed[:3] >= best_overall[:3]:
         return proposed
     if best_proposed[0] == 0 and best_overall[0] == 0 and best_proposed[:3] >= best_overall[:3]:

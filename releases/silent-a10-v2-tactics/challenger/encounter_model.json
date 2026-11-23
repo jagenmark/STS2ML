@@ -658,5 +658,7 @@
       "MYTE+MYTE": "myte_pot_aggr"
     }
   },
-  "act2_mechanics": true
+  "act2_mechanics": true,
+  "enemy_mechanics": true,
+  "card_potion_mechanics": true
 }

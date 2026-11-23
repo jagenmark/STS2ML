@@ -29,7 +29,7 @@
     },
     "encounter_model": {
       "name": "encounter_model.json",
-      "sha256": "0c885df8a5845703f3ed61e4b9e71e504814da416593ddee1c717aa8cba84e8f"
+      "sha256": "6ebdf92be19b4d39f5373c401c30bea114ae3da5eb06f4445c015c47fbdb8ae8"
     },
     "deck_model": {
       "name": "deck_model.json",

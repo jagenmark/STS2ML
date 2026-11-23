@@ -90,7 +90,7 @@ class EncounterPolicy(RunPolicy):
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
         tender=False, potion_effects=False, draw_potions=False, intent_forecast=None, potion_timing=0, mecha_plan=None,
-        scorer_fixes=False, act2_mechanics=False,
+        scorer_fixes=False, act2_mechanics=False, enemy_mechanics=False, card_potion_mechanics=False,
     ):
         super().__init__(weights, macro_seed=macro_seed, legacy_features=legacy_features)
         self.style = STYLES[style] if isinstance(style, str) else style
@@ -104,6 +104,8 @@ class EncounterPolicy(RunPolicy):
         self.mecha_tactics = MechaTactics(mecha_plan) if mecha_plan else None
         self.scorer_fixes = scorer_fixes
         self.act2_mechanics = act2_mechanics
+        self.enemy_mechanics = enemy_mechanics
+        self.card_potion_mechanics = card_potion_mechanics
 
     def select_cards(self, state):
         source = state.get("selection_source") or {}
@@ -178,9 +180,133 @@ class EncounterPolicy(RunPolicy):
         if need >= hp:
             block_value += 1.4
         shiv_engine, poison_engine = deck_engines(player["deck"])
+
+        def _effective_attack_dmg(card, enemy):
+            raw_d = _damage(card, enemy)
+            if raw_d <= 0:
+                return 0.0
+            ep = enemy.get("powers") or []
+            h = max(1, _hits(card))
+            if self.enemy_mechanics or self.card_potion_mechanics:
+                slip = _power(ep, "SLIPPERY")
+                if slip > 0:
+                    consumed = min(slip, h)
+                    raw_d = max(0.0, raw_d - consumed * (raw_d / h - 1.0))
+                if _power(ep, "INTANGIBLE") > 0:
+                    raw_d = min(raw_d, float(h))
+            return float(raw_d)
+
         max_attack = max(
-            (max((_damage(c, e) for e in enemies), default=0) for c in attacks), default=0
+            (
+                max(
+                    (
+                        _effective_attack_dmg(c, e)
+                        if (self.enemy_mechanics or self.card_potion_mechanics)
+                        else _damage(c, e)
+                        for e in enemies
+                    ),
+                    default=0,
+                )
+                for c in attacks
+            ),
+            default=0,
         )
+        any_slow = self.enemy_mechanics and any(_power(e.get("powers"), "SLOW") > 0 for e in enemies)
+        max_slippery = (
+            max((_power(e.get("powers"), "SLIPPERY") for e in enemies), default=0)
+            if self.enemy_mechanics
+            else 0
+        )
+        all_damage_capped = bool(
+            enemies
+            and all(
+                _power(e.get("powers"), "INTANGIBLE") > 0 or _power(e.get("powers"), "SLIPPERY") >= 5
+                for e in enemies
+            )
+        )
+        gigantified = self.card_potion_mechanics and _power(powers, "GIGANTIFICATION") > 0
+        duplicating = self.card_potion_mechanics and any(
+            "DUPLICAT" in p.get("id", "") for p in powers
+        )
+        hard_or_lethal = hard or need >= hp
+        playable_cards = [c for c in hand.values() if c.get("can_play")]
+
+        def _budget_playable_block(budget_energy, exclude_idx=-1):
+            avail = []
+            free_blk = 0.0
+            for c in playable_cards:
+                if c["index"] == exclude_idx:
+                    continue
+                st_c = c.get("stats") or {}
+                blk_c = st_c.get("calculatedblock", st_c.get("block", 0))
+                if blk_c <= 0:
+                    continue
+                c_cost = _cost(c)
+                if c_cost == 0:
+                    free_blk += blk_c
+                elif c_cost <= budget_energy:
+                    avail.append((blk_c / c_cost, c_cost, blk_c))
+            avail.sort(reverse=True)
+            rem_e = budget_energy
+            total_blk = free_blk
+            for _, c_cost, blk_c in avail:
+                if c_cost <= rem_e:
+                    total_blk += blk_c
+                    rem_e -= c_cost
+            return total_blk
+
+        def _playable_attack_hits(budget_energy):
+            total_hits = 0
+            costed = []
+            hand_room = max(0, 10 - len(hand))
+            for c in playable_cards:
+                c_cost = energy if c.get("costs_x") else _cost(c)
+                cname = c.get("id", "").split(".")[-1]
+                if c.get("type") == "Attack":
+                    h_c = energy if (c.get("costs_x") and cname in ("SKEWER", "VOLLEY", "STARDUST")) else _hits(c)
+                    if c_cost == 0:
+                        total_hits += h_c
+                    elif c_cost <= budget_energy and h_c > 0:
+                        costed.append((h_c / c_cost, c_cost, h_c))
+                else:
+                    sh_c = _shiv_count(c)
+                    if sh_c > 0 and c_cost <= budget_energy:
+                        eff_sh = min(sh_c, hand_room + 1)
+                        if eff_sh > 0:
+                            if c_cost == 0:
+                                total_hits += eff_sh
+                            else:
+                                costed.append((eff_sh / c_cost, c_cost, eff_sh))
+            costed.sort(reverse=True)
+            rem_e = budget_energy
+            for _, c_cost, h_c in costed:
+                if c_cost <= rem_e:
+                    total_hits += h_c
+                    rem_e -= c_cost
+            return total_hits
+
+        def _playable_followup_cards(budget_energy, exclude_idx):
+            count = 0
+            costed = []
+            hand_room = max(0, 10 - len(hand) + 1)
+            for c in playable_cards:
+                if c["index"] == exclude_idx:
+                    continue
+                c_cost = _cost(c)
+                if c_cost == 0:
+                    count += 1
+                    count += min(_shiv_count(c), hand_room)
+                elif c_cost <= budget_energy:
+                    bonus = 1 + min(_shiv_count(c), hand_room)
+                    costed.append((bonus / c_cost, c_cost, bonus))
+            costed.sort(reverse=True)
+            rem_e = budget_energy
+            for _, c_cost, bonus in costed:
+                if c_cost <= rem_e:
+                    count += bonus
+                    rem_e -= c_cost
+            return min(6, count)
+
         discard_payoff = sorted(
             (max(2.0, self.card_value(c)) for c in hand.values() if _sly(c)), reverse=True
         )
@@ -299,10 +425,24 @@ class EncounterPolicy(RunPolicy):
                         n_bounces = len(apps)
                         dose = apps[0][1] if apps else 0
                         p_hit = 1.0 / max(1, len(targets))
+                        e_buf_f = max(0, _power(powers_e, "BUFFER"))
+                        e_int_f = _power(powers_e, "INTANGIBLE") > 0
                         kill_prob = 0.0
                         for k in range(n_bounces + 1):
                             landed_k = max(0, k - rem_art) * dose
-                            if (existing + landed_k) * poison_triggers >= e["hp"]:
+                            if self.enemy_mechanics:
+                                from .turn_planning import _poison_tick_loss
+
+                                tick_dmg = _poison_tick_loss(
+                                    existing + landed_k,
+                                    poison_triggers - 1,
+                                    e_int_f,
+                                    slippery=slippery,
+                                    buffer=e_buf_f,
+                                )
+                            else:
+                                tick_dmg = (existing + landed_k) * poison_triggers
+                            if tick_dmg >= e["hp"]:
                                 kill_prob += comb(n_bounces, k) * (p_hit**k) * ((1.0 - p_hit) ** (n_bounces - k))
                         flask_kill_prob = kill_prob
                         if random_target and len(targets) > 1:
@@ -331,6 +471,17 @@ class EncounterPolicy(RunPolicy):
                         poison = 0
                 if name == "OUTBREAK":
                     dmg += (existing + poison) * poison_triggers
+                if self.card_potion_mechanics and name == "KNIFE_TRAP":
+                    k_shivs = stats.get("calculatedshivs", 0)
+                    if k_shivs > 0:
+                        k_dmg = k_shivs * shiv_damage
+                        if slippery:
+                            k_cons = min(slippery, k_shivs)
+                            k_dmg = max(0.0, k_dmg - k_cons * (shiv_damage - 1.0))
+                            setup += min(5.0, horizon) * k_cons
+                        if _power(powers_e, "INTANGIBLE"):
+                            k_dmg = min(k_dmg, float(k_shivs))
+                        dmg += k_dmg
                 hp_e = e["hp"] + e.get("block", 0)
                 if giant_defeated:
                     dmg = poison = 0
@@ -339,7 +490,44 @@ class EncounterPolicy(RunPolicy):
                     threat = min(threat, incoming(e))
                 if giant and giant.eruption_forced:
                     threat = 0
-                poison_end = min(e["hp"], (existing + poison) * poison_triggers)
+                if self.enemy_mechanics and (slippery > 0 or _power(powers_e, "BUFFER") > 0):
+                    from .turn_planning import _poison_tick_loss, _resolve_attack_hits
+
+                    raw_hit_dmg = (
+                        stats.get("damage", 0)
+                        if potion
+                        else (_damage(item, e) if is_attack else 0)
+                    )
+                    if self.card_potion_mechanics and name == "KNIFE_TRAP":
+                        raw_hit_dmg += stats.get("calculatedshivs", 0) * shiv_damage
+                    eff_hits = (
+                        stats.get("calculatedshivs", 0)
+                        if (self.card_potion_mechanics and name == "KNIFE_TRAP")
+                        else max(1, hits)
+                    )
+                    _, _, rem_ebuf, rem_eslip, _ = _resolve_attack_hits(
+                        float(raw_hit_dmg),
+                        max(1, int(eff_hits)),
+                        float(e.get("block", 0)),
+                        max(0, _power(powers_e, "BUFFER")),
+                        slippery,
+                        max(0, _power(powers_e, "HARD_TO_KILL")),
+                        _power(powers_e, "INTANGIBLE") > 0,
+                        triggers_curl_up=False,
+                        slippery_after_block=True,
+                    )
+                    poison_end = min(
+                        e["hp"],
+                        _poison_tick_loss(
+                            int(round(existing + poison)),
+                            poison_triggers - 1,
+                            _power(powers_e, "INTANGIBLE") > 0,
+                            slippery=rem_eslip,
+                            buffer=rem_ebuf,
+                        ),
+                    )
+                else:
+                    poison_end = min(e["hp"], (existing + poison) * poison_triggers)
                 focus = (
                     1.0 + 0.27 * (1 - e["hp"] / max(1, e["max_hp"])) if len(enemies) > 1 else 1.0
                 )
@@ -353,6 +541,62 @@ class EncounterPolicy(RunPolicy):
                     * w.poison
                     * min(max(0.0, e["hp"] - existing), poison_triggers * psn_value)
                 )
+                if self.enemy_mechanics:
+                    plow = _power(powers_e, "PLOW")
+                    if plow > 0 and (dmg > 0 or poison > 0):
+                        from .turn_planning import _poison_tick_loss, _resolve_attack_hits
+
+                        raw_hit_dmg = (
+                            stats.get("damage", 0)
+                            if potion
+                            else (_damage(item, e) if is_attack else 0)
+                        )
+                        if self.card_potion_mechanics and name == "KNIFE_TRAP":
+                            raw_hit_dmg += stats.get("calculatedshivs", 0) * shiv_damage
+                        eff_hits = (
+                            stats.get("calculatedshivs", 0)
+                            if (self.card_potion_mechanics and name == "KNIFE_TRAP")
+                            else max(1, hits)
+                        )
+                        eff_hp_dmg, _, ebuf_after, eslip_after, _ = _resolve_attack_hits(
+                            float(raw_hit_dmg),
+                            max(1, int(eff_hits)),
+                            float(e.get("block", 0)),
+                            max(0, _power(powers_e, "BUFFER")),
+                            slippery,
+                            max(0, _power(powers_e, "HARD_TO_KILL")),
+                            _power(powers_e, "INTANGIBLE") > 0,
+                            triggers_curl_up=False,
+                            slippery_after_block=True,
+                        )
+                        plow_poison = _poison_tick_loss(
+                            int(round(existing + poison)),
+                            poison_triggers - 1,
+                            _power(powers_e, "INTANGIBLE") > 0,
+                            slippery=eslip_after,
+                            buffer=ebuf_after,
+                        )
+                        total_plow_dmg = eff_hp_dmg + plow_poison
+                        if total_plow_dmg > 0 and e["hp"] - total_plow_dmg <= plow:
+                            mitigation += threat
+                            setup += 14.0 + 3.0 * max(0, _power(powers_e, "STRENGTH"))
+                        elif 0 < e["hp"] - plow <= 45 and eff_hp_dmg > 0:
+                            offense += 0.35 * min(float(e["hp"] - plow), eff_hp_dmg)
+                if self.card_potion_mechanics and not potion:
+                    strangle = stats.get("stranglepower", 0)
+                    if strangle > 0 and not artifact and not giant_defeated:
+                        followups = _playable_followup_cards(max(0, energy - cost), item["index"])
+                        if followups > 0:
+                            per_card = 1.0 if (_power(powers_e, "INTANGIBLE") or slippery >= followups) else float(strangle)
+                            offense += leader_weight * min(float(e["hp"]), per_card * followups)
+                    debilitate = stats.get("debilitatepower", 0)
+                    if debilitate > 0 and not artifact:
+                        has_status = _power(powers_e, "WEAK") > 0 or _power(powers_e, "VULNERABLE") > 0
+                        setup += (5.0 if has_status else 2.5) * min(float(debilitate), horizon)
+                    esl = stats.get("enemystrengthloss", 0)
+                    if esl > 0 and not artifact:
+                        mitigation += min(threat, esl * count_hits(e))
+                        setup += esl * min(4.0, horizon) - stats.get("playerstrengthloss", 0) * 2.5 * attack_density
                 if flask_kill_prob is not None:
                     if flask_kill_prob > 0:
                         mitigation += threat * flask_kill_prob
@@ -425,9 +669,10 @@ class EncounterPolicy(RunPolicy):
                     setup += min(weak, max(0.0, horizon - current)) * min(3.7, hp_pool / 35)
                 if (not artifact or not self.legacy_features) and vuln > 0:
                     current = _power(powers_e, "VULNERABLE")
-                    setup += min(vuln, max(0.0, horizon - current)) * (4.0 if hard else 3.0)
+                    vuln_scale = 0.15 if (self.enemy_mechanics and slippery >= 3) else 1.0
+                    setup += vuln_scale * min(vuln, max(0.0, horizon - current)) * (4.0 if hard else 3.0)
                     if not current and (potion or energy > cost):
-                        setup += min(4.0, 0.25 * max_attack)
+                        setup += vuln_scale * min(4.0, 0.25 * max_attack)
                 drop = stats.get("strengthloss", 0) or (
                     stats.get("strengthpower", 0) if name == "SHACKLING_POTION" else 0
                 )
@@ -489,7 +734,11 @@ class EncounterPolicy(RunPolicy):
                 )
             if not giant_defeated:
                 shiv_hit = shiv_damage + (2 if name == "CUNNING_POTION" else 0)
-                if tender:
+                if self.enemy_mechanics and max_slippery > 0 and shiv > 0:
+                    stripped = min(int(shiv), max_slippery)
+                    offense += stripped * 1.0 + max(0, int(shiv) - stripped) * shiv_hit
+                    setup += stripped * min(5.0, horizon)
+                elif tender:
                     offense += sum(max(0, shiv_hit - n - int(not potion)) for n in range(int(shiv)))
                 else:
                     offense += shiv * shiv_hit
@@ -532,16 +781,42 @@ class EncounterPolicy(RunPolicy):
             if name == "BLUR":
                 setup += 0.75 * min(10, max(0, player["block"] + block - inc))
             if name in ("ANTICIPATE", "SPEED_POTION"):
-                setup += (
-                    min(need, stats.get("dexteritypower", 0) * min(energy - cost, len(skills)))
-                    * block_value
-                )
+                if self.card_potion_mechanics and name == "SPEED_POTION" and hard_or_lethal:
+                    free_blk_cards = 0
+                    costed_blk_costs = []
+                    for c in playable_cards:
+                        st_c = c.get("stats") or {}
+                        if st_c.get("block", 0) > 0 or st_c.get("calculatedblock", 0) > 0:
+                            cc = _cost(c)
+                            if cc == 0:
+                                free_blk_cards += 1
+                            elif cc <= energy:
+                                costed_blk_costs.append(cc)
+                    costed_blk_costs.sort()
+                    rem_e = energy
+                    affordable_blk_cards = free_blk_cards
+                    for cc in costed_blk_costs:
+                        if cc <= rem_e:
+                            affordable_blk_cards += 1
+                            rem_e -= cc
+                    setup += min(need, stats.get("dexteritypower", 0) * affordable_blk_cards) * block_value
+                else:
+                    setup += (
+                        min(need, stats.get("dexteritypower", 0) * min(energy - cost, len(skills)))
+                        * block_value
+                    )
             else:
                 setup += stats.get("dexteritypower", 0) * min(7.0, horizon * 0.95)
             if name not in ("SHACKLING_POTION", "FLEX_POTION"):
                 setup += stats.get("strengthpower", 0) * min(9.0, horizon * (1 + attack_density))
             elif name == "FLEX_POTION":
-                setup += stats.get("strengthpower", 0) * min(len(attacks), max(1, energy))
+                if self.card_potion_mechanics and hard_or_lethal:
+                    flex_hits = 0 if all_damage_capped else _playable_attack_hits(energy)
+                    setup += stats.get("strengthpower", 0) * flex_hits
+                elif self.card_potion_mechanics and all_damage_capped:
+                    setup += 0.0
+                else:
+                    setup += stats.get("strengthpower", 0) * min(len(attacks), max(1, energy))
             setup += (
                 stats.get("poisonperturn", 0)
                 * len(enemies)
@@ -654,6 +929,76 @@ class EncounterPolicy(RunPolicy):
                         * len(enemies)
                         * min(4, horizon)
                     )
+            if self.enemy_mechanics and not potion and item.get("type") == "Skill":
+                # Vital Spark boosts enemy attack base damage by +amount per hit whenever a Skill is played this turn.
+                vs_extra = 0.0
+                for e in enemies:
+                    vs = _power(e.get("powers"), "VITAL_SPARK")
+                    if vs > 0 and incoming(e) > 0 and not intangible:
+                        hits_e = max(1, count_hits(e))
+                        weak_mult = 0.75 if _power(e.get("powers"), "WEAK") > 0 else 1.0
+                        vs_extra += hits_e * vs * weak_mult
+                if vs_extra > 0:
+                    setup -= block_value * vs_extra
+            if self.card_potion_mechanics and not potion:
+                if name == "SHADOWMELD":
+                    playable_blk = _budget_playable_block(max(0, energy - cost), exclude_idx=item["index"])
+                    shadow_extra = min(max(0.0, need), playable_blk)
+                    block += shadow_extra
+                    if shadow_extra >= 7.0:
+                        setup += 4.0
+                elif name == "PANACHE":
+                    setup += stats.get("panachedamage", 0) * len(enemies) * min(3.5, horizon * 0.45)
+                elif name == "LETHALITY":
+                    setup += (stats.get("lethalitypower", 0) / 100.0) * 9.0 * min(
+                        5.0, horizon * (0.6 + attack_density)
+                    )
+                elif name == "ENLIGHTENMENT":
+                    setup += 5.0 * sum(
+                        max(0, _cost(c) - 1)
+                        for c in hand.values()
+                        if c["index"] != item["index"] and c.get("type") in ("Attack", "Skill", "Power")
+                    )
+                elif name == "NIGHTMARE" and horizon >= 3.0 and need < hp:
+                    best_copy = max(
+                        (
+                            self.card_value(c, deck=deck)
+                            for c in hand.values()
+                            if c["index"] != item["index"]
+                            and c.get("type") in ("Attack", "Skill", "Power")
+                        ),
+                        default=0.0,
+                    )
+                    setup += min(24.0, 2.0 * best_copy)
+                elif name == "FINISHER":
+                    if (
+                        any(
+                            c["index"] != item["index"] and _cost(c) <= energy - cost
+                            for c in attacks
+                        )
+                        and all(_damage(item, e) < e["hp"] + e.get("block", 0) for e in targets)
+                    ):
+                        setup -= 2.5
+                elif name == "FLECHETTES" and skills and stats.get("calculatedhits", 0) > 0:
+                    setup += 3.5
+                elif name == "PRECISE_CUT":
+                    other_playable = sum(
+                        1
+                        for c in playable_cards
+                        if c["index"] != item["index"]
+                        and _cost(c) <= energy
+                        and _draw_count(c) == 0
+                        and _shiv_count(c) == 0
+                        and (
+                            c.get("type") in ("Attack", "Power")
+                            or need > 0
+                            or (c.get("stats") or {}).get("poisonpower", 0) > 0
+                            or (c.get("stats") or {}).get("weakpower", 0) > 0
+                            or (c.get("stats") or {}).get("vulnerablepower", 0) > 0
+                        )
+                    )
+                    if other_playable > 0 and offense > 3.5:
+                        setup -= min(2.5, 1.25 * other_playable)
             setup += draw * w.draw * (3.8 if energy > cost else 1.1)
             if potion:
                 # Convert survival, hand creation and persistent potion effects to the same units as a hit.
@@ -686,11 +1031,33 @@ class EncounterPolicy(RunPolicy):
                         "DISTILLED_CHAOS": 19.0,
                     }[name]
                 if name in ("DUPLICATOR", "GIGANTIFICATION_POTION"):
-                    setup += (
-                        max_attack * (2 if name == "GIGANTIFICATION_POTION" else 0.95)
-                        if attacks
-                        else 0
-                    )
+                    if self.card_potion_mechanics and name == "DUPLICATOR" and hard_or_lethal:
+                        best_dup = 0.0
+                        for c in playable_cards:
+                            st_c = c.get("stats") or {}
+                            c_val = 0.0
+                            if c.get("type") == "Attack":
+                                c_val = max((_effective_attack_dmg(c, e) for e in enemies), default=0.0)
+                            c_blk = st_c.get("calculatedblock", st_c.get("block", 0))
+                            if c_blk > 0:
+                                c_val += block_value * min(need, c_blk)
+                            c_psn = st_c.get("poisonpower", 0)
+                            if c_psn > 0:
+                                c_val += c_psn * min(4.0, horizon)
+                            c_shv = _shiv_count(c)
+                            if c_shv > 0:
+                                c_val += c_shv * shiv_damage
+                            if c.get("type") == "Power" or c_val == 0.0:
+                                c_val = max(c_val, min(20.0, self.card_value(c, deck=deck)))
+                            if c_val > best_dup:
+                                best_dup = c_val
+                        setup += best_dup * 0.95
+                    else:
+                        setup += (
+                            max_attack * (2 if name == "GIGANTIFICATION_POTION" else 0.95)
+                            if attacks
+                            else 0
+                        )
                 if name == "AMBERGRIS":
                     setup += 10 + min(need, 16)
                 if name in (
@@ -744,10 +1111,32 @@ class EncounterPolicy(RunPolicy):
                                 raw += min(doom, effective) * (1.0 if doom >= effective else 0.45)
                 reserve = (7.0 if boss else 10.5 if hard else 14.0) * w.potion
                 reserve /= 1 + 0.53 * (len(potions) >= 2) + min(2.0, need / max(1, hp))
-                return raw - reserve
+                net = raw - reserve
+                if (
+                    self.card_potion_mechanics
+                    and hard_or_lethal
+                    and net > 1.5
+                    and name in ("FLEX_POTION", "DUPLICATOR", "SPEED_POTION")
+                ):
+                    # Play force-multiplier potions before 0-cost cards (which receive a +5.0 free bonus).
+                    net += 6.5
+                return net
             # Free useful effects and card draw can expose additional options before consuming energy.
+            if self.enemy_mechanics and any_slow and not is_attack and raw > 0.15:
+                if any(_cost(a) <= energy - cost and max((_damage(a, e) for e in enemies), default=0) >= 8 for a in attacks):
+                    raw += min(2.5, 0.10 * max_attack)
             if cost == 0 and raw > 0.15:
-                raw += 5.0
+                skip_free = (
+                    (
+                        gigantified
+                        and is_attack
+                        and max((_effective_attack_dmg(item, e) for e in enemies), default=0.0)
+                        < max_attack * 0.65
+                    )
+                    or (duplicating and raw < 10.0)
+                )
+                if not skip_free:
+                    raw += 5.0
             return (raw - 0.12 * cost) / max(1, cost) ** 0.74
 
         scores = [score(a) for a in actions]
@@ -781,6 +1170,8 @@ class EncounterModel:
         self.draw_potions_from_act = data.get("draw_potions_from_act", 4)
         self.scorer_fixes = data.get("scorer_fixes", False)
         self.act2_mechanics = data.get("act2_mechanics", False)
+        self.enemy_mechanics = data.get("enemy_mechanics", False)
+        self.card_potion_mechanics = data.get("card_potion_mechanics", False)
         self.survival_search = data.get("survival_search", False)
         self.survival_beam = data.get("survival_beam", False)
         self.sandpit_threshold = data.get("sandpit_threshold", 0)
@@ -871,6 +1262,8 @@ class EncounterModel:
                 potion_timing=self.act3_potion_timing if ctx["act"] == 3 and ctx["room_type"] in ("Monster", "Elite") else 0,
                 scorer_fixes=plan.get("scorer_fixes", self.scorer_fixes),
                 act2_mechanics=plan.get("act2_mechanics", self.act2_mechanics),
+                enemy_mechanics=plan.get("enemy_mechanics", self.enemy_mechanics),
+                card_potion_mechanics=plan.get("card_potion_mechanics", self.card_potion_mechanics),
             )
             self.key = key
 

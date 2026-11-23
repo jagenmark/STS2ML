@@ -62,6 +62,7 @@ def combat_selection(state, actor):
     view = state.get("combat_state") or {}
     if not view:
         return actor.select_cards(state)
+    card_pot_mech = bool(getattr(actor, "card_potion_mechanics", False))
     player = view["player"]
     enemies = view["enemies"]
     energy = view["energy"]
@@ -92,6 +93,17 @@ def combat_selection(state, actor):
     def usefulness(c):
         stats = c.get("stats") or {}
         cost = 0 if free else _cost(c)
+        if card_pot_mech and not keep and c.get("id") == "CARD.GRAND_FINALE":
+            hand_cards = view.get("hand") or ()
+            match = next((h for h in hand_cards if h.get("index") == c.get("index") and h.get("id") == c.get("id")), None)
+            if match is not None and "can_play" in match:
+                gf_playable = bool(match["can_play"])
+            elif "can_play" in c:
+                gf_playable = bool(c["can_play"])
+            else:
+                gf_playable = view.get("draw_pile_count") == 0
+            if not gf_playable:
+                return -5.0
         durable = actor.card_value(c, deck=player["deck"])
         damage = stats.get("calculateddamage", stats.get("damage", 0)) * _hits(c) + 4 * _shiv_count(
             c
@@ -108,11 +120,17 @@ def combat_selection(state, actor):
             + poison
             + (0.6 * durable if c.get("type") == "Power" else 0.16 * durable)
         ) / max(1, cost) ** 0.65
-        if cost > energy and source.get("kind") != "end_turn" and origin != "NIGHTMARE":
+        unplayable_now = (
+            cost > energy and source.get("kind") != "end_turn" and origin != "NIGHTMARE"
+        )
+        if unplayable_now:
             gain *= 0.25
         if c.get("type") in ("Curse", "Status", "Quest"):
             gain -= 18
-        return gain + 0.25 * durable
+        total = gain + 0.25 * durable
+        if card_pot_mech and not keep and unplayable_now and c.get("type") not in ("Curse", "Status", "Quest"):
+            return total * 0.15
+        return total
 
     def value(c):
         v = usefulness(c)
