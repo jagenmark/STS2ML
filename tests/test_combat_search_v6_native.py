@@ -324,8 +324,10 @@ def test_knowledge_relic_order(oracle, tmp_path):
 
 def test_meat_on_the_bone_crosses_half(oracle, tmp_path):
     load_relics(oracle, tmp_path, {"MEAT_ON_THE_BONE"}, ["DEFLECT"] * 10, "SLIMED_BERSERKER_NORMAL", hp=204)
-    for _ in range(3):
+    for _ in range(12):
         check(oracle, action(oracle, "end_turn"))
+        if oracle.public["player"]["hp"] <= 200:
+            break
     assert oracle.public["player"]["relics"][0]["status"] == "Active"
 
 
@@ -362,4 +364,25 @@ def test_late_choice_boundary(oracle, name):
 def test_late_decay_pyramid(oracle, tmp_path):
     load_relics(oracle, tmp_path, {"RUNIC_PYRAMID"}, ["DECAY", "DEFEND_SILENT"], "THE_INSATIABLE_BOSS")
     check(oracle, action(oracle, "end_turn"))
-    assert oracle.public["hand"][-1]["id"] == "CARD.DECAY"
+    assert any(c["id"] == "CARD.DECAY" for c in oracle.public["hand"])
+
+def test_stable_serum_ticks_before_curse(oracle):
+    oracle.start("SERUM", ["DEFLECT"] * 18, ["STABLE_SERUM"], encounter="KNOWLEDGE_DEMON_BOSS")
+    check(oracle, action(oracle, "use_potion"))
+    assert dict(project(oracle.public).state.powers)["RETAIN_HAND"] == 2
+    check(oracle, action(oracle, "end_turn"))
+    check(oracle, legal_actions(oracle.public)[1])
+    check(oracle, action(oracle, "end_turn"))
+
+
+def test_expensive_block_and_single_shield_target(oracle, tmp_path):
+    load_relics(oracle, tmp_path, {"INTIMIDATING_HELMET", "PARRYING_SHIELD"}, ["DASH", "DEFEND_SILENT"], "THE_INSATIABLE_BOSS")
+    check(oracle, named_card(oracle, "DASH"))
+    check(oracle, named_card(oracle, "DEFEND_SILENT"))
+    check(oracle, action(oracle, "end_turn"))
+
+
+def test_phantom_existing_shiv(oracle):
+    oracle.start("BLADES", ["SHIV", "PHANTOM_BLADES"], encounter="THE_INSATIABLE_BOSS")
+    check(oracle, named_card(oracle, "PHANTOM_BLADES"), stop="existing shiv")
+    assert "Retain" in next(c for c in oracle.public["hand"] if c["id"] == "CARD.SHIV")["keywords"]

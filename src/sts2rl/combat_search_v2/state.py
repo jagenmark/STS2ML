@@ -281,7 +281,8 @@ def project(public, *, late_prompts=False):
         piles.append(zone)
     potion_rows = player["potions"]
     potions = tuple(Potion(slot, entry(p["id"]), p["target_type"], p["can_use"],
-                           numbers(p.get("vars"), POTION_STATS))
+                           numbers(p.get("vars"), (*POTION_STATS, "Repeat") if late_prompts and
+                                   entry(p["id"]) == "STABLE_SERUM" else POTION_STATS))
                     for slot, p in enumerate(potion_rows))
     relics = tuple(Relic(entry(r["id"]), integer(r["counter"]) if r.get("counter") is not None else None,
                          bool(r.get("is_used_up")), numbers(r.get("vars"), RELIC_STATS), r.get("status", "Normal"),

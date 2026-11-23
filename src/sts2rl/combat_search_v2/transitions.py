@@ -341,6 +341,14 @@ def _card_effect(state, play):
     v = play.card.variant
     name, up = v.name, v.upgrade
     slots = _card_targets(state, v, play.target)
+    if state.late:
+        for relic in state.relics:
+            if relic.name == "INTIMIDATING_HELMET" and not relic.used:
+                cost = play.x if "costs_x" in v.flags else v.cost
+                if cost >= power(relic.stats, "energy"):
+                    if play.replay or power(state.powers, "DUPLICATION") or power(state.powers, "BURST"):
+                        return boundary(state, "intimidating helmet replay")
+                    state = replace(state, block=state.block + power(relic.stats, "block"))
     if v.kind == "Power" and any(r.name in ("GAME_PIECE", "MUMMIFIED_HAND", "PERMAFROST")
                                  and not r.used for r in state.relics):
         return boundary(state, "power-triggered relic")
@@ -402,6 +410,9 @@ def _card_effect(state, play):
             return boundary(state, "card selection/" + name)
         if name == "SIDESTEP":
             return _add_player_power(state, "ENERGY_NEXT_TURN", 1 + up)
+        if name == "PHANTOM_BLADES" and any(v.name == "SHIV" for v in (
+                *(c.variant for c in state.hand), *state.draw, *state.discard, *state.exhaust)):
+            return boundary(state, "phantom blades existing shiv")
         if name in ("PHANTOM_BLADES", "ACCURACY"):
             return _add_player_power(state, name, 9 + 3 * up if name == "PHANTOM_BLADES" else 4 + 2 * up)
         if name == "ENLIGHTENMENT":
@@ -717,6 +728,8 @@ def _potion(state, move):
     potion = next(p for p in state.potions if p.slot == move.slot)
     state = replace(state, potions=tuple(p for p in state.potions if p.slot != move.slot),
                     spent=state.spent + 1)
+    if state.late and potion.name == "STABLE_SERUM":
+        return _add_player_power(state, "RETAIN_HAND", power(potion.stats, "repeat"))
     rule = POTIONS.get(potion.name)
     if rule is None:
         return boundary(state, f"potion/{potion.name}")
@@ -830,4 +843,3 @@ def _advance(state, move):
         state = _card_effect(state, play)
         return state if state.outcome or state.boundary else _finish_card(state, play)
     return _drain(_queue(replace(state, play=(*state.play, v)), Effect("play", play=play)))
-

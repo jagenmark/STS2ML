@@ -81,7 +81,7 @@ def _after_draw_prompt(suspended, public):
     if (suspended.boundary.reason != "draw" or public.get("decision") != "card_select"
             or not suspended.queue or suspended.queue[0].kind != "prompt"):
         return None
-    current = project(public).state
+    current = project(public, late_prompts=True).state if suspended.late else project(public).state
     event, *tail = suspended.queue
     if (current.prompt.operation != event.play.card.variant.name or not tail
             or any(op.kind not in ("after_play", "finish") for op in tail)
@@ -253,6 +253,19 @@ class CombatSearchV2:
         self.last_fallback = fallback
         return actual
 
+    def audit_right_hand(self, action, after, enumerate_actions):
+        """Evaluate the independent v6 card rule on a frozen choice without updating this controller."""
+        if self._decision is None:
+            return None
+        projected, moves = self._decision
+        if not any(v.name == "RIGHT_HAND_HAND" for v in projected.state.discard):
+            return None
+        observer = copy(self)
+        observer.records = [{}]
+        observer._decision = replace(projected, state=replace(projected.state, right_hand_return=True)), moves
+        observer.observe(action, after, enumerate_actions)
+        return observer.records[0].get("oracle")
+
     def observe(self, action, after, enumerate_actions):
         if self.config.v6_late_coverage:
             prior, self._played_from = self._played_from, None
@@ -308,7 +321,9 @@ class CombatSearchV2:
                     self._prompt = _after_draw_prompt(predicted, after)
                     if self._prompt and predicted.late:
                         self._prompt = replace(self._prompt, late=True, facing=predicted.facing,
-                                               preview_facing=predicted.facing, sloth_plays=self._plays)
+                                               preview_facing=predicted.facing, sloth_plays=self._plays,
+                                               bound_used=self._bound_used, aeon_plays=self._aeon_plays,
+                                               right_hand_return=predicted.right_hand_return)
                 except (Unsupported, ValueError, KeyError, TypeError):
                     self._prompt = None
         elif predicted.outcome in ("victory", "dead"):

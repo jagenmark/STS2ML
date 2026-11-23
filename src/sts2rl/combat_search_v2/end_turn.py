@@ -65,8 +65,18 @@ def _hand_end(state):
             state = replace(state, block=power(relic.stats, "block"))
         if relic.name == "RIPPLE_BASIN" and relic.status == "Active":
             state = replace(state, block=state.block + power(relic.stats, "block"))
-    if any(r.name == "PARRYING_SHIELD" and not r.used and state.block >= power(r.stats, "block") for r in state.relics):
-        return boundary(state, "parrying shield target")
+    for relic in state.relics:
+        if relic.name != "PARRYING_SHIELD" or relic.used or state.block < power(relic.stats, "block"):
+            continue
+        living = [e for e in state.enemies if e.hp > 0]
+        if (not state.late or len(living) != 1 or living[0].hp <= power(relic.stats, "damage")
+                or any(c.variant.name in _HAND_DAMAGE or c.variant.name == "DECAY" for c in hand)
+                or power(state.powers, "CONSTRICT") or power(state.powers, "DISINTEGRATION")):
+            return boundary(state, "parrying shield target")
+        from .transitions import _damage
+        state = _damage(state, living[0].slot, power(relic.stats, "damage"))
+        if state.boundary or state.outcome:
+            return state
     if amount := power(state.powers, "DISINTEGRATION"):
         if power(state.powers, "PLATING") or power(state.powers, "REGEN") or any(c.variant.name in _HAND_DAMAGE for c in hand):
             return boundary(state, "disintegration ordering")
@@ -105,7 +115,7 @@ def _hand_end(state):
             (status_keep if amount else remaining).append(c)
         else:
             discard.append(outside_hand(v))
-    powers = state.powers
+    powers = _tick(state.powers, ("RETAIN_HAND",)) if state.late else state.powers
     if ritual := power(powers, "RITUAL"):
         powers = add_power(powers, "STRENGTH", ritual)
     if state.late and (flex := power(powers, "FLEX_POTION")):

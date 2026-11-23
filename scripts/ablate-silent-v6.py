@@ -5,6 +5,7 @@ from dataclasses import asdict
 import hashlib
 import json
 import os
+import subprocess
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -28,7 +29,8 @@ def episode(job):
         folder = Path(scratch) / "episode"
         row = play_episode((ROOT, host, folder, seed, index, role, asdict(RunWeights.load(settings["weights"])),
                             None, {**settings, "seeded_acts": mode == "seeded", "compact_combat_summary": True,
-                                   "audit_compact": True, "time_combat_decisions": True}))
+                                   "audit_compact": True, "audit_frozen_right_hand": arm == "v5", "time_combat_decisions": True}))
+        row["arm"] = arm
         row["combat_ns"] = json.loads((folder / "combat-decision-ns.json").read_bytes())
     return row
 
@@ -56,6 +58,12 @@ def main():
     if args.arm != "v5":
         settings = json.loads(POLICY.with_name("combat_search_v2_config.json").read_bytes())
         config.write_text(json.dumps({**settings, "v6_late_coverage": True}))
+    manifest = {"arm": args.arm, "workers": args.workers, "git": subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), "host_sha256": sha(host),
+        "game_sha256": sha(ROOT / "artifacts/upstreams/sts2-cli/lib/sts2.dll"), "policy_sha256": sha(POLICY),
+        "lock_sha256": sha(LOCK), "config_sha256": sha(config if args.arm != "v5" else
+        POLICY.with_name("combat_search_v2_config.json")), "openblas_threads": 1, "omp_threads": 1}
+    (output / (args.arm + "-manifest.json")).write_text(json.dumps(manifest, indent=2))
     jobs = [(output, host, args.arm, config, *row) for row in json.loads(LOCK.read_bytes())]
     with (output / (args.arm + ".jsonl")).open("x", encoding="utf8") as f, ProcessPoolExecutor(args.workers) as pool:
         for i, row in enumerate(pool.map(episode, jobs), 1):

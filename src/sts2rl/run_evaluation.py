@@ -428,9 +428,11 @@ def _play_episode(task, ascension, decision_hook):
                 if recorder is not None:
                     recorder.observe(before, action, state, step, native_step=len(game.history) - 1)
                 if combat_v2 is not None:
+                    second_audit = (combat_v2.audit_right_hand(action, state, legal_actions)
+                                    if options.get("audit_frozen_right_hand") else None)
                     combat_v2.observe(action, state, legal_actions)
                     if compact is not None and options.get("audit_compact") and combat_v2.records:
-                        compact.audit(combat_v2.records.pop())
+                        compact.audit(combat_v2.records.pop(), second_audit)
                 paid_relics.observe(before, action, state)
                 if act == 3 and action.kind == "select_map_node":
                     draws_normal = (state.get("context") or {}).get("room_type") == "Monster"
@@ -462,6 +464,8 @@ def _play_episode(task, ascension, decision_hook):
         row.update(coverage=compact.coverage, death=compact.death)
         if options.get("audit_compact"):
             row.update(native=compact.native, mismatches=compact.mismatches, late_fights=compact.exits)
+            if options.get("audit_frozen_right_hand"):
+                row["independent_native"] = compact.independent_native
     if options.get("explain_drafts"):
         with gzip.open(folder / "draft-scores.jsonl.gz", "wt", encoding="utf-8") as stream:
             for trace in draft_explanations:

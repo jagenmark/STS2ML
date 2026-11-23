@@ -9,12 +9,16 @@ class EpisodeSummary:
         self.fight = None
         self.formation = None
         self.native = Counter()
+        self.independent_native = Counter()
         self.mismatches = []
         self.exits = []
 
-    def audit(self, record):
+    def audit(self, record, second_audit=None):
         if oracle := record.get("oracle"):
             self.native[oracle[1]] += 1
+            self.independent_native[(second_audit or oracle)[1]] += 1
+            if second_audit and second_audit != oracle:
+                record["independent_oracle"] = second_audit
             if oracle[1] == "mismatch":
                 self.mismatches.append(record)
 
