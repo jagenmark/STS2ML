@@ -1,4 +1,5 @@
 *.patch text eol=lf whitespace=-blank-at-eol
+docs/combat-search-v2/models/v5-search.json text eol=lf
 releases/silent-a10-encounter-draft/** -text
 releases/silent-a10-act2-hallways/** -text
 releases/silent-a10-boss-conversion/** -text

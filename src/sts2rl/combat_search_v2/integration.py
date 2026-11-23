@@ -132,6 +132,7 @@ class CombatSearchV2:
         self.records = [] if record else None
         self.model = model
         self.model_sha256 = model_sha256
+        self.last_fallback = None
         self._prompt = None
         self._decision = None
 
@@ -219,6 +220,7 @@ class CombatSearchV2:
                 if result.leaf_ns is not None:
                     row["leaf_ns"] = result.leaf_ns
             self._record(row)
+        self.last_fallback = fallback
         return actual
 
     def observe(self, action, after, enumerate_actions):

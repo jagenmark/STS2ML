@@ -459,7 +459,7 @@ def test_optional_bundle_settings_and_config_hash(tmp_path):
     from sts2rl.run_bundle import freeze_bundle, load_bundle
 
     root = Path(__file__).resolve().parents[1]
-    frozen = root / "releases/silent-a10-v2-tactics/challenger/policy.json"
+    frozen = root / "releases/silent-a10-mecha-knight/challenger/policy.json"
     _, old = load_bundle(frozen)
     assert not any(k.startswith("combat_search_v2") for k in old)
 

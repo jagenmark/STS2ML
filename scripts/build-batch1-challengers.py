@@ -19,11 +19,15 @@ Supports independent ablations:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
 from sts2rl.act1 import save_json
 from sts2rl.run_bundle import freeze_bundle, load_bundle
+
+SEARCH_PROFILES = ("all_v2_search_v5", "all_v2_search_heur_v5")
+MODEL_SHA256 = "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b"
 
 PROFILES = (
     "survival",
@@ -39,6 +43,7 @@ PROFILES = (
     "all_v2_mech",
     "all_v2_mech_v3",
     "all_v2_p1_v4",
+    *SEARCH_PROFILES,
 )
 
 
@@ -61,6 +66,17 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
     if profile not in PROFILES:
         raise ValueError(f"Unknown Batch 1/2 profile: {profile!r}")
     role, opts = load_bundle(base)
+    if profile in SEARCH_PROFILES:
+        if any(opts.get(k) for k in ("combat_search_v2", "combat_search_v2_shadow", "combat_search_v2_config", "combat_value_v2")):
+            raise ValueError("Start from a search-free base for the v5 profiles")
+        models = Path(__file__).resolve().parents[1] / "docs/combat-search-v2/models"
+        opts.update(combat_search_v2=True, combat_search_v2_config=models / "v5-search.json")
+        if profile == "all_v2_search_v5":
+            checkpoint = models / "combat_value_v3.npz"
+            if hashlib.sha256(checkpoint.read_bytes()).hexdigest() != MODEL_SHA256:
+                raise ValueError("Frozen Schema 3 checkpoint checksum mismatch")
+            opts["combat_value_v2"] = checkpoint
+        profile = "all_v2_p1_v4"
     encounter = json.loads(opts["encounter_model"].read_bytes())
     deck = json.loads(opts["deck_model"].read_bytes())
     room = json.loads(opts["room_model"].read_bytes()) if "room_model" in opts else None

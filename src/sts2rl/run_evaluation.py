@@ -5,6 +5,7 @@ from contextlib import nullcontext
 import gzip
 import hashlib
 import json
+import os
 from pathlib import Path
 from time import monotonic, perf_counter_ns
 
@@ -142,6 +143,13 @@ def _play_episode(task, ascension, decision_hook):
         row["teacher_deck_effects"] = policy.deck_effects
         row["label_provenance"] = planner_provenance(feature_policy.weights, late, policy.deck_effects)
     search = boss_search = combat_v2 = recorder = None
+    compact = None
+    if options.get("compact_combat_summary"):
+        from .combat_search_v2.episode_summary import EpisodeSummary
+
+        if options.get("record_combat_v2") or options.get("reuse_host"):
+            raise ValueError("Compact summaries require a fresh host without an observer")
+        compact = EpisodeSummary()
     rooms = []
     combat_timings = [] if options.get("time_combat_decisions") else None
     try:
@@ -210,7 +218,7 @@ def _play_episode(task, ascension, decision_hook):
             from .combat_search_v2.integration import CombatSearchV2, choose_encounter
 
             if encounter is not None:
-                combat_v2 = CombatSearchV2.from_options(options, record=True)
+                combat_v2 = CombatSearchV2.from_options(options, record=compact is None)
         turn_search = options.get("turn_search") and role not in ("baseline", "prior", "original-combat", "no-turn")
         deployed_search = bool(options.get("combat_search_deployed")) and role not in (
             "baseline",
@@ -253,6 +261,9 @@ def _play_episode(task, ascension, decision_hook):
             act_list=row["act_list"],
             reuse_host=bool(options.get("reuse_host", False)) and recorder is None,
         ) as game:
+            if compact is not None:
+                game.trace.close()
+                game.trace = open(os.devnull, "w", encoding="utf-8")
             if options.get("start_trace"):
                 fork = act_start(options["start_trace"], row["start_act"])
                 if fork.specification["seed"] != seed or fork.specification["ascension"] != ascension:
@@ -406,6 +417,12 @@ def _play_episode(task, ascension, decision_hook):
                     deck_model.observe(state, action)
                 before = state
                 state = game.step(action)
+                if compact is not None:
+                    fallback = None
+                    if combat_v2 is not None:
+                        fallback = (combat_v2.last_fallback if combat and encounter.applies(before)
+                                    else "outside encounter scope")
+                    compact.observe(before, state, fallback)
                 if recorder is not None:
                     recorder.observe(before, action, state, step, native_step=len(game.history) - 1)
                 if combat_v2 is not None:
@@ -437,6 +454,8 @@ def _play_episode(task, ascension, decision_hook):
             row["search"] = {"roots": search.attempts, "branches": search.branches,
                              "changes": search.changes, "errors": search.errors}
     row["seconds"] = monotonic() - started
+    if compact is not None:
+        row.update(coverage=compact.coverage, death=compact.death)
     if options.get("explain_drafts"):
         with gzip.open(folder / "draft-scores.jsonl.gz", "wt", encoding="utf-8") as stream:
             for trace in draft_explanations:
