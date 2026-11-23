@@ -9,9 +9,10 @@ from sts2rl.act2_bosses import BossTactics
 from sts2rl.combat_search_v2.artifact import CombatValueModel
 from sts2rl.combat_search_v2.features import extract_leaf_features
 from sts2rl.combat_search_v2.integration import CombatSearchV2, _difference, _native_legal
-from sts2rl.combat_search_v2.planner import Config
+from sts2rl.combat_search_v2.planner import Config, search
 from sts2rl.combat_search_v2.state import END_TURN, power, project, root_move
 from sts2rl.combat_search_v2.transitions import admission, advance, legal
+from sts2rl.combat_search_v2.value import leaf_value
 from sts2rl.native import NativeSession, legal_actions
 from test_combat_search_v2_native import HOST, ROOT, Oracle
 from test_combat_search_v6_native import action, load_relics, named_card
@@ -133,6 +134,15 @@ def test_nimble_relax_native_block(oracle, tmp_path):
     assert s.block == 18
 
 
+def test_retained_enlightenment_cost_resets_before_curse(oracle):
+    oracle.start("RETAIN", ["SNAKEBITE", "ENLIGHTENMENT"], encounter="KNOWLEDGE_DEMON_BOSS", seed="CSV5FIX_RETAIN")
+    check(oracle, named_card(oracle, "ENLIGHTENMENT"), "Boss")
+    assert oracle.public["hand"][0]["cost"] == 1
+    check(oracle, action(oracle, "end_turn"), "Boss", stop="retained enlightenment cost at curse offer")
+    assert oracle.public["decision"] == "card_select"
+    assert oracle.public["combat_state"]["hand"][0]["cost"] == 2
+
+
 def test_the_hunt_fatal_with_living_allies(oracle):
     oracle.start("HUNT", ["THE_HUNT"] * 16, hp=400, encounter="EXOSKELETONS_NORMAL", seed="CSV5FIX_HUNT")
     while not power(projected(oracle.public).state.powers, "THE_HUNT"):
@@ -206,6 +216,38 @@ def test_curse_prompts_use_champion_and_card_roots_resume(oracle):
             mode.observe(selection, room_view(oracle.public, "Boss"), legal_actions)
     assert offered == ["CARD.MIND_ROT", "CARD.SLOTH", "CARD.WASTE_AWAY"]
     assert not any(r.get("oracle", [None, None])[1] == "mismatch" for r in mode.records)
+
+
+@pytest.mark.parametrize("preferred", [(), ("MIND_ROT",)])
+def test_only_champion_curse_reaches_the_hypothetical_leaf(oracle, preferred):
+    oracle.start("CURSE_LEAF", ["DEFLECT"] * 12, encounter="KNOWLEDGE_DEMON_BOSS", seed="CSV5FIX_CURSE_LEAF")
+    p = projected(oracle.public, "Boss")
+    evaluated = set()
+    class Model:
+        def leaf(self, state):
+            evaluated.add(tuple(name for name, _ in state.powers if name in ("MIND_ROT", "DISINTEGRATION")))
+            return 1., float(not power(state.powers, preferred[0] if preferred else "DISINTEGRATION"))
+    result = search(p, legal(p.state), END_TURN, Config(v61_boss_safe=True), model=Model(), curse_preferences=preferred)
+    assert not result.fallback
+    assert evaluated == {preferred or ("DISINTEGRATION",)}
+
+
+@pytest.mark.parametrize("name", ["KAISER_CRAB_BOSS", "KNOWLEDGE_DEMON_BOSS", "THE_INSATIABLE_BOSS"])
+def test_boss_values_invariant_to_realized_native_hand(oracle, name):
+    model = CombatValueModel.load(ROOT / "releases/silent-a10-v2-tactics/challenger/combat_value_v2.npz")
+    values, hands = [], []
+    for reverse in (False, True):
+        oracle.start("BOSS_SWAP", ["DEFEND_SILENT"] * 16 + ["STRIKE_SILENT"] * 16, hp=400,
+                     encounter=name, seed="CSV5FIX_BOSS_SWAP_" + name)
+        if name == "KNOWLEDGE_DEMON_BOSS":
+            oracle.public = oracle.command(**action(oracle, "end_turn").command())
+            oracle.public = oracle.command(**legal_actions(oracle.public)[1].command())
+        order = sorted((c["id"].split(".")[-1] for c in oracle.public["draw_pile"]), reverse=reverse)
+        oracle.command(cmd="set_draw_order", cards=order)
+        s = check(oracle, action(oracle, "end_turn"), "Boss", facing=1, preview_facing=1)
+        values.append([leaf_value(s, 7, m, boss_safe=True) for m in (None, model)])
+        hands.append(tuple(c["id"] for c in oracle.public["hand"]))
+    assert hands[0] != hands[1] and values[0] == values[1]
 
 
 @pytest.mark.parametrize("learned", [False, True])

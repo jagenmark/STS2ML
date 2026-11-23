@@ -5,6 +5,8 @@ VICTORY = 3
 SURVIVED = 2
 UNRESOLVED = 1
 DEAD = 0
+SLOTH_RETAIN_VALUE = {"DASH": 4, "PREDATOR": 4, "LEG_SWEEP": 4, "SNAKEBITE": 3, "NOXIOUS_FUMES": 5,
+                      "AFTERIMAGE": 5, "MALAISE": 4, "GRAND_FINALE": 5}
 
 
 def _damage_progress(enemy):
@@ -52,10 +54,8 @@ def _boss_adjustment(state):
         # These cards are still in the *simulated* hand. At a completed leaf
         # this can include only known retained cards. Spare play slots are
         # valuable when a high-impact card is still available this turn.
-        impact = {"DASH": 4, "PREDATOR": 4, "LEG_SWEEP": 4, "SNAKEBITE": 3, "NOXIOUS_FUMES": 5,
-                  "AFTERIMAGE": 5, "MALAISE": 4, "GRAND_FINALE": 5}
         remaining = max(0, limit - state.sloth_plays)
-        high = sorted((impact[c.variant.name] for c in state.hand if c.variant.name in impact), reverse=True)
+        high = sorted((SLOTH_RETAIN_VALUE.get(c.variant.name, 0) for c in state.hand), reverse=True)
         value += sum(high[:remaining])
     return value
 

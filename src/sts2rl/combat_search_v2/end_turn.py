@@ -405,6 +405,8 @@ def _start_player(state, prior_powers):
         block += sum(power(r.stats, "block") for r in state.relics if r.name == "CAPTAINS_WHEEL" and not r.used)
     hp = state.hp
     if poison := power(powers, "POISON"):
+        if state.remnant_floor is not None:
+            return boundary(state, "remnant start turn poison")
         hp, block, powers = _player_damage(state, hp, block, powers, poison, bypass=True)
         if hp < state.hp and _puzzle(state):
             return boundary(state, "centennial puzzle draw")

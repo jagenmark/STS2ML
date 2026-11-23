@@ -78,6 +78,16 @@ def summary(path):
         bosses = [f for r in rows for f in r["fights"] if f[0] == 2 and f[2] == "Boss"]
         entered = sum(any(a == 2 for a, _ in r["boss_fights"]) for r in rows)
         assert len(bosses) == entered and all(f[3] in BOSSES.values() for f in bosses)
+        assert sum(f[6] for f in bosses) == sum(r["a2_clear"] for r in rows)
+        # The historical 22.2 HP separator was cumulative across regular
+        # hallways. Compare that same unit among paired boss entrants.
+        loss_pairs = []
+        for current, base in zip(fights, reference, strict=True):
+            if not any(k[0] == 2 and k[2] == "Boss" for k in current.keys() & base.keys()):
+                continue
+            loss_pairs.append([sum(hp[0] - hp[1] for k, hp in group.items() if k[0] == 2 and k[2] == "Monster")
+                               for group in (current, base)])
+        losses = np.array(loss_pairs)
         delta = floors[arm] - floors["v5"]
         results[arm] = dict(n=len(rows), mean_floor=floors[arm].mean(), delta_floor=delta.mean(),
                             ci=np.quantile(delta[resamples].mean(axis=1), [.025, .975]).tolist(),
@@ -88,6 +98,8 @@ def summary(path):
                             boss_survival={k: [sum(f[6] for f in bosses if f[3] == name), sum(f[3] == name for f in bosses)]
                                            for k, name in BOSSES.items()},
                             coverage=coverage, fallbacks=census, paired_hp=paired_hp,
+                            paired_boss_entrant_hallway_loss=dict(n=len(losses), arm=losses[:, 0].mean(),
+                                                                  v5=losses[:, 1].mean(), delta=(losses[:, 0] - losses[:, 1]).mean()),
                             latency_ms=(np.quantile([n for r in rows for n in r["combat_ns"]], [.50, .95]) / 1e6).tolist(),
                             native=dict(sum((Counter(r["native"]) for r in rows), Counter())))
     for lhs, rhs in (("boss-safe", "hallways"), ("heuristic", "boss-safe")):

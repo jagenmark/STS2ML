@@ -5,11 +5,13 @@ from pathlib import Path
 import pytest
 
 from sts2rl.combat_search_v2.artifact import CombatValueModel
+from sts2rl.combat_search_v2.integration import CombatSearchV2
 from sts2rl.combat_search_v2.planner import Config, search
 from sts2rl.combat_search_v2.state import END_TURN, Boundary, project
 from sts2rl.combat_search_v2.transitions import legal
 from sts2rl.combat_search_v2.value import interim, leaf_value
-from test_combat_search_v2 import DEFEND, STRIKE, card, enemy, powers, view
+from sts2rl.native import legal_actions, runtime_identity
+from test_combat_search_v2 import DEFEND, STRIKE, AllowlistGuard, ForbiddenRead, card, enemy, powers, view
 
 
 @pytest.mark.parametrize("act,room,v6,hallways,full", [
@@ -65,3 +67,16 @@ def test_hallway_arm_keeps_frozen_boss_root():
     p = project(view(STRIKE, enemies=[enemy("KNOWLEDGE_DEMON")]))
     p = replace(p, state=replace(p.state, act=2, room="Boss"))
     assert search(p, legal(p.state), END_TURN, Config(v61_act2_hallways_act3=True)) == search(p, legal(p.state), END_TURN)
+
+
+@pytest.mark.parametrize("boss", [False, True])
+def test_public_only_live_action(boss):
+    public = view(DEFEND, STRIKE, enemies=[enemy("THE_INSATIABLE" if boss else "HUNTER_KILLER")], draw=(STRIKE, DEFEND))
+    public.update(runtime_identity=runtime_identity(10))
+    public["context"].update(act=2, room_type="Boss" if boss else "Monster")
+    actions = legal_actions(public)
+    config = Config(v61_boss_safe=True)
+    reference = CombatSearchV2(config).choose(public, actions[-1], lambda _: actions)
+    guarded = AllowlistGuard({**public, "draw_pile": list(reversed(public["draw_pile"])), **dict.fromkeys(
+        ("seed", "lobby_index", "rng", "next_turn_intents", "next_hand", "post_draw_energy", "draw_order"), ForbiddenRead())})
+    assert CombatSearchV2(config).choose(guarded, actions[-1], lambda _: actions) == reference

@@ -242,12 +242,10 @@ class CombatSearchV2:
                                                              aeon_plays=self._aeon_plays, tender_plays=plays,
                                                              remnant_floor=floor, v61_rules=self.config.v61_act2_hallways_act3
                                                              or self.config.v61_boss_safe))
-            if self.config.v61_boss_safe and state.act == 2 and state.room == "Boss" and state.curse_options:
-                # The champion has already selected a physical card in this
-                # observed offer. Resume search on the next combat-play root.
-                raise Unsupported("champion knowledge curse")
             if projected.state.prompt:
                 if previous_prompt is None or _difference(previous_prompt, projected.state):
+                    if self.config.v61_boss_safe and state.act == 2 and state.room == "Boss" and state.curse_options:
+                        raise Unsupported("champion knowledge curse")
                     raise Unsupported("unreconciled prompt")
                 projected = replace(projected, state=replace(previous_prompt, spent=0))
             actions = enumerate_actions(public)
@@ -259,7 +257,7 @@ class CombatSearchV2:
             changed = result.choice != primary
             if changed and not self.shadow and not fallback:
                 actual = actions[moves.index(result.choice)]
-            if (result.attempts or result.fallback == "forced") and primary in moves:
+            if (result.attempts or result.fallback in ("forced", "champion knowledge curse")) and primary in moves:
                 self._decision = projected, moves
         except (Unsupported, NativeError, KeyError, TypeError, ValueError) as error:
             fallback = str(error) if isinstance(error, Unsupported) else f"projection/{type(error).__name__}"

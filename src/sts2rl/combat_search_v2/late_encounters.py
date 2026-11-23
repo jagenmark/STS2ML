@@ -89,6 +89,11 @@ def move(state, enemy, kinds):
             return state
     if name == "KNOWLEDGE_DEMON":
         if kinds == {"Debuff"}:
+            # Base Enlightenment expires before the curse prompt. The public
+            # hand does not say which retained one-cost cards were discounted.
+            if state.v61_rules and any(c.variant.cost == 1 for c in state.hand) and any(
+                    v.name == "ENLIGHTENMENT" and v.upgrade == 0 for v in (*state.discard, *state.exhaust)):
+                return replace(state, boundary=Boundary("retained enlightenment cost at curse offer"))
             if state.curse_number in range(3):
                 relics = tuple(replace(r, counter=0, status="Normal") if r.name == "KUSARIGAMA"
                                else replace(r, status="Normal") if r.name == "RIPPLE_BASIN" else r

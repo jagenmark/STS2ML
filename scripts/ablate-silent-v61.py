@@ -80,11 +80,13 @@ def episode(job):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--arm", choices=ARMS, required=True)
+    parser.add_argument("--arm", choices=(*ARMS, "v6"), required=True)
     parser.add_argument("--cohort", choices=("CENSUS", "DEV"), required=True)
     parser.add_argument("--workers", type=int, choices=(12,), default=12)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.arm == "v6" and args.cohort != "CENSUS":
+        parser.error("The historical v6 arm is for the census only")
     host = Path(os.environ["CSV2DEV_HOST"])
     game = ROOT / "artifacts/upstreams/sts2-cli/lib/sts2.dll"
     pins = {host: "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
@@ -103,8 +105,11 @@ def main():
     stem = args.cohort.lower() + "-" + args.arm
     if args.arm != "v5":
         settings = json.loads(config.read_bytes())
-        settings["v61_act2_hallways_act3"] = True
-        settings["v61_boss_safe"] = args.arm in ("boss-safe", "heuristic")
+        if args.arm == "v6":
+            settings["v6_late_coverage"] = True
+        else:
+            settings["v61_act2_hallways_act3"] = True
+            settings["v61_boss_safe"] = args.arm in ("boss-safe", "heuristic")
         config = output / (stem + "-config.json")
         config.write_bytes(json.dumps(settings, sort_keys=True).encode())
     manifest = dict(arm=args.arm, cohort=args.cohort, workers=args.workers, git=subprocess.check_output(
