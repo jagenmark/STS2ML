@@ -863,3 +863,60 @@ def test_phase3_dash_blocks_thorns_before_damage(oracle):
     hp = oracle.simulated.hp
     _check_qualified_board(oracle, oracle.step("play_card", "DASH", target=0))
     assert (oracle.simulated.hp, oracle.simulated.block) == (hp, 5)
+
+def test_phase3_louse_fully_blocked_attack_triggers_curl(oracle):
+    oracle.start("CURL", ["NEUTRALIZE"] * 12, hp=70, encounter="LOUSE_PROGENITOR_NORMAL",
+                 seed="CSV3FIX_LOUSE_BLOCK_CURL")
+    for _ in range(2):
+        oracle.public = oracle.command(cmd="action", action="end_turn", args={})
+    oracle.refresh()
+    enemy = oracle.simulated.enemies[0]
+    assert enemy.block == dict(enemy.powers)["CURL_UP"] == 18
+    _check_qualified_board(oracle, oracle.step("play_card", "NEUTRALIZE", target=0))
+    after = oracle.simulated.enemies[0]
+    assert (after.hp, after.block) == (enemy.hp, 33)
+    assert "CURL_UP" not in dict(after.powers)
+
+
+def test_phase3_akabeko_neutralize_native_vigor_boundary(oracle, tmp_path):
+    save = tmp_path / "vigor.save"
+    with NativeSession(ROOT, tmp_path / "setup", host_path=HOST) as fixture:
+        fixture.reset("CSV3FIX_VIGOR_NEUTRALIZE")
+        fixture._request(dict(cmd="set_player", deck=["NEUTRALIZE"] * 12, relics=["AKABEKO"]))
+        fixture._request(dict(cmd="write_continue_save", path=str(save)))
+    oracle.command(cmd="load_save", path=str(save))
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="NIBBITS_WEAK")
+    before = project(oracle.public)
+    attack = next(a for a in legal_actions(oracle.public) if a.kind == "play_card")
+    predicted = advance(before.state, root_move(before, attack.kind, attack.args))
+    assert predicted.boundary.reason == "vigor consumption timing"
+    observed = project(oracle.command(**attack.command())).state
+    assert dict(observed.powers)["VIGOR"] == dict(before.state.powers)["VIGOR"] == 8
+
+
+def test_phase3_plating_absorbs_infection_before_enemy_turn(oracle):
+    oracle.start("PLATING", ["INFECTION"], ["HEART_OF_IRON"], hp=60, encounter="WATERFALL_GIANT_BOSS",
+                 seed="CSV3FIX_PLATING_INFECTION")
+    oracle.step("use_potion", "HEART_OF_IRON")
+    before = project(oracle.public)
+    assert advance(before.state, root_move(before, "end_turn", {})).boundary.reason == "plating and hand or shield ordering"
+    after = project(oracle.command(cmd="action", action="end_turn", args={})).state
+    assert after.hp == before.state.hp
+
+
+def test_phase3_plating_activates_parrying_shield(oracle, tmp_path):
+    save = tmp_path / "shield.save"
+    with NativeSession(ROOT, tmp_path / "setup", host_path=HOST) as fixture:
+        fixture.reset("CSV3FIX_PLATING_SHIELD")
+        fixture._request(dict(cmd="set_player", deck=["DEFEND_SILENT"] * 10, potions=["HEART_OF_IRON"],
+                              relics=["PARRYING_SHIELD"]))
+        fixture._request(dict(cmd="write_continue_save", path=str(save)))
+    oracle.command(cmd="load_save", path=str(save))
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="WATERFALL_GIANT_BOSS")
+    oracle.refresh()
+    oracle.step("play_card", "DEFEND_SILENT")
+    oracle.step("use_potion", "HEART_OF_IRON")
+    before = project(oracle.public)
+    assert advance(before.state, root_move(before, "end_turn", {})).boundary.reason == "plating and hand or shield ordering"
+    after = project(oracle.command(cmd="action", action="end_turn", args={})).state
+    assert before.state.enemies[0].hp - after.enemies[0].hp == 6
