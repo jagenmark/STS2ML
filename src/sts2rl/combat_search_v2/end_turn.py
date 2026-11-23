@@ -30,6 +30,11 @@ def _puzzle(state):
 
 def _hand_end(state):
     hand = state.hand
+    if not state.block and any(r.name == "ORICHALCUM" and not r.used for r in state.relics) and any(
+        r.name in ("RIPPLE_BASIN", "CLOAK_CLASP") and not r.used
+        and (r.status == "Active" if r.name == "RIPPLE_BASIN" else bool(hand)) for r in state.relics
+    ):
+        return boundary(state, "simultaneous end-turn relic block")
     if power(state.powers, "PLATING") and (any(c.variant.name in _HAND_DAMAGE for c in hand)
                                            or any(r.name == "PARRYING_SHIELD" for r in state.relics)):
         return boundary(state, "plating and hand or shield ordering")

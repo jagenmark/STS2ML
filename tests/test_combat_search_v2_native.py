@@ -920,3 +920,32 @@ def test_phase3_plating_activates_parrying_shield(oracle, tmp_path):
     assert advance(before.state, root_move(before, "end_turn", {})).boundary.reason == "plating and hand or shield ordering"
     after = project(oracle.command(cmd="action", action="end_turn", args={})).state
     assert before.state.enemies[0].hp - after.enemies[0].hp == 6
+
+
+@pytest.mark.parametrize("card,field,reason", [("ICE_LANCE", "orbs", "active orb"), ("PULL_AGGRO", "osty", "living Osty")])
+def test_phase3_cross_class_board_entity_boundary(oracle, card, field, reason):
+    from sts2rl.combat_search_v2.state import Unsupported
+
+    oracle.start(card, [card] * 8, encounter="WATERFALL_GIANT_BOSS", seed="CSV3FIX_CROSS_" + card)
+    attack = next(a for a in legal_actions(oracle.public) if a.kind == "play_card")
+    public = oracle.command(**attack.command())
+    assert public[field]
+    with pytest.raises(Unsupported, match=reason):
+        project(public)
+
+
+def test_phase3_simultaneous_end_turn_relic_block(oracle, tmp_path):
+    save = tmp_path / "block.save"
+    with NativeSession(ROOT, tmp_path / "setup", host_path=HOST) as fixture:
+        fixture.reset("CSV3FIX_ORICHALCUM_RIPPLE")
+        fixture._request(dict(cmd="set_player", hp=60, deck=["STRIKE_SILENT"] * 8, relics=["RIPPLE_BASIN", "ORICHALCUM"]))
+        fixture._request(dict(cmd="write_continue_save", path=str(save)))
+    oracle.command(cmd="load_save", path=str(save))
+    public = oracle.command(cmd="enter_room", type="monster", encounter="SHRINKER_BEETLE_WEAK")
+    before = project(public)
+    assert before.state.block == 0
+    assert advance(before.state, root_move(before, "end_turn", {})).boundary.reason == "simultaneous end-turn relic block"
+    incoming = sum(i.hits * i.damage for i in before.state.enemies[0].intents if i.damage is not None)
+    block = sum(dict(r.stats)["block"] for r in before.state.relics)
+    after = oracle.command(cmd="action", action="end_turn", args={})
+    assert before.state.hp - after["player"]["hp"] == max(0, incoming - block)

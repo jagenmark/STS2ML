@@ -246,6 +246,10 @@ def project(public):
         raise Unsupported("decision")
     if view.get("observation_version") != 2 or view.get("pile_order") != "unordered":
         raise Unsupported("observation schema")
+    if view.get("orbs"):
+        raise Unsupported("active orb")
+    if (view.get("osty") or {}).get("alive"):
+        raise Unsupported("living Osty")
     player, ctx = view["player"], view["context"]
     hand = view["hand"]
     if len(hand) > HAND_CAP:
