@@ -61,6 +61,19 @@ def main():
     parser.add_argument("--deck-model", type=Path, help="Evaluate attack, defense and persistent effects against the current deck")
     parser.add_argument("--turn-search", action="store_true", help="Plan affordable card sequences in the visible hand")
     parser.add_argument("--combat-search", action="store_true", help="Add bounded Act 1 sampled fight search to the candidate")
+    v2 = parser.add_mutually_exclusive_group()
+    v2.add_argument("--combat-search-v2", action="store_true", default=argparse.SUPPRESS,
+                    help="Enable public whole-turn planning")
+    v2.add_argument("--combat-search-v2-shadow", action="store_true", default=argparse.SUPPRESS,
+                    help="Measure whole-turn planning with champion actions")
+    parser.add_argument("--combat-search-v2-config", type=Path, default=argparse.SUPPRESS,
+                        help="Use a versioned whole-turn planner configuration")
+    parser.add_argument("--combat-value-v2", type=Path, default=argparse.SUPPRESS,
+                        help="Use a NumPy combat value artifact on completed-turn leaves")
+    parser.add_argument("--record-combat-v2", action="store_true", default=argparse.SUPPRESS,
+                        help="Save public completed-turn features and pre-reward fight outcomes")
+    parser.add_argument("--combat-v2-observer", type=Path, default=argparse.SUPPRESS,
+                        help="Path to the pinned-host recording startup hook")
     parser.add_argument("--deck-effects", action="store_true", help="Score persistent effects using current deck and enemy intents")
     parser.add_argument("--boss-search", type=Path, help="Compare combat policies in independently sampled Act 1 boss fights")
     parser.add_argument("--tactical-student", type=Path)
@@ -79,7 +92,7 @@ def main():
     if args.bundle:
         actor, settings = load_bundle(args.bundle)
         for key, value in settings.items():
-            if not getattr(args, key):
+            if not getattr(args, key, None):
                 setattr(args, key, value)
     if args.roles is None:
         args.roles = [actor] if args.mode in ("collect-late", "check-late") else ["baseline", actor]
@@ -99,6 +112,16 @@ def main():
         parser.error("The hybrid uses --turn-search in Act 1")
     if len(set(args.roles)) != len(args.roles):
         parser.error("Roles must be unique")
+    if getattr(args, "combat_value_v2", None) and not (getattr(args, "combat_search_v2", False)
+                                                       or getattr(args, "combat_search_v2_shadow", False)):
+        parser.error("--combat-value-v2 requires combat search v2")
+    if getattr(args, "record_combat_v2", False):
+        from sts2rl.combat_search_v2.recording import observer_path
+
+        try:
+            args.combat_v2_observer = observer_path(ROOT, getattr(args, "combat_v2_observer", None))
+        except FileNotFoundError as exc:
+            parser.error(f"Combat recorder observer build is missing: {exc.filename}")
     starts = []
     opening_split = partition = None
     if args.opening_split and not args.act2_starts:
@@ -136,6 +159,10 @@ def main():
                 "micro_sha256": file_hash(args.micro), "student_sha256": file_hash(args.tactical_student)}
     for key in ("strategy_model", "encounter_model", "deck_model", "return_model", "boss_search"):
         manifest[key + "_sha256"] = file_hash(getattr(args, key))
+    if model := getattr(args, "combat_value_v2", None):
+        manifest["combat_value_v2_sha256"] = file_hash(model)
+    if getattr(args, "record_combat_v2", False):
+        manifest["combat_v2_observer_sha256"] = file_hash(args.combat_v2_observer)
     save_json(output / "config.json", json.loads(json.dumps(manifest, default=str)))
     options = {"curriculum_act": args.curriculum_act, "rooms": args.record_rooms, "record_strategy": args.record_strategy, "seeded_acts": args.seeded_acts,
                "strategy_model": str(args.strategy_model.resolve()) if args.strategy_model else None,
@@ -150,6 +177,10 @@ def main():
                "late_weights": str(args.late_weights.resolve()) if args.late_weights else None,
                "tactical_student": str(args.tactical_student.resolve()) if args.tactical_student else None}
     options["opening_partition"] = partition
+    for key in ("combat_search_v2", "combat_search_v2_shadow", "combat_search_v2_config",
+                "combat_value_v2", "record_combat_v2", "combat_v2_observer"):
+        if value := getattr(args, key, None):
+            options[key] = value
     options["explain_drafts"] = args.explain_drafts
     if args.explain_drafts:
         from sts2rl.provenance import draft_scorer_hash

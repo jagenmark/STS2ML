@@ -44,6 +44,7 @@ class DeployedController:
         deck_model=None,
         encounter=None,
         turn_search: bool = False,
+        combat_v2=None,
     ):
         self.policy = policy
         self.late_weights = late_weights
@@ -54,6 +55,7 @@ class DeployedController:
         self.deck_model = deck_model
         self.encounter = encounter
         self.turn_search = bool(turn_search)
+        self.combat_v2 = combat_v2
         self.paid_relics = PendingRelicPurchase()
         self.pool = None
         self.act = 0
@@ -80,6 +82,11 @@ class DeployedController:
             macro_seed=macro_seed,
             deck_effects=bool(settings.get("deck_effects", False)),
         )
+        combat_v2 = None
+        if settings.get("combat_search_v2") or settings.get("combat_search_v2_shadow"):
+            from .combat_search_v2.integration import CombatSearchV2
+
+            combat_v2 = CombatSearchV2.from_options(settings)
         return cls(
             policy,
             late_weights=RunWeights.load(settings["late_weights"]) if settings.get("late_weights") else None,
@@ -90,10 +97,12 @@ class DeployedController:
             deck_model=DeckPolicy.load(settings["deck_model"]) if settings.get("deck_model") else None,
             encounter=EncounterModel.load(settings["encounter_model"]) if settings.get("encounter_model") else None,
             turn_search=bool(settings.get("turn_search", False)),
+            combat_v2=combat_v2,
         )
 
     def clone(self) -> DeployedController:
-        return deepcopy(self)
+        memo = {id(self.combat_v2): self.combat_v2.clone()} if self.combat_v2 is not None else None
+        return deepcopy(self, memo)
 
     def _sync_act(self, state):
         act = (state.get("context") or {}).get("act", self.act)
@@ -128,7 +137,12 @@ class DeployedController:
                 self.encounter.prepare(state, self.policy)
                 if self.encounter.boss_tactics is not None:
                     self._boss_tactics_before = deepcopy(self.encounter.boss_tactics)
-            action = self.encounter.choose(state, self.policy)
+            if self.combat_v2 is None:
+                action = self.encounter.choose(state, self.policy)
+            else:
+                from .combat_search_v2.integration import choose_encounter
+
+                action = choose_encounter(self.combat_v2, self.encounter, state, self.policy, legal_actions)
             self._last_step_used_encounter = True
         elif self.deck_model is not None and not combat and (
             state["decision"] in self.deck_model.scope
@@ -173,6 +187,8 @@ class DeployedController:
 
     def observe(self, before, action, after):
         """Commit the actually executed action (including forced root arms) to all stateful observers."""
+        if self.combat_v2 is not None:
+            self.combat_v2.observe(action, after, legal_actions)
         self._sync_act(before)
         if (
             self.encounter is not None

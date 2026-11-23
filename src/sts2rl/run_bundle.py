@@ -9,7 +9,8 @@ from .run_policy import IDENTITY
 MODEL_FILES = ("weights", "room_model", "late_room_model", "offer_model", "late_weights", "tactical_student", "micro",
                "strategy_model", "encounter_model", "return_model", "deck_model", "boss_search")
 SWITCHES = ("turn_search", "combat_search", "deck_effects")
-OPTIONAL_SWITCHES = ("combat_search_deployed",)
+OPTIONAL_SWITCHES = ("combat_search_deployed", "combat_search_v2", "combat_search_v2_shadow")
+OPTIONAL_MODEL_FILES = ("combat_search_v2_config", "combat_value_v2")
 
 
 def freeze_bundle(manifest, destination):
@@ -18,7 +19,8 @@ def freeze_bundle(manifest, destination):
     roles = args.get("roles") or []
     if len(roles) != 1 or roles[0] not in ("candidate", "hybrid", "student", "micro") or not args.get("weights"):
         raise ValueError("Freeze a single trained inference role with explicit run weights")
-    sources = {k: Path(args[k]).resolve(strict=True) for k in MODEL_FILES if args.get(k)}
+    sources = {k: Path(args[k]).resolve(strict=True) for k in (*MODEL_FILES, *OPTIONAL_MODEL_FILES)
+               if args.get(k)}
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=False)
     files = {}
@@ -52,11 +54,15 @@ def load_bundle(path):
     if any(type(v) is not bool for v in settings.values()):
         raise ValueError("Invalid inference switches")
     for key, entry in data["files"].items():
-        if key not in MODEL_FILES or Path(entry["name"]).name != entry["name"]:
+        if key not in (*MODEL_FILES, *OPTIONAL_MODEL_FILES) or Path(entry["name"]).name != entry["name"]:
             raise ValueError("Invalid model filename in bundle")
         model_path = path.parent / entry["name"]
         if hashlib.sha256(model_path.read_bytes()).hexdigest() != entry["sha256"]:
             raise ValueError(f"Checkpoint checksum mismatch for {key}")
+        if key == "combat_value_v2":
+            from .combat_search_v2.artifact import CombatValueModel
+
+            CombatValueModel.load(model_path)
         settings[key] = model_path
     if "weights" not in settings:
         raise ValueError("Inference bundle requires run weights")
