@@ -197,6 +197,7 @@ class State:
     tender_plays: int = -1
     reattach_pending: bool = True
     remnant_floor: int | None = None
+    v61_rules: bool = False
 
     @property
     def hallway(self):

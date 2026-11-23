@@ -240,7 +240,8 @@ class CombatSearchV2:
                 projected = replace(projected, state=replace(state, late=True, facing=side, preview_facing=side,
                                                              sloth_plays=plays, bound_used=self._bound_used,
                                                              aeon_plays=self._aeon_plays, tender_plays=plays,
-                                                             remnant_floor=floor))
+                                                             remnant_floor=floor, v61_rules=self.config.v61_act2_hallways_act3
+                                                             or self.config.v61_boss_safe))
             if self.config.v61_boss_safe and state.act == 2 and state.room == "Boss" and state.curse_options:
                 # The champion has already selected a physical card in this
                 # observed offer. Resume search on the next combat-play root.
@@ -371,6 +372,7 @@ class CombatSearchV2:
                                                bound_used=self._bound_used, aeon_plays=self._aeon_plays,
                                                tender_plays=predicted.tender_plays,
                                                remnant_floor=predicted.remnant_floor,
+                                               v61_rules=predicted.v61_rules,
                                                right_hand_return=predicted.right_hand_return)
                 except (Unsupported, ValueError, KeyError, TypeError):
                     self._prompt = None
@@ -386,7 +388,8 @@ class CombatSearchV2:
                 if predicted.late:
                     actual = replace(actual, state=replace(actual.state, late=True, facing=predicted.facing,
                                      preview_facing=predicted.facing, sloth_plays=self._plays,
-                                     bound_used=self._bound_used, aeon_plays=self._aeon_plays))
+                                     bound_used=self._bound_used, aeon_plays=self._aeon_plays,
+                                     v61_rules=predicted.v61_rules, tender_plays=self._plays))
                 reason = _difference(predicted, actual.state)
                 if not reason and not predicted.outcome:
                     expected = _normalized_legal(predicted)

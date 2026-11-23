@@ -281,8 +281,9 @@ def search(projected, roots, champion, config=Config(), *, model=None, record_ti
     """Only a projection and local action coordinates enter the online kernel."""
     state = projected.state
     late = config.late_root(state.act, state.room)
-    if state.late != late:
-        projected = replace(projected, state=replace(state, late=late))
+    v61_rules = late and (config.v61_act2_hallways_act3 or config.v61_boss_safe)
+    if state.late != late or state.v61_rules != v61_rules:
+        projected = replace(projected, state=replace(state, late=late, v61_rules=v61_rules))
     boss_safe = config.v61_boss_safe and state.act == 2 and state.room == "Boss"
     if boss_safe and state.curse_options:
         return Result(champion, root_count=len(roots), fallback="champion knowledge curse")

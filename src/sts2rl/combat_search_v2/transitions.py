@@ -158,7 +158,7 @@ def admission_reasons(projected):
     for relic in state.relics:
         if state.hallway and relic.name == "BEATING_REMNANT" and state.remnant_floor is None:
             yield "unwitnessed remnant damage"
-        if state.hallway and relic.name == "TOY_BOX" and (relic.used or relic.counter == 0):
+        if state.v61_rules and relic.name == "TOY_BOX" and (relic.used or relic.counter == 0):
             yield "spent toy box wax relic"
         if relic.name == "VAMBRACE" and relic.status == "Active" and (
             power(state.powers, "AFTERIMAGE") or any(r.name in ("ORNAMENTAL_FAN", "DAUGHTER_OF_THE_WIND", "TUNING_FORK")
@@ -460,7 +460,8 @@ def _card_effect(state, play):
         if name == "RELAX":
             if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
                 return boundary(state, "vambrace first card block")
-            state = replace(state, block=state.block + block_gain(16 + 2 * up, state.powers))
+            bonus = v.modifier[0][2] if state.v61_rules and v.modifier and v.modifier[0][1] == "NIMBLE" else 0
+            state = replace(state, block=state.block + block_gain(16 + 2 * up + bonus, state.powers))
             return _add_player_power(_add_player_power(state, "DRAW_CARDS_NEXT_TURN", 2 + up),
                                      "ENERGY_NEXT_TURN", 2 + up)
     if name in BLOCKS and name != "DASH":
