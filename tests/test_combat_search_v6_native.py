@@ -1,6 +1,7 @@
 """Pinned v0.111.0 late-room differential fixtures."""
 from dataclasses import replace
 from copy import deepcopy
+import json
 
 import pytest
 
@@ -99,11 +100,9 @@ def test_demon_curse_and_sloth(oracle, option):
             check(oracle, action(oracle, "end_turn"), plays=3)
 
 
-
-
-
 @pytest.mark.parametrize("name", ["ASSASSINATE", "THE_HUNT", "ULTIMATE_STRIKE", "DRAMATIC_ENTRANCE",
-                                  "DANSE_MACABRE", "RELAX", "PREP_TIME"])
+                                  "DANSE_MACABRE", "RELAX", "PREP_TIME", "SIDESTEP", "PHANTOM_BLADES",
+                                  "ACCURACY", "BOUNCING_FLASK", "ECHOING_SLASH", "SHRUG_IT_OFF"])
 @pytest.mark.parametrize("upgrade", [False, True])
 def test_late_card_effects(oracle, name, upgrade):
     oracle.game.reset("CSV4FIX_CARD_" + name)
@@ -117,11 +116,15 @@ def test_late_card_effects(oracle, name, upgrade):
     check(oracle, action(oracle, "end_turn"))
 
 
-def load_relics(oracle, path, relics, deck, encounter):
+def load_relics(oracle, path, relics, deck, encounter, *, hp=400, edit=None):
     with NativeSession(ROOT, path / "writer", host_path=HOST) as fixture:
         fixture.reset("CSV4FIX_LATE_RELICS")
-        fixture._request({"cmd": "set_player", "deck": deck, "relics": sorted(relics), "hp": 400, "max_hp": 400})
+        fixture._request({"cmd": "set_player", "deck": deck, "relics": sorted(relics), "hp": hp, "max_hp": 400})
         fixture._request({"cmd": "write_continue_save", "path": str(path / "fixture.save")})
+    if edit:
+        save = json.loads((path / "fixture.save").read_bytes())
+        edit(save["players"][0])
+        (path / "fixture.save").write_text(json.dumps(save))
     oracle.command(cmd="load_save", path=str(path / "fixture.save"))
     oracle.public = oracle.command(cmd="enter_room", type="monster", encounter=encounter)
 
@@ -220,7 +223,6 @@ def test_late_silent_powers(oracle, card, potion):
     check(oracle, action(oracle, "end_turn"))
 
 
-
 def test_subject_phase_boundary_and_painful_stabs(oracle):
     oracle.start("SUBJECT", ["GRAND_FINALE"] * 7, encounter="TEST_SUBJECT_BOSS", hp=450)
     check(oracle, action(oracle, "play_card"))
@@ -291,3 +293,73 @@ def test_boss_hidden_draw_permutation(oracle, encounter, first_turns):
         oracle.public = oracle.command(**action(oracle, "end_turn").command())
         hands.append(tuple(c["id"] for c in oracle.public["hand"]))
     assert features[0] == features[1] and hands[0] != hands[1]
+
+def named_card(game, name, target=None):
+    return next(a for a in legal_actions(game.public) if a.kind == "play_card"
+                and game.public["hand"][a.args["card_index"]]["id"] == "CARD." + name
+                and (target is None or a.args.get("target_index") == target))
+
+
+def test_crab_poison_rage_order(oracle):
+    deck = ["GRAND_FINALE"] * 3 + ["STRIKE_SILENT"] * 3 + ["DEADLY_POISON"]
+    oracle.start("CRAB_POISON", deck, ["FIRE_POTION", "POISON_POTION"], encounter="KAISER_CRAB_BOSS")
+    facing = 1
+    for _ in range(3):
+        check(oracle, named_card(oracle, "GRAND_FINALE"), facing=facing)
+    for _ in range(2):
+        check(oracle, action(oracle, "use_potion", 0), facing=facing)
+        facing = 0
+    for name in ("STRIKE_SILENT", "STRIKE_SILENT", "DEADLY_POISON"):
+        check(oracle, named_card(oracle, name, 0), facing=facing)
+    check(oracle, action(oracle, "end_turn"), facing=facing)
+    assert [(e["id"], e["block"]) for e in oracle.public["enemies"]] == [("MONSTER.ROCKET", 99)]
+
+
+def test_knowledge_relic_order(oracle, tmp_path):
+    load_relics(oracle, tmp_path, {"RIPPLE_BASIN", "KUSARIGAMA", "SHURIKEN"}, ["SLICE"] * 20, "KNOWLEDGE_DEMON_BOSS")
+    check(oracle, named_card(oracle, "SLICE"))
+    check(oracle, action(oracle, "end_turn"), plays=1)
+    check(oracle, legal_actions(oracle.public)[1])
+
+
+def test_meat_on_the_bone_crosses_half(oracle, tmp_path):
+    load_relics(oracle, tmp_path, {"MEAT_ON_THE_BONE"}, ["DEFLECT"] * 10, "SLIMED_BERSERKER_NORMAL", hp=204)
+    for _ in range(3):
+        check(oracle, action(oracle, "end_turn"))
+    assert oracle.public["player"]["relics"][0]["status"] == "Active"
+
+
+def test_late_enchantments(oracle, tmp_path):
+    def modify(player):
+        for card, ench, amount in zip(player["deck"], ("NIMBLE", "TEZCATARAS_EMBER", "PERFECT_FIT"), (2, 1, 1)):
+            card["enchantment"] = {"id": "ENCHANTMENT." + ench, "amount": amount}
+    load_relics(oracle, tmp_path, {"MYSTIC_LIGHTER"}, ["DEFEND_SILENT", "STRIKE_SILENT", "SLICE"],
+                "THE_INSATIABLE_BOSS", edit=modify)
+    for name in ("DEFEND_SILENT", "STRIKE_SILENT", "SLICE"):
+        check(oracle, named_card(oracle, name))
+    check(oracle, action(oracle, "end_turn"))
+
+
+@pytest.mark.parametrize("name", ["PINPOINT", "ENLIGHTENMENT"])
+def test_late_costs(oracle, name):
+    if name == "PINPOINT":
+        deck, plays = ["PINPOINT"] + ["DEFLECT"] * 3, ["DEFLECT"] * 3 + ["PINPOINT"]
+    else:
+        deck, plays = ["ENLIGHTENMENT", "DASH"], ["ENLIGHTENMENT", "DASH"]
+    oracle.start(name, deck, encounter="THE_INSATIABLE_BOSS")
+    for card in plays:
+        check(oracle, named_card(oracle, card))
+
+
+@pytest.mark.parametrize("name", ["HAND_TRICK", "SEEKER_STRIKE"])
+def test_late_choice_boundary(oracle, name):
+    oracle.start(name, [name] + ["SLICE"] * 10, encounter="THE_INSATIABLE_BOSS")
+    while not any(c["id"] == "CARD." + name for c in oracle.public["hand"]):
+        oracle.public = oracle.command(**action(oracle, "end_turn").command())
+    check(oracle, named_card(oracle, name), stop="card selection")
+
+
+def test_late_decay_pyramid(oracle, tmp_path):
+    load_relics(oracle, tmp_path, {"RUNIC_PYRAMID"}, ["DECAY", "DEFEND_SILENT"], "THE_INSATIABLE_BOSS")
+    check(oracle, action(oracle, "end_turn"))
+    assert oracle.public["hand"][-1]["id"] == "CARD.DECAY"

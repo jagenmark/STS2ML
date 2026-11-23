@@ -259,14 +259,15 @@ class CombatSearchV2:
             view = after.get("combat_state", after)
             ctx = view.get("context") or {}
             key = (ctx.get("act"), ctx.get("floor"), view.get("round"))
+            uncertain = action.kind == "play_card" and (
+                prior is None or late_encounters.untracked_plays(prior, prior.hand[action.args["card_index"]].variant))
             if key != self._round_key:
                 self._plays = 0
                 self._bound_used = False
             elif action.kind == "play_card" and self._plays >= 0:
                 # Automatic plays and replays may count towards Sloth. Resume at
                 # the next observed turn start if their count was not witnessed.
-                if (not prior or any(name in ("DUPLICATION", "BURST") for name, _ in prior.powers)
-                        or any("Sly" in c.variant.keywords for c in prior.hand)):
+                if uncertain:
                     self._plays = -1
                 else:
                     self._plays += 1
@@ -277,8 +278,7 @@ class CombatSearchV2:
                     or (view.get("round") == 1 and self._round_key[-1] is None)):
                 self._aeon_plays = 0 if view.get("round") == 1 else -1
             elif action.kind == "play_card" and self._aeon_plays >= 0:
-                if (not prior or any(name in ("BURST", "DUPLICATION") for name, _ in prior.powers)
-                        or any("Sly" in c.variant.keywords for c in prior.hand)):
+                if uncertain:
                     self._aeon_plays = -1
                 else:
                     self._aeon_plays += 1

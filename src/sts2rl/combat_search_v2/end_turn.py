@@ -90,10 +90,11 @@ def _hand_end(state):
     status_keep = []
     discard = list(state.discard)
     exhaust = list(state.exhaust)
-    retain = power(state.powers, "WELL_LAID_PLANS")
+    retain = power(state.powers, "WELL_LAID_PLANS") or (state.late and
+             (power(state.powers, "RETAIN_HAND") or any(r.name == "RUNIC_PYRAMID" for r in state.relics)))
     for c in hand:
         v = c.variant
-        amount = _HAND_DAMAGE.get(v.name, 0)
+        amount = 2 if state.late and v.name == "DECAY" else _HAND_DAMAGE.get(v.name, 0)
         if amount:
             state = _hurt(state, amount, bypass=v.name == "BECKON")
             if state.outcome or state.boundary:
@@ -119,6 +120,9 @@ def _hand_end(state):
 
 
 def _enemy_start(state):
+    crab = state.late and any(e.name in ("CRUSHER", "ROCKET") for e in state.enemies)
+    if crab:
+        state = replace(state, enemies=tuple(replace(e, block=0) if e.block else e for e in state.enemies))
     for slot in range(len(state.enemies)):
         enemy = state.enemies[slot]
         if enemy.hp <= 0:
@@ -126,7 +130,7 @@ def _enemy_start(state):
         poison = power(enemy.powers, "POISON")
         if not poison and not enemy.block:
             continue
-        carried = enemy.block if power(enemy.powers, "BURROWED") else 0
+        carried = enemy.block if crab or power(enemy.powers, "BURROWED") else 0
         for _ in range(1 + min(max(0, poison - 1), power(state.powers, "ACCELERANT"))):
             enemy = state.enemies[slot]
             poison = power(enemy.powers, "POISON")
@@ -263,7 +267,9 @@ def _start_player(state, prior_powers):
     bonus_draw = power(powers, "DRAW_CARDS_NEXT_TURN")
     for name in ("BURST", "DUPLICATION", "NO_DRAW", "TAINTED", "DRAW_CARDS_NEXT_TURN"):
         powers = set_power(powers, name, 0)
-    powers = _tick(powers, ("PLATING",))
+    mittens = state.late and any(r.name == "TOASTY_MITTENS" for r in state.relics)
+    if not mittens:
+        powers = _tick(powers, ("PLATING",))
     max_energy = state.max_energy
     energy = max_energy + power(powers, "ENERGY_NEXT_TURN")
     if state.late:
@@ -297,7 +303,7 @@ def _start_player(state, prior_powers):
             if relic.name == "ICE_CREAM":
                 energy += state.energy
                 additional_public_energy += state.energy
-            if relic.name == "FIDDLE":
+            if relic.name in ("FIDDLE", "SNECKO_EYE"):
                 bonus_draw += power(relic.stats, "cards")
             if relic.name in ("SHURIKEN", "KUNAI"):
                 relic = replace(relic, counter=0, status="Normal")

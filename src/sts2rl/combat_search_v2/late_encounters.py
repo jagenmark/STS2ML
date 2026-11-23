@@ -10,7 +10,7 @@ PROFILES = {
     "FLAIL_KNIGHT", "MAGI_KNIGHT", "SPECTRAL_KNIGHT", "FABRICATOR", "NOISEBOT", "ZAPBOT",
 }
 PLAYER = {"SURROUNDED", "MIND_ROT", "WASTE_AWAY", "SLOTH", "CHAINS_OF_BINDING",
-          "ENVENOM", "FLEX_POTION", "INFINITE_BLADES", "HEX", "DAMPEN"}
+          "ENVENOM", "FLEX_POTION", "INFINITE_BLADES", "HEX", "DAMPEN", "RETAIN_HAND", "CONFUSED"}
 ENEMY = {"BACK_ATTACK_LEFT", "BACK_ATTACK_RIGHT", "CRAB_RAGE", "PAPER_CUTS", "RAMPART",
          "ADAPTABLE", "ENRAGE", "STOCK", "SOAR", "POSSESS_STRENGTH", "POSSESS_SPEED", "DEXTERITY", "GALVANIC",
          "WITHERING_PRESENCE", "DEMISE", "PAINFUL_STABS", "HIGH_VOLTAGE"}
@@ -26,7 +26,21 @@ def unbind(v):
     return replace(v, modifier=tuple(m for m in v.modifier if m[:2] != ("affliction_state", "BOUND"))) if bound(v) else v
 
 
+def untracked_plays(state, card):
+    from .transitions import card_supported
+
+    if not card_supported(card, True) or power(state.powers, "DUPLICATION"):
+        return True
+    if card.kind == "Skill" and power(state.powers, "BURST"):
+        return True
+    return card.name in ("ACROBATICS", "PREPARED", "SURVIVOR", "DAGGER_THROW", "CALCULATED_GAMBLE",
+                         "HIDDEN_DAGGERS") and any("Sly" in c.variant.keywords or "sly_this_turn" in c.variant.flags
+                                                   for c in state.hand)
+
+
 def reason(state):
+    if any(r.name == "TOY_BOX" for r in state.relics) and any(r.status == "Disabled" for r in state.relics):
+        return "disabled wax relic"
     if power(state.powers, "SURROUNDED") and (state.facing < 0 or state.preview_facing < 0):
         return "unwitnessed facing"
     if power(state.powers, "SLOTH") and state.sloth_plays < 0:
@@ -52,6 +66,10 @@ def choose_curse(state, index):
     if name == "WASTE_AWAY":
         state = replace(state, max_energy=state.max_energy - amount)
     enemy, = state.enemies
+    if demise := power(enemy.powers, "DEMISE"):
+        if enemy.hp <= demise or power(enemy.powers, "INTANGIBLE"):
+            return replace(state, boundary=Boundary("demise lethal or intangible"))
+        enemy = replace(enemy, hp=enemy.hp - demise)
     enemy = replace(enemy, powers=_tick(enemy.powers, ("WEAK", "VULNERABLE", "INTANGIBLE")), attack_delta=0)
     return _start_player(replace(state, enemies=(enemy,), prompt=None, curse_options=()), prior)
 
@@ -71,9 +89,12 @@ def move(state, enemy, kinds):
             return state
     if name == "KNOWLEDGE_DEMON":
         if kinds == {"Debuff"}:
-            if state.curse_number in range(3) and not power(enemy.powers, "DEMISE"):
+            if state.curse_number in range(3):
+                relics = tuple(replace(r, counter=0, status="Normal") if r.name == "KUSARIGAMA"
+                               else replace(r, status="Normal") if r.name == "RIPPLE_BASIN" else r
+                               for r in state.relics)
                 return replace(state, prompt=Prompt("KNOWLEDGE_CURSE", (0, 1), 1, 1),
-                               curse_options=curse_options(state.curse_number))
+                               relics=relics, curse_options=curse_options(state.curse_number))
             return replace(state, boundary=Boundary("unwitnessed knowledge curse sequence"))
         if kinds == {"Buff", "Heal"}:
             return _update(state, enemy.slot, hp=min(enemy.max_hp, enemy.hp + 30),
@@ -163,11 +184,13 @@ PASSIVE_RELICS = {
 RELICS = PASSIVE_RELICS | {
     "FORGOTTEN_SOUL", "SHURIKEN", "KUNAI", "MERCURY_HOURGLASS", "MR_STRUGGLES", "IRON_CLUB",
     "TOUGH_BANDAGES", "STONE_CALENDAR", "STURDY_CLAMP", "FIDDLE", "HELICAL_DART",
-    "TOASTY_MITTENS", "TUNGSTEN_ROD", "BREAD", "ICE_CREAM",
+    "TOASTY_MITTENS", "TUNGSTEN_ROD", "BREAD", "ICE_CREAM", "SNECKO_EYE", "RUNIC_PYRAMID", "BELT_BUCKLE",
 }
 ATTACKS = {"ASSASSINATE": (10, 13), "THE_HUNT": (10, 15), "ULTIMATE_STRIKE": (14, 20),
-           "DRAMATIC_ENTRANCE": (11, 15)}
-CARDS = ATTACKS.keys() | {"RELAX", "DANSE_MACABRE", "PREP_TIME", "HIDDEN_DAGGERS", "INFINITE_BLADES"}
+           "DRAMATIC_ENTRANCE": (11, 15), "ECHOING_SLASH": (10, 13), "PINPOINT": (15, 19)}
+CARDS = ATTACKS.keys() | {"RELAX", "DANSE_MACABRE", "PREP_TIME", "HIDDEN_DAGGERS", "INFINITE_BLADES",
+                         "SIDESTEP", "ENLIGHTENMENT", "DECAY", "BOUNCING_FLASK", "SHRUG_IT_OFF",
+                         "HAND_TRICK", "SEEKER_STRIKE", "ACCURACY", "PHANTOM_BLADES"}
 PLAYER |= {"DANSE_MACABRE", "PREP_TIME"}
 
 

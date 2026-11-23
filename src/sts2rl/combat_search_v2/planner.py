@@ -1,5 +1,5 @@
 """Fixed-work whole-turn beam over the immutable public state."""
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import math
 from time import perf_counter_ns
 
@@ -257,6 +257,10 @@ class _Search:
 
 def search(projected, roots, champion, config=Config(), *, model=None, record_timing=False):
     """Only a projection and local action coordinates enter the online kernel."""
+    state = projected.state
+    late = config.v6_late_coverage and (state.act == 3 or (state.act == 2 and state.room == "Boss"))
+    if state.late != late:
+        projected = replace(projected, state=replace(state, late=late))
     if reason := encounter_reason(projected.state) or admission(projected):
         return Result(champion, root_count=len(roots), fallback=reason)
     if champion not in roots or roots != legal(projected.state):
