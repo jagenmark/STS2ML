@@ -94,6 +94,7 @@ class Enemy:
     # Root modifiers identify the meaning of the rounded public attack preview.
     preview_strength: int
     preview_weak: bool
+    attack_delta: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -173,6 +174,7 @@ class Projection:
     state: State
     hand_indices: tuple[int, ...]
     enemy_indices: tuple[int, ...]
+    potion_indices: tuple[int, ...]
     prompt_indices: tuple[int, ...]
     playable: tuple[bool, ...]
     # Kept outside the state hash used for continuation deduplication.
@@ -248,7 +250,7 @@ def project(public):
         piles.append(zone)
     potion_rows = player["potions"]
     potions = tuple(Potion(slot, entry(p["id"]), p["target_type"], p["can_use"], numbers(p.get("vars")))
-                    for slot, p in zip(_indices(potion_rows), potion_rows))
+                    for slot, p in enumerate(potion_rows))
     relics = tuple(Relic(entry(r["id"]), integer(r["counter"]) if r.get("counter") is not None else None,
                          bool(r.get("is_used_up")), numbers(r.get("vars")), r.get("status", "Normal"),
                          integer(r.get("stack_count", 1))) for r in player.get("relics", ()))
@@ -262,7 +264,7 @@ def project(public):
     prompt_indices = ()
     if is_prompt:
         state, prompt_indices = _public_prompt(public, state)
-    return Projection(state, _indices(hand), _indices(enemy_rows), prompt_indices,
+    return Projection(state, _indices(hand), _indices(enemy_rows), _indices(potion_rows), prompt_indices,
                       tuple(card["can_play"] for card in hand),
                       tuple(e.name for e in enemies))
 
@@ -299,7 +301,7 @@ def root_move(projected, kind, args):
         return Move(kind, slot, target)
     if kind == "use_potion":
         target = projected.enemy_indices.index(args["target_index"]) if "target_index" in args else -1
-        return Move(kind, args["potion_index"], target)
+        return Move(kind, projected.potion_indices.index(args["potion_index"]), target)
     if kind in ("select_cards", "skip_select"):
         indices = tuple(map(int, args["indices"].split(","))) if kind == "select_cards" else ()
         return Move("select_cards", selection=tuple(projected.prompt_indices.index(i) for i in indices))

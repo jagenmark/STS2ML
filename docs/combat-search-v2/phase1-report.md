@@ -23,3 +23,19 @@ The flags-off baseline was captured before source edits. The first recorder
 attempt raised the legacy 1,024-combination guard on four oversized prompts.
 The corrected recorder captures the ordered candidates and bounds for that
 sequential API. Gate commands and matching receipts follow below.
+
+## Ordered resolver
+
+Native fixture runs exposed three ordering details. Afterimage does not
+trigger on its own initial power application. With Burst and Duplication
+stacked, Survivor opens a separate prompt for each of its three actual plays.
+When Blade Dance fills the hand, overflow Shivs enter discard. Tainted is
+tracked as an attack delta from each actual Skill and resets after the enemy
+turn. Its native power display belongs to the player.
+
+The fixture suite exercised Cloak Clasp through a native shop purchase because
+the host's generic relic injection omits the owner. It also checked
+Constrict, Burn, Wither, Ethereal, Blur, ordered Buffer consumption, Wriggler
+status additions and Sandpit/Escape. Phase bosses with unobserved state have
+explicit fallback reasons. The next-intent reveal and ambiguous recalculation
+of rounded previews are explicit boundaries.

@@ -144,8 +144,8 @@ def test_burst_stacked_replay_cost_hooks_and_exhaust():
                      enemies=[enemy(power=powers(VITAL_SPARK=3))])).state
     s = play(s, "DEFEND_SILENT")
     assert s.block == 27 and s.energy == 0
-    assert s.powers == (("AFTERIMAGE", 1),)
-    assert dict(s.enemies[0].powers)["STRENGTH"] == 9
+    assert dict(s.powers) == {"AFTERIMAGE": 1, "TAINTED": 9}
+    assert s.enemies[0].attack_delta == 9
 
     s = project(view(ADRENALINE, power=powers(BURST=1))).state
     s = play(s, "ADRENALINE")
@@ -214,3 +214,98 @@ def test_blade_dance_hand_cap_and_shiv_exhaust():
     s = play(s, "SHIV", 0)
     assert sorted(v.name for v in s.exhaust) == ["BLADE_DANCE", "SHIV"]
     assert len({c.slot for c in s.hand}) == len(s.hand)
+
+def end(state):
+    return advance(state, Move("end_turn"))
+
+
+def test_end_turn_audit_sequences():
+    s = project(view(DEFEND_PLUS, hp=4, energy=0, potions=(ENERGY,))).state
+    assert end(s).outcome == "dead"
+    assert end(play(advance(s, Move("use_potion", 0)), "DEFEND_SILENT")).hp == 2
+    s = project(view(BURST, DEFEND_PLUS, hp=3, energy=2, enemies=[enemy(hit=16)])).state
+    assert end(play(s, "DEFEND_SILENT")).hp == 0
+    assert end(play(play(s, "BURST"), "DEFEND_SILENT")).hp == 3
+    s = project(view(SURVIVOR, DEFEND, BURN, hp=3, energy=2, enemies=[enemy(hit=15)])).state
+    s = play(s, "SURVIVOR")
+    assert end(play(advance(s, Move("select_cards", selection=(2,))), "DEFEND_SILENT")).hp == 1
+    assert end(advance(s, Move("select_cards", selection=(1,)))).hp == 0
+
+
+def test_retain_ethereal_blur_and_start_boundaries():
+    plans = card("WELL_LAID_PLANS", 2, kind="Power")
+    blur = card("BLUR")
+    s = project(view(plans, blur, DAZED, BURN, *([DEFEND] * 6), draw=(STRIKE,) * 5,
+                     enemies=[enemy(hit=0)])).state
+    s = end(play(play(s, "WELL_LAID_PLANS"), "BLUR"))
+    assert s.outcome == "completed" and s.block == 3
+    assert len(s.hand) == 7 and s.boundary.count == 3
+    assert s.exhaust[0].name == "DAZED"
+    assert dict(s.powers) == {"WELL_LAID_PLANS": 1}
+    for name in ("NIGHTMARE", "TOOLS_OF_THE_TRADE"):
+        assert end(project(view(power=powers(**{name: 1}))).state).boundary.reason == f"start/{name}"
+        assert play(project(view(card(name))).state, name).boundary.reason == name.lower()
+
+
+def test_constrict_hand_effects_and_immediate_clear():
+    wither = card("WITHER", 0, kind="Status", target="None", keywords=("Unplayable",))
+    source = enemy("SLITHERING_STRANGLER", hp=5, hit=0, power=powers(POISON=6))
+    s = project(view(STRIKE, BURN, wither, hp=3, enemies=[source], power=powers(CONSTRICT=3))).state
+    assert end(s).outcome == "dead"
+    assert end(play(s, "STRIKE_SILENT", 0)).outcome == "victory"
+    cloak = {"id": "RELIC.CLOAK_CLASP", "vars": {"Block": 1}}
+    s = project(view(BURN, wither, DEFEND, DEFEND, hp=7, block=3, enemies=[source],
+                     power=powers(CONSTRICT=3), relics=(cloak,))).state
+    assert end(s).hp == 6
+    s = play(s, "DEFEND_SILENT")
+    assert end(s).hp == 7
+
+
+def test_buffer_and_intangible_resolve_per_hit_in_source_order():
+    for damage, remaining in [((1, 20), 5), ((20, 1), 24)]:
+        s = project(view(hp=25, power=powers(BUFFER=1), enemies=[enemy(hit=n) for n in damage])).state
+        assert end(s).hp == remaining
+        if damage[0] == 1:
+            assert end(replace(s, block=1)).hp == 25
+    s = project(view(BURN, hp=25, power=powers(BUFFER=1), enemies=[enemy(hit=10, hits=2)])).state
+    assert end(s).hp == 5
+    s = project(view(hp=25, power=powers(BUFFER=1, INTANGIBLE=1), enemies=[enemy(hit=20, hits=3)])).state
+    assert end(s).hp == 23
+
+
+def test_sandpit_escape_and_true_clear():
+    escape = card("FRANTIC_ESCAPE", kind="Status")
+    boss = enemy("THE_INSATIABLE", hp=38, hit=0, power=powers(SANDPIT=1))
+    s = project(view(escape, hp=5, enemies=[boss])).state
+    assert end(s).outcome == "dead"
+    escaped = play(s, "FRANTIC_ESCAPE")
+    assert escaped.discard[0].cost == 2
+    assert dict(escaped.enemies[0].powers)["SANDPIT"] == 2
+    assert end(escaped).outcome == "completed"
+
+    boss = enemy("THE_INSATIABLE", hp=38, hit=8, power=powers(SANDPIT=1))
+    s = project(view(escape, DEFEND, hp=5, energy=2, enemies=[boss])).state
+    assert end(play(s, "FRANTIC_ESCAPE")).outcome == "dead"
+    assert end(play(s, "DEFEND_SILENT")).outcome == "dead"
+    saved = end(play(play(s, "FRANTIC_ESCAPE"), "DEFEND_SILENT"))
+    assert saved.hp == 2 and dict(saved.enemies[0].powers)["SANDPIT"] == 1
+    following = replace(saved, outcome="", boundary=None)
+    assert end(following).outcome == "dead"
+
+    for hp, expected in [(6, "victory"), (7, "dead")]:
+        boss = enemy("THE_INSATIABLE", hp=hp, hit=0, power=powers(SANDPIT=1))
+        s = project(view(STRIKE, enemies=[boss])).state
+        assert end(play(s, "STRIKE_SILENT", 0)).outcome == expected
+
+
+@pytest.mark.parametrize("name,reason", [
+    ("CEREMONIAL_BEAST", "plow"),
+    ("VANTOM", "vantom slippery"), ("KIN_FOLLOWER", "kin leader"),
+    ("WATERFALL_GIANT", "waterfall"), ("MECHA_KNIGHT", "reattach"),
+    ("ROCK_BOWLBUG", "stun source"), ("ENTOMANCER", "dazed"),
+    ("KNOWLEDGE_DEMON", "sloth"), ("KAISER_CRAB", "facing"), ("AXEBOT", "stock"),
+])
+def test_unsupported_encounter_regressions(name, reason):
+    s = project(view(STRIKE, enemies=[enemy(name, hp=6, power=powers(POISON=7))])).state
+    assert reason in end(s).boundary.reason
+    assert reason in play(s, "STRIKE_SILENT", 0).boundary.reason
