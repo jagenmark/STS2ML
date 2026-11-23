@@ -411,6 +411,9 @@ def _start_player(state, prior_powers):
             break
     if outcome == "completed":
         count = min(5 + bonus_draw, HAND_CAP - len(state.hand), len(state.draw) + len(state.discard))
+        if state.late and count and power(powers, "CONFUSED") and any(
+                v.name == "FRANTIC_ESCAPE" for v in (*state.draw, *state.discard)):
+            return boundary(state, "confused escape cost on reveal")
         if state.late and any(r.name == "TOASTY_MITTENS" for r in state.relics) and (
                 len(state.hand) + count < 2 or power(powers, "INFINITE_BLADES") or power(powers, "NOXIOUS_FUMES")
                 or any(r.name in ("MERCURY_HOURGLASS", "MR_STRUGGLES") for r in state.relics)):

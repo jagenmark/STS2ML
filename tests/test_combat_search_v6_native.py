@@ -386,3 +386,75 @@ def test_phantom_existing_shiv(oracle):
     oracle.start("BLADES", ["SHIV", "PHANTOM_BLADES"], encounter="THE_INSATIABLE_BOSS")
     check(oracle, named_card(oracle, "PHANTOM_BLADES"), stop="existing shiv")
     assert "Retain" in next(c for c in oracle.public["hand"] if c["id"] == "CARD.SHIV")["keywords"]
+
+def test_disabled_wax_relic(oracle, tmp_path):
+    def ready_to_melt(player):
+        for relic in player["relics"]:
+            if relic["id"] == "RELIC.TOY_BOX":
+                relic["props"]["ints"][0]["value"] = 2
+            else:
+                relic["props"] = {"bools": [{"name": "IsWax", "value": True}]}
+    load_relics(oracle, tmp_path, {"TOY_BOX", "CAPTAINS_WHEEL"}, ["GRAND_FINALE"] * 4,
+                "SHRINKER_BEETLE_WEAK", edit=ready_to_melt)
+    while oracle.public.get("in_combat"):
+        oracle.public = oracle.command(**action(oracle, "play_card").command())
+    for _ in range(8):
+        if oracle.public["decision"] == "map_select":
+            break
+        oracle.public = oracle.command(**legal_actions(oracle.public)[-1].command())
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="KAISER_CRAB_BOSS")
+    current = replace(project(oracle.public).state, late=True, facing=1, preview_facing=1)
+    assert next(r for r in current.relics if r.name == "CAPTAINS_WHEEL").status == "Disabled"
+    assert encounter_reason(current) == "disabled wax relic"
+
+
+@pytest.mark.parametrize("name,reason", [("THE_INSATIABLE_BOSS", "confused escape"), ("SLIMED_BERSERKER_NORMAL", None)])
+def test_snecko_current_costs(oracle, tmp_path, name, reason):
+    load_relics(oracle, tmp_path, {"SNECKO_EYE"}, ["STRIKE_SILENT"] * 22, name)
+    assert dict(project(oracle.public).state.powers)["CONFUSED"]
+    check(oracle, action(oracle, "play_card"))
+    check(oracle, action(oracle, "end_turn"), stop=reason)
+
+
+def test_serum_projection_outside_late_rooms(oracle):
+    from sts2rl.combat_search_v2.integration import CombatSearchV2
+    from sts2rl.combat_search_v2.planner import Config
+    from sts2rl.native import runtime_identity
+
+    oracle.start("EARLY_SERUM", ["DEFEND_SILENT"] * 12, ["STABLE_SERUM"], seed="CSV4FIX_EARLY_SERUM")
+    public = {**oracle.public, "runtime_identity": runtime_identity(10)}
+    mode = CombatSearchV2(Config(v6_late_coverage=True), record=True)
+    chosen = mode.choose(public, action(oracle, "play_card"), legal_actions)
+    after = oracle.command(**chosen.command())
+    mode.observe(chosen, after, legal_actions)
+    assert mode.records[-1]["oracle"][1] == "match"
+
+
+@pytest.mark.parametrize("name", ["STRIKE_SILENT", "DEFEND_SILENT", "SLICE", "DEFLECT", "DASH", "DEADLY_POISON"])
+def test_razor_tooth_after_source_card(oracle, tmp_path, name):
+    load_relics(oracle, tmp_path, {"RAZOR_TOOTH"}, [name], "THE_INSATIABLE_BOSS")
+    check(oracle, named_card(oracle, name))
+    assert oracle.public["discard_pile"][0]["upgrades"] == 1
+    check(oracle, action(oracle, "end_turn"))
+
+
+def test_razor_tooth_unknown_upgrade_boundary(oracle, tmp_path):
+    load_relics(oracle, tmp_path, {"RAZOR_TOOTH"}, ["ACROBATICS"], "THE_INSATIABLE_BOSS")
+    check(oracle, named_card(oracle, "ACROBATICS"), stop="razor tooth upgrade")
+
+
+def test_mittens_deferred_plating(oracle, tmp_path):
+    def add_potion(player):
+        player["potions"] = [{"id": "POTION.HEART_OF_IRON", "slot_index": 0}]
+    load_relics(oracle, tmp_path, {"TOASTY_MITTENS"}, ["DEFEND_SILENT"] * 24, "KAISER_CRAB_BOSS", edit=add_potion)
+    oracle.public = oracle.command(**legal_actions(oracle.public)[0].command())
+    check(oracle, action(oracle, "use_potion"), facing=1)
+    check(oracle, action(oracle, "end_turn"), facing=1)
+    check(oracle, action(oracle, "select_cards"), facing=1)
+
+
+def test_belt_buckle_last_potion(oracle, tmp_path):
+    def add_potion(player):
+        player["potions"] = [{"id": "POTION.BLOCK_POTION", "slot_index": 0}]
+    load_relics(oracle, tmp_path, {"BELT_BUCKLE"}, ["DEFLECT"] * 10, "THE_INSATIABLE_BOSS", edit=add_potion)
+    check(oracle, action(oracle, "use_potion"), stop="belt buckle")

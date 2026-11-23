@@ -184,7 +184,7 @@ PASSIVE_RELICS = {
 RELICS = PASSIVE_RELICS | {
     "FORGOTTEN_SOUL", "SHURIKEN", "KUNAI", "MERCURY_HOURGLASS", "MR_STRUGGLES", "IRON_CLUB",
     "TOUGH_BANDAGES", "STONE_CALENDAR", "STURDY_CLAMP", "FIDDLE", "HELICAL_DART",
-    "TOASTY_MITTENS", "TUNGSTEN_ROD", "BREAD", "ICE_CREAM", "INTIMIDATING_HELMET", "SNECKO_EYE", "RUNIC_PYRAMID", "BELT_BUCKLE",
+    "TOASTY_MITTENS", "TUNGSTEN_ROD", "BREAD", "ICE_CREAM", "RAZOR_TOOTH", "INTIMIDATING_HELMET", "SNECKO_EYE", "RUNIC_PYRAMID", "BELT_BUCKLE",
 }
 ATTACKS = {"ASSASSINATE": (10, 13), "THE_HUNT": (10, 15), "ULTIMATE_STRIKE": (14, 20),
            "DRAMATIC_ENTRANCE": (11, 15), "ECHOING_SLASH": (10, 13), "PINPOINT": (15, 19)}
@@ -209,3 +209,8 @@ def on_exhaust(state, count=1):
         if state.boundary or state.outcome:
             break
     return state
+
+
+# These upgrades preserve keywords, targeting and energy cost. The within-turn
+# resolver reads attack/block values from the pinned upgraded card table.
+RAZOR_UPGRADES = {"STRIKE_SILENT", "DEFEND_SILENT", "SLICE", "DEFLECT", "DASH", "DEADLY_POISON"}

@@ -343,6 +343,10 @@ def _card_effect(state, play):
     slots = _card_targets(state, v, play.target)
     if state.late:
         for relic in state.relics:
+            if relic.name == "RAZOR_TOOTH" and not v.upgrade and v.kind in ("Skill", "Attack") and (
+                    name not in late_encounters.RAZOR_UPGRADES or v.modifier or play.replay
+                    or power(state.powers, "DUPLICATION") or power(state.powers, "BURST")):
+                return boundary(state, "razor tooth upgrade")
             if relic.name == "INTIMIDATING_HELMET" and not relic.used:
                 cost = play.x if "costs_x" in v.flags else v.cost
                 if cost >= power(relic.stats, "energy"):
@@ -662,6 +666,11 @@ def _finish(state, play, plays):
 
 def _finish_card(state, play, plays=1):
     v = play.card.variant
+    if state.late and v.name in late_encounters.RAZOR_UPGRADES and not v.upgrade and any(
+            r.name == "RAZOR_TOOTH" for r in state.relics):
+        if plays != 1:
+            return boundary(state, "razor tooth replay timing")
+        v = replace(v, upgrade=1)
     if state.right_hand_return and (play.x if "costs_x" in v.flags else v.cost) >= 2:
         returns = [copy for copy in state.discard if copy.name == "RIGHT_HAND_HAND"]
         if returns:
