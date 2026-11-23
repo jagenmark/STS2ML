@@ -13,7 +13,7 @@ import numpy as np
 
 from sts2rl.combat_search_v2.planner import Config
 from sts2rl.combat_search_v2.recording import observer_path
-from sts2rl.combat_search_v2.seed_registry import load_phase3_registry, load_registry, registry_sha256
+from sts2rl.combat_search_v2.seed_registry import load_phase3_confirmation_registry, load_phase3_registry, load_registry, registry_sha256
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_evaluation import play_episode
 from sts2rl.run_policy import RunWeights
@@ -238,11 +238,17 @@ def main():
     parser.add_argument("--model", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=12)
+    parser.add_argument("--held-confirmation", action="store_true")
     args = parser.parse_args()
     args.host = args.host.resolve(strict=True)
     args.model = args.model.resolve(strict=True)
     phase3 = args.stage == "phase3"
     rows = load_phase3_registry() if phase3 else load_registry()
+    if args.held_confirmation:
+        if not phase3:
+            parser.error("--held-confirmation requires phase3")
+        rows = load_phase3_confirmation_registry()
+    held_split = "held-confirmation" if args.held_confirmation else "held"
     observer = observer_path(ROOT, args.observer)
     freeze = read(args.model.parent / "selection-freeze.json")
     collection = read(args.data / "collection.json")
@@ -252,10 +258,10 @@ def main():
     tuning, held = partition_dev(rows)
     lobbies = tuning if args.stage == "tune" else held
     if phase3:
-        if (collection.get("phase3") != "held" or freeze["registry_sha256"] != registry_sha256(rows)
+        if (collection.get("phase3") != held_split or freeze["registry_sha256"] != registry_sha256(load_phase3_registry())
                 or sha(CHAMPION) != "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b"):
             parser.error("Phase 3 requires the locked v4 held control and frozen Schema 3 model")
-        lobbies = [r for r in rows if r.split == "held"]
+        lobbies = [r for r in rows if r.split == held_split]
     args.output.mkdir(parents=True, exist_ok=True)
     manifest = {"version": 1, "host_sha256": HOST_SHA, "champion_sha256": sha(CHAMPION),
                 "registry_sha256": registry_sha256(rows), "model_sha256": sha(args.model),

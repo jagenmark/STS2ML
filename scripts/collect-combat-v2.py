@@ -9,7 +9,7 @@ from pathlib import Path
 
 from sts2rl.combat_search_v2.recording import observer_path
 from sts2rl.combat_search_v2.seed_registry import (
-    load_confirmation_registry, load_phase3_registry, load_registry, registry_sha256,
+    load_confirmation_registry, load_phase3_confirmation_registry, load_phase3_registry, load_registry, registry_sha256,
 )
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_evaluation import play_episode
@@ -91,7 +91,7 @@ def main():
     parser.add_argument("--workers", type=int, default=12)
     parser.add_argument("--observer", type=Path)
     cohorts = parser.add_mutually_exclusive_group()
-    cohorts.add_argument("--phase3", choices=("fit", "test", "held"))
+    cohorts.add_argument("--phase3", choices=("fit", "test", "held", "held-confirmation"))
     cohorts.add_argument("--fit-only", action="store_true", help="Rebuild train and development data with the test split closed")
     cohorts.add_argument("--confirmation-only", action="store_true", help="Collect the separately locked test-only lobbies")
     args = parser.parse_args()
@@ -100,7 +100,7 @@ def main():
     if sha(host) != PINNED_HOST_SHA256:
         parser.error("The collection requires the pinned v0.111.0 headless host")
     if args.phase3:
-        registry = load_phase3_registry()
+        registry = load_phase3_confirmation_registry() if args.phase3 == "held-confirmation" else load_phase3_registry()
         splits = ("train", "dev") if args.phase3 == "fit" else (args.phase3,)
         rows = [row for row in registry if row.split in splits]
         if sha(CHAMPION) != "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b":

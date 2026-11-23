@@ -77,3 +77,16 @@ def load_phase3_registry():
                 "sha256": registry_sha256(rows), "count": len(rows)}:
         raise ValueError("Phase 3 cohort identity mismatch")
     return rows
+
+
+def phase3_confirmation_registry():
+    return [Lobby(f"CSV3CONF_{tag}_{i:04d}", i, mode, "held-confirmation")
+            for mode, tag in (("default", "DEF"), ("seeded", "SED")) for i in range(128)]
+
+
+def load_phase3_confirmation_registry():
+    rows = phase3_confirmation_registry()
+    lock = json.loads(LOCK.with_name("phase3-held-confirmation-lock.json").read_bytes())
+    if lock != {"count": len(rows), "sha256": registry_sha256(rows)}:
+        raise ValueError("Phase 3 confirmation identity mismatch")
+    return rows
