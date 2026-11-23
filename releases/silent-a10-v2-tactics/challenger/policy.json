@@ -34,9 +34,18 @@
     "deck_model": {
       "name": "deck_model.json",
       "sha256": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f"
+    },
+    "combat_search_v2_config": {
+      "name": "combat_search_v2_config.json",
+      "sha256": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed"
+    },
+    "combat_value_v2": {
+      "name": "combat_value_v2.npz",
+      "sha256": "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b"
     }
   },
   "turn_search": true,
   "combat_search": false,
-  "deck_effects": false
+  "deck_effects": false,
+  "combat_search_v2": true
 }

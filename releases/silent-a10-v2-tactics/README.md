@@ -1,8 +1,37 @@
-# Silent A10 `all_v2_p1_v4` Challenger (`silent-a10-v2-tactics`)
+# Silent A10 v5 challenger
+
+The frozen challenger is `all_v2_search_v5`, built on `all_v2_p1_v4` with width 16, depth 10, a 512-child budget, a 7.0 HP potion reserve and zero extra win weight. Its Schema 3 NumPy checkpoint has SHA-256 `24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b`. The policy manifest has SHA-256 `a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb`. [Frozen policy](challenger/policy.json)
+
+All three arms completed 896/896 same-host lobbies with zero retries. On POOLED896, v5 gained 1.138 floors over v4 (95% CI +0.545 to +1.719, exact sign p = 1.77e−6). On unseen REP512 it gained 1.117 floors (+0.295 to +1.930, p = 7.48e−5). Both panels met all three progression gates. The pooled heuristic-minus-Schema 3 interval of −0.367 to +0.624 retained the pre-registered primary. The `v5_release` entry in the benchmark contains all 12 paired comparisons, milestone discordance and encounter diagnostics. [Release report](../../docs/combat-search-v2/v5-release-report.md) · [Benchmark](benchmark.json) · [Episode receipts](v5-receipts.zip)
+
+| Cohort | Arm | Mean floor | A1 boss | A1 clear | A2 boss | A2 clear | A3 boss | Wins |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VAL256 | v4 | 23.309 | 221 | 158 | 63 | 11 | 4 | 0 |
+| VAL256 | Schema 3 | 24.148 | 241 | 164 | 61 | 12 | 4 | 0 |
+| VAL256 | Heuristic | 24.672 | 233 | 167 | 75 | 15 | 6 | 0 |
+| SEEDED128 | v4 | 22.656 | 114 | 66 | 27 | 5 | 2 | 0 |
+| SEEDED128 | Schema 3 | 24.477 | 117 | 81 | 37 | 6 | 4 | 0 |
+| SEEDED128 | Heuristic | 23.844 | 117 | 73 | 33 | 5 | 4 | 0 |
+| REP512 | v4 | 23.109 | 448 | 309 | 111 | 23 | 11 | 0 |
+| REP512 | Schema 3 | 24.227 | 473 | 334 | 136 | 26 | 8 | 0 |
+| REP512 | Heuristic | 24.352 | 475 | 330 | 142 | 26 | 7 | 0 |
+| POOLED896 | v4 | 23.102 | 783 | 533 | 201 | 39 | 17 | 0 |
+| POOLED896 | Schema 3 | 24.240 | 831 | 579 | 234 | 44 | 16 | 0 |
+| POOLED896 | Heuristic | 24.371 | 825 | 570 | 250 | 46 | 17 | 0 |
+
+## Reproduce v5
+
+```bash
+python scripts/build-batch1-challengers.py --profile all_v2_search_v5 --output /tmp/repro-v5
+```
+
+Use `all_v2_search_heur_v5` to reproduce the heuristic comparison arm. The builder also retains `all_v2_p1_v4` for reproducing the prior release.
+
+## Historical v4 challenger
 
 Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger/policy.json` via `scripts/build-batch1-challengers.py --profile all_v2_p1_v4`. All prior release bundles remain untouched and bit-for-bit invariant.
 
-## What Changed vs Incumbent (`silent-a10-mecha-knight`)
+### What Changed vs Incumbent (`silent-a10-mecha-knight`)
 - **Combat (`encounter_model.json`):**
   - Emergency lethal-survival lookahead (`survival_search: true`, `survival_beam: true`) and Silent combat scorer fixes (`scorer_fixes: true`, `v2_burn: true`, `mechanics`/`persistent`/`potion_effects`/`draw_potions` enabled from Act 1).
   - **`act2_mechanics: true`** (896-seed verified & adversarially reviewed):
@@ -30,9 +59,9 @@ Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger
 - **Drafting (`strategy_model.json`):** Unified monotone take-vs-skip drafting (`unified_draft: true`, `deck_size_penalty: 0.0` [Phase 15B 896-seed verified breakthrough, replacing `0.12`], `offset_scale: 0.0`) and **`event_fixes_v4: true`** (exact event option parsing for `heal to full`/`heal all`, `take N damage`, `obtain N gold`, Abyssal Baths max-HP/damage survival ordering, and explicit `Regret` curse avoidance).
 - **Shops & Selections (`deck_model.json`):** Optional selection support (`optional_selections: true`), concave retained gold (`gold_curve: true`), potion capacity tracking (`potion_capacity: true`), keeping incumbent removal pricing (`marginal_removal: false`), plus **`shop_fixes_v4: true`** (`THE_GAMBIT`/`PANIC_BUTTON` shop-trap avoidance, one-time empty-belt potion bonus, and `Quest` / `Spoils Map` protection in both shop removals and transforms).
 
-## Live Native A10 Benchmark Summary ([benchmark.json](benchmark.json))
+### Live Native A10 Benchmark Summary ([benchmark.json](benchmark.json))
 
-### 1. Pooled 896-Lobby Verification (`VAL256 + SEEDED128 + REP512`: 1,792 paired games per comparison)
+#### 1. Pooled 896-Lobby Verification (`VAL256 + SEEDED128 + REP512`: 1,792 paired games per comparison)
 
 | Comparison (`n = 896`) | A1 Boss | A1 Clear | A2 Boss | A2 Clear (Act 3) | A3 Boss | Avg Floor (`Δ`, `t`) |
 |---|---:|---:|---:|---:|---:|---:|
@@ -40,7 +69,7 @@ Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger
 | **`all_v2_p1_v4` vs `all_v2_mech_v3`** | 745 → **783** (`p=3.2e-5`) | 440 → **533** (`p=7.8e-11`, +21.1%) | 128 → **201** (`p=9.7e-9`, +57.0%) | 27 → **39** (`p=0.073`, `+25/-13`) | 10 → **17** (`p=0.092`, `+10/-3`) | 21.13 → **23.10** (**+1.97**, `t=+8.01`, `336`W/`154`L) |
 | **`all_v2_p1_v4` vs `dsp_000`** | 746 → **783** (`p=2.0e-6`) | 460 → **533** (`p=7.4e-10`, `+108/-35`) | 160 → **201** (`p=0.00014`, `+77/-36`) | 28 → **39** (`p=0.080`, `+22/-11`) | 10 → **17** (`p=0.118`, `+11/-4`) | 21.61 → **23.10** (**+1.50**, `t=+6.90`, `245`W/`93`L) |
 
-### 2. Cohort Breakdown (`Held-Out 384` and `REP512`)
+#### 2. Cohort Breakdown (`Held-Out 384` and `REP512`)
 
 | Cohort | Comparison | A1 Clear | A2 Boss | A2 Clear | A3 Boss | Avg Floor (`Δ`, `t`) |
 |---|---|---:|---:|---:|---:|---:|
@@ -51,7 +80,7 @@ Frozen opt-in challenger built from `releases/silent-a10-mecha-knight/challenger
 | **Unseen `REP512`** (`256` default + `256` seeded) | vs `all_v2_mech_v3` | 247 → **309** (`p=3.2e-9`, `+87/-25`) | 71 → **111** (`p=3.0e-5`, `+65/-25`) | 17 → **23** (`+13/-7`) | 7 → **11** (`+5/-1`) | 21.04 → **23.11** (`+2.07`, `t=+6.55`, `200`W/`83`L) |
 | **Unseen `REP512`** (`256` default + `256` seeded) | vs `dsp_000` | 268 → **309** (`p=3.1e-6`, `+59/-18`) | 88 → **111** (`p=0.0067`, `+45/-22`) | 15 → **23** (`+14/-6`) | 7 → **11** (`+6/-2`) | 21.51 → **23.11** (`+1.60`, `t=+5.70`, `141`W/`50`L) |
 
-## Reproduce Frozen Bundle
+### Reproduce the v4 bundle
 ```bash
 .venv/bin/python scripts/build-batch1-challengers.py \
   --base releases/silent-a10-mecha-knight/challenger/policy.json \

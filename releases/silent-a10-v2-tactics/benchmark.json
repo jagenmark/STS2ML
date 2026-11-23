@@ -7236,5 +7236,1690 @@
       1
     ]
   ],
-  "POOLED896 all_v2_p1_v4 wins": []
+  "POOLED896 all_v2_p1_v4 wins": [],
+  "v5_release": {
+    "freeze": {
+      "commit": "5d20083b065c96479280987c10d131348658d922",
+      "bundles": {
+        "all_v2_p1_v4": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+        "all_v2_search_v5": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+        "all_v2_search_heur_v5": "85de8c968e2b973a2928719bedab2697ddd305e0c55c2654064fcf5f9ebd93c4"
+      },
+      "host": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+      "game": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+      "workers": 12,
+      "blas_threads": 1,
+      "omp_threads": 1,
+      "official_registry_sha256": "1279618f5423cfa7734a0fa04db7596b4179c481981a98663aee6235ea146a94"
+    },
+    "attempts": 2688,
+    "complete_per_arm": 896,
+    "retries": 0,
+    "incomplete": 0,
+    "comparisons": {
+      "val256": {
+        "all_v2_search_v5 vs all_v2_p1_v4": {
+          "n": 256,
+          "avg_floor": {
+            "ref": 23.30859375,
+            "cur": 24.1484375,
+            "delta": 0.83984375,
+            "ci95": [
+              -0.20703125,
+              1.85546875
+            ],
+            "se": 0.5338199601965616,
+            "t": 1.5732715383867535,
+            "paired_t_p": 0.11689583594639691,
+            "p": 0.16772199317919745,
+            "w": 85,
+            "l": 67,
+            "ties": 104
+          },
+          "a1_boss": {
+            "ref": 221,
+            "cur": 241,
+            "gain": 25,
+            "loss": 5,
+            "p": 0.0003249142318964005
+          },
+          "a1_clear": {
+            "ref": 158,
+            "cur": 164,
+            "gain": 36,
+            "loss": 30,
+            "p": 0.5385827752459466
+          },
+          "a2_boss": {
+            "ref": 63,
+            "cur": 61,
+            "gain": 29,
+            "loss": 31,
+            "p": 0.8974218269914307
+          },
+          "a2_clear": {
+            "ref": 11,
+            "cur": 12,
+            "gain": 5,
+            "loss": 4,
+            "p": 1.0
+          },
+          "a3_boss": {
+            "ref": 4,
+            "cur": 4,
+            "gain": 3,
+            "loss": 3,
+            "p": 1.0
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_p1_v4": {
+          "n": 256,
+          "avg_floor": {
+            "ref": 23.30859375,
+            "cur": 24.671875,
+            "delta": 1.36328125,
+            "ci95": [
+              0.46875,
+              2.3047851562499986
+            ],
+            "se": 0.4663823348796961,
+            "t": 2.923097956425944,
+            "paired_t_p": 0.003776960136572793,
+            "p": 0.025966837322664405,
+            "w": 82,
+            "l": 55,
+            "ties": 119
+          },
+          "a1_boss": {
+            "ref": 221,
+            "cur": 233,
+            "gain": 17,
+            "loss": 5,
+            "p": 0.01690053939819336
+          },
+          "a1_clear": {
+            "ref": 158,
+            "cur": 167,
+            "gain": 30,
+            "loss": 21,
+            "p": 0.2624375357110438
+          },
+          "a2_boss": {
+            "ref": 63,
+            "cur": 75,
+            "gain": 31,
+            "loss": 19,
+            "p": 0.11892045255943628
+          },
+          "a2_clear": {
+            "ref": 11,
+            "cur": 15,
+            "gain": 8,
+            "loss": 4,
+            "p": 0.3876953125
+          },
+          "a3_boss": {
+            "ref": 4,
+            "cur": 6,
+            "gain": 4,
+            "loss": 2,
+            "p": 0.6875
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_search_v5": {
+          "n": 256,
+          "avg_floor": {
+            "ref": 24.1484375,
+            "cur": 24.671875,
+            "delta": 0.5234375,
+            "ci95": [
+              -0.4141601562499999,
+              1.484375
+            ],
+            "se": 0.48205956504293873,
+            "t": 1.0858357305976816,
+            "paired_t_p": 0.27857708412283383,
+            "p": 0.6611696831388164,
+            "w": 68,
+            "l": 62,
+            "ties": 126
+          },
+          "a1_boss": {
+            "ref": 241,
+            "cur": 233,
+            "gain": 5,
+            "loss": 13,
+            "p": 0.09625244140625
+          },
+          "a1_clear": {
+            "ref": 164,
+            "cur": 167,
+            "gain": 28,
+            "loss": 25,
+            "p": 0.7838463022094988
+          },
+          "a2_boss": {
+            "ref": 61,
+            "cur": 75,
+            "gain": 34,
+            "loss": 20,
+            "p": 0.0759047294891014
+          },
+          "a2_clear": {
+            "ref": 12,
+            "cur": 15,
+            "gain": 8,
+            "loss": 5,
+            "p": 0.5810546875
+          },
+          "a3_boss": {
+            "ref": 4,
+            "cur": 6,
+            "gain": 4,
+            "loss": 2,
+            "p": 0.6875
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        }
+      },
+      "seeded128": {
+        "all_v2_search_v5 vs all_v2_p1_v4": {
+          "n": 128,
+          "avg_floor": {
+            "ref": 22.65625,
+            "cur": 24.4765625,
+            "delta": 1.8203125,
+            "ci95": [
+              0.4140625,
+              3.258007812499997
+            ],
+            "se": 0.7307599048943038,
+            "t": 2.4909857366398445,
+            "paired_t_p": 0.01402907683003747,
+            "p": 0.00921048969455458,
+            "w": 44,
+            "l": 22,
+            "ties": 62
+          },
+          "a1_boss": {
+            "ref": 114,
+            "cur": 117,
+            "gain": 8,
+            "loss": 5,
+            "p": 0.5810546875
+          },
+          "a1_clear": {
+            "ref": 66,
+            "cur": 81,
+            "gain": 26,
+            "loss": 11,
+            "p": 0.020073851919732988
+          },
+          "a2_boss": {
+            "ref": 27,
+            "cur": 37,
+            "gain": 15,
+            "loss": 5,
+            "p": 0.04138946533203125
+          },
+          "a2_clear": {
+            "ref": 5,
+            "cur": 6,
+            "gain": 3,
+            "loss": 2,
+            "p": 1.0
+          },
+          "a3_boss": {
+            "ref": 2,
+            "cur": 4,
+            "gain": 3,
+            "loss": 1,
+            "p": 0.625
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_p1_v4": {
+          "n": 128,
+          "avg_floor": {
+            "ref": 22.65625,
+            "cur": 23.84375,
+            "delta": 1.1875,
+            "ci95": [
+              -0.125,
+              2.546875
+            ],
+            "se": 0.6883048259779725,
+            "t": 1.7252530494940959,
+            "paired_t_p": 0.08691434776089718,
+            "p": 0.07692583360960925,
+            "w": 39,
+            "l": 24,
+            "ties": 65
+          },
+          "a1_boss": {
+            "ref": 114,
+            "cur": 117,
+            "gain": 4,
+            "loss": 1,
+            "p": 0.375
+          },
+          "a1_clear": {
+            "ref": 66,
+            "cur": 73,
+            "gain": 20,
+            "loss": 13,
+            "p": 0.296206368599087
+          },
+          "a2_boss": {
+            "ref": 27,
+            "cur": 33,
+            "gain": 14,
+            "loss": 8,
+            "p": 0.28627872467041016
+          },
+          "a2_clear": {
+            "ref": 5,
+            "cur": 5,
+            "gain": 1,
+            "loss": 1,
+            "p": 1.0
+          },
+          "a3_boss": {
+            "ref": 2,
+            "cur": 4,
+            "gain": 2,
+            "loss": 0,
+            "p": 0.5
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_search_v5": {
+          "n": 128,
+          "avg_floor": {
+            "ref": 24.4765625,
+            "cur": 23.84375,
+            "delta": -0.6328125,
+            "ci95": [
+              -2.0078125,
+              0.8125
+            ],
+            "se": 0.7193431815984326,
+            "t": -0.8797087623654747,
+            "paired_t_p": 0.38067865568808534,
+            "p": 0.3817327947933377,
+            "w": 28,
+            "l": 36,
+            "ties": 64
+          },
+          "a1_boss": {
+            "ref": 117,
+            "cur": 117,
+            "gain": 6,
+            "loss": 6,
+            "p": 1.0
+          },
+          "a1_clear": {
+            "ref": 81,
+            "cur": 73,
+            "gain": 13,
+            "loss": 21,
+            "p": 0.22948101302608848
+          },
+          "a2_boss": {
+            "ref": 37,
+            "cur": 33,
+            "gain": 11,
+            "loss": 15,
+            "p": 0.557197093963623
+          },
+          "a2_clear": {
+            "ref": 6,
+            "cur": 5,
+            "gain": 1,
+            "loss": 2,
+            "p": 1.0
+          },
+          "a3_boss": {
+            "ref": 4,
+            "cur": 4,
+            "gain": 1,
+            "loss": 1,
+            "p": 1.0
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        }
+      },
+      "rep512": {
+        "all_v2_search_v5 vs all_v2_p1_v4": {
+          "n": 512,
+          "avg_floor": {
+            "ref": 23.109375,
+            "cur": 24.2265625,
+            "delta": 1.1171875,
+            "ci95": [
+              0.294921875,
+              1.9296875
+            ],
+            "se": 0.4202505678806389,
+            "t": 2.658384272111936,
+            "paired_t_p": 0.008097743597674711,
+            "p": 7.482402360943442e-05,
+            "w": 188,
+            "l": 118,
+            "ties": 206
+          },
+          "a1_boss": {
+            "ref": 448,
+            "cur": 473,
+            "gain": 43,
+            "loss": 18,
+            "p": 0.001868101030975251
+          },
+          "a1_clear": {
+            "ref": 309,
+            "cur": 334,
+            "gain": 87,
+            "loss": 62,
+            "p": 0.048915157035417905
+          },
+          "a2_boss": {
+            "ref": 111,
+            "cur": 136,
+            "gain": 62,
+            "loss": 37,
+            "p": 0.015432364507309008
+          },
+          "a2_clear": {
+            "ref": 23,
+            "cur": 26,
+            "gain": 21,
+            "loss": 18,
+            "p": 0.7492586247608418
+          },
+          "a3_boss": {
+            "ref": 11,
+            "cur": 8,
+            "gain": 8,
+            "loss": 11,
+            "p": 0.6476058959960938
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_p1_v4": {
+          "n": 512,
+          "avg_floor": {
+            "ref": 23.109375,
+            "cur": 24.3515625,
+            "delta": 1.2421875,
+            "ci95": [
+              0.42182617187500004,
+              2.05859375
+            ],
+            "se": 0.41850525874187783,
+            "t": 2.96815266726707,
+            "paired_t_p": 0.003136493497708452,
+            "p": 0.0010776349784679977,
+            "w": 176,
+            "l": 119,
+            "ties": 217
+          },
+          "a1_boss": {
+            "ref": 448,
+            "cur": 475,
+            "gain": 40,
+            "loss": 13,
+            "p": 0.0002685401188191605
+          },
+          "a1_clear": {
+            "ref": 309,
+            "cur": 330,
+            "gain": 83,
+            "loss": 62,
+            "p": 0.09639401732287724
+          },
+          "a2_boss": {
+            "ref": 111,
+            "cur": 142,
+            "gain": 70,
+            "loss": 39,
+            "p": 0.003854108187381302
+          },
+          "a2_clear": {
+            "ref": 23,
+            "cur": 26,
+            "gain": 18,
+            "loss": 15,
+            "p": 0.7283324808813632
+          },
+          "a3_boss": {
+            "ref": 11,
+            "cur": 7,
+            "gain": 6,
+            "loss": 10,
+            "p": 0.454498291015625
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_search_v5": {
+          "n": 512,
+          "avg_floor": {
+            "ref": 24.2265625,
+            "cur": 24.3515625,
+            "delta": 0.125,
+            "ci95": [
+              -0.513720703125,
+              0.7637207031249993
+            ],
+            "se": 0.3309384265572847,
+            "t": 0.37771376778563,
+            "paired_t_p": 0.7058000738320016,
+            "p": 0.7027135198679599,
+            "w": 120,
+            "l": 127,
+            "ties": 265
+          },
+          "a1_boss": {
+            "ref": 473,
+            "cur": 475,
+            "gain": 12,
+            "loss": 10,
+            "p": 0.8318119049072266
+          },
+          "a1_clear": {
+            "ref": 334,
+            "cur": 330,
+            "gain": 55,
+            "loss": 59,
+            "p": 0.7788760920027009
+          },
+          "a2_boss": {
+            "ref": 136,
+            "cur": 142,
+            "gain": 50,
+            "loss": 44,
+            "p": 0.6062959376939658
+          },
+          "a2_clear": {
+            "ref": 26,
+            "cur": 26,
+            "gain": 14,
+            "loss": 14,
+            "p": 1.0
+          },
+          "a3_boss": {
+            "ref": 8,
+            "cur": 7,
+            "gain": 6,
+            "loss": 7,
+            "p": 1.0
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        }
+      },
+      "pooled896": {
+        "all_v2_search_v5 vs all_v2_p1_v4": {
+          "n": 896,
+          "avg_floor": {
+            "ref": 23.1015625,
+            "cur": 24.239955357142858,
+            "delta": 1.1383928571428572,
+            "ci95": [
+              0.5446428571428571,
+              1.71875
+            ],
+            "se": 0.3028957890850149,
+            "t": 3.7583647517243635,
+            "paired_t_p": 0.00018211374854487295,
+            "p": 1.767288331681987e-06,
+            "w": 317,
+            "l": 207,
+            "ties": 372
+          },
+          "a1_boss": {
+            "ref": 783,
+            "cur": 831,
+            "gain": 76,
+            "loss": 28,
+            "p": 2.736780589985052e-06
+          },
+          "a1_clear": {
+            "ref": 533,
+            "cur": 579,
+            "gain": 149,
+            "loss": 103,
+            "p": 0.004491539295928968
+          },
+          "a2_boss": {
+            "ref": 201,
+            "cur": 234,
+            "gain": 106,
+            "loss": 73,
+            "p": 0.01652517291271671
+          },
+          "a2_clear": {
+            "ref": 39,
+            "cur": 44,
+            "gain": 29,
+            "loss": 24,
+            "p": 0.5831321542611763
+          },
+          "a3_boss": {
+            "ref": 17,
+            "cur": 16,
+            "gain": 14,
+            "loss": 15,
+            "p": 1.0
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_p1_v4": {
+          "n": 896,
+          "avg_floor": {
+            "ref": 23.1015625,
+            "cur": 24.370535714285715,
+            "delta": 1.2689732142857142,
+            "ci95": [
+              0.7053292410714287,
+              1.8337053571428572
+            ],
+            "se": 0.2906157665409212,
+            "t": 4.366498175201489,
+            "paired_t_p": 1.4100091530424462e-05,
+            "p": 9.933520901782603e-06,
+            "w": 297,
+            "l": 198,
+            "ties": 401
+          },
+          "a1_boss": {
+            "ref": 783,
+            "cur": 825,
+            "gain": 61,
+            "loss": 19,
+            "p": 2.7318699228822653e-06
+          },
+          "a1_clear": {
+            "ref": 533,
+            "cur": 570,
+            "gain": 133,
+            "loss": 96,
+            "p": 0.01717154279974242
+          },
+          "a2_boss": {
+            "ref": 201,
+            "cur": 250,
+            "gain": 115,
+            "loss": 66,
+            "p": 0.0003337563886251478
+          },
+          "a2_clear": {
+            "ref": 39,
+            "cur": 46,
+            "gain": 27,
+            "loss": 20,
+            "p": 0.38169339766321275
+          },
+          "a3_boss": {
+            "ref": 17,
+            "cur": 17,
+            "gain": 12,
+            "loss": 12,
+            "p": 1.0
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        },
+        "all_v2_search_heur_v5 vs all_v2_search_v5": {
+          "n": 896,
+          "avg_floor": {
+            "ref": 24.239955357142858,
+            "cur": 24.370535714285715,
+            "delta": 0.13058035714285715,
+            "ci95": [
+              -0.36721540178571427,
+              0.6239118303571425
+            ],
+            "se": 0.25550044906425307,
+            "t": 0.5110768204952113,
+            "paired_t_p": 0.6094233130597951,
+            "p": 0.703284424266908,
+            "w": 216,
+            "l": 225,
+            "ties": 455
+          },
+          "a1_boss": {
+            "ref": 831,
+            "cur": 825,
+            "gain": 23,
+            "loss": 29,
+            "p": 0.48845566937989204
+          },
+          "a1_clear": {
+            "ref": 579,
+            "cur": 570,
+            "gain": 96,
+            "loss": 105,
+            "p": 0.5726756419095719
+          },
+          "a2_boss": {
+            "ref": 234,
+            "cur": 250,
+            "gain": 95,
+            "loss": 79,
+            "p": 0.25541158164185734
+          },
+          "a2_clear": {
+            "ref": 44,
+            "cur": 46,
+            "gain": 23,
+            "loss": 21,
+            "p": 0.880395821280672
+          },
+          "a3_boss": {
+            "ref": 16,
+            "cur": 17,
+            "gain": 11,
+            "loss": 10,
+            "p": 1.0
+          },
+          "win": {
+            "ref": 0,
+            "cur": 0,
+            "gain": 0,
+            "loss": 0,
+            "p": 1.0
+          }
+        }
+      }
+    },
+    "diagnostics": {
+      "all_v2_p1_v4": {
+        "deaths": {
+          "act2_boss": {
+            "KAISER_CRAB_BOSS": 54,
+            "THE_INSATIABLE_BOSS": 55,
+            "KNOWLEDGE_DEMON_BOSS": 53
+          },
+          "act3": {
+            "AXEBOT": 5,
+            "QUEEN_BOSS": 7,
+            "AEONGLASS_BOSS": 6,
+            "OWL_MAGISTRATE": 3,
+            "TEST_SUBJECT_BOSS": 4,
+            "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": 2,
+            "LIVING_SHIELD+TURRET_OPERATOR": 1,
+            "FROG_KNIGHT": 3,
+            "SLIMED_BERSERKER": 2,
+            "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": 2,
+            "MECHA_KNIGHT": 2,
+            "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": 1,
+            "SOUL_NEXUS": 1
+          }
+        },
+        "coverage": {},
+        "act3_deaths_by_opening_formation": {
+          "AXEBOT": 5,
+          "TORCH_HEAD_AMALGAM+QUEEN": 7,
+          "AEONGLASS": 5,
+          "OWL_MAGISTRATE": 3,
+          "TEST_SUBJECT": 5,
+          "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": 2,
+          "LIVING_SHIELD+TURRET_OPERATOR": 1,
+          "FROG_KNIGHT": 3,
+          "SLIMED_BERSERKER": 2,
+          "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": 2,
+          "MECHA_KNIGHT": 2,
+          "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": 1,
+          "SOUL_NEXUS": 1
+        }
+      },
+      "all_v2_search_v5": {
+        "deaths": {
+          "act2_boss": {
+            "KAISER_CRAB_BOSS": 69,
+            "THE_INSATIABLE_BOSS": 59,
+            "KNOWLEDGE_DEMON_BOSS": 62
+          },
+          "act3": {
+            "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": 1,
+            "AXEBOT": 3,
+            "QUEEN_BOSS": 7,
+            "OWL_MAGISTRATE": 3,
+            "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": 3,
+            "MECHA_KNIGHT": 2,
+            "TEST_SUBJECT_BOSS": 6,
+            "THE_LOST+THE_FORGOTTEN": 3,
+            "SLIMED_BERSERKER": 3,
+            "AEONGLASS_BOSS": 3,
+            "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": 4,
+            "FROG_KNIGHT": 1,
+            "DEVOTED_SCULPTOR": 1,
+            "FABRICATOR": 1,
+            "GLOBE_HEAD": 2,
+            "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": 1
+          }
+        },
+        "coverage": {
+          "act2_boss": {
+            "kaiser facing": 1867,
+            "unreconciled prompt": 282,
+            "relic/MR_STRUGGLES": 200,
+            "player power/FLEX_POTION": 63,
+            "selection operation": 286,
+            "relic/STONE_CALENDAR": 100,
+            "knowledge demon prompt/sloth": 2326,
+            "covered": 625,
+            "card/MIRAGE": 3,
+            "card/METAMORPHOSIS": 31,
+            "relic/MERCURY_HOURGLASS": 98,
+            "relic/DOLLYS_MIRROR": 5,
+            "player power/ENTROPY": 8,
+            "card/DRAMATIC_ENTRANCE": 1,
+            "card/EXTERMINATE": 21,
+            "card/THE_HUNT": 15,
+            "no certified survival": 156,
+            "champion continuation unresolved": 77,
+            "card/SUCKER_PUNCH": 9,
+            "player power/FREE_SKILL": 10,
+            "relic/ORRERY": 17,
+            "player power/RETAIN_HAND": 13,
+            "card/SPEEDSTER": 13,
+            "player power/SPEEDSTER": 18,
+            "relic/INTIMIDATING_HELMET": 63,
+            "player power/BLOCK_NEXT_TURN": 1,
+            "uncertified root at cap": 20,
+            "card/ACCURACY": 6,
+            "relic/CAULDRON": 35,
+            "player power/REPTILE_TRINKET": 3,
+            "card/ASSASSINATE": 8,
+            "relic/RAZOR_TOOTH": 41,
+            "card/ULTIMATE_STRIKE": 20,
+            "card/CLOAK_AND_DAGGER": 1,
+            "card/BOUNCING_FLASK": 3,
+            "card/CAPTURE_SPIRIT": 2,
+            "card/SOUL": 5,
+            "card/PHOTON_CUT": 1,
+            "relic/TUNGSTEN_ROD": 18,
+            "card/SEEKER_STRIKE": 3,
+            "card/SURVIVOR": 49,
+            "card/SETUP_STRIKE": 2,
+            "player power/SETUP_STRIKE": 11,
+            "card/OFFERING": 3,
+            "card/SPITE": 2,
+            "card/SIDESTEP": 2,
+            "card/HIDDEN_DAGGERS": 7,
+            "relic/SLING_OF_COURAGE": 54,
+            "relic/TOY_BOX": 49,
+            "relic/MEAT_ON_THE_BONE": 2,
+            "player power/DANSE_MACABRE": 34,
+            "relic/RAINBOW_RING": 25,
+            "selection continuation": 1,
+            "relic/TOOLBOX": 30,
+            "relic/TOUGH_BANDAGES": 26,
+            "card/STRANGLE": 1,
+            "enemy power/STRANGLE": 5,
+            "card/HAND_TRICK": 5,
+            "card/INFINITE_BLADES": 3,
+            "player power/INFINITE_BLADES": 88,
+            "relic/TOASTY_MITTENS": 29,
+            "card/PHANTOM_BLADES": 4,
+            "card/BUBBLE_BUBBLE": 5,
+            "relic/BURNING_STICKS": 32,
+            "card/DANSE_MACABRE": 3,
+            "card/UNDEATH": 1,
+            "card/IMPERVIOUS": 7,
+            "card/BLOOD_WALL": 3,
+            "card/CINDER": 7,
+            "relic/GHOST_SEED": 31,
+            "card/STORM_OF_STEEL": 2,
+            "relic/KUNAI": 36,
+            "vambrace triggered block ordering": 5,
+            "relic/KIFUDA": 20,
+            "card/SHRUG_IT_OFF": 3,
+            "card/DRUM_OF_BATTLE": 4,
+            "enemy power/DEMISE": 17,
+            "card/PINPOINT": 1,
+            "card/LEG_SWEEP": 2,
+            "card/DEFILE": 1,
+            "card/ERADICATE": 1,
+            "card/VEILPIERCER": 3,
+            "living Osty": 3
+          },
+          "act2_boss/KAISER_CRAB_BOSS": {
+            "kaiser facing": 1867,
+            "unreconciled prompt": 113,
+            "selection operation": 46,
+            "living Osty": 3
+          },
+          "act2_boss/THE_INSATIABLE_BOSS": {
+            "relic/MR_STRUGGLES": 200,
+            "player power/FLEX_POTION": 63,
+            "unreconciled prompt": 59,
+            "relic/STONE_CALENDAR": 100,
+            "selection operation": 38,
+            "covered": 625,
+            "card/MIRAGE": 3,
+            "card/METAMORPHOSIS": 31,
+            "relic/MERCURY_HOURGLASS": 98,
+            "relic/DOLLYS_MIRROR": 5,
+            "player power/ENTROPY": 8,
+            "card/DRAMATIC_ENTRANCE": 1,
+            "card/EXTERMINATE": 21,
+            "card/THE_HUNT": 15,
+            "no certified survival": 156,
+            "champion continuation unresolved": 77,
+            "card/SUCKER_PUNCH": 9,
+            "player power/FREE_SKILL": 10,
+            "relic/ORRERY": 17,
+            "player power/RETAIN_HAND": 13,
+            "card/SPEEDSTER": 13,
+            "player power/SPEEDSTER": 18,
+            "relic/INTIMIDATING_HELMET": 63,
+            "player power/BLOCK_NEXT_TURN": 1,
+            "uncertified root at cap": 20,
+            "card/ACCURACY": 6,
+            "relic/CAULDRON": 35,
+            "player power/REPTILE_TRINKET": 3,
+            "card/ASSASSINATE": 8,
+            "relic/RAZOR_TOOTH": 41,
+            "card/ULTIMATE_STRIKE": 20,
+            "card/CLOAK_AND_DAGGER": 1,
+            "card/BOUNCING_FLASK": 3,
+            "card/CAPTURE_SPIRIT": 2,
+            "card/SOUL": 5,
+            "card/PHOTON_CUT": 1,
+            "relic/TUNGSTEN_ROD": 18,
+            "card/SEEKER_STRIKE": 3,
+            "card/SURVIVOR": 49,
+            "card/SETUP_STRIKE": 2,
+            "player power/SETUP_STRIKE": 11,
+            "card/OFFERING": 3,
+            "card/SPITE": 2,
+            "card/SIDESTEP": 2,
+            "card/HIDDEN_DAGGERS": 7,
+            "relic/SLING_OF_COURAGE": 54,
+            "relic/TOY_BOX": 49,
+            "relic/MEAT_ON_THE_BONE": 2,
+            "player power/DANSE_MACABRE": 34,
+            "relic/RAINBOW_RING": 25,
+            "selection continuation": 1,
+            "relic/TOOLBOX": 30,
+            "relic/TOUGH_BANDAGES": 26,
+            "card/STRANGLE": 1,
+            "enemy power/STRANGLE": 5,
+            "card/HAND_TRICK": 5,
+            "card/INFINITE_BLADES": 3,
+            "player power/INFINITE_BLADES": 88,
+            "relic/TOASTY_MITTENS": 29,
+            "card/PHANTOM_BLADES": 4,
+            "card/BUBBLE_BUBBLE": 5,
+            "relic/BURNING_STICKS": 32,
+            "card/DANSE_MACABRE": 3,
+            "card/UNDEATH": 1,
+            "card/IMPERVIOUS": 7,
+            "card/BLOOD_WALL": 3,
+            "card/CINDER": 7,
+            "relic/GHOST_SEED": 31,
+            "card/STORM_OF_STEEL": 2,
+            "relic/KUNAI": 36,
+            "vambrace triggered block ordering": 5,
+            "relic/KIFUDA": 20,
+            "card/SHRUG_IT_OFF": 3,
+            "card/DRUM_OF_BATTLE": 4,
+            "enemy power/DEMISE": 17,
+            "card/PINPOINT": 1,
+            "card/LEG_SWEEP": 2,
+            "card/DEFILE": 1,
+            "card/ERADICATE": 1,
+            "card/VEILPIERCER": 3
+          },
+          "act3": {
+            "profile/LIVING_SHIELD": 376,
+            "profile/TURRET_OPERATOR": 148,
+            "profile/SCROLL_OF_BITING": 471,
+            "unreconciled prompt": 171,
+            "relic/DOLLYS_MIRROR": 55,
+            "profile/BATTLE_FRIEND_V3": 138,
+            "axebot stock": 193,
+            "relic/BRILLIANT_SCARF": 19,
+            "profile/SOUL_NEXUS": 44,
+            "profile/SLIMED_BERSERKER": 311,
+            "selection operation": 48,
+            "profile/TORCH_HEAD_AMALGAM": 120,
+            "relic/INTIMIDATING_HELMET": 13,
+            "profile/OWL_MAGISTRATE": 125,
+            "profile/FLAIL_KNIGHT": 119,
+            "mecha reattach": 72,
+            "relic/FIDDLE": 47,
+            "player power/INFINITE_BLADES": 4,
+            "profile/FROG_KNIGHT": 50,
+            "relic/CROSSBOW": 39,
+            "profile/TEST_SUBJECT": 197,
+            "no living enemy": 8,
+            "profile/THE_LOST": 86,
+            "profile/THE_FORGOTTEN": 35,
+            "profile/GLOBE_HEAD": 126,
+            "relic/MR_STRUGGLES": 99,
+            "player power/DOUBLE_DAMAGE": 3,
+            "player power/CONFUSED": 37,
+            "profile/STABBOT": 19,
+            "profile/GUARDBOT": 55,
+            "profile/FABRICATOR": 62,
+            "profile/NOISEBOT": 37,
+            "relic/SLING_OF_COURAGE": 19,
+            "relic/HELICAL_DART": 24,
+            "player power/HELICAL_DART": 1,
+            "profile/SPECTRAL_KNIGHT": 36,
+            "profile/AEONGLASS": 102,
+            "relic/SPIKED_GAUNTLETS": 24,
+            "player power/SETUP_STRIKE": 4,
+            "relic/STONE_CALENDAR": 73,
+            "card/LEG_SWEEP": 4,
+            "legality/SNAKEBITE": 1,
+            "covered": 54,
+            "champion continuation unresolved": 16,
+            "legality/DEFEND_SILENT": 1,
+            "no certified survival": 15,
+            "player power/FLEX_POTION": 9,
+            "profile/ZAPBOT": 7,
+            "player power/BLOCK_NEXT_TURN": 3,
+            "relic/BURNING_STICKS": 30,
+            "card/ENLIGHTENMENT": 4,
+            "card/DRAMATIC_ENTRANCE": 1,
+            "card/RELAX": 6,
+            "uncertified root at cap": 1,
+            "card/EXTERMINATE": 3,
+            "card/DISTRACTION": 3,
+            "relic/TANXS_WHISTLE": 18,
+            "player power/REBOUND": 1,
+            "relic/TOY_BOX": 23,
+            "relic/THROWING_AXE": 50
+          },
+          "act3/LIVING_SHIELD+TURRET_OPERATOR": {
+            "profile/LIVING_SHIELD": 376,
+            "profile/TURRET_OPERATOR": 148,
+            "unreconciled prompt": 32,
+            "selection operation": 9
+          },
+          "act3/SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+            "profile/SCROLL_OF_BITING": 361,
+            "unreconciled prompt": 22,
+            "selection operation": 3
+          },
+          "act2_boss/KNOWLEDGE_DEMON_BOSS": {
+            "knowledge demon prompt/sloth": 2326,
+            "selection operation": 202,
+            "unreconciled prompt": 110
+          },
+          "act3/DEVOTED_SCULPTOR": {
+            "relic/DOLLYS_MIRROR": 25,
+            "unreconciled prompt": 24,
+            "relic/BRILLIANT_SCARF": 19,
+            "relic/INTIMIDATING_HELMET": 13,
+            "selection operation": 3,
+            "relic/FIDDLE": 47,
+            "player power/INFINITE_BLADES": 4,
+            "relic/CROSSBOW": 39,
+            "relic/MR_STRUGGLES": 99,
+            "player power/DOUBLE_DAMAGE": 3,
+            "player power/CONFUSED": 37,
+            "relic/SLING_OF_COURAGE": 19,
+            "relic/HELICAL_DART": 24,
+            "player power/HELICAL_DART": 1,
+            "relic/SPIKED_GAUNTLETS": 24,
+            "player power/SETUP_STRIKE": 4,
+            "relic/STONE_CALENDAR": 34,
+            "card/LEG_SWEEP": 4,
+            "legality/SNAKEBITE": 1,
+            "covered": 54,
+            "champion continuation unresolved": 16,
+            "player power/BLOCK_NEXT_TURN": 3,
+            "card/ENLIGHTENMENT": 4,
+            "card/DRAMATIC_ENTRANCE": 1,
+            "card/RELAX": 6,
+            "no certified survival": 14,
+            "uncertified root at cap": 1,
+            "card/EXTERMINATE": 3,
+            "card/DISTRACTION": 3,
+            "relic/TANXS_WHISTLE": 18,
+            "relic/BURNING_STICKS": 17,
+            "player power/REBOUND": 1,
+            "relic/TOY_BOX": 23,
+            "relic/THROWING_AXE": 26
+          },
+          "act3/BATTLE_FRIEND_V3": {
+            "profile/BATTLE_FRIEND_V3": 138,
+            "unreconciled prompt": 2,
+            "selection operation": 1
+          },
+          "act3/PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": {
+            "relic/DOLLYS_MIRROR": 30,
+            "unreconciled prompt": 7,
+            "relic/STONE_CALENDAR": 39,
+            "legality/DEFEND_SILENT": 1,
+            "no certified survival": 1,
+            "player power/FLEX_POTION": 9,
+            "selection operation": 2,
+            "relic/BURNING_STICKS": 13,
+            "relic/THROWING_AXE": 24
+          },
+          "act3/AXEBOT": {
+            "axebot stock": 193,
+            "unreconciled prompt": 9,
+            "selection operation": 1
+          },
+          "act3/SOUL_NEXUS": {
+            "profile/SOUL_NEXUS": 44,
+            "unreconciled prompt": 4
+          },
+          "act3/SLIMED_BERSERKER": {
+            "profile/SLIMED_BERSERKER": 311,
+            "selection operation": 4,
+            "unreconciled prompt": 10
+          },
+          "act3/QUEEN_BOSS": {
+            "profile/TORCH_HEAD_AMALGAM": 120,
+            "unreconciled prompt": 5
+          },
+          "act3/OWL_MAGISTRATE": {
+            "profile/OWL_MAGISTRATE": 125,
+            "unreconciled prompt": 5,
+            "selection operation": 1
+          },
+          "act3/FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": {
+            "profile/FLAIL_KNIGHT": 119,
+            "unreconciled prompt": 11,
+            "selection operation": 4,
+            "profile/SPECTRAL_KNIGHT": 36
+          },
+          "act3/MECHA_KNIGHT": {
+            "mecha reattach": 72,
+            "selection operation": 2,
+            "unreconciled prompt": 4
+          },
+          "act3/FROG_KNIGHT": {
+            "profile/FROG_KNIGHT": 50,
+            "unreconciled prompt": 3
+          },
+          "act3/SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+            "profile/SCROLL_OF_BITING": 100,
+            "selection operation": 5,
+            "unreconciled prompt": 6
+          },
+          "act3/TEST_SUBJECT_BOSS": {
+            "profile/TEST_SUBJECT": 197,
+            "no living enemy": 8,
+            "unreconciled prompt": 7,
+            "selection operation": 5
+          },
+          "act3/THE_LOST+THE_FORGOTTEN": {
+            "profile/THE_LOST": 86,
+            "profile/THE_FORGOTTEN": 35,
+            "unreconciled prompt": 5,
+            "selection operation": 1
+          },
+          "act3/GLOBE_HEAD": {
+            "profile/GLOBE_HEAD": 126,
+            "selection operation": 3,
+            "unreconciled prompt": 5
+          },
+          "act3/SCROLL_OF_BITING+SCROLL_OF_BITING": {
+            "profile/SCROLL_OF_BITING": 10
+          },
+          "act3/FABRICATOR": {
+            "profile/STABBOT": 19,
+            "profile/GUARDBOT": 55,
+            "profile/FABRICATOR": 62,
+            "profile/NOISEBOT": 37,
+            "unreconciled prompt": 5,
+            "profile/ZAPBOT": 7,
+            "selection operation": 1
+          },
+          "act3/AEONGLASS_BOSS": {
+            "selection operation": 3,
+            "profile/AEONGLASS": 102,
+            "unreconciled prompt": 5
+          }
+        },
+        "act3_deaths_by_opening_formation": {
+          "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": 1,
+          "AXEBOT": 3,
+          "TORCH_HEAD_AMALGAM+QUEEN": 7,
+          "OWL_MAGISTRATE": 3,
+          "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": 3,
+          "MECHA_KNIGHT": 2,
+          "TEST_SUBJECT": 6,
+          "THE_LOST+THE_FORGOTTEN": 3,
+          "SLIMED_BERSERKER": 3,
+          "AEONGLASS": 3,
+          "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": 4,
+          "FROG_KNIGHT": 1,
+          "DEVOTED_SCULPTOR": 1,
+          "FABRICATOR": 1,
+          "GLOBE_HEAD": 2,
+          "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": 1
+        }
+      },
+      "all_v2_search_heur_v5": {
+        "deaths": {
+          "act2_boss": {
+            "KNOWLEDGE_DEMON_BOSS": 69,
+            "THE_INSATIABLE_BOSS": 66,
+            "KAISER_CRAB_BOSS": 69
+          },
+          "act3": {
+            "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": 4,
+            "MECHA_KNIGHT": 2,
+            "TEST_SUBJECT_BOSS": 7,
+            "DEVOTED_SCULPTOR": 2,
+            "OWL_MAGISTRATE": 4,
+            "AEONGLASS_BOSS": 5,
+            "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": 5,
+            "QUEEN_BOSS": 5,
+            "AXEBOT": 2,
+            "SOUL_NEXUS": 4,
+            "LIVING_SHIELD+TURRET_OPERATOR": 1,
+            "FROG_KNIGHT": 1,
+            "FABRICATOR": 2,
+            "THE_LOST+THE_FORGOTTEN": 1,
+            "GLOBE_HEAD": 1
+          }
+        },
+        "coverage": {
+          "act2_boss": {
+            "knowledge demon prompt/sloth": 2622,
+            "selection operation": 315,
+            "card/METAMORPHOSIS": 21,
+            "covered": 849,
+            "kaiser facing": 1889,
+            "relic/STONE_CALENDAR": 26,
+            "unreconciled prompt": 278,
+            "card/ULTIMATE_STRIKE": 40,
+            "champion continuation unresolved": 77,
+            "no certified survival": 232,
+            "card/MIRAGE": 1,
+            "relic/MERCURY_HOURGLASS": 74,
+            "player power/FLEX_POTION": 45,
+            "card/RESTLESSNESS": 3,
+            "uncertified root at cap": 20,
+            "player power/REPTILE_TRINKET": 7,
+            "card/HIDDEN_DAGGERS": 13,
+            "card/ACCURACY": 7,
+            "card/BOUNCING_FLASK": 15,
+            "relic/TOUGH_BANDAGES": 24,
+            "relic/SLING_OF_COURAGE": 87,
+            "relic/TUNGSTEN_ROD": 40,
+            "card/ASSASSINATE": 17,
+            "relic/ORRERY": 21,
+            "player power/RETAIN_HAND": 14,
+            "card/SPEEDSTER": 7,
+            "relic/INTIMIDATING_HELMET": 71,
+            "player power/BLOCK_NEXT_TURN": 1,
+            "player power/FREE_SKILL": 5,
+            "relic/MR_STRUGGLES": 200,
+            "card/SUCKER_PUNCH": 9,
+            "card/ENLIGHTENMENT": 12,
+            "player power/TRACKING": 27,
+            "card/THE_HUNT": 7,
+            "card/SURVIVOR": 40,
+            "relic/CAULDRON": 35,
+            "card/PHANTOM_BLADES": 6,
+            "card/HAND_TRICK": 7,
+            "card/EXTERMINATE": 15,
+            "enemy power/DEMISE": 18,
+            "relic/RAZOR_TOOTH": 38,
+            "card/CLOAK_AND_DAGGER": 4,
+            "relic/MEAT_ON_THE_BONE": 31,
+            "card/INFINITE_BLADES": 7,
+            "player power/INFINITE_BLADES": 38,
+            "card/SEEKER_STRIKE": 3,
+            "card/SEVERANCE": 6,
+            "card/FEAR": 6,
+            "card/DEMON_FORM": 4,
+            "card/BLUDGEON": 5,
+            "card/POMMEL_STRIKE": 3,
+            "card/DRAMATIC_ENTRANCE": 2,
+            "player power/DANSE_MACABRE": 57,
+            "relic/BELT_BUCKLE": 31,
+            "card/SPITE": 2,
+            "card/SETUP_STRIKE": 1,
+            "player power/SETUP_STRIKE": 6,
+            "relic/RAINBOW_RING": 29,
+            "relic/ICE_CREAM": 1,
+            "player power/FRIENDSHIP": 39,
+            "card/VOLLEY": 2,
+            "card/DODGE_AND_ROLL": 1,
+            "relic/TOASTY_MITTENS": 18,
+            "card/HOWL_FROM_BEYOND": 7,
+            "card/MANGLE": 2,
+            "card/MURDER": 5,
+            "card/SWORD_BOOMERANG": 4,
+            "card/EXPOSE": 1,
+            "card/BUBBLE_BUBBLE": 7,
+            "card/BORROWED_TIME": 1,
+            "player power/BORROWED_TIME": 4,
+            "card/BLIGHT_STRIKE": 3,
+            "card/STRANGLE": 1,
+            "enemy power/STRANGLE": 5,
+            "card/OUTMANEUVER": 1,
+            "relic/TOOLBOX": 17,
+            "card/RIGHT_HAND_HAND": 6,
+            "card/DISTRACTION": 2,
+            "relic/GHOST_SEED": 21,
+            "card/STORM_OF_STEEL": 3,
+            "card/CALTROPS": 1,
+            "relic/TOY_BOX": 26,
+            "vambrace triggered block ordering": 5,
+            "card/PINPOINT": 8,
+            "card/TRUE_GRIT": 6,
+            "card/STOMP": 3
+          },
+          "act2_boss/KNOWLEDGE_DEMON_BOSS": {
+            "knowledge demon prompt/sloth": 2622,
+            "selection operation": 229,
+            "unreconciled prompt": 117
+          },
+          "act2_boss/THE_INSATIABLE_BOSS": {
+            "card/METAMORPHOSIS": 21,
+            "covered": 849,
+            "relic/STONE_CALENDAR": 26,
+            "unreconciled prompt": 56,
+            "card/ULTIMATE_STRIKE": 40,
+            "champion continuation unresolved": 77,
+            "no certified survival": 232,
+            "card/MIRAGE": 1,
+            "relic/MERCURY_HOURGLASS": 74,
+            "player power/FLEX_POTION": 45,
+            "card/RESTLESSNESS": 3,
+            "uncertified root at cap": 20,
+            "player power/REPTILE_TRINKET": 7,
+            "card/HIDDEN_DAGGERS": 13,
+            "selection operation": 48,
+            "card/ACCURACY": 7,
+            "card/BOUNCING_FLASK": 15,
+            "relic/TOUGH_BANDAGES": 24,
+            "relic/SLING_OF_COURAGE": 87,
+            "relic/TUNGSTEN_ROD": 40,
+            "card/ASSASSINATE": 17,
+            "relic/ORRERY": 21,
+            "player power/RETAIN_HAND": 14,
+            "card/SPEEDSTER": 7,
+            "relic/INTIMIDATING_HELMET": 71,
+            "player power/BLOCK_NEXT_TURN": 1,
+            "player power/FREE_SKILL": 5,
+            "relic/MR_STRUGGLES": 200,
+            "card/SUCKER_PUNCH": 9,
+            "card/ENLIGHTENMENT": 12,
+            "player power/TRACKING": 27,
+            "card/THE_HUNT": 7,
+            "card/SURVIVOR": 40,
+            "relic/CAULDRON": 35,
+            "card/PHANTOM_BLADES": 6,
+            "card/HAND_TRICK": 7,
+            "card/EXTERMINATE": 15,
+            "enemy power/DEMISE": 18,
+            "relic/RAZOR_TOOTH": 38,
+            "card/CLOAK_AND_DAGGER": 4,
+            "relic/MEAT_ON_THE_BONE": 31,
+            "card/INFINITE_BLADES": 7,
+            "player power/INFINITE_BLADES": 38,
+            "card/SEEKER_STRIKE": 3,
+            "card/SEVERANCE": 6,
+            "card/FEAR": 6,
+            "card/DEMON_FORM": 4,
+            "card/BLUDGEON": 5,
+            "card/POMMEL_STRIKE": 3,
+            "card/DRAMATIC_ENTRANCE": 2,
+            "player power/DANSE_MACABRE": 57,
+            "relic/BELT_BUCKLE": 31,
+            "card/SPITE": 2,
+            "card/SETUP_STRIKE": 1,
+            "player power/SETUP_STRIKE": 6,
+            "relic/RAINBOW_RING": 29,
+            "relic/ICE_CREAM": 1,
+            "player power/FRIENDSHIP": 39,
+            "card/VOLLEY": 2,
+            "card/DODGE_AND_ROLL": 1,
+            "relic/TOASTY_MITTENS": 18,
+            "card/HOWL_FROM_BEYOND": 7,
+            "card/MANGLE": 2,
+            "card/MURDER": 5,
+            "card/SWORD_BOOMERANG": 4,
+            "card/EXPOSE": 1,
+            "card/BUBBLE_BUBBLE": 7,
+            "card/BORROWED_TIME": 1,
+            "player power/BORROWED_TIME": 4,
+            "card/BLIGHT_STRIKE": 3,
+            "card/STRANGLE": 1,
+            "enemy power/STRANGLE": 5,
+            "card/OUTMANEUVER": 1,
+            "relic/TOOLBOX": 17,
+            "card/RIGHT_HAND_HAND": 6,
+            "card/DISTRACTION": 2,
+            "relic/GHOST_SEED": 21,
+            "card/STORM_OF_STEEL": 3,
+            "card/CALTROPS": 1,
+            "relic/TOY_BOX": 26,
+            "vambrace triggered block ordering": 5,
+            "card/PINPOINT": 8,
+            "card/TRUE_GRIT": 6,
+            "card/STOMP": 3
+          },
+          "act2_boss/KAISER_CRAB_BOSS": {
+            "kaiser facing": 1889,
+            "selection operation": 38,
+            "unreconciled prompt": 105
+          },
+          "act3": {
+            "relic/BELT_BUCKLE": 55,
+            "unreconciled prompt": 166,
+            "profile/SCROLL_OF_BITING": 412,
+            "profile/BATTLE_FRIEND_V3": 202,
+            "profile/LIVING_SHIELD": 343,
+            "selection operation": 61,
+            "profile/TURRET_OPERATOR": 146,
+            "relic/DELICATE_FROND": 1,
+            "player power/INFINITE_BLADES": 22,
+            "profile/OWL_MAGISTRATE": 242,
+            "profile/THE_LOST": 108,
+            "mecha reattach": 52,
+            "relic/STONE_CALENDAR": 72,
+            "profile/TEST_SUBJECT": 151,
+            "no living enemy": 7,
+            "relic/BRILLIANT_SCARF": 26,
+            "relic/CLAWS": 19,
+            "profile/GLOBE_HEAD": 139,
+            "profile/THE_FORGOTTEN": 26,
+            "profile/FABRICATOR": 56,
+            "profile/NOISEBOT": 46,
+            "profile/AEONGLASS": 144,
+            "relic/INTIMIDATING_HELMET": 30,
+            "profile/SLIMED_BERSERKER": 220,
+            "axebot stock": 225,
+            "profile/FLAIL_KNIGHT": 150,
+            "profile/SPECTRAL_KNIGHT": 61,
+            "relic/SPIKED_GAUNTLETS": 65,
+            "profile/FROG_KNIGHT": 154,
+            "relic/FIDDLE": 24,
+            "profile/TORCH_HEAD_AMALGAM": 119,
+            "relic/RINGING_TRIANGLE": 18,
+            "relic/CROSSBOW": 25,
+            "profile/SOUL_NEXUS": 73,
+            "relic/MR_STRUGGLES": 54,
+            "player power/CONFUSED": 15,
+            "profile/ZAPBOT": 29,
+            "profile/GUARDBOT": 32,
+            "profile/STABBOT": 14,
+            "relic/WHISPERING_EARRING": 45,
+            "profile/MAGI_KNIGHT": 11,
+            "relic/HELICAL_DART": 21,
+            "player power/HELICAL_DART": 1,
+            "relic/JEWELRY_BOX": 17,
+            "player power/FREE_SKILL": 6,
+            "relic/BURNING_STICKS": 31,
+            "card/ENLIGHTENMENT": 2,
+            "champion continuation unresolved": 13,
+            "covered": 34,
+            "uncertified root at cap": 2,
+            "card/DRAMATIC_ENTRANCE": 1,
+            "card/EXPOSE": 1,
+            "card/RELAX": 9,
+            "no certified survival": 15,
+            "relic/PUNCH_DAGGER": 22,
+            "card/EXTERMINATE": 5,
+            "card/DISTRACTION": 2,
+            "relic/TOY_BOX": 23,
+            "relic/LOOMING_FRUIT": 28,
+            "relic/MERCURY_HOURGLASS": 21
+          },
+          "act3/DEVOTED_SCULPTOR": {
+            "relic/BELT_BUCKLE": 24,
+            "unreconciled prompt": 25,
+            "relic/DELICATE_FROND": 1,
+            "player power/INFINITE_BLADES": 22,
+            "selection operation": 4,
+            "relic/STONE_CALENDAR": 56,
+            "relic/BRILLIANT_SCARF": 26,
+            "relic/CLAWS": 19,
+            "relic/INTIMIDATING_HELMET": 30,
+            "relic/SPIKED_GAUNTLETS": 65,
+            "relic/FIDDLE": 24,
+            "relic/RINGING_TRIANGLE": 18,
+            "relic/CROSSBOW": 25,
+            "relic/MR_STRUGGLES": 54,
+            "player power/CONFUSED": 15,
+            "relic/WHISPERING_EARRING": 45,
+            "relic/HELICAL_DART": 21,
+            "player power/HELICAL_DART": 1,
+            "relic/JEWELRY_BOX": 17,
+            "player power/FREE_SKILL": 6,
+            "card/ENLIGHTENMENT": 2,
+            "champion continuation unresolved": 13,
+            "covered": 34,
+            "uncertified root at cap": 2,
+            "card/DRAMATIC_ENTRANCE": 1,
+            "card/EXPOSE": 1,
+            "card/RELAX": 9,
+            "no certified survival": 15,
+            "relic/PUNCH_DAGGER": 18,
+            "card/EXTERMINATE": 5,
+            "card/DISTRACTION": 2,
+            "relic/TOY_BOX": 23,
+            "relic/BURNING_STICKS": 20,
+            "relic/LOOMING_FRUIT": 28
+          },
+          "act3/SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+            "profile/SCROLL_OF_BITING": 307,
+            "unreconciled prompt": 15,
+            "selection operation": 2
+          },
+          "act3/BATTLE_FRIEND_V3": {
+            "profile/BATTLE_FRIEND_V3": 202,
+            "unreconciled prompt": 5,
+            "selection operation": 1
+          },
+          "act3/PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": {
+            "relic/BELT_BUCKLE": 31,
+            "relic/STONE_CALENDAR": 16,
+            "unreconciled prompt": 2,
+            "relic/BURNING_STICKS": 11,
+            "relic/PUNCH_DAGGER": 4,
+            "relic/MERCURY_HOURGLASS": 21
+          },
+          "act3/LIVING_SHIELD+TURRET_OPERATOR": {
+            "profile/LIVING_SHIELD": 343,
+            "unreconciled prompt": 29,
+            "selection operation": 11,
+            "profile/TURRET_OPERATOR": 146
+          },
+          "act3/OWL_MAGISTRATE": {
+            "profile/OWL_MAGISTRATE": 242,
+            "selection operation": 6,
+            "unreconciled prompt": 8
+          },
+          "act3/THE_LOST+THE_FORGOTTEN": {
+            "profile/THE_LOST": 108,
+            "selection operation": 5,
+            "unreconciled prompt": 5,
+            "profile/THE_FORGOTTEN": 26
+          },
+          "act3/MECHA_KNIGHT": {
+            "mecha reattach": 52,
+            "selection operation": 2,
+            "unreconciled prompt": 1
+          },
+          "act3/SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+            "profile/SCROLL_OF_BITING": 84,
+            "unreconciled prompt": 3,
+            "selection operation": 4
+          },
+          "act3/TEST_SUBJECT_BOSS": {
+            "profile/TEST_SUBJECT": 151,
+            "unreconciled prompt": 8,
+            "no living enemy": 7,
+            "selection operation": 2
+          },
+          "act3/GLOBE_HEAD": {
+            "profile/GLOBE_HEAD": 139,
+            "unreconciled prompt": 5,
+            "selection operation": 3
+          },
+          "act3/FABRICATOR": {
+            "profile/FABRICATOR": 56,
+            "profile/NOISEBOT": 46,
+            "unreconciled prompt": 4,
+            "profile/ZAPBOT": 29,
+            "profile/GUARDBOT": 32,
+            "profile/STABBOT": 14,
+            "selection operation": 2
+          },
+          "act3/AEONGLASS_BOSS": {
+            "profile/AEONGLASS": 144,
+            "unreconciled prompt": 7,
+            "selection operation": 5
+          },
+          "act3/SLIMED_BERSERKER": {
+            "profile/SLIMED_BERSERKER": 220,
+            "selection operation": 3,
+            "unreconciled prompt": 7
+          },
+          "act3/AXEBOT": {
+            "axebot stock": 225,
+            "unreconciled prompt": 12,
+            "selection operation": 1
+          },
+          "act3/FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": {
+            "profile/FLAIL_KNIGHT": 150,
+            "unreconciled prompt": 14,
+            "profile/SPECTRAL_KNIGHT": 61,
+            "profile/MAGI_KNIGHT": 11,
+            "selection operation": 5
+          },
+          "act3/FROG_KNIGHT": {
+            "profile/FROG_KNIGHT": 154,
+            "unreconciled prompt": 7,
+            "selection operation": 4
+          },
+          "act3/QUEEN_BOSS": {
+            "profile/TORCH_HEAD_AMALGAM": 119,
+            "unreconciled prompt": 5,
+            "selection operation": 1
+          },
+          "act3/SOUL_NEXUS": {
+            "profile/SOUL_NEXUS": 73,
+            "unreconciled prompt": 3
+          },
+          "act3/SCROLL_OF_BITING+SCROLL_OF_BITING": {
+            "profile/SCROLL_OF_BITING": 21,
+            "unreconciled prompt": 1
+          }
+        },
+        "act3_deaths_by_opening_formation": {
+          "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": 4,
+          "MECHA_KNIGHT": 2,
+          "TEST_SUBJECT": 7,
+          "DEVOTED_SCULPTOR": 2,
+          "OWL_MAGISTRATE": 4,
+          "AEONGLASS": 4,
+          "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": 5,
+          "TORCH_HEAD_AMALGAM+QUEEN": 6,
+          "AXEBOT": 2,
+          "SOUL_NEXUS": 4,
+          "LIVING_SHIELD+TURRET_OPERATOR": 1,
+          "FROG_KNIGHT": 1,
+          "FABRICATOR": 2,
+          "THE_LOST+THE_FORGOTTEN": 1,
+          "GLOBE_HEAD": 1
+        }
+      }
+    },
+    "primary_gate": {
+      "pooled896": {
+        "positive_ci": true,
+        "p_under_001": true,
+        "a1_clear": true,
+        "a2_boss": true,
+        "a2_clear": true
+      },
+      "rep512": {
+        "positive_ci": true,
+        "p_under_001": true,
+        "a1_clear": true,
+        "a2_boss": true,
+        "a2_clear": true
+      }
+    },
+    "heuristic_superior": false,
+    "selected": "all_v2_search_v5",
+    "episode_archive": {
+      "file": "v5-receipts.zip",
+      "sha256": "ff44e19e3999f6c8155c7ead4832f46d1a9a5412b562fcfbbef2815bbf7e7f34"
+    }
+  }
 }

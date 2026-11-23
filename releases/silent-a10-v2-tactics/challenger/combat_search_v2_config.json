@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "width": 16,
+  "depth": 10,
+  "children": 512,
+  "potion_reserve": 7.0,
+  "value_win_weight": 0.0
+}
