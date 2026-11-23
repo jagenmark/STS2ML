@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 from sts2rl.combat_search_v2.recording import observer_path
-from sts2rl.combat_search_v2.seed_registry import load_registry, registry_sha256
+from sts2rl.combat_search_v2.seed_registry import load_confirmation_registry, load_registry, registry_sha256
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_evaluation import play_episode
 from sts2rl.run_policy import RunWeights
@@ -88,17 +88,23 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=12)
     parser.add_argument("--observer", type=Path)
+    cohorts = parser.add_mutually_exclusive_group()
+    cohorts.add_argument("--fit-only", action="store_true", help="Rebuild train and development data with the test split closed")
+    cohorts.add_argument("--confirmation-only", action="store_true", help="Collect the separately locked test-only lobbies")
     args = parser.parse_args()
     host = args.host.resolve(strict=True)
     observer = observer_path(ROOT, args.observer)
     if sha(host) != PINNED_HOST_SHA256:
         parser.error("The collection requires the pinned v0.111.0 headless host")
-    rows = load_registry()
+    registry = load_confirmation_registry() if args.confirmation_only else load_registry()
+    rows = [lobby for lobby in registry if not args.fit_only or lobby.split != "test"]
     role, settings = load_bundle(CHAMPION)
     settings["combat_v2_observer"] = str(observer)
     weights = asdict(RunWeights.load(settings["weights"]))
     args.output.mkdir(parents=True, exist_ok=True)
-    manifest = {"version": 1, "registry_sha256": registry_sha256(rows), "count": len(rows), "actor": role,
+    manifest = {"version": 1, "registry_sha256": registry_sha256(registry), "count": len(rows), "actor": role,
+                **({"fit_only": True} if args.fit_only else {}),
+                **({"confirmation_only": True} if args.confirmation_only else {}),
                 "champion_sha256": sha(CHAMPION), "host_sha256": sha(host), "observer_sha256": sha(observer),
                 "game_sha256": sha(ROOT / "artifacts/upstreams/sts2-cli/lib/sts2.dll"), "workers": args.workers,
                 "feature_source_sha256": sha(ROOT / "src/sts2rl/combat_search_v2/features.py"),

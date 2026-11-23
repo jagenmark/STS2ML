@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 LOCK = Path(__file__).resolve().parents[3] / "docs/combat-search-v2/phase2-seed-lock.json"
+CONFIRMATION_LOCK = LOCK.with_name("phase2-confirmation-lock.json")
 SPLITS = ("train", "dev", "test")
 COUNTS = (716, 154, 154)
 SALT = "silent-a10-csv2-phase2-natural-v1"
@@ -39,4 +40,20 @@ def load_registry(path=LOCK):
                 "counts_per_mode": dict(zip(SPLITS, COUNTS)), "sha256": registry_sha256(rows)}
     if json.loads(Path(path).read_bytes()) != expected:
         raise ValueError("Phase 2 lobby registry checksum mismatch")
+    return rows
+
+
+def confirmation_registry():
+    return [Lobby(f"CSV2DATA_CONFIRM_{tag}_{index:04d}", index, mode, "test")
+            for mode, tag in (("default", "DEF"), ("seeded", "SED")) for index in range(154)]
+
+
+def load_confirmation_registry(path=CONFIRMATION_LOCK):
+    rows = confirmation_registry()
+    expected = {"version": 1, "count": len(rows), "counts_per_mode": {"test": 154},
+                "sha256": registry_sha256(rows)}
+    if json.loads(Path(path).read_bytes()) != expected:
+        raise ValueError("Phase 2 confirmation registry checksum mismatch")
+    if {row.seed for row in rows}.intersection(row.seed for row in load_registry()):
+        raise ValueError("Phase 2 confirmation seeds overlap the natural registry")
     return rows

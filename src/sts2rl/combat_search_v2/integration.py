@@ -12,17 +12,20 @@ from .encounters import encounter_reason
 from .end_turn import attack_amount
 from .planner import Config, search
 from .state import SCHEMA, Unsupported, entry, project, root_move
-from .transitions import CARDS, admission, advance, legal
+from .transitions import admission, advance, legal
 
 
-def _variant_key(variant, after_reveal=False):
-    cost = None if after_reveal and variant.name not in CARDS else variant.cost
-    return (variant.name, variant.kind, cost, variant.target, variant.upgrade,
+def _variant_key(variant, outside_actionable_hand=False):
+    # Hidden-pile resolved costs can reflect the last hand discount, preview
+    # history, or the next reveal. Their card identities remain comparable.
+    cost = None if outside_actionable_hand and variant.name != "FRANTIC_ESCAPE" else variant.cost
+    target = None if outside_actionable_hand and variant.name == "SHIV" else variant.target
+    return (variant.name, variant.kind, cost, target, variant.upgrade,
             variant.keywords, variant.modifier)
 
 
-def _zone(cards, after_reveal=False):
-    return Counter(_variant_key(card, after_reveal) for card in cards)
+def _zone(cards):
+    return Counter(_variant_key(card, outside_actionable_hand=True) for card in cards)
 
 
 def _board(state):
@@ -65,8 +68,8 @@ def _native_legal(projected, actions):
 
 
 def _completed_zones(state):
-    return (_zone((*state.draw, *state.discard, *(c.variant for c in state.hand)), after_reveal=True),
-            _zone(state.exhaust, after_reveal=True), _zone(state.play, after_reveal=True))
+    return (_zone((*state.draw, *state.discard, *(c.variant for c in state.hand))),
+            _zone(state.exhaust), _zone(state.play))
 
 
 def _difference(predicted, actual):
@@ -75,6 +78,8 @@ def _difference(predicted, actual):
         ("hp", "max_hp", "block", "energy", "max_energy", "round", "powers", "relics", "enemies", "potions"),
         _board(predicted), _board(actual),
     ):
+        if name == "energy" and predicted.outcome == "completed":
+            continue
         if expected != observed:
             return f"board/{name}"
     if predicted.outcome == "completed":

@@ -11,7 +11,7 @@ import numpy as np
 
 from .state import Unsupported, entry
 
-VERSION = 1
+VERSION = 2
 PLAYER_POWERS = (
     "STRENGTH", "DEXTERITY", "WEAK", "VULNERABLE", "FRAIL", "AFTERIMAGE", "BLUR",
     "BUFFER", "INTANGIBLE", "CONSTRICT", "SHRINK", "ARTIFACT", "POISON", "FOOTWORK",
@@ -120,13 +120,30 @@ def _pack(board, act, floor, room, energy_buff, live, retained, sizes):
 
 
 def _energy_buff(pre):
-    energized = dict(_power_fields(pre.get("player_powers"))).get("ENERGIZED", 0)
+    powers = dict(_power_fields(pre.get("player_powers")))
+    energized = powers.get("ENERGIZED", 0) + powers.get("ENERGY_NEXT_TURN", 0)
     for relic in pre["player"].get("relics", ()):
+        if relic.get("is_used_up"):
+            continue
+        name = entry(relic["id"])
         counter = relic.get("counter_rule") or {}
-        if (entry(relic["id"]) == "HAPPY_FLOWER" and not relic.get("is_used_up")
-                and counter.get("remaining") == 1):
+        if name == "HAPPY_FLOWER" and counter.get("remaining") == 1:
             energized += counter["effect_amount"]
+        if ((name == "PAELS_TEARS" and pre["energy"] > 0)
+                or (name == "CANDELABRA" and pre["round"] == 1)):
+            energized += (relic.get("vars") or {}).get("Energy", 0)
     return energized
+
+
+def _retained_before_eot(pre):
+    powers = dict(_power_fields(pre.get("player_powers")))
+    retain_all = powers.get("WELL_LAID_PLANS") or powers.get("RETAIN_HAND") or (
+        pre["round"] == 1 and any(entry(relic["id"]) == "RINGING_TRIANGLE" and not relic.get("is_used_up")
+                                 for relic in pre["player"].get("relics", ())))
+    return _card_fields(card for card in pre["hand"]
+                        if "Ethereal" not in (card.get("keywords") or ())
+                        and (retain_all or card.get("retain_this_turn") or
+                             "Retain" in (card.get("keywords") or ())))
 
 
 def _state_inputs(state):
@@ -161,11 +178,18 @@ def extract_post_eot_features(s_pre_eot, s_next_turn, *, witness=None):
     if witness is None:
         from .end_turn import resolve
         from .state import project
-        projected = resolve(project(before).state)
-        if projected.outcome != "completed":
+        from .transitions import admission
+
+        root = project(before)
+        if admission(root):
+            raise Unsupported("missing pre-draw witness")
+        projected = resolve(root.state)
+        if projected.outcome != "completed" or _state_inputs(projected)[0] != board:
             raise Unsupported("missing pre-draw witness")
         _, live, retained, sizes = _state_inputs(projected)
     else:
+        if witness["early_draw"]:
+            raise Unsupported("earlier draw before normal hand draw")
         if board != _witness_board(witness):
             raise Unsupported("board changed during reveal")
         live = _snapshot_cards(witness["live"])
@@ -176,7 +200,8 @@ def extract_post_eot_features(s_pre_eot, s_next_turn, *, witness=None):
         raise Unsupported("live deck size changed during reveal")
     if live != observed or sizes[0] != len(after["exhaust_pile"]):
         raise Unsupported("card multiset changed during reveal")
-    if retained - _card_fields(before["hand"]):
+    expected_retained = _retained_before_eot(before)
+    if retained != expected_retained:
         raise Unsupported("retained hand changed before draw")
     return _pack(board, ctx["act"], ctx["floor"], ctx["room_type"], _energy_buff(before),
-                 live, retained, sizes)
+                 live, expected_retained, sizes)

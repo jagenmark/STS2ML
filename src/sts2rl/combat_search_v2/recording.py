@@ -162,6 +162,8 @@ class FightRecorder:
                 next_view = _view(after)
                 if terminal is not None:
                     row["censor"] = "combat ended at turn boundary"
+                elif after.get("in_combat") and after["decision"] != "combat_play":
+                    row["censor"] = "intervening next-turn prompt"
                 elif next_view.get("round", 0) > row["round"] and next_view.get("decision") == "combat_play":
                     try:
                         if receipt.get("draw") is None:

@@ -10,9 +10,9 @@ CARD_STATS = (
 )
 POTION_STATS = (
     "Block", "Cards", "Damage", "DexterityPower", "Energy", "IntangiblePower",
-    "PoisonPower", "StrengthPower", "VulnerablePower", "WeakPower",
+    "PlatingPower", "PoisonPower", "StrengthPower", "ThornsPower", "VulnerablePower", "WeakPower",
 )
-RELIC_STATS = ("Block", "Energy", "Turns")
+RELIC_STATS = ("Block", "Cards", "Damage", "DexterityPower", "Energy", "StrengthPower", "Turns")
 
 
 class Unsupported(ValueError):

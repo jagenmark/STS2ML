@@ -37,6 +37,7 @@ internal static class CombatV2Observer
     private static object? _draw;
     private static object? _exit;
     private static bool _escaped;
+    private static bool _earlyDraw;
 
     internal static void Install(string path)
     {
@@ -58,7 +59,7 @@ internal static class CombatV2Observer
         _action = true;
         _step++;
         _draw = _exit = null;
-        _escaped = false;
+        _escaped = _earlyDraw = false;
     }
 
     private static void Finish()
@@ -85,10 +86,21 @@ internal static class CombatV2Observer
 
     private static void BeforeDraw(Player player, bool fromHandDraw)
     {
-        if (!_action || !fromHandDraw || _draw != null || player.PlayerCombatState is not { } pcs
+        if (!_action || _draw != null || player.PlayerCombatState is not { } pcs
             || player.Creature.CombatState is not { } combat)
             return;
+        if (!fromHandDraw)
+        {
+            _earlyDraw = true;
+            return;
+        }
+        if (_earlyDraw)
+        {
+            _draw = new { early_draw = true };
+            return;
+        }
         _draw = new {
+            early_draw = false,
             round = combat.RoundNumber,
             player = CreatureBoard(player.Creature),
             max_energy = pcs.MaxEnergy,

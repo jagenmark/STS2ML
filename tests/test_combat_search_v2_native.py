@@ -437,6 +437,27 @@ def test_native_draw_created_card_is_censored(recorded_oracle):
         extract_post_eot_features(before, after, witness=_draw_receipt(receipt_path))
 
 
+def test_native_draw_before_main_hand_is_censored(recorded_oracle, tmp_path):
+    from sts2rl.combat_search_v2.features import extract_post_eot_features
+    from sts2rl.combat_search_v2.state import Unsupported
+
+    oracle, receipt_path = recorded_oracle
+    save_path = tmp_path / "puzzle.save"
+    with NativeSession(ROOT, tmp_path / "puzzle", host_path=HOST) as fixture:
+        fixture.reset("CSV2FIX_PHASE2_CENTENNIAL")
+        fixture._request({"cmd": "set_player", "hp": 61, "deck": ["DEFEND_SILENT"] * 16,
+                          "relics": ["CENTENNIAL_PUZZLE"]})
+        fixture._request({"cmd": "write_continue_save", "path": str(save_path)})
+    oracle.command(cmd="load_save", path=str(save_path))
+    oracle.command(cmd="enter_room", type="monster", encounter="SHRINKER_BEETLE_WEAK")
+    before = oracle.command(cmd="action", action="end_turn")
+    after = oracle.command(cmd="action", action="end_turn")
+    witness = _draw_receipt(receipt_path)
+    assert witness == {"early_draw": True}
+    with pytest.raises(Unsupported, match="earlier draw"):
+        extract_post_eot_features(before, after, witness=witness)
+
+
 def test_native_act1_boss_labels_before_act_heal(recorded_oracle):
     from sts2rl.combat_search_v2.recording import terminal_label
 
@@ -471,3 +492,192 @@ def test_pinned_host_smoke_bomb_model_is_absent(oracle):
     oracle.game.reset("CSV2DEV_ORACLE_SMOKE_BOMB")
     with pytest.raises(AssertionError, match=r"Model id=POTION.SMOKE_BOMB not found"):
         oracle.command(cmd="set_player", potions=["SMOKE_BOMB"])
+
+
+def _check_qualified_board(oracle, predicted):
+    from sts2rl.combat_search_v2.integration import _difference
+
+    assert predicted.outcome in ("", "completed", "victory", "dead"), predicted
+    if predicted.outcome not in ("victory", "dead"):
+        assert not predicted.boundary or predicted.outcome == "completed", predicted.boundary
+        assert not _difference(predicted, project(oracle.public).state)
+        if predicted.outcome == "completed":
+            oracle.refresh()
+
+
+@pytest.mark.parametrize("name,turns", [
+    ("THE_KIN_BOSS", 4), ("CEREMONIAL_BEAST_BOSS", 3), ("FLYCONID_NORMAL", 4),
+    ("TUNNELER_NORMAL", 3), ("CUBEX_CONSTRUCT_NORMAL", 4), ("VANTOM_BOSS", 4),
+    ("LAGAVULIN_MATRIARCH_BOSS", 4), ("WATERFALL_GIANT_BOSS", 4), ("SOUL_FYSH_BOSS", 4),
+    ("BOWLBUGS_NORMAL", 3), ("EXOSKELETONS_WEAK", 3), ("ENTOMANCER_ELITE", 3),
+    ("BYRDONIS_ELITE", 3), ("THE_INSATIABLE_BOSS", 4), ("HUNTER_KILLER_NORMAL", 1),
+    ("VINE_SHAMBLER_NORMAL", 1), ("SPINY_TOAD_NORMAL", 3), ("LOUSE_PROGENITOR_NORMAL", 3),
+    ("MYTES_NORMAL", 2), ("INKLETS_NORMAL", 3),
+])
+def test_phase2_qualified_enemy_moves(oracle, name, turns):
+    oracle.start(name, ["DEFEND_SILENT"] * 16, encounter=name, hp=70, seed=f"CSV2FIX_PHASE2_{name}")
+    for _ in range(turns):
+        for _ in range(2):
+            oracle.step("play_card", "DEFEND_SILENT")
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+@pytest.mark.parametrize("encounter,turns,potions", [
+    ("CEREMONIAL_BEAST_BOSS", 1, ("EXPLOSIVE_AMPOULE", "FIRE_POTION")),
+    ("TUNNELER_WEAK", 2, ("EXPLOSIVE_AMPOULE", "FIRE_POTION")),
+    ("LAGAVULIN_MATRIARCH_BOSS", 0, ("FIRE_POTION",)),
+    ("EXOSKELETONS_WEAK", 0, ("FIRE_POTION",)),
+    ("ENTOMANCER_ELITE", 0, ()),
+    ("INKLETS_NORMAL", 0, ()),
+    ("SPINY_TOAD_NORMAL", 1, ()),
+    ("LOUSE_PROGENITOR_NORMAL", 0, ()),
+])
+def test_phase2_qualified_damage_hooks(oracle, encounter, turns, potions):
+    card_name = "BACKSTAB" if encounter == "CEREMONIAL_BEAST_BOSS" else "STRIKE_SILENT"
+    oracle.start(encounter, [card_name] * 16, potions, encounter=encounter, hp=70,
+                 seed=f"CSV2FIX_PHASE2_DAMAGE_{encounter}")
+    if encounter == "CEREMONIAL_BEAST_BOSS":
+        for _ in oracle.public["hand"]:
+            oracle.step("play_card", card_name, target=0)
+    for _ in range(turns):
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+    for potion_name in potions:
+        _check_qualified_board(oracle, oracle.step("use_potion", potion_name))
+    for _ in range(3):
+        _check_qualified_board(oracle, oracle.step("play_card", card_name, target=0))
+    if encounter == "CEREMONIAL_BEAST_BOSS":
+        assert oracle.public["enemies"][0]["intents"][0]["type"] == "Stun"
+
+
+@pytest.mark.parametrize("name", [
+    "SPEED_POTION", "GIGANTIFICATION_POTION", "LIQUID_BRONZE", "HEART_OF_IRON",
+])
+def test_phase2_qualified_potions(oracle, name):
+    oracle.start(name, ["DEFEND_SILENT", "DAGGER_SPRAY", "STRIKE_SILENT"], (name,),
+                 seed=f"CSV2FIX_PHASE2_{name}")
+    _check_qualified_board(oracle, oracle.step("use_potion", name))
+    for card_name in ("DEFEND_SILENT", "DAGGER_SPRAY", "STRIKE_SILENT"):
+        _check_qualified_board(oracle, oracle.step("play_card", card_name))
+    _check_qualified_board(oracle, oracle.step("end_turn"))
+    if name in ("LIQUID_BRONZE", "HEART_OF_IRON"):
+        _check_qualified_board(oracle, oracle.step("play_card", "DEFEND_SILENT"))
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+@pytest.mark.parametrize("name,target", [
+    ("SNAKEBITE", 0), ("PREDATOR", 0), ("LEADING_STRIKE", 0), ("BUBBLE_BUBBLE", 0),
+    ("PRECISE_CUT", 0), ("PECK", 0), ("HAZE", None), ("LEG_SWEEP", 0), ("FOOTWORK", None),
+    ("NOXIOUS_FUMES", None), ("BACKFLIP", None), ("GRAND_FINALE", None), ("FLECHETTES", 0),
+    ("ANTICIPATE", None),
+])
+def test_phase2_qualified_cards(oracle, name, target):
+    deck = [name] + (["DEFEND_SILENT"] * 3 if name == "FLECHETTES" else [])
+    oracle.start(name, deck, seed=f"CSV2FIX_PHASE2_{name}")
+    _check_qualified_board(oracle, oracle.step("play_card", name, target=target))
+    if oracle.public["in_combat"]:
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+def test_phase2_passive_relic_admission(oracle, tmp_path):
+    from sts2rl.combat_search_v2.transitions import PASSIVE_RELICS, admission
+
+    save_path = tmp_path / "fixture.save"
+    extra = {"SPARKLING_ROUGE", "PAELS_BLOOD", "UNCEASING_TOP", "PAELS_TEARS", "PAELS_FLESH",
+             "PUMPKIN_CANDLE", "PRISMATIC_GEM", "CANDELABRA"}
+    with NativeSession(ROOT, tmp_path / "fixture", host_path=HOST) as fixture:
+        fixture.reset("CSV2FIX_PHASE2_PASSIVE")
+        fixture._request({"cmd": "set_player", "hp": 61, "deck": ["DEFEND_SILENT"] * 16,
+                          "relics": sorted(PASSIVE_RELICS | extra)})
+        fixture._request({"cmd": "write_continue_save", "path": str(save_path)})
+    # Loading assigns each relic's native owner, which direct injection omits.
+    oracle.command(cmd="load_save", path=str(save_path))
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="SHRINKER_BEETLE_WEAK")
+    if oracle.public["decision"] == "card_select":
+        skip = next(a for a in legal_actions(oracle.public) if a.kind == "skip_select")
+        oracle.public = oracle.command(**skip.command())
+    oracle.refresh()
+    assert {r.name for r in oracle.simulated.relics} == PASSIVE_RELICS | extra
+    assert admission(project(oracle.public)) is None
+    for _ in range(2):
+        _check_qualified_board(oracle, oracle.step("play_card", "DEFEND_SILENT"))
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+def test_phase2_obscura_with_living_illusion(oracle):
+    oracle.start("OBSCURA", ["DEFEND_SILENT"] * 16, encounter="THE_OBSCURA_NORMAL",
+                 hp=70, seed="CSV2FIX_PHASE2_OBSCURA")
+    action = next(a for a in legal_actions(oracle.public) if a.kind == "end_turn")
+    oracle.public = oracle.command(**action.command())
+    oracle.refresh()
+    for _ in range(3):
+        for _ in range(2):
+            oracle.step("play_card", "DEFEND_SILENT")
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+def test_phase2_thieving_hopper_public_flutter(oracle):
+    oracle.start("HOPPER", ["STRIKE_SILENT"] * 12, encounter="THIEVING_HOPPER_WEAK",
+                 hp=70, seed="CSV2FIX_PHASE2_HOPPER")
+    action = next(a for a in legal_actions(oracle.public) if a.kind == "end_turn")
+    oracle.public = oracle.command(**action.command())
+    oracle.refresh()
+    _check_qualified_board(oracle, oracle.step("end_turn"))
+    _check_qualified_board(oracle, oracle.step("play_card", "STRIKE_SILENT", target=0))
+
+
+def test_phase2_native_upgraded_shiv(oracle):
+    oracle.game.reset("CSV2FIX_PHASE2_UPGRADED_SHIV")
+    oracle.command(cmd="set_player", deck=["SHIV"])
+    rest = oracle.command(cmd="enter_room", type="rest")
+    smith = next(a for a in legal_actions(rest) if a.args["option_index"] == 1)
+    oracle.command(**smith.command())
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="SHRINKER_BEETLE_WEAK")
+    oracle.refresh()
+    assert oracle.public["hand"][0]["upgrades"] == 1
+    _check_qualified_board(oracle, oracle.step("play_card", "SHIV", target=0))
+
+
+def test_phase2_native_single_discard_is_automatic(oracle):
+    oracle.start("SINGLE_DISCARD", ["SURVIVOR", "STRIKE_SILENT"],
+                 seed="CSV2FIX_PHASE2_SINGLE_DISCARD")
+    predicted = oracle.step("play_card", "SURVIVOR")
+    _check_qualified_board(oracle, predicted)
+    assert oracle.public["decision"] == "combat_play"
+    assert not predicted.hand and predicted.prompt is None
+
+
+def test_phase2_attack_relic_counters_and_end_turn(oracle, tmp_path):
+    save_path = tmp_path / "attack-relics.save"
+    with NativeSession(ROOT, tmp_path / "fixture", host_path=HOST) as fixture:
+        fixture.reset("CSV2FIX_PHASE2_ATTACK_RELICS")
+        fixture._request({"cmd": "set_player", "hp": 70, "deck": ["SLICE"] * 16,
+                          "relics": ["KUSARIGAMA", "RIPPLE_BASIN", "DAUGHTER_OF_THE_WIND"]})
+        fixture._request({"cmd": "write_continue_save", "path": str(save_path)})
+    oracle.command(cmd="load_save", path=str(save_path))
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="NIBBITS_WEAK")
+    oracle.refresh()
+    for _ in range(3):
+        _check_qualified_board(oracle, oracle.step("play_card", "SLICE", target=0))
+    for _ in range(2):
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+
+def test_phase2_fan_of_knives_retargets_existing_shivs(oracle):
+    oracle.start("FAN", ["FAN_OF_KNIVES", "SHIV", "DAGGER_SPRAY"], encounter="NIBBITS_NORMAL",
+                 seed="CSV2FIX_PHASE2_FAN_OF_KNIVES")
+    _check_qualified_board(oracle, oracle.step("play_card", "FAN_OF_KNIVES"))
+    _check_qualified_board(oracle, oracle.step("play_card", "SHIV"))
+
+
+def test_phase2_paper_krane_weak_preview(oracle, tmp_path):
+    save_path = tmp_path / "paper-krane.save"
+    with NativeSession(ROOT, tmp_path / "fixture", host_path=HOST) as fixture:
+        fixture.reset("CSV2FIX_PHASE2_PAPER_KRANE")
+        fixture._request({"cmd": "set_player", "hp": 70, "deck": ["NEUTRALIZE"] * 12,
+                          "relics": ["PAPER_KRANE"]})
+        fixture._request({"cmd": "write_continue_save", "path": str(save_path)})
+    oracle.command(cmd="load_save", path=str(save_path))
+    oracle.public = oracle.command(cmd="enter_room", type="monster", encounter="NIBBITS_WEAK")
+    oracle.refresh()
+    _check_qualified_board(oracle, oracle.step("play_card", "NEUTRALIZE", target=0))
+    _check_qualified_board(oracle, oracle.step("end_turn"))

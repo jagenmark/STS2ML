@@ -12,7 +12,7 @@ import numpy as np
 
 from sts2rl.combat_search_v2.artifact import CombatValueModel, export_model, sigmoid
 from sts2rl.combat_search_v2.features import FEATURE_NAMES, VERSION
-from sts2rl.combat_search_v2.seed_registry import load_registry, registry_sha256
+from sts2rl.combat_search_v2.seed_registry import load_confirmation_registry, load_registry, registry_sha256
 
 ARCHITECTURES = {"linear": (), "mlp32": (32, 16), "mlp64": (64, 32)}
 RANDOM_SEED = 20261123
@@ -292,6 +292,9 @@ def finalize(args, rows):
     with (args.output / "selection-freeze.json").open("x", encoding="utf-8") as stream:
         json.dump(freeze, stream, indent=2)
     shutil.copyfile(source, model_path)
+    if args.stage == "select":
+        print(json.dumps(freeze), flush=True)
+        return
     model = CombatValueModel.load(model_path)
     sealed, _ = load_data(args.data, [row for row in rows if row.split == "test"])
     result = {**freeze, "support": sealed.summary, "test": detailed_metrics(sealed, model.predict(sealed.x))}
@@ -299,18 +302,42 @@ def finalize(args, rows):
     print(json.dumps({**freeze, **result["test"]["overall"]}), flush=True)
 
 
+def confirm(args, rows):
+    freeze = json.loads((args.output / "selection-freeze.json").read_bytes())
+    path = args.output / "combat_value_v2.npz"
+    if (freeze["registry_sha256"] != registry_sha256(load_registry())
+            or freeze["artifact_sha256"] != fingerprint(path)):
+        raise ValueError("Correction selection or model checksum mismatch")
+    model = CombatValueModel.load(path)
+    receipt = {**freeze, "confirmation_registry_sha256": registry_sha256(rows)}
+    with (args.output / "confirmation-open.json").open("x", encoding="utf-8") as stream:
+        json.dump(receipt, stream, indent=2)
+    sealed, _ = load_data(args.data, rows)
+    report = {**receipt, "support": sealed.summary,
+              "test": detailed_metrics(sealed, model.predict(sealed.x))}
+    save(args.output / "sealed-test.json", report)
+    print(json.dumps({**receipt, **report["test"]["overall"]}), flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=("fit", "finalize"))
+    parser.add_argument("stage", choices=("fit", "select", "finalize", "confirm"))
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    rows = load_registry()
+    confirmation = args.stage == "confirm"
+    rows = load_confirmation_registry() if confirmation else load_registry()
     collection = json.loads((args.data / "collection.json").read_bytes())
     census = json.loads((args.data / "coverage-census.json").read_bytes())
-    if collection["registry_sha256"] != registry_sha256(rows) or census["runs"] != len(rows):
+    fit_only = collection.get("fit_only", False)
+    expected = sum(row.split != "test" for row in rows) if fit_only else len(rows)
+    if collection["registry_sha256"] != registry_sha256(rows) or census["runs"] != expected:
         parser.error("Complete locked collection required")
-    (fit if args.stage == "fit" else finalize)(args, rows)
+    if args.stage == "finalize" and fit_only:
+        parser.error("Sealed test is absent from this collection")
+    if bool(collection.get("confirmation_only")) != confirmation:
+        parser.error("Confirm requires the separate locked test collection")
+    {"fit": fit, "select": finalize, "finalize": finalize, "confirm": confirm}[args.stage](args, rows)
 
 
 if __name__ == "__main__":

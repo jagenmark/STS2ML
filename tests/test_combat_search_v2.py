@@ -172,7 +172,7 @@ def test_survivor_prompt_and_sly():
     sly_damage = Card(1, replace(project(view(STRIKE)).state.hand[0].variant, keywords=("Sly",)))
     s = project(view(SURVIVOR, STRIKE, energy=1, enemies=[enemy(), enemy()])).state
     s = replace(s, hand=(s.hand[0], sly_damage))
-    s = advance(play(s, "SURVIVOR"), Move("select_cards", selection=(1,)))
+    s = play(s, "SURVIVOR")
     assert s.boundary.reason == "sly target"
 
 
@@ -181,8 +181,11 @@ def test_draw_before_discard(name, cost):
     s = play(project(view(card(name, cost), DEFEND, draw=(STRIKE,))).state, name)
     assert s.boundary.reason == "draw" and not s.prompt
     assert [event.kind for event in s.queue][:2] == ["prompt", "after_play"]
-    s = play(project(view(card(name, cost), DEFEND)).state, name)
+    s = play(project(view(card(name, cost), DEFEND, STRIKE)).state, name)
     assert s.prompt.operation == name
+    forced = play(project(view(card(name, cost), DEFEND)).state, name)
+    assert forced.prompt is None and not forced.hand
+    assert "DEFEND_SILENT" in {card.name for card in forced.discard}
 
 
 def test_gamble_triggers_sly_before_draw():
@@ -365,10 +368,7 @@ def test_shiv_replay_overflow_and_unqualified_inky_copy():
 
 
 @pytest.mark.parametrize("name,reason", [
-    ("CEREMONIAL_BEAST", "plow"),
-    ("VANTOM", "vantom slippery"), ("KIN_FOLLOWER", "kin leader"),
-    ("WATERFALL_GIANT", "waterfall"), ("MECHA_KNIGHT", "reattach"),
-    ("ROCK_BOWLBUG", "stun source"), ("ENTOMANCER", "dazed"),
+    ("MECHA_KNIGHT", "reattach"), ("ROCK_BOWLBUG", "stun source"),
     ("KNOWLEDGE_DEMON", "sloth"), ("KAISER_CRAB", "facing"), ("AXEBOT", "stock"),
 ])
 def test_unsupported_encounter_regressions(name, reason):
@@ -506,7 +506,7 @@ def test_phase2_bounds_and_seed_lock():
     from collections import Counter
 
     from sts2rl.combat_search_v2.planner import Config
-    from sts2rl.combat_search_v2.seed_registry import load_registry
+    from sts2rl.combat_search_v2.seed_registry import load_confirmation_registry, load_registry
 
     assert (Config().width, Config().depth, Config().children) == (8, 10, 256)
     assert Config(width=32, children=1024).width == 32
@@ -520,6 +520,9 @@ def test_phase2_bounds_and_seed_lock():
         (mode, split): count for mode in ("default", "seeded")
         for split, count in (("train", 716), ("dev", 154), ("test", 154))
     }
+    test = load_confirmation_registry()
+    assert len({r.seed for r in (*rows, *test)}) == 2356
+    assert Counter((r.mode, r.split) for r in test) == {("default", "test"): 154, ("seeded", "test"): 154}
 
 
 def test_smoke_bomb_transition_labels_only_when_combat_ends():

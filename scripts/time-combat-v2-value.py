@@ -6,13 +6,6 @@ import os
 from pathlib import Path
 from time import perf_counter_ns
 
-# Configure BLAS before loading NumPy or the value module.
-for name in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS", "BLIS_NUM_THREADS"):
-    os.environ[name] = "1"
-
-import numpy as np
-
-from sts2rl.combat_search_v2.artifact import CombatValueModel
 from sts2rl.combat_search_v2.state import Card, Enemy, State, Variant
 from sts2rl.combat_search_v2.transitions import ATTACKS, CARDS, STATUS
 
@@ -31,6 +24,13 @@ def fixtures():
 
 
 def main():
+    # Configure BLAS before loading NumPy or the value module.
+    for name in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS", "BLIS_NUM_THREADS"):
+        os.environ[name] = "1"
+    import numpy as np
+
+    from sts2rl.combat_search_v2.artifact import CombatValueModel
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--models", type=Path, required=True)
     args = parser.parse_args()
