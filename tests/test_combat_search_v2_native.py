@@ -647,6 +647,7 @@ def test_phase2_native_single_discard_is_automatic(oracle):
 
 
 @pytest.mark.parametrize("encounter,start,turns", [
+    ("DECIMILLIPEDE_ELITE", 0, 2),
     ("CORPSE_SLUGS_WEAK", 0, 3), ("SEAPUNK_WEAK", 0, 4), ("SEAPUNK_NORMAL", 0, 3),
     ("FOGMOG_NORMAL", 1, 3), ("BOWLBUGS_NORMAL", 0, 3), ("OVICOPTER_NORMAL", 2, 2),
     ("SLUDGE_SPINNER_WEAK", 0, 3), ("TOADPOLES_WEAK", 0, 3),
@@ -696,6 +697,7 @@ def test_phase3_pendulum_and_second_turn_block(oracle, tmp_path):
 
 
 @pytest.mark.parametrize("deck,relics,encounter", [
+    (["DEFEND_SILENT"] * 20, ["SEAL_OF_GOLD", "POCKETWATCH", "CHANDELIER", "VELVET_CHOKER", "ART_OF_WAR", "JOSS_PAPER"], "WATERFALL_GIANT_BOSS"),
     (["SLICE"] * 16, ["ORNAMENTAL_FAN", "NUNCHAKU"], "WATERFALL_GIANT_BOSS"),
     (["DEFEND_SILENT"] * 16, ["CAPTAINS_WHEEL", "LETTER_OPENER"], "WATERFALL_GIANT_BOSS"),
     (["DEADLY_POISON"] * 16, ["SNECKO_SKULL"], "WATERFALL_GIANT_BOSS"),
@@ -832,3 +834,27 @@ def test_phase2_paper_krane_weak_preview(oracle, tmp_path):
     oracle.refresh()
     _check_qualified_board(oracle, oracle.step("play_card", "NEUTRALIZE", target=0))
     _check_qualified_board(oracle, oracle.step("end_turn"))
+
+def test_phase3_demon_public_disintegration(oracle):
+    oracle.start("DEMON", ["DEFEND_SILENT"] * 16, hp=70, encounter="KNOWLEDGE_DEMON_BOSS",
+                 seed="CSV3FIX_DEMON_DISINTEGRATION")
+    oracle.public = oracle.command(cmd="action", action="end_turn", args={})
+    action = next(a for a in legal_actions(oracle.public) if a.kind == "select_cards")
+    oracle.public = oracle.command(**action.command())
+    oracle.refresh()
+    assert dict(oracle.simulated.powers)["DISINTEGRATION"] == 6
+    for _ in range(2):
+        oracle.step("play_card", "DEFEND_SILENT")
+        _check_qualified_board(oracle, oracle.step("end_turn"))
+
+def test_phase3_dash_blocks_thorns_before_damage(oracle):
+    oracle.start("DASH_THORNS", ["DASH"] * 10, hp=70, encounter="SPINY_TOAD_NORMAL", seed="CSV3FIX_DASH_THORNS")
+    for _ in range(6):
+        if dict(oracle.simulated.enemies[0].powers).get("THORNS"):
+            break
+        oracle.public = oracle.command(cmd="action", action="end_turn", args={})
+        oracle.refresh()
+    assert dict(oracle.simulated.enemies[0].powers)["THORNS"] == 5
+    hp = oracle.simulated.hp
+    _check_qualified_board(oracle, oracle.step("play_card", "DASH", target=0))
+    assert (oracle.simulated.hp, oracle.simulated.block) == (hp, 5)

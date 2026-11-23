@@ -30,6 +30,11 @@ def _puzzle(state):
 
 def _hand_end(state):
     hand = state.hand
+    if power(state.powers, "PLATING") and (any(c.variant.name in _HAND_DAMAGE for c in hand)
+                                           or any(r.name == "PARRYING_SHIELD" for r in state.relics)):
+        return boundary(state, "plating and hand or shield ordering")
+    if any(r.name == "JOSS_PAPER" for r in state.relics) and any("Ethereal" in c.variant.keywords for c in hand):
+        return boundary(state, "joss paper ethereal exhaust")
     for relic in state.relics:
         if relic.used:
             continue
@@ -39,8 +44,20 @@ def _hand_end(state):
             state = replace(state, block=power(relic.stats, "block"))
         if relic.name == "RIPPLE_BASIN" and relic.status == "Active":
             state = replace(state, block=state.block + power(relic.stats, "block"))
-        if relic.name == "PARRYING_SHIELD" and state.block >= power(relic.stats, "block"):
-            return boundary(state, "parrying shield target")
+    if any(r.name == "PARRYING_SHIELD" and not r.used and state.block >= power(r.stats, "block") for r in state.relics):
+        return boundary(state, "parrying shield target")
+    if amount := power(state.powers, "DISINTEGRATION"):
+        if power(state.powers, "PLATING") or power(state.powers, "REGEN") or any(c.variant.name in _HAND_DAMAGE for c in hand):
+            return boundary(state, "disintegration ordering")
+        state = _hurt(state, amount)
+        if state.outcome or state.boundary:
+            return state
+    if regen := power(state.powers, "REGEN"):
+        if any(c.variant.name in _HAND_DAMAGE for c in hand) or power(state.powers, "CONSTRICT"):
+            return boundary(state, "regen and hand damage ordering")
+        state = replace(state, hp=min(state.max_hp, state.hp + regen), powers=add_power(state.powers, "REGEN", -1))
+    if power(state.powers, "PHANTOM_BLADES") and any(c.variant.name == "SHIV" for c in hand):
+        return boundary(state, "phantom blades retained shiv")
     constrict = power(state.powers, "CONSTRICT")
     if constrict and any(e.name == STRANGLER and e.hp > 0 for e in state.enemies):
         if power(state.powers, "PLATING"):
@@ -67,6 +84,8 @@ def _hand_end(state):
         else:
             discard.append(outside_hand(v))
     powers = state.powers
+    if ritual := power(powers, "RITUAL"):
+        powers = add_power(powers, "STRENGTH", ritual)
     for name in ("SPEED_POTION", "ANTICIPATE"):
         if temporary := power(powers, name):
             powers = add_power(set_power(powers, name, 0), "DEXTERITY", -temporary)
@@ -203,6 +222,12 @@ def _start_player(state, prior_powers):
     max_energy = state.max_energy
     energy = max_energy + power(powers, "ENERGY_NEXT_TURN")
     powers = set_power(powers, "ENERGY_NEXT_TURN", 0)
+    if power(powers, "CLARITY"):
+        powers = add_power(powers, "CLARITY", -1)
+        bonus_draw += 1
+    if power(powers, "RADIANCE"):
+        powers = add_power(powers, "RADIANCE", -1)
+        energy += 1
     relics = []
     for relic in state.relics:
         if relic.name in ("HAPPY_FLOWER", "PENDULUM") and relic.counter is not None and not relic.used:
@@ -215,6 +240,23 @@ def _start_player(state, prior_powers):
                 bonus_draw += power(relic.stats, "cards")
             relic = replace(relic, counter=counter, status="Active" if counter == threshold - 1 else "Normal")
         if not relic.used:
+            if relic.name == "SEAL_OF_GOLD":
+                if state.seal_gold < 3:
+                    return boundary(state, "seal of gold insufficient funds")
+                state = replace(state, seal_gold=state.seal_gold - 3)
+                energy += power(relic.stats, "energy")
+            if relic.name == "CHANDELIER" and state.round == 2:
+                energy += power(relic.stats, "energy")
+            if relic.name == "POCKETWATCH":
+                if relic.status == "Active":
+                    bonus_draw += power(relic.stats, "cards")
+                relic = replace(relic, counter=0, status="Active")
+            if relic.name == "VELVET_CHOKER":
+                relic = replace(relic, counter=0, status="Normal")
+            if relic.name == "ART_OF_WAR":
+                if relic.status == "Active":
+                    energy += power(relic.stats, "energy")
+                relic = replace(relic, status="Active")
             if relic.name == "RIPPLE_BASIN":
                 relic = replace(relic, status="Active")
             if relic.name in ("KUSARIGAMA", "LETTER_OPENER", "ORNAMENTAL_FAN"):

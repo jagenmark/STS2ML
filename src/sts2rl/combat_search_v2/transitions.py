@@ -3,7 +3,7 @@ from dataclasses import replace
 from itertools import combinations
 
 from .state import (END_TURN, HAND_CAP, Boundary, Card, Effect, Move, Play, Prompt, Variant,
-                    add_power, power, set_power)
+                    add_power, power)
 
 # Base, upgraded values from the pinned card models. Hand damage/block fields
 # are mutable previews and are deliberately excluded from the projection.
@@ -54,14 +54,15 @@ PLAYER_POWERS = {
     "ARTIFACT", "POISON", "NO_DRAW", "TOOLS_OF_THE_TRADE", "NIGHTMARE", "TAINTED",
     "SPEED_POTION", "GIGANTIFICATION", "DRAW_CARDS_NEXT_TURN", "NOXIOUS_FUMES", "PLATING",
     "THORNS", "ANTICIPATE",
-    "ENERGY_NEXT_TURN", "FAN_OF_KNIVES", "ACCELERANT", "VIGOR",
+    "ENERGY_NEXT_TURN", "FAN_OF_KNIVES", "ACCELERANT", "VIGOR", "ACCURACY", "RITUAL", "DISINTEGRATION", "REGEN", "CLARITY", "RADIANCE",
+    "PHANTOM_BLADES",
 }
 ENEMY_POWERS = {
     "STRENGTH", "WEAK", "VULNERABLE", "POISON", "ARTIFACT", "BUFFER", "INTANGIBLE",
     "VITAL_SPARK", "SANDPIT", "SLIPPERY",
     "PLOW", "BURROWED", "MINION", "ASLEEP", "PLATING", "HARD_TO_KILL", "IMBALANCED",
     "TERRITORIAL", "STEAM_ERUPTION", "PERSONAL_HIVE", "CURL_UP", "THORNS",
-    "FLUTTER", "SWIPE", "ESCAPE_ARTIST", "ILLUSION", "RAVENOUS", "RITUAL", "HATCH", "INFESTED", "SLUMBER",
+    "FLUTTER", "SWIPE", "ESCAPE_ARTIST", "ILLUSION", "RAVENOUS", "RITUAL", "HATCH", "INFESTED", "SLUMBER", "REATTACH",
 }
 # These hooks finish before the first decision or act after the combat exit.
 PASSIVE_RELICS = {
@@ -80,7 +81,8 @@ PASSIVE_RELICS = {
     "GIRYA", "VEXING_PUZZLEBOX", "PAELS_WING", "LASTING_CANDY", "PANTOGRAPH", "GLASS_EYE",
     "BOWLER_HAT", "SIGNET_RING", "WAR_HAMMER", "SILKEN_TRESS",
     "PHILOSOPHERS_STONE", "ECTOPLASM", "WHITE_BEAST_STATUE", "CALLING_BELL",
-    "AKABEKO", "BLOOD_SOAKED_ROSE",
+    "AKABEKO", "BLOOD_SOAKED_ROSE", "LAVA_ROCK", "ARCANE_SCROLL", "NINJA_SCROLL",
+    "LEES_WAFFLE", "SOZU", "NUTRITIOUS_SOUP", "SHOVEL", "MINIATURE_TENT",
     "SEA_GLASS", "WHITE_STAR", "THE_COURIER", "OLD_COIN", "MAW_BANK", "EMPTY_CAGE",
     "MEMBERSHIP_CARD", "BLESSED_ANTLER", "BLACK_STAR",
 }
@@ -96,7 +98,8 @@ RELICS = PASSIVE_RELICS | {
     "LIZARD_TAIL", "GAME_PIECE", "MUMMIFIED_HAND", "REPTILE_TRINKET", "PERMAFROST",
     "CENTENNIAL_PUZZLE", "GREMLIN_HORN",
     "LETTER_OPENER", "CAPTAINS_WHEEL", "UNSETTLING_LAMP", "PARRYING_SHIELD", "TINGSHA",
-    "SNECKO_SKULL", "NUNCHAKU", "ORNAMENTAL_FAN",
+    "SNECKO_SKULL", "NUNCHAKU", "ORNAMENTAL_FAN", "CHANDELIER", "PEN_NIB",
+    "SEAL_OF_GOLD", "ART_OF_WAR", "VELVET_CHOKER", "POCKETWATCH", "VAMBRACE", "JOSS_PAPER",
 }
 KEYWORDS = {"Exhaust", "Ethereal", "Innate", "Retain", "Sly", "Unplayable", "Eternal"}
 MAX_EVENTS = 40
@@ -112,7 +115,8 @@ DEBUFFS = {
 def card_supported(v):
     tainted = (len(v.modifier) == 1 and v.modifier[0][:2] == ("affliction_state", "TAINTED")
                and v.kind == "Skill")
-    return (v.name in CARDS and v.upgrade in (0, 1) and (not v.modifier or tainted)
+    ember = len(v.modifier) == 1 and v.modifier[0][:2] == ("enchantment_state", "TEZCATARAS_EMBER")
+    return (v.name in CARDS and v.upgrade in (0, 1) and (not v.modifier or tainted or ember)
             and all(k in KEYWORDS for k in v.keywords)
             and all(f in ("costs_x", "exhaust_on_next_play", "retain_this_turn", "sly_this_turn")
                     for f in v.flags)
@@ -120,7 +124,8 @@ def card_supported(v):
 
 
 def can_play(state, v):
-    return (v.name not in UNPLAYABLE and "Unplayable" not in v.keywords
+    return (not any(r.name == "VELVET_CHOKER" and (r.counter or 0) >= power(r.stats, "cards") for r in state.relics)
+            and v.name not in UNPLAYABLE and "Unplayable" not in v.keywords
             and (v.name != "GRAND_FINALE" or not state.draw)
             and ("costs_x" in v.flags or 0 <= v.cost <= state.energy))
 
@@ -135,13 +140,18 @@ def admission_reasons(projected):
         if name not in PLAYER_POWERS:
             yield f"player power/{name}"
     for relic in state.relics:
+        if relic.name == "VAMBRACE" and relic.status == "Active" and (
+            power(state.powers, "AFTERIMAGE") or any(r.name in ("ORNAMENTAL_FAN", "DAUGHTER_OF_THE_WIND", "TUNING_FORK")
+                                                     for r in state.relics)
+        ):
+            yield "vambrace triggered block ordering"
         if relic.name not in RELICS or relic.stacks != 1:
             yield f"relic/{relic.name}"
     for card, playable in zip(state.hand, projected.playable):
         v = card.variant
         if not card_supported(v):
             yield f"card/{v.name}"
-        elif v.modifier and not any(
+        elif v.modifier and v.modifier[0][0] == "affliction_state" and not any(
             e.name == "INFESTED_PRISM" and power(e.powers, "VITAL_SPARK") == v.modifier[0][2]
             for e in state.enemies
         ):
@@ -313,8 +323,17 @@ def _card_effect(state, play):
     if v.kind == "Power" and any(r.name in ("GAME_PIECE", "MUMMIFIED_HAND", "PERMAFROST")
                                  and not r.used for r in state.relics):
         return boundary(state, "power-triggered relic")
+    if v.modifier and v.modifier[0][0] == "enchantment_state":
+        return boundary(state, "enchanted attack")
+    if power(state.powers, "PHANTOM_BLADES") and name in ("SHIV", "BLADE_DANCE", "LEADING_STRIKE",
+                                                          "CLOAK_AND_DAGGER", "FAN_OF_KNIVES"):
+        return boundary(state, "phantom blades shiv trigger")
     if name in CARD_BOUNDARIES:
         return boundary(state, name.lower())
+    if name in BLOCKS and any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
+        return boundary(state, "vambrace first card block")
+    if name == "DASH":
+        state = replace(state, block=state.block + block_gain(BLOCKS[name][up], state.powers))
     if name in ATTACKS:
         hits = {"SKEWER": play.x, "DAGGER_SPRAY": 2, "PECK": 3 + up}.get(name, 1)
         if name == "FLECHETTES":
@@ -324,9 +343,12 @@ def _card_effect(state, play):
         damage = ATTACKS[name][up]
         if name == "PRECISE_CUT":
             damage = max(0, damage - 2 * len(state.hand))
-        if vigor := power(state.powers, "VIGOR"):
-            damage += vigor
-            state = replace(state, powers=set_power(state.powers, "VIGOR", 0))
+        if power(state.powers, "VIGOR"):
+            return boundary(state, "vigor consumption timing")
+        if any(r.name == "PEN_NIB" and r.counter == 9 for r in state.relics):
+            return boundary(state, "pen nib damage ordering")
+        if name == "SHIV":
+            damage += power(state.powers, "ACCURACY")
         for relic in state.relics:
             if not relic.used and ((relic.name == "STRIKE_DUMMY" and name in ("STRIKE_SILENT", "LEADING_STRIKE"))
                                    or (relic.name == "MINIATURE_CANNON" and up)):
@@ -342,7 +364,7 @@ def _card_effect(state, play):
                 state = _damage(state, slot, damage, attacker_powers=attacker_powers, gigantification=gigantic)
                 if state.outcome or state.boundary:
                     return state
-    if name in BLOCKS:
+    if name in BLOCKS and name != "DASH":
         state = replace(state, block=state.block + block_gain(BLOCKS[name][up], state.powers))
     if name in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW"):
         events = [Effect("prompt", 1 + up if name == "PREPARED" else 1, play)]
@@ -415,6 +437,19 @@ def _start_play(state, play):
 
 
 def _after_play(state, play, afterimage):
+    for i, relic in enumerate(state.relics):
+        if relic.name not in ("VELVET_CHOKER", "POCKETWATCH") or relic.used:
+            continue
+        count = (relic.counter or 0) + 1
+        if relic.name == "VELVET_CHOKER":
+            if count >= power(relic.stats, "cards"):
+                return boundary(state, "velvet choker cap")
+            updated = replace(relic, counter=count)
+        else:
+            if count >= 4:
+                return boundary(state, "pocketwatch card limit")
+            updated = replace(relic, counter=count)
+        state = replace(state, relics=(*state.relics[:i], updated, *state.relics[i + 1:]))
     if afterimage:
         state = replace(state, block=state.block + afterimage)
     if play.card.variant.kind == "Skill":
@@ -448,7 +483,10 @@ def _attack_relics(state):
     extra_damage = 0
     relics = []
     for relic in state.relics:
-        if not relic.used and relic.name == "RIPPLE_BASIN":
+        if not relic.used and relic.name == "PEN_NIB":
+            counter = (relic.counter or 0) + 1
+            relic = replace(relic, counter=counter, status="Active" if counter == 9 else "Normal")
+        if not relic.used and relic.name in ("RIPPLE_BASIN", "ART_OF_WAR"):
             relic = replace(relic, status="Normal")
         if not relic.used and relic.name == "DAUGHTER_OF_THE_WIND":
             state = replace(state, block=state.block + power(relic.stats, "block"))
@@ -512,6 +550,8 @@ def _finish_card(state, play, plays=1):
     v = play.card.variant
     if v.kind != "Power":
         exhausted = "Exhaust" in v.keywords or "exhaust_on_next_play" in v.flags
+        if exhausted and any(r.name == "JOSS_PAPER" for r in state.relics):
+            return boundary(state, "joss paper exhaust counter")
         if v.name == "FRANTIC_ESCAPE":
             v = replace(v, cost=v.cost + plays)
         if "costs_x" in v.flags:
@@ -621,6 +661,7 @@ def _advance(state, move):
                     hand=tuple(c for c in state.hand if c.slot != move.slot))
     play = Play(card, move.target, x)
     if (v.name in SIMPLE_CARDS
+            and not any(r.name in ("VELVET_CHOKER", "POCKETWATCH", "ART_OF_WAR", "PEN_NIB") for r in state.relics)
             and not any(power(state.powers, p) for p in ("DUPLICATION", "BURST", "AFTERIMAGE"))
             and (v.kind != "Attack" or not any(
                 r.name in ("KUSARIGAMA", "RIPPLE_BASIN", "DAUGHTER_OF_THE_WIND", "NUNCHAKU", "ORNAMENTAL_FAN")

@@ -24,6 +24,7 @@ FORMATIONS = ORDINARY | {
     "ASSASSIN_RUBY_RAIDER", "TRACKER_RUBY_RAIDER", "AXE_RUBY_RAIDER", "BRUTE_RUBY_RAIDER",
     "CROSSBOW_RUBY_RAIDER", "PHROG_PARASITE", "SLUMBERING_BEETLE",
     "DAMP_CULTIST", "DEVOTED_SCULPTOR", "PUNCH_CONSTRUCT",
+    "DECIMILLIPEDE_SEGMENT_FRONT", "DECIMILLIPEDE_SEGMENT_MIDDLE", "DECIMILLIPEDE_SEGMENT_BACK",
 }
 DAZED = Variant("DAZED", "Status", 0, "None", keywords=("Ethereal", "Unplayable"))
 WOUND = Variant("WOUND", "Status", 0, "None", keywords=("Unplayable",))
@@ -42,9 +43,13 @@ ENCOUNTER_BOUNDARIES = {
 
 def encounter_reason(state):
     living = tuple(e.name for e in state.enemies if e.hp > 0)
+    if any(name.startswith("DECIMILLIPEDE_SEGMENT_") for name in living) and len(living) != 3:
+        return "segment reattachment"
     if not living:
         return "no living enemy"
     for name in living:
+        if name == "KNOWLEDGE_DEMON" and power(state.powers, "DISINTEGRATION"):
+            continue
         if name not in FORMATIONS:
             return ENCOUNTER_BOUNDARIES.get(name, f"profile/{name}")
     if INSATIABLE in living and living != (INSATIABLE,):
@@ -72,6 +77,8 @@ def encounter_reason(state):
 def after_death(state, enemy):
     if any(r.name == "GREMLIN_HORN" and not r.used for r in state.relics):
         return replace(state, boundary=Boundary("gremlin horn death trigger"))
+    if power(enemy.powers, "REATTACH"):
+        return replace(state, boundary=Boundary("segment reattachment"))
     if power(enemy.powers, "INFESTED"):
         return replace(state, boundary=Boundary("infested death phase"))
     if enemy.name not in FORMATIONS:
@@ -129,7 +136,9 @@ def after_attack(state, before, enemy):
         state = _update(state, enemy.slot, powers=add_power(powers, "FLUTTER", -1))
     if hive := power(powers, "PERSONAL_HIVE"):
         state = add_cards(state, "draw", DAZED, hive)
-    if enemy.hp < before.hp and (curl := power(powers, "CURL_UP")):
+    if curl := power(powers, "CURL_UP"):
+        if enemy.hp == before.hp and enemy.block == before.block:
+            return replace(state, boundary=Boundary("curl up on zero damage"))
         state = _update(state, enemy.slot, block=enemy.block + curl, powers=set_power(powers, "CURL_UP", 0))
     if thorns := power(powers, "THORNS"):
         from .end_turn import _hurt
@@ -172,6 +181,11 @@ def after_move(state, enemy):
     """Resolve the pinned non-attack portion of a known current move."""
     kinds = {intent.kind for intent in enemy.intents if intent.damage is None}
     profile = enemy.name
+    if profile.startswith("DECIMILLIPEDE_SEGMENT_"):
+        if kinds == {"Buff"}:
+            return _strength(state, enemy, 2)
+        if kinds == {"Debuff"}:
+            return player_debuff(state, "WEAK", 1)
     if profile in ("SPINY_TOAD", "TOADPOLE"):
         if kinds == {"Buff"}:
             return _update(state, enemy.slot, powers=set_power(enemy.powers, "THORNS", 5 if profile == "SPINY_TOAD" else 2))

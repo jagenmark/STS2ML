@@ -33,7 +33,7 @@ def _board(state):
     return (state.hp, state.max_hp, state.block, state.energy, state.max_energy,
             state.round, state.powers, state.relics,
             tuple((e.name, e.hp, e.max_hp, e.block, e.powers) for e in state.enemies if e.hp > 0),
-            tuple((p.name, p.target, p.usable, p.stats) for p in state.potions))
+            tuple((p.name, p.target, p.usable, p.stats) for p in state.potions), state.seal_gold)
 
 
 def _positions(state):
@@ -98,7 +98,7 @@ def _after_draw_prompt(suspended, public):
 def _difference(predicted, actual):
     """Compare deterministic attributes. Completed turns cross the native reveal."""
     for name, expected, observed in zip(
-        ("hp", "max_hp", "block", "energy", "max_energy", "round", "powers", "relics", "enemies", "potions"),
+        ("hp", "max_hp", "block", "energy", "max_energy", "round", "powers", "relics", "enemies", "potions", "seal_gold"),
         _board(predicted), _board(actual),
     ):
         if name == "energy" and predicted.outcome == "completed":
