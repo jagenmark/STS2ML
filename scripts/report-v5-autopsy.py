@@ -43,6 +43,10 @@ def death_stats(fs):
         out_per_round=round(sum(f["damage"].get("out", 0) for f in fs) / sum(turns), 2),
         in_per_round=round(sum(f["damage"].get("in", 0) for f in fs) / sum(turns), 2),
         turns=sum(turns),
+        opening_belt=Counter(len(f["belt"]) for f in fs),
+        potion_use_rounds=Counter(
+            a["round"] for f in fs for a in f["actions"] if a["command"] == "use_potion"
+        ),
         belt=Counter(len(f["terminal_belt"]) for f in fs),
     )
 
@@ -73,10 +77,31 @@ def macros(rows):
     shop = defaultdict(Counter)
     items = defaultdict(Counter)
     removes = Counter()
+    curses = defaultdict(Counter)
+    rewards = defaultdict(Counter)
+    for_act = defaultdict(Counter)
+    no_poison = 0
     for row in rows:
+        ornate = False
+        removal = None
         for m in row["macro"]:
             act, choice = m["act"], m.get("choice")
+            if (choice or "").endswith(".options.ORNATE") and "CLUMSY" in m.get("added_curses", ()):
+                ornate = True
+            if m["action"] == "remove_card":
+                removal = m
+            if (
+                ornate
+                and removal
+                and removal["step"] + 1 == m["step"]
+                and m["room"] == "Shop"
+                and any(c == "CLUMSY" for c, _ in m.get("removed", ()))
+            ):
+                shop[act]["clumsy_after_ornate_removals"] += 1
+                shop[act]["clumsy_after_ornate_price"] += removal["available"]["removal"]
             if m["decision"] == "event_choice" and choice:
+                curses[choice].update(m.get("added_curses", ()))
+                for_act[act][choice] += 1
                 key = events[choice]
                 key[0] += 1
                 key[1] += max(0, -m["hp_delta"])
@@ -98,7 +123,18 @@ def macros(rows):
                     c["kindle_taken"] += choice == "KINDLE"
                     if m["candle"] == 0:
                         c["expired_" + choice] += 1
+            if m["decision"] == "card_reward":
+                for c in set(m["offered_cards"]):
+                    rewards[c]["offered"] += 1
+                    rewards[c]["taken"] += int(c == m["picked_card"])
+                    if c == "ACCELERANT" and m.get("printed_poison_sources", 0) > 0:
+                        rewards[c]["offered_with_poison"] += 1
+                        rewards[c]["whole_offer_skipped_with_poison"] += int(
+                            m["picked_card"] is None
+                        )
+                    rewards[c]["whole_offer_skipped"] += int(m["picked_card"] is None)
             if m["decision"] == "shop":
+                no_poison += m.get("printed_poison_sources") == 0
                 shop[act][m["action"]] += 1
                 if m["action"] == "leave_room":
                     shop[act]["leave_with_affordable_removal"] += "removal" in m["available"]
@@ -114,6 +150,10 @@ def macros(rows):
         shop=shop,
         items=items,
         shop_selection_cards_lost=removes,
+        added_curses={k: v for k, v in curses.items() if v},
+        events_by_act=for_act,
+        card_rewards=rewards,
+        accelerant_purchases_without_printed_poison=no_poison,
     )
 
 
@@ -236,6 +276,41 @@ def paired(pairs):
     return out
 
 
+def approach_stats(rows):
+    encounters = defaultdict(list)
+    groups = defaultdict(list)
+    replays = [r for r in rows if "approach_replay" in r]
+    matched = [r for r in replays if r["approach_replay"]["matched"]]
+    for row in matched:
+        total = Counter()
+        for room in row["approach_replay"]["rooms"]:
+            loss = room["hp"] - room["exit_hp"]
+            total[room["room"]] += loss
+            encounters[(room["room"], room["enemies"])].append(loss)
+        groups["clear" if row["outcome"]["a2_clear"] else "death"].append(total)
+    return dict(
+        replays=len(replays),
+        matched=len(matched),
+        opening_to_exit_hp_loss={
+            room + "/" + name: dict(
+                n=len(v), mean=round(mean(v), 2), median=dist(v)["median"], sum=sum(v)
+            )
+            for (room, name), v in encounters.items()
+        },
+        per_lobby_by_outcome={
+            outcome: {kind: round(mean(r[kind] for r in vs), 2) for kind in ("Monster", "Elite")}
+            for outcome, vs in groups.items()
+        },
+    )
+
+
+def verify_panel(outcomes, collection):
+    triples = [[r["index"], r["seed"], r["act_list"]] for r in outcomes]
+    lock = hashlib.sha256(json.dumps(triples, separators=(",", ":")).encode()).hexdigest()
+    if lock != collection["panel_sha256"]:
+        raise ValueError("Episode panel fails locked identity check")
+
+
 def main():
     rows = list(map(json.loads, gzip.open(RUNS)))
     assert len({r["outcome"]["seed"] for r in rows}) == len(rows) == 384
@@ -243,18 +318,62 @@ def main():
     mid = [f for f in fs if f["act"] == 2]
     dead = [f for f in fs if f["died"]]
     outcomes = [r["outcome"] for r in rows]
+    verify_panel(outcomes, rows[0]["collection"])
     assert len(mid) == milestone(outcomes)["a2_boss"]
+    assert len(dead) == len(mid) - sum(r["win"] for r in outcomes)
+    hp_bands = defaultdict(Counter)
+    for f in mid:
+        hp = f["opening"]["hp"]
+        key = "under_50" if hp < 50 else "50_to_64" if hp < 65 else "65_plus"
+        hp_bands[key]["entered"] += 1
+        hp_bands[key]["cleared"] += int(not f["died"])
     groups = defaultdict(list)
     for f in dead:
         groups[f["formation"]].append(f)
         groups[f"Act {f['act']} {f['room']}"].append(f)
     late = [r for r in rows if r["fights"]]
     data = dict(
+        diagnostic_collection=rows[0]["collection"],
+        act2_approach=approach_stats(rows),
         milestones={
             m: milestone([r for r in outcomes if m == "all" or r["act_list"] == m])
             for m in ("all", "default", "seeded")
         },
         deaths={k: death_stats(g) for k, g in groups.items()},
+        a2_opening_hp_bands=hp_bands,
+        prioritized_actions=[
+            {
+                "rank": 1,
+                "scope": "macro",
+                "test": "Protect HP on the route to the last Act 2 camp",
+                "exposure": "Opening HP bands",
+            },
+            {
+                "rank": 2,
+                "scope": "draft/shop",
+                "test": "Value Accelerant jointly with poison sources in free rewards",
+                "exposure": "Unchosen reward and Act 2 boss-entry deck",
+            },
+            {
+                "rank": 3,
+                "scope": "boss tactics",
+                "test": "Budget Frantic Escape before Sandpit expires, and card slots under Sloth",
+                "exposure": "Act 2 fatal end-turns and prompts",
+            },
+            {
+                "rank": 4,
+                "scope": "multi-turn value",
+                "test": "Value Queen and the remaining second boss together",
+                "exposure": "First versus second fatal boss floor",
+            },
+            {
+                "rank": 5,
+                "scope": "macro",
+                "test": "Correct signed Ancient effects and expired Candle camp actions",
+                "exposure": "Locked paired dev comparison",
+            },
+        ],
+        winners=[r for r in outcomes if r["win"]],
         a2_entries=Counter(f["formation"] for f in mid),
         deck_at_a2_boss=deck_diff(mid),
         deck_by_boss={
@@ -271,14 +390,18 @@ def main():
     if DEV.is_file():
         pairs = list(map(json.loads, gzip.open(DEV)))
         assert len(pairs) == len({r["baseline"]["seed"] for r in pairs}) == 256
+        for arm in ("baseline", "prototype"):
+            verify_panel([p[arm] for p in pairs], pairs[0]["collection"])
+        assert not {r["seed"] for r in outcomes} & {p["baseline"]["seed"] for p in pairs}
         data["paired_dev"] = paired(pairs)
-    for file in (RUNS, DEV):
+        data["dev_collection"] = pairs[0]["collection"]
+    for file in (RUNS, DEV, *sorted(DEST.glob("silent-a10-v5-win-V5DIAG_*.jsonl.gz"))):
         if file.is_file():
             data.setdefault("receipt_sha256", {})[file.name] = hashlib.sha256(
                 file.read_bytes()
             ).hexdigest()
     dest = DEST / "silent-a10-v5-lategame-autopsy.json"
-    dest.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+    dest.write_text(json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
 
 
 if __name__ == "__main__":

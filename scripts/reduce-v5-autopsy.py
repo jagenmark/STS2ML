@@ -5,6 +5,7 @@ from collections import Counter, defaultdict
 import gzip
 import json
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from sts2rl.teacher import incoming
 
@@ -49,6 +50,12 @@ def profile(p):
         upgrades=sum(card_key(c)[1] for c in deck),
         powers=sum(c["type"] == "Power" for c in deck),
         aoe=aoe,
+        poison_sources=sum(
+            any((c.get("stats") or {}).get(k, 0) > 0 for k in ("poisonpower", "poisonperturn"))
+            for c in deck
+        ),
+        accelerants=cnt["ACCELERANT"],
+        hp_fraction=p["hp"] / p["max_hp"],
         block_density=block / n,
         hp=p["hp"],
         max_hp=p["max_hp"],
@@ -92,6 +99,11 @@ def macro(v):
             choice=option_id(picked),
         )
         if s["decision"] == "event_choice":
+
+            def curses(player):
+                return Counter(name(c) for c in player.get("deck", ()) if c.get("type") == "Curse")
+
+            row["added_curses"] = list((curses(after) - curses(p)).elements())
             row["offer_text"] = {option_id(o): o["description"] for o in available}
         else:
             candle = next((r for r in p["relics"] if name(r) == "PUMPKIN_CANDLE"), None)
@@ -121,6 +133,15 @@ def macro(v):
         if s.get("card_removal_available") and s["card_removal_cost"] <= p["gold"]:
             available["removal"] = s["card_removal_cost"]
         row["available"] = available
+        if row.get("item") == "Accelerant":
+            row["printed_poison_sources"] = profile(p)["poison_sources"]
+    elif s["decision"] == "card_reward":
+        row["offered_cards"] = [name(c) for c in s["cards"]]
+        if "ACCELERANT" in row["offered_cards"]:
+            row["printed_poison_sources"] = profile(p)["poison_sources"]
+        row["picked_card"] = next(
+            (name(c) for c in s["cards"] if c["index"] == args.get("card_index")), None
+        )
     elif s["decision"] == "card_select":
         chosen = {int(i) for i in args.get("indices", "").split(",") if i}
         row.update(
@@ -239,7 +260,13 @@ def reduce_run(folder):
             if s.get("in_combat"):
                 ctx = s.get("combat_state", s)["context"]
                 fights[ctx["act"], ctx["floor"]].append(v)
-            elif s["decision"] in ("rest_site", "event_choice", "shop", "card_select"):
+            elif s["decision"] in (
+                "rest_site",
+                "event_choice",
+                "shop",
+                "card_select",
+                "card_reward",
+            ):
                 macro_steps.append(macro(v))
     return dict(
         outcome={
@@ -264,18 +291,99 @@ def reduce_run(folder):
     )
 
 
+def compact_pair(seed):
+    arms = {}
+    for key, folder in (("baseline", "V5DEV"), ("prototype", "V5DEV-fix")):
+        row = json.loads((WORK.parent / folder / seed / "result.json").read_bytes())
+        if row["seed"] != seed or row["status"] != "complete" or row.get("abandoned"):
+            raise ValueError(f"Incomplete dev pair {seed}")
+        arms[key] = {
+            k: row[k]
+            for k in (
+                "seed",
+                "index",
+                "act_list",
+                "status",
+                "act",
+                "floor",
+                "steps",
+                "a1_clear",
+                "a2_clear",
+                "boss_fights",
+                "win",
+                "trajectory_sha256",
+                "macro_choices",
+            )
+        }
+    base, proto = arms.values()
+    why = "identical"
+    first_difference = None
+    if base["trajectory_sha256"] != proto["trajectory_sha256"]:
+        why = "unattributed"
+        for a, b in zip(base["macro_choices"], proto["macro_choices"]):
+            if a != b:
+                first_difference = {"baseline": a, "prototype": b}
+                if a[:2] == b[:2]:
+                    why = f"{a[2]} -> {b[2]}"
+                break
+    same_macro_choices = [r[::2] for r in base["macro_choices"]] == [
+        r[::2] for r in proto["macro_choices"]
+    ]
+    for arm in arms.values():
+        del arm["macro_choices"]
+    return {
+        **arms,
+        "first_change": why,
+        "first_macro_difference": first_difference,
+        "same_macro_steps_and_choices": same_macro_choices,
+    }
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--partial", type=Path)
+    p.add_argument("--dev", action="store_true")
     args = p.parse_args()
-    order = json.loads((WORK / "lock.json").read_bytes())["panel"]
-    path = args.partial or EVIDENCE / "silent-a10-v5-autopsy-runs.jsonl.gz"
-    with gzip.GzipFile(str(path), "wb", mtime=0) as stream:
-        for _, seed, _ in order:
-            if args.partial and not (WORK / seed / "result.json").exists():
-                continue
-            row = reduce_run(WORK / seed)
-            stream.write(json.dumps(row, separators=(",", ":")).encode() + b"\n")
+    manifest_dir = WORK.parent / "V5DEV" if args.dev else WORK
+    manifest = json.loads((manifest_dir / "lock.json").read_bytes())
+    order = manifest.pop("panel")
+    if args.dev:
+        treatment = json.loads((WORK.parent / "V5DEV-fix/lock.json").read_bytes())
+        assert treatment.pop("panel") == order
+        assert treatment["fix"] is True and manifest["fix"] is False
+        assert {**treatment, "fix": False} == manifest
+        manifest["prototype_fix"] = True
+        manifest["prototype_attempts_retried"] = len(
+            list((WORK.parent / "V5DEV-fix").glob("*.attempt-*"))
+        )
+    manifest["attempts_retried"] = len(list(manifest_dir.glob("*.attempt-*")))
+    if not args.dev and (WORK.parent / "wins.json").exists():
+        manifest["replayed_victories"] = json.loads((WORK.parent / "wins.json").read_bytes())
+    if not args.dev and (WORK.parent / "parity.json").exists():
+        manifest["observer_parity"] = json.loads((WORK.parent / "parity.json").read_bytes())
+    if not args.dev and (WORK.parent / "ancient-missing.json").is_file():
+        manifest["skipped_ancient_map_transitions"] = json.loads(
+            (WORK.parent / "ancient-missing.json").read_bytes()
+        )
+    path = EVIDENCE / "silent-a10-v5-autopsy-runs.jsonl.gz"
+    approaches_file = WORK.parent / "approaches.json"
+    approaches = (
+        {r["seed"]: r for r in json.loads(approaches_file.read_bytes())}
+        if not args.dev and approaches_file.is_file()
+        else {}
+    )
+    if args.dev:
+        path = EVIDENCE / "silent-a10-v5-autopsy-pairs.jsonl.gz"
+    with TemporaryDirectory(dir=EVIDENCE) as temp:
+        target = Path(temp) / path.name
+        with gzip.GzipFile(str(target), "wb", mtime=0) as stream:
+            for _, seed, _ in order:
+                row = compact_pair(seed) if args.dev else reduce_run(WORK / seed)
+                if seed in approaches:
+                    row["approach_replay"] = approaches[seed]
+                if seed == order[0][1]:
+                    row["collection"] = manifest
+                stream.write(json.dumps(row, separators=(",", ":")).encode() + b"\n")
+        target.replace(path)
 
 
 if __name__ == "__main__":

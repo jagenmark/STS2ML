@@ -1,0 +1,8070 @@
+{
+  "a2_entries": {
+    "CRUSHER+ROCKET": 35,
+    "KNOWLEDGE_DEMON": 35,
+    "THE_INSATIABLE": 34
+  },
+  "a2_opening_hp_bands": {
+    "50_to_64": {
+      "cleared": 6,
+      "entered": 31
+    },
+    "65_plus": {
+      "cleared": 10,
+      "entered": 33
+    },
+    "under_50": {
+      "cleared": 1,
+      "entered": 40
+    }
+  },
+  "act2_approach": {
+    "matched": 104,
+    "opening_to_exit_hp_loss": {
+      "Elite/DECIMILLIPEDE_SEGMENT_FRONT+DECIMILLIPEDE_SEGMENT_MIDDLE+DECIMILLIPEDE_SEGMENT_BACK": {
+        "mean": 34.5,
+        "median": 33.5,
+        "n": 8,
+        "sum": 276
+      },
+      "Elite/ENTOMANCER": {
+        "mean": 42.92,
+        "median": 43.0,
+        "n": 13,
+        "sum": 558
+      },
+      "Elite/INFESTED_PRISM": {
+        "mean": 39.54,
+        "median": 38.0,
+        "n": 13,
+        "sum": 514
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_EGG": {
+        "mean": 7.96,
+        "median": 6.5,
+        "n": 28,
+        "sum": 223
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_EGG+BOWLBUG_NECTAR": {
+        "mean": 7.71,
+        "median": 9.0,
+        "n": 7,
+        "sum": 54
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_EGG+BOWLBUG_SILK": {
+        "mean": 10.83,
+        "median": 9.0,
+        "n": 6,
+        "sum": 65
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_NECTAR": {
+        "mean": 5.35,
+        "median": 3.5,
+        "n": 20,
+        "sum": 107
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_NECTAR+BOWLBUG_EGG": {
+        "mean": 11.5,
+        "median": 10.0,
+        "n": 4,
+        "sum": 46
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_NECTAR+BOWLBUG_SILK": {
+        "mean": 13,
+        "median": 12.0,
+        "n": 3,
+        "sum": 39
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_SILK+BOWLBUG_EGG": {
+        "mean": 16.5,
+        "median": 16.5,
+        "n": 2,
+        "sum": 33
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_SILK+BOWLBUG_NECTAR": {
+        "mean": 12.17,
+        "median": 10.0,
+        "n": 6,
+        "sum": 73
+      },
+      "Monster/BOWLBUG_ROCK+BOWLBUG_SILK+SLUMBERING_BEETLE": {
+        "mean": 24.43,
+        "median": 24.0,
+        "n": 21,
+        "sum": 513
+      },
+      "Monster/CHOMPER+CHOMPER": {
+        "mean": 18.11,
+        "median": 19.0,
+        "n": 38,
+        "sum": 688
+      },
+      "Monster/EXOSKELETON+EXOSKELETON+EXOSKELETON": {
+        "mean": 4.24,
+        "median": 1.0,
+        "n": 63,
+        "sum": 267
+      },
+      "Monster/EXOSKELETON+EXOSKELETON+EXOSKELETON+EXOSKELETON": {
+        "mean": 8.42,
+        "median": 8.0,
+        "n": 31,
+        "sum": 261
+      },
+      "Monster/HUNTER_KILLER": {
+        "mean": 21.5,
+        "median": 22.5,
+        "n": 28,
+        "sum": 602
+      },
+      "Monster/LOUSE_PROGENITOR": {
+        "mean": 20.07,
+        "median": 20.0,
+        "n": 27,
+        "sum": 542
+      },
+      "Monster/MYTE+MYTE": {
+        "mean": 14.8,
+        "median": 15.0,
+        "n": 35,
+        "sum": 518
+      },
+      "Monster/OVICOPTER": {
+        "mean": 14.11,
+        "median": 15.0,
+        "n": 27,
+        "sum": 381
+      },
+      "Monster/SPINY_TOAD": {
+        "mean": 18.97,
+        "median": 18.5,
+        "n": 32,
+        "sum": 607
+      },
+      "Monster/THE_OBSCURA": {
+        "mean": 19.93,
+        "median": 19.0,
+        "n": 30,
+        "sum": 598
+      },
+      "Monster/THIEVING_HOPPER": {
+        "mean": 9.5,
+        "median": 9.0,
+        "n": 54,
+        "sum": 513
+      },
+      "Monster/TUNNELER": {
+        "mean": 13.05,
+        "median": 13.0,
+        "n": 43,
+        "sum": 561
+      }
+    },
+    "per_lobby_by_outcome": {
+      "clear": {
+        "Elite": 10.18,
+        "Monster": 45.82
+      },
+      "death": {
+        "Elite": 13.51,
+        "Monster": 67.95
+      }
+    },
+    "replays": 104
+  },
+  "all_late_fight_tactics": {
+    "AEONGLASS": {
+      "attack_targets": {
+        "AEONGLASS": 36
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 3,
+        "played_any_early_power": 3,
+        "potion_uses": 3,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "profile/AEONGLASS": 104,
+        "selection operation": 1,
+        "unreconciled prompt": 6
+      },
+      "n": 3,
+      "selection": {
+        "ASCENDERS_BANE": 1,
+        "DEFEND_SILENT": 1,
+        "FLICK_FLACK": 2,
+        "PREDATOR": 1,
+        "WITHER": 1
+      }
+    },
+    "AXEBOT": {
+      "attack_targets": {
+        "AXEBOT": 54
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 2,
+        "played_any_early_power": 1,
+        "potion_uses": 4,
+        "round1_potion_uses": 2
+      },
+      "eligible_by_fallback": {
+        "axebot stock": 128,
+        "selection operation": 2,
+        "unreconciled prompt": 6
+      },
+      "n": 4,
+      "selection": {
+        "ASCENDERS_BANE": 2,
+        "BUBBLE_BUBBLE": 1,
+        "DEFEND_SILENT": 1,
+        "ESCAPE_PLAN": 1,
+        "METAMORPHOSIS": 1,
+        "OUTBREAK": 1,
+        "STRIKE_SILENT": 2
+      }
+    },
+    "BATTLE_FRIEND_V3": {
+      "attack_targets": {
+        "BATTLE_FRIEND_V3": 11
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 2,
+        "played_any_early_power": 2,
+        "potion_uses": 1,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "profile/BATTLE_FRIEND_V3": 34
+      },
+      "n": 2,
+      "selection": {}
+    },
+    "CRUSHER+ROCKET": {
+      "attack_targets": {
+        "CRUSHER": 244,
+        "ROCKET": 170
+      },
+      "counters": {
+        "both_alive_end_turns": 170,
+        "early_rounds_with_playable_power": 20,
+        "higher_unblocked_threat_behind": 3,
+        "played_any_early_power": 14,
+        "potion_uses": 37,
+        "round1_potion_uses": 33
+      },
+      "eligible_by_fallback": {
+        "kaiser facing": 863,
+        "selection operation": 17,
+        "unreconciled prompt": 47
+      },
+      "n": 35,
+      "selection": {
+        "ACCURACY": 1,
+        "ADRENALINE": 1,
+        "ASCENDERS_BANE": 8,
+        "BUBBLE_BUBBLE": 1,
+        "DAGGER_SPRAY": 1,
+        "DAGGER_THROW": 1,
+        "DASH": 1,
+        "DEFEND_SILENT": 11,
+        "FLICK_FLACK": 5,
+        "FOOTWORK": 1,
+        "GRAND_FINALE": 1,
+        "GREED": 2,
+        "HAZE": 1,
+        "IMPERVIOUS": 1,
+        "LEG_SWEEP": 1,
+        "NEUTRALIZE": 1,
+        "OFFERING": 1,
+        "PIERCING_WAIL": 1,
+        "PINPOINT": 1,
+        "POUNCE": 1,
+        "REAP": 1,
+        "RELAX": 2,
+        "RICOCHET": 2,
+        "SEEKER_STRIKE": 1,
+        "SNAKEBITE": 2,
+        "STRIKE_SILENT": 16
+      }
+    },
+    "DEVOTED_SCULPTOR": {
+      "attack_targets": {
+        "DEVOTED_SCULPTOR": 101
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 9,
+        "played_any_early_power": 8,
+        "potion_uses": 7,
+        "round1_potion_uses": 2
+      },
+      "eligible_by_fallback": {
+        "card/ASSASSINATE": 3,
+        "card/LEG_SWEEP": 1,
+        "champion continuation unresolved": 1,
+        "covered": 17,
+        "player power/INFINITE_BLADES": 36,
+        "relic/BELT_BUCKLE": 5,
+        "relic/BREAD": 15,
+        "relic/BRILLIANT_SCARF": 21,
+        "relic/MERCURY_HOURGLASS": 18,
+        "relic/MR_STRUGGLES": 10,
+        "relic/PUNCH_DAGGER": 21,
+        "relic/SAI": 26,
+        "relic/SLING_OF_COURAGE": 52,
+        "relic/THROWING_AXE": 22,
+        "relic/WHISPERING_EARRING": 3,
+        "uncertified root at cap": 1,
+        "unreconciled prompt": 6
+      },
+      "n": 13,
+      "selection": {
+        "ADRENALINE": 1,
+        "DEFEND_SILENT": 2,
+        "FLICK_FLACK": 1,
+        "FOOTWORK": 1,
+        "PREDATOR": 1,
+        "STRIKE_SILENT": 1
+      }
+    },
+    "FABRICATOR": {
+      "attack_targets": {
+        "FABRICATOR": 14,
+        "GUARDBOT": 3,
+        "ZAPBOT": 1
+      },
+      "counters": {
+        "potion_uses": 2,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "profile/FABRICATOR": 16,
+        "profile/GUARDBOT": 6,
+        "profile/STABBOT": 7,
+        "profile/ZAPBOT": 7,
+        "selection continuation": 1,
+        "selection operation": 1,
+        "unreconciled prompt": 1
+      },
+      "n": 2,
+      "selection": {
+        "FLICK_FLACK": 1,
+        "PREDATOR": 1,
+        "STRIKE_SILENT": 1
+      }
+    },
+    "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": {
+      "attack_targets": {
+        "FLAIL_KNIGHT": 10,
+        "MAGI_KNIGHT": 8,
+        "SPECTRAL_KNIGHT": 6
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 2,
+        "played_any_early_power": 2,
+        "potion_uses": 3,
+        "round1_potion_uses": 3
+      },
+      "eligible_by_fallback": {
+        "profile/FLAIL_KNIGHT": 46,
+        "profile/MAGI_KNIGHT": 2,
+        "profile/SPECTRAL_KNIGHT": 11,
+        "unreconciled prompt": 3
+      },
+      "n": 3,
+      "selection": {
+        "DASH": 1,
+        "DEFEND_SILENT": 1,
+        "FLICK_FLACK": 1
+      }
+    },
+    "FROG_KNIGHT": {
+      "attack_targets": {
+        "FROG_KNIGHT": 33
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 5,
+        "played_any_early_power": 5,
+        "potion_uses": 2,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "profile/FROG_KNIGHT": 73,
+        "selection operation": 2,
+        "unreconciled prompt": 1
+      },
+      "n": 3,
+      "selection": {
+        "INFINITE_BLADES": 1,
+        "PROWESS": 1,
+        "STRIKE_SILENT": 1
+      }
+    },
+    "GLOBE_HEAD": {
+      "attack_targets": {
+        "GLOBE_HEAD": 26
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 5,
+        "played_any_early_power": 5,
+        "potion_uses": 2,
+        "round1_potion_uses": 2
+      },
+      "eligible_by_fallback": {
+        "profile/GLOBE_HEAD": 60,
+        "selection operation": 2,
+        "unreconciled prompt": 2
+      },
+      "n": 4,
+      "selection": {
+        "BLADE_DANCE": 1,
+        "FLICK_FLACK": 1,
+        "SHIV": 1
+      }
+    },
+    "KNOWLEDGE_DEMON": {
+      "attack_targets": {
+        "KNOWLEDGE_DEMON": 506
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 19,
+        "played_any_early_power": 15,
+        "potion_uses": 32,
+        "round1_potion_uses": 26,
+        "sloth_basic_plays": 68,
+        "sloth_plays": 268,
+        "sloth_rounds": 99,
+        "sloth_rounds_ge3_plays": 74
+      },
+      "eligible_by_fallback": {
+        "knowledge demon prompt/sloth": 1033,
+        "selection continuation": 1,
+        "selection operation": 95,
+        "unreconciled prompt": 62
+      },
+      "n": 35,
+      "selection": {
+        "ASCENDERS_BANE": 9,
+        "BLADE_DANCE": 2,
+        "DAGGER_THROW": 1,
+        "DEFEND_SILENT": 16,
+        "FAN_OF_KNIVES": 1,
+        "FLECHETTES": 1,
+        "FLICK_FLACK": 10,
+        "GRAND_FINALE": 1,
+        "GREED": 2,
+        "INFINITE_BLADES": 1,
+        "LEG_SWEEP": 2,
+        "MEMENTO_MORI": 1,
+        "METAMORPHOSIS": 1,
+        "MIND_ROT": 35,
+        "NEUTRALIZE": 4,
+        "POISONED_STAB": 1,
+        "PRECISE_CUT": 2,
+        "PREDATOR": 1,
+        "REAP": 1,
+        "SHIV": 6,
+        "SLICE": 1,
+        "SLOTH": 33,
+        "SNAKEBITE": 1,
+        "STRIKE_SILENT": 21,
+        "SUCKER_PUNCH": 1,
+        "WASTE_AWAY": 9
+      }
+    },
+    "LIVING_SHIELD+TURRET_OPERATOR": {
+      "attack_targets": {
+        "LIVING_SHIELD": 24,
+        "TURRET_OPERATOR": 47
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 4,
+        "played_any_early_power": 3,
+        "potion_uses": 7,
+        "round1_potion_uses": 6
+      },
+      "eligible_by_fallback": {
+        "profile/LIVING_SHIELD": 102,
+        "profile/TURRET_OPERATOR": 39,
+        "selection operation": 2,
+        "unreconciled prompt": 6
+      },
+      "n": 11,
+      "selection": {
+        "ASCENDERS_BANE": 1,
+        "DEFEND_SILENT": 2,
+        "FAN_OF_KNIVES": 1,
+        "METAMORPHOSIS": 1,
+        "RELAX": 1,
+        "SURVIVOR": 1
+      }
+    },
+    "MECHA_KNIGHT": {
+      "attack_targets": {
+        "MECHA_KNIGHT": 32
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 2,
+        "played_any_early_power": 2,
+        "potion_uses": 2,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "mecha reattach": 64,
+        "selection operation": 1,
+        "unreconciled prompt": 4
+      },
+      "n": 2,
+      "selection": {
+        "ASCENDERS_BANE": 1,
+        "BURN": 1,
+        "DAGGER_THROW": 1,
+        "FLICK_FLACK": 2
+      }
+    },
+    "OWL_MAGISTRATE": {
+      "attack_targets": {
+        "OWL_MAGISTRATE": 48
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 4,
+        "played_any_early_power": 3,
+        "potion_uses": 6,
+        "round1_potion_uses": 4
+      },
+      "eligible_by_fallback": {
+        "profile/OWL_MAGISTRATE": 109,
+        "selection operation": 1,
+        "unreconciled prompt": 3
+      },
+      "n": 4,
+      "selection": {
+        "AFTERIMAGE": 1,
+        "FINISHER": 1,
+        "FOOTWORK": 1,
+        "RESTLESSNESS": 1
+      }
+    },
+    "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": {
+      "attack_targets": {
+        "CUBEX_CONSTRUCT": 31,
+        "PUNCH_CONSTRUCT": 21
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 3,
+        "played_any_early_power": 3,
+        "potion_uses": 4,
+        "round1_potion_uses": 2
+      },
+      "eligible_by_fallback": {
+        "player power/FREE_SKILL": 2,
+        "relic/BREAD": 28,
+        "relic/BRILLIANT_SCARF": 30,
+        "relic/SHURIKEN": 20,
+        "relic/SLING_OF_COURAGE": 14,
+        "relic/SPIKED_GAUNTLETS": 14,
+        "unreconciled prompt": 1
+      },
+      "n": 5,
+      "selection": {
+        "DEFEND_SILENT": 1
+      }
+    },
+    "SCROLL_OF_BITING+SCROLL_OF_BITING": {
+      "attack_targets": {
+        "SCROLL_OF_BITING": 1
+      },
+      "counters": {
+        "potion_uses": 1,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "profile/SCROLL_OF_BITING": 2
+      },
+      "n": 1,
+      "selection": {}
+    },
+    "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+      "attack_targets": {
+        "SCROLL_OF_BITING": 57
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 6,
+        "played_any_early_power": 4,
+        "potion_uses": 3,
+        "round1_potion_uses": 2
+      },
+      "eligible_by_fallback": {
+        "profile/SCROLL_OF_BITING": 106,
+        "selection operation": 4,
+        "unreconciled prompt": 3
+      },
+      "n": 9,
+      "selection": {
+        "ASCENDERS_BANE": 1,
+        "CLASH": 1,
+        "DEFEND_SILENT": 2,
+        "FLICK_FLACK": 3,
+        "METAMORPHOSIS": 1
+      }
+    },
+    "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+      "attack_targets": {
+        "SCROLL_OF_BITING": 13
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 1,
+        "played_any_early_power": 0,
+        "potion_uses": 2,
+        "round1_potion_uses": 2
+      },
+      "eligible_by_fallback": {
+        "profile/SCROLL_OF_BITING": 27,
+        "selection operation": 1,
+        "unreconciled prompt": 2
+      },
+      "n": 3,
+      "selection": {
+        "FLICK_FLACK": 1,
+        "NOXIOUS_FUMES": 1,
+        "RELAX": 1,
+        "STRIKE_SILENT": 1
+      }
+    },
+    "SLIMED_BERSERKER": {
+      "attack_targets": {
+        "SLIMED_BERSERKER": 24
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 1,
+        "played_any_early_power": 1,
+        "potion_uses": 1,
+        "round1_potion_uses": 0
+      },
+      "eligible_by_fallback": {
+        "profile/SLIMED_BERSERKER": 64,
+        "selection operation": 1,
+        "unreconciled prompt": 1
+      },
+      "n": 2,
+      "selection": {
+        "FLICK_FLACK": 1,
+        "METAMORPHOSIS": 1
+      }
+    },
+    "SOUL_NEXUS": {
+      "attack_targets": {
+        "SOUL_NEXUS": 10
+      },
+      "counters": {},
+      "eligible_by_fallback": {
+        "profile/SOUL_NEXUS": 20,
+        "unreconciled prompt": 2
+      },
+      "n": 1,
+      "selection": {
+        "NEUTRALIZE": 1,
+        "STRIKE_SILENT": 1
+      }
+    },
+    "TEST_SUBJECT": {
+      "attack_targets": {
+        "TEST_SUBJECT": 7
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 1,
+        "played_any_early_power": 1,
+        "potion_uses": 2,
+        "round1_potion_uses": 2,
+        "skills": 6,
+        "skills_under_enrage": 6
+      },
+      "eligible_by_fallback": {
+        "profile/TEST_SUBJECT": 16,
+        "selection operation": 1,
+        "unreconciled prompt": 2
+      },
+      "n": 1,
+      "selection": {
+        "DEADLY_POISON": 1,
+        "FLICK_FLACK": 1,
+        "STRIKE_SILENT": 1
+      }
+    },
+    "THE_INSATIABLE": {
+      "attack_targets": {
+        "THE_INSATIABLE": 456
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 16,
+        "played_any_early_power": 11,
+        "potion_uses": 41,
+        "round1_potion_uses": 29,
+        "sandpit_one_end_turns": 19
+      },
+      "eligible_by_fallback": {
+        "card/ACCELERANT": 1,
+        "card/ACCURACY": 1,
+        "card/ASSASSINATE": 1,
+        "card/BACKFLIP": 8,
+        "card/BLUDGEON": 1,
+        "card/BOOT_SEQUENCE": 5,
+        "card/BOUNCING_FLASK": 5,
+        "card/DRAMATIC_ENTRANCE": 3,
+        "card/ENLIGHTENMENT": 26,
+        "card/HANG": 9,
+        "card/HIDDEN_DAGGERS": 7,
+        "card/INFINITE_BLADES": 2,
+        "card/LEG_SWEEP": 4,
+        "card/METAMORPHOSIS": 17,
+        "card/PHANTOM_BLADES": 3,
+        "card/PINPOINT": 2,
+        "card/REAP": 17,
+        "card/REBOUND": 3,
+        "card/SETUP_STRIKE": 1,
+        "card/SIDESTEP": 4,
+        "card/STRANGLE": 4,
+        "card/SURVIVOR": 2,
+        "card/ULTIMATE_STRIKE": 5,
+        "champion continuation unresolved": 22,
+        "covered": 280,
+        "enemy power/STRANGLE": 14,
+        "no certified survival": 84,
+        "player power/BORROWED_TIME": 3,
+        "player power/CONFUSED": 38,
+        "player power/FLEX_POTION": 13,
+        "player power/INFINITE_BLADES": 36,
+        "player power/NO_BLOCK": 5,
+        "player power/REBOUND": 1,
+        "player power/SERPENT_FORM": 4,
+        "player power/SETUP_STRIKE": 8,
+        "player power/VEILPIERCER": 21,
+        "relic/BELT_BUCKLE": 19,
+        "relic/MERCURY_HOURGLASS": 133,
+        "relic/MR_STRUGGLES": 49,
+        "relic/PUNCH_DAGGER": 12,
+        "relic/SLING_OF_COURAGE": 35,
+        "relic/STURDY_CLAMP": 25,
+        "relic/TOASTY_MITTENS": 33,
+        "relic/TOUGH_BANDAGES": 15,
+        "selection operation": 18,
+        "uncertified root at cap": 13,
+        "unreconciled prompt": 19
+      },
+      "n": 34,
+      "selection": {
+        "ASCENDERS_BANE": 2,
+        "BLADE_DANCE": 1,
+        "BUBBLE_BUBBLE": 1,
+        "CLOAK_AND_DAGGER": 1,
+        "DASH": 2,
+        "DEFEND_SILENT": 6,
+        "FLICK_FLACK": 4,
+        "FOOTWORK": 1,
+        "FRANTIC_ESCAPE": 16,
+        "GRAND_FINALE": 1,
+        "LEG_SWEEP": 1,
+        "NEUTRALIZE": 1,
+        "NOXIOUS_FUMES": 2,
+        "OUTBREAK": 1,
+        "PANIC_BUTTON": 1,
+        "POISONED_STAB": 1,
+        "RICOCHET": 1,
+        "SEEKER_STRIKE": 1,
+        "SHIV": 1,
+        "SIDESTEP": 1,
+        "SKEWER": 1,
+        "SNAKEBITE": 1,
+        "STRIKE_SILENT": 7
+      }
+    },
+    "THE_LOST+THE_FORGOTTEN": {
+      "attack_targets": {},
+      "counters": {
+        "early_rounds_with_playable_power": 2,
+        "played_any_early_power": 2
+      },
+      "eligible_by_fallback": {
+        "profile/THE_LOST": 6
+      },
+      "n": 1,
+      "selection": {}
+    },
+    "TORCH_HEAD_AMALGAM+QUEEN": {
+      "attack_targets": {
+        "QUEEN": 41,
+        "TORCH_HEAD_AMALGAM": 15
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 4,
+        "played_any_early_power": 3,
+        "potion_uses": 7,
+        "round1_potion_uses": 6
+      },
+      "eligible_by_fallback": {
+        "profile/TORCH_HEAD_AMALGAM": 136,
+        "selection operation": 2,
+        "unreconciled prompt": 4
+      },
+      "n": 7,
+      "selection": {
+        "DAGGER_SPRAY": 1,
+        "FLICK_FLACK": 1,
+        "STRIKE_SILENT": 3
+      }
+    }
+  },
+  "belt_at_death": {
+    "0": 103
+  },
+  "belt_before_fatal_action": {
+    "0": 103
+  },
+  "deaths": {
+    "AEONGLASS": {
+      "belt": {
+        "0": 1
+      },
+      "board_hp": {
+        "max": 214.0,
+        "median": 214.0,
+        "min": 214.0,
+        "q25": 214.0,
+        "q75": 214.0
+      },
+      "entry_hp": {
+        "max": 84.0,
+        "median": 84.0,
+        "min": 84.0,
+        "q25": 84.0,
+        "q75": 84.0
+      },
+      "hp": {
+        "max": 214.0,
+        "median": 214.0,
+        "min": 214.0,
+        "q25": 214.0,
+        "q75": 214.0
+      },
+      "hp_le25": 0,
+      "in_per_round": 16.8,
+      "n": 1,
+      "opening_belt": {
+        "2": 1
+      },
+      "out_per_round": 64.2,
+      "potion_use_rounds": {
+        "2": 2
+      },
+      "round": {
+        "max": 5.0,
+        "median": 5.0,
+        "min": 5.0,
+        "q25": 5.0,
+        "q75": 5.0
+      },
+      "turns": 5
+    },
+    "AXEBOT": {
+      "belt": {
+        "0": 3
+      },
+      "board_hp": {
+        "max": 68.0,
+        "median": 45.0,
+        "min": 33.0,
+        "q25": 39.0,
+        "q75": 56.5
+      },
+      "entry_hp": {
+        "max": 61.0,
+        "median": 41.0,
+        "min": 22.0,
+        "q25": 31.5,
+        "q75": 51.0
+      },
+      "hp": {
+        "max": 68.0,
+        "median": 45.0,
+        "min": 33.0,
+        "q25": 39.0,
+        "q75": 56.5
+      },
+      "hp_le25": 0,
+      "in_per_round": 7.75,
+      "n": 3,
+      "opening_belt": {
+        "0": 2,
+        "2": 1
+      },
+      "out_per_round": 29.56,
+      "potion_use_rounds": {
+        "1": 1,
+        "2": 1
+      },
+      "round": {
+        "max": 8.0,
+        "median": 4.0,
+        "min": 4.0,
+        "q25": 4.0,
+        "q75": 6.0
+      },
+      "turns": 16
+    },
+    "Act 2 Boss": {
+      "belt": {
+        "0": 87
+      },
+      "board_hp": {
+        "max": 340.0,
+        "median": 147.0,
+        "min": 12.0,
+        "q25": 95.0,
+        "q75": 225.5
+      },
+      "entry_hp": {
+        "max": 76.0,
+        "median": 52.0,
+        "min": 23.0,
+        "q25": 39.5,
+        "q75": 65.0
+      },
+      "hp": {
+        "max": 340.0,
+        "median": 147.0,
+        "min": 12.0,
+        "q25": 95.0,
+        "q75": 225.5
+      },
+      "hp_le25": 6,
+      "in_per_round": 8.05,
+      "n": 87,
+      "opening_belt": {
+        "0": 21,
+        "1": 41,
+        "2": 25
+      },
+      "out_per_round": 41.06,
+      "potion_use_rounds": {
+        "1": 73,
+        "2": 6,
+        "3": 3,
+        "4": 3,
+        "5": 2,
+        "6": 2,
+        "7": 1
+      },
+      "round": {
+        "max": 11.0,
+        "median": 6.0,
+        "min": 2.0,
+        "q25": 5.0,
+        "q75": 7.0
+      },
+      "turns": 519
+    },
+    "Act 3 Boss": {
+      "belt": {
+        "0": 8
+      },
+      "board_hp": {
+        "max": 525.0,
+        "median": 320.0,
+        "min": 4.0,
+        "q25": 268.75,
+        "q75": 417.5
+      },
+      "entry_hp": {
+        "max": 84.0,
+        "median": 53.0,
+        "min": 26.0,
+        "q25": 42.0,
+        "q75": 58.0
+      },
+      "hp": {
+        "max": 350.0,
+        "median": 234.0,
+        "min": 4.0,
+        "q25": 194.75,
+        "q75": 269.25
+      },
+      "hp_le25": 1,
+      "in_per_round": 13.23,
+      "n": 8,
+      "opening_belt": {
+        "0": 2,
+        "1": 2,
+        "2": 4
+      },
+      "out_per_round": 61.55,
+      "potion_use_rounds": {
+        "1": 8,
+        "2": 2
+      },
+      "round": {
+        "max": 6.0,
+        "median": 3.5,
+        "min": 2.0,
+        "q25": 3.0,
+        "q75": 5.0
+      },
+      "turns": 31
+    },
+    "Act 3 Elite": {
+      "belt": {
+        "0": 3
+      },
+      "board_hp": {
+        "max": 237.0,
+        "median": 202.0,
+        "min": 196.0,
+        "q25": 199.0,
+        "q75": 219.5
+      },
+      "entry_hp": {
+        "max": 54.0,
+        "median": 36.0,
+        "min": 2.0,
+        "q25": 19.0,
+        "q75": 45.0
+      },
+      "hp": {
+        "max": 237.0,
+        "median": 202.0,
+        "min": 196.0,
+        "q25": 199.0,
+        "q75": 219.5
+      },
+      "hp_le25": 0,
+      "in_per_round": 11.5,
+      "n": 3,
+      "opening_belt": {
+        "0": 1,
+        "1": 2
+      },
+      "out_per_round": 34.12,
+      "potion_use_rounds": {
+        "1": 2
+      },
+      "round": {
+        "max": 4.0,
+        "median": 3.0,
+        "min": 1.0,
+        "q25": 2.0,
+        "q75": 3.5
+      },
+      "turns": 8
+    },
+    "Act 3 Monster": {
+      "belt": {
+        "0": 5
+      },
+      "board_hp": {
+        "max": 104.0,
+        "median": 61.0,
+        "min": 33.0,
+        "q25": 45.0,
+        "q75": 68.0
+      },
+      "entry_hp": {
+        "max": 61.0,
+        "median": 41.0,
+        "min": 22.0,
+        "q25": 38.0,
+        "q75": 57.0
+      },
+      "hp": {
+        "max": 104.0,
+        "median": 61.0,
+        "min": 33.0,
+        "q25": 45.0,
+        "q75": 68.0
+      },
+      "hp_le25": 0,
+      "in_per_round": 9.12,
+      "n": 5,
+      "opening_belt": {
+        "0": 2,
+        "1": 2,
+        "2": 1
+      },
+      "out_per_round": 31.46,
+      "potion_use_rounds": {
+        "1": 2,
+        "2": 2
+      },
+      "round": {
+        "max": 8.0,
+        "median": 4.0,
+        "min": 4.0,
+        "q25": 4.0,
+        "q75": 4.0
+      },
+      "turns": 24
+    },
+    "CRUSHER+ROCKET": {
+      "belt": {
+        "0": 32
+      },
+      "board_hp": {
+        "max": 340.0,
+        "median": 231.5,
+        "min": 22.0,
+        "q25": 158.0,
+        "q75": 277.25
+      },
+      "entry_hp": {
+        "max": 76.0,
+        "median": 50.5,
+        "min": 23.0,
+        "q25": 41.5,
+        "q75": 65.0
+      },
+      "hp": {
+        "max": 340.0,
+        "median": 231.5,
+        "min": 22.0,
+        "q25": 158.0,
+        "q75": 277.25
+      },
+      "hp_le25": 2,
+      "in_per_round": 10.59,
+      "n": 32,
+      "opening_belt": {
+        "0": 8,
+        "1": 14,
+        "2": 10
+      },
+      "out_per_round": 43.68,
+      "potion_use_rounds": {
+        "1": 29,
+        "2": 1,
+        "4": 2,
+        "6": 1
+      },
+      "round": {
+        "max": 9.0,
+        "median": 4.0,
+        "min": 2.0,
+        "q25": 4.0,
+        "q75": 6.0
+      },
+      "turns": 160
+    },
+    "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": {
+      "belt": {
+        "0": 2
+      },
+      "board_hp": {
+        "max": 237.0,
+        "median": 219.5,
+        "min": 202.0,
+        "q25": 210.75,
+        "q75": 228.25
+      },
+      "entry_hp": {
+        "max": 36.0,
+        "median": 19.0,
+        "min": 2.0,
+        "q25": 10.5,
+        "q75": 27.5
+      },
+      "hp": {
+        "max": 237.0,
+        "median": 219.5,
+        "min": 202.0,
+        "q25": 210.75,
+        "q75": 228.25
+      },
+      "hp_le25": 0,
+      "in_per_round": 9.5,
+      "n": 2,
+      "opening_belt": {
+        "0": 1,
+        "1": 1
+      },
+      "out_per_round": 37.25,
+      "potion_use_rounds": {
+        "1": 1
+      },
+      "round": {
+        "max": 3.0,
+        "median": 2.0,
+        "min": 1.0,
+        "q25": 1.5,
+        "q75": 2.5
+      },
+      "turns": 4
+    },
+    "KNOWLEDGE_DEMON": {
+      "belt": {
+        "0": 27
+      },
+      "board_hp": {
+        "max": 268.0,
+        "median": 130.0,
+        "min": 21.0,
+        "q25": 66.5,
+        "q75": 162.5
+      },
+      "entry_hp": {
+        "max": 75.0,
+        "median": 52.0,
+        "min": 25.0,
+        "q25": 40.0,
+        "q75": 67.5
+      },
+      "hp": {
+        "max": 268.0,
+        "median": 130.0,
+        "min": 21.0,
+        "q25": 66.5,
+        "q75": 162.5
+      },
+      "hp_le25": 2,
+      "in_per_round": 7.23,
+      "n": 27,
+      "opening_belt": {
+        "0": 6,
+        "1": 16,
+        "2": 5
+      },
+      "out_per_round": 42.01,
+      "potion_use_rounds": {
+        "1": 23,
+        "2": 2,
+        "3": 1
+      },
+      "round": {
+        "max": 11.0,
+        "median": 7.0,
+        "min": 3.0,
+        "q25": 6.0,
+        "q75": 8.0
+      },
+      "turns": 195
+    },
+    "MECHA_KNIGHT": {
+      "belt": {
+        "0": 1
+      },
+      "board_hp": {
+        "max": 196.0,
+        "median": 196.0,
+        "min": 196.0,
+        "q25": 196.0,
+        "q75": 196.0
+      },
+      "entry_hp": {
+        "max": 54.0,
+        "median": 54.0,
+        "min": 54.0,
+        "q25": 54.0,
+        "q75": 54.0
+      },
+      "hp": {
+        "max": 196.0,
+        "median": 196.0,
+        "min": 196.0,
+        "q25": 196.0,
+        "q75": 196.0
+      },
+      "hp_le25": 0,
+      "in_per_round": 13.5,
+      "n": 1,
+      "opening_belt": {
+        "1": 1
+      },
+      "out_per_round": 31.0,
+      "potion_use_rounds": {
+        "1": 1
+      },
+      "round": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "q25": 4.0,
+        "q75": 4.0
+      },
+      "turns": 4
+    },
+    "OWL_MAGISTRATE": {
+      "belt": {
+        "0": 1
+      },
+      "board_hp": {
+        "max": 104.0,
+        "median": 104.0,
+        "min": 104.0,
+        "q25": 104.0,
+        "q75": 104.0
+      },
+      "entry_hp": {
+        "max": 38.0,
+        "median": 38.0,
+        "min": 38.0,
+        "q25": 38.0,
+        "q75": 38.0
+      },
+      "hp": {
+        "max": 104.0,
+        "median": 104.0,
+        "min": 104.0,
+        "q25": 104.0,
+        "q75": 104.0
+      },
+      "hp_le25": 0,
+      "in_per_round": 9.5,
+      "n": 1,
+      "opening_belt": {
+        "1": 1
+      },
+      "out_per_round": 35.75,
+      "potion_use_rounds": {
+        "2": 1
+      },
+      "round": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "q25": 4.0,
+        "q75": 4.0
+      },
+      "turns": 4
+    },
+    "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": {
+      "belt": {
+        "0": 1
+      },
+      "board_hp": {
+        "max": 61.0,
+        "median": 61.0,
+        "min": 61.0,
+        "q25": 61.0,
+        "q75": 61.0
+      },
+      "entry_hp": {
+        "max": 57.0,
+        "median": 57.0,
+        "min": 57.0,
+        "q25": 57.0,
+        "q75": 57.0
+      },
+      "hp": {
+        "max": 61.0,
+        "median": 61.0,
+        "min": 61.0,
+        "q25": 61.0,
+        "q75": 61.0
+      },
+      "hp_le25": 0,
+      "in_per_round": 14.25,
+      "n": 1,
+      "opening_belt": {
+        "1": 1
+      },
+      "out_per_round": 34.75,
+      "potion_use_rounds": {
+        "1": 1
+      },
+      "round": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "q25": 4.0,
+        "q75": 4.0
+      },
+      "turns": 4
+    },
+    "TEST_SUBJECT": {
+      "belt": {
+        "0": 1
+      },
+      "board_hp": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "q25": 4.0,
+        "q75": 4.0
+      },
+      "entry_hp": {
+        "max": 51.0,
+        "median": 51.0,
+        "min": 51.0,
+        "q25": 51.0,
+        "q75": 51.0
+      },
+      "hp": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "q25": 4.0,
+        "q75": 4.0
+      },
+      "hp_le25": 1,
+      "in_per_round": 25.5,
+      "n": 1,
+      "opening_belt": {
+        "2": 1
+      },
+      "out_per_round": 53.5,
+      "potion_use_rounds": {
+        "1": 2
+      },
+      "round": {
+        "max": 2.0,
+        "median": 2.0,
+        "min": 2.0,
+        "q25": 2.0,
+        "q75": 2.0
+      },
+      "turns": 2
+    },
+    "THE_INSATIABLE": {
+      "belt": {
+        "0": 28
+      },
+      "board_hp": {
+        "max": 233.0,
+        "median": 128.0,
+        "min": 12.0,
+        "q25": 92.5,
+        "q75": 159.75
+      },
+      "entry_hp": {
+        "max": 72.0,
+        "median": 55.0,
+        "min": 28.0,
+        "q25": 39.0,
+        "q75": 64.0
+      },
+      "hp": {
+        "max": 233.0,
+        "median": 128.0,
+        "min": 12.0,
+        "q25": 92.5,
+        "q75": 159.75
+      },
+      "hp_le25": 2,
+      "in_per_round": 6.55,
+      "n": 28,
+      "opening_belt": {
+        "0": 7,
+        "1": 11,
+        "2": 10
+      },
+      "out_per_round": 37.37,
+      "potion_use_rounds": {
+        "1": 21,
+        "2": 3,
+        "3": 2,
+        "4": 1,
+        "5": 2,
+        "6": 1,
+        "7": 1
+      },
+      "round": {
+        "max": 9.0,
+        "median": 6.0,
+        "min": 3.0,
+        "q25": 5.0,
+        "q75": 7.0
+      },
+      "turns": 164
+    },
+    "TORCH_HEAD_AMALGAM+QUEEN": {
+      "belt": {
+        "0": 6
+      },
+      "board_hp": {
+        "max": 525.0,
+        "median": 381.0,
+        "min": 287.0,
+        "q25": 304.5,
+        "q75": 430.5
+      },
+      "entry_hp": {
+        "max": 61.0,
+        "median": 50.5,
+        "min": 26.0,
+        "q25": 34.0,
+        "q75": 56.5
+      },
+      "hp": {
+        "max": 350.0,
+        "median": 258.5,
+        "min": 188.0,
+        "q25": 211.25,
+        "q75": 281.75
+      },
+      "hp_le25": 0,
+      "in_per_round": 11.46,
+      "n": 6,
+      "opening_belt": {
+        "0": 2,
+        "1": 2,
+        "2": 2
+      },
+      "out_per_round": 61.67,
+      "potion_use_rounds": {
+        "1": 6
+      },
+      "round": {
+        "max": 6.0,
+        "median": 3.5,
+        "min": 3.0,
+        "q25": 3.0,
+        "q75": 4.75
+      },
+      "turns": 24
+    }
+  },
+  "deck_at_a2_boss": {
+    "ACCURACY": {
+      "auc": 0.483,
+      "clear_mean": 0.059,
+      "clear_median": 0.0,
+      "clear_nonzero": 1,
+      "death_mean": 0.092,
+      "death_median": 0.0,
+      "death_nonzero": 8
+    },
+    "AFTERIMAGE": {
+      "auc": 0.5,
+      "clear_mean": 0,
+      "clear_median": 0.0,
+      "clear_nonzero": 0,
+      "death_mean": 0,
+      "death_median": 0.0,
+      "death_nonzero": 0
+    },
+    "CATALYST": {
+      "auc": 0.5,
+      "clear_mean": 0,
+      "clear_median": 0.0,
+      "clear_nonzero": 0,
+      "death_mean": 0,
+      "death_median": 0.0,
+      "death_nonzero": 0
+    },
+    "FOOTWORK": {
+      "auc": 0.489,
+      "clear_mean": 0.118,
+      "clear_median": 0.0,
+      "clear_nonzero": 2,
+      "death_mean": 0.161,
+      "death_median": 0.0,
+      "death_nonzero": 12
+    },
+    "NOXIOUS_FUMES": {
+      "auc": 0.506,
+      "clear_mean": 0.412,
+      "clear_median": 0.0,
+      "clear_nonzero": 6,
+      "death_mean": 0.391,
+      "death_median": 0.0,
+      "death_nonzero": 30
+    },
+    "WELL_LAID_PLANS": {
+      "auc": 0.5,
+      "clear_mean": 0,
+      "clear_median": 0.0,
+      "clear_nonzero": 0,
+      "death_mean": 0,
+      "death_median": 0.0,
+      "death_nonzero": 0
+    },
+    "accelerants": {
+      "auc": 0.646,
+      "clear_mean": 0.588,
+      "clear_median": 0.0,
+      "clear_nonzero": 8,
+      "death_mean": 0.218,
+      "death_median": 0.0,
+      "death_nonzero": 16
+    },
+    "aoe": {
+      "auc": 0.513,
+      "clear_mean": 2.765,
+      "clear_median": 3.0,
+      "clear_nonzero": 17,
+      "death_mean": 2.724,
+      "death_median": 3.0,
+      "death_nonzero": 84
+    },
+    "block_density": {
+      "auc": 0.547,
+      "clear_mean": 0.268,
+      "clear_median": 0.269,
+      "clear_nonzero": 17,
+      "death_mean": 0.26,
+      "death_median": 0.259,
+      "death_nonzero": 87
+    },
+    "draw_relics": {
+      "auc": 0.475,
+      "clear_mean": 1.529,
+      "clear_median": 1.0,
+      "clear_nonzero": 17,
+      "death_mean": 1.494,
+      "death_median": 1.0,
+      "death_nonzero": 87
+    },
+    "energy_relics": {
+      "auc": 0.42,
+      "clear_mean": 0.765,
+      "clear_median": 1.0,
+      "clear_nonzero": 11,
+      "death_mean": 1.034,
+      "death_median": 1.0,
+      "death_nonzero": 62
+    },
+    "hp": {
+      "auc": 0.757,
+      "clear_mean": 67.765,
+      "clear_median": 67.0,
+      "clear_nonzero": 17,
+      "death_mean": 51.954,
+      "death_median": 52.0,
+      "death_nonzero": 87
+    },
+    "hp_fraction": {
+      "auc": 0.751,
+      "clear_mean": 0.872,
+      "clear_median": 0.9,
+      "clear_nonzero": 17,
+      "death_mean": 0.699,
+      "death_median": 0.693,
+      "death_nonzero": 87
+    },
+    "max_hp": {
+      "auc": 0.592,
+      "clear_mean": 77.824,
+      "clear_median": 76.0,
+      "clear_nonzero": 17,
+      "death_mean": 74.713,
+      "death_median": 70.0,
+      "death_nonzero": 87
+    },
+    "named_scalers": {
+      "auc": 0.486,
+      "clear_mean": 0.588,
+      "clear_median": 0.0,
+      "clear_nonzero": 8,
+      "death_mean": 0.644,
+      "death_median": 0.0,
+      "death_nonzero": 42
+    },
+    "poison_sources": {
+      "auc": 0.554,
+      "clear_mean": 5.235,
+      "clear_median": 5.0,
+      "clear_nonzero": 17,
+      "death_mean": 4.736,
+      "death_median": 5.0,
+      "death_nonzero": 87
+    },
+    "potions": {
+      "auc": 0.569,
+      "clear_mean": 1.235,
+      "clear_median": 1.0,
+      "clear_nonzero": 15,
+      "death_mean": 1.046,
+      "death_median": 1.0,
+      "death_nonzero": 66
+    },
+    "powers": {
+      "auc": 0.621,
+      "clear_mean": 1.588,
+      "clear_median": 1.0,
+      "clear_nonzero": 15,
+      "death_mean": 1.172,
+      "death_median": 1.0,
+      "death_nonzero": 61
+    },
+    "size": {
+      "auc": 0.511,
+      "clear_mean": 28.647,
+      "clear_median": 29.0,
+      "clear_nonzero": 17,
+      "death_mean": 28.402,
+      "death_median": 29.0,
+      "death_nonzero": 87
+    },
+    "upgrades": {
+      "auc": 0.448,
+      "clear_mean": 4.647,
+      "clear_median": 5.0,
+      "clear_nonzero": 17,
+      "death_mean": 5.149,
+      "death_median": 5.0,
+      "death_nonzero": 87
+    }
+  },
+  "deck_by_boss": {
+    "CRUSHER+ROCKET": {
+      "ACCURACY": {
+        "auc": 0.453,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0.094,
+        "death_median": 0.0,
+        "death_nonzero": 3
+      },
+      "AFTERIMAGE": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "CATALYST": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "FOOTWORK": {
+        "auc": 0.62,
+        "clear_mean": 0.333,
+        "clear_median": 0.0,
+        "clear_nonzero": 1,
+        "death_mean": 0.094,
+        "death_median": 0.0,
+        "death_nonzero": 3
+      },
+      "NOXIOUS_FUMES": {
+        "auc": 0.703,
+        "clear_mean": 0.667,
+        "clear_median": 1.0,
+        "clear_nonzero": 2,
+        "death_mean": 0.281,
+        "death_median": 0.0,
+        "death_nonzero": 7
+      },
+      "WELL_LAID_PLANS": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "accelerants": {
+        "auc": 0.729,
+        "clear_mean": 0.667,
+        "clear_median": 1.0,
+        "clear_nonzero": 2,
+        "death_mean": 0.219,
+        "death_median": 0.0,
+        "death_nonzero": 6
+      },
+      "aoe": {
+        "auc": 0.401,
+        "clear_mean": 3,
+        "clear_median": 1.0,
+        "clear_nonzero": 3,
+        "death_mean": 2.562,
+        "death_median": 2.0,
+        "death_nonzero": 32
+      },
+      "block_density": {
+        "auc": 0.646,
+        "clear_mean": 0.29,
+        "clear_median": 0.318,
+        "clear_nonzero": 3,
+        "death_mean": 0.264,
+        "death_median": 0.259,
+        "death_nonzero": 32
+      },
+      "draw_relics": {
+        "auc": 0.479,
+        "clear_mean": 1.333,
+        "clear_median": 1.0,
+        "clear_nonzero": 3,
+        "death_mean": 1.375,
+        "death_median": 1.0,
+        "death_nonzero": 32
+      },
+      "energy_relics": {
+        "auc": 0.667,
+        "clear_mean": 1.333,
+        "clear_median": 1.0,
+        "clear_nonzero": 3,
+        "death_mean": 0.906,
+        "death_median": 1.0,
+        "death_nonzero": 21
+      },
+      "hp": {
+        "auc": 0.974,
+        "clear_mean": 79,
+        "clear_median": 76.0,
+        "clear_nonzero": 3,
+        "death_mean": 51.812,
+        "death_median": 50.5,
+        "death_nonzero": 32
+      },
+      "hp_fraction": {
+        "auc": 0.917,
+        "clear_mean": 0.991,
+        "clear_median": 1.0,
+        "clear_nonzero": 3,
+        "death_mean": 0.705,
+        "death_median": 0.697,
+        "death_nonzero": 32
+      },
+      "max_hp": {
+        "auc": 0.812,
+        "clear_mean": 79.667,
+        "clear_median": 76.0,
+        "clear_nonzero": 3,
+        "death_mean": 73.812,
+        "death_median": 70.0,
+        "death_nonzero": 32
+      },
+      "named_scalers": {
+        "auc": 0.677,
+        "clear_mean": 1,
+        "clear_median": 1.0,
+        "clear_nonzero": 2,
+        "death_mean": 0.469,
+        "death_median": 0.0,
+        "death_nonzero": 11
+      },
+      "poison_sources": {
+        "auc": 0.479,
+        "clear_mean": 4.333,
+        "clear_median": 5.0,
+        "clear_nonzero": 3,
+        "death_mean": 4.594,
+        "death_median": 5.0,
+        "death_nonzero": 32
+      },
+      "potions": {
+        "auc": 0.594,
+        "clear_mean": 1.333,
+        "clear_median": 1.0,
+        "clear_nonzero": 3,
+        "death_mean": 1.062,
+        "death_median": 1.0,
+        "death_nonzero": 24
+      },
+      "powers": {
+        "auc": 0.672,
+        "clear_mean": 1.667,
+        "clear_median": 2.0,
+        "clear_nonzero": 2,
+        "death_mean": 0.906,
+        "death_median": 1.0,
+        "death_nonzero": 19
+      },
+      "size": {
+        "auc": 0.526,
+        "clear_mean": 28,
+        "clear_median": 30.0,
+        "clear_nonzero": 3,
+        "death_mean": 28.719,
+        "death_median": 29.0,
+        "death_nonzero": 32
+      },
+      "upgrades": {
+        "auc": 0.589,
+        "clear_mean": 6,
+        "clear_median": 6.0,
+        "clear_nonzero": 3,
+        "death_mean": 5.281,
+        "death_median": 5.0,
+        "death_nonzero": 32
+      }
+    },
+    "KNOWLEDGE_DEMON": {
+      "ACCURACY": {
+        "auc": 0.463,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0.074,
+        "death_median": 0.0,
+        "death_nonzero": 2
+      },
+      "AFTERIMAGE": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "CATALYST": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "FOOTWORK": {
+        "auc": 0.444,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0.148,
+        "death_median": 0.0,
+        "death_nonzero": 3
+      },
+      "NOXIOUS_FUMES": {
+        "auc": 0.505,
+        "clear_mean": 0.625,
+        "clear_median": 0.5,
+        "clear_nonzero": 4,
+        "death_mean": 0.593,
+        "death_median": 1.0,
+        "death_nonzero": 14
+      },
+      "WELL_LAID_PLANS": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "accelerants": {
+        "auc": 0.576,
+        "clear_mean": 0.5,
+        "clear_median": 0.0,
+        "clear_nonzero": 3,
+        "death_mean": 0.296,
+        "death_median": 0.0,
+        "death_nonzero": 6
+      },
+      "aoe": {
+        "auc": 0.512,
+        "clear_mean": 2.75,
+        "clear_median": 3.0,
+        "clear_nonzero": 8,
+        "death_mean": 2.926,
+        "death_median": 3.0,
+        "death_nonzero": 26
+      },
+      "block_density": {
+        "auc": 0.502,
+        "clear_mean": 0.273,
+        "clear_median": 0.268,
+        "clear_nonzero": 8,
+        "death_mean": 0.264,
+        "death_median": 0.273,
+        "death_nonzero": 27
+      },
+      "draw_relics": {
+        "auc": 0.424,
+        "clear_mean": 1.5,
+        "clear_median": 1.0,
+        "clear_nonzero": 8,
+        "death_mean": 1.667,
+        "death_median": 2.0,
+        "death_nonzero": 27
+      },
+      "energy_relics": {
+        "auc": 0.398,
+        "clear_mean": 0.75,
+        "clear_median": 1.0,
+        "clear_nonzero": 5,
+        "death_mean": 1.074,
+        "death_median": 1.0,
+        "death_nonzero": 19
+      },
+      "hp": {
+        "auc": 0.586,
+        "clear_mean": 57.75,
+        "clear_median": 59.0,
+        "clear_nonzero": 8,
+        "death_mean": 52.185,
+        "death_median": 52.0,
+        "death_nonzero": 27
+      },
+      "hp_fraction": {
+        "auc": 0.632,
+        "clear_mean": 0.784,
+        "clear_median": 0.843,
+        "clear_nonzero": 8,
+        "death_mean": 0.686,
+        "death_median": 0.657,
+        "death_nonzero": 27
+      },
+      "max_hp": {
+        "auc": 0.433,
+        "clear_mean": 74.5,
+        "clear_median": 73.5,
+        "clear_nonzero": 8,
+        "death_mean": 76.222,
+        "death_median": 77.0,
+        "death_nonzero": 27
+      },
+      "named_scalers": {
+        "auc": 0.421,
+        "clear_mean": 0.625,
+        "clear_median": 0.5,
+        "clear_nonzero": 4,
+        "death_mean": 0.815,
+        "death_median": 1.0,
+        "death_nonzero": 18
+      },
+      "poison_sources": {
+        "auc": 0.579,
+        "clear_mean": 5.625,
+        "clear_median": 5.0,
+        "clear_nonzero": 8,
+        "death_mean": 4.926,
+        "death_median": 5.0,
+        "death_nonzero": 27
+      },
+      "potions": {
+        "auc": 0.465,
+        "clear_mean": 0.875,
+        "clear_median": 1.0,
+        "clear_nonzero": 6,
+        "death_mean": 0.963,
+        "death_median": 1.0,
+        "death_nonzero": 21
+      },
+      "powers": {
+        "auc": 0.551,
+        "clear_mean": 1.625,
+        "clear_median": 1.5,
+        "clear_nonzero": 7,
+        "death_mean": 1.519,
+        "death_median": 1.0,
+        "death_nonzero": 23
+      },
+      "size": {
+        "auc": 0.53,
+        "clear_mean": 29,
+        "clear_median": 29.5,
+        "clear_nonzero": 8,
+        "death_mean": 28.407,
+        "death_median": 28.0,
+        "death_nonzero": 27
+      },
+      "upgrades": {
+        "auc": 0.312,
+        "clear_mean": 3.125,
+        "clear_median": 2.5,
+        "clear_nonzero": 8,
+        "death_mean": 4.704,
+        "death_median": 4.0,
+        "death_nonzero": 27
+      }
+    },
+    "THE_INSATIABLE": {
+      "ACCURACY": {
+        "auc": 0.53,
+        "clear_mean": 0.167,
+        "clear_median": 0.0,
+        "clear_nonzero": 1,
+        "death_mean": 0.107,
+        "death_median": 0.0,
+        "death_nonzero": 3
+      },
+      "AFTERIMAGE": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "CATALYST": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "FOOTWORK": {
+        "auc": 0.473,
+        "clear_mean": 0.167,
+        "clear_median": 0.0,
+        "clear_nonzero": 1,
+        "death_mean": 0.25,
+        "death_median": 0.0,
+        "death_nonzero": 6
+      },
+      "NOXIOUS_FUMES": {
+        "auc": 0.339,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0.321,
+        "death_median": 0.0,
+        "death_nonzero": 9
+      },
+      "WELL_LAID_PLANS": {
+        "auc": 0.5,
+        "clear_mean": 0,
+        "clear_median": 0.0,
+        "clear_nonzero": 0,
+        "death_mean": 0,
+        "death_median": 0.0,
+        "death_nonzero": 0
+      },
+      "accelerants": {
+        "auc": 0.69,
+        "clear_mean": 0.667,
+        "clear_median": 0.5,
+        "clear_nonzero": 3,
+        "death_mean": 0.143,
+        "death_median": 0.0,
+        "death_nonzero": 4
+      },
+      "aoe": {
+        "auc": 0.482,
+        "clear_mean": 2.667,
+        "clear_median": 3.0,
+        "clear_nonzero": 6,
+        "death_mean": 2.714,
+        "death_median": 3.0,
+        "death_nonzero": 26
+      },
+      "block_density": {
+        "auc": 0.527,
+        "clear_mean": 0.25,
+        "clear_median": 0.269,
+        "clear_nonzero": 6,
+        "death_mean": 0.253,
+        "death_median": 0.246,
+        "death_nonzero": 28
+      },
+      "draw_relics": {
+        "auc": 0.497,
+        "clear_mean": 1.667,
+        "clear_median": 1.0,
+        "clear_nonzero": 6,
+        "death_mean": 1.464,
+        "death_median": 1.0,
+        "death_nonzero": 28
+      },
+      "energy_relics": {
+        "auc": 0.295,
+        "clear_mean": 0.5,
+        "clear_median": 0.5,
+        "clear_nonzero": 3,
+        "death_mean": 1.143,
+        "death_median": 1.0,
+        "death_nonzero": 22
+      },
+      "hp": {
+        "auc": 0.863,
+        "clear_mean": 75.5,
+        "clear_median": 74.5,
+        "clear_nonzero": 6,
+        "death_mean": 51.893,
+        "death_median": 55.0,
+        "death_nonzero": 28
+      },
+      "hp_fraction": {
+        "auc": 0.854,
+        "clear_mean": 0.929,
+        "clear_median": 0.936,
+        "clear_nonzero": 6,
+        "death_mean": 0.705,
+        "death_median": 0.786,
+        "death_nonzero": 28
+      },
+      "max_hp": {
+        "auc": 0.607,
+        "clear_mean": 81.333,
+        "clear_median": 75.5,
+        "clear_nonzero": 6,
+        "death_mean": 74.286,
+        "death_median": 70.0,
+        "death_nonzero": 28
+      },
+      "named_scalers": {
+        "auc": 0.405,
+        "clear_mean": 0.333,
+        "clear_median": 0.0,
+        "clear_nonzero": 2,
+        "death_mean": 0.679,
+        "death_median": 0.0,
+        "death_nonzero": 13
+      },
+      "poison_sources": {
+        "auc": 0.527,
+        "clear_mean": 5.167,
+        "clear_median": 5.0,
+        "clear_nonzero": 6,
+        "death_mean": 4.714,
+        "death_median": 5.0,
+        "death_nonzero": 28
+      },
+      "potions": {
+        "auc": 0.696,
+        "clear_mean": 1.667,
+        "clear_median": 2.0,
+        "clear_nonzero": 6,
+        "death_mean": 1.107,
+        "death_median": 1.0,
+        "death_nonzero": 21
+      },
+      "powers": {
+        "auc": 0.607,
+        "clear_mean": 1.5,
+        "clear_median": 1.0,
+        "clear_nonzero": 6,
+        "death_mean": 1.143,
+        "death_median": 1.0,
+        "death_nonzero": 19
+      },
+      "size": {
+        "auc": 0.467,
+        "clear_mean": 28.5,
+        "clear_median": 28.0,
+        "clear_nonzero": 6,
+        "death_mean": 28.036,
+        "death_median": 28.0,
+        "death_nonzero": 28
+      },
+      "upgrades": {
+        "auc": 0.568,
+        "clear_mean": 6,
+        "clear_median": 5.0,
+        "clear_nonzero": 6,
+        "death_mean": 5.429,
+        "death_median": 4.5,
+        "death_nonzero": 28
+      }
+    }
+  },
+  "dev_collection": {
+    "attempts_retried": 0,
+    "bundle": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+    "fix": false,
+    "game": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b",
+    "host": "f640ffd826fdd7543a1ea614b726415b8a253aeb04e3743623a3362951d89a00",
+    "observer": null,
+    "panel_sha256": "bbd4a073745a3b0a3c37ba3c36b81cea6647c6c47ffde6a871cbd2f572c72916",
+    "prototype_attempts_retried": 0,
+    "prototype_fix": true,
+    "source_sha256": {
+      "deck_policy.py": "c564abd036fc37c13d59b4d2e573e4fc8721ef93dee4ae11c04cfed3ed74cd18",
+      "deployed_controller.py": "79e846f89461007d261b0bd3399ae929f514d20aadbae6509089181222d23bd9",
+      "run_evaluation.py": "70263d36c766cee100af23218038ac6b83d623e4c8bedefdcb209d0105558e10",
+      "run_policy.py": "1bf1efb5887107645c935f44c2dcab2bf0a43c173b267b4ca431a20b31482b50",
+      "strategy.py": "4bf4e9d6f14430db6e3a8908a1153d488576abf28f11280aeb302dc854f7bf15"
+    }
+  },
+  "diagnostic_collection": {
+    "attempts_retried": 0,
+    "bundle": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+    "fix": false,
+    "game": "f4da33f492d29236cde918c0458f6ec72a757b621c688820a77f441aca29a70b",
+    "host": "f640ffd826fdd7543a1ea614b726415b8a253aeb04e3743623a3362951d89a00",
+    "observer": "72e1d1195828ae0cc3ea45c3506a62205c16e7817446fd9cea95cdd8df2db097",
+    "observer_parity": [
+      [
+        "V5DIAG_0002",
+        0,
+        465,
+        "complete",
+        "8f4aac5448e6e7b0a3a554e357b900a5270fb0e591d81c1d9292fa44fc23633c"
+      ],
+      [
+        "V5DIAG_0002",
+        1,
+        465,
+        "complete",
+        "8f4aac5448e6e7b0a3a554e357b900a5270fb0e591d81c1d9292fa44fc23633c"
+      ],
+      [
+        "V5DIAG_0007",
+        0,
+        456,
+        "complete",
+        "0a42fafb42e89a6d7e91dce6ea94faaae22fd45483c879d41604be2cac7a24fd"
+      ],
+      [
+        "V5DIAG_0007",
+        1,
+        456,
+        "complete",
+        "0a42fafb42e89a6d7e91dce6ea94faaae22fd45483c879d41604be2cac7a24fd"
+      ]
+    ],
+    "panel_sha256": "88993f46d0d41700e6014af5cf0079754dbb7ae2794e34c8ca63b0e0b5e2a51e",
+    "replayed_victories": [
+      {
+        "boss_fights": [
+          [
+            1,
+            17
+          ],
+          [
+            2,
+            16
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            16
+          ]
+        ],
+        "deployed_controller_verified_steps": 580,
+        "replay": [
+          {
+            "observer": false,
+            "rpc_count": 629,
+            "sha256": "72351fe3e5d7a3cfed79b87fa0fc1dbadee43937387dfca1877db48197469143",
+            "terminal_digest": "13730accd3ea62030acf46ff18f93c9aa962a8fc3a4b0fcb4814b62b0e753952"
+          },
+          {
+            "observer": true,
+            "rpc_count": 629,
+            "sha256": "72351fe3e5d7a3cfed79b87fa0fc1dbadee43937387dfca1877db48197469143",
+            "terminal_digest": "13730accd3ea62030acf46ff18f93c9aa962a8fc3a4b0fcb4814b62b0e753952"
+          }
+        ],
+        "seed": "V5DIAG_0100"
+      }
+    ],
+    "skipped_ancient_map_transitions": {
+      "V5DIAG_0007": [
+        {
+          "action": {
+            "action": "select_map_node",
+            "args": {
+              "col": 4,
+              "row": 1
+            },
+            "cmd": "action"
+          },
+          "choices": [
+            {
+              "col": 3,
+              "row": 0,
+              "type": "Ancient"
+            },
+            {
+              "col": 0,
+              "row": 1,
+              "type": "Monster"
+            },
+            {
+              "col": 4,
+              "row": 1,
+              "type": "Monster"
+            },
+            {
+              "col": 6,
+              "row": 1,
+              "type": "Monster"
+            }
+          ],
+          "next_room": "Monster",
+          "step": 235
+        }
+      ],
+      "V5DIAG_0274": [
+        {
+          "action": {
+            "action": "select_map_node",
+            "args": {
+              "col": 3,
+              "row": 1
+            },
+            "cmd": "action"
+          },
+          "choices": [
+            {
+              "col": 3,
+              "row": 0,
+              "type": "Ancient"
+            },
+            {
+              "col": 1,
+              "row": 1,
+              "type": "Monster"
+            },
+            {
+              "col": 3,
+              "row": 1,
+              "type": "Monster"
+            },
+            {
+              "col": 6,
+              "row": 1,
+              "type": "Monster"
+            }
+          ],
+          "next_room": "Monster",
+          "step": 276
+        }
+      ]
+    }
+  },
+  "fatal_fight_tactics": {
+    "AEONGLASS": {
+      "attack_targets": {
+        "AEONGLASS": 10
+      },
+      "counters": {
+        "potion_uses": 2,
+        "round1_potion_uses": 0
+      },
+      "eligible_by_fallback": {
+        "profile/AEONGLASS": 29,
+        "unreconciled prompt": 1
+      },
+      "n": 1,
+      "selection": {
+        "FLICK_FLACK": 1
+      }
+    },
+    "AXEBOT": {
+      "attack_targets": {
+        "AXEBOT": 40
+      },
+      "counters": {
+        "potion_uses": 2,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "axebot stock": 78,
+        "selection operation": 1,
+        "unreconciled prompt": 5
+      },
+      "n": 3,
+      "selection": {
+        "ASCENDERS_BANE": 2,
+        "DEFEND_SILENT": 1,
+        "ESCAPE_PLAN": 1,
+        "METAMORPHOSIS": 1,
+        "STRIKE_SILENT": 2
+      }
+    },
+    "CRUSHER+ROCKET": {
+      "attack_targets": {
+        "CRUSHER": 223,
+        "ROCKET": 141
+      },
+      "counters": {
+        "both_alive_end_turns": 152,
+        "early_rounds_with_playable_power": 16,
+        "higher_unblocked_threat_behind": 1,
+        "played_any_early_power": 10,
+        "potion_uses": 33,
+        "round1_potion_uses": 29
+      },
+      "eligible_by_fallback": {
+        "kaiser facing": 760,
+        "selection operation": 16,
+        "unreconciled prompt": 42
+      },
+      "n": 32,
+      "selection": {
+        "ACCURACY": 1,
+        "ADRENALINE": 1,
+        "ASCENDERS_BANE": 7,
+        "BUBBLE_BUBBLE": 1,
+        "DAGGER_SPRAY": 1,
+        "DAGGER_THROW": 1,
+        "DASH": 1,
+        "DEFEND_SILENT": 9,
+        "FLICK_FLACK": 5,
+        "FOOTWORK": 1,
+        "GRAND_FINALE": 1,
+        "GREED": 2,
+        "HAZE": 1,
+        "IMPERVIOUS": 1,
+        "LEG_SWEEP": 1,
+        "NEUTRALIZE": 1,
+        "OFFERING": 1,
+        "PIERCING_WAIL": 1,
+        "PINPOINT": 1,
+        "POUNCE": 1,
+        "REAP": 1,
+        "RELAX": 1,
+        "RICOCHET": 1,
+        "SEEKER_STRIKE": 1,
+        "SNAKEBITE": 2,
+        "STRIKE_SILENT": 15
+      }
+    },
+    "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": {
+      "attack_targets": {
+        "FLAIL_KNIGHT": 2,
+        "MAGI_KNIGHT": 6
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 1,
+        "played_any_early_power": 1,
+        "potion_uses": 1,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "profile/FLAIL_KNIGHT": 22,
+        "unreconciled prompt": 1
+      },
+      "n": 2,
+      "selection": {
+        "DEFEND_SILENT": 1
+      }
+    },
+    "KNOWLEDGE_DEMON": {
+      "attack_targets": {
+        "KNOWLEDGE_DEMON": 385
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 14,
+        "played_any_early_power": 11,
+        "potion_uses": 26,
+        "round1_potion_uses": 23,
+        "sloth_basic_plays": 51,
+        "sloth_plays": 177,
+        "sloth_rounds": 63,
+        "sloth_rounds_ge3_plays": 52
+      },
+      "eligible_by_fallback": {
+        "knowledge demon prompt/sloth": 779,
+        "selection continuation": 1,
+        "selection operation": 74,
+        "unreconciled prompt": 44
+      },
+      "n": 27,
+      "selection": {
+        "ASCENDERS_BANE": 8,
+        "BLADE_DANCE": 2,
+        "DAGGER_THROW": 1,
+        "DEFEND_SILENT": 14,
+        "FLECHETTES": 1,
+        "FLICK_FLACK": 8,
+        "GRAND_FINALE": 1,
+        "GREED": 2,
+        "LEG_SWEEP": 2,
+        "MEMENTO_MORI": 1,
+        "METAMORPHOSIS": 1,
+        "MIND_ROT": 27,
+        "NEUTRALIZE": 4,
+        "POISONED_STAB": 1,
+        "PRECISE_CUT": 2,
+        "PREDATOR": 1,
+        "REAP": 1,
+        "SHIV": 4,
+        "SLOTH": 25,
+        "SNAKEBITE": 1,
+        "STRIKE_SILENT": 14,
+        "WASTE_AWAY": 4
+      }
+    },
+    "MECHA_KNIGHT": {
+      "attack_targets": {
+        "MECHA_KNIGHT": 9
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 1,
+        "played_any_early_power": 1,
+        "potion_uses": 1,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "mecha reattach": 20,
+        "unreconciled prompt": 1
+      },
+      "n": 1,
+      "selection": {
+        "FLICK_FLACK": 1
+      }
+    },
+    "OWL_MAGISTRATE": {
+      "attack_targets": {
+        "OWL_MAGISTRATE": 9
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 1,
+        "played_any_early_power": 0,
+        "potion_uses": 1,
+        "round1_potion_uses": 0
+      },
+      "eligible_by_fallback": {
+        "profile/OWL_MAGISTRATE": 18,
+        "unreconciled prompt": 1
+      },
+      "n": 1,
+      "selection": {
+        "FOOTWORK": 1
+      }
+    },
+    "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": {
+      "attack_targets": {
+        "CUBEX_CONSTRUCT": 9,
+        "PUNCH_CONSTRUCT": 5
+      },
+      "counters": {
+        "potion_uses": 1,
+        "round1_potion_uses": 1
+      },
+      "eligible_by_fallback": {
+        "relic/SHURIKEN": 20
+      },
+      "n": 1,
+      "selection": {}
+    },
+    "TEST_SUBJECT": {
+      "attack_targets": {
+        "TEST_SUBJECT": 7
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 1,
+        "played_any_early_power": 1,
+        "potion_uses": 2,
+        "round1_potion_uses": 2,
+        "skills": 6,
+        "skills_under_enrage": 6
+      },
+      "eligible_by_fallback": {
+        "profile/TEST_SUBJECT": 16,
+        "selection operation": 1,
+        "unreconciled prompt": 2
+      },
+      "n": 1,
+      "selection": {
+        "DEADLY_POISON": 1,
+        "FLICK_FLACK": 1,
+        "STRIKE_SILENT": 1
+      }
+    },
+    "THE_INSATIABLE": {
+      "attack_targets": {
+        "THE_INSATIABLE": 368
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 10,
+        "played_any_early_power": 7,
+        "potion_uses": 31,
+        "round1_potion_uses": 21,
+        "sandpit_one_end_turns": 16
+      },
+      "eligible_by_fallback": {
+        "card/ACCELERANT": 1,
+        "card/ACCURACY": 1,
+        "card/ASSASSINATE": 1,
+        "card/BACKFLIP": 8,
+        "card/BLUDGEON": 1,
+        "card/BOOT_SEQUENCE": 5,
+        "card/BOUNCING_FLASK": 5,
+        "card/DRAMATIC_ENTRANCE": 3,
+        "card/ENLIGHTENMENT": 26,
+        "card/HANG": 9,
+        "card/HIDDEN_DAGGERS": 7,
+        "card/LEG_SWEEP": 4,
+        "card/METAMORPHOSIS": 17,
+        "card/PHANTOM_BLADES": 3,
+        "card/PINPOINT": 2,
+        "card/REAP": 17,
+        "card/REBOUND": 3,
+        "card/SETUP_STRIKE": 1,
+        "card/SIDESTEP": 4,
+        "card/STRANGLE": 4,
+        "card/SURVIVOR": 2,
+        "card/ULTIMATE_STRIKE": 5,
+        "champion continuation unresolved": 21,
+        "covered": 264,
+        "enemy power/STRANGLE": 14,
+        "no certified survival": 76,
+        "player power/BORROWED_TIME": 3,
+        "player power/CONFUSED": 38,
+        "player power/NO_BLOCK": 5,
+        "player power/REBOUND": 1,
+        "player power/SERPENT_FORM": 4,
+        "player power/SETUP_STRIKE": 8,
+        "relic/MERCURY_HOURGLASS": 94,
+        "relic/MR_STRUGGLES": 49,
+        "relic/STURDY_CLAMP": 25,
+        "relic/TOASTY_MITTENS": 33,
+        "relic/TOUGH_BANDAGES": 15,
+        "selection operation": 17,
+        "uncertified root at cap": 12,
+        "unreconciled prompt": 13
+      },
+      "n": 28,
+      "selection": {
+        "ASCENDERS_BANE": 1,
+        "BLADE_DANCE": 1,
+        "BUBBLE_BUBBLE": 1,
+        "CLOAK_AND_DAGGER": 1,
+        "DASH": 2,
+        "DEFEND_SILENT": 5,
+        "FLICK_FLACK": 3,
+        "FOOTWORK": 1,
+        "FRANTIC_ESCAPE": 14,
+        "GRAND_FINALE": 1,
+        "LEG_SWEEP": 1,
+        "NEUTRALIZE": 1,
+        "NOXIOUS_FUMES": 2,
+        "OUTBREAK": 1,
+        "PANIC_BUTTON": 1,
+        "POISONED_STAB": 1,
+        "SEEKER_STRIKE": 1,
+        "SHIV": 1,
+        "SIDESTEP": 1,
+        "SKEWER": 1,
+        "SNAKEBITE": 1,
+        "STRIKE_SILENT": 6
+      }
+    },
+    "TORCH_HEAD_AMALGAM+QUEEN": {
+      "attack_targets": {
+        "QUEEN": 33,
+        "TORCH_HEAD_AMALGAM": 12
+      },
+      "counters": {
+        "early_rounds_with_playable_power": 3,
+        "played_any_early_power": 2,
+        "potion_uses": 6,
+        "round1_potion_uses": 6
+      },
+      "eligible_by_fallback": {
+        "profile/TORCH_HEAD_AMALGAM": 107,
+        "selection operation": 2,
+        "unreconciled prompt": 3
+      },
+      "n": 6,
+      "selection": {
+        "DAGGER_SPRAY": 1,
+        "FLICK_FLACK": 1,
+        "STRIKE_SILENT": 2
+      }
+    }
+  },
+  "macros_all": {
+    "accelerant_purchases_without_printed_poison": 0,
+    "added_curses": {
+      "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": {
+        "DOUBT": 1
+      },
+      "NEOW.pages.INITIAL.options.CURSED_PEARL": {
+        "GREED": 31
+      },
+      "NEOW.pages.INITIAL.options.NEOWS_SACRIFICE": {
+        "GUILTY": 36
+      },
+      "PUNCH_OFF.pages.INITIAL.options.NAB": {
+        "INJURY": 3
+      },
+      "SUNKEN_TREASURY.pages.INITIAL.options.SECOND_CHEST": {
+        "GREED": 19
+      },
+      "THIS_OR_THAT.pages.INITIAL.options.ORNATE": {
+        "CLUMSY": 75
+      },
+      "TRIAL.pages.MERCHANT.options.INNOCENT": {
+        "SHAME": 1
+      },
+      "TRIAL.pages.NOBLE.options.INNOCENT": {
+        "REGRET": 1
+      },
+      "UNREST_SITE.pages.INITIAL.options.REST": {
+        "POOR_SLEEP": 12
+      },
+      "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": {
+        "ENTHRALLED": 2
+      }
+    },
+    "ancient_offered_picked_picked_reached_a3": {
+      "2": {
+        "DARV.pages.INITIAL.options.ASTROLABE": [
+          7,
+          3,
+          0
+        ],
+        "DARV.pages.INITIAL.options.BLACK_STAR": [
+          3,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.CALLING_BELL": [
+          4,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.DUSTY_TOME": [
+          7,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.ECTOPLASM": [
+          6,
+          2,
+          0
+        ],
+        "DARV.pages.INITIAL.options.EMPTY_CAGE": [
+          5,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.PANDORAS_BOX": [
+          7,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE": [
+          13,
+          13,
+          1
+        ],
+        "DARV.pages.INITIAL.options.RUNIC_PYRAMID": [
+          4,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.SNECKO_EYE": [
+          7,
+          1,
+          0
+        ],
+        "DARV.pages.INITIAL.options.SOZU": [
+          4,
+          2,
+          0
+        ],
+        "DARV.pages.INITIAL.options.VELVET_CHOKER": [
+          8,
+          4,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.ALCHEMICAL_COFFER": [
+          12,
+          12,
+          1
+        ],
+        "OROBAS.pages.INITIAL.options.ARCHAIC_TOOTH": [
+          33,
+          0,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.DRIFTWOOD": [
+          21,
+          0,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.ELECTRIC_SHRYMP": [
+          26,
+          9,
+          2
+        ],
+        "OROBAS.pages.INITIAL.options.GLASS_EYE": [
+          22,
+          4,
+          1
+        ],
+        "OROBAS.pages.INITIAL.options.PRISMATIC_GEM": [
+          5,
+          3,
+          1
+        ],
+        "OROBAS.pages.INITIAL.options.RADIANT_PEARL": [
+          20,
+          0,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.SAND_CASTLE": [
+          18,
+          18,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.SEA_GLASS": [
+          18,
+          4,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.TOUCH_OF_OROBAS": [
+          38,
+          21,
+          2
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_BLOOD": [
+          27,
+          4,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_CLAW": [
+          25,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_EYE": [
+          22,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_FLESH": [
+          27,
+          19,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_GROWTH": [
+          10,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_HORN": [
+          15,
+          7,
+          2
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_LEGION": [
+          22,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_TEARS": [
+          29,
+          22,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_TOOTH": [
+          18,
+          18,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_WING": [
+          18,
+          1,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.BIIIG_HUG": [
+          19,
+          0,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.GOLDEN_COMPASS": [
+          18,
+          0,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.NUTRITIOUS_SOUP": [
+          30,
+          3,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.PUMPKIN_CANDLE": [
+          17,
+          17,
+          1
+        ],
+        "TEZCATARA.pages.INITIAL.options.SEAL_OF_GOLD": [
+          20,
+          7,
+          1
+        ],
+        "TEZCATARA.pages.INITIAL.options.STORYBOOK": [
+          28,
+          0,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.TOASTY_MITTENS": [
+          27,
+          7,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.TOY_BOX": [
+          19,
+          6,
+          1
+        ],
+        "TEZCATARA.pages.INITIAL.options.VERY_HOT_COCOA": [
+          26,
+          20,
+          2
+        ],
+        "TEZCATARA.pages.INITIAL.options.YUMMY_COOKIE": [
+          18,
+          14,
+          1
+        ]
+      },
+      "3": {
+        "NONUPEIPE.pages.INITIAL.options.BEAUTIFUL_BRACELET": [
+          2,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.BLESSED_ANTLER": [
+          2,
+          1,
+          1
+        ],
+        "NONUPEIPE.pages.INITIAL.options.BRILLIANT_SCARF": [
+          3,
+          1,
+          1
+        ],
+        "NONUPEIPE.pages.INITIAL.options.DELICATE_FROND": [
+          1,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.DIAMOND_DIADEM": [
+          3,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.FUR_COAT": [
+          2,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.JEWELRY_BOX": [
+          1,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.LOOMING_FRUIT": [
+          2,
+          2,
+          2
+        ],
+        "NONUPEIPE.pages.INITIAL.options.SIGNET_RING": [
+          2,
+          2,
+          2
+        ],
+        "TANX.pages.INITIAL.options.CROSSBOW": [
+          1,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.IRON_CLUB": [
+          1,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.MEAT_CLEAVER": [
+          2,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.SAI": [
+          2,
+          1,
+          1
+        ],
+        "TANX.pages.INITIAL.options.SPIKED_GAUNTLETS": [
+          1,
+          1,
+          1
+        ],
+        "TANX.pages.INITIAL.options.TANXS_WHISTLE": [
+          1,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.THROWING_AXE": [
+          2,
+          1,
+          1
+        ],
+        "TANX.pages.INITIAL.options.TRI_BOOMERANG": [
+          2,
+          1,
+          1
+        ],
+        "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": [
+          2,
+          2,
+          2
+        ],
+        "VAKUU.pages.INITIAL.options.CHOICES_PARADOX": [
+          1,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.DISTINGUISHED_CAPE": [
+          3,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.FIDDLE": [
+          2,
+          2,
+          2
+        ],
+        "VAKUU.pages.INITIAL.options.JEWELED_MASK": [
+          2,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.LORDS_PARASOL": [
+          1,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.MUSIC_BOX": [
+          3,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.SERE_TALON": [
+          4,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.WHISPERING_EARRING": [
+          3,
+          3,
+          3
+        ]
+      }
+    },
+    "camp": {
+      "1": {
+        "HEAL": 765,
+        "SMITH": 442,
+        "hp_gained": 16478,
+        "zero_heals": 0
+      },
+      "2": {
+        "HEAL": 319,
+        "SMITH": 92,
+        "expired_HEAL": 12,
+        "expired_SMITH": 3,
+        "hp_gained": 7286,
+        "kindle_legal": 46,
+        "kindle_taken": 0,
+        "zero_heals": 0
+      },
+      "3": {
+        "HEAL": 23,
+        "SMITH": 11,
+        "hp_gained": 584,
+        "zero_heals": 0
+      }
+    },
+    "card_rewards": {
+      "ABRASIVE": {
+        "offered": 31,
+        "taken": 0,
+        "whole_offer_skipped": 16
+      },
+      "ACCELERANT": {
+        "offered": 132,
+        "offered_with_poison": 95,
+        "taken": 0,
+        "whole_offer_skipped": 20,
+        "whole_offer_skipped_with_poison": 14
+      },
+      "ACCURACY": {
+        "offered": 110,
+        "taken": 0,
+        "whole_offer_skipped": 25
+      },
+      "ACROBATICS": {
+        "offered": 111,
+        "taken": 0,
+        "whole_offer_skipped": 29
+      },
+      "ADAPTIVE_STRIKE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "ADRENALINE": {
+        "offered": 38,
+        "taken": 26,
+        "whole_offer_skipped": 0
+      },
+      "AFTERIMAGE": {
+        "offered": 36,
+        "taken": 0,
+        "whole_offer_skipped": 17
+      },
+      "AFTERLIFE": {
+        "offered": 5,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "AGGRESSION": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "ANGER": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "ANTICIPATE": {
+        "offered": 320,
+        "taken": 7,
+        "whole_offer_skipped": 39
+      },
+      "ARMAMENTS": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "ASHEN_STRIKE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "ASSASSINATE": {
+        "offered": 51,
+        "taken": 36,
+        "whole_offer_skipped": 0
+      },
+      "BACKFLIP": {
+        "offered": 345,
+        "taken": 76,
+        "whole_offer_skipped": 7
+      },
+      "BACKSTAB": {
+        "offered": 116,
+        "taken": 77,
+        "whole_offer_skipped": 0
+      },
+      "BALL_LIGHTNING": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BANSHEES_CRY": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BARRAGE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "BARRICADE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BEAM_CELL": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BEGONE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "BLADE_DANCE": {
+        "offered": 329,
+        "taken": 201,
+        "whole_offer_skipped": 0
+      },
+      "BLADE_OF_INK": {
+        "offered": 28,
+        "taken": 0,
+        "whole_offer_skipped": 11
+      },
+      "BLIGHT_STRIKE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 1
+      },
+      "BLOOD_WALL": {
+        "offered": 3,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "BLUDGEON": {
+        "offered": 3,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "BLUR": {
+        "offered": 129,
+        "taken": 0,
+        "whole_offer_skipped": 24
+      },
+      "BODY_SLAM": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BONE_SHARDS": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "BOOST_AWAY": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BOOT_SEQUENCE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BORROWED_TIME": {
+        "offered": 3,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "BOUNCING_FLASK": {
+        "offered": 111,
+        "taken": 26,
+        "whole_offer_skipped": 0
+      },
+      "BRAND": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BREAKTHROUGH": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BUBBLE_BUBBLE": {
+        "offered": 110,
+        "taken": 110,
+        "whole_offer_skipped": 0
+      },
+      "BULK_UP": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BULLET_TIME": {
+        "offered": 46,
+        "taken": 0,
+        "whole_offer_skipped": 21
+      },
+      "BULLY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BULWARK": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BURST": {
+        "offered": 41,
+        "taken": 0,
+        "whole_offer_skipped": 18
+      },
+      "BURY": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "CALCIFY": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CALCULATED_GAMBLE": {
+        "offered": 106,
+        "taken": 0,
+        "whole_offer_skipped": 12
+      },
+      "CALL_OF_THE_VOID": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CAPTURE_SPIRIT": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CASCADE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "CHARGE_BATTERY": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "CHILL": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CINDER": {
+        "offered": 4,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "CLAW": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CLOAK_AND_DAGGER": {
+        "offered": 325,
+        "taken": 111,
+        "whole_offer_skipped": 1
+      },
+      "CLOAK_OF_STARS": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "COLLISION_COURSE": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "COLOSSUS": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "COMPACT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "COMPILE_DRIVER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CONQUEROR": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "CONSUMING_SHADOW": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "COOLHEADED": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CORROSIVE_WAVE": {
+        "offered": 41,
+        "taken": 0,
+        "whole_offer_skipped": 19
+      },
+      "COUNTDOWN": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "CRESCENT_SPEAR": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "CRUELTY": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "CRUSH_UNDER": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "DAGGER_SPRAY": {
+        "offered": 346,
+        "taken": 178,
+        "whole_offer_skipped": 3
+      },
+      "DAGGER_THROW": {
+        "offered": 342,
+        "taken": 135,
+        "whole_offer_skipped": 6
+      },
+      "DANSE_MACABRE": {
+        "offered": 4,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "DARK_EMBRACE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "DASH": {
+        "offered": 108,
+        "taken": 91,
+        "whole_offer_skipped": 0
+      },
+      "DEADLY_POISON": {
+        "offered": 349,
+        "taken": 304,
+        "whole_offer_skipped": 0
+      },
+      "DEATHBRINGER": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEATHS_DOOR": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEATH_MARCH": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "DEBILITATE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEFILE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "DEFLECT": {
+        "offered": 335,
+        "taken": 52,
+        "whole_offer_skipped": 3
+      },
+      "DEFY": {
+        "offered": 4,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "DELAY": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "DEMESNE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEMON_FORM": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "DEVOUR_LIFE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "DIRGE": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "DISMANTLE": {
+        "offered": 4,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "DODGE_AND_ROLL": {
+        "offered": 353,
+        "taken": 0,
+        "whole_offer_skipped": 46
+      },
+      "DOMINATE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "DOUBLE_ENERGY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DRAIN_POWER": {
+        "offered": 5,
+        "taken": 4,
+        "whole_offer_skipped": 0
+      },
+      "DREDGE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "DRUM_OF_BATTLE": {
+        "offered": 5,
+        "taken": 4,
+        "whole_offer_skipped": 0
+      },
+      "ECHOING_SLASH": {
+        "offered": 107,
+        "taken": 77,
+        "whole_offer_skipped": 0
+      },
+      "EIDOLON": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "END_OF_DAYS": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "ENFEEBLING_TOUCH": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "ENVENOM": {
+        "offered": 38,
+        "taken": 0,
+        "whole_offer_skipped": 21
+      },
+      "ESCAPE_PLAN": {
+        "offered": 120,
+        "taken": 2,
+        "whole_offer_skipped": 22
+      },
+      "EXPERTISE": {
+        "offered": 112,
+        "taken": 0,
+        "whole_offer_skipped": 14
+      },
+      "EXPOSE": {
+        "offered": 126,
+        "taken": 0,
+        "whole_offer_skipped": 20
+      },
+      "FAN_OF_KNIVES": {
+        "offered": 36,
+        "taken": 28,
+        "whole_offer_skipped": 0
+      },
+      "FEAR": {
+        "offered": 5,
+        "taken": 1,
+        "whole_offer_skipped": 1
+      },
+      "FEEL_NO_PAIN": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "FINISHER": {
+        "offered": 127,
+        "taken": 0,
+        "whole_offer_skipped": 22
+      },
+      "FLAME_BARRIER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "FLATTEN": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "FLECHETTES": {
+        "offered": 106,
+        "taken": 0,
+        "whole_offer_skipped": 22
+      },
+      "FLICK_FLACK": {
+        "offered": 328,
+        "taken": 55,
+        "whole_offer_skipped": 8
+      },
+      "FOOTWORK": {
+        "offered": 119,
+        "taken": 46,
+        "whole_offer_skipped": 0
+      },
+      "FTL": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "FURNACE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GATHER_LIGHT": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "GLIMMER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GLITTERSTREAM": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "GLOW": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GO_FOR_THE_EYES": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GRAND_FINALE": {
+        "offered": 35,
+        "taken": 35,
+        "whole_offer_skipped": 0
+      },
+      "GRAVEBLAST": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GRAVE_WARDEN": {
+        "offered": 3,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "GUIDING_STAR": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "GUNK_UP": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "HAND_TRICK": {
+        "offered": 111,
+        "taken": 11,
+        "whole_offer_skipped": 5
+      },
+      "HANG": {
+        "offered": 4,
+        "taken": 4,
+        "whole_offer_skipped": 0
+      },
+      "HAUNT": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "HAVOC": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "HAZE": {
+        "offered": 120,
+        "taken": 75,
+        "whole_offer_skipped": 0
+      },
+      "HEADBUTT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "HEAVENLY_DRILL": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "HELLRAISER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "HEMOKINESIS": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "HIDDEN_CACHE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "HIDDEN_DAGGERS": {
+        "offered": 116,
+        "taken": 50,
+        "whole_offer_skipped": 0
+      },
+      "HOLOGRAM": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "HOTFIX": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "IMPERVIOUS": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "INFERNO": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "INFINITE_BLADES": {
+        "offered": 118,
+        "taken": 0,
+        "whole_offer_skipped": 21
+      },
+      "INFLAME": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "INVOKE": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "IRON_WAVE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "JUGGERNAUT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "KINGLY_PUNCH": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "KNIFE_TRAP": {
+        "offered": 39,
+        "taken": 0,
+        "whole_offer_skipped": 17
+      },
+      "KNOW_THY_PLACE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "LEADING_STRIKE": {
+        "offered": 342,
+        "taken": 178,
+        "whole_offer_skipped": 0
+      },
+      "LEAP": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "LEG_SWEEP": {
+        "offered": 106,
+        "taken": 76,
+        "whole_offer_skipped": 0
+      },
+      "LETHALITY": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "LIGHTNING_ROD": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "MALAISE": {
+        "offered": 38,
+        "taken": 0,
+        "whole_offer_skipped": 19
+      },
+      "MANGLE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "MANIFEST_AUTHORITY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "MASTER_PLANNER": {
+        "offered": 40,
+        "taken": 0,
+        "whole_offer_skipped": 13
+      },
+      "MEMENTO_MORI": {
+        "offered": 102,
+        "taken": 29,
+        "whole_offer_skipped": 2
+      },
+      "MIRAGE": {
+        "offered": 133,
+        "taken": 0,
+        "whole_offer_skipped": 25
+      },
+      "MISERY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "MOLTEN_FIST": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "MOMENTUM_STRIKE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "MURDER": {
+        "offered": 41,
+        "taken": 0,
+        "whole_offer_skipped": 21
+      },
+      "NECRO_MASTERY": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "NEGATIVE_PULSE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "NEUROSURGE": {
+        "offered": 3,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "NIGHTMARE": {
+        "offered": 38,
+        "taken": 0,
+        "whole_offer_skipped": 19
+      },
+      "NOT_YET": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "NOXIOUS_FUMES": {
+        "offered": 114,
+        "taken": 59,
+        "whole_offer_skipped": 0
+      },
+      "NO_ESCAPE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "OBLIVION": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "OFFERING": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "ONE_TWO_PUNCH": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "ORBIT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "OUTBREAK": {
+        "offered": 36,
+        "taken": 35,
+        "whole_offer_skipped": 0
+      },
+      "OVERCLOCK": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PAGESTORM": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PARRY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PARSE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PARTICLE_WALL": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "PATTER": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "PHANTOM_BLADES": {
+        "offered": 113,
+        "taken": 0,
+        "whole_offer_skipped": 12
+      },
+      "PHOTON_CUT": {
+        "offered": 3,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "PIERCING_WAIL": {
+        "offered": 338,
+        "taken": 0,
+        "whole_offer_skipped": 52
+      },
+      "PILLAGE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PINPOINT": {
+        "offered": 112,
+        "taken": 27,
+        "whole_offer_skipped": 4
+      },
+      "POISONED_STAB": {
+        "offered": 363,
+        "taken": 290,
+        "whole_offer_skipped": 0
+      },
+      "POKE": {
+        "offered": 5,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "POMMEL_STRIKE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "POUNCE": {
+        "offered": 106,
+        "taken": 45,
+        "whole_offer_skipped": 1
+      },
+      "PRECISE_CUT": {
+        "offered": 95,
+        "taken": 80,
+        "whole_offer_skipped": 0
+      },
+      "PREDATOR": {
+        "offered": 322,
+        "taken": 186,
+        "whole_offer_skipped": 5
+      },
+      "PREPARED": {
+        "offered": 316,
+        "taken": 0,
+        "whole_offer_skipped": 38
+      },
+      "PROPHESIZE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PULL_AGGRO": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "PULL_FROM_BELOW": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "RAMPAGE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "RATTLE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "REANIMATE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "REAP": {
+        "offered": 6,
+        "taken": 5,
+        "whole_offer_skipped": 0
+      },
+      "REAPER_FORM": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "REAVE": {
+        "offered": 3,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "REFINE_BLADE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "REFLEX": {
+        "offered": 114,
+        "taken": 0,
+        "whole_offer_skipped": 17
+      },
+      "REFRACT": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "RICOCHET": {
+        "offered": 332,
+        "taken": 45,
+        "whole_offer_skipped": 20
+      },
+      "RIGHT_HAND_HAND": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "ROCKET_PUNCH": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "ROYAL_GAMBLE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "RUPTURE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SACRIFICE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "SCAVENGE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SCOURGE": {
+        "offered": 5,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "SCRAPE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SCULPTING_STRIKE": {
+        "offered": 5,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "SEANCE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SENTRY_MODE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "SERPENT_FORM": {
+        "offered": 50,
+        "taken": 0,
+        "whole_offer_skipped": 19
+      },
+      "SETUP_STRIKE": {
+        "offered": 4,
+        "taken": 4,
+        "whole_offer_skipped": 0
+      },
+      "SEVERANCE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SHADOWMELD": {
+        "offered": 43,
+        "taken": 0,
+        "whole_offer_skipped": 20
+      },
+      "SHADOW_STEP": {
+        "offered": 24,
+        "taken": 0,
+        "whole_offer_skipped": 13
+      },
+      "SHARED_FATE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SHINING_STRIKE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SHROUD": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SHRUG_IT_OFF": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SIC_EM": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SIDESTEP": {
+        "offered": 120,
+        "taken": 2,
+        "whole_offer_skipped": 17
+      },
+      "SKEWER": {
+        "offered": 97,
+        "taken": 94,
+        "whole_offer_skipped": 0
+      },
+      "SKIM": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SLICE": {
+        "offered": 316,
+        "taken": 91,
+        "whole_offer_skipped": 4
+      },
+      "SNAKEBITE": {
+        "offered": 358,
+        "taken": 335,
+        "whole_offer_skipped": 0
+      },
+      "SNAP": {
+        "offered": 6,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SOLAR_STRIKE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SOUL_STORM": {
+        "offered": 3,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SOW": {
+        "offered": 4,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "SPEEDSTER": {
+        "offered": 107,
+        "taken": 0,
+        "whole_offer_skipped": 15
+      },
+      "SPINNER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SPIRIT_OF_ASH": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SPITE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SPOILS_OF_BATTLE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SPUR": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SQUEEZE": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "STAMPEDE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "STOKE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "STOMP": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "STORM_OF_STEEL": {
+        "offered": 37,
+        "taken": 0,
+        "whole_offer_skipped": 22
+      },
+      "STRANGLE": {
+        "offered": 113,
+        "taken": 12,
+        "whole_offer_skipped": 9
+      },
+      "SUCKER_PUNCH": {
+        "offered": 326,
+        "taken": 120,
+        "whole_offer_skipped": 3
+      },
+      "SUMMON_FORTH": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SWEEPING_BEAM": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SWORD_BOOMERANG": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SYNCHRONIZE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TACTICIAN": {
+        "offered": 107,
+        "taken": 0,
+        "whole_offer_skipped": 21
+      },
+      "TAUNT": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TEAR_ASUNDER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "THE_HUNT": {
+        "offered": 32,
+        "taken": 16,
+        "whole_offer_skipped": 0
+      },
+      "THE_SCYTHE": {
+        "offered": 4,
+        "taken": 2,
+        "whole_offer_skipped": 2
+      },
+      "THUNDERCLAP": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TIMES_UP": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 3
+      },
+      "TOOLS_OF_THE_TRADE": {
+        "offered": 34,
+        "taken": 0,
+        "whole_offer_skipped": 19
+      },
+      "TRACKING": {
+        "offered": 31,
+        "taken": 0,
+        "whole_offer_skipped": 18
+      },
+      "TRANSFIGURE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TREMBLE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TRUE_GRIT": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "TURBO": {
+        "offered": 4,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "TWIN_STRIKE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "UNRELENTING": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "UNTOUCHABLE": {
+        "offered": 348,
+        "taken": 0,
+        "whole_offer_skipped": 39
+      },
+      "UP_MY_SLEEVE": {
+        "offered": 117,
+        "taken": 31,
+        "whole_offer_skipped": 0
+      },
+      "VEILPIERCER": {
+        "offered": 3,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "VICIOUS": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "WELL_LAID_PLANS": {
+        "offered": 51,
+        "taken": 0,
+        "whole_offer_skipped": 24
+      },
+      "WHIRLWIND": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "WHITE_NOISE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "WISP": {
+        "offered": 4,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "WROUGHT_IN_WAR": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      }
+    },
+    "event_choice_count_cost_heal": {
+      "ABYSSAL_BATHS.pages.ALL.options.EXIT_BATHS": [
+        1,
+        0,
+        0
+      ],
+      "ABYSSAL_BATHS.pages.INITIAL.options.ABSTAIN": [
+        16,
+        0,
+        144
+      ],
+      "ABYSSAL_BATHS.pages.INITIAL.options.IMMERSE": [
+        1,
+        1,
+        0
+      ],
+      "AMALGAMATOR.pages.INITIAL.options.COMBINE_STRIKES": [
+        11,
+        0,
+        0
+      ],
+      "AROMA_OF_CHAOS.pages.INITIAL.options.MAINTAIN_CONTROL": [
+        48,
+        0,
+        0
+      ],
+      "BATTLEWORN_DUMMY.pages.INITIAL.options.SETTING_3": [
+        2,
+        0,
+        0
+      ],
+      "BRAIN_LEECH.pages.INITIAL.options.SHARE_KNOWLEDGE": [
+        61,
+        0,
+        0
+      ],
+      "BUGSLAYER.pages.INITIAL.options.EXTERMINATION": [
+        23,
+        0,
+        0
+      ],
+      "BYRDONIS_NEST.pages.INITIAL.options.EAT": [
+        45,
+        0,
+        315
+      ],
+      "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.IRONCLAD": [
+        6,
+        0,
+        0
+      ],
+      "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NECROBINDER": [
+        18,
+        0,
+        0
+      ],
+      "COLOSSAL_FLOWER.pages.INITIAL.options.EXTRACT_CURRENT_PRIZE_1": [
+        16,
+        0,
+        0
+      ],
+      "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": [
+        21,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.ASTROLABE": [
+        3,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.ECTOPLASM": [
+        2,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE": [
+        13,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.SNECKO_EYE": [
+        1,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.SOZU": [
+        2,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.VELVET_CHOKER": [
+        4,
+        0,
+        0
+      ],
+      "DENSE_VEGETATION.pages.INITIAL.options.REST": [
+        42,
+        0,
+        659
+      ],
+      "DENSE_VEGETATION.pages.REST.options.FIGHT": [
+        42,
+        0,
+        0
+      ],
+      "DOLL_ROOM.pages.INITIAL.options.RANDOM": [
+        32,
+        0,
+        0
+      ],
+      "DOORS_OF_LIGHT_AND_DARK.pages.INITIAL.options.LIGHT": [
+        16,
+        0,
+        0
+      ],
+      "DROWNING_BEACON.pages.INITIAL.options.BOTTLE": [
+        12,
+        0,
+        0
+      ],
+      "ENDLESS_CONVEYOR.pages.ALL.options.CAVIAR": [
+        1,
+        0,
+        4
+      ],
+      "ENDLESS_CONVEYOR.pages.ALL.options.CLAM_ROLL": [
+        2,
+        0,
+        20
+      ],
+      "ENDLESS_CONVEYOR.pages.ALL.options.SPICY_SNAPPY": [
+        1,
+        0,
+        0
+      ],
+      "ENDLESS_CONVEYOR.pages.GRAB_SOMETHING_OFF_THE_BELT.options.LEAVE": [
+        1,
+        0,
+        0
+      ],
+      "ENDLESS_CONVEYOR.pages.INITIAL.options.OBSERVE_CHEF": [
+        8,
+        0,
+        0
+      ],
+      "FIELD_OF_MAN_SIZED_HOLES.pages.INITIAL.options.ENTER_YOUR_HOLE": [
+        23,
+        0,
+        0
+      ],
+      "GRAVE_OF_THE_FORGOTTEN.pages.INITIAL.options.ACCEPT": [
+        5,
+        0,
+        0
+      ],
+      "HUNGRY_FOR_MUSHROOMS.pages.INITIAL.options.BIG_MUSHROOM": [
+        1,
+        0,
+        20
+      ],
+      "INFESTED_AUTOMATON.pages.INITIAL.options.STUDY": [
+        23,
+        0,
+        0
+      ],
+      "JUNGLE_MAZE_ADVENTURE.pages.INITIAL.options.JOIN_FORCES": [
+        33,
+        0,
+        0
+      ],
+      "LOST_WISP.pages.INITIAL.options.SEARCH": [
+        25,
+        0,
+        0
+      ],
+      "LUMINOUS_CHOIR.pages.INITIAL.options.OFFER_TRIBUTE": [
+        2,
+        0,
+        0
+      ],
+      "LUMINOUS_CHOIR.pages.INITIAL.options.REACH_INTO_THE_FLESH": [
+        6,
+        0,
+        0
+      ],
+      "MORPHIC_GROVE.pages.INITIAL.options.LONER": [
+        31,
+        0,
+        155
+      ],
+      "NEOW.pages.INITIAL.options.ARCANE_SCROLL": [
+        2,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.BOOMING_CONCH": [
+        23,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.CURSED_PEARL": [
+        31,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.FISHING_ROD": [
+        4,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.GOLDEN_PEARL": [
+        24,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.KALEIDOSCOPE": [
+        20,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.LARGE_CAPSULE": [
+        36,
+        0,
+        20
+      ],
+      "NEOW.pages.INITIAL.options.LEAD_PAPERWEIGHT": [
+        22,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.LOST_COFFER": [
+        29,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NEOWS_SACRIFICE": [
+        36,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NEOWS_TALISMAN": [
+        10,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NEW_LEAF": [
+        8,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NUTRITIOUS_OYSTER": [
+        10,
+        0,
+        110
+      ],
+      "NEOW.pages.INITIAL.options.PHIAL_HOLSTER": [
+        13,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.POMANDER": [
+        16,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.PRECISE_SCISSORS": [
+        11,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SCROLL_BOXES": [
+        9,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SILKEN_TRESS": [
+        3,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SILVER_CRUCIBLE": [
+        43,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SMALL_CAPSULE": [
+        6,
+        0,
+        10
+      ],
+      "NEOW.pages.INITIAL.options.STONE_HUMIDIFIER": [
+        19,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.WINGED_BOOTS": [
+        9,
+        0,
+        0
+      ],
+      "NONUPEIPE.pages.INITIAL.options.BLESSED_ANTLER": [
+        1,
+        0,
+        0
+      ],
+      "NONUPEIPE.pages.INITIAL.options.BRILLIANT_SCARF": [
+        1,
+        0,
+        0
+      ],
+      "NONUPEIPE.pages.INITIAL.options.LOOMING_FRUIT": [
+        2,
+        0,
+        62
+      ],
+      "NONUPEIPE.pages.INITIAL.options.SIGNET_RING": [
+        2,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.ALCHEMICAL_COFFER": [
+        12,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.ELECTRIC_SHRYMP": [
+        9,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.GLASS_EYE": [
+        4,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.PRISMATIC_GEM": [
+        3,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.SAND_CASTLE": [
+        18,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.SEA_GLASS": [
+        4,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.TOUCH_OF_OROBAS": [
+        21,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_BLOOD": [
+        4,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_FLESH": [
+        19,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_HORN": [
+        7,
+        0,
+        3
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_TEARS": [
+        22,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_TOOTH": [
+        18,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_WING": [
+        1,
+        0,
+        0
+      ],
+      "POTION_COURIER.pages.INITIAL.options.GRAB_POTIONS": [
+        29,
+        0,
+        0
+      ],
+      "PUNCH_OFF.pages.INITIAL.options.NAB": [
+        3,
+        0,
+        0
+      ],
+      "RANWID_THE_ELDER.pages.INITIAL.options.POTION": [
+        11,
+        0,
+        0
+      ],
+      "REFLECTIONS.pages.INITIAL.options.TOUCH_A_MIRROR": [
+        2,
+        0,
+        0
+      ],
+      "RELIC_TRADER.pages.INITIAL.options.TOP": [
+        3,
+        0,
+        0
+      ],
+      "ROOM_FULL_OF_CHEESE.pages.INITIAL.options.GORGE": [
+        81,
+        0,
+        0
+      ],
+      "ROUND_TEA_PARTY.pages.INITIAL.options.ENJOY_TEA": [
+        1,
+        0,
+        65
+      ],
+      "SAPPHIRE_SEED.pages.INITIAL.options.EAT": [
+        52,
+        0,
+        425
+      ],
+      "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": [
+        63,
+        0,
+        0
+      ],
+      "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": [
+        49,
+        0,
+        0
+      ],
+      "SPIRALING_WHIRLPOOL.pages.INITIAL.options.DRINK": [
+        15,
+        0,
+        266
+      ],
+      "SPIRALING_WHIRLPOOL.pages.INITIAL.options.OBSERVE": [
+        2,
+        0,
+        0
+      ],
+      "SPIRIT_GRAFTER.pages.INITIAL.options.LET_IT_IN": [
+        25,
+        0,
+        353
+      ],
+      "STONE_OF_ALL_TIME.pages.INITIAL.options.LIFT": [
+        10,
+        0,
+        100
+      ],
+      "SUNKEN_STATUE.pages.INITIAL.options.GRAB_SWORD": [
+        59,
+        0,
+        0
+      ],
+      "SUNKEN_TREASURY.pages.INITIAL.options.SECOND_CHEST": [
+        19,
+        0,
+        0
+      ],
+      "SYMBIOTE.pages.INITIAL.options.KILL_WITH_FIRE": [
+        33,
+        0,
+        0
+      ],
+      "TABLET_OF_TRUTH.pages.DECIPHER.options.GIVE_UP": [
+        3,
+        0,
+        0
+      ],
+      "TABLET_OF_TRUTH.pages.INITIAL.options.DECIPHER_1": [
+        3,
+        9,
+        0
+      ],
+      "TABLET_OF_TRUTH.pages.INITIAL.options.SMASH": [
+        38,
+        0,
+        525
+      ],
+      "TANX.pages.INITIAL.options.SAI": [
+        1,
+        0,
+        0
+      ],
+      "TANX.pages.INITIAL.options.SPIKED_GAUNTLETS": [
+        1,
+        0,
+        0
+      ],
+      "TANX.pages.INITIAL.options.THROWING_AXE": [
+        1,
+        0,
+        0
+      ],
+      "TANX.pages.INITIAL.options.TRI_BOOMERANG": [
+        1,
+        0,
+        0
+      ],
+      "TEA_MASTER.pages.INITIAL.options.TEA_OF_DISCOURTESY": [
+        15,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.NUTRITIOUS_SOUP": [
+        3,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.PUMPKIN_CANDLE": [
+        17,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.SEAL_OF_GOLD": [
+        7,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.TOASTY_MITTENS": [
+        7,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.TOY_BOX": [
+        6,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.VERY_HOT_COCOA": [
+        20,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.YUMMY_COOKIE": [
+        14,
+        0,
+        0
+      ],
+      "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": [
+        17,
+        0,
+        0
+      ],
+      "THE_LANTERN_KEY.pages.INITIAL.options.RETURN_THE_KEY": [
+        25,
+        0,
+        0
+      ],
+      "THE_LEGENDS_WERE_TRUE.pages.INITIAL.options.NAB_THE_MAP": [
+        54,
+        0,
+        20
+      ],
+      "THIS_OR_THAT.pages.INITIAL.options.ORNATE": [
+        75,
+        0,
+        45
+      ],
+      "TINKER_TIME.pages.CHOOSE_CARD_TYPE.options.SKILL": [
+        3,
+        0,
+        0
+      ],
+      "TINKER_TIME.pages.CHOOSE_RIDER.options.ENERGIZED": [
+        2,
+        0,
+        0
+      ],
+      "TINKER_TIME.pages.CHOOSE_RIDER.options.WISDOM": [
+        1,
+        0,
+        0
+      ],
+      "TINKER_TIME.pages.INITIAL.options.CHOOSE_CARD_TYPE": [
+        3,
+        0,
+        0
+      ],
+      "TRASH_HEAP.pages.INITIAL.options.GRAB": [
+        19,
+        0,
+        0
+      ],
+      "TRIAL.pages.INITIAL.options.ACCEPT": [
+        2,
+        0,
+        0
+      ],
+      "TRIAL.pages.MERCHANT.options.INNOCENT": [
+        1,
+        0,
+        0
+      ],
+      "TRIAL.pages.NOBLE.options.INNOCENT": [
+        1,
+        0,
+        0
+      ],
+      "UNREST_SITE.pages.INITIAL.options.REST": [
+        12,
+        0,
+        382
+      ],
+      "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": [
+        2,
+        0,
+        0
+      ],
+      "VAKUU.pages.INITIAL.options.FIDDLE": [
+        2,
+        0,
+        0
+      ],
+      "VAKUU.pages.INITIAL.options.WHISPERING_EARRING": [
+        3,
+        0,
+        0
+      ],
+      "WATERLOGGED_SCRIPTORIUM.pages.INITIAL.options.BLOODY_INK": [
+        10,
+        0,
+        60
+      ],
+      "WELCOME_TO_WONGOS.pages.INITIAL.options.BARGAIN_BIN": [
+        15,
+        0,
+        7
+      ],
+      "WELLSPRING.pages.INITIAL.options.BOTTLE": [
+        40,
+        0,
+        0
+      ],
+      "WHISPERING_HOLLOW.pages.INITIAL.options.GOLD": [
+        32,
+        0,
+        0
+      ],
+      "WOOD_CARVINGS.pages.INITIAL.options.BIRD": [
+        37,
+        0,
+        0
+      ],
+      "ZEN_WEAVER.pages.INITIAL.options.BREATHING_TECHNIQUES": [
+        18,
+        0,
+        8
+      ]
+    },
+    "events_by_act": {
+      "1": {
+        "ABYSSAL_BATHS.pages.ALL.options.EXIT_BATHS": 1,
+        "ABYSSAL_BATHS.pages.INITIAL.options.ABSTAIN": 16,
+        "ABYSSAL_BATHS.pages.INITIAL.options.IMMERSE": 1,
+        "AROMA_OF_CHAOS.pages.INITIAL.options.MAINTAIN_CONTROL": 48,
+        "BRAIN_LEECH.pages.INITIAL.options.SHARE_KNOWLEDGE": 41,
+        "BYRDONIS_NEST.pages.INITIAL.options.EAT": 45,
+        "DENSE_VEGETATION.pages.INITIAL.options.REST": 42,
+        "DENSE_VEGETATION.pages.REST.options.FIGHT": 42,
+        "DOORS_OF_LIGHT_AND_DARK.pages.INITIAL.options.LIGHT": 16,
+        "DROWNING_BEACON.pages.INITIAL.options.BOTTLE": 12,
+        "ENDLESS_CONVEYOR.pages.ALL.options.CAVIAR": 1,
+        "ENDLESS_CONVEYOR.pages.ALL.options.CLAM_ROLL": 2,
+        "ENDLESS_CONVEYOR.pages.ALL.options.SPICY_SNAPPY": 1,
+        "ENDLESS_CONVEYOR.pages.GRAB_SOMETHING_OFF_THE_BELT.options.LEAVE": 1,
+        "ENDLESS_CONVEYOR.pages.INITIAL.options.OBSERVE_CHEF": 8,
+        "JUNGLE_MAZE_ADVENTURE.pages.INITIAL.options.JOIN_FORCES": 33,
+        "LUMINOUS_CHOIR.pages.INITIAL.options.OFFER_TRIBUTE": 2,
+        "LUMINOUS_CHOIR.pages.INITIAL.options.REACH_INTO_THE_FLESH": 6,
+        "MORPHIC_GROVE.pages.INITIAL.options.LONER": 31,
+        "NEOW.pages.INITIAL.options.ARCANE_SCROLL": 2,
+        "NEOW.pages.INITIAL.options.BOOMING_CONCH": 23,
+        "NEOW.pages.INITIAL.options.CURSED_PEARL": 31,
+        "NEOW.pages.INITIAL.options.FISHING_ROD": 4,
+        "NEOW.pages.INITIAL.options.GOLDEN_PEARL": 24,
+        "NEOW.pages.INITIAL.options.KALEIDOSCOPE": 20,
+        "NEOW.pages.INITIAL.options.LARGE_CAPSULE": 36,
+        "NEOW.pages.INITIAL.options.LEAD_PAPERWEIGHT": 22,
+        "NEOW.pages.INITIAL.options.LOST_COFFER": 29,
+        "NEOW.pages.INITIAL.options.NEOWS_SACRIFICE": 36,
+        "NEOW.pages.INITIAL.options.NEOWS_TALISMAN": 10,
+        "NEOW.pages.INITIAL.options.NEW_LEAF": 8,
+        "NEOW.pages.INITIAL.options.NUTRITIOUS_OYSTER": 10,
+        "NEOW.pages.INITIAL.options.PHIAL_HOLSTER": 13,
+        "NEOW.pages.INITIAL.options.POMANDER": 16,
+        "NEOW.pages.INITIAL.options.PRECISE_SCISSORS": 11,
+        "NEOW.pages.INITIAL.options.SCROLL_BOXES": 9,
+        "NEOW.pages.INITIAL.options.SILKEN_TRESS": 3,
+        "NEOW.pages.INITIAL.options.SILVER_CRUCIBLE": 43,
+        "NEOW.pages.INITIAL.options.SMALL_CAPSULE": 6,
+        "NEOW.pages.INITIAL.options.STONE_HUMIDIFIER": 19,
+        "NEOW.pages.INITIAL.options.WINGED_BOOTS": 9,
+        "PUNCH_OFF.pages.INITIAL.options.NAB": 3,
+        "ROOM_FULL_OF_CHEESE.pages.INITIAL.options.GORGE": 60,
+        "SAPPHIRE_SEED.pages.INITIAL.options.EAT": 52,
+        "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": 43,
+        "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": 22,
+        "SPIRALING_WHIRLPOOL.pages.INITIAL.options.DRINK": 15,
+        "SPIRALING_WHIRLPOOL.pages.INITIAL.options.OBSERVE": 2,
+        "SUNKEN_STATUE.pages.INITIAL.options.GRAB_SWORD": 59,
+        "SUNKEN_TREASURY.pages.INITIAL.options.SECOND_CHEST": 19,
+        "TABLET_OF_TRUTH.pages.DECIPHER.options.GIVE_UP": 3,
+        "TABLET_OF_TRUTH.pages.INITIAL.options.DECIPHER_1": 3,
+        "TABLET_OF_TRUTH.pages.INITIAL.options.SMASH": 38,
+        "TEA_MASTER.pages.INITIAL.options.TEA_OF_DISCOURTESY": 9,
+        "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": 15,
+        "THE_LEGENDS_WERE_TRUE.pages.INITIAL.options.NAB_THE_MAP": 54,
+        "THIS_OR_THAT.pages.INITIAL.options.ORNATE": 53,
+        "TRASH_HEAP.pages.INITIAL.options.GRAB": 19,
+        "UNREST_SITE.pages.INITIAL.options.REST": 12,
+        "WATERLOGGED_SCRIPTORIUM.pages.INITIAL.options.BLOODY_INK": 10,
+        "WELLSPRING.pages.INITIAL.options.BOTTLE": 40,
+        "WHISPERING_HOLLOW.pages.INITIAL.options.GOLD": 32,
+        "WOOD_CARVINGS.pages.INITIAL.options.BIRD": 37
+      },
+      "2": {
+        "AMALGAMATOR.pages.INITIAL.options.COMBINE_STRIKES": 11,
+        "BRAIN_LEECH.pages.INITIAL.options.SHARE_KNOWLEDGE": 20,
+        "BUGSLAYER.pages.INITIAL.options.EXTERMINATION": 23,
+        "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.IRONCLAD": 6,
+        "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NECROBINDER": 18,
+        "COLOSSAL_FLOWER.pages.INITIAL.options.EXTRACT_CURRENT_PRIZE_1": 16,
+        "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": 18,
+        "DARV.pages.INITIAL.options.ASTROLABE": 3,
+        "DARV.pages.INITIAL.options.ECTOPLASM": 2,
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE": 13,
+        "DARV.pages.INITIAL.options.SNECKO_EYE": 1,
+        "DARV.pages.INITIAL.options.SOZU": 2,
+        "DARV.pages.INITIAL.options.VELVET_CHOKER": 4,
+        "DOLL_ROOM.pages.INITIAL.options.RANDOM": 32,
+        "FIELD_OF_MAN_SIZED_HOLES.pages.INITIAL.options.ENTER_YOUR_HOLE": 23,
+        "INFESTED_AUTOMATON.pages.INITIAL.options.STUDY": 23,
+        "LOST_WISP.pages.INITIAL.options.SEARCH": 25,
+        "OROBAS.pages.INITIAL.options.ALCHEMICAL_COFFER": 12,
+        "OROBAS.pages.INITIAL.options.ELECTRIC_SHRYMP": 9,
+        "OROBAS.pages.INITIAL.options.GLASS_EYE": 4,
+        "OROBAS.pages.INITIAL.options.PRISMATIC_GEM": 3,
+        "OROBAS.pages.INITIAL.options.SAND_CASTLE": 18,
+        "OROBAS.pages.INITIAL.options.SEA_GLASS": 4,
+        "OROBAS.pages.INITIAL.options.TOUCH_OF_OROBAS": 21,
+        "PAEL.pages.INITIAL.options.PAELS_BLOOD": 4,
+        "PAEL.pages.INITIAL.options.PAELS_FLESH": 19,
+        "PAEL.pages.INITIAL.options.PAELS_HORN": 7,
+        "PAEL.pages.INITIAL.options.PAELS_TEARS": 22,
+        "PAEL.pages.INITIAL.options.PAELS_TOOTH": 18,
+        "PAEL.pages.INITIAL.options.PAELS_WING": 1,
+        "POTION_COURIER.pages.INITIAL.options.GRAB_POTIONS": 24,
+        "RANWID_THE_ELDER.pages.INITIAL.options.POTION": 11,
+        "RELIC_TRADER.pages.INITIAL.options.TOP": 2,
+        "ROOM_FULL_OF_CHEESE.pages.INITIAL.options.GORGE": 21,
+        "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": 19,
+        "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": 24,
+        "SPIRIT_GRAFTER.pages.INITIAL.options.LET_IT_IN": 25,
+        "STONE_OF_ALL_TIME.pages.INITIAL.options.LIFT": 10,
+        "SYMBIOTE.pages.INITIAL.options.KILL_WITH_FIRE": 28,
+        "TEA_MASTER.pages.INITIAL.options.TEA_OF_DISCOURTESY": 6,
+        "TEZCATARA.pages.INITIAL.options.NUTRITIOUS_SOUP": 3,
+        "TEZCATARA.pages.INITIAL.options.PUMPKIN_CANDLE": 17,
+        "TEZCATARA.pages.INITIAL.options.SEAL_OF_GOLD": 7,
+        "TEZCATARA.pages.INITIAL.options.TOASTY_MITTENS": 7,
+        "TEZCATARA.pages.INITIAL.options.TOY_BOX": 6,
+        "TEZCATARA.pages.INITIAL.options.VERY_HOT_COCOA": 20,
+        "TEZCATARA.pages.INITIAL.options.YUMMY_COOKIE": 14,
+        "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": 1,
+        "THE_LANTERN_KEY.pages.INITIAL.options.RETURN_THE_KEY": 25,
+        "THIS_OR_THAT.pages.INITIAL.options.ORNATE": 22,
+        "WELCOME_TO_WONGOS.pages.INITIAL.options.BARGAIN_BIN": 15,
+        "ZEN_WEAVER.pages.INITIAL.options.BREATHING_TECHNIQUES": 18
+      },
+      "3": {
+        "BATTLEWORN_DUMMY.pages.INITIAL.options.SETTING_3": 2,
+        "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": 3,
+        "GRAVE_OF_THE_FORGOTTEN.pages.INITIAL.options.ACCEPT": 5,
+        "HUNGRY_FOR_MUSHROOMS.pages.INITIAL.options.BIG_MUSHROOM": 1,
+        "NONUPEIPE.pages.INITIAL.options.BLESSED_ANTLER": 1,
+        "NONUPEIPE.pages.INITIAL.options.BRILLIANT_SCARF": 1,
+        "NONUPEIPE.pages.INITIAL.options.LOOMING_FRUIT": 2,
+        "NONUPEIPE.pages.INITIAL.options.SIGNET_RING": 2,
+        "POTION_COURIER.pages.INITIAL.options.GRAB_POTIONS": 5,
+        "REFLECTIONS.pages.INITIAL.options.TOUCH_A_MIRROR": 2,
+        "RELIC_TRADER.pages.INITIAL.options.TOP": 1,
+        "ROUND_TEA_PARTY.pages.INITIAL.options.ENJOY_TEA": 1,
+        "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": 1,
+        "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": 3,
+        "SYMBIOTE.pages.INITIAL.options.KILL_WITH_FIRE": 5,
+        "TANX.pages.INITIAL.options.SAI": 1,
+        "TANX.pages.INITIAL.options.SPIKED_GAUNTLETS": 1,
+        "TANX.pages.INITIAL.options.THROWING_AXE": 1,
+        "TANX.pages.INITIAL.options.TRI_BOOMERANG": 1,
+        "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": 1,
+        "TINKER_TIME.pages.CHOOSE_CARD_TYPE.options.SKILL": 3,
+        "TINKER_TIME.pages.CHOOSE_RIDER.options.ENERGIZED": 2,
+        "TINKER_TIME.pages.CHOOSE_RIDER.options.WISDOM": 1,
+        "TINKER_TIME.pages.INITIAL.options.CHOOSE_CARD_TYPE": 3,
+        "TRIAL.pages.INITIAL.options.ACCEPT": 2,
+        "TRIAL.pages.MERCHANT.options.INNOCENT": 1,
+        "TRIAL.pages.NOBLE.options.INNOCENT": 1,
+        "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": 2,
+        "VAKUU.pages.INITIAL.options.FIDDLE": 2,
+        "VAKUU.pages.INITIAL.options.WHISPERING_EARRING": 3
+      }
+    },
+    "items": {
+      "buy_card": {
+        "Accelerant": 47,
+        "Accuracy": 10,
+        "Backflip": 9,
+        "Backstab": 15,
+        "Blade Dance": 25,
+        "Bubble Bubble": 35,
+        "Calculated Gamble": 1,
+        "Cloak and Dagger": 2,
+        "Dagger Spray": 10,
+        "Dagger Throw": 34,
+        "Dash": 7,
+        "Deadly Poison": 19,
+        "Dramatic Entrance": 11,
+        "Echoing Slash": 10,
+        "Expose": 2,
+        "Finisher": 15,
+        "Fisticuffs": 3,
+        "Flechettes": 4,
+        "Flick-Flack": 36,
+        "Footwork": 1,
+        "Grand Finale": 4,
+        "Hidden Daggers": 2,
+        "Infinite Blades": 17,
+        "Leading Strike": 21,
+        "Leg Sweep": 1,
+        "Memento Mori": 1,
+        "Noxious Fumes": 57,
+        "Outbreak": 1,
+        "Phantom Blades": 11,
+        "Poisoned Stab": 36,
+        "Precise Cut": 5,
+        "Predator": 4,
+        "Restlessness": 13,
+        "Ricochet": 2,
+        "Seeker Strike": 17,
+        "Skewer": 3,
+        "Slice": 4,
+        "Snakebite": 7,
+        "Sucker Punch": 29,
+        "Ultimate Strike": 4,
+        "Up My Sleeve": 3,
+        "Volley": 2
+      },
+      "buy_potion": {
+        "Attack Potion": 12,
+        "Blessing of the Forge": 2,
+        "Block Potion": 15,
+        "Colorless Potion": 15,
+        "Dexterity Potion": 11,
+        "Energy Potion": 15,
+        "Explosive Ampoule": 18,
+        "Fairy in a Bottle": 5,
+        "Fire Potion": 14,
+        "Flex Potion": 15,
+        "Ghost in a Jar": 7,
+        "Heart of Iron": 23,
+        "Mazaleth's Gift": 6,
+        "Poison Potion": 9,
+        "Powdered Demise": 22,
+        "Power Potion": 11,
+        "Skill Potion": 17,
+        "Speed Potion": 13,
+        "Strength Potion": 21,
+        "Swift Potion": 13,
+        "Touch of Insanity": 2,
+        "Vulnerable Potion": 14,
+        "Weak Potion": 13
+      },
+      "buy_relic": {
+        "Anchor": 9,
+        "Bag of Marbles": 9,
+        "Bag of Preparation": 5,
+        "Bellows": 1,
+        "Belt Buckle": 3,
+        "Blood Vial": 7,
+        "Book of Five Rings": 2,
+        "Bread": 2,
+        "Bronze Scales": 6,
+        "Burning Sticks": 2,
+        "Candelabra": 2,
+        "Cauldron": 2,
+        "Centennial Puzzle": 10,
+        "Chemical X": 2,
+        "Festive Popper": 9,
+        "Ghost Seed": 2,
+        "Gorget": 4,
+        "Gremlin Horn": 3,
+        "Happy Flower": 12,
+        "Ice Cream": 1,
+        "Kunai": 1,
+        "Lantern": 9,
+        "Lee's Waffle": 2,
+        "Letter Opener": 1,
+        "Lizard Tail": 1,
+        "Meal Ticket": 7,
+        "Membership Card": 3,
+        "Miniature Cannon": 1,
+        "Miniature Tent": 4,
+        "Mummified Hand": 1,
+        "Mystic Lighter": 1,
+        "Ninja Scroll": 2,
+        "Nunchaku": 2,
+        "Oddly Smooth Stone": 5,
+        "Ornamental Fan": 1,
+        "Orrery": 1,
+        "Pantograph": 2,
+        "Pendulum": 5,
+        "Permafrost": 3,
+        "Petrified Toad": 2,
+        "Potion Belt": 1,
+        "Punch Dagger": 3,
+        "Red Mask": 8,
+        "Regal Pillow": 4,
+        "Reptile Trinket": 2,
+        "Royal Stamp": 1,
+        "Screaming Flagon": 1,
+        "Shovel": 1,
+        "Sling of Courage": 8,
+        "Snecko Skull": 2,
+        "Sparkling Rouge": 1,
+        "Stone Cracker": 2,
+        "Strawberry": 3,
+        "Strike Dummy": 2,
+        "The Abacus": 2,
+        "Toolbox": 3,
+        "Twisted Funnel": 3,
+        "Vajra": 5,
+        "Venerable Tea Set": 6,
+        "Vexing Puzzlebox": 1,
+        "War Paint": 2,
+        "Whetstone": 2,
+        "Wing Charm": 1
+      }
+    },
+    "shop": {
+      "1": {
+        "buy_card": 407,
+        "buy_potion": 172,
+        "buy_relic": 94,
+        "clumsy_after_ornate_price": 1700,
+        "clumsy_after_ornate_removals": 17,
+        "gold_on_leave": 20841,
+        "leave_room": 516,
+        "leave_with_affordable_removal": 43,
+        "remove_card": 93
+      },
+      "2": {
+        "buy_card": 119,
+        "buy_potion": 112,
+        "buy_relic": 108,
+        "clumsy_after_ornate_price": 1500,
+        "clumsy_after_ornate_removals": 15,
+        "gold_on_leave": 14037,
+        "leave_room": 251,
+        "leave_with_affordable_removal": 39,
+        "remove_card": 47
+      },
+      "3": {
+        "buy_card": 14,
+        "buy_potion": 9,
+        "buy_relic": 9,
+        "gold_on_leave": 842,
+        "leave_room": 20,
+        "leave_with_affordable_removal": 0,
+        "remove_card": 13
+      }
+    },
+    "shop_selection_cards_lost": {
+      "CLUMSY": 32,
+      "DEFEND_SILENT": 51,
+      "GUILTY": 21,
+      "INJURY": 2,
+      "POOR_SLEEP": 7,
+      "SPORE_MIND": 5,
+      "STRIKE_SILENT": 35
+    }
+  },
+  "macros_late_entrants": {
+    "accelerant_purchases_without_printed_poison": 0,
+    "added_curses": {
+      "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": {
+        "DOUBT": 1
+      },
+      "NEOW.pages.INITIAL.options.CURSED_PEARL": {
+        "GREED": 9
+      },
+      "NEOW.pages.INITIAL.options.NEOWS_SACRIFICE": {
+        "GUILTY": 9
+      },
+      "PUNCH_OFF.pages.INITIAL.options.NAB": {
+        "INJURY": 1
+      },
+      "SUNKEN_TREASURY.pages.INITIAL.options.SECOND_CHEST": {
+        "GREED": 3
+      },
+      "THIS_OR_THAT.pages.INITIAL.options.ORNATE": {
+        "CLUMSY": 24
+      },
+      "TRIAL.pages.MERCHANT.options.INNOCENT": {
+        "SHAME": 1
+      },
+      "TRIAL.pages.NOBLE.options.INNOCENT": {
+        "REGRET": 1
+      },
+      "UNREST_SITE.pages.INITIAL.options.REST": {
+        "POOR_SLEEP": 4
+      },
+      "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": {
+        "ENTHRALLED": 2
+      }
+    },
+    "ancient_offered_picked_picked_reached_a3": {
+      "2": {
+        "DARV.pages.INITIAL.options.ASTROLABE": [
+          2,
+          2,
+          0
+        ],
+        "DARV.pages.INITIAL.options.BLACK_STAR": [
+          2,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.CALLING_BELL": [
+          1,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.DUSTY_TOME": [
+          2,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.ECTOPLASM": [
+          3,
+          2,
+          0
+        ],
+        "DARV.pages.INITIAL.options.EMPTY_CAGE": [
+          3,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.PANDORAS_BOX": [
+          3,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE": [
+          3,
+          3,
+          1
+        ],
+        "DARV.pages.INITIAL.options.RUNIC_PYRAMID": [
+          3,
+          0,
+          0
+        ],
+        "DARV.pages.INITIAL.options.SNECKO_EYE": [
+          4,
+          1,
+          0
+        ],
+        "DARV.pages.INITIAL.options.SOZU": [
+          1,
+          1,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.ALCHEMICAL_COFFER": [
+          5,
+          5,
+          1
+        ],
+        "OROBAS.pages.INITIAL.options.ARCHAIC_TOOTH": [
+          16,
+          0,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.DRIFTWOOD": [
+          8,
+          0,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.ELECTRIC_SHRYMP": [
+          15,
+          6,
+          2
+        ],
+        "OROBAS.pages.INITIAL.options.GLASS_EYE": [
+          7,
+          1,
+          1
+        ],
+        "OROBAS.pages.INITIAL.options.PRISMATIC_GEM": [
+          3,
+          3,
+          1
+        ],
+        "OROBAS.pages.INITIAL.options.RADIANT_PEARL": [
+          11,
+          0,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.SAND_CASTLE": [
+          7,
+          7,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.SEA_GLASS": [
+          6,
+          1,
+          0
+        ],
+        "OROBAS.pages.INITIAL.options.TOUCH_OF_OROBAS": [
+          15,
+          8,
+          2
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_BLOOD": [
+          8,
+          2,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_CLAW": [
+          12,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_EYE": [
+          7,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_FLESH": [
+          6,
+          4,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_GROWTH": [
+          4,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_HORN": [
+          8,
+          6,
+          2
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_LEGION": [
+          8,
+          0,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_TEARS": [
+          9,
+          8,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_TOOTH": [
+          3,
+          3,
+          0
+        ],
+        "PAEL.pages.INITIAL.options.PAELS_WING": [
+          4,
+          0,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.BIIIG_HUG": [
+          13,
+          0,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.GOLDEN_COMPASS": [
+          7,
+          0,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.NUTRITIOUS_SOUP": [
+          19,
+          1,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.PUMPKIN_CANDLE": [
+          11,
+          11,
+          1
+        ],
+        "TEZCATARA.pages.INITIAL.options.SEAL_OF_GOLD": [
+          9,
+          4,
+          1
+        ],
+        "TEZCATARA.pages.INITIAL.options.STORYBOOK": [
+          12,
+          0,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.TOASTY_MITTENS": [
+          14,
+          4,
+          0
+        ],
+        "TEZCATARA.pages.INITIAL.options.TOY_BOX": [
+          12,
+          5,
+          1
+        ],
+        "TEZCATARA.pages.INITIAL.options.VERY_HOT_COCOA": [
+          13,
+          9,
+          2
+        ],
+        "TEZCATARA.pages.INITIAL.options.YUMMY_COOKIE": [
+          7,
+          5,
+          1
+        ]
+      },
+      "3": {
+        "NONUPEIPE.pages.INITIAL.options.BEAUTIFUL_BRACELET": [
+          2,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.BLESSED_ANTLER": [
+          2,
+          1,
+          1
+        ],
+        "NONUPEIPE.pages.INITIAL.options.BRILLIANT_SCARF": [
+          3,
+          1,
+          1
+        ],
+        "NONUPEIPE.pages.INITIAL.options.DELICATE_FROND": [
+          1,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.DIAMOND_DIADEM": [
+          3,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.FUR_COAT": [
+          2,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.JEWELRY_BOX": [
+          1,
+          0,
+          0
+        ],
+        "NONUPEIPE.pages.INITIAL.options.LOOMING_FRUIT": [
+          2,
+          2,
+          2
+        ],
+        "NONUPEIPE.pages.INITIAL.options.SIGNET_RING": [
+          2,
+          2,
+          2
+        ],
+        "TANX.pages.INITIAL.options.CROSSBOW": [
+          1,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.IRON_CLUB": [
+          1,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.MEAT_CLEAVER": [
+          2,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.SAI": [
+          2,
+          1,
+          1
+        ],
+        "TANX.pages.INITIAL.options.SPIKED_GAUNTLETS": [
+          1,
+          1,
+          1
+        ],
+        "TANX.pages.INITIAL.options.TANXS_WHISTLE": [
+          1,
+          0,
+          0
+        ],
+        "TANX.pages.INITIAL.options.THROWING_AXE": [
+          2,
+          1,
+          1
+        ],
+        "TANX.pages.INITIAL.options.TRI_BOOMERANG": [
+          2,
+          1,
+          1
+        ],
+        "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": [
+          2,
+          2,
+          2
+        ],
+        "VAKUU.pages.INITIAL.options.CHOICES_PARADOX": [
+          1,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.DISTINGUISHED_CAPE": [
+          3,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.FIDDLE": [
+          2,
+          2,
+          2
+        ],
+        "VAKUU.pages.INITIAL.options.JEWELED_MASK": [
+          2,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.LORDS_PARASOL": [
+          1,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.MUSIC_BOX": [
+          3,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.SERE_TALON": [
+          4,
+          0,
+          0
+        ],
+        "VAKUU.pages.INITIAL.options.WHISPERING_EARRING": [
+          3,
+          3,
+          3
+        ]
+      }
+    },
+    "camp": {
+      "1": {
+        "HEAL": 208,
+        "SMITH": 141,
+        "hp_gained": 4450,
+        "zero_heals": 0
+      },
+      "2": {
+        "HEAL": 241,
+        "SMITH": 77,
+        "expired_HEAL": 11,
+        "expired_SMITH": 2,
+        "hp_gained": 5486,
+        "kindle_legal": 35,
+        "kindle_taken": 0,
+        "zero_heals": 0
+      },
+      "3": {
+        "HEAL": 23,
+        "SMITH": 11,
+        "hp_gained": 584,
+        "zero_heals": 0
+      }
+    },
+    "card_rewards": {
+      "ABRASIVE": {
+        "offered": 8,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "ACCELERANT": {
+        "offered": 35,
+        "offered_with_poison": 25,
+        "taken": 0,
+        "whole_offer_skipped": 5,
+        "whole_offer_skipped_with_poison": 3
+      },
+      "ACCURACY": {
+        "offered": 33,
+        "taken": 0,
+        "whole_offer_skipped": 6
+      },
+      "ACROBATICS": {
+        "offered": 32,
+        "taken": 0,
+        "whole_offer_skipped": 4
+      },
+      "ADAPTIVE_STRIKE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "ADRENALINE": {
+        "offered": 21,
+        "taken": 15,
+        "whole_offer_skipped": 0
+      },
+      "AFTERIMAGE": {
+        "offered": 16,
+        "taken": 0,
+        "whole_offer_skipped": 7
+      },
+      "AFTERLIFE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "ANGER": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "ANTICIPATE": {
+        "offered": 105,
+        "taken": 4,
+        "whole_offer_skipped": 11
+      },
+      "ARMAMENTS": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "ASHEN_STRIKE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "ASSASSINATE": {
+        "offered": 26,
+        "taken": 19,
+        "whole_offer_skipped": 0
+      },
+      "BACKFLIP": {
+        "offered": 119,
+        "taken": 30,
+        "whole_offer_skipped": 4
+      },
+      "BACKSTAB": {
+        "offered": 46,
+        "taken": 33,
+        "whole_offer_skipped": 0
+      },
+      "BARRAGE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "BLADE_DANCE": {
+        "offered": 130,
+        "taken": 82,
+        "whole_offer_skipped": 0
+      },
+      "BLADE_OF_INK": {
+        "offered": 16,
+        "taken": 0,
+        "whole_offer_skipped": 8
+      },
+      "BLOOD_WALL": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BLUDGEON": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "BLUR": {
+        "offered": 47,
+        "taken": 0,
+        "whole_offer_skipped": 10
+      },
+      "BODY_SLAM": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BOOST_AWAY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BOOT_SEQUENCE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "BORROWED_TIME": {
+        "offered": 3,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "BOUNCING_FLASK": {
+        "offered": 43,
+        "taken": 11,
+        "whole_offer_skipped": 0
+      },
+      "BRAND": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BUBBLE_BUBBLE": {
+        "offered": 35,
+        "taken": 35,
+        "whole_offer_skipped": 0
+      },
+      "BULLET_TIME": {
+        "offered": 20,
+        "taken": 0,
+        "whole_offer_skipped": 10
+      },
+      "BULLY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "BURST": {
+        "offered": 20,
+        "taken": 0,
+        "whole_offer_skipped": 8
+      },
+      "BURY": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "CALCIFY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CALCULATED_GAMBLE": {
+        "offered": 42,
+        "taken": 0,
+        "whole_offer_skipped": 3
+      },
+      "CAPTURE_SPIRIT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CASCADE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "CHARGE_BATTERY": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "CINDER": {
+        "offered": 3,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "CLAW": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CLOAK_AND_DAGGER": {
+        "offered": 127,
+        "taken": 40,
+        "whole_offer_skipped": 0
+      },
+      "COLLISION_COURSE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "COLOSSUS": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "COMPACT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "COMPILE_DRIVER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CONQUEROR": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "CONSUMING_SHADOW": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "COOLHEADED": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "CORROSIVE_WAVE": {
+        "offered": 15,
+        "taken": 0,
+        "whole_offer_skipped": 8
+      },
+      "CRESCENT_SPEAR": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "CRUELTY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "DAGGER_SPRAY": {
+        "offered": 121,
+        "taken": 62,
+        "whole_offer_skipped": 3
+      },
+      "DAGGER_THROW": {
+        "offered": 133,
+        "taken": 52,
+        "whole_offer_skipped": 6
+      },
+      "DANSE_MACABRE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DASH": {
+        "offered": 39,
+        "taken": 31,
+        "whole_offer_skipped": 0
+      },
+      "DEADLY_POISON": {
+        "offered": 134,
+        "taken": 122,
+        "whole_offer_skipped": 0
+      },
+      "DEATHBRINGER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEATHS_DOOR": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEBILITATE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEFLECT": {
+        "offered": 126,
+        "taken": 20,
+        "whole_offer_skipped": 2
+      },
+      "DEFY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DELAY": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "DEMESNE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEMON_FORM": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DEVOUR_LIFE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "DIRGE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "DISMANTLE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "DODGE_AND_ROLL": {
+        "offered": 133,
+        "taken": 0,
+        "whole_offer_skipped": 18
+      },
+      "DOMINATE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "DRAIN_POWER": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "DREDGE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "DRUM_OF_BATTLE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "ECHOING_SLASH": {
+        "offered": 43,
+        "taken": 30,
+        "whole_offer_skipped": 0
+      },
+      "EIDOLON": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "ENFEEBLING_TOUCH": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "ENVENOM": {
+        "offered": 18,
+        "taken": 0,
+        "whole_offer_skipped": 9
+      },
+      "ESCAPE_PLAN": {
+        "offered": 40,
+        "taken": 2,
+        "whole_offer_skipped": 12
+      },
+      "EXPERTISE": {
+        "offered": 38,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "EXPOSE": {
+        "offered": 38,
+        "taken": 0,
+        "whole_offer_skipped": 4
+      },
+      "FAN_OF_KNIVES": {
+        "offered": 16,
+        "taken": 13,
+        "whole_offer_skipped": 0
+      },
+      "FEAR": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "FEEL_NO_PAIN": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "FINISHER": {
+        "offered": 32,
+        "taken": 0,
+        "whole_offer_skipped": 7
+      },
+      "FLAME_BARRIER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "FLECHETTES": {
+        "offered": 38,
+        "taken": 0,
+        "whole_offer_skipped": 11
+      },
+      "FLICK_FLACK": {
+        "offered": 134,
+        "taken": 23,
+        "whole_offer_skipped": 7
+      },
+      "FOOTWORK": {
+        "offered": 43,
+        "taken": 18,
+        "whole_offer_skipped": 0
+      },
+      "GLIMMER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GLITTERSTREAM": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "GLOW": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GRAND_FINALE": {
+        "offered": 13,
+        "taken": 13,
+        "whole_offer_skipped": 0
+      },
+      "GRAVE_WARDEN": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "GUIDING_STAR": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "GUNK_UP": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "HAND_TRICK": {
+        "offered": 39,
+        "taken": 4,
+        "whole_offer_skipped": 0
+      },
+      "HANG": {
+        "offered": 2,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "HAUNT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "HAZE": {
+        "offered": 47,
+        "taken": 33,
+        "whole_offer_skipped": 0
+      },
+      "HEADBUTT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "HELLRAISER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "HIDDEN_DAGGERS": {
+        "offered": 34,
+        "taken": 16,
+        "whole_offer_skipped": 0
+      },
+      "HOTFIX": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "IMPERVIOUS": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "INFERNO": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "INFINITE_BLADES": {
+        "offered": 44,
+        "taken": 0,
+        "whole_offer_skipped": 5
+      },
+      "INFLAME": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "INVOKE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "IRON_WAVE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "KNIFE_TRAP": {
+        "offered": 21,
+        "taken": 0,
+        "whole_offer_skipped": 12
+      },
+      "LEADING_STRIKE": {
+        "offered": 134,
+        "taken": 69,
+        "whole_offer_skipped": 0
+      },
+      "LEAP": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "LEG_SWEEP": {
+        "offered": 45,
+        "taken": 31,
+        "whole_offer_skipped": 0
+      },
+      "LETHALITY": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "LIGHTNING_ROD": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "MALAISE": {
+        "offered": 16,
+        "taken": 0,
+        "whole_offer_skipped": 8
+      },
+      "MANGLE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "MASTER_PLANNER": {
+        "offered": 20,
+        "taken": 0,
+        "whole_offer_skipped": 8
+      },
+      "MEMENTO_MORI": {
+        "offered": 36,
+        "taken": 9,
+        "whole_offer_skipped": 2
+      },
+      "MIRAGE": {
+        "offered": 56,
+        "taken": 0,
+        "whole_offer_skipped": 11
+      },
+      "MURDER": {
+        "offered": 18,
+        "taken": 0,
+        "whole_offer_skipped": 11
+      },
+      "NECRO_MASTERY": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "NEGATIVE_PULSE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "NEUROSURGE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "NIGHTMARE": {
+        "offered": 14,
+        "taken": 0,
+        "whole_offer_skipped": 7
+      },
+      "NOT_YET": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "NOXIOUS_FUMES": {
+        "offered": 42,
+        "taken": 18,
+        "whole_offer_skipped": 0
+      },
+      "NO_ESCAPE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "OBLIVION": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "OFFERING": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "ONE_TWO_PUNCH": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "ORBIT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "OUTBREAK": {
+        "offered": 16,
+        "taken": 15,
+        "whole_offer_skipped": 0
+      },
+      "PARRY": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PARTICLE_WALL": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "PATTER": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "PHANTOM_BLADES": {
+        "offered": 45,
+        "taken": 0,
+        "whole_offer_skipped": 3
+      },
+      "PHOTON_CUT": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "PIERCING_WAIL": {
+        "offered": 114,
+        "taken": 0,
+        "whole_offer_skipped": 19
+      },
+      "PILLAGE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "PINPOINT": {
+        "offered": 45,
+        "taken": 10,
+        "whole_offer_skipped": 1
+      },
+      "POISONED_STAB": {
+        "offered": 135,
+        "taken": 99,
+        "whole_offer_skipped": 0
+      },
+      "POKE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "POMMEL_STRIKE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "POUNCE": {
+        "offered": 28,
+        "taken": 9,
+        "whole_offer_skipped": 1
+      },
+      "PRECISE_CUT": {
+        "offered": 39,
+        "taken": 32,
+        "whole_offer_skipped": 0
+      },
+      "PREDATOR": {
+        "offered": 108,
+        "taken": 57,
+        "whole_offer_skipped": 3
+      },
+      "PREPARED": {
+        "offered": 116,
+        "taken": 0,
+        "whole_offer_skipped": 19
+      },
+      "PULL_FROM_BELOW": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "RAMPAGE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "REANIMATE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "REAP": {
+        "offered": 5,
+        "taken": 4,
+        "whole_offer_skipped": 0
+      },
+      "REAVE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "REFINE_BLADE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 2
+      },
+      "REFLEX": {
+        "offered": 42,
+        "taken": 0,
+        "whole_offer_skipped": 5
+      },
+      "RICOCHET": {
+        "offered": 124,
+        "taken": 11,
+        "whole_offer_skipped": 9
+      },
+      "SACRIFICE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "SCOURGE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SCULPTING_STRIKE": {
+        "offered": 3,
+        "taken": 2,
+        "whole_offer_skipped": 0
+      },
+      "SEANCE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SENTRY_MODE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "SERPENT_FORM": {
+        "offered": 21,
+        "taken": 0,
+        "whole_offer_skipped": 7
+      },
+      "SETUP_STRIKE": {
+        "offered": 3,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "SEVERANCE": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SHADOWMELD": {
+        "offered": 21,
+        "taken": 0,
+        "whole_offer_skipped": 9
+      },
+      "SHADOW_STEP": {
+        "offered": 7,
+        "taken": 0,
+        "whole_offer_skipped": 3
+      },
+      "SHARED_FATE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SHINING_STRIKE": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SIC_EM": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SIDESTEP": {
+        "offered": 43,
+        "taken": 2,
+        "whole_offer_skipped": 3
+      },
+      "SKEWER": {
+        "offered": 34,
+        "taken": 33,
+        "whole_offer_skipped": 0
+      },
+      "SKIM": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SLICE": {
+        "offered": 116,
+        "taken": 31,
+        "whole_offer_skipped": 2
+      },
+      "SNAKEBITE": {
+        "offered": 120,
+        "taken": 109,
+        "whole_offer_skipped": 0
+      },
+      "SNAP": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SOLAR_STRIKE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SOUL_STORM": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "SOW": {
+        "offered": 4,
+        "taken": 3,
+        "whole_offer_skipped": 0
+      },
+      "SPEEDSTER": {
+        "offered": 36,
+        "taken": 0,
+        "whole_offer_skipped": 5
+      },
+      "SPITE": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "STOMP": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "STORM_OF_STEEL": {
+        "offered": 18,
+        "taken": 0,
+        "whole_offer_skipped": 11
+      },
+      "STRANGLE": {
+        "offered": 44,
+        "taken": 5,
+        "whole_offer_skipped": 7
+      },
+      "SUCKER_PUNCH": {
+        "offered": 118,
+        "taken": 40,
+        "whole_offer_skipped": 3
+      },
+      "SWEEPING_BEAM": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "SYNCHRONIZE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TACTICIAN": {
+        "offered": 39,
+        "taken": 0,
+        "whole_offer_skipped": 11
+      },
+      "TAUNT": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TEAR_ASUNDER": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "THE_HUNT": {
+        "offered": 13,
+        "taken": 5,
+        "whole_offer_skipped": 0
+      },
+      "THE_SCYTHE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      },
+      "THUNDERCLAP": {
+        "offered": 2,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TIMES_UP": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 3
+      },
+      "TOOLS_OF_THE_TRADE": {
+        "offered": 18,
+        "taken": 0,
+        "whole_offer_skipped": 12
+      },
+      "TRACKING": {
+        "offered": 15,
+        "taken": 0,
+        "whole_offer_skipped": 8
+      },
+      "TREMBLE": {
+        "offered": 3,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "TRUE_GRIT": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "TURBO": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "TWIN_STRIKE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "UNTOUCHABLE": {
+        "offered": 127,
+        "taken": 0,
+        "whole_offer_skipped": 14
+      },
+      "UP_MY_SLEEVE": {
+        "offered": 36,
+        "taken": 9,
+        "whole_offer_skipped": 0
+      },
+      "VEILPIERCER": {
+        "offered": 2,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "WELL_LAID_PLANS": {
+        "offered": 24,
+        "taken": 0,
+        "whole_offer_skipped": 12
+      },
+      "WHIRLWIND": {
+        "offered": 1,
+        "taken": 1,
+        "whole_offer_skipped": 0
+      },
+      "WHITE_NOISE": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "WISP": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 0
+      },
+      "WROUGHT_IN_WAR": {
+        "offered": 1,
+        "taken": 0,
+        "whole_offer_skipped": 1
+      }
+    },
+    "event_choice_count_cost_heal": {
+      "ABYSSAL_BATHS.pages.INITIAL.options.ABSTAIN": [
+        3,
+        0,
+        30
+      ],
+      "AMALGAMATOR.pages.INITIAL.options.COMBINE_STRIKES": [
+        8,
+        0,
+        0
+      ],
+      "AROMA_OF_CHAOS.pages.INITIAL.options.MAINTAIN_CONTROL": [
+        17,
+        0,
+        0
+      ],
+      "BATTLEWORN_DUMMY.pages.INITIAL.options.SETTING_3": [
+        2,
+        0,
+        0
+      ],
+      "BRAIN_LEECH.pages.INITIAL.options.SHARE_KNOWLEDGE": [
+        26,
+        0,
+        0
+      ],
+      "BUGSLAYER.pages.INITIAL.options.EXTERMINATION": [
+        15,
+        0,
+        0
+      ],
+      "BYRDONIS_NEST.pages.INITIAL.options.EAT": [
+        12,
+        0,
+        84
+      ],
+      "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.IRONCLAD": [
+        4,
+        0,
+        0
+      ],
+      "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NECROBINDER": [
+        8,
+        0,
+        0
+      ],
+      "COLOSSAL_FLOWER.pages.INITIAL.options.EXTRACT_CURRENT_PRIZE_1": [
+        9,
+        0,
+        0
+      ],
+      "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": [
+        17,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.ASTROLABE": [
+        2,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.ECTOPLASM": [
+        2,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE": [
+        3,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.SNECKO_EYE": [
+        1,
+        0,
+        0
+      ],
+      "DARV.pages.INITIAL.options.SOZU": [
+        1,
+        0,
+        0
+      ],
+      "DENSE_VEGETATION.pages.INITIAL.options.REST": [
+        13,
+        0,
+        208
+      ],
+      "DENSE_VEGETATION.pages.REST.options.FIGHT": [
+        13,
+        0,
+        0
+      ],
+      "DOLL_ROOM.pages.INITIAL.options.RANDOM": [
+        21,
+        0,
+        0
+      ],
+      "DOORS_OF_LIGHT_AND_DARK.pages.INITIAL.options.LIGHT": [
+        3,
+        0,
+        0
+      ],
+      "ENDLESS_CONVEYOR.pages.INITIAL.options.OBSERVE_CHEF": [
+        1,
+        0,
+        0
+      ],
+      "FIELD_OF_MAN_SIZED_HOLES.pages.INITIAL.options.ENTER_YOUR_HOLE": [
+        12,
+        0,
+        0
+      ],
+      "GRAVE_OF_THE_FORGOTTEN.pages.INITIAL.options.ACCEPT": [
+        5,
+        0,
+        0
+      ],
+      "HUNGRY_FOR_MUSHROOMS.pages.INITIAL.options.BIG_MUSHROOM": [
+        1,
+        0,
+        20
+      ],
+      "INFESTED_AUTOMATON.pages.INITIAL.options.STUDY": [
+        14,
+        0,
+        0
+      ],
+      "JUNGLE_MAZE_ADVENTURE.pages.INITIAL.options.JOIN_FORCES": [
+        5,
+        0,
+        0
+      ],
+      "LOST_WISP.pages.INITIAL.options.SEARCH": [
+        14,
+        0,
+        0
+      ],
+      "LUMINOUS_CHOIR.pages.INITIAL.options.REACH_INTO_THE_FLESH": [
+        2,
+        0,
+        0
+      ],
+      "MORPHIC_GROVE.pages.INITIAL.options.LONER": [
+        11,
+        0,
+        55
+      ],
+      "NEOW.pages.INITIAL.options.BOOMING_CONCH": [
+        5,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.CURSED_PEARL": [
+        9,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.FISHING_ROD": [
+        2,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.GOLDEN_PEARL": [
+        5,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.KALEIDOSCOPE": [
+        5,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.LARGE_CAPSULE": [
+        9,
+        0,
+        20
+      ],
+      "NEOW.pages.INITIAL.options.LEAD_PAPERWEIGHT": [
+        4,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.LOST_COFFER": [
+        8,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NEOWS_SACRIFICE": [
+        9,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NEOWS_TALISMAN": [
+        1,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NEW_LEAF": [
+        5,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.NUTRITIOUS_OYSTER": [
+        4,
+        0,
+        44
+      ],
+      "NEOW.pages.INITIAL.options.PHIAL_HOLSTER": [
+        2,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.POMANDER": [
+        4,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.PRECISE_SCISSORS": [
+        3,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SCROLL_BOXES": [
+        4,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SILKEN_TRESS": [
+        2,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SILVER_CRUCIBLE": [
+        16,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.SMALL_CAPSULE": [
+        2,
+        0,
+        10
+      ],
+      "NEOW.pages.INITIAL.options.STONE_HUMIDIFIER": [
+        4,
+        0,
+        0
+      ],
+      "NEOW.pages.INITIAL.options.WINGED_BOOTS": [
+        1,
+        0,
+        0
+      ],
+      "NONUPEIPE.pages.INITIAL.options.BLESSED_ANTLER": [
+        1,
+        0,
+        0
+      ],
+      "NONUPEIPE.pages.INITIAL.options.BRILLIANT_SCARF": [
+        1,
+        0,
+        0
+      ],
+      "NONUPEIPE.pages.INITIAL.options.LOOMING_FRUIT": [
+        2,
+        0,
+        62
+      ],
+      "NONUPEIPE.pages.INITIAL.options.SIGNET_RING": [
+        2,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.ALCHEMICAL_COFFER": [
+        5,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.ELECTRIC_SHRYMP": [
+        6,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.GLASS_EYE": [
+        1,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.PRISMATIC_GEM": [
+        3,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.SAND_CASTLE": [
+        7,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.SEA_GLASS": [
+        1,
+        0,
+        0
+      ],
+      "OROBAS.pages.INITIAL.options.TOUCH_OF_OROBAS": [
+        8,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_BLOOD": [
+        2,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_FLESH": [
+        4,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_HORN": [
+        6,
+        0,
+        3
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_TEARS": [
+        8,
+        0,
+        0
+      ],
+      "PAEL.pages.INITIAL.options.PAELS_TOOTH": [
+        3,
+        0,
+        0
+      ],
+      "POTION_COURIER.pages.INITIAL.options.GRAB_POTIONS": [
+        19,
+        0,
+        0
+      ],
+      "PUNCH_OFF.pages.INITIAL.options.NAB": [
+        1,
+        0,
+        0
+      ],
+      "RANWID_THE_ELDER.pages.INITIAL.options.POTION": [
+        6,
+        0,
+        0
+      ],
+      "REFLECTIONS.pages.INITIAL.options.TOUCH_A_MIRROR": [
+        2,
+        0,
+        0
+      ],
+      "RELIC_TRADER.pages.INITIAL.options.TOP": [
+        3,
+        0,
+        0
+      ],
+      "ROOM_FULL_OF_CHEESE.pages.INITIAL.options.GORGE": [
+        30,
+        0,
+        0
+      ],
+      "ROUND_TEA_PARTY.pages.INITIAL.options.ENJOY_TEA": [
+        1,
+        0,
+        65
+      ],
+      "SAPPHIRE_SEED.pages.INITIAL.options.EAT": [
+        26,
+        0,
+        222
+      ],
+      "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": [
+        21,
+        0,
+        0
+      ],
+      "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": [
+        22,
+        0,
+        0
+      ],
+      "SPIRALING_WHIRLPOOL.pages.INITIAL.options.DRINK": [
+        4,
+        0,
+        68
+      ],
+      "SPIRIT_GRAFTER.pages.INITIAL.options.LET_IT_IN": [
+        19,
+        0,
+        236
+      ],
+      "STONE_OF_ALL_TIME.pages.INITIAL.options.LIFT": [
+        7,
+        0,
+        70
+      ],
+      "SUNKEN_STATUE.pages.INITIAL.options.GRAB_SWORD": [
+        12,
+        0,
+        0
+      ],
+      "SUNKEN_TREASURY.pages.INITIAL.options.SECOND_CHEST": [
+        3,
+        0,
+        0
+      ],
+      "SYMBIOTE.pages.INITIAL.options.KILL_WITH_FIRE": [
+        24,
+        0,
+        0
+      ],
+      "TABLET_OF_TRUTH.pages.DECIPHER.options.GIVE_UP": [
+        1,
+        0,
+        0
+      ],
+      "TABLET_OF_TRUTH.pages.INITIAL.options.DECIPHER_1": [
+        1,
+        3,
+        0
+      ],
+      "TABLET_OF_TRUTH.pages.INITIAL.options.SMASH": [
+        12,
+        0,
+        183
+      ],
+      "TANX.pages.INITIAL.options.SAI": [
+        1,
+        0,
+        0
+      ],
+      "TANX.pages.INITIAL.options.SPIKED_GAUNTLETS": [
+        1,
+        0,
+        0
+      ],
+      "TANX.pages.INITIAL.options.THROWING_AXE": [
+        1,
+        0,
+        0
+      ],
+      "TANX.pages.INITIAL.options.TRI_BOOMERANG": [
+        1,
+        0,
+        0
+      ],
+      "TEA_MASTER.pages.INITIAL.options.TEA_OF_DISCOURTESY": [
+        3,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.NUTRITIOUS_SOUP": [
+        1,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.PUMPKIN_CANDLE": [
+        11,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.SEAL_OF_GOLD": [
+        4,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.TOASTY_MITTENS": [
+        4,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.TOY_BOX": [
+        5,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.VERY_HOT_COCOA": [
+        9,
+        0,
+        0
+      ],
+      "TEZCATARA.pages.INITIAL.options.YUMMY_COOKIE": [
+        5,
+        0,
+        0
+      ],
+      "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": [
+        3,
+        0,
+        0
+      ],
+      "THE_LANTERN_KEY.pages.INITIAL.options.RETURN_THE_KEY": [
+        12,
+        0,
+        0
+      ],
+      "THE_LEGENDS_WERE_TRUE.pages.INITIAL.options.NAB_THE_MAP": [
+        17,
+        0,
+        0
+      ],
+      "THIS_OR_THAT.pages.INITIAL.options.ORNATE": [
+        24,
+        0,
+        0
+      ],
+      "TINKER_TIME.pages.CHOOSE_CARD_TYPE.options.SKILL": [
+        3,
+        0,
+        0
+      ],
+      "TINKER_TIME.pages.CHOOSE_RIDER.options.ENERGIZED": [
+        2,
+        0,
+        0
+      ],
+      "TINKER_TIME.pages.CHOOSE_RIDER.options.WISDOM": [
+        1,
+        0,
+        0
+      ],
+      "TINKER_TIME.pages.INITIAL.options.CHOOSE_CARD_TYPE": [
+        3,
+        0,
+        0
+      ],
+      "TRASH_HEAP.pages.INITIAL.options.GRAB": [
+        6,
+        0,
+        0
+      ],
+      "TRIAL.pages.INITIAL.options.ACCEPT": [
+        2,
+        0,
+        0
+      ],
+      "TRIAL.pages.MERCHANT.options.INNOCENT": [
+        1,
+        0,
+        0
+      ],
+      "TRIAL.pages.NOBLE.options.INNOCENT": [
+        1,
+        0,
+        0
+      ],
+      "UNREST_SITE.pages.INITIAL.options.REST": [
+        4,
+        0,
+        127
+      ],
+      "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": [
+        2,
+        0,
+        0
+      ],
+      "VAKUU.pages.INITIAL.options.FIDDLE": [
+        2,
+        0,
+        0
+      ],
+      "VAKUU.pages.INITIAL.options.WHISPERING_EARRING": [
+        3,
+        0,
+        0
+      ],
+      "WATERLOGGED_SCRIPTORIUM.pages.INITIAL.options.BLOODY_INK": [
+        5,
+        0,
+        30
+      ],
+      "WELCOME_TO_WONGOS.pages.INITIAL.options.BARGAIN_BIN": [
+        9,
+        0,
+        0
+      ],
+      "WELLSPRING.pages.INITIAL.options.BOTTLE": [
+        14,
+        0,
+        0
+      ],
+      "WHISPERING_HOLLOW.pages.INITIAL.options.GOLD": [
+        5,
+        0,
+        0
+      ],
+      "WOOD_CARVINGS.pages.INITIAL.options.BIRD": [
+        12,
+        0,
+        0
+      ],
+      "ZEN_WEAVER.pages.INITIAL.options.BREATHING_TECHNIQUES": [
+        10,
+        0,
+        0
+      ]
+    },
+    "events_by_act": {
+      "1": {
+        "ABYSSAL_BATHS.pages.INITIAL.options.ABSTAIN": 3,
+        "AROMA_OF_CHAOS.pages.INITIAL.options.MAINTAIN_CONTROL": 17,
+        "BRAIN_LEECH.pages.INITIAL.options.SHARE_KNOWLEDGE": 12,
+        "BYRDONIS_NEST.pages.INITIAL.options.EAT": 12,
+        "DENSE_VEGETATION.pages.INITIAL.options.REST": 13,
+        "DENSE_VEGETATION.pages.REST.options.FIGHT": 13,
+        "DOORS_OF_LIGHT_AND_DARK.pages.INITIAL.options.LIGHT": 3,
+        "ENDLESS_CONVEYOR.pages.INITIAL.options.OBSERVE_CHEF": 1,
+        "JUNGLE_MAZE_ADVENTURE.pages.INITIAL.options.JOIN_FORCES": 5,
+        "LUMINOUS_CHOIR.pages.INITIAL.options.REACH_INTO_THE_FLESH": 2,
+        "MORPHIC_GROVE.pages.INITIAL.options.LONER": 11,
+        "NEOW.pages.INITIAL.options.BOOMING_CONCH": 5,
+        "NEOW.pages.INITIAL.options.CURSED_PEARL": 9,
+        "NEOW.pages.INITIAL.options.FISHING_ROD": 2,
+        "NEOW.pages.INITIAL.options.GOLDEN_PEARL": 5,
+        "NEOW.pages.INITIAL.options.KALEIDOSCOPE": 5,
+        "NEOW.pages.INITIAL.options.LARGE_CAPSULE": 9,
+        "NEOW.pages.INITIAL.options.LEAD_PAPERWEIGHT": 4,
+        "NEOW.pages.INITIAL.options.LOST_COFFER": 8,
+        "NEOW.pages.INITIAL.options.NEOWS_SACRIFICE": 9,
+        "NEOW.pages.INITIAL.options.NEOWS_TALISMAN": 1,
+        "NEOW.pages.INITIAL.options.NEW_LEAF": 5,
+        "NEOW.pages.INITIAL.options.NUTRITIOUS_OYSTER": 4,
+        "NEOW.pages.INITIAL.options.PHIAL_HOLSTER": 2,
+        "NEOW.pages.INITIAL.options.POMANDER": 4,
+        "NEOW.pages.INITIAL.options.PRECISE_SCISSORS": 3,
+        "NEOW.pages.INITIAL.options.SCROLL_BOXES": 4,
+        "NEOW.pages.INITIAL.options.SILKEN_TRESS": 2,
+        "NEOW.pages.INITIAL.options.SILVER_CRUCIBLE": 16,
+        "NEOW.pages.INITIAL.options.SMALL_CAPSULE": 2,
+        "NEOW.pages.INITIAL.options.STONE_HUMIDIFIER": 4,
+        "NEOW.pages.INITIAL.options.WINGED_BOOTS": 1,
+        "PUNCH_OFF.pages.INITIAL.options.NAB": 1,
+        "ROOM_FULL_OF_CHEESE.pages.INITIAL.options.GORGE": 18,
+        "SAPPHIRE_SEED.pages.INITIAL.options.EAT": 26,
+        "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": 8,
+        "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": 4,
+        "SPIRALING_WHIRLPOOL.pages.INITIAL.options.DRINK": 4,
+        "SUNKEN_STATUE.pages.INITIAL.options.GRAB_SWORD": 12,
+        "SUNKEN_TREASURY.pages.INITIAL.options.SECOND_CHEST": 3,
+        "TABLET_OF_TRUTH.pages.DECIPHER.options.GIVE_UP": 1,
+        "TABLET_OF_TRUTH.pages.INITIAL.options.DECIPHER_1": 1,
+        "TABLET_OF_TRUTH.pages.INITIAL.options.SMASH": 12,
+        "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": 1,
+        "THE_LEGENDS_WERE_TRUE.pages.INITIAL.options.NAB_THE_MAP": 17,
+        "THIS_OR_THAT.pages.INITIAL.options.ORNATE": 13,
+        "TRASH_HEAP.pages.INITIAL.options.GRAB": 6,
+        "UNREST_SITE.pages.INITIAL.options.REST": 4,
+        "WATERLOGGED_SCRIPTORIUM.pages.INITIAL.options.BLOODY_INK": 5,
+        "WELLSPRING.pages.INITIAL.options.BOTTLE": 14,
+        "WHISPERING_HOLLOW.pages.INITIAL.options.GOLD": 5,
+        "WOOD_CARVINGS.pages.INITIAL.options.BIRD": 12
+      },
+      "2": {
+        "AMALGAMATOR.pages.INITIAL.options.COMBINE_STRIKES": 8,
+        "BRAIN_LEECH.pages.INITIAL.options.SHARE_KNOWLEDGE": 14,
+        "BUGSLAYER.pages.INITIAL.options.EXTERMINATION": 15,
+        "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.IRONCLAD": 4,
+        "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NECROBINDER": 8,
+        "COLOSSAL_FLOWER.pages.INITIAL.options.EXTRACT_CURRENT_PRIZE_1": 9,
+        "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": 14,
+        "DARV.pages.INITIAL.options.ASTROLABE": 2,
+        "DARV.pages.INITIAL.options.ECTOPLASM": 2,
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE": 3,
+        "DARV.pages.INITIAL.options.SNECKO_EYE": 1,
+        "DARV.pages.INITIAL.options.SOZU": 1,
+        "DOLL_ROOM.pages.INITIAL.options.RANDOM": 21,
+        "FIELD_OF_MAN_SIZED_HOLES.pages.INITIAL.options.ENTER_YOUR_HOLE": 12,
+        "INFESTED_AUTOMATON.pages.INITIAL.options.STUDY": 14,
+        "LOST_WISP.pages.INITIAL.options.SEARCH": 14,
+        "OROBAS.pages.INITIAL.options.ALCHEMICAL_COFFER": 5,
+        "OROBAS.pages.INITIAL.options.ELECTRIC_SHRYMP": 6,
+        "OROBAS.pages.INITIAL.options.GLASS_EYE": 1,
+        "OROBAS.pages.INITIAL.options.PRISMATIC_GEM": 3,
+        "OROBAS.pages.INITIAL.options.SAND_CASTLE": 7,
+        "OROBAS.pages.INITIAL.options.SEA_GLASS": 1,
+        "OROBAS.pages.INITIAL.options.TOUCH_OF_OROBAS": 8,
+        "PAEL.pages.INITIAL.options.PAELS_BLOOD": 2,
+        "PAEL.pages.INITIAL.options.PAELS_FLESH": 4,
+        "PAEL.pages.INITIAL.options.PAELS_HORN": 6,
+        "PAEL.pages.INITIAL.options.PAELS_TEARS": 8,
+        "PAEL.pages.INITIAL.options.PAELS_TOOTH": 3,
+        "POTION_COURIER.pages.INITIAL.options.GRAB_POTIONS": 14,
+        "RANWID_THE_ELDER.pages.INITIAL.options.POTION": 6,
+        "RELIC_TRADER.pages.INITIAL.options.TOP": 2,
+        "ROOM_FULL_OF_CHEESE.pages.INITIAL.options.GORGE": 12,
+        "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": 12,
+        "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": 15,
+        "SPIRIT_GRAFTER.pages.INITIAL.options.LET_IT_IN": 19,
+        "STONE_OF_ALL_TIME.pages.INITIAL.options.LIFT": 7,
+        "SYMBIOTE.pages.INITIAL.options.KILL_WITH_FIRE": 19,
+        "TEA_MASTER.pages.INITIAL.options.TEA_OF_DISCOURTESY": 3,
+        "TEZCATARA.pages.INITIAL.options.NUTRITIOUS_SOUP": 1,
+        "TEZCATARA.pages.INITIAL.options.PUMPKIN_CANDLE": 11,
+        "TEZCATARA.pages.INITIAL.options.SEAL_OF_GOLD": 4,
+        "TEZCATARA.pages.INITIAL.options.TOASTY_MITTENS": 4,
+        "TEZCATARA.pages.INITIAL.options.TOY_BOX": 5,
+        "TEZCATARA.pages.INITIAL.options.VERY_HOT_COCOA": 9,
+        "TEZCATARA.pages.INITIAL.options.YUMMY_COOKIE": 5,
+        "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": 1,
+        "THE_LANTERN_KEY.pages.INITIAL.options.RETURN_THE_KEY": 12,
+        "THIS_OR_THAT.pages.INITIAL.options.ORNATE": 11,
+        "WELCOME_TO_WONGOS.pages.INITIAL.options.BARGAIN_BIN": 9,
+        "ZEN_WEAVER.pages.INITIAL.options.BREATHING_TECHNIQUES": 10
+      },
+      "3": {
+        "BATTLEWORN_DUMMY.pages.INITIAL.options.SETTING_3": 2,
+        "CRYSTAL_SPHERE.pages.INITIAL.options.UNCOVER_FUTURE": 3,
+        "GRAVE_OF_THE_FORGOTTEN.pages.INITIAL.options.ACCEPT": 5,
+        "HUNGRY_FOR_MUSHROOMS.pages.INITIAL.options.BIG_MUSHROOM": 1,
+        "NONUPEIPE.pages.INITIAL.options.BLESSED_ANTLER": 1,
+        "NONUPEIPE.pages.INITIAL.options.BRILLIANT_SCARF": 1,
+        "NONUPEIPE.pages.INITIAL.options.LOOMING_FRUIT": 2,
+        "NONUPEIPE.pages.INITIAL.options.SIGNET_RING": 2,
+        "POTION_COURIER.pages.INITIAL.options.GRAB_POTIONS": 5,
+        "REFLECTIONS.pages.INITIAL.options.TOUCH_A_MIRROR": 2,
+        "RELIC_TRADER.pages.INITIAL.options.TOP": 1,
+        "ROUND_TEA_PARTY.pages.INITIAL.options.ENJOY_TEA": 1,
+        "SELF_HELP_BOOK.pages.INITIAL.options.READ_PASSAGE": 1,
+        "SLIPPERY_BRIDGE.pages.INITIAL.options.OVERCOME": 3,
+        "SYMBIOTE.pages.INITIAL.options.KILL_WITH_FIRE": 5,
+        "TANX.pages.INITIAL.options.SAI": 1,
+        "TANX.pages.INITIAL.options.SPIKED_GAUNTLETS": 1,
+        "TANX.pages.INITIAL.options.THROWING_AXE": 1,
+        "TANX.pages.INITIAL.options.TRI_BOOMERANG": 1,
+        "THE_FUTURE_OF_POTIONS.pages.INITIAL.options.POTION": 1,
+        "TINKER_TIME.pages.CHOOSE_CARD_TYPE.options.SKILL": 3,
+        "TINKER_TIME.pages.CHOOSE_RIDER.options.ENERGIZED": 2,
+        "TINKER_TIME.pages.CHOOSE_RIDER.options.WISDOM": 1,
+        "TINKER_TIME.pages.INITIAL.options.CHOOSE_CARD_TYPE": 3,
+        "TRIAL.pages.INITIAL.options.ACCEPT": 2,
+        "TRIAL.pages.MERCHANT.options.INNOCENT": 1,
+        "TRIAL.pages.NOBLE.options.INNOCENT": 1,
+        "VAKUU.pages.INITIAL.options.BLOOD_SOAKED_ROSE": 2,
+        "VAKUU.pages.INITIAL.options.FIDDLE": 2,
+        "VAKUU.pages.INITIAL.options.WHISPERING_EARRING": 3
+      }
+    },
+    "items": {
+      "buy_card": {
+        "Accelerant": 27,
+        "Accuracy": 7,
+        "Backflip": 2,
+        "Backstab": 5,
+        "Blade Dance": 5,
+        "Bubble Bubble": 10,
+        "Cloak and Dagger": 1,
+        "Dagger Spray": 2,
+        "Dagger Throw": 8,
+        "Dash": 2,
+        "Deadly Poison": 10,
+        "Dramatic Entrance": 6,
+        "Echoing Slash": 1,
+        "Expose": 1,
+        "Finisher": 5,
+        "Fisticuffs": 2,
+        "Flechettes": 3,
+        "Flick-Flack": 17,
+        "Hidden Daggers": 1,
+        "Infinite Blades": 7,
+        "Leading Strike": 5,
+        "Leg Sweep": 1,
+        "Memento Mori": 1,
+        "Noxious Fumes": 30,
+        "Outbreak": 1,
+        "Phantom Blades": 7,
+        "Poisoned Stab": 14,
+        "Precise Cut": 1,
+        "Restlessness": 5,
+        "Seeker Strike": 8,
+        "Skewer": 1,
+        "Slice": 2,
+        "Snakebite": 4,
+        "Sucker Punch": 7,
+        "Up My Sleeve": 1
+      },
+      "buy_potion": {
+        "Attack Potion": 6,
+        "Blessing of the Forge": 1,
+        "Block Potion": 6,
+        "Colorless Potion": 7,
+        "Dexterity Potion": 5,
+        "Energy Potion": 7,
+        "Explosive Ampoule": 10,
+        "Fairy in a Bottle": 3,
+        "Fire Potion": 6,
+        "Flex Potion": 7,
+        "Ghost in a Jar": 2,
+        "Heart of Iron": 13,
+        "Mazaleth's Gift": 3,
+        "Poison Potion": 3,
+        "Powdered Demise": 10,
+        "Power Potion": 4,
+        "Skill Potion": 8,
+        "Speed Potion": 6,
+        "Strength Potion": 6,
+        "Swift Potion": 5,
+        "Touch of Insanity": 1,
+        "Vulnerable Potion": 7,
+        "Weak Potion": 11
+      },
+      "buy_relic": {
+        "Anchor": 7,
+        "Bag of Marbles": 4,
+        "Bag of Preparation": 2,
+        "Bellows": 1,
+        "Belt Buckle": 3,
+        "Blood Vial": 5,
+        "Book of Five Rings": 1,
+        "Bread": 2,
+        "Bronze Scales": 5,
+        "Burning Sticks": 1,
+        "Centennial Puzzle": 5,
+        "Festive Popper": 5,
+        "Ghost Seed": 2,
+        "Gorget": 2,
+        "Gremlin Horn": 3,
+        "Happy Flower": 8,
+        "Kunai": 1,
+        "Lantern": 6,
+        "Lee's Waffle": 2,
+        "Letter Opener": 1,
+        "Lizard Tail": 1,
+        "Meal Ticket": 3,
+        "Membership Card": 3,
+        "Miniature Cannon": 1,
+        "Miniature Tent": 2,
+        "Mummified Hand": 1,
+        "Mystic Lighter": 1,
+        "Ninja Scroll": 1,
+        "Oddly Smooth Stone": 1,
+        "Ornamental Fan": 1,
+        "Orrery": 1,
+        "Pendulum": 2,
+        "Permafrost": 1,
+        "Potion Belt": 1,
+        "Punch Dagger": 1,
+        "Red Mask": 3,
+        "Regal Pillow": 2,
+        "Reptile Trinket": 1,
+        "Sling of Courage": 5,
+        "Snecko Skull": 2,
+        "Sparkling Rouge": 1,
+        "Stone Cracker": 1,
+        "Strawberry": 2,
+        "Strike Dummy": 1,
+        "The Abacus": 2,
+        "Twisted Funnel": 2,
+        "Vajra": 4,
+        "Venerable Tea Set": 2,
+        "Vexing Puzzlebox": 1,
+        "War Paint": 1,
+        "Wing Charm": 1
+      }
+    },
+    "shop": {
+      "1": {
+        "buy_card": 112,
+        "buy_potion": 54,
+        "buy_relic": 37,
+        "clumsy_after_ornate_price": 500,
+        "clumsy_after_ornate_removals": 5,
+        "gold_on_leave": 6560,
+        "leave_room": 155,
+        "leave_with_affordable_removal": 14,
+        "remove_card": 31
+      },
+      "2": {
+        "buy_card": 84,
+        "buy_potion": 74,
+        "buy_relic": 72,
+        "clumsy_after_ornate_price": 700,
+        "clumsy_after_ornate_removals": 7,
+        "gold_on_leave": 9276,
+        "leave_room": 168,
+        "leave_with_affordable_removal": 26,
+        "remove_card": 27
+      },
+      "3": {
+        "buy_card": 14,
+        "buy_potion": 9,
+        "buy_relic": 9,
+        "gold_on_leave": 842,
+        "leave_room": 20,
+        "leave_with_affordable_removal": 0,
+        "remove_card": 13
+      }
+    },
+    "shop_selection_cards_lost": {
+      "CLUMSY": 12,
+      "DEFEND_SILENT": 25,
+      "GUILTY": 4,
+      "INJURY": 1,
+      "POOR_SLEEP": 4,
+      "SPORE_MIND": 2,
+      "STRIKE_SILENT": 23
+    }
+  },
+  "milestones": {
+    "all": {
+      "a1_clear": 243,
+      "a2_boss": 104,
+      "a2_clear": 17,
+      "a3_boss": 9,
+      "mean_floor": 24.2786,
+      "n": 384,
+      "win": 1
+    },
+    "default": {
+      "a1_clear": 126,
+      "a2_boss": 60,
+      "a2_clear": 8,
+      "a3_boss": 4,
+      "mean_floor": 24.75,
+      "n": 192,
+      "win": 1
+    },
+    "seeded": {
+      "a1_clear": 117,
+      "a2_boss": 44,
+      "a2_clear": 9,
+      "a3_boss": 5,
+      "mean_floor": 23.8073,
+      "n": 192,
+      "win": 0
+    }
+  },
+  "paired_dev": {
+    "all": {
+      "a2_clear_gain_loss": [
+        0,
+        0
+      ],
+      "baseline": {
+        "a1_clear": 155,
+        "a2_boss": 71,
+        "a2_clear": 17,
+        "a3_boss": 3,
+        "mean_floor": 24.0469,
+        "n": 256,
+        "win": 0
+      },
+      "delta_floor": -0.0391,
+      "first_divergences": {
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE -> DARV.pages.INITIAL.options.ECTOPLASM": 1,
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE -> DARV.pages.INITIAL.options.SOZU": 1,
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE -> DARV.pages.INITIAL.options.VELVET_CHOKER": 1,
+        "SMITH -> KINDLE": 2,
+        "identical": 250,
+        "unattributed": 1
+      },
+      "floor_ci95": [
+        -0.1172,
+        0.0
+      ],
+      "floor_wlt": [
+        0,
+        1,
+        255
+      ],
+      "prototype": {
+        "a1_clear": 155,
+        "a2_boss": 71,
+        "a2_clear": 17,
+        "a3_boss": 2,
+        "mean_floor": 24.0078,
+        "n": 256,
+        "win": 0
+      },
+      "win_gain_loss": [
+        0,
+        0
+      ]
+    },
+    "default": {
+      "a2_clear_gain_loss": [
+        0,
+        0
+      ],
+      "baseline": {
+        "a1_clear": 81,
+        "a2_boss": 38,
+        "a2_clear": 8,
+        "a3_boss": 2,
+        "mean_floor": 24.4375,
+        "n": 128,
+        "win": 0
+      },
+      "delta_floor": 0.0,
+      "first_divergences": {
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE -> DARV.pages.INITIAL.options.ECTOPLASM": 1,
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE -> DARV.pages.INITIAL.options.SOZU": 1,
+        "identical": 126
+      },
+      "floor_ci95": [
+        0.0,
+        0.0
+      ],
+      "floor_wlt": [
+        0,
+        0,
+        128
+      ],
+      "prototype": {
+        "a1_clear": 81,
+        "a2_boss": 38,
+        "a2_clear": 8,
+        "a3_boss": 2,
+        "mean_floor": 24.4375,
+        "n": 128,
+        "win": 0
+      },
+      "win_gain_loss": [
+        0,
+        0
+      ]
+    },
+    "seeded": {
+      "a2_clear_gain_loss": [
+        0,
+        0
+      ],
+      "baseline": {
+        "a1_clear": 74,
+        "a2_boss": 33,
+        "a2_clear": 9,
+        "a3_boss": 1,
+        "mean_floor": 23.6562,
+        "n": 128,
+        "win": 0
+      },
+      "delta_floor": -0.0781,
+      "first_divergences": {
+        "DARV.pages.INITIAL.options.PHILOSOPHERS_STONE -> DARV.pages.INITIAL.options.VELVET_CHOKER": 1,
+        "SMITH -> KINDLE": 2,
+        "identical": 124,
+        "unattributed": 1
+      },
+      "floor_ci95": [
+        -0.2344,
+        0.0
+      ],
+      "floor_wlt": [
+        0,
+        1,
+        127
+      ],
+      "prototype": {
+        "a1_clear": 74,
+        "a2_boss": 33,
+        "a2_clear": 9,
+        "a3_boss": 0,
+        "mean_floor": 23.5781,
+        "n": 128,
+        "win": 0
+      },
+      "win_gain_loss": [
+        0,
+        0
+      ]
+    }
+  },
+  "prioritized_actions": [
+    {
+      "exposure": "Opening HP bands",
+      "rank": 1,
+      "scope": "macro",
+      "test": "Protect HP on the route to the last Act 2 camp"
+    },
+    {
+      "exposure": "Unchosen reward and Act 2 boss-entry deck",
+      "rank": 2,
+      "scope": "draft/shop",
+      "test": "Value Accelerant jointly with poison sources in free rewards"
+    },
+    {
+      "exposure": "Act 2 fatal end-turns and prompts",
+      "rank": 3,
+      "scope": "boss tactics",
+      "test": "Budget Frantic Escape before Sandpit expires, and card slots under Sloth"
+    },
+    {
+      "exposure": "First versus second fatal boss floor",
+      "rank": 4,
+      "scope": "multi-turn value",
+      "test": "Value Queen and the remaining second boss together"
+    },
+    {
+      "exposure": "Locked paired dev comparison",
+      "rank": 5,
+      "scope": "macro",
+      "test": "Correct signed Ancient effects and expired Candle camp actions"
+    }
+  ],
+  "receipt_sha256": {
+    "silent-a10-v5-autopsy-pairs.jsonl.gz": "9c21ad5703988af2772dcd991b48ec037fa2312656bc294cbdee7e706515eb77",
+    "silent-a10-v5-autopsy-runs.jsonl.gz": "13e993851c1434477b66c9b44a7acb24804d36eb7aa03e02f553970686d8bb55",
+    "silent-a10-v5-win-V5DIAG_0100.jsonl.gz": "a99ab4692182c731646e877a60121909507c5dc070d791ac259658fd2b2023bb"
+  },
+  "winners": [
+    {
+      "a1_clear": true,
+      "a2_clear": true,
+      "act": 3,
+      "act_list": "default",
+      "boss_fights": [
+        [
+          1,
+          17
+        ],
+        [
+          2,
+          16
+        ],
+        [
+          3,
+          15
+        ],
+        [
+          3,
+          16
+        ]
+      ],
+      "death": null,
+      "floor": 16,
+      "index": 100,
+      "seed": "V5DIAG_0100",
+      "status": "complete",
+      "steps": 580,
+      "win": true
+    }
+  ]
+}

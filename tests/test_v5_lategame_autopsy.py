@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from shutil import copytree
@@ -6,21 +7,21 @@ from shutil import copytree
 import pytest
 
 from sts2rl.deployed_controller import DeployedController
-from sts2rl.native import runtime_identity
+from sts2rl.native import NativeSession, runtime_identity
 from sts2rl.strategy import strategy_arms
 
 
 BUNDLE = Path(__file__).resolve().parents[1] / "releases/silent-a10-v2-tactics/challenger"
 
 
-def controller(flag):
+def controller(flag, macro_seed=0):
     if flag is None:
-        return DeployedController.from_bundle(BUNDLE / "policy.json")
+        return DeployedController.from_bundle(BUNDLE / "policy.json", macro_seed=macro_seed)
     with TemporaryDirectory() as folder:
         copytree(BUNDLE, folder, dirs_exist_ok=True)
         path = Path(folder) / "policy.json"
         path.write_text(json.dumps({**json.loads(path.read_bytes()), "v6_lategame_fixes": flag}))
-        return DeployedController.from_bundle(path)
+        return DeployedController.from_bundle(path, macro_seed=macro_seed)
 
 
 def camp(hp=70, charges=0, enabled=True, act=2):
@@ -96,3 +97,21 @@ def test_enemy_strength_direction_and_frozen_ancient_behavior():
     assert default[0][2]["ancient/strength"] == 1 and enabled[0][2]["ancient/strength"] == -1
     assert enabled[0][1] == pytest.approx(default[0][1] - 4)
     assert enabled[1] == default[1]
+
+
+@pytest.mark.skipif(not os.environ.get("CSV2DEV_HOST"), reason="requires the native A10 host")
+def test_explicit_false_matches_every_decision_of_the_default_bundle(tmp_path):
+    deployed, disabled = (controller(flag, macro_seed=7203) for flag in (None, False))
+    root = BUNDLE.parents[2]
+    with NativeSession(root, tmp_path / "episode", host_path=os.environ["CSV2DEV_HOST"]) as game:
+        state = game.reset("V5DIAG_0100")
+        for _ in range(3000):
+            if state["decision"] == "game_over":
+                return
+            action = deployed.choose(state, game)
+            assert disabled.choose(state, game) == action
+            after = game.step(action)
+            for actor in (deployed, disabled):
+                actor.observe(state, action, after)
+            state = after
+    pytest.fail("Native diagnostic episode did not terminate")
