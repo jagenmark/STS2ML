@@ -78,7 +78,11 @@ def attack_amount(state, enemy, intent):
         3 if power(state.powers, "VULNERABLE") else 2)
     delta = power(enemy.powers, "STRENGTH") - enemy.preview_strength + enemy.attack_delta
     shown = intent.damage
-    if delta == 0 and before == after:
+    intangible = power(state.powers, "INTANGIBLE") > 0
+    if state.preview_intangible and shown == 1:
+        minimum = (8 + before - 1) // before
+        return 1 if intangible and max(0, minimum + delta) * after // 8 >= 1 else None
+    if delta == 0 and before == after and not intangible:
         return shown
     if shown == 0 and delta > 0:
         return None
@@ -86,6 +90,8 @@ def attack_amount(state, enemy, intent):
     maximum = (8 * (shown + 1) - 1) // before
     lo = max(0, minimum + delta) * after // 8
     hi = max(0, maximum + delta) * after // 8
+    if intangible:
+        lo, hi = min(lo, 1), min(hi, 1)
     return lo if lo == hi else None
 
 
@@ -133,8 +139,9 @@ def _tick(powers, durations):
     return powers
 
 
-def _start_player(state):
-    powers = _tick(state.powers, ("WEAK", "VULNERABLE", "FRAIL", "INTANGIBLE", "BLUR"))
+def _start_player(state, prior_powers):
+    durations = ("WEAK", "VULNERABLE", "FRAIL", "INTANGIBLE", "BLUR")
+    powers = _tick(state.powers, (name for name in durations if power(prior_powers, name)))
     for name in ("BURST", "DUPLICATION", "NO_DRAW", "TAINTED"):
         powers = set_power(powers, name, 0)
     energy = state.max_energy
@@ -149,18 +156,22 @@ def _start_player(state):
                 energy += power(relic.stats, "energy")
             relic = replace(relic, counter=counter)
         relics.append(relic)
-    state = replace(state, powers=powers, energy=energy, round=state.round + 1,
-                    block=state.block if power(state.powers, "BLUR") else 0, relics=tuple(relics))
+    block = state.block if power(state.powers, "BLUR") else 0
+    hp = state.hp
     if poison := power(powers, "POISON"):
-        state = _hurt(state, poison, bypass=True)
-        state = replace(state, powers=add_power(state.powers, "POISON", -1))
-        if state.outcome:
-            return state
+        hp, block, powers = lose_hp(hp, block, powers, poison, bypass=True)
+        powers = add_power(powers, "POISON", -1)
+    reveal = None
+    outcome = "completed" if hp else "dead"
     for name in ("NIGHTMARE", "TOOLS_OF_THE_TRADE"):
-        if power(powers, name):
-            return boundary(state, f"start/{name}")
-    count = min(5, HAND_CAP - len(state.hand), len(state.draw) + len(state.discard))
-    return replace(state, outcome="completed", boundary=Boundary("next turn", count, count > len(state.draw)))
+        if hp and power(powers, name):
+            reveal, outcome = Boundary(f"start/{name}"), ""
+            break
+    if outcome == "completed":
+        count = min(5, HAND_CAP - len(state.hand), len(state.draw) + len(state.discard))
+        reveal = Boundary("next turn", count, count > len(state.draw))
+    return replace(state, hp=hp, block=block, powers=powers, energy=energy, round=state.round + 1,
+                   relics=tuple(relics), boundary=reveal, outcome=outcome)
 
 
 def resolve(state):
@@ -174,7 +185,8 @@ def resolve(state):
     state = _enemy_start(state)
     if state.outcome or state.boundary:
         return state
+    prior_powers = state.powers
     state = _enemy_actions(state)
     if state.outcome or state.boundary:
         return state
-    return _start_player(state)
+    return _start_player(state, prior_powers)

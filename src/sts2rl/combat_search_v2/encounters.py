@@ -8,7 +8,9 @@ STRANGLER = "SLITHERING_STRANGLER"
 JAXFRUIT = "SNAPPING_JAXFRUIT"
 INSATIABLE = "THE_INSATIABLE"
 PRISM = "INFESTED_PRISM"
-ORDINARY = {BEETLE, STRANGLER, JAXFRUIT, "TWIG_SLIME_M", "TWIG_SLIME_S", "WRIGGLER"}
+ORDINARY = {BEETLE, STRANGLER, JAXFRUIT, "TWIG_SLIME_M", "TWIG_SLIME_S", "WRIGGLER",
+            "NIBBIT", "FUZZY_WURM_CRAWLER", "MAWLER", "LEAF_SLIME_M", "LEAF_SLIME_S"}
+SLIMED_COUNT = {"TWIG_SLIME_M": 1, "TWIG_SLIME_S": 1, "LEAF_SLIME_M": 2, "LEAF_SLIME_S": 1}
 FORMATIONS = ORDINARY | {INSATIABLE, PRISM}
 # These profiles need latent phase, move or generated-card state.
 ENCOUNTER_BOUNDARIES = {
@@ -17,6 +19,7 @@ ENCOUNTER_BOUNDARIES = {
     "KIN_FOLLOWER": "kin leader dependency", "KIN_PRIEST": "kin leader dependency",
     "WATERFALL_GIANT": "waterfall eruption", "MECHA_KNIGHT": "mecha reattach",
     "MECHA_KNIGHT_SEGMENT": "mecha reattach", "ROCK_BOWLBUG": "bowlbug stun source",
+    "BOWLBUG_ROCK": "bowlbug stun source",
     "ENTOMANCER": "entomancer dazed", "KNOWLEDGE_DEMON": "knowledge demon prompt/sloth",
     "KAISER_CRAB": "kaiser facing", "AXEBOT": "axebot stock",
 }
@@ -50,7 +53,7 @@ def after_death(state, enemy):
     return replace(state, powers=set_power(state.powers, removed, 0)) if removed else state
 
 
-def escape(state, play):
+def escape(state):
     source = next((e for e in state.enemies if e.name == INSATIABLE and e.hp > 0), None)
     if source is None or not power(source.powers, "SANDPIT"):
         return replace(state, boundary=Boundary("escape source"))
@@ -87,9 +90,19 @@ def after_move(state, enemy):
         return _update(state, enemy.slot, block=5)
     if enemy.name == JAXFRUIT and kinds == {"Buff"}:
         return _update(state, enemy.slot, powers=add_power(enemy.powers, "STRENGTH", 2))
-    if enemy.name == "TWIG_SLIME_M" and kinds == {"StatusCard"}:
-        status = Variant("SLIMED", "Status", 1, "Self", keywords=("Exhaust",), stats=(("cards", 1),))
-        return replace(state, discard=tuple(sorted((*state.discard, status))))
+    if enemy.name == "NIBBIT" and kinds == {"Buff"}:
+        return _update(state, enemy.slot, powers=add_power(enemy.powers, "STRENGTH", 3))
+    if enemy.name == "NIBBIT" and kinds == {"Defend"}:
+        return _update(state, enemy.slot, block=6)
+    if enemy.name == "FUZZY_WURM_CRAWLER" and kinds == {"Buff"}:
+        return _update(state, enemy.slot, powers=add_power(enemy.powers, "STRENGTH", 7))
+    if enemy.name == "MAWLER" and kinds == {"Debuff"}:
+        if power(state.powers, "ARTIFACT"):
+            return replace(state, powers=add_power(state.powers, "ARTIFACT", -1))
+        return replace(state, powers=add_power(state.powers, "VULNERABLE", 3))
+    if enemy.name in SLIMED_COUNT and kinds == {"StatusCard"}:
+        status = Variant("SLIMED", "Status", 1, "None", keywords=("Exhaust",), stats=(("cards", 1),))
+        return replace(state, discard=tuple(sorted(state.discard + (status,) * SLIMED_COUNT[enemy.name])))
     if enemy.name == "WRIGGLER" and kinds in ({"Buff"}, {"Buff", "StatusCard"}):
         if "StatusCard" in kinds:
             status = Variant("INFECTION", "Status", 0, "None", keywords=("Unplayable",),

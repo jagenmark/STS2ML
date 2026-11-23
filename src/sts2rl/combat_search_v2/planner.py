@@ -151,7 +151,9 @@ class _Search:
         # Guaranteed continuation slots, charged to the same fixed total cap.
         take(safety, 1, lambda n: n.root == self.champion)
         for spent, quota in ((False, (width + 1) // 2), (True, width // 2)):
-            predicate = lambda n: bool(n.state.spent) == spent
+            def predicate(node):
+                return bool(node.state.spent) == spent
+
             quota -= sum(predicate(n) for n in retained)
             if quota > 0:
                 take(safety, (quota + 1) // 2, predicate)
@@ -219,6 +221,8 @@ class _Search:
             fallback = "no certified survival"
         elif champion_known is None:
             fallback = "champion continuation unresolved"
+        elif (self.child_cap or self.depth_cap) and any(line is None for line in self.certified):
+            fallback = "uncertified root at cap"
         elif any(line is None for line in self.scores):
             fallback = "uncompared root at cap" if self.child_cap or self.depth_cap else "uncompared root"
         elif self.root_moves[self.champion].kind == "use_potion" and self.strata[0] is None:

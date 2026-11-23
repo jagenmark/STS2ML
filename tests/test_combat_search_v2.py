@@ -90,6 +90,7 @@ def test_projection_poison_pill_and_unordered_duplicate_variants():
     changed["draw_pile"].reverse()
     expected = project(public)
     changed["draw_pile"][1] = AllowlistGuard({**changed["draw_pile"][1], "private_copy": ForbiddenRead()})
+    changed["draw_pile"][1]["stats"] = AllowlistGuard({"private_preview": ForbiddenRead()})
     changed["player"] = AllowlistGuard({**changed["player"], "private_rng": ForbiddenRead()})
     guarded = AllowlistGuard({**changed, **dict.fromkeys(
         ("private_rng", "seed", "index", "session", "history", "serialized", "draw_order"), ForbiddenRead()
@@ -215,6 +216,15 @@ def test_blade_dance_hand_cap_and_shiv_exhaust():
     assert sorted(v.name for v in s.exhaust) == ["BLADE_DANCE", "SHIV"]
     assert len({c.slot for c in s.hand}) == len(s.hand)
 
+
+def test_repeated_aoe_removes_shrink_between_waves():
+    spray = card("DAGGER_SPRAY", kind="Attack", target="AllEnemies")
+    s = project(view(spray, power=powers(SHRINK=-1),
+                     enemies=[enemy(hp=2), enemy("FUZZY_WURM_CRAWLER", hp=20)])).state
+    successor = play(s, "DAGGER_SPRAY")
+    assert [e.hp for e in successor.enemies] == [0, 14]
+    assert not successor.powers
+
 def end(state):
     return advance(state, Move("end_turn"))
 
@@ -269,7 +279,7 @@ def test_buffer_and_intangible_resolve_per_hit_in_source_order():
             assert end(replace(s, block=1)).hp == 25
     s = project(view(BURN, hp=25, power=powers(BUFFER=1), enemies=[enemy(hit=10, hits=2)])).state
     assert end(s).hp == 5
-    s = project(view(hp=25, power=powers(BUFFER=1, INTANGIBLE=1), enemies=[enemy(hit=20, hits=3)])).state
+    s = project(view(hp=25, power=powers(BUFFER=1, INTANGIBLE=1), enemies=[enemy(hit=1, hits=3)])).state
     assert end(s).hp == 23
 
 
@@ -296,6 +306,62 @@ def test_sandpit_escape_and_true_clear():
         boss = enemy("THE_INSATIABLE", hp=hp, hit=0, power=powers(SANDPIT=1))
         s = project(view(STRIKE, enemies=[boss])).state
         assert end(play(s, "STRIKE_SILENT", 0)).outcome == expected
+
+
+def test_sandpit_cheap_retained_escape_on_following_observation():
+    escape = card("FRANTIC_ESCAPE", kind="Status")
+    first = project(view(escape, hp=5, energy=2, power=powers(WELL_LAID_PLANS=1),
+                         enemies=[enemy("THE_INSATIABLE", hit=0, power=powers(SANDPIT=2))])).state
+    banked = end(first)
+    assert banked.outcome == "completed" and banked.hand[0].variant.cost == 1
+    assert dict(banked.enemies[0].powers)["SANDPIT"] == 1
+
+    # Supply the new public hand and intent explicitly after the turn boundary.
+    # A cheap retained copy can fit alongside Defend on the critical turn.
+    next_boss = enemy("THE_INSATIABLE", hit=8, power=powers(SANDPIT=1))
+    cheap = project(view(escape, DEFEND, hp=banked.hp, energy=2, enemies=[next_boss])).state
+    assert end(play(play(cheap, "FRANTIC_ESCAPE"), "DEFEND_SILENT")).hp == 2
+    dear = project(view({**escape, "cost": 2}, DEFEND, hp=banked.hp, energy=2,
+                        enemies=[next_boss])).state
+    assert all(end(advance(dear, move)).outcome == "dead" for move in legal(dear) if move.kind == "play_card")
+
+
+def test_prompt_mapping_uses_candidate_order_and_rejects_a_stale_index():
+    source = view(SURVIVOR, DEFEND, BURN)
+    nested = view(DEFEND, BURN, block=8, energy=2)
+    nested["play_pile"] = [source["hand"][0]]
+    prompt = {
+        "decision": "card_select", "in_combat": True, "combat_state": nested,
+        "selection_source": {"kind": "play_card", "id": "CARD.SURVIVOR"},
+        "cards": [{"index": 10, "id": "CARD.DEFEND_SILENT"}, {"index": 11, "id": "CARD.BURN"}],
+        "min_select": 1, "max_select": 1,
+    }
+    projected = project(prompt)
+    assert root_move(projected, "select_cards", {"indices": "11"}) == Move("select_cards", selection=(1,))
+    with pytest.raises(ValueError):
+        root_move(projected, "select_cards", {"indices": "1"})
+    with pytest.raises(Unsupported, match="selection operation"):
+        project({**prompt, "selection_source": {"kind": "end_turn"}})
+
+
+def test_skewer_binds_energy_after_target_changes():
+    skewer = card("SKEWER", 0, kind="Attack", target="AnyEnemy", costs_x=True)
+    s = project(view(STRIKE, skewer, enemies=[enemy(hp=6), enemy(hp=31)])).state
+    assert play(s, "SKEWER", 1).enemies[1].hp == 7
+    s = play(s, "STRIKE_SILENT", 0)
+    assert tuple(m.target for m in legal(s) if m.kind == "play_card") == (1,)
+    assert play(s, "SKEWER", 1).enemies[1].hp == 15
+
+
+def test_shiv_replay_overflow_and_unqualified_inky_copy():
+    dance = card("BLADE_DANCE", keywords=("Exhaust",))
+    s = project(view(dance, *([DEFEND] * 7), power=powers(BURST=1))).state
+    successor = play(s, "BLADE_DANCE")
+    assert sum(c.variant.name == "SHIV" for c in successor.hand) == 3
+    assert sum(v.name == "SHIV" for v in successor.discard) == 3
+    inky = card("SHIV", 0, kind="Attack", target="AnyEnemy", keywords=("Exhaust",),
+                enchantment_state={"id": "ENCHANTMENT.INKY", "amount": 1})
+    assert admission(project(view(inky))) == "card/SHIV"
 
 
 @pytest.mark.parametrize("name,reason", [
@@ -373,3 +439,38 @@ def test_unknown_saving_draw_keeps_champion_and_work_caps_are_fixed():
     assert result.root_count == result.covered_roots
     assert result.reached_depth <= 10
     assert result == search_fixture(s, Move("end_turn"), Config(children=48))
+
+
+def test_opt_in_bridge_emits_original_stamp_and_shadow_keeps_champion():
+    from sts2rl.combat_search_v2.integration import CombatSearchV2
+    from sts2rl.run_policy import IDENTITY
+
+    public = {**view(DEFEND_PLUS, hp=4, energy=0, potions=(ENERGY,)), "runtime_identity": IDENTITY}
+    actions = legal_actions(public)
+    guarded = AllowlistGuard({**public, "private_serialized": ForbiddenRead()})
+    assert CombatSearchV2().choose(guarded, actions[-1], lambda _: actions) is actions[0]
+    assert CombatSearchV2(shadow=True).choose(guarded, actions[-1], lambda _: actions) is actions[-1]
+
+
+def test_optional_bundle_settings_and_config_hash(tmp_path):
+    import json
+    from pathlib import Path
+    from sts2rl.combat_search_v2.integration import CombatSearchV2
+    from sts2rl.run_bundle import freeze_bundle, load_bundle
+
+    root = Path(__file__).resolve().parents[1]
+    frozen = root / "releases/silent-a10-v2-tactics/challenger/policy.json"
+    _, old = load_bundle(frozen)
+    assert not any(k.startswith("combat_search_v2") for k in old)
+
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({"version": 1, "width": 6}), encoding="utf8")
+    path = freeze_bundle({"args": {"roles": ["candidate"], "weights": old["weights"],
+                                   "combat_search_v2_shadow": True,
+                                   "combat_search_v2_config": config}}, tmp_path / "bundle")
+    _, settings = load_bundle(path)
+    mode = CombatSearchV2.from_options(settings)
+    assert mode.shadow and mode.config.width == 6
+    settings["combat_search_v2_config"].write_text("{}", encoding="utf8")
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        load_bundle(path)

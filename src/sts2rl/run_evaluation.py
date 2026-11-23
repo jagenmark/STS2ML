@@ -140,7 +140,7 @@ def _play_episode(task, ascension, decision_hook):
         row["late_teacher_weights"] = late.checkpoint()["weights"] if late else None
         row["teacher_deck_effects"] = policy.deck_effects
         row["label_provenance"] = planner_provenance(feature_policy.weights, late, policy.deck_effects)
-    search = boss_search = None
+    search = boss_search = combat_v2 = None
     rooms = []
     try:
         student = None
@@ -197,6 +197,11 @@ def _play_episode(task, ascension, decision_hook):
             and role not in ("baseline", "prior", "original-combat")
             else None
         )
+        if options.get("combat_search_v2") or options.get("combat_search_v2_shadow"):
+            from .combat_search_v2.integration import CombatSearchV2, choose_encounter
+
+            if encounter is not None:
+                combat_v2 = CombatSearchV2.from_options(options, record=True)
         turn_search = options.get("turn_search") and role not in ("baseline", "prior", "original-combat", "no-turn")
         deployed_search = bool(options.get("combat_search_deployed")) and role not in (
             "baseline",
@@ -314,7 +319,8 @@ def _play_episode(task, ascension, decision_hook):
                     else:
                         action = router.choose(state, game.public_map())
                 elif encounter is not None and encounter.applies(state) and combat:
-                    action = encounter.choose(state, policy)
+                    action = (encounter.choose(state, policy) if combat_v2 is None else
+                              choose_encounter(combat_v2, encounter, state, policy, legal_actions))
                 elif deck_model is not None and not combat and (state["decision"] in deck_model.scope or
                         (state["decision"] == "card_select" and (deck_model.to_upgrade or deck_model.prompt))):
                     action = deck_model.choose(state, policy)
@@ -388,6 +394,8 @@ def _play_episode(task, ascension, decision_hook):
                     deck_model.observe(state, action)
                 before = state
                 state = game.step(action)
+                if combat_v2 is not None:
+                    combat_v2.observe(action, state, legal_actions)
                 paid_relics.observe(before, action, state)
                 if act == 3 and action.kind == "select_map_node":
                     draws_normal = (state.get("context") or {}).get("room_type") == "Monster"
@@ -401,6 +409,8 @@ def _play_episode(task, ascension, decision_hook):
     except Exception as exc:
         row.update(status="error", error=f"{type(exc).__name__}: {exc}")
     finally:
+        if combat_v2 is not None:
+            combat_v2.write(folder)
         if boss_search is not None:
             boss_search.close()
             row["boss_search"] = boss_search.metrics

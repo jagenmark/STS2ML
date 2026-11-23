@@ -61,6 +61,11 @@ def main():
     parser.add_argument("--deck-model", type=Path, help="Evaluate attack, defense and persistent effects against the current deck")
     parser.add_argument("--turn-search", action="store_true", help="Plan affordable card sequences in the visible hand")
     parser.add_argument("--combat-search", action="store_true", help="Add bounded Act 1 sampled fight search to the candidate")
+    v2 = parser.add_mutually_exclusive_group()
+    v2.add_argument("--combat-search-v2", action="store_true", default=argparse.SUPPRESS,
+                    help="Enable public whole-turn planning")
+    v2.add_argument("--combat-search-v2-shadow", action="store_true", default=argparse.SUPPRESS,
+                    help="Measure whole-turn planning with champion actions")
     parser.add_argument("--deck-effects", action="store_true", help="Score persistent effects using current deck and enemy intents")
     parser.add_argument("--boss-search", type=Path, help="Compare combat policies in independently sampled Act 1 boss fights")
     parser.add_argument("--tactical-student", type=Path)
@@ -79,7 +84,7 @@ def main():
     if args.bundle:
         actor, settings = load_bundle(args.bundle)
         for key, value in settings.items():
-            if not getattr(args, key):
+            if not getattr(args, key, None):
                 setattr(args, key, value)
     if args.roles is None:
         args.roles = [actor] if args.mode in ("collect-late", "check-late") else ["baseline", actor]
@@ -150,6 +155,9 @@ def main():
                "late_weights": str(args.late_weights.resolve()) if args.late_weights else None,
                "tactical_student": str(args.tactical_student.resolve()) if args.tactical_student else None}
     options["opening_partition"] = partition
+    for key in ("combat_search_v2", "combat_search_v2_shadow", "combat_search_v2_config"):
+        if value := getattr(args, key, None):
+            options[key] = value
     options["explain_drafts"] = args.explain_drafts
     if args.explain_drafts:
         from sts2rl.provenance import draft_scorer_hash

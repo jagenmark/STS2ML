@@ -28,8 +28,8 @@ class Oracle:
         assert result.get("type") != "error", result
         return result
 
-    def start(self, label, deck, potions=(), encounter="SHRINKER_BEETLE_WEAK", hp=56):
-        self.game.reset(f"CSV2DEV_ORACLE_{label}")
+    def start(self, label, deck, potions=(), encounter="SHRINKER_BEETLE_WEAK", hp=56, seed=None):
+        self.game.reset(seed or f"CSV2DEV_ORACLE_{label}")
         self.command(cmd="set_player", hp=hp, deck=deck, potions=potions)
         self.public = self.command(cmd="enter_room", type="monster", encounter=encounter)
         self.simulated = project(self.public).state
@@ -284,3 +284,84 @@ def test_native_replay_planners_energy_save(oracle):
     for move in line.path:
         oracle.step(move.kind)
     assert oracle.simulated.hp == line.state.hp == 1
+
+
+def test_native_constrict_precedes_lethal_poison(oracle):
+    oracle.start("CONSTRICT_POISON", ["DEADLY_POISON"] * 5, ["POISON_POTION"] * 2,
+                 encounter="SLITHERING_STRANGLER_NORMAL", hp=3,
+                 seed="CSV2DEV_PROFILE_SLITHERING_STRANGLER_NORMAL")
+    for _ in range(2):
+        oracle.step("use_potion", "POISON_POTION", target=1)
+    for _ in range(3):
+        oracle.step("play_card", "DEADLY_POISON", target=1)
+    oracle.step("end_turn")
+    oracle.refresh()
+    for _ in range(3):
+        oracle.step("play_card", "DEADLY_POISON", target=1)
+    enemy = oracle.simulated.enemies[1]
+    assert dict(enemy.powers)["POISON"] >= enemy.hp
+    assert oracle.step("end_turn").outcome == "dead"
+
+
+def test_native_x_with_artifact(oracle):
+    oracle.start("ARTIFACT", ["NEUTRALIZE", "MALAISE", "DEFEND_SILENT"],
+                 encounter="TUNNELER_NORMAL", hp=70)
+    oracle.step("play_card", "NEUTRALIZE", target=0)
+    successor = oracle.step("play_card", "MALAISE", target=0)
+    assert dict(successor.enemies[0].powers) == {"WEAK": 3}
+
+
+@pytest.mark.parametrize("formation", ["NIBBITS_NORMAL", "FUZZY_WURM_CRAWLER_WEAK", "SLIMES_WEAK"])
+def test_native_hallway_turns(oracle, formation):
+    oracle.start(formation, ["DEFEND_SILENT"] * 16, encounter=formation, hp=70)
+    for _ in range(3):
+        oracle.step("play_card", "DEFEND_SILENT")
+        oracle.step("end_turn")
+        oracle.refresh()
+
+
+@pytest.mark.parametrize("label", ["STATUS_ORDER_0", "STATUS_ORDER_1", "STATUS_ORDER_2"])
+def test_native_buffer_with_multiple_hand_statuses(oracle, label):
+    oracle.start(label, ["BUFFER", "BURN", "WITHER", "DEFEND_SILENT"], hp=70)
+    oracle.step("play_card", "BUFFER")
+    oracle.step("end_turn")
+
+
+def test_native_sandpit_countdown_is_lethal_independently_of_hits(oracle):
+    oracle.start("SANDPIT_DEATH", ["DEFEND_SILENT"] * 16,
+                 encounter="THE_INSATIABLE_BOSS", hp=70)
+    for _ in range(4):
+        for _ in range(2):
+            oracle.step("play_card", "DEFEND_SILENT")
+        oracle.step("end_turn")
+        oracle.refresh()
+    state = oracle.simulated
+    assert dict(state.enemies[0].powers)["SANDPIT"] == 1
+    assert state.hp > sum(i.damage * i.hits for i in state.enemies[0].intents if i.damage is not None)
+    assert oracle.step("end_turn").outcome == "dead"
+
+
+@pytest.mark.parametrize("first,second", [
+    ("STRENGTH_POTION", "VULNERABLE_POTION"),
+    ("DEXTERITY_POTION", "WEAK_POTION"),
+    ("GHOST_IN_A_JAR", "BLOCK_POTION"),
+    ("FIRE_POTION", "EXPLOSIVE_AMPOULE"),
+])
+def test_native_deterministic_potion_pairs(oracle, first, second):
+    oracle.start(first, ["DEFEND_SILENT"] * 5 + ["STRIKE_SILENT"] * 5,
+                 [first, second], encounter="NIBBITS_WEAK", hp=70)
+    oracle.step("use_potion", first)
+    if oracle.public["in_combat"]:
+        oracle.step("use_potion", second)
+    if oracle.public["in_combat"]:
+        oracle.step("end_turn")
+
+
+def test_native_escape_replay_cost(oracle):
+    oracle.start("ESCAPE_REPLAY", ["DEFEND_SILENT"] * 3, ["DUPLICATOR"],
+                 encounter="THE_INSATIABLE_BOSS", hp=70)
+    oracle.step("end_turn")
+    oracle.refresh()
+    oracle.step("use_potion", "DUPLICATOR")
+    successor = oracle.step("play_card", "FRANTIC_ESCAPE")
+    assert dict(successor.enemies[0].powers)["SANDPIT"] == 6

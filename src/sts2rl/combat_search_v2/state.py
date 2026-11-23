@@ -4,6 +4,15 @@ from dataclasses import dataclass, replace
 SCHEMA = 1
 HAND_CAP = 10
 Powers = tuple[tuple[str, int], ...]
+CARD_STATS = (
+    "afterimagepower", "block", "blur", "bufferpower", "cards", "damage", "energy",
+    "poisonpower", "repeat", "skills", "strengthloss", "vulnerablepower", "weakpower",
+)
+POTION_STATS = (
+    "Block", "Cards", "Damage", "DexterityPower", "Energy", "IntangiblePower",
+    "PoisonPower", "StrengthPower", "VulnerablePower", "WeakPower",
+)
+RELIC_STATS = ("Block", "Energy", "Turns")
 
 
 class Unsupported(ValueError):
@@ -20,8 +29,9 @@ def integer(value):
     return int(value)
 
 
-def numbers(values):
-    return tuple(sorted((name.lower(), integer(value)) for name, value in (values or {}).items()))
+def numbers(values, keys):
+    values = values or {}
+    return tuple((name.lower(), integer(values[name])) for name in keys if name in values)
 
 
 def power(powers, name):
@@ -201,7 +211,7 @@ def _variant(card, *, pile=False):
             modifiers.append((key, "unqualified", 0))
     return Variant(entry(card["id"]), card["type"], integer(card["cost"]), card["target_type"],
                    integer(card.get("upgrades", 0)), tuple(sorted(card.get("keywords") or ())),
-                   flags, tuple(modifiers), numbers(card.get("stats")) if pile else ())
+                   flags, tuple(modifiers), numbers(card.get("stats"), CARD_STATS) if pile else ())
 
 
 def _powers(rows):
@@ -254,10 +264,11 @@ def project(public):
             raise Unsupported(f"{key} pile count")
         piles.append(zone)
     potion_rows = player["potions"]
-    potions = tuple(Potion(slot, entry(p["id"]), p["target_type"], p["can_use"], numbers(p.get("vars")))
+    potions = tuple(Potion(slot, entry(p["id"]), p["target_type"], p["can_use"],
+                           numbers(p.get("vars"), POTION_STATS))
                     for slot, p in enumerate(potion_rows))
     relics = tuple(Relic(entry(r["id"]), integer(r["counter"]) if r.get("counter") is not None else None,
-                         bool(r.get("is_used_up")), numbers(r.get("vars")), r.get("status", "Normal"),
+                         bool(r.get("is_used_up")), numbers(r.get("vars"), RELIC_STATS), r.get("status", "Normal"),
                          integer(r.get("stack_count", 1))) for r in player.get("relics", ()))
     powers = _powers(view.get("player_powers"))
     state = State(integer(player["hp"]), integer(player["max_hp"]), integer(player.get("block", 0)),
@@ -277,15 +288,10 @@ def project(public):
 def _public_prompt(public, state):
     source = public.get("selection_source") or {}
     card = entry(source.get("id", ""))
-    if source.get("kind") != "play_card" or card not in ("SURVIVOR", "ACROBATICS", "PREPARED"):
+    if source.get("kind") != "play_card" or card not in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW"):
         raise Unsupported("selection operation")
     if len(state.play) != 1 or state.play[0].name != card:
         raise Unsupported("selection continuation")
-    # No native public replay count at a prompt. A replay can have depleted
-    # the last visible stack before suspending, so require independent proof
-    # of its continuation (the online wrapper reconciles a prior public line).
-    if power(state.powers, "BURST") or power(state.powers, "DUPLICATION"):
-        raise Unsupported("selection replay")
     rows = public["cards"]
     if len(rows) != len(state.hand) or any(
         entry(row["id"]) != c.variant.name or bool(row.get("upgraded")) != bool(c.variant.upgrade)
@@ -300,16 +306,20 @@ def _public_prompt(public, state):
 
 def root_move(projected, kind, args):
     """Translate stamped native arguments without reading stamps or action IDs."""
+    target = -1
+    if "target_index" in args:
+        position = projected.enemy_indices.index(args["target_index"])
+        target = tuple(e.slot for e in projected.state.enemies if e.hp > 0)[position]
     if kind == "play_card":
-        slot = projected.hand_indices.index(args["card_index"])
-        target = projected.enemy_indices.index(args["target_index"]) if "target_index" in args else -1
+        slot = projected.state.hand[projected.hand_indices.index(args["card_index"])].slot
         return Move(kind, slot, target)
     if kind == "use_potion":
-        target = projected.enemy_indices.index(args["target_index"]) if "target_index" in args else -1
-        return Move(kind, projected.potion_indices.index(args["potion_index"]), target)
+        slot = projected.state.potions[projected.potion_indices.index(args["potion_index"])].slot
+        return Move(kind, slot, target)
     if kind in ("select_cards", "skip_select"):
         indices = tuple(map(int, args["indices"].split(","))) if kind == "select_cards" else ()
-        return Move("select_cards", selection=tuple(projected.prompt_indices.index(i) for i in indices))
+        return Move("select_cards", selection=tuple(
+            projected.state.prompt.candidates[projected.prompt_indices.index(i)] for i in indices))
     if kind == "end_turn":
         return END_TURN
     raise Unsupported("root action")
