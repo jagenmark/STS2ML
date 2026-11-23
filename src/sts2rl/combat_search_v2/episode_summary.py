@@ -8,6 +8,23 @@ class EpisodeSummary:
         self.death = None
         self.fight = None
         self.formation = None
+        self.native = Counter()
+        self.mismatches = []
+        self.exits = []
+
+    def audit(self, record):
+        if oracle := record.get("oracle"):
+            self.native[oracle[1]] += 1
+            if oracle[1] == "mismatch":
+                self.mismatches.append(record)
+
+    def fight_exit(self, before, after):
+        if not before.get("in_combat") or (after.get("in_combat") and after["decision"] != "game_over"):
+            return
+        act, floor, room = self.fight
+        if act == 3 or (act == 2 and room == "Boss"):
+            died = after["decision"] == "game_over" and not after.get("victory")
+            self.exits.append([act, floor, room, self.formation, 0 if died else after["player"]["hp"], not died])
 
     def observe(self, before, after, fallback):
         view = before.get("combat_state", before)

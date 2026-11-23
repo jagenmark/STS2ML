@@ -218,7 +218,7 @@ def _play_episode(task, ascension, decision_hook):
             from .combat_search_v2.integration import CombatSearchV2, choose_encounter
 
             if encounter is not None:
-                combat_v2 = CombatSearchV2.from_options(options, record=compact is None)
+                combat_v2 = CombatSearchV2.from_options(options, record=compact is None or options.get("audit_compact"))
         turn_search = options.get("turn_search") and role not in ("baseline", "prior", "original-combat", "no-turn")
         deployed_search = bool(options.get("combat_search_deployed")) and role not in (
             "baseline",
@@ -423,10 +423,14 @@ def _play_episode(task, ascension, decision_hook):
                         fallback = (combat_v2.last_fallback if combat and encounter.applies(before)
                                     else "outside encounter scope")
                     compact.observe(before, state, fallback)
+                    if options.get("audit_compact"):
+                        compact.fight_exit(before, state)
                 if recorder is not None:
                     recorder.observe(before, action, state, step, native_step=len(game.history) - 1)
                 if combat_v2 is not None:
                     combat_v2.observe(action, state, legal_actions)
+                    if compact is not None and options.get("audit_compact") and combat_v2.records:
+                        compact.audit(combat_v2.records.pop())
                 paid_relics.observe(before, action, state)
                 if act == 3 and action.kind == "select_map_node":
                     draws_normal = (state.get("context") or {}).get("room_type") == "Monster"
@@ -456,6 +460,8 @@ def _play_episode(task, ascension, decision_hook):
     row["seconds"] = monotonic() - started
     if compact is not None:
         row.update(coverage=compact.coverage, death=compact.death)
+        if options.get("audit_compact"):
+            row.update(native=compact.native, mismatches=compact.mismatches, late_fights=compact.exits)
     if options.get("explain_drafts"):
         with gzip.open(folder / "draft-scores.jsonl.gz", "wt", encoding="utf-8") as stream:
             for trace in draft_explanations:
