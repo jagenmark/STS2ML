@@ -200,12 +200,15 @@ class CombatSearchV2:
         try:
             if public.get("runtime_identity") != runtime_identity(10):
                 raise Unsupported("runtime")
-            projected = project(public, late_prompts=self.config.v6_late_coverage)
+            ctx = public.get("combat_state", public).get("context") or {}
+            late_root = self.config.v6_late_coverage and (
+                ctx.get("act") == 3 or (ctx.get("act") == 2 and ctx.get("room_type") == "Boss"))
+            projected = project(public, late_prompts=late_root)
             state = projected.state
             if self.config.v6_late_coverage and any(v.name == "RIGHT_HAND_HAND" for v in state.discard):
                 state = replace(state, right_hand_return=True)
                 projected = replace(projected, state=state)
-            if self.config.v6_late_coverage and (state.act == 3 or (state.act == 2 and state.room == "Boss")):
+            if late_root:
                 key = (state.act, state.floor, state.round)
                 side = projected.enemy_indices.index(facing) if facing in projected.enemy_indices else -1
                 if len(state.enemies) == 1 and state.enemies[0].name in ("CRUSHER", "ROCKET"):
