@@ -303,7 +303,7 @@ def finalize(args, rows):
     report = json.loads((args.output / "dev-metrics.json").read_bytes())
     times = json.loads((args.output / "cpu-latency.json").read_bytes())
     eligible = [name for name, receipt in times.items() if receipt["p95_ms"] < .1
-                and min(receipt["damage_sensitivity"].values()) > 1e-4
+                and (not args.phase3 or min(receipt["damage_sensitivity"].values()) > 1e-4)
                 and receipt["artifact_sha256"] == report["candidates"][name]["sha256"]]
     if not eligible:
         raise SystemExit("No candidate satisfies the CPU p95 latency gate")

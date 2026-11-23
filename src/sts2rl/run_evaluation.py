@@ -6,7 +6,7 @@ import gzip
 import hashlib
 import json
 from pathlib import Path
-from time import monotonic
+from time import monotonic, perf_counter_ns
 
 from .act1 import MacroPolicy, is_combat_choice, save_json
 from .encounter_draft import WeakEncounterPool
@@ -143,6 +143,7 @@ def _play_episode(task, ascension, decision_hook):
         row["label_provenance"] = planner_provenance(feature_policy.weights, late, policy.deck_effects)
     search = boss_search = combat_v2 = recorder = None
     rooms = []
+    combat_timings = [] if options.get("time_combat_decisions") else None
     try:
         observing = nullcontext()
         if options.get("record_combat_v2"):
@@ -314,6 +315,7 @@ def _play_episode(task, ascension, decision_hook):
                 if repeated[fingerprint] > 3:
                     raise RuntimeError("Repeated decision without progress")
                 combat = is_combat_choice(state)
+                decision_start = perf_counter_ns() if combat and combat_timings is not None else None
                 use_student = student is not None and (role == "student" or act >= 2)
                 teaching = options.get("label_turns") and state["decision"] == "combat_play"
                 turn_action = choose_turn(state, policy) if teaching or (
@@ -382,6 +384,8 @@ def _play_episode(task, ascension, decision_hook):
                     action = search.choose(game, action, step)
                 if decision_hook is not None:
                     action = decision_hook(state, action)
+                if decision_start is not None:
+                    combat_timings.append(perf_counter_ns() - decision_start)
                 if options.get("record_strategy") and (not combat or
                         (state["decision"] == "combat_play" and ctx.get("room_type") == "Boss"
                          and (not strategy_samples or strategy_samples[-1]["state"].get("context") != ctx))):
@@ -419,6 +423,8 @@ def _play_episode(task, ascension, decision_hook):
     except Exception as exc:
         row.update(status="error", error=f"{type(exc).__name__}: {exc}")
     finally:
+        if combat_timings is not None:
+            (folder / "combat-decision-ns.json").write_text(json.dumps(combat_timings), encoding="utf-8")
         if recorder is not None:
             recorder.write()
         if combat_v2 is not None:

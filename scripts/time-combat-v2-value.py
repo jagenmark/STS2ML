@@ -40,6 +40,8 @@ def main():
     results = {}
     for name in ("linear", "mlp32", "mlp64", "residual"):
         path = args.models / f"{name}.npz"
+        if name == "residual" and not path.is_file():
+            continue
         model = CombatValueModel.load(path)
         for _ in range(50):
             for state in states:
@@ -53,7 +55,7 @@ def main():
         p50, p95 = np.percentile(elapsed, [50, 95])
         # Vary each formerly collapsed coordinate independently and also run
         # a physically realizable one-damage intervention through both packers.
-        features = np.stack([extract_leaf_features(state) for state in states])
+        features = np.stack([extract_leaf_features(state, schema=model.schema) for state in states])
 
         def expected_hp(x):
             return model.predict(x).prod(axis=1) * x[:, 1]
@@ -67,7 +69,7 @@ def main():
         damaged = [replace(s, enemies=(replace(s.enemies[0], hp=s.enemies[0].hp - 1), *s.enemies[1:]))
                    for s in states]
         sensitivity["one_damage"] = float(np.median(expected_hp(np.stack(
-            [extract_leaf_features(s) for s in damaged])) - baseline))
+            [extract_leaf_features(s, schema=model.schema) for s in damaged])) - baseline))
         results[name] = {"p50_ms": float(p50), "p95_ms": float(p95), "samples": len(elapsed),
                          "damage_sensitivity": sensitivity,
                          "artifact_sha256": hashlib.sha256(path.read_bytes()).hexdigest()}

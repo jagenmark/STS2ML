@@ -777,6 +777,26 @@ def test_phase3_giant_knockout_and_hopper_departure(oracle):
     assert advance(last.state, root_move(last, "end_turn", {})).boundary.reason == "thieving hopper departure"
 
 
+def test_phase3_zero_damage_hits_still_trigger_thorns(oracle):
+    oracle.start("THORNS", ["MALAISE", "DEFEND_SILENT"], ["LIQUID_BRONZE"],
+                 encounter="EXOSKELETONS_NORMAL", seed="CSV3FIX_THORNS")
+    for _ in range(4):
+        target = next((e for e in oracle.public["enemies"]
+                       if any(i.get("hits") == 4 for i in e["intents"])), None)
+        if target:
+            break
+        oracle.public = oracle.command(cmd="action", action="end_turn", args={})
+        oracle.refresh()
+    assert target
+    slot = target["index"]
+    oracle.step("use_potion", "LIQUID_BRONZE")
+    oracle.step("play_card", "MALAISE", target=slot)
+    assert oracle.public["enemies"][slot]["intents"][0]["damage"] == 0
+    hp = oracle.public["enemies"][slot]["hp"]
+    _check_qualified_board(oracle, oracle.step("end_turn"))
+    assert hp - oracle.public["enemies"][slot]["hp"] == 12
+
+
 def test_phase2_attack_relic_counters_and_end_turn(oracle, tmp_path):
     save_path = tmp_path / "attack-relics.save"
     with NativeSession(ROOT, tmp_path / "fixture", host_path=HOST) as fixture:

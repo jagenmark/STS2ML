@@ -13,7 +13,7 @@ import numpy as np
 
 from sts2rl.combat_search_v2.planner import Config
 from sts2rl.combat_search_v2.recording import observer_path
-from sts2rl.combat_search_v2.seed_registry import load_registry, registry_sha256
+from sts2rl.combat_search_v2.seed_registry import load_phase3_registry, load_registry, registry_sha256
 from sts2rl.run_bundle import load_bundle
 from sts2rl.run_evaluation import play_episode
 from sts2rl.run_policy import RunWeights
@@ -90,7 +90,8 @@ def execute(args, lobbies, arms, role, settings, weights):
         if config.is_file() and read(config) != payload:
             raise ValueError(f"Existing arm configuration differs: {arm.name}")
         save(config, payload)
-        options[arm.name] = {**settings, "record_combat_v2": True, "combat_search_v2": True,
+        options[arm.name] = {**settings, "record_combat_v2": True, "combat_search_v2": arm.name != "champion",
+                             "time_combat_decisions": args.stage == "phase3",
                              "combat_search_v2_config": str(config.resolve()),
                              "combat_value_v2": str(arm.model) if arm.model else None}
     pending = [(arm, lobby) for lobby in lobbies for arm in arms
@@ -184,7 +185,7 @@ def search_metrics(paths):
 
 def results_for(args, lobbies, arm):
     if arm == "champion":
-        return [find_result(args.data / "dev" / lobby.seed, lobby) for lobby in lobbies]
+        return [find_result(args.data / lobby.split / lobby.seed, lobby) for lobby in lobbies]
     return [find_result(args.output / arm / lobby.seed, lobby) for lobby in lobbies]
 
 
@@ -202,10 +203,14 @@ def summarize_arm(paired, champion, lobbies, *, active):
             matched.append(hp)
             if a["outcome"] == b["outcome"] == "victory":
                 won.append(hp)
+    timing = [ns / 1e6 for path, _ in paired if (path / "combat-decision-ns.json").is_file()
+              for ns in read(path / "combat-decision-ns.json")]
     return {"lobbies": len(rows), "mean_floor": fmean(map(floor, rows)), "floor_delta": fmean(d),
+            "combat_decision_p50_p95_ms": percentiles(timing),
             "floor_delta_seed_ci95": bootstrap(d, lobbies), "floor_pair_wlt": [sum(v > 0 for v in d),
             sum(v < 0 for v in d), sum(v == 0 for v in d)],
             "act_clears": [sum(r[key] for r in rows) for key in ("a1_clear", "a2_clear", "win")],
+            "act2_boss_entries": sum(any(act == 2 for act, _ in r["boss_fights"]) for r in rows),
             "matched_fights": len(matched), "matched_exit_hp_delta": fmean(matched) if matched else None,
             "matched_wins": len(won), "matched_win_hp_delta": fmean(won) if won else None,
             "search": search_metrics([path for path, _ in paired]) if active else None}
@@ -226,7 +231,8 @@ def factorial(args, lobbies):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=("tune", "ablate"))
+    parser.add_argument("stage", choices=("tune", "ablate", "phase3"))
+    parser.add_argument("--observer", type=Path)
     parser.add_argument("--host", type=Path, required=True)
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--model", type=Path, required=True)
@@ -235,8 +241,9 @@ def main():
     args = parser.parse_args()
     args.host = args.host.resolve(strict=True)
     args.model = args.model.resolve(strict=True)
-    rows = load_registry()
-    observer = observer_path(ROOT)
+    phase3 = args.stage == "phase3"
+    rows = load_phase3_registry() if phase3 else load_registry()
+    observer = observer_path(ROOT, args.observer)
     freeze = read(args.model.parent / "selection-freeze.json")
     collection = read(args.data / "collection.json")
     if (sha(args.host) != HOST_SHA or sha(args.model) != freeze["artifact_sha256"]
@@ -244,6 +251,11 @@ def main():
         parser.error("Pinned data, runtime, champion and model identities are required")
     tuning, held = partition_dev(rows)
     lobbies = tuning if args.stage == "tune" else held
+    if phase3:
+        if (collection.get("phase3") != "held" or freeze["registry_sha256"] != registry_sha256(rows)
+                or sha(CHAMPION) != "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b"):
+            parser.error("Phase 3 requires the locked v4 held control and frozen Schema 3 model")
+        lobbies = [r for r in rows if r.split == "held"]
     args.output.mkdir(parents=True, exist_ok=True)
     manifest = {"version": 1, "host_sha256": HOST_SHA, "champion_sha256": sha(CHAMPION),
                 "registry_sha256": registry_sha256(rows), "model_sha256": sha(args.model),
@@ -258,13 +270,24 @@ def main():
     weights = asdict(RunWeights.load(settings["weights"]))
     if args.stage == "tune":
         arms = (Arm("alpha0", model=args.model), Arm("alpha12", model=args.model, alpha=12))
+    elif phase3:
+        arms = [Arm(f"{leaf}-w16-c{cap}", width=16, children=cap,
+                    model=args.model if leaf == "learned" else None)
+                for leaf in ("heuristic", "learned") for cap in (256, 512)]
     else:
         alpha = read(args.output / "tune.json")["selected_alpha"]
         arms = (Arm("heuristic-w8"), Arm("heuristic-w16", width=16, children=512),
                 Arm("learned-w8", model=args.model, alpha=alpha),
                 Arm("learned-w16", width=16, children=512, model=args.model, alpha=alpha))
-    execute(args, lobbies, arms, role, settings, weights)
+    execute(args, lobbies, [Arm("champion"), *arms] if phase3 else arms, role, settings, weights)
     champion = results_for(args, lobbies, "champion")
+    if phase3:
+        timed = [find_result(args.output / "champion" / lobby.seed, lobby) for lobby in lobbies]
+        for (before, original), (after, repeated) in zip(champion, timed, strict=True):
+            if ({k: v for k, v in original.items() if k != "seconds"} !=
+                    {k: v for k, v in repeated.items() if k != "seconds"} or fights(before) != fights(after)):
+                raise ValueError("Timed flags-off control differs from locked v4 recording")
+        champion = timed
     summary = {"champion": summarize_arm(champion, champion, lobbies, active=False)}
     for arm in arms:
         summary[arm.name] = summarize_arm(results_for(args, lobbies, arm.name), champion, lobbies, active=True)
@@ -272,7 +295,7 @@ def main():
         a, b = summary["alpha0"], summary["alpha12"]
         summary["selected_alpha"] = 12 if b["act_clears"][0] >= a["act_clears"][0] and (
             b["mean_floor"] > a["mean_floor"]) else 0
-    else:
+    elif not phase3:
         summary["factorial"] = factorial(args, lobbies)
         wide = summary["heuristic-w16"]["search"]["coverage"]
         if sum(c["child_cap"] for c in wide.values()) > 0:
