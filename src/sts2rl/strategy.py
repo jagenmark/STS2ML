@@ -8,9 +8,10 @@ from pathlib import Path
 import re
 
 from .native import legal_actions
+from .deck_policy import DeckPolicy, deck_context
 from .encounter_draft import matchup_features
 from .offer_policy import OfferModel, draft_prior, draft_prior_parts, offer_features, offer_type
-from .run_policy import IDENTITY, INFERENCE_IDENTITY, _card_id, _cost, _hits, _shiv_count
+from .run_policy import IDENTITY, INFERENCE_IDENTITY, REST_HP_FRACTION, _card_id, _cost, _hits, _shiv_count
 
 
 def strategy_kind(state):
@@ -37,6 +38,25 @@ def _deck_strength(deck):
         discards += "Discard" in (card.get("description") or "")
         sly += "Sly" in (card.get("keywords") or [])
     return attacks, block, poison, shivs, discards, sly
+
+
+def _first_power_scaling(card, ctx, info, deck):
+    """Restore the shop's missing persistent term for the first supported free copy."""
+    name = _card_id(card)
+    if name not in ("ACCELERANT", "ACCURACY", "PHANTOM_BLADES", "INFINITE_BLADES"):
+        return 0.0
+    counts, copies = info
+    if copies.get(name):
+        return 0.0
+    if name == "ACCELERANT" and not any(
+        _card_id(c) != "BUBBLE_BUBBLE" and (
+            (c.get("stats") or {}).get("poisonpower") or (c.get("stats") or {}).get("poisonperturn")
+        ) for c in deck
+    ):
+        return 0.0
+    if name in ("ACCURACY", "PHANTOM_BLADES") and not counts["shiv"]:
+        return 0.0
+    return DeckPolicy.terms(card, ctx, info)["scaling"]
 
 
 def _event_terms(option, hp, maximum, gold, *, event_fixes_v4=False):
@@ -130,6 +150,8 @@ def strategy_arms(
     floor = state["context"]["floor"]
     boss = (state["context"].get("boss") or {}).get("id", "")
     attacks, blocks, poison, shivs, discards, sly = _deck_strength(deck)
+    fix_draft = kind == "card" and unified_draft and getattr(policy, "v51_draft_fixes", False)
+    info = deck_context(deck) if fix_draft else None
     arms = []
     for action in legal_actions(state):
         features = {}
@@ -154,6 +176,15 @@ def strategy_arms(
                 + term["upgrade"]
                 + term["permanent_energy"]
             )
+            if getattr(policy, "v51_macro_fixes", False) and key == "THIS_OR_THAT.pages.INITIAL.options.ORNATE":
+                # Charge the observed removal spend per Ornate at the event model's 75g/unit.
+                # Only trade HP for gold when Plain leaves the deck above the normal rest threshold.
+                plain = next((o for o in state["options"] if
+                              o.get("text_key") == "THIS_OR_THAT.pages.INITIAL.options.PLAIN"), {})
+                cost = (plain.get("vars") or {}).get("HpLoss")
+                if (isinstance(cost, (int, float)) and player["hp"] - cost >= REST_HP_FRACTION * player["max_hp"]
+                        and not any(r.get("id") == "RELIC.ECTOPLASM" for r in player.get("relics", ()))):
+                    prior -= (3200 / 75) / 75
             if kind == "ancient":
                 words = (option.get("description") or "").lower()
                 variables = {
@@ -221,6 +252,8 @@ def strategy_arms(
                 stats = card.get("stats") or {}
                 copies = sum(_card_id(c) == cid for c in deck)
                 value = policy.card_value(card, deck=deck)
+                if info is not None:
+                    value += _first_power_scaling(card, state["context"], info, deck)
                 cost = _cost(card)
                 attack = stats.get("calculateddamage", stats.get("damage", 0)) * _hits(card) / 10
                 block = stats.get("calculatedblock", stats.get("block", 0)) / 8
@@ -372,6 +405,10 @@ class StrategyModel(OfferModel):
                             "size": -self.deck_size_penalty * max(0, len(deck_cards) - 12),
                             "threshold": -0.35 * policy.weights.draft_threshold,
                         }
+                        if getattr(policy, "v51_draft_fixes", False):
+                            base_parts["v51_scaling"] = 0.35 * _first_power_scaling(
+                                card, state["context"], deck_context(deck_cards), deck_cards
+                            )
                 else:
                     if opening is not None and offer_type(state):
                         base, opening_features = offer_features(state, action, policy)

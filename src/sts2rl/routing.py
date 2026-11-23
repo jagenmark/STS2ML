@@ -22,6 +22,21 @@ def _buckets(icon, act, row, hp_fraction, gold):
     return (icon, f"{icon}/{act}/{early}", f"{icon}/{act}/{early}/{low}/{rich}")
 
 
+def choose_route(router, state, game, pool, act3_normal_count, *, prefer_ancient=False):
+    act = state["context"]["act"]
+    if prefer_ancient and act in (2, 3):
+        ancient = next((p for p in state["choices"] if p["row"] == 0 and p["type"] == "Ancient"), None)
+        if ancient is not None:
+            return next(a for a in legal_actions(state)
+                        if (a.args["row"], a.args["col"]) == (ancient["row"], ancient["col"]))
+    rows = game.public_map()
+    if act == 3 and getattr(router, "act3_context", None):
+        return router.choose(state, rows, normal_count=act3_normal_count)
+    if pool is not None and getattr(router, "act1_context", None):
+        return router.choose(state, rows, normal_count=pool.normal_count)
+    return router.choose(state, rows)
+
+
 class RoomModel:
     def __init__(self, cells):
         self.cells = cells

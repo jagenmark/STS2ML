@@ -65,7 +65,7 @@ class BossTactics:
         selected = cards[other if other in choice else "DISINTEGRATION"]
         return selected_cards(state, [selected["index"]])
 
-    def escape_threshold(self, state, default):
+    def escape_threshold(self, state, default, *, bank_earlier=False):
         rule = self.plan.get("escape")
         if not rule:
             return default
@@ -83,13 +83,14 @@ class BossTactics:
         # Estimate damage per remaining turn from actual progress in this fight.
         pace = (earlier[0] - enemy["hp"]) / len(earlier) if earlier else 18
         poison = max(0, _power(enemy.get("powers"), "POISON"))
-        if countdown > 1 and enemy["hp"] <= poison + (countdown - 1) * max(12, pace):
+        # At two ticks, an estimated kill next turn is too late if Escape leaves the hand.
+        if countdown > (2 if bank_earlier else 1) and enemy["hp"] <= poison + (countdown - 1) * max(12, pace):
             return 0
         uncovered = max(0, incoming(enemy) - state["player"]["block"])
         if countdown > 1 and uncovered >= state["player"]["hp"]:
             return 0
         if rule == "cheap":
-            return 3 if cost == 1 else 1
+            return (3 if cost == 1 else 1) + int(bank_earlier)
         if rule == "bank":
             # Pay an increasing energy cost on quiet turns while there is still time.
             return 4 if uncovered <= 5 else (2 if cost == 1 else 1)

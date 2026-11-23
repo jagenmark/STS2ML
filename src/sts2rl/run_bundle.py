@@ -9,7 +9,11 @@ from .run_policy import IDENTITY
 MODEL_FILES = ("weights", "room_model", "late_room_model", "offer_model", "late_weights", "tactical_student", "micro",
                "strategy_model", "encounter_model", "return_model", "deck_model", "boss_search")
 SWITCHES = ("turn_search", "combat_search", "deck_effects")
-OPTIONAL_SWITCHES = ("combat_search_deployed", "combat_search_v2", "combat_search_v2_shadow", "v6_lategame_fixes")
+V51_SWITCHES = ("v51_draft_fixes", "v51_boss_tactics", "v51_macro_fixes")
+OPTIONAL_SWITCHES = (
+    "combat_search_deployed", "combat_search_v2", "combat_search_v2_shadow", "v6_lategame_fixes",
+    *V51_SWITCHES,
+)
 OPTIONAL_MODEL_FILES = ("combat_search_v2_config", "combat_value_v2")
 
 

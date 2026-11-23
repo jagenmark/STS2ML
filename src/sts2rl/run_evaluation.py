@@ -20,7 +20,8 @@ from .merchant import PendingRelicPurchase
 from .native import ReplayFork, digest, legal_actions, runtime_identity
 from .offer_policy import OfferModel, offer_type
 from .run_policy import INFERENCE_IDENTITY, RunPolicy, RunWeights
-from .routing import RoomModel
+from .routing import RoomModel, choose_route
+from .run_bundle import V51_SWITCHES
 from .teacher import heuristic
 from .strategy import StrategyModel, strategy_kind
 from .turn_planning import choose_turn
@@ -127,6 +128,7 @@ def _play_episode(task, ascension, decision_hook):
     started = monotonic()
     macro = MacroPolicy(7103 + index)
     policy = RunPolicy(RunWeights(**weights), macro_seed=7103 + index,
+                       **{key: options.get(key, False) and role == "candidate" for key in V51_SWITCHES},
                        v6_lategame_fixes=options.get("v6_lategame_fixes", False) and role == "candidate",
                        deck_effects=options.get("deck_effects", False) and role not in ("baseline", "prior"))
     late = (RunWeights.load(options["late_weights"]) if options.get("late_weights")
@@ -217,7 +219,7 @@ def _play_episode(task, ascension, decision_hook):
             else None
         )
         if options.get("combat_search_v2") or options.get("combat_search_v2_shadow"):
-            from .combat_search_v2.integration import CombatSearchV2, choose_encounter
+            from .combat_search_v2.integration import CombatSearchV2
 
             if encounter is not None:
                 combat_v2 = CombatSearchV2.from_options(options, record=compact is None)
@@ -335,15 +337,10 @@ def _play_episode(task, ascension, decision_hook):
                     turn_search and state["decision"] == "combat_play" and not use_student and micro is None
                     and not (encounter and encounter.applies(state))) else None
                 if state["decision"] == "map_select" and router is not None:
-                    if act == 3 and getattr(router, "act3_context", None):
-                        action = router.choose(state, game.public_map(), normal_count=act3_normal_count)
-                    elif pool is not None and getattr(router, "act1_context", None):
-                        action = router.choose(state, game.public_map(), normal_count=pool.normal_count)
-                    else:
-                        action = router.choose(state, game.public_map())
+                    action = choose_route(router, state, game, pool, act3_normal_count,
+                                          prefer_ancient=policy.v51_macro_fixes)
                 elif encounter is not None and encounter.applies(state) and combat:
-                    action = (encounter.choose(state, policy) if combat_v2 is None else
-                              choose_encounter(combat_v2, encounter, state, policy, legal_actions))
+                    action = encounter.deployed_choice(state, policy, combat_v2)
                 elif deck_model is not None and not combat and (state["decision"] in deck_model.scope or
                         (state["decision"] == "card_select" and (deck_model.to_upgrade or deck_model.prompt))):
                     action = deck_model.choose(state, policy)
@@ -419,6 +416,8 @@ def _play_episode(task, ascension, decision_hook):
                     deck_model.observe(state, action)
                 before = state
                 state = game.step(action)
+                if policy.v51_boss_tactics and encounter is not None:
+                    encounter.observe_play(before, action)
                 if compact is not None or transition_hook is not None:
                     fallback = None
                     if combat_v2 is not None:

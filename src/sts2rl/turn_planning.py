@@ -661,7 +661,8 @@ def _search_survival_lines(
     tender = getattr(policy, "tender", False) and any(
         p["id"] == "POWER.TENDER_POWER" for p in powers
     )
-    card_mask = sum(1 << index for index in cards) if tender else 0
+    slots = getattr(policy, "sloth_slots", None)
+    card_mask = sum(1 << index for index in cards) if tender or slots is not None else 0
     energy = state["energy"]
     hand_list = list(state["hand"])
     start_hand_size = len(hand_list)
@@ -1393,6 +1394,8 @@ def _search_survival_lines(
                 if step_idx == 0 and forced_first is not None and m.action_index != forced_first:
                     continue
                 if hand.used & m.source:
+                    continue
+                if slots is not None and not m.potion and (card_mask & hand.used).bit_count() >= slots:
                     continue
                 if m.target is not None:
                     if act2_mech:

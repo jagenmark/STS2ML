@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from copy import deepcopy
+from copy import copy, deepcopy
 from dataclasses import dataclass, replace
 import json
 from math import comb
@@ -86,6 +86,7 @@ def _sly(card):
 
 class EncounterPolicy(RunPolicy):
     cost_exponent = 0.74
+    sloth_slots = None
 
     def __init__(
         self, weights, *, macro_seed=0, style="balanced", mechanics=False, persistent=False, legacy_features=False,
@@ -846,6 +847,9 @@ class EncounterPolicy(RunPolicy):
                     if name != "STORM_OF_STEEL"
                     else shiv
                 )
+            slots = self.sloth_slots
+            if slots is not None:
+                shiv = min(shiv, max(0, slots - int(not potion)))
             if not giant_defeated:
                 shiv_hit = shiv_damage + (2 if name == "CUNNING_POTION" else 0)
                 if self.enemy_mechanics and max_slippery > 0 and shiv > 0:
@@ -987,7 +991,8 @@ class EncounterPolicy(RunPolicy):
             energy_gain = (
                 stats.get("energy", 0) if name not in ("DANSE_MACABRE", "RIGHT_HAND_HAND") else 0
             )
-            setup += energy_gain * min(7, max(0, (len(hand) - energy + cost - 1) * 2.5))
+            if slots is None or slots > int(not potion):
+                setup += energy_gain * min(7, max(0, (len(hand) - energy + cost - 1) * 2.5))
             if self.draw_potions and potion and name in (
                 "SWIFT_POTION", "CURE_ALL", "CLARITY", "GLOWWATER_POTION", "BOTTLED_POTENTIAL", "SNECKO_OIL"
             ):
@@ -1113,7 +1118,8 @@ class EncounterPolicy(RunPolicy):
                     )
                     if other_playable > 0 and offense > 3.5:
                         setup -= min(2.5, 1.25 * other_playable)
-            setup += draw * w.draw * (3.8 if energy > cost else 1.1)
+            usable_draw = draw if slots is None else min(draw, max(0, slots - int(not potion)))
+            setup += usable_draw * w.draw * (3.8 if energy > cost else 1.1)
             if potion:
                 # Convert survival, hand creation and persistent potion effects to the same units as a hit.
                 setup += stats.get("platingpower", 0) * min(4, horizon) + stats.get(
@@ -1239,6 +1245,11 @@ class EncounterPolicy(RunPolicy):
             if self.enemy_mechanics and any_slow and not is_attack and raw > 0.15:
                 if any(_cost(a) <= energy - cost and max((_damage(a, e) for e in enemies), default=0) >= 8 for a in attacks):
                     raw += min(2.5, 0.10 * max_attack)
+            if slots is not None:
+                # A card also costs one of the remaining plays. Cheap cards have no
+                # energy advantage below the energy available per slot.
+                energy_per_play = energy / max(1, slots)
+                return (raw - 0.12 * cost) / max(1, cost / max(1, energy_per_play)) ** 0.74
             if cost == 0 and raw > 0.15:
                 skip_free = (
                     (
@@ -1317,6 +1328,8 @@ class EncounterModel:
         ):
             raise ValueError("Unknown encounter style")
         self.key = self.actor = None
+        self.sloth_round = None
+        self.sloth_plays = 0
 
     @classmethod
     def from_data(cls, data):
@@ -1385,7 +1398,37 @@ class EncounterModel:
             )
             self.key = key
 
-    def choose(self, state, base_policy):
+    def observe_play(self, before, action):
+        """Count executed player card commands. Native can_play also accounts for autoplay."""
+        if (action.kind == "play_card" and before["decision"] == "combat_play"
+                and _power(before.get("player_powers"), "SLOTH")):
+            turn = (before["context"]["act"], before["context"]["floor"], before["round"])
+            self.sloth_plays = self.sloth_plays + 1 if self.sloth_round == turn else 1
+            self.sloth_round = turn
+
+    def deployed_choice(self, state, base_policy, search):
+        if search is None:
+            return self.choose(state, base_policy, boss_fixes=base_policy.v51_boss_tactics)
+        from .combat_search_v2.integration import choose_encounter
+
+        # Keep the frozen proposal (including tie breaking) inside the v2 search.
+        action = choose_encounter(search, self, state, base_policy, legal_actions)
+        if (base_policy.v51_boss_tactics and (search.shadow or search.last_fallback)
+                and self._v51_boss_decision(state)):
+            return self.choose(state, base_policy, boss_fixes=True)
+        return action
+
+    @staticmethod
+    def _v51_boss_decision(state):
+        ctx = state["context"]
+        if state["decision"] != "combat_play" or ctx["act"] != 2 or ctx["room_type"] != "Boss":
+            return False
+        boss = (ctx.get("boss") or {}).get("id")
+        if boss == "THE_INSATIABLE_BOSS":
+            return any(c["id"] == "CARD.FRANTIC_ESCAPE" and c["can_play"] for c in state["hand"])
+        return boss == "KNOWLEDGE_DEMON_BOSS" and _power(state.get("player_powers"), "SLOTH") > 0
+
+    def choose(self, state, base_policy, *, boss_fixes=False):
         from .turn_planning import choose_turn, choose_turn_survival
 
         if state["decision"] != "combat_play":
@@ -1398,9 +1441,15 @@ class EncounterModel:
             return (self.actor or base_policy)(state)
         ctx = state["context"]
         self.prepare(state, base_policy)
+        actor = self.actor
+        boss_fixes = boss_fixes and self._v51_boss_decision(state)
+        if boss_fixes and (limit := _power(state.get("player_powers"), "SLOTH")):
+            turn = (ctx["act"], ctx["floor"], state["round"])
+            actor = copy(actor)
+            actor.sloth_slots = max(0, limit - (self.sloth_plays if self.sloth_round == turn else 0))
         actions = legal_actions(state)
         facing_plan = bool(self.boss_tactics and self.boss_tactics.plan.get("facing"))
-        actor_act2_mech = bool(getattr(self.actor, "act2_mechanics", False))
+        actor_act2_mech = bool(getattr(actor, "act2_mechanics", False))
         facing = self.boss_tactics.facing if (facing_plan and actor_act2_mech) else None
         focus_adjust = (
             (lambda sc: self.boss_tactics.adjust_focus(state, actions, sc))
@@ -1408,44 +1457,44 @@ class EncounterModel:
             else None
         )
         if facing_plan and not (actor_act2_mech and self.search_hand and self.survival_beam):
-            scores = self.actor.combat_scores(state, actions)
+            scores = actor.combat_scores(state, actions)
             self.boss_tactics.adjust_targets(state, actions, scores)
             action = actions[max(range(len(actions)), key=scores.__getitem__)]
         else:
             search_hand = self.search_hand
-            if self.actor.mecha_tactics:
-                stage = self.actor.mecha_tactics.observe(state)
+            if actor.mecha_tactics:
+                stage = actor.mecha_tactics.observe(state)
                 if stage and stage in self.mecha_plan.get("search", {}):
                     search_hand = self.mecha_plan["search"][stage] == "beam"
             action = (
                 choose_turn(
                     state,
-                    self.actor,
+                    actor,
                     survival_priority=self.survival_beam,
                     facing=facing,
                     score_adjust=focus_adjust,
                 )
                 if search_hand
-                else self.actor.combat(state, actions)
+                else actor.combat(state, actions)
             )
         if self.rerank_fight and state["round"] <= self.action_ranker.get("max_round", float("inf")):
-            action = rerank(self.action_ranker, state, actions, action, self.actor)
-        if self.actor.mecha_tactics:
-            action = self.actor.mecha_tactics.rank(state, actions, action, self.actor)
-        fixes_v4 = bool(getattr(self.actor, "combat_fixes_v4", False))
+            action = rerank(self.action_ranker, state, actions, action, actor)
+        if actor.mecha_tactics:
+            action = actor.mecha_tactics.rank(state, actions, action, actor)
+        fixes_v4 = bool(getattr(actor, "combat_fixes_v4", False))
         if fixes_v4 and self.sandpit_threshold and ctx["room_type"] == "Boss":
-            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
+            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold, bank_earlier=boss_fixes) if self.boss_tactics else self.sandpit_threshold
             action = escape_action(state, actions, action, threshold)
         if self.survival_search and (actor_act2_mech or not facing_plan):
             action = choose_turn_survival(
                 state,
-                self.actor,
+                actor,
                 action,
                 facing=facing,
                 score_adjust=focus_adjust,
             )
         if (not fixes_v4) and self.sandpit_threshold and ctx["room_type"] == "Boss":
-            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
+            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold, bank_earlier=boss_fixes) if self.boss_tactics else self.sandpit_threshold
             action = escape_action(state, actions, action, threshold)
         if self.boss_tactics:
             self.boss_tactics.observe(action)

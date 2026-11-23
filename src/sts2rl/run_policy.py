@@ -104,13 +104,22 @@ def _draw_count(card):
     return (card.get("stats") or {}).get("cards", 0)
 
 
+REST_HP_FRACTION = 0.77
+
+
 class RunPolicy:
-    def __init__(self, weights, *, macro_seed=0, deck_effects=False, legacy_features=False, v6_lategame_fixes=False):
+    def __init__(
+        self, weights, *, macro_seed=0, deck_effects=False, legacy_features=False,
+        v6_lategame_fixes=False, v51_draft_fixes=False, v51_boss_tactics=False, v51_macro_fixes=False,
+    ):
         self.weights = weights
         self.fallback = MacroPolicy(macro_seed)
         self.selection = None
         self.deck_effects = deck_effects
         self.v6_lategame_fixes = v6_lategame_fixes
+        self.v51_draft_fixes = v51_draft_fixes
+        self.v51_boss_tactics = v51_boss_tactics
+        self.v51_macro_fixes = v51_macro_fixes
         # v1 neural inputs include the historical action scores as features.
         self.legacy_features = legacy_features
 
@@ -319,7 +328,7 @@ class RunPolicy:
             return max(actions, key=buy)
         if decision == "rest_site":
             options = {o["index"]: o["option_id"] for o in state["options"]}
-            target = "HEAL" if player["hp"] / player["max_hp"] < .77 else "SMITH"
+            target = "HEAL" if player["hp"] / player["max_hp"] < REST_HP_FRACTION else "SMITH"
             action = next((a for a in actions if options.get(a.args.get("option_index")) == target), actions[0])
             self.selection = "upgrade" if options.get(action.args.get("option_index")) == "SMITH" else None
             return action

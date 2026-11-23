@@ -109,7 +109,8 @@ class DeckPolicy:
     def load(cls, path):
         return cls.from_data(json.loads(Path(path).read_text(encoding="utf-8")))
 
-    def terms(self, card, ctx, deck_info):
+    @staticmethod
+    def terms(card, ctx, deck_info):
         counts, copies = deck_info
         name = _card_id(card)
         st = card.get("stats") or {}
@@ -351,7 +352,7 @@ class DeckPolicy:
                 if options.get(a.args.get("option_index")) in ("HEAL", "SMITH"):
                     target = "HEAL" if player["hp"] / player["max_hp"] < self.act2_final_rest_threshold else "SMITH"
                     a = next((act for act in acts if options.get(act.args.get("option_index")) == target), a)
-            if getattr(base, "v6_lategame_fixes", False) and ctx.get("act", 0) >= 2:
+            if (getattr(base, "v6_lategame_fixes", False) or getattr(base, "v51_macro_fixes", False)) and ctx.get("act", 0) >= 2:
                 options = {o["index"]: o["option_id"] for o in state["options"]}
                 if options.get(a.args.get("option_index")) == "SMITH" and any(
                     r.get("id") == "RELIC.PUMPKIN_CANDLE" and r.get("counter") == 0

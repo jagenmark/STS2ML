@@ -12,8 +12,8 @@ from .encounter_draft import WeakEncounterPool
 from .merchant import PendingRelicPurchase
 from .native import legal_actions
 from .offer_policy import OfferModel, offer_type
-from .routing import RoomModel
-from .run_bundle import load_bundle
+from .routing import RoomModel, choose_route
+from .run_bundle import V51_SWITCHES, load_bundle
 from .run_policy import RunPolicy, RunWeights
 from .strategy import StrategyModel, strategy_kind
 from .turn_planning import choose_turn
@@ -80,6 +80,7 @@ class DeployedController:
         policy = RunPolicy(
             weights,
             macro_seed=macro_seed,
+            **{key: settings.get(key, False) for key in V51_SWITCHES},
             v6_lategame_fixes=settings.get("v6_lategame_fixes", False),
             deck_effects=bool(settings.get("deck_effects", False)),
         )
@@ -124,26 +125,16 @@ class DeployedController:
         self._sync_act(state)
         self._boss_tactics_before = None
         self._last_step_used_encounter = False
-        act = (state.get("context") or {}).get("act", self.act)
         combat = is_combat_choice(state)
         if state["decision"] == "map_select" and self.router is not None:
-            if act == 3 and getattr(self.router, "act3_context", None):
-                action = self.router.choose(state, game.public_map(), normal_count=self.act3_normal_count)
-            elif self.pool is not None and getattr(self.router, "act1_context", None):
-                action = self.router.choose(state, game.public_map(), normal_count=self.pool.normal_count)
-            else:
-                action = self.router.choose(state, game.public_map())
+            action = choose_route(self.router, state, game, self.pool, self.act3_normal_count,
+                                  prefer_ancient=self.policy.v51_macro_fixes)
         elif self.encounter is not None and self.encounter.applies(state) and combat:
             if state["decision"] == "combat_play":
                 self.encounter.prepare(state, self.policy)
                 if self.encounter.boss_tactics is not None:
                     self._boss_tactics_before = deepcopy(self.encounter.boss_tactics)
-            if self.combat_v2 is None:
-                action = self.encounter.choose(state, self.policy)
-            else:
-                from .combat_search_v2.integration import choose_encounter
-
-                action = choose_encounter(self.combat_v2, self.encounter, state, self.policy, legal_actions)
+            action = self.encounter.deployed_choice(state, self.policy, self.combat_v2)
             self._last_step_used_encounter = True
         elif self.deck_model is not None and not combat and (
             state["decision"] in self.deck_model.scope
@@ -190,6 +181,8 @@ class DeployedController:
         """Commit the actually executed action (including forced root arms) to all stateful observers."""
         if self.combat_v2 is not None:
             self.combat_v2.observe(action, after, legal_actions)
+        if self.policy.v51_boss_tactics and self.encounter is not None:
+            self.encounter.observe_play(before, action)
         self._sync_act(before)
         if (
             self.encounter is not None
