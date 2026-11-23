@@ -265,3 +265,22 @@ def test_native_wriggler_slots_and_status_generation(oracle):
     assert sum(v.name == "INFECTION" for v in state.discard) == 2
     oracle.refresh()
     oracle.step("end_turn")
+
+
+def test_native_replay_planners_energy_save(oracle):
+    from sts2rl.combat_search_v2.planner import search
+    from sts2rl.combat_search_v2.state import END_TURN
+
+    oracle.start("PLANNER_REPLAY", ["STRIKE_SILENT"] * 3 + ["DEFEND_SILENT"],
+                 ["ENERGY_POTION"], hp=4)
+    oracle.step("end_turn")
+    oracle.refresh()
+    for _ in range(3):
+        oracle.step("play_card", "STRIKE_SILENT")
+    projected = project(oracle.public)
+    result = search(projected, legal(projected.state), END_TURN)
+    line = result.line
+    assert [m.kind for m in line.path] == ["use_potion", "play_card", "end_turn"]
+    for move in line.path:
+        oracle.step(move.kind)
+    assert oracle.simulated.hp == line.state.hp == 1

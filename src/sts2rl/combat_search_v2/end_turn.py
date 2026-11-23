@@ -2,8 +2,8 @@
 from dataclasses import replace
 
 from .encounters import STRANGLER, after_death, after_move, before_move, encounter_reason
-from .state import HAND_CAP, add_power, power, set_power
-from .transitions import _put, boundary, lose_hp
+from .state import Boundary, HAND_CAP, add_power, power, set_power
+from .transitions import boundary, lose_hp, outside_hand
 
 _HAND_DAMAGE = {"BURN": 2, "WITHER": 3, "INFECTION": 3}
 
@@ -29,6 +29,8 @@ def _hand_end(state):
             return state
     remaining = []
     status_keep = []
+    discard = list(state.discard)
+    exhaust = list(state.exhaust)
     retain = power(state.powers, "WELL_LAID_PLANS")
     for c in hand:
         v = c.variant
@@ -38,13 +40,14 @@ def _hand_end(state):
             if state.outcome:
                 return state
         if "Ethereal" in v.keywords:
-            state = _put(state, "exhaust", v)
+            exhaust.append(outside_hand(v))
         elif retain or "Retain" in v.keywords or "retain_this_turn" in v.flags:
             (status_keep if amount else remaining).append(c)
         else:
-            state = _put(state, "discard", v)
+            discard.append(outside_hand(v))
     # End-of-turn status actions move retained cards after the ordinary hand.
-    return replace(state, hand=tuple((*remaining, *status_keep)))
+    return replace(state, hand=(*remaining, *status_keep),
+                   discard=tuple(sorted(discard)), exhaust=tuple(sorted(exhaust)))
 
 
 def _enemy_start(state):
@@ -53,6 +56,8 @@ def _enemy_start(state):
         if enemy.hp <= 0:
             continue
         poison = power(enemy.powers, "POISON")
+        if not poison and not enemy.block:
+            continue
         hp, block, powers = lose_hp(enemy.hp, 0, enemy.powers, poison, bypass=True)
         if poison:
             powers = add_power(powers, "POISON", -1)
@@ -95,6 +100,7 @@ def _enemy_actions(state):
         enemy = state.enemies[slot]
         if not enemy.intents:
             return boundary(state, "missing enemy intent")
+        hp, block, powers = state.hp, state.block, state.powers
         for intent in enemy.intents:
             if intent.damage is None:
                 if "Attack" in intent.kind or intent.kind == "DeathBlow":
@@ -104,16 +110,19 @@ def _enemy_actions(state):
             if amount is None or not 1 <= intent.hits <= 25:
                 return boundary(state, "ambiguous attack preview")
             for _ in range(intent.hits):
-                state = _hurt(state, amount)
-                if state.outcome:
-                    return state
+                hp, block, powers = lose_hp(hp, block, powers, amount)
+                if not hp:
+                    return replace(state, hp=0, block=block, powers=powers, outcome="dead")
+        if (hp, block, powers) != (state.hp, state.block, state.powers):
+            state = replace(state, hp=hp, block=block, powers=powers)
         state = after_move(state, enemy)
         if state.boundary:
             return state
         enemy = state.enemies[slot]
         powers = _tick(enemy.powers, ("WEAK", "VULNERABLE", "INTANGIBLE"))
-        state = replace(state, enemies=(*state.enemies[:slot], replace(enemy, powers=powers, attack_delta=0),
-                                       *state.enemies[slot + 1:]))
+        if powers != enemy.powers or enemy.attack_delta:
+            state = replace(state, enemies=(*state.enemies[:slot], replace(enemy, powers=powers, attack_delta=0),
+                                           *state.enemies[slot + 1:]))
     return state
 
 
@@ -151,7 +160,7 @@ def _start_player(state):
         if power(powers, name):
             return boundary(state, f"start/{name}")
     count = min(5, HAND_CAP - len(state.hand), len(state.draw) + len(state.discard))
-    return boundary(replace(state, outcome="completed"), "next turn", count, count > len(state.draw))
+    return replace(state, outcome="completed", boundary=Boundary("next turn", count, count > len(state.draw)))
 
 
 def resolve(state):

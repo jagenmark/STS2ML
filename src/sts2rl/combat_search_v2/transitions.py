@@ -131,11 +131,15 @@ def draw(state, count):
     return state
 
 
-def _put(state, zone, variant):
+def outside_hand(variant):
     # Hand-only metadata does not persist; explicit Retain/Exhaust keywords do.
-    variant = replace(variant, flags=tuple(flag for flag in variant.flags
-                                          if flag not in ("exhaust_on_next_play", "retain_this_turn",
-                                                          "sly_this_turn")))
+    flags = tuple(flag for flag in variant.flags
+                  if flag not in ("exhaust_on_next_play", "retain_this_turn", "sly_this_turn"))
+    return replace(variant, flags=flags) if flags != variant.flags else variant
+
+
+def _put(state, zone, variant):
+    variant = outside_hand(variant)
     return replace(state, **{zone: tuple(sorted((*getattr(state, zone), variant)))})
 
 
@@ -296,7 +300,8 @@ def _start_play(state, play):
 
 
 def _after_play(state, play, afterimage):
-    state = replace(state, block=state.block + afterimage)
+    if afterimage:
+        state = replace(state, block=state.block + afterimage)
     if play.card.variant.kind == "Skill":
         for enemy in state.enemies:
             if enemy.hp > 0 and (spark := power(enemy.powers, "VITAL_SPARK")):
@@ -325,13 +330,8 @@ def _sly(state, card):
     candidates = targets(state, v.target)
     if len(candidates) != 1 or v.target == "RandomEnemy":
         return boundary(state, "sly target")
-    discarded = []
-    blank = _put(replace(state, discard=()), "discard", v).discard[0]
-    for item in state.discard:
-        if item == blank and blank is not None:
-            blank = None
-        else:
-            discarded.append(item)
+    discarded = list(state.discard)
+    discarded.remove(outside_hand(v))
     return _queue(replace(state, discard=tuple(discarded), play=(*state.play, v)),
                   Effect("play", play=Play(card, candidates[0])))
 

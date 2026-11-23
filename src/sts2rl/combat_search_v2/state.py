@@ -25,10 +25,15 @@ def numbers(values):
 
 
 def power(powers, name):
-    return next((value for key, value in powers if key == name), 0)
+    for key, value in powers:
+        if key == name:
+            return value
+    return 0
 
 
 def set_power(powers, name, value):
+    if not value and not power(powers, name):
+        return powers
     return tuple(sorted((*((key, n) for key, n in powers if key != name),
                          *(((name, value),) if value else ()))))
 

@@ -309,3 +309,67 @@ def test_unsupported_encounter_regressions(name, reason):
     s = project(view(STRIKE, enemies=[enemy(name, hp=6, power=powers(POISON=7))])).state
     assert reason in end(s).boundary.reason
     assert reason in play(s, "STRIKE_SILENT", 0).boundary.reason
+
+def search_fixture(public, champion, config=None):
+    from sts2rl.combat_search_v2.planner import Config, search
+
+    projected = project(public)
+    return search(projected, legal(projected.state), champion, config or Config())
+
+
+def test_beam_repairs_all_three_audit_failures():
+    s = view(DEFEND_PLUS, hp=4, energy=0, potions=(ENERGY,))
+    result = search_fixture(s, Move("end_turn"))
+    assert result.choice == Move("use_potion", 0)
+    assert result.line.state.hp == 2 and result.line.state.outcome == "completed"
+    assert result.no_potion.state.outcome == "dead"
+    assert result.with_potion.state.outcome == "completed"
+
+    s = view(BURST, DEFEND_PLUS, hp=3, energy=2, enemies=[enemy(hit=16)])
+    result = search_fixture(s, Move("play_card", 1))
+    assert result.choice == Move("play_card", 0)
+    assert result.line.state.hp == 3
+
+    s = view(SURVIVOR, DEFEND, BURN, hp=3, energy=2, enemies=[enemy(hit=15)])
+    assert search_fixture(s, Move("play_card", 1)).choice == Move("play_card", 1)
+    result = search_fixture(s, Move("end_turn"))
+    assert result.line.path[:2] == (Move("play_card", 0), Move("select_cards", selection=(2,)))
+    assert result.line.state.hp == 1
+
+
+def test_beam_reserve_and_tie():
+    s = view(DEFEND, DEFEND, energy=1, hp=25, potions=(ENERGY,), enemies=[enemy(hit=4)])
+    champion = Move("play_card", 1)
+    result = search_fixture(s, champion)
+    assert result.choice == champion
+    assert not result.line.state.spent and result.with_potion is not None
+    assert result.no_potion.score > result.with_potion.score
+
+
+def test_search_swap_includes_scores_work_and_root_choice():
+    s = view(BURST, DEFEND_PLUS, ADRENALINE, hp=4, energy=2, potions=(ENERGY,),
+             draw=(DEFEND, STRIKE, {**STRIKE, "upgrades": 1}), enemies=[enemy(hit=16)])
+    changes = deepcopy(s)
+    changes["draw_pile"].reverse()
+    changes.update({"seed": "unrelated", "index": 100, "private_rng": ForbiddenRead(),
+                    "private_draw_order": ForbiddenRead(), "private_replay": ForbiddenRead()})
+    baseline = search_fixture(s, Move("end_turn"))
+    assert baseline == search_fixture(AllowlistGuard(changes), Move("end_turn"))
+    assert baseline.attempts > 0 and baseline.root_count == baseline.covered_roots
+    assert baseline.root_scores and baseline.choice == Move("play_card", 0)
+
+
+def test_unknown_saving_draw_keeps_champion_and_work_caps_are_fixed():
+    from sts2rl.combat_search_v2.planner import Config
+
+    s = view(ADRENALINE, DEFEND, draw=(STRIKE, DEFEND), hp=4, energy=0)
+    result = search_fixture(s, Move("play_card", 0))
+    assert result.choice == Move("play_card", 0) and result.fallback
+    assert dict(result.boundary_counts)["draw"] == 1
+    s = view(*([STRIKE, DEFEND] * 5), hp=25, energy=3, potions=(ENERGY,),
+             enemies=[enemy(hit=8) for _ in range(3)])
+    result = search_fixture(s, Move("end_turn"), Config(children=48))
+    assert result.child_cap and result.attempts == 48
+    assert result.root_count == result.covered_roots
+    assert result.reached_depth <= 10
+    assert result == search_fixture(s, Move("end_turn"), Config(children=48))

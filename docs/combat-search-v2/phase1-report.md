@@ -39,3 +39,17 @@ Constrict, Burn, Wither, Ethereal, Blur, ordered Buffer consumption, Wriggler
 status additions and Sandpit/Escape. Phase bosses with unobserved state have
 explicit fallback reasons. The next-intent reveal and ambiguous recalculation
 of rounded previews are explicit boundaries.
+
+## Fixed-work search
+
+The frozen search uses width 8, depth 10, a 256-child limit, and a
+seven-unit reserve charge per spent potion. It trials each root and compares
+completed continuations by survival category and the same HP-equivalent
+utility. Beam slots reserve the champion prefix and the no-potion stratum.
+Unknown draws and pending unqualified actions lack a survival certificate.
+An unresolved champion continuation keeps the champion action.
+
+A repeated local probe hit all 256 attempts. The seven-card, three-enemy
+fixture measured 11.15 / 11.68 ms (p50 / p95) for projection and search. The
+ten-card, three-enemy stress case measured 11.77 / 13.62 ms in the same
+50-call probe. The native panel below measures the full opt-in path.
