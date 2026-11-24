@@ -19,6 +19,27 @@ def cohort():
     return [(i, f"CSV12DEV_{mode.upper()}_{i:04d}", mode) for i in range(192) for mode in ("default", "seeded")]
 
 
+def check_names(rows):
+    names = {seed for _, seed, _ in rows}
+    assert len(names) == len(rows) == 384
+    reserved = ("FINAL768", "POOLED896", "VAL256", "SEEDED128", "TRUE_SEEDED", "REP512")
+    assert not any(seed.startswith(reserved) for seed in names)
+    doc = ROOT / "docs/combat-search-v2"
+    locks = {}
+    for stem in ("csv7dev-lock", "csv9dev-lock", "csv10dev-lock", "v6-dev-lock", "v6-audit384-lock", "v62-dev-lock"):
+        data = (doc / (stem + ".json")).read_bytes()
+        assert not names.intersection(r[1] for r in json.loads(data))
+        locks[stem] = hashlib.sha256(data).hexdigest()
+    from v66 import cohort as csv11
+
+    assert not names.intersection(r[1] for r in csv11())
+    search = subprocess.run(["git", "grep", "-l", "CSV12DEV", BASE, "--", "src", "scripts",
+                             "docs/combat-search-v2/probes"], cwd=ROOT, capture_output=True)
+    assert search.returncode == 1 and not search.stdout
+    return dict(namespace="CSV12DEV_", historical_locks=locks, csv11dev=len(csv11()),
+                prior_generator_mentions=0, reserved_prefixes=reserved, overlaps=0)
+
+
 def build(out, arm):
     builder = runpy.run_path(str(ROOT / "scripts/build-batch1-challengers.py"))["build_batch1_bundle"]
     profile = "unified_draft_v65" if arm == "stress" else "trap_cleanup_v65"
@@ -53,13 +74,14 @@ def main():
     for path, name in [(Path(os.environ["CSV2DEV_HOST"]), "HOST_SHA"),
                        (ROOT / "artifacts/upstreams/sts2-cli/lib/sts2.dll", "GAME_SHA")]:
         assert hashlib.sha256(path.read_bytes()).hexdigest() == pins[name]
+    assert not subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT).strip()
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     bundles = {arm: build(out / arm, arm) for arm in ARMS}
     rows = cohort()
     manifest = dict(commit=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
                     base=BASE, host=pins["HOST_SHA"], game=pins["GAME_SHA"], workers=12,
-                    openblas_threads=1, omp_threads=1, cohort=rows, stress=rows[:64],
+                    openblas_threads=1, omp_threads=1, cohort=rows, stress=rows[:64], name_check=check_names(rows),
                     bundles={arm: hashlib.sha256(p.read_bytes()).hexdigest() for arm, p in bundles.items()})
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
     with ProcessPoolExecutor(12) as pool:

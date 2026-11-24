@@ -31,8 +31,14 @@ def _zone(cards):
 
 
 def _board(state):
+    relics = state.relics
+    if state.melted_slots:
+        physical = list(relics)
+        for i, relic in state.melted_slots:
+            physical.insert(i, relic)
+        relics = tuple(physical)
     return (state.hp, state.max_hp, state.block, state.energy, state.max_energy,
-            state.round, state.powers, state.relics,
+            state.round, state.powers, relics,
             tuple((e.name, e.hp, e.max_hp, e.block, e.powers) for e in state.enemies if e.hp > 0),
             tuple((p.name, p.target, p.usable, p.stats) for p in state.potions), state.seal_gold)
 
@@ -99,7 +105,7 @@ def _after_draw_prompt(suspended, public):
             or not suspended.queue or suspended.queue[0].kind != "prompt"):
         return None
     current = project(public, late_prompts=suspended.late, silent_cards_v66=suspended.silent_cards_v66,
-                      silent_cards_v67=suspended.silent_cards_v67).state
+                      silent_cards_v67=suspended.silent_cards_v67, melted_relics={r.name for _, r in suspended.melted_slots}).state
     event, *tail = suspended.queue
     if (current.prompt.operation != event.play.card.variant.name or not tail
             or any(op.kind not in ("after_play", "finish") for op in tail)
@@ -183,6 +189,7 @@ class CombatSearchV2:
         self._wax_queue = ()
         self._toy_counter = None
         self._melted_fan = False
+        self._melted_relics = frozenset()
 
     def clone(self):
         clone = copy(self)
@@ -240,7 +247,7 @@ class CombatSearchV2:
             ctx = public.get("combat_state", public).get("context") or {}
             late_root = self.config.late_root(ctx.get("act"), ctx.get("room_type"))
             projected = project(public, late_prompts=late_root, silent_cards_v66=self.config.silent_cards_v66,
-                                silent_cards_v67=self.config.silent_cards_v67)
+                                silent_cards_v67=self.config.silent_cards_v67, melted_relics=self._melted_relics)
             state = projected.state
             if self.config.silent_cards_v67 and self._nightmare:
                 key, card = self._nightmare
@@ -359,20 +366,24 @@ class CombatSearchV2:
             if self._toy_counter is None:
                 count = (box.get("vars") or {}).get("Relics", 0)
                 self._wax_queue = tuple(r["id"] for r in relics[index + 1:index + 1 + count])
-            elif counter == 0 and self._toy_counter > 0 and self._wax_queue:
+            elif (counter == 0 or (self.config.silent_cards_v67 and box.get("is_used_up") and counter is None)
+                  ) and self._toy_counter > 0 and self._wax_queue:
                 present = {r["id"] for r in relics}
                 pending = tuple(name for name in self._wax_queue if name in present)
                 if pending:
                     self._melted_fan |= pending[0] == "RELIC.ORNAMENTAL_FAN"
+                    if self.config.silent_cards_v67:
+                        self._melted_relics |= {entry(pending[0])}
                     self._wax_queue = pending[1:]
             self._toy_counter = counter
             return
         self._toy_counter = None
         self._wax_queue = ()
         self._melted_fan = False
+        self._melted_relics = frozenset()
 
     def observe(self, action, after, enumerate_actions):
-        if self.config.wax_fan_v64:
+        if self.config.wax_fan_v64 or self.config.silent_cards_v67:
             self._observe_wax(after)
         if self.config.v6_late_coverage or self.config.v61_act2_hallways_act3 or self.config.v61_boss_safe:
             prior, self._played_from = self._played_from, None
@@ -489,7 +500,7 @@ class CombatSearchV2:
                 and after.get("decision") == "card_select")):
             try:
                 actual = project(after, late_prompts=predicted.late, silent_cards_v66=predicted.silent_cards_v66,
-                                silent_cards_v67=predicted.silent_cards_v67)
+                                silent_cards_v67=predicted.silent_cards_v67, melted_relics=self._melted_relics)
                 if predicted.late:
                     actual = replace(actual, state=replace(actual.state, late=True, facing=predicted.facing,
                                      preview_facing=predicted.facing, sloth_plays=self._plays,

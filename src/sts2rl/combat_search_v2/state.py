@@ -209,6 +209,7 @@ class State:
     draws_this_combat: int = -1
     shivs_this_turn: int = -1
     nightmare_card: Variant | None = None
+    melted_slots: tuple[tuple[int, Relic], ...] = ()
 
     @property
     def hallway(self):
@@ -262,7 +263,7 @@ def _indices(rows):
     return indices
 
 
-def project(public, *, late_prompts=False, silent_cards_v66=False, silent_cards_v67=False):
+def project(public, *, late_prompts=False, silent_cards_v66=False, silent_cards_v67=False, melted_relics=()):
     """Read explicit fields only, with stable local slots and unordered piles."""
     silent_cards_v66 = silent_cards_v66 or silent_cards_v67
     decision = public["decision"]
@@ -315,6 +316,13 @@ def project(public, *, late_prompts=False, silent_cards_v66=False, silent_cards_
                   *piles, potions, relics, len(hand), power(powers, "VULNERABLE") > 0,
                   power(powers, "INTANGIBLE") > 0, floor=integer(ctx.get("floor", 0)),
                   seal_gold=integer(player["gold"]) if any(r.name == "SEAL_OF_GOLD" for r in relics) else 0)
+    if silent_cards_v67 and melted_relics:
+        # CombatState omits melted relics from hooks. Keep their exported counters
+        # separately so the native oracle still checks every physical relic slot.
+        melted = tuple((i, r) for i, r in enumerate(relics) if r.name in melted_relics)
+        if len({r.name for _, r in melted}) != len(melted):
+            raise Unsupported("ambiguous melted relic copy")
+        state = replace(state, relics=tuple(r for r in relics if r.name not in melted_relics), melted_slots=melted)
     if silent_cards_v66:
         from .silent_cards import history_counts
         state = replace(state, silent_cards_v66=True, silent_cards_v67=silent_cards_v67, **history_counts(hand, state))

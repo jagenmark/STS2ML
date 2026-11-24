@@ -1,5 +1,6 @@
 """Batch 2 differentials on the immutable v0.111.0 host."""
 from dataclasses import replace
+import gzip
 import json
 import os
 from pathlib import Path
@@ -294,3 +295,29 @@ def test_pocketwatch_reset_and_refresh_around_mittens(oracle, tmp_path):
     assert state.boundary.count == 5 and (watch(state).counter, watch(state).status) == (0, "Normal")
     state = check(oracle, "select_cards", late=True)
     assert (watch(state).counter, watch(state).status) == (0, "Active")
+
+
+def test_csv12_melted_kunai_original_commands(oracle):
+    from sts2rl.native import Action, digest
+
+    fixture = json.loads(gzip.decompress((ROOT / "tests/fixtures/v67-csv12-melted-kunai.json.gz").read_bytes()))
+    checks = {i: (name, before, after) for i, name, before, after in fixture["steps"]}
+    mode = CombatSearchV2(Config(v61_boss_safe=True, v61_act2_hallways_act3=True, wax_fan_v64=True,
+                                 kaiser_v63=True, silent_cards_v67=True), record=True)
+    public = oracle.game.reset(fixture["seed"])
+    for i, command in enumerate(fixture["history"]):
+        a = Action("", command["action"], command["args"], "")
+        if i in checks:
+            name, before, after = checks[i]
+            assert digest(public) == before
+            a = next(a for a in legal_actions(public) if a.command() == command)
+            mode.choose(public, a, legal_actions)
+            projection, _ = mode._decision
+            assert [r.name for _, r in projection.state.melted_slots] == ["KUNAI"]
+            assert any(r["id"] == "RELIC.KUNAI" for r in public["player"]["relics"])
+            assert all(r.name != "KUNAI" for r in projection.state.relics)
+        public = oracle.game._request(command)
+        mode.observe(a, public, legal_actions)
+        if i in checks:
+            assert digest(public) == after
+            assert mode.records[-1]["oracle"] == [name, "match", ""]
