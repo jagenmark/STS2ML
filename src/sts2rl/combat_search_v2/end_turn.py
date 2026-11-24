@@ -4,7 +4,7 @@ from . import late_encounters
 
 from .encounters import STRANGLER, STUN, after_damage, after_move, before_move, encounter_reason
 from .state import Boundary, HAND_CAP, add_power, power, set_power
-from .transitions import boundary, lose_hp, outside_hand
+from .transitions import boundary, lose_hp, outside_hand, unpowered_block
 
 _HAND_DAMAGE = {"BURN": 2, "WITHER": 3, "INFECTION": 3, "TOXIC": 5, "BECKON": 6}
 
@@ -69,11 +69,11 @@ def _hand_end(state):
         if relic.used:
             continue
         if relic.name == "CLOAK_CLASP":
-            state = replace(state, block=state.block + power(relic.stats, "block") * len(hand))
+            state = replace(state, block=state.block + unpowered_block(state, power(relic.stats, "block") * len(hand)))
         if relic.name == "ORICHALCUM" and not state.block:
-            state = replace(state, block=power(relic.stats, "block"))
+            state = replace(state, block=unpowered_block(state, power(relic.stats, "block")))
         if relic.name == "RIPPLE_BASIN" and relic.status == "Active":
-            state = replace(state, block=state.block + power(relic.stats, "block"))
+            state = replace(state, block=state.block + unpowered_block(state, power(relic.stats, "block")))
     for relic in state.relics:
         if relic.name != "PARRYING_SHIELD" or relic.used or state.block < power(relic.stats, "block"):
             continue
@@ -128,7 +128,7 @@ def _hand_end(state):
             discard.append(outside_hand(v))
     powers = _tick(state.powers, ("RETAIN_HAND",)) if state.late or state.silent_cards_v66 else state.powers
     if state.silent_cards_v66:
-        powers = set_power(set_power(powers, "SHADOWMELD", 0), "CORROSIVE_WAVE", 0)
+        powers = set_power(set_power(set_power(powers, "SHADOWMELD", 0), "CORROSIVE_WAVE", 0), "NO_DRAW", 0)
         powers = _tick(powers, ("DOUBLE_DAMAGE",))
     if ritual := power(powers, "RITUAL"):
         powers = add_power(powers, "STRENGTH", ritual)
@@ -140,7 +140,7 @@ def _hand_end(state):
     # End-of-turn status actions move retained cards after the ordinary hand.
     return replace(state, hand=(*remaining, *status_keep),
                    discard=tuple(sorted(discard)), exhaust=tuple(sorted(exhaust)),
-                   powers=powers, block=state.block + power(powers, "PLATING"))
+                   powers=powers, block=state.block + unpowered_block(state, power(powers, "PLATING")))
 
 
 def _enemy_start(state):
@@ -289,15 +289,20 @@ def _enemy_actions(state):
         powers = _tick(enemy.powers, (name for name in ("WEAK", "VULNERABLE", "INTANGIBLE")
                                       if power(prior_powers, name)))
         if state.silent_cards_v66:
-            powers = set_power(powers, "STRANGLE", 0)
-            if loss := power(powers, "PIERCING_WAIL"):
-                powers = add_power(set_power(powers, "PIERCING_WAIL", 0), "STRENGTH", loss)
+            powers = end_enemy_card_powers(powers)
         intents = STUN if fully_blocked and power(powers, "IMBALANCED") else enemy.intents
         if powers != enemy.powers or enemy.attack_delta or intents != enemy.intents:
             state = replace(state, enemies=(*state.enemies[:slot], replace(enemy, powers=powers, attack_delta=0,
                                                                           intents=intents),
                                            *state.enemies[slot + 1:]))
     return state
+
+
+def end_enemy_card_powers(powers):
+    powers = set_power(powers, "STRANGLE", 0)
+    if loss := power(powers, "PIERCING_WAIL"):
+        powers = add_power(set_power(powers, "PIERCING_WAIL", 0), "STRENGTH", loss)
+    return powers
 
 
 def _tick(powers, durations):
@@ -333,7 +338,7 @@ def _start_player(state, prior_powers):
                                for z in ("draw", "discard", "exhaust")})
         if blades := power(powers, "INFINITE_BLADES"):
             from .transitions import _shiv
-            if power(powers, "PHANTOM_BLADES") or len(state.hand) + blades + 5 >= HAND_CAP:
+            if not state.silent_cards_v66 and (power(powers, "PHANTOM_BLADES") or len(state.hand) + blades + 5 >= HAND_CAP):
                 return boundary(state, "infinite blades hand ordering")
             state = _shiv(state, blades)
     powers = set_power(powers, "ENERGY_NEXT_TURN", 0)
@@ -475,7 +480,30 @@ def _start_player(state, prior_powers):
                 or any(r.name in ("MERCURY_HOURGLASS", "MR_STRUGGLES") for r in state.relics)):
             return boundary(state, "toasty mittens start turn ordering")
         reveal = Boundary("next turn", count, count > len(state.draw))
-    if fumes := power(powers, "NOXIOUS_FUMES"):
+    tools_prompt = (state.silent_cards_v66 and outcome == "completed" and power(powers, "TOOLS_OF_THE_TRADE")
+                    and len(state.hand) + reveal.count > power(powers, "TOOLS_OF_THE_TRADE"))
+    if state.silent_cards_v66 and (tools_prompt or mittens):
+        # The native snapshot is inside SetupPlayerTurn, before AfterSideTurnStart.
+        # Pocketwatch resets its counter before the draw but refreshes its status later.
+        for i, relic in enumerate(relics):
+            if relic.name == "POCKETWATCH":
+                relics[i] = replace(relic, status=state.relics[i].status)
+        if tools_prompt:
+            delayed = ("PREP_TIME", "SHADOW_STEP", "POISON", "BLUR")
+            if any(power(state.powers, name) for name in delayed) or any(
+                    r.name in ("HAPPY_FLOWER", "CHANDELIER", "CANDELABRA", "PAELS_FLESH", "PENDULUM",
+                               "STONE_CALENDAR", "MR_STRUGGLES", "MERCURY_HOURGLASS") for r in state.relics):
+                return boundary(state, "tools start-turn hook ordering")
+            for name in ("DRAW_CARDS_NEXT_TURN", "PLATING", "CLARITY"):
+                powers = set_power(powers, name, power(state.powers, name))
+            for i, relic in enumerate(relics):
+                if relic.name == "SEAL_OF_GOLD" and not relic.used:
+                    state = replace(state, seal_gold=state.seal_gold + 3)
+                    energy -= power(relic.stats, "energy")
+                    additional_public_energy -= power(relic.stats, "energy")
+                if relic.name == "LETTER_OPENER":
+                    relics[i] = state.relics[i]
+    if not tools_prompt and (fumes := power(powers, "NOXIOUS_FUMES")):
         from .transitions import _debuff
 
         for enemy in state.enemies:
@@ -492,7 +520,17 @@ def resolve(state):
     if state.outcome or state.boundary:
         return state
     if state.silent_cards_v66 and any(v.name == "I_AM_INVINCIBLE" for v in state.draw):
-        return boundary(state, "I Am Invincible on unordered draw pile")
+        if any(v.name != "I_AM_INVINCIBLE" for v in state.draw):
+            return boundary(state, "I Am Invincible on unordered draw pile")
+        if len(state.draw) != 1:
+            return boundary(state, "I Am Invincible autoplay listener order")
+        from .state import Card, Effect, Play
+        from .transitions import _drain, _queue
+        v, = state.draw
+        state = _drain(_queue(replace(state, draw=(), play=(*state.play, v)),
+                              Effect("play", play=Play(Card(-1, v)))))
+        if state.outcome or state.boundary:
+            return state
     if reason := encounter_reason(state):
         return boundary(state, reason)
     if state.hallway and state.reattach_pending and any(e.name.startswith("DECIMILLIPEDE_SEGMENT_") for e in state.enemies):

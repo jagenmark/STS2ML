@@ -1,13 +1,18 @@
 """Paired CSV11DEV triples on the pinned host, with per-card native evidence."""
 import argparse
+from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import gzip
 import hashlib
 import json
 import os
 from pathlib import Path
 import runpy
 import subprocess
+from unittest.mock import patch
 
+from sts2rl.combat_search_v2 import transitions
+from sts2rl.combat_search_v2.integration import CombatSearchV2
 from sts2rl.run_bundle import freeze_bundle, load_bundle
 from v64 import ROOT, episode
 
@@ -41,8 +46,45 @@ def build(out):
 def triple(out, bundles, row):
     shift = (2 * row[0] + int(row[2] == "seeded")) % 3
     for arm in ARMS[shift:] + ARMS[:shift]:
-        episode(out / arm, bundles[arm], row, card_counts=True)
+        run_arm(out / arm, bundles[arm], row)
     return row[1]
+
+
+def run_arm(folder, bundle, row):
+    """Count card bodies and individual target hits only on native-matched transitions."""
+    original_observe = CombatSearchV2.observe
+    original_effect, original_damage = transitions._card_effect, transitions._damage
+    bodies, hits = Counter(), Counter()
+
+    def observe(mode, action, after, enumerate_actions):
+        executions, strikes = Counter(), Counter()
+        source = None
+
+        def damage(state, slot, amount, **kwargs):
+            if source and state.enemies[slot].hp > 0 and kwargs.get("attacker_powers") is not None:
+                strikes[source] += 1
+            return original_damage(state, slot, amount, **kwargs)
+
+        def effect(state, play):
+            nonlocal source
+            source = play.card.variant.name
+            executions[source] += 1
+            result = original_effect(state, play)
+            source = None
+            return result
+
+        with patch.object(transitions, "_card_effect", effect), patch.object(transitions, "_damage", damage):
+            original_observe(mode, action, after, enumerate_actions)
+        if mode.records and mode.records[-1].get("oracle", [None, None])[1] == "match":
+            bodies.update(executions)
+            hits.update(strikes)
+
+    with patch.object(CombatSearchV2, "observe", observe):
+        episode(folder, bundle, row, card_counts=True)
+    path = folder / (row[1] + ".json.gz")
+    data = json.loads(gzip.decompress(path.read_bytes()))
+    data.update(matched_card_bodies=bodies, matched_attack_hits=hits)
+    path.write_bytes(gzip.compress(json.dumps(data, separators=(",", ":")).encode(), mtime=0))
 
 
 def main():

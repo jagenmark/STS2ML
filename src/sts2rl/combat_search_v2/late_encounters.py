@@ -29,10 +29,14 @@ def unbind(v):
 def untracked_plays(state, card):
     from .transitions import card_supported
 
-    if not card_supported(card, True) or power(state.powers, "DUPLICATION"):
+    if state.silent_cards_v66 and card.name == "KNIFE_TRAP" and any(v.name == "SHIV" for v in state.exhaust):
+        return True
+    if not card_supported(card, True, silent_cards_v66=state.silent_cards_v66) or power(state.powers, "DUPLICATION"):
         return True
     if card.kind == "Skill" and power(state.powers, "BURST"):
         return True
+    if state.silent_cards_v66 and card.name in ("SHADOW_STEP", "STORM_OF_STEEL"):
+        return any("Sly" in c.variant.keywords or "sly_this_turn" in c.variant.flags for c in state.hand)
     return card.name in ("ACROBATICS", "PREPARED", "SURVIVOR", "DAGGER_THROW", "CALCULATED_GAMBLE",
                          "HIDDEN_DAGGERS") and any("Sly" in c.variant.keywords or "sly_this_turn" in c.variant.flags
                                                    for c in state.hand)
@@ -55,7 +59,7 @@ def curse_options(ordinal):
 
 
 def choose_curse(state, index):
-    from .end_turn import _start_player, _tick
+    from .end_turn import _start_player, _tick, end_enemy_card_powers
     from .encounters import player_debuff
 
     name, amount = state.curse_options[index]
@@ -71,6 +75,8 @@ def choose_curse(state, index):
             return replace(state, boundary=Boundary("demise lethal or intangible"))
         enemy = replace(enemy, hp=enemy.hp - demise)
     enemy = replace(enemy, powers=_tick(enemy.powers, ("WEAK", "VULNERABLE", "INTANGIBLE")), attack_delta=0)
+    if state.silent_cards_v66:
+        enemy = replace(enemy, powers=end_enemy_card_powers(enemy.powers))
     return _start_player(replace(state, enemies=(enemy,), prompt=None, curse_options=()), prior)
 
 

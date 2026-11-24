@@ -135,6 +135,8 @@ def _difference(predicted, actual):
         if _completed_zones(predicted) != _completed_zones(actual):
             return "completed zones"
         return ""
+    if predicted.silent_cards_v66 and [c.variant.flags for c in predicted.hand] != [c.variant.flags for c in actual.hand]:
+        return "hand flags"
     if _positions(predicted) != _positions(actual):
         return "zones"
     if _intents(predicted) != _intents(actual):
@@ -368,6 +370,17 @@ class CombatSearchV2:
             if key != self._round_key:
                 self._plays = 0
                 self._bound_used = False
+            elif (self.config.silent_cards_v66 and prior and prior.prompt and
+                  prior.prompt.operation == "TOOLS_OF_THE_TRADE" and action.kind == "select_cards"):
+                selected = [prior.hand[int(i)].variant for i in action.args["indices"].split(",")]
+                sly = [c for c in selected if "Sly" in c.keywords or "sly_this_turn" in c.flags]
+                if any(late_encounters.untracked_plays(prior, c) for c in sly):
+                    self._plays = self._aeon_plays = -1
+                else:
+                    if self._plays >= 0:
+                        self._plays += len(sly)
+                    if self._aeon_plays >= 0:
+                        self._aeon_plays += len(sly)
             elif ((self.config.v61_boss_safe or self.config.v61_act2_hallways_act3)
                   and prior and prior.prompt and action.kind == "select_cards"
                   and prior.prompt.operation in ("ACROBATICS", "PREPARED", "SURVIVOR", "DAGGER_THROW", "HIDDEN_DAGGERS")

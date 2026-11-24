@@ -33,13 +33,18 @@ def history_counts(hand, state):
         stats = c.get("stats") or {}
         if name == "CARD.FINISHER" and "calculatedhits" in stats:
             result["attacks_this_turn"] = int(stats["calculatedhits"])
-        if name not in ("CARD.MURDER", "CARD.MEMENTO_MORI"):
+        if name not in ("CARD.MURDER", "CARD.MEMENTO_MORI", "CARD.SHIV"):
             continue
         # CalculatedDamage incorporates powers and damage relics. Restrict inversion
         # to an unmodified preview with no possible multiplicative/flat ambiguity.
         if (c.get("enchantment") or c.get("affliction") or any(k in dict(state.powers) for k in
                 ("WEAK", "SHRINK", "VIGOR", "DOUBLE_DAMAGE", "GIGANTIFICATION", "SURROUNDED"))
                 or any(r.name in ("PEN_NIB", "MINIATURE_CANNON", "MYSTIC_LIGHTER") for r in state.relics)):
+            continue
+        if name == "CARD.SHIV" and (phantom := power(state.powers, "PHANTOM_BLADES")):
+            base = 4 + 2 * c.get("upgrades", 0) + power(state.powers, "ACCURACY") + power(state.powers, "STRENGTH")
+            if base > 0 and stats.get("damage") in (base, base + phantom):
+                result["shivs_this_turn"] = int(stats["damage"] == base)
             continue
         if {"calculateddamage", "calculationbase", "extradamage"} <= stats.keys():
             surplus = stats["calculateddamage"] - power(state.powers, "STRENGTH") - stats["calculationbase"]
@@ -49,12 +54,86 @@ def history_counts(hand, state):
     return result
 
 
+def hand_trick_slots(state):
+    return tuple(c.slot for c in state.hand if c.variant.kind == "Skill" and
+                 "Sly" not in c.variant.keywords and "sly_this_turn" not in c.variant.flags)
+
+
+def grant_sly(state, slot):
+    return replace(state, hand=tuple(replace(c, variant=replace(c.variant, flags=(*c.variant.flags, "sly_this_turn")))
+                                     if c.slot == slot else c for c in state.hand))
+
+
 def retain_shivs(state):
     def retain(v):
         return replace(v, keywords=tuple(sorted((*v.keywords, "Retain")))) if (
             v.name == "SHIV" and "Retain" not in v.keywords) else v
     return replace(state, hand=tuple(replace(c, variant=retain(c.variant)) for c in state.hand),
                    **{z: tuple(sorted(retain(v) for v in getattr(state, z))) for z in ("draw", "discard", "exhaust")})
+
+
+def draw_known(state, count, escape_plan):
+    from .transitions import _damage, _debuff, block_gain, boundary
+
+    initial = state
+    shuffled = count > len(state.draw)
+    for _ in range(count):
+        if not state.draw:
+            state = replace(state, draw=state.discard, discard=())
+        card = state.draw[0]
+        if (any(v != card for v in state.draw) or card.flags or card.modifier or
+                card.name in ("PINPOINT", "VOID", "FRANTIC_ESCAPE", "UP_MY_SLEEVE") or
+                power(state.powers, "CONFUSED") or power(state.powers, "FREE_SKILL") or
+                card.free_skill_cost >= 0):
+            return boundary(initial, "draw", count, shuffled)
+        drawn = replace(card, stats=())
+        state = replace(state, hand=(*state.hand, Card(state.next_slot, drawn)), next_slot=state.next_slot + 1,
+                        draw=state.draw[1:], draws_this_combat=(
+                            state.draws_this_combat + 1 if state.draws_this_combat >= 0 else -1))
+        for enemy in state.enemies:
+            if enemy.hp <= 0:
+                continue
+            if wave := power(state.powers, "CORROSIVE_WAVE"):
+                state = _debuff(state, enemy.slot, "POISON", wave)
+                if state.boundary:
+                    return state
+            if speed := power(state.powers, "SPEEDSTER"):
+                state = _damage(state, enemy.slot, speed)
+                if state.boundary or state.outcome:
+                    return state
+        if escape_plan and drawn.kind == "Skill":
+            if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
+                return boundary(initial, "vambrace first card block")
+            state = replace(state, block=state.block + block_gain(3 + 2 * escape_plan.upgrade, state.powers))
+    return state
+
+
+def finish_tools_start(state):
+    from .transitions import _debuff
+
+    powers = set_power(state.powers, "DRAW_CARDS_NEXT_TURN", 0)
+    for name in ("PLATING", "CLARITY"):
+        if power(powers, name):
+            powers = add_power(powers, name, -1)
+    state = replace(state, powers=powers)
+    relics = list(state.relics)
+    for i, r in enumerate(relics):
+        if r.used:
+            continue
+        if r.name == "POCKETWATCH":
+            relics[i] = replace(r, status="Active" if (r.counter or 0) <= 3 else "Normal")
+        if r.name == "LETTER_OPENER":
+            relics[i] = replace(r, counter=0, status="Normal")
+        if r.name == "SEAL_OF_GOLD" and state.seal_gold >= 3:
+            state = replace(state, seal_gold=state.seal_gold - 3, energy=state.energy + power(r.stats, "energy"))
+    state = replace(state, relics=tuple(relics))
+    if fumes := power(powers, "NOXIOUS_FUMES"):
+        for e in state.enemies:
+            if e.hp > 0:
+                state = _debuff(state, e.slot, "POISON", fumes)
+                if state.boundary:
+                    return state
+    return state
 
 
 def free_skills(state):
@@ -97,7 +176,7 @@ def card_effect(state, play, slots):
     if name == "ABRASIVE":
         return _add_player_power(_add_player_power(state, "DEXTERITY", 1), "THORNS", 4 + 2 * up)
     if name == "ESCAPE_PLAN":
-        return draw(state, 1)
+        return draw(state, 1, escape_plan=v)
     if name == "DODGE_AND_ROLL":
         if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
             return boundary(state, "vambrace first card block")

@@ -369,20 +369,26 @@ def _public_prompt(public, state, late_prompts=False):
     elif mittens:
         card = "TOASTY_MITTENS"
     elif source.get("kind") != "play_card" or (card not in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW")
-                                              and not ((late_prompts or state.silent_cards_v66) and card == "HIDDEN_DAGGERS")):
+                                              and not ((late_prompts or state.silent_cards_v66) and card == "HIDDEN_DAGGERS")
+                                              and not (state.silent_cards_v66 and card == "HAND_TRICK")):
         raise Unsupported("selection operation")
     if not mittens and not tools and (len(state.play) != 1 or state.play[0].name != card):
         raise Unsupported("selection continuation")
     rows = public["cards"]
-    if len(rows) != len(state.hand) or any(
+    candidates = state.hand
+    if card == "HAND_TRICK":
+        from .silent_cards import hand_trick_slots
+        slots = hand_trick_slots(state)
+        candidates = tuple(c for c in state.hand if c.slot in slots)
+    if len(rows) != len(candidates) or any(
         entry(row["id"]) != c.variant.name or bool(row.get("upgraded")) != bool(c.variant.upgrade)
-        for row, c in zip(rows, state.hand)
+        for row, c in zip(rows, candidates)
     ):
         raise Unsupported("selection mapping")
     lo, hi = integer(public["min_select"]), integer(public["max_select"])
     if not 0 <= lo <= hi <= len(rows):
         raise Unsupported("selection bounds")
-    return replace(state, prompt=Prompt(card, tuple(c.slot for c in state.hand), lo, hi)), _indices(rows)
+    return replace(state, prompt=Prompt(card, tuple(c.slot for c in candidates), lo, hi)), _indices(rows)
 
 
 def root_move(projected, kind, args):
