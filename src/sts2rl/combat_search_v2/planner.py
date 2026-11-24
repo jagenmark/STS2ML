@@ -23,6 +23,7 @@ class Config:
     power_leaf_v62: bool = False
     early_escape_v62: bool = False
     kaiser_v63: bool = False
+    wax_fan_v64: bool = False
 
     def late_root(self, act, room):
         if act == 3:
@@ -35,7 +36,7 @@ class Config:
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
                 or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
                                                       self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62,
-                                                      self.kaiser_v63))
+                                                      self.kaiser_v63, self.wax_fan_v64))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)

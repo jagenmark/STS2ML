@@ -200,6 +200,7 @@ class State:
     v61_rules: bool = False
     kaiser_v63: bool = False
     puzzle_triggered: bool = False
+    melted_fan: bool = False
 
     @property
     def hallway(self):

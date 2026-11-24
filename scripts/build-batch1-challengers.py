@@ -44,6 +44,7 @@ PROFILES = (
     "all_v2_mech_v3",
     "all_v2_p1_v4",
     *SEARCH_PROFILES,
+    "v64_control", "unified_size_165", "unified_size_0",
 )
 
 
@@ -66,6 +67,9 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
     if profile not in PROFILES:
         raise ValueError(f"Unknown Batch 1/2 profile: {profile!r}")
     role, opts = load_bundle(base)
+    v64 = profile if profile in ("v64_control", "unified_size_165", "unified_size_0") else None
+    if v64:
+        profile = "all_v2_search_v6"
     arm4 = profile == "all_v2_search_v6"
     if profile in SEARCH_PROFILES:
         if any(opts.get(k) for k in ("combat_search_v2", "combat_search_v2_shadow", "combat_search_v2_config", "combat_value_v2")):
@@ -211,6 +215,12 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
 
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
+    if v64:
+        config = json.loads(opts["combat_search_v2_config"].read_bytes())
+        save_json(output / "search_config.json", {**config, "kaiser_v63": True, "wax_fan_v64": True})
+        opts["combat_search_v2_config"] = output / "search_config.json"
+        if v64 != "v64_control":
+            deck.update(unified_draft_v64=True, size_penalty=-1.65 if v64 == "unified_size_165" else 0.0)
     if profile in ("survival", "scorer", "all", *full_v2):
         save_json(output / "encounter_model.json", encounter)
         opts["encounter_model"] = output / "encounter_model.json"

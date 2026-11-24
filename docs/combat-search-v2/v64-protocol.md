@@ -1,0 +1,7 @@
+# Silent A10 v6.4 development protocol
+
+CSV9DEV consists of 192 default and 192 seeded natural starts. Each lobby runs Arm 4 with Kaiser v63 and the witnessed wax Fan fix, then the same policy with shared card valuation and one of two size coefficients. Order rotates by lobby. The coefficients are −1.65 and zero per six cards above 14. The lock SHA-256 is `afe45cafa3e320e120f5bea8752e3fb89122f8aa7c98fcb7032e05153cd5d777`.
+
+The primary comparison is paired global floor (17 floors per prior act). Compute 50,000 whole-lobby bootstrap replicates within start mode with analysis RNG 621. Report a percentile 95% interval and the two-sided exact sign test excluding ties. Secondary comparisons cover act and boss progression, wins, last observed deck size per reached act, optional reward skips per act, pooled combat decision latency, and all native match/mismatch/unresolved counts. Require complete starts and zero native mismatches for qualification. Keep raw offer/pick/skip records for all three public sources. For card rates report reward-only and pooled sources, counting each stocked shop slot once per visit and every card in offered bundles. Mandatory acquisitions remain visible. Conditional pick percentages describe the offers reached by each arm.
+
+Prefer an arm with favorable paired floor and late-act progression, conditional on qualification. Inspect the direct A/B contrast before recommending a size coefficient. CSV9DEV is development evidence only.

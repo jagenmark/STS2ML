@@ -655,7 +655,8 @@ def _attack_relics(state):
             relic = replace(relic, status="Normal")
         if not relic.used and relic.name == "DAUGHTER_OF_THE_WIND":
             state = replace(state, block=state.block + power(relic.stats, "block"))
-        if not relic.used and relic.name in ("KUSARIGAMA", "NUNCHAKU", "ORNAMENTAL_FAN"):
+        if (not relic.used and relic.name in ("KUSARIGAMA", "NUNCHAKU", "ORNAMENTAL_FAN")
+                    and not (state.melted_fan and relic.name == "ORNAMENTAL_FAN")):
             threshold = power(relic.stats, "cards")
             if relic.counter is None or not 0 <= relic.counter < threshold:
                 return boundary(state, "kusarigama counter")

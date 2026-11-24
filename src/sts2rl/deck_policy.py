@@ -41,7 +41,11 @@ def card_profile(card):
     return damage, poison, block, weak, shivs, aoe, draw, source, sly, cost
 
 
-def deck_context(deck):
+def deck_context(deck, *, unified_draft_v64=False):
+    if unified_draft_v64:
+        from .unified_draft import deck_context as normalized_context
+
+        return normalized_context(deck)
     counts = {
         "n": len(deck),
         "power": 0,
@@ -96,6 +100,10 @@ class DeckPolicy:
         self.scope = frozenset(
             data.get("scope", ["card_reward", "bundle_select", "shop", "rest_site"])
         )
+        self.unified_draft_v64 = data.get("unified_draft_v64", False)
+        self.size_penalty = data.get("size_penalty", -1.65)
+        if self.unified_draft_v64:
+            self.scope |= {"card_reward", "shop", "bundle_select"}
         self.to_upgrade = False
         self.act2_final_rest_threshold = data.get("act2_final_rest_threshold")
         if self.act2_final_rest_threshold is not None and not 0 <= self.act2_final_rest_threshold <= 1:
@@ -243,12 +251,52 @@ class DeckPolicy:
             + sum(self.learned.get(k, 0.0) * x for k, x in v.items())
         )
 
+    def raw_card_value(self, card, ctx, info):
+        from .unified_draft import raw_grade
+
+        return raw_grade(card, ctx, info, size_penalty=self.size_penalty,
+                         duplicate=self.duplicate, threshold=self.threshold)
+
+    def _unified_choice(self, state):
+        from .unified_draft import public_context
+        from .merchant import merchant_choice
+
+        deck = state["player"]["deck"]
+        ctx = public_context(state)
+        context = deck_context(deck, unified_draft_v64=True)
+
+        def grade(card):
+            return self.raw_card_value(card, ctx, context)
+
+        actions = legal_actions(state)
+        if state["decision"] == "card_reward":
+            cards = {c["index"]: c for c in state["cards"]}
+            def rank(action):
+                if action.kind == "skip_card_reward":
+                    return (0.0, True)
+                return (grade(cards[action.args["card_index"]]), False)
+            return max(actions, key=rank)
+        if state["decision"] == "bundle_select":
+            def marginal(action):
+                current = list(deck)
+                total = 0.0
+                for card in state["bundles"][action.args["bundle_index"]]["cards"]:
+                    total += self.raw_card_value(card, ctx, deck_context(current, unified_draft_v64=True))
+                    current.append(card)
+                return total
+            return max(actions, key=marginal)
+        settings = self.merchant or {"reserve": 1.0, "permanent": 1.0}
+        return merchant_choice(state, grade, unified_card_values=True, **settings)
+
     def observe(self, state, action):
         if self.prompt_aware and not state.get("in_combat") and state["decision"] != "card_select":
             self.prompt = selection_goal(state, action, detailed=self.optional_selections)
 
     def choose(self, state, base):
         d = state["decision"]
+        if self.unified_draft_v64 and d in ("card_reward", "shop", "bundle_select"):
+            self.to_upgrade = False
+            return self._unified_choice(state)
         ctx = state["context"]
         player = state["player"]
         deck = player["deck"]

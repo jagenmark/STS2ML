@@ -399,7 +399,8 @@ def _start_player(state, prior_powers):
                 relic = replace(relic, status="Active")
             if relic.name == "RIPPLE_BASIN":
                 relic = replace(relic, status="Active")
-            if relic.name in ("KUSARIGAMA", "LETTER_OPENER", "ORNAMENTAL_FAN"):
+            if (relic.name in ("KUSARIGAMA", "LETTER_OPENER", "ORNAMENTAL_FAN")
+                    and not (state.melted_fan and relic.name == "ORNAMENTAL_FAN")):
                 relic = replace(relic, counter=0, status="Normal")
             if relic.name == "SPARKLING_ROUGE" and state.round == 2:
                 powers = add_power(powers, "STRENGTH", power(relic.stats, "strengthpower"))

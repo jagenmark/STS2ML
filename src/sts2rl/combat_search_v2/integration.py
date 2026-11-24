@@ -168,6 +168,9 @@ class CombatSearchV2:
         self._aeon_plays = -1
         self._remnant_start_hp = None
         self._puzzle_triggered_at = None
+        self._wax_queue = ()
+        self._toy_counter = None
+        self._melted_fan = False
 
     def clone(self):
         clone = copy(self)
@@ -196,7 +199,7 @@ class CombatSearchV2:
             return
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
-                       "power_leaf_v62", "early_escape_v62", "kaiser_v63"):
+                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64"):
             if not config[switch]:
                 del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
@@ -225,6 +228,9 @@ class CombatSearchV2:
             late_root = self.config.late_root(ctx.get("act"), ctx.get("room_type"))
             projected = project(public, late_prompts=late_root)
             state = projected.state
+            if self.config.wax_fan_v64 and self._melted_fan:
+                state = replace(state, melted_fan=True)
+                projected = replace(projected, state=state)
             if (late_root or self.config.v6_late_coverage or self.config.v61_boss_safe
                     or self.config.v61_act2_hallways_act3) and any(v.name == "RIGHT_HAND_HAND" for v in state.discard):
                 state = replace(state, right_hand_return=True)
@@ -253,7 +259,8 @@ class CombatSearchV2:
                     if self.config.v61_boss_safe and state.act == 2 and state.room == "Boss" and state.curse_options:
                         raise Unsupported("champion knowledge curse")
                     raise Unsupported("unreconciled prompt")
-                projected = replace(projected, state=replace(previous_prompt, spent=0, kaiser_v63=state.kaiser_v63,
+                projected = replace(projected, state=replace(previous_prompt, spent=0, melted_fan=state.melted_fan,
+                                                             kaiser_v63=state.kaiser_v63,
                                                              puzzle_triggered=state.puzzle_triggered))
             actions = enumerate_actions(public)
             moves = _native_legal(projected, actions)
@@ -308,7 +315,34 @@ class CombatSearchV2:
         observer.observe(action, after, enumerate_actions)
         return observer.records[0].get("oracle")
 
+    def _observe_wax(self, public):
+        # The host displays melted relics with their last counter and Normal status.
+        # Toy Box grants its wax batch consecutively and melts the leftmost every wrap.
+        relics = public.get("combat_state", public).get("player", {}).get("relics")
+        if relics is None:
+            return
+        for index, box in enumerate(relics):
+            if box["id"] != "RELIC.TOY_BOX":
+                continue
+            counter = box.get("counter")
+            if self._toy_counter is None:
+                count = (box.get("vars") or {}).get("Relics", 0)
+                self._wax_queue = tuple(r["id"] for r in relics[index + 1:index + 1 + count])
+            elif counter == 0 and self._toy_counter > 0 and self._wax_queue:
+                present = {r["id"] for r in relics}
+                pending = tuple(name for name in self._wax_queue if name in present)
+                if pending:
+                    self._melted_fan |= pending[0] == "RELIC.ORNAMENTAL_FAN"
+                    self._wax_queue = pending[1:]
+            self._toy_counter = counter
+            return
+        self._toy_counter = None
+        self._wax_queue = ()
+        self._melted_fan = False
+
     def observe(self, action, after, enumerate_actions):
+        if self.config.wax_fan_v64:
+            self._observe_wax(after)
         if self.config.v6_late_coverage or self.config.v61_act2_hallways_act3 or self.config.v61_boss_safe:
             prior, self._played_from = self._played_from, None
             view = after.get("combat_state", after)

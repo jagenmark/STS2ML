@@ -69,6 +69,7 @@ def merchant_choice(
     gold_curve=False,
     potion_capacity=False,
     shop_fixes_v4=False,
+    unified_card_values=False,
 ):
     player = state["player"]
     gold = player["gold"]
@@ -114,7 +115,9 @@ def merchant_choice(
             desc = (item.get("description") or "").lower()
             name = item.get("name", "")
             if kind == "buy_card":
-                if shop_fixes_v4:
+                if unified_card_values:
+                    value = 1.4 + grade(item)
+                elif shop_fixes_v4:
                     raw_cid = item.get("id") or item.get("name") or ""
                     cid = raw_cid.removeprefix("CARD.").upper().replace(" ", "_") if isinstance(raw_cid, str) else ""
                     if cid == "THE_GAMBIT":
