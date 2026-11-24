@@ -90,6 +90,24 @@ def _progress(state, power_leaf_v62=False):
 
 def _boss_adjustment(state):
     """Price public consequences extending beyond this turn for either evaluator."""
+    if state.kaiser_v63:
+        # Value concentrated damage and poison's next several ticks. Early removal
+        # cuts the number of incoming attacks even after the survivor gains rage.
+        focus = 0.0
+        value = 4.0 * state.hp + 14.0 * power(state.powers, "DEXTERITY")
+        value += 15.0 * power(state.powers, "AFTERIMAGE") + 10.0 * power(state.powers, "NOXIOUS_FUMES")
+        for e in state.enemies:
+            poison = power(e.powers, "POISON")
+            ticks = min(5, poison, 3 * (1 + power(state.powers, "ACCELERANT"))) if e.hp > 0 else 0
+            future = min(e.hp, ticks * poison - ticks * (ticks - 1) // 2)
+            progress = e.max_hp - e.hp + future
+            focus = max(focus, progress * (1.15 if e.name == "ROCKET" else 1))
+            if e.hp:
+                value += 1.5 * future + 6 * min(3, power(e.powers, "WEAK")) - 6 * power(e.powers, "STRENGTH")
+            else:
+                value += 18
+        value += 5 * power(state.powers, "INTANGIBLE") + 4 * power(state.powers, "BUFFER")
+        return value + 0.45 * focus + 4 * power(state.powers, "THORNS")
     value = 0.0
     for enemy in state.enemies:
         if enemy.hp <= 0:

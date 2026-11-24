@@ -22,6 +22,7 @@ class Config:
     v61_boss_safe: bool = False
     power_leaf_v62: bool = False
     early_escape_v62: bool = False
+    kaiser_v63: bool = False
 
     def late_root(self, act, room):
         if act == 3:
@@ -33,7 +34,8 @@ class Config:
     def __post_init__(self):
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
                 or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
-                                                      self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62))
+                                                      self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62,
+                                                      self.kaiser_v63))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
@@ -94,6 +96,7 @@ class _Search:
         self.model = model
         self.record_timing = record_timing
         self.leaf_ns = None
+        self.kaiser = False
         self.boss_safe = boss_safe
         self.curse_preferences = curse_preferences
 
@@ -210,6 +213,7 @@ class _Search:
         return retained
 
     def run(self, state):
+        self.kaiser = state.kaiser_v63
         frontier = []
         order = sorted(range(len(self.root_moves)), key=lambda i: i != self.champion)
         # Give every root a first-step trial before extending an individual root.
@@ -263,9 +267,14 @@ class _Search:
         fallback = ""
         if best is None or best.score[0] < SURVIVED:
             fallback = "no certified survival"
+        elif self.kaiser and best.state.outcome == "victory":
+            pass
+        elif self.kaiser and champion_known is not None and champion_known.state.outcome == "dead":
+            # A witnessed surviving alternative beats the champion's best certified death.
+            pass
         elif champion_known is None:
             fallback = "champion continuation unresolved"
-        elif (self.child_cap or self.depth_cap) and any(line is None for line in self.certified):
+        elif (self.child_cap or self.depth_cap) and not self.kaiser and any(line is None for line in self.certified):
             fallback = "uncertified root at cap"
         elif any(line is None for line in self.scores):
             fallback = "uncompared root at cap" if self.child_cap or self.depth_cap else "uncompared root"
@@ -286,8 +295,10 @@ def search(projected, roots, champion, config=Config(), *, model=None, record_ti
     state = projected.state
     late = config.late_root(state.act, state.room)
     v61_rules = late and (config.v61_act2_hallways_act3 or config.v61_boss_safe)
-    if state.late != late or state.v61_rules != v61_rules:
-        projected = replace(projected, state=replace(state, late=late, v61_rules=v61_rules))
+    kaiser = config.kaiser_v63 and late and state.act == 2 and state.room == "Boss" and bool(state.enemies) and all(
+        e.name in ("CRUSHER", "ROCKET") for e in state.enemies)
+    if state.late != late or state.v61_rules != v61_rules or state.kaiser_v63 != kaiser:
+        projected = replace(projected, state=replace(state, late=late, v61_rules=v61_rules, kaiser_v63=kaiser))
     boss_safe = config.v61_boss_safe and state.act == 2 and state.room == "Boss"
     if boss_safe and state.curse_options:
         return Result(champion, root_count=len(roots), fallback="champion knowledge curse")

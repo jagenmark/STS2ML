@@ -114,7 +114,7 @@ DEBUFFS = {
 }
 
 
-def card_supported(v, late=False):
+def card_supported(v, late=False, *, kaiser=False):
     tainted = (len(v.modifier) == 1 and v.modifier[0][:2] == ("affliction_state", "TAINTED")
                and v.kind == "Skill")
     ember = len(v.modifier) == 1 and v.modifier[0][:2] == ("enchantment_state", "TEZCATARAS_EMBER")
@@ -122,7 +122,8 @@ def card_supported(v, late=False):
              and "Ethereal" in v.keywords)
     enchanted = late and len(v.modifier) == 1 and v.modifier[0][:2] in (
         ("enchantment_state", "NIMBLE"), ("enchantment_state", "PERFECT_FIT"))
-    return ((v.name in CARDS or (late and v.name in late_encounters.CARDS))
+    return ((v.name in CARDS or (late and v.name in late_encounters.CARDS)
+             or (kaiser and v.name in ("ENVENOM", "EXTERMINATE")))
             and v.upgrade in (0, 1) and (not v.modifier or tainted or ember or hexed or enchanted or
                                          (late and len(v.modifier) == 1 and late_encounters.bound(v)))
             and all(k in KEYWORDS for k in v.keywords)
@@ -158,6 +159,11 @@ def admission_reasons(projected):
         if name not in PLAYER_POWERS and not (state.late and name in late_encounters.PLAYER):
             yield f"player power/{name}"
     for relic in state.relics:
+        if state.kaiser_v63 and relic.name in ("GHOST_SEED", "CAULDRON") and relic.stacks == 1:
+            # Ghost Seed's Ethereal keyword is already public on every affected card.
+            continue
+        if state.kaiser_v63 and relic.name == "BEATING_REMNANT" and relic.stacks == 1 and state.remnant_floor is not None:
+            continue
         if state.hallway and relic.name == "BEATING_REMNANT" and state.remnant_floor is None:
             yield "unwitnessed remnant damage"
         if state.v61_rules and relic.name == "TOY_BOX" and (relic.used or relic.counter == 0):
@@ -172,7 +178,7 @@ def admission_reasons(projected):
             yield f"relic/{relic.name}"
     for card, playable in zip(state.hand, projected.playable):
         v = card.variant
-        if not card_supported(v, state.late):
+        if not card_supported(v, state.late, kaiser=state.kaiser_v63):
             yield f"card/{v.name}"
         elif v.modifier and v.modifier[0][:2] == ("affliction_state", "TAINTED") and not any(
             e.name == "INFESTED_PRISM" and power(e.powers, "VITAL_SPARK") == v.modifier[0][2]
@@ -373,6 +379,24 @@ def _card_effect(state, play):
     if power(state.powers, "PHANTOM_BLADES") and name in ("SHIV", "BLADE_DANCE", "LEADING_STRIKE",
                                                           "CLOAK_AND_DAGGER", "FAN_OF_KNIVES"):
         return boundary(state, "phantom blades shiv trigger")
+    if state.kaiser_v63 and name == "ENVENOM":
+        return _add_player_power(state, "ENVENOM", 1 + up)
+    if state.kaiser_v63 and name == "OUTBREAK":
+        if power(state.powers, "ACCELERANT"):
+            return boundary(state, "outbreak with accelerant")
+        for slot in slots:
+            state = _debuff(state, slot, "POISON", 9 + 3 * up)
+            if state.boundary:
+                return state
+            enemy = state.enemies[slot]
+            poison = power(enemy.powers, "POISON")
+            if poison >= enemy.hp:
+                return boundary(state, "outbreak lethal ordering")
+            if poison:
+                hp, block, powers = lose_hp(enemy.hp, enemy.block, enemy.powers, poison, bypass=True)
+                updated = replace(enemy, hp=hp, block=block, powers=add_power(powers, "POISON", -1))
+                state = replace(state, enemies=(*state.enemies[:slot], updated, *state.enemies[slot + 1:]))
+        return state
     if name in CARD_BOUNDARIES and not (state.late and name == "ECHOING_SLASH"):
         return boundary(state, name.lower())
     if name in BLOCKS and any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
@@ -380,13 +404,17 @@ def _card_effect(state, play):
     if name == "DASH":
         bonus = v.modifier[0][2] if state.late and v.modifier and v.modifier[0][1] == "NIMBLE" else 0
         state = replace(state, block=state.block + block_gain(BLOCKS[name][up] + bonus, state.powers))
-    if name in ATTACKS or (state.late and name in late_encounters.ATTACKS):
+    exterminate = state.kaiser_v63 and name == "EXTERMINATE"
+    if exterminate or name in ATTACKS or (state.late and name in late_encounters.ATTACKS):
         hits = {"SKEWER": play.x, "DAGGER_SPRAY": 2, "PECK": 3 + up}.get(name, 1)
         if name == "FLECHETTES":
             hits = sum(c.variant.kind == "Skill" for c in state.hand)
         if hits > 1 and any(power(state.enemies[slot].powers, "CURL_UP") for slot in slots):
             return boundary(state, "multi-hit curl up ordering")
-        damage = (ATTACKS[name] if name in ATTACKS else late_encounters.ATTACKS[name])[up]
+        if exterminate:
+            hits, damage = 4, 3 + up
+        else:
+            damage = (ATTACKS[name] if name in ATTACKS else late_encounters.ATTACKS[name])[up]
         if state.late and v.modifier and v.modifier[0][0] == "enchantment_state":
             if v.modifier[0][1] == "TEZCATARAS_EMBER":
                 damage += 3
@@ -865,7 +893,7 @@ def _advance(state, move):
             if late_encounters.untracked_plays(state, v):
                 return boundary(state, "sloth automatic play count")
             state = replace(state, sloth_plays=state.sloth_plays + 1)
-    if not card_supported(v, state.late):
+    if not card_supported(v, state.late, kaiser=state.kaiser_v63):
         return boundary(state, f"card/{v.name}")
     x = state.energy if "costs_x" in v.flags else 0
     state = replace(state, energy=state.energy - (x if "costs_x" in v.flags else v.cost),

@@ -33,6 +33,8 @@ def _hurt(state, amount, *, bypass=False):
 
 
 def _puzzle(state):
+    if state.kaiser_v63 and state.puzzle_triggered:
+        return False
     return any(r.name == "CENTENNIAL_PUZZLE" and not r.used for r in state.relics)
 
 
@@ -182,6 +184,22 @@ def attack_amount(state, enemy, intent):
     delta = power(enemy.powers, "STRENGTH") - enemy.preview_strength + enemy.attack_delta
     shown = intent.damage
     intangible = power(state.powers, "INTANGIBLE") > 0
+    if state.kaiser_v63 and (delta or before != after or state.preview_intangible):
+        # All A10 attack bases in the pinned Crusher and Rocket move graphs.
+        # A rounded preview can alias several moves (especially under Intangible).
+        # Accept only a unanimous post-change amount among compatible bases.
+        bases = (4, 14) if enemy.name == "CRUSHER" and intent.hits == 1 else (
+            (7,) if enemy.name == "CRUSHER" and intent.hits == 2 else
+            (4, 20, 35) if enemy.name == "ROCKET" and intent.hits == 1 else ())
+        amounts = set()
+        for base in bases:
+            raw = base + enemy.preview_strength
+            old = max(0, raw) * before // scale
+            if (min(old, 1) if state.preview_intangible else old) == shown:
+                changed = max(0, raw + delta) * after // scale
+                amounts.add(min(changed, 1) if intangible else changed)
+        if len(amounts) == 1:
+            return amounts.pop()
     if state.preview_intangible and shown == 1:
         minimum = (scale + before - 1) // before
         return 1 if intangible and max(0, minimum + delta) * after // scale >= 1 else None

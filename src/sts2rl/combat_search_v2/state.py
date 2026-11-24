@@ -198,6 +198,8 @@ class State:
     reattach_pending: bool = True
     remnant_floor: int | None = None
     v61_rules: bool = False
+    kaiser_v63: bool = False
+    puzzle_triggered: bool = False
 
     @property
     def hallway(self):

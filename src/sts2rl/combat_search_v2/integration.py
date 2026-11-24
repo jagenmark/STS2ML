@@ -167,6 +167,7 @@ class CombatSearchV2:
         self._bound_used = False
         self._aeon_plays = -1
         self._remnant_start_hp = None
+        self._puzzle_triggered_at = None
 
     def clone(self):
         clone = copy(self)
@@ -195,7 +196,7 @@ class CombatSearchV2:
             return
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
-                       "power_leaf_v62", "early_escape_v62"):
+                       "power_leaf_v62", "early_escape_v62", "kaiser_v63"):
             if not config[switch]:
                 del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
@@ -234,6 +235,9 @@ class CombatSearchV2:
                 if len(state.enemies) == 1 and state.enemies[0].name in ("CRUSHER", "ROCKET"):
                     side = 0
                 plays = self._plays if self._round_key == key else -1
+                if (self.config.kaiser_v63 and state.act == 2 and state.room == "Boss" and state.enemies
+                        and all(e.name in ("CRUSHER", "ROCKET") for e in state.enemies)):
+                    state = replace(state, kaiser_v63=True, puzzle_triggered=self._puzzle_triggered_at == key[:2])
                 self._played_from = state
                 floor = None
                 if (self._round_key == key and self._remnant_start_hp is not None and
@@ -249,7 +253,8 @@ class CombatSearchV2:
                     if self.config.v61_boss_safe and state.act == 2 and state.room == "Boss" and state.curse_options:
                         raise Unsupported("champion knowledge curse")
                     raise Unsupported("unreconciled prompt")
-                projected = replace(projected, state=replace(previous_prompt, spent=0))
+                projected = replace(projected, state=replace(previous_prompt, spent=0, kaiser_v63=state.kaiser_v63,
+                                                             puzzle_triggered=state.puzzle_triggered))
             actions = enumerate_actions(public)
             moves = _native_legal(projected, actions)
             primary = root_move(projected, champion.kind, champion.args)
@@ -309,6 +314,10 @@ class CombatSearchV2:
             view = after.get("combat_state", after)
             ctx = view.get("context") or {}
             key = (ctx.get("act"), ctx.get("floor"), view.get("round"))
+            if (prior and prior.kaiser_v63 and key[:2] == (prior.act, prior.floor)
+                    and view.get("player", {}).get("hp", prior.hp) < prior.hp
+                    and any(r.name == "CENTENNIAL_PUZZLE" for r in prior.relics)):
+                self._puzzle_triggered_at = key[:2]
             uncertain = action.kind == "play_card" and (
                 prior is None or late_encounters.untracked_plays(prior, prior.hand[action.args["card_index"]].variant))
             if self.config.v61_act2_hallways_act3 or self.config.v61_boss_safe:
