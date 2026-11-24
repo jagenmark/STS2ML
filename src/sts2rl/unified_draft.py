@@ -129,6 +129,9 @@ def deck_context(deck):
         e = effects(c)
         copies[name] += 1
         counts[c["type"]] += 1
+        counts["summoners"] += s.get("summon", 0) > 0
+        counts["channel_sources"] += "[gold]Channel[/gold]" in c["description"]
+        counts["cost_two_plus"] += c["cost"] >= 2 and not c["costs_x"]
         counts["block"] += e.block > 0
         counts["draw"] += e.draw if name != "REFLEX" else 0
         counts["discard"] += e.discard
@@ -214,6 +217,13 @@ def raw_grade(card, ctx, info, *, size_penalty, threshold, duplicate):
         # Typical remaining energy when drawn. Investing the full turn also has a cost.
         hits = cost = min(2, max_energy)
     damage = s.get("calculateddamage", s.get("damage", 0)) * hits
+    if name == "RIGHT_HAND_HAND" and n["summoners"]:
+        # A summon source makes Osty available. Expensive plays recur the card.
+        recurrence = min(2, 4 * n["cost_two_plus"] / length)
+        damage = s.get("ostydamage", 0) * (1 + recurrence)
+    if name == "HEAVENLY_DRILL" and max_energy >= s.get("energy", 4):
+        # Sometimes reserve the whole turn to reach the doubling breakpoint.
+        damage += 0.25 * (2 * max_energy - hits) * s.get("damage", 0)
     if name == "MAD_SCIENCE" and c["type"] != "Attack":
         damage = 0
     damage += e.shivs * (4 + 0.7 * n["accuracy"])
@@ -316,6 +326,7 @@ def raw_grade(card, ctx, info, *, size_penalty, threshold, duplicate):
         "TEMPEST": 6 * (hits + c["upgraded"]),
         "CASCADE": 8 * (hits + c["upgraded"]),
         "DIRGE": 4 * hits,
+        "MULTI_CAST": min(1, n["channel_sources"] / 2) * 8 * (hits + c["upgraded"]),
         "METEOR_STRIKE": 14,
     }
     value += bonuses.get(name, 0)

@@ -149,7 +149,10 @@ def test_energy_thresholds_and_signed_stats():
     assert grade("BANSHEES_CRY") < 0 and grade("RIGHT_HAND_HAND") < 0
     for name in ("BANSHEES_CRY", "HEAVENLY_DRILL", "RIGHT_HAND_HAND"):
         assert effects(normalize(card(name))).energy == 0
-    assert grade("HEAVENLY_DRILL") < 3
+    assert grade("HEAVENLY_DRILL") < 3 < grade("HEAVENLY_DRILL", energy=4)
+    assert grade("RIGHT_HAND_HAND", ["DIRGE", "PREDATOR"]) > grade("RIGHT_HAND_HAND")
+    assert grade("MULTI_CAST", ["TEMPEST", "ICE_LANCE"]) > grade("MULTI_CAST")
+    assert grade("BANSHEES_CRY", ["APPARITION"] * 4) > grade("BANSHEES_CRY")
     assert grade("METEOR_STRIKE", energy=4) < 0 < grade("METEOR_STRIKE", energy=5)
 
 
