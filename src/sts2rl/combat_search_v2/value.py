@@ -39,7 +39,9 @@ _SCALING = {"ACCELERANT", "NOXIOUS_FUMES", "ACCURACY", "PHANTOM_BLADES", "INFINI
 
 def _power_value(state):
     """Discount future uses by public HP remaining and density in the live piles."""
-    if not any(name in _SCALING for name, _ in state.powers):
+    extra = {"WELL_LAID_PLANS", "TRACKING", "SPEEDSTER", "BLOCK_NEXT_TURN", "SHADOW_STEP",
+             "DOUBLE_DAMAGE", "FREE_SKILL", "CORROSIVE_WAVE", "SHADOWMELD"} if state.silent_cards_v66 else ()
+    if not any(name in _SCALING or name in extra for name, _ in state.powers):
         return 0.0
     p = dict(state.powers)
     living = [e for e in state.enemies if e.hp > 0]
@@ -65,6 +67,10 @@ def _power_value(state):
                 + 0.5 * p.get("THORNS", 0) + 1.05 * p.get("A_THOUSAND_CUTS", 0) * len(living)
                 + 1.05 * p.get("SERPENT_FORM", 0) + p.get("TOOLS_OF_THE_TRADE", 0)
                 + 1.6 * p.get("AFTERIMAGE", 0) + 0.8 * p.get("DEXTERITY", 0))
+    if state.silent_cards_v66:
+        per_turn += (2.2 * bool(p.get("WELL_LAID_PLANS")) + 0.025 * p.get("TRACKING", 0)
+                     * min(2, sum(bool(power(e.powers, "WEAK")) for e in living))
+                     + 0.6 * p.get("SPEEDSTER", 0))
     return turns * per_turn + min(turns, p.get("BLUR", 0)) * min(2, 0.2 * state.block)
 
 
@@ -142,7 +148,11 @@ def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=Fa
         ("AFTERIMAGE", 3.5), ("WELL_LAID_PLANS", 4), ("STRENGTH", 1.5),
         ("DEXTERITY", 1.5), ("INTANGIBLE", 3), ("BUFFER", 2),
     ))
-    if power_leaf_v62:
+    if state.silent_cards_v66:
+        persistent -= 4 * power(state.powers, "WELL_LAID_PLANS")
+        persistent += (0.6 * power(state.powers, "BLOCK_NEXT_TURN") + 2 * power(state.powers, "FREE_SKILL")
+                       + 3 * (power(state.powers, "DOUBLE_DAMAGE") + power(state.powers, "SHADOW_STEP")))
+    if power_leaf_v62 or state.silent_cards_v66:
         persistent += _power_value(state) - 3.5 * power(state.powers, "AFTERIMAGE") - 1.5 * power(state.powers, "DEXTERITY")
     category = {"victory": VICTORY, "completed": SURVIVED, "dead": DEAD}.get(
         state.outcome, UNRESOLVED)
@@ -170,7 +180,7 @@ def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False):
     setup = 2 * state.energy + 4 * power(state.powers, "BURST") + 3 * power(state.powers, "DUPLICATION")
     safety = state.hp - max(0, pressure - state.block) + 0.6 * setup
     development = progress + setup - reserve_price * state.spent + 0.2 * min(state.block, pressure)
-    if power_leaf_v62:
+    if power_leaf_v62 or state.silent_cards_v66:
         # Development uses damage units, whereas completed leaves price damage
         # at 0.35 HP. Keep the independent safety quota exactly as before.
         development += _power_value(state) / 0.35

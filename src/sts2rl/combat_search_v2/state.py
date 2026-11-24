@@ -63,6 +63,7 @@ class Variant:
     flags: tuple[str, ...] = ()
     modifier: tuple[tuple[str, str, int], ...] = ()
     stats: Powers = ()
+    free_skill_cost: int = -1
 
 
 @dataclass(frozen=True, slots=True)
@@ -201,6 +202,11 @@ class State:
     kaiser_v63: bool = False
     puzzle_triggered: bool = False
     melted_fan: bool = False
+    silent_cards_v66: bool = False
+    attacks_this_turn: int = -1
+    discards_this_turn: int = -1
+    draws_this_combat: int = -1
+    shivs_this_turn: int = -1
 
     @property
     def hallway(self):
@@ -254,7 +260,7 @@ def _indices(rows):
     return indices
 
 
-def project(public, *, late_prompts=False):
+def project(public, *, late_prompts=False, silent_cards_v66=False):
     """Read explicit fields only, with stable local slots and unordered piles."""
     decision = public["decision"]
     is_prompt = decision == "card_select"
@@ -292,7 +298,7 @@ def project(public, *, late_prompts=False):
         piles.append(zone)
     potion_rows = player["potions"]
     potions = tuple(Potion(slot, entry(p["id"]), p["target_type"], p["can_use"],
-                           numbers(p.get("vars"), (*POTION_STATS, "Repeat") if late_prompts and
+                           numbers(p.get("vars"), (*POTION_STATS, "Repeat") if (late_prompts or silent_cards_v66) and
                                    entry(p["id"]) == "STABLE_SERUM" else POTION_STATS))
                     for slot, p in enumerate(potion_rows))
     relics = tuple(Relic(entry(r["id"]), integer(r["counter"]) if r.get("counter") is not None else None,
@@ -306,6 +312,9 @@ def project(public, *, late_prompts=False):
                   *piles, potions, relics, len(hand), power(powers, "VULNERABLE") > 0,
                   power(powers, "INTANGIBLE") > 0, floor=integer(ctx.get("floor", 0)),
                   seal_gold=integer(player["gold"]) if any(r.name == "SEAL_OF_GOLD" for r in relics) else 0)
+    if silent_cards_v66:
+        from .silent_cards import history_counts
+        state = replace(state, silent_cards_v66=True, **history_counts(hand, state))
     prompt_indices = ()
     if late_prompts and state.act == 2 and state.room == "Elite" and any(
             e.name.startswith("DECIMILLIPEDE_SEGMENT_") for e in enemies):
@@ -350,12 +359,19 @@ def _public_prompt(public, state, late_prompts=False):
     mittens = (late_prompts and state.round > 1 and source == {"kind": "end_turn"} and not state.play
                and any(r.name == "TOASTY_MITTENS" for r in state.relics)
                and public.get("min_select") == public.get("max_select") == 1)
-    if mittens:
+    tools = (state.silent_cards_v66 and source == {"kind": "end_turn"} and not state.play
+             and power(state.powers, "TOOLS_OF_THE_TRADE") and state.round > 1
+             and public.get("min_select") == public.get("max_select") == power(state.powers, "TOOLS_OF_THE_TRADE"))
+    if tools and mittens:
+        raise Unsupported("ambiguous start turn selection")
+    if tools:
+        card = "TOOLS_OF_THE_TRADE"
+    elif mittens:
         card = "TOASTY_MITTENS"
     elif source.get("kind") != "play_card" or (card not in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW")
-                                              and not (late_prompts and card == "HIDDEN_DAGGERS")):
+                                              and not ((late_prompts or state.silent_cards_v66) and card == "HIDDEN_DAGGERS")):
         raise Unsupported("selection operation")
-    if not mittens and (len(state.play) != 1 or state.play[0].name != card):
+    if not mittens and not tools and (len(state.play) != 1 or state.play[0].name != card):
         raise Unsupported("selection continuation")
     rows = public["cards"]
     if len(rows) != len(state.hand) or any(

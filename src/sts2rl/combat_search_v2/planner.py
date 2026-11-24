@@ -24,6 +24,7 @@ class Config:
     early_escape_v62: bool = False
     kaiser_v63: bool = False
     wax_fan_v64: bool = False
+    silent_cards_v66: bool = False
 
     def late_root(self, act, room):
         if act == 3:
@@ -36,7 +37,7 @@ class Config:
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
                 or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
                                                       self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62,
-                                                      self.kaiser_v63, self.wax_fan_v64))
+                                                      self.kaiser_v63, self.wax_fan_v64, self.silent_cards_v66))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
@@ -298,8 +299,9 @@ def search(projected, roots, champion, config=Config(), *, model=None, record_ti
     v61_rules = late and (config.v61_act2_hallways_act3 or config.v61_boss_safe)
     kaiser = config.kaiser_v63 and late and state.act == 2 and state.room == "Boss" and bool(state.enemies) and all(
         e.name in ("CRUSHER", "ROCKET") for e in state.enemies)
-    if state.late != late or state.v61_rules != v61_rules or state.kaiser_v63 != kaiser:
-        projected = replace(projected, state=replace(state, late=late, v61_rules=v61_rules, kaiser_v63=kaiser))
+    if state.late != late or state.v61_rules != v61_rules or state.kaiser_v63 != kaiser or state.silent_cards_v66 != config.silent_cards_v66:
+        projected = replace(projected, state=replace(state, late=late, v61_rules=v61_rules, kaiser_v63=kaiser,
+                                                     silent_cards_v66=config.silent_cards_v66))
     boss_safe = config.v61_boss_safe and state.act == 2 and state.room == "Boss"
     if boss_safe and state.curse_options:
         return Result(champion, root_count=len(roots), fallback="champion knowledge curse")

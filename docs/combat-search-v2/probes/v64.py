@@ -34,11 +34,12 @@ def cohort():
     return rows
 
 
-def episode(folder, bundle, triple, *, offer_context=False, audit_draw_order=False):
+def episode(folder, bundle, triple, *, offer_context=False, audit_draw_order=False, card_counts=False):
     i, seed, mode = triple
     role, opts = load_bundle(bundle)
     events, deck_size = [], {}
     acquisition_context = []
+    played = Counter()
     commands = hashlib.sha256()
     history = []
 
@@ -50,6 +51,8 @@ def episode(folder, bundle, triple, *, offer_context=False, audit_draw_order=Fal
             deck_size[act] = len(deck)
         history.append(action.command())
         commands.update(json.dumps(history[-1], sort_keys=True).encode() + b"\n")
+        if card_counts and action.kind == "play_card":
+            played[state["hand"][action.args["card_index"]]["id"].removeprefix("CARD.")] += 1
         kind = state["decision"]
         if kind in ("card_reward", "shop", "bundle_select"):
 
@@ -97,6 +100,7 @@ def episode(folder, bundle, triple, *, offer_context=False, audit_draw_order=Fal
                     "compact_combat_summary": True,
                     "time_combat_decisions": True,
                     "audit_compact": True,
+                    **({"audit_card_counts": True} if card_counts else {}),
                     **({"audit_draw_order_v65": True} if audit_draw_order else {}),
                 },
             ),
@@ -132,6 +136,8 @@ def episode(folder, bundle, triple, *, offer_context=False, audit_draw_order=Fal
     if audit_draw_order:
         receipt["independent_native"] = row["independent_native"]
         receipt["draw_order_boundaries"] = row.get("draw_order_boundaries", [])
+    if card_counts:
+        receipt.update(played=played, card_oracle_counts=row.get("card_oracle_counts", {}))
     if receipt["mismatches"]:
         receipt["history"] = history
     path = folder / (seed + ".json.gz")

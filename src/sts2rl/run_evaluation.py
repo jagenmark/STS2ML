@@ -443,6 +443,9 @@ def _play_episode(task, ascension, decision_hook):
                             )
                             second_audit = draw_order_boundary
                         compact.audit(record, second_audit)
+                        if options.get("audit_card_counts") and (oracle := record.get("oracle")):
+                            counts = row.setdefault("card_oracle_counts", {}).setdefault(oracle[0], {})
+                            counts[oracle[1]] = counts.get(oracle[1], 0) + 1
                 paid_relics.observe(before, action, state)
                 if act == 3 and action.kind == "select_map_node":
                     draws_normal = (state.get("context") or {}).get("room_type") == "Monster"

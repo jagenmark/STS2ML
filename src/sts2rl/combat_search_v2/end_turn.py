@@ -98,7 +98,7 @@ def _hand_end(state):
         if any(c.variant.name in _HAND_DAMAGE for c in hand) or power(state.powers, "CONSTRICT"):
             return boundary(state, "regen and hand damage ordering")
         state = replace(state, hp=min(state.max_hp, state.hp + regen), powers=add_power(state.powers, "REGEN", -1))
-    if power(state.powers, "PHANTOM_BLADES") and any(c.variant.name == "SHIV" for c in hand):
+    if not state.silent_cards_v66 and power(state.powers, "PHANTOM_BLADES") and any(c.variant.name == "SHIV" for c in hand):
         return boundary(state, "phantom blades retained shiv")
     constrict = power(state.powers, "CONSTRICT")
     if constrict and any(e.name == STRANGLER and e.hp > 0 for e in state.enemies):
@@ -111,7 +111,7 @@ def _hand_end(state):
     status_keep = []
     discard = list(state.discard)
     exhaust = list(state.exhaust)
-    retain = power(state.powers, "WELL_LAID_PLANS") or (state.late and
+    retain = power(state.powers, "WELL_LAID_PLANS") or ((state.late or state.silent_cards_v66) and
              (power(state.powers, "RETAIN_HAND") or any(r.name == "RUNIC_PYRAMID" for r in state.relics)))
     for c in hand:
         v = c.variant
@@ -126,7 +126,10 @@ def _hand_end(state):
             (status_keep if amount else remaining).append(c)
         else:
             discard.append(outside_hand(v))
-    powers = _tick(state.powers, ("RETAIN_HAND",)) if state.late else state.powers
+    powers = _tick(state.powers, ("RETAIN_HAND",)) if state.late or state.silent_cards_v66 else state.powers
+    if state.silent_cards_v66:
+        powers = set_power(set_power(powers, "SHADOWMELD", 0), "CORROSIVE_WAVE", 0)
+        powers = _tick(powers, ("DOUBLE_DAMAGE",))
     if ritual := power(powers, "RITUAL"):
         powers = add_power(powers, "STRENGTH", ritual)
     if state.late and (flex := power(powers, "FLEX_POTION")):
@@ -285,6 +288,10 @@ def _enemy_actions(state):
             enemy = state.enemies[slot]
         powers = _tick(enemy.powers, (name for name in ("WEAK", "VULNERABLE", "INTANGIBLE")
                                       if power(prior_powers, name)))
+        if state.silent_cards_v66:
+            powers = set_power(powers, "STRANGLE", 0)
+            if loss := power(powers, "PIERCING_WAIL"):
+                powers = add_power(set_power(powers, "PIERCING_WAIL", 0), "STRENGTH", loss)
         intents = STUN if fully_blocked and power(powers, "IMBALANCED") else enemy.intents
         if powers != enemy.powers or enemy.attack_delta or intents != enemy.intents:
             state = replace(state, enemies=(*state.enemies[:slot], replace(enemy, powers=powers, attack_delta=0,
@@ -316,7 +323,7 @@ def _start_player(state, prior_powers):
         powers = _tick(powers, ("PLATING",))
     max_energy = state.max_energy
     energy = max_energy + power(powers, "ENERGY_NEXT_TURN")
-    if state.late:
+    if state.late or state.silent_cards_v66:
         bonus_draw -= power(powers, "MIND_ROT")
         if prep := power(powers, "PREP_TIME"):
             powers = add_power(powers, "VIGOR", prep)
@@ -430,6 +437,11 @@ def _start_player(state, prior_powers):
         block += sum(power(r.stats, "block") for r in state.relics if r.name == "HORN_CLEAT" and not r.used)
     if state.round == 2:
         block += sum(power(r.stats, "block") for r in state.relics if r.name == "CAPTAINS_WHEEL" and not r.used)
+    if state.silent_cards_v66:
+        block += power(powers, "BLOCK_NEXT_TURN")
+        powers = set_power(powers, "BLOCK_NEXT_TURN", 0)
+        if steps := power(powers, "SHADOW_STEP"):
+            powers = add_power(set_power(powers, "SHADOW_STEP", 0), "DOUBLE_DAMAGE", steps)
     hp = state.hp
     if poison := power(powers, "POISON"):
         if state.remnant_floor is not None:
@@ -442,7 +454,14 @@ def _start_player(state, prior_powers):
         return _lethal(replace(state, hp=hp, block=block, powers=powers))
     reveal = None
     outcome = "completed"
-    for name in ("NIGHTMARE", "TOOLS_OF_THE_TRADE"):
+    if state.silent_cards_v66:
+        bonus_draw += power(powers, "TOOLS_OF_THE_TRADE")
+        if power(powers, "TOOLS_OF_THE_TRADE") and (mittens or
+                (len(state.hand) + min(5 + bonus_draw, len(state.draw) + len(state.discard)) <=
+                 power(powers, "TOOLS_OF_THE_TRADE") and any("Sly" in v.keywords for v in
+                 (*state.draw, *state.discard, *(c.variant for c in state.hand))))):
+            return boundary(state, "tools automatic discard ordering")
+    for name in (("NIGHTMARE",) if state.silent_cards_v66 else ("NIGHTMARE", "TOOLS_OF_THE_TRADE")):
         if hp and power(powers, name):
             reveal, outcome = Boundary(f"start/{name}"), ""
             break
@@ -472,6 +491,8 @@ def _start_player(state, prior_powers):
 def resolve(state):
     if state.outcome or state.boundary:
         return state
+    if state.silent_cards_v66 and any(v.name == "I_AM_INVINCIBLE" for v in state.draw):
+        return boundary(state, "I Am Invincible on unordered draw pile")
     if reason := encounter_reason(state):
         return boundary(state, reason)
     if state.hallway and state.reattach_pending and any(e.name.startswith("DECIMILLIPEDE_SEGMENT_") for e in state.enemies):

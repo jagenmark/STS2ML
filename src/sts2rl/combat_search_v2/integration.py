@@ -98,7 +98,7 @@ def _after_draw_prompt(suspended, public):
     if (suspended.boundary.reason != "draw" or public.get("decision") != "card_select"
             or not suspended.queue or suspended.queue[0].kind != "prompt"):
         return None
-    current = project(public, late_prompts=True).state if suspended.late else project(public).state
+    current = project(public, late_prompts=suspended.late, silent_cards_v66=suspended.silent_cards_v66).state
     event, *tail = suspended.queue
     if (current.prompt.operation != event.play.card.variant.name or not tail
             or any(op.kind not in ("after_play", "finish") for op in tail)
@@ -199,7 +199,7 @@ class CombatSearchV2:
             return
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
-                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64"):
+                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64", "silent_cards_v66"):
             if not config[switch]:
                 del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
@@ -226,7 +226,7 @@ class CombatSearchV2:
                 raise Unsupported("runtime")
             ctx = public.get("combat_state", public).get("context") or {}
             late_root = self.config.late_root(ctx.get("act"), ctx.get("room_type"))
-            projected = project(public, late_prompts=late_root)
+            projected = project(public, late_prompts=late_root, silent_cards_v66=self.config.silent_cards_v66)
             state = projected.state
             if self.config.wax_fan_v64 and self._melted_fan:
                 state = replace(state, melted_fan=True)
@@ -432,10 +432,10 @@ class CombatSearchV2:
                        if predicted.outcome == "dead" else not after.get("in_combat"))
             evidence = "match" if matches else "mismatch"
             reason = "" if matches else "outcome"
-        elif (self.records is not None or predicted.prompt or (predicted.late and predicted.outcome == "completed"
+        elif (self.records is not None or predicted.prompt or ((predicted.late or predicted.silent_cards_v66) and predicted.outcome == "completed"
                 and after.get("decision") == "card_select")):
             try:
-                actual = project(after, late_prompts=predicted.late)
+                actual = project(after, late_prompts=predicted.late, silent_cards_v66=predicted.silent_cards_v66)
                 if predicted.late:
                     actual = replace(actual, state=replace(actual.state, late=True, facing=predicted.facing,
                                      preview_facing=predicted.facing, sloth_plays=self._plays,
@@ -448,8 +448,8 @@ class CombatSearchV2:
                     if native != legal(actual.state) or expected != _normalized_legal(actual.state):
                         reason = "legality"
                 evidence = "mismatch" if reason else "match"
-                if (predicted.late and predicted.outcome == "completed" and not reason and actual.state.prompt
-                        and actual.state.prompt.operation == "TOASTY_MITTENS"):
+                if ((predicted.late or predicted.silent_cards_v66) and predicted.outcome == "completed" and not reason and actual.state.prompt
+                        and actual.state.prompt.operation in ("TOASTY_MITTENS", "TOOLS_OF_THE_TRADE")):
                     self._prompt = actual.state
                 elif predicted.prompt and not reason:
                     self._prompt = predicted
