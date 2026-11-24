@@ -72,14 +72,22 @@ def test_kaiser_puzzle_witness_and_native_draw_order(tmp_path):
             o.public = kaiser_public(o.command(**end.command()))
             mode.observe(end, o.public, legal_actions)
             assert mode.records[-1]["oracle"][1:] == ["unresolved", "centennial puzzle draw"]
-            end = action(o, "end_turn")
             order = sorted((c["id"].split(".")[-1] for c in o.public["draw_pile"]), reverse=rev)
             o.command(cmd="set_draw_order", cards=order)
+            # A fixed non-draw play obtains a fresh native public board after
+            # each permutation. The scenario command's private reply stays outside the planner.
+            fixed = next(a for a in legal_actions(o.public) if a.kind == "play_card" and
+                         o.public["hand"][a.args["card_index"]]["id"] == "CARD.DEFEND_SILENT")
+            mode.choose(o.public, fixed, legal_actions, facing=1)
+            o.public = kaiser_public(o.command(**fixed.command()))
+            mode.observe(fixed, o.public, legal_actions)
+            end = action(o, "end_turn")
             mode.choose(o.public, end, legal_actions, facing=1)
             p = mode._decision[0]
             assert p.state.puzzle_triggered
             result = planner.search(p, legal(p.state), END_TURN, mode.config)
-            results.append((result.choice, result.root_scores, result.fallback, result.attempts))
+            assert result.attempts > 0 and result.line.state.outcome == "completed"
+            results.append((p.state, result.choice, result.root_scores, result.fallback, result.attempts))
             after = kaiser_public(o.command(**end.command()))
             hands.append([c["id"] for c in after["hand"]])
             mode.observe(end, after, legal_actions)
@@ -119,3 +127,20 @@ def test_kaiser_poison_and_area_cards(tmp_path, card, upgraded):
             assert not predicted.boundary or predicted.outcome == "completed"
             o.public = o.command(**chosen.command())
             assert not _difference(predicted, projected(o.public, 1).state)
+
+
+def test_kaiser_poison_kill_before_defend_on_development_fixture(tmp_path):
+    with NativeSession(ROOT, tmp_path / "game", host_path=HOST) as host:
+        o = Oracle(host)
+        o.start("RAGE", ["DEADLY_POISON"] * 12, encounter="KAISER_CRAB_BOSS", hp=400,
+                seed="CSV7FIX_POISON_BEFORE_DEFEND")
+        for turn in range(1, 6):
+            assert o.public["round"] == turn
+            for _ in range(3):
+                o.public = o.command(**action(o, "play_card", 1).command())
+            p = projected(o.public, 1)
+            predicted = advance(p.state, END_TURN)
+            assert predicted.outcome == "completed"
+            o.public = o.command(**action(o, "end_turn").command())
+            assert not _difference(predicted, projected(o.public, 1).state)
+        assert [(e["id"], e["block"]) for e in o.public["enemies"]] == [("MONSTER.CRUSHER", 117)]

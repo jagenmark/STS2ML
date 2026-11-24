@@ -4,7 +4,7 @@ import argparse
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from contextlib import ExitStack
-from dataclasses import asdict
+from dataclasses import asdict, replace
 import gzip
 import hashlib
 import json
@@ -15,7 +15,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 import zipfile
 
-from sts2rl.combat_search_v2 import planner, episode_summary, value
+from sts2rl.combat_search_v2 import planner, episode_summary, value, end_turn
 from sts2rl.combat_search_v2.integration import CombatSearchV2
 from sts2rl.native import NativeSession, NativeError, digest, legal_actions
 from sts2rl.run_bundle import load_bundle
@@ -62,6 +62,16 @@ def episode(job):
     history, turns, errors = [], [], []
     opening = facing = current = alternative = None
     coverage = Counter()
+    preview_trials = Counter()
+    failed_boundaries = ()
+    original_amount = end_turn.attack_amount
+
+    def diagnose_amount(state, enemy, intent):
+        amount = original_amount(state, enemy, intent)
+        if amount is None and enemy.name in ("CRUSHER", "ROCKET"):
+            exact = original_amount(replace(state, kaiser_v63=True), enemy, intent)
+            preview_trials["still_ambiguous" if exact is None else "resolved"] += 1
+        return amount
 
     def step(host, action):
         nonlocal current
@@ -103,13 +113,16 @@ def episode(job):
             )
 
     def choose_facing(search, public, champion, enumerate_actions, **kwargs):
-        nonlocal facing
+        nonlocal facing, failed_boundaries
+        preview_trials.clear()
+        failed_boundaries = ()
         facing = kwargs.get("facing")
         return choose(search, public, champion, enumerate_actions, **kwargs)
 
     def compare(search):
-        nonlocal alternative
+        nonlocal alternative, failed_boundaries
         result = original_result(search)
+        failed_boundaries = tuple(k for k, _ in result.boundary_counts)
         if (
             audit
             and result.line
@@ -172,6 +185,8 @@ def episode(job):
                             fallback=fallback,
                             eligible=eligible,
                             alternative=alternative,
+                            failed_boundaries=failed_boundaries,
+                            preview_trials=dict(preview_trials),
                         )
                     )
             alternative = facing = None
@@ -194,6 +209,8 @@ def episode(job):
                 return original(state)
 
             stack.enter_context(patch.object(value, "_boss_adjustment", no_rage))
+        if arm == "preview-audit":
+            stack.enter_context(patch.object(end_turn, "attack_amount", diagnose_amount))
         if audit:
             stack.enter_context(patch.object(CombatSearchV2, "choose", choose_facing))
             stack.enter_context(patch.object(planner._Search, "result", compare))
@@ -264,7 +281,9 @@ def run_pair(job):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("panel", choices=("audit", "dev"))
-    p.add_argument("arm", choices=("control", "treatment", "rage-ablation", "paired"))
+    p.add_argument(
+        "arm", choices=("control", "treatment", "rage-ablation", "preview-audit", "paired")
+    )
     p.add_argument("out", type=Path)
     p.add_argument("--workers", required=True, type=int, choices=[12])
     args = p.parse_args()

@@ -1,0 +1,851 @@
+{
+  "audit": {
+    "control": {
+      "n": 45,
+      "mean_floor": 33.24444444444445,
+      "act1_clears": 45,
+      "act2_entries": 45,
+      "act2_clears": 1,
+      "act3_entries": 0,
+      "full_wins": 0,
+      "native": {
+        "match": 9524,
+        "unresolved": 985
+      },
+      "zero_comparable": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": {
+          "clears": 1,
+          "entries": 45
+        },
+        "KNOWLEDGE_DEMON": {
+          "clears": 0,
+          "entries": 0
+        },
+        "THE_INSATIABLE": {
+          "clears": 0,
+          "entries": 0
+        }
+      },
+      "kaiser_covered": 427,
+      "kaiser_eligible": 1184,
+      "kaiser_coverage_pct": 36.064189189189186,
+      "fallback": {
+        "card/EXTERMINATE": 21,
+        "covered": 427,
+        "champion continuation unresolved": 75,
+        "selection operation": 16,
+        "no certified survival": 255,
+        "uncertified root at cap": 31,
+        "card/BLOOD_WALL": 2,
+        "unreconciled prompt": 31,
+        "card/FIGHT_ME": 3,
+        "vambrace triggered block ordering": 1,
+        "card/DELAY": 5,
+        "card/METAMORPHOSIS": 9,
+        "card/REAVE": 3,
+        "relic/BEATING_REMNANT": 32,
+        "player power/NEUROSURGE": 17,
+        "player power/DOOM": 16,
+        "card/NEUROSURGE": 2,
+        "card/DRAIN_POWER": 4,
+        "card/MISERY": 3,
+        "disabled wax relic": 35,
+        "player power/FREE_SKILL": 5,
+        "card/MIRAGE": 8,
+        "card/ENVENOM": 4,
+        "card/TRACKING": 1,
+        "player power/TRACKING": 20,
+        "card/STRANGLE": 9,
+        "card/BURY": 5,
+        "card/PHOTON_CUT": 1,
+        "card/CELESTIAL_MIGHT": 3,
+        "card/HELLO_WORLD": 11,
+        "relic/CAULDRON": 21,
+        "player power/BORROWED_TIME": 3,
+        "card/CAPTURE_SPIRIT": 7,
+        "player power/REPTILE_TRINKET": 1,
+        "relic/THE_ABACUS": 16,
+        "relic/GHOST_SEED": 33,
+        "relic/RAINBOW_RING": 9,
+        "card/SOLAR_STRIKE": 3,
+        "card/DARK_SHACKLES": 1,
+        "enemy power/DARK_SHACKLES": 3,
+        "card/SPEEDSTER": 5,
+        "enemy power/DOOM": 13,
+        "card/PIERCING_WAIL": 4,
+        "enemy power/PIERCING_WAIL": 2,
+        "card/SCULPTING_STRIKE": 8
+      },
+      "kaiser_median_enemy_hp_deaths": 263.0,
+      "kaiser_median_exit_hp": 0,
+      "kaiser_mean_exit_hp": 0.3333333333333333,
+      "kaiser_clear_exit_hp": [
+        15
+      ],
+      "latency_samples": 13927,
+      "p50_ms": 2.901,
+      "p95_ms": 59.452
+    },
+    "treatment": {
+      "n": 45,
+      "mean_floor": 33.75555555555555,
+      "act1_clears": 45,
+      "act2_entries": 45,
+      "act2_clears": 3,
+      "act3_entries": 1,
+      "full_wins": 0,
+      "native": {
+        "match": 9722,
+        "unresolved": 994
+      },
+      "zero_comparable": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": {
+          "clears": 3,
+          "entries": 45
+        },
+        "KNOWLEDGE_DEMON": {
+          "clears": 0,
+          "entries": 0
+        },
+        "THE_INSATIABLE": {
+          "clears": 0,
+          "entries": 0
+        }
+      },
+      "kaiser_covered": 574,
+      "kaiser_eligible": 1177,
+      "kaiser_coverage_pct": 48.76805437553101,
+      "fallback": {
+        "covered": 574,
+        "champion continuation unresolved": 73,
+        "selection operation": 17,
+        "no certified survival": 234,
+        "card/BLOOD_WALL": 2,
+        "unreconciled prompt": 26,
+        "card/FIGHT_ME": 3,
+        "vambrace triggered block ordering": 1,
+        "card/DELAY": 5,
+        "card/METAMORPHOSIS": 17,
+        "card/REAVE": 2,
+        "card/BLIGHT_STRIKE": 5,
+        "relic/BEATING_REMNANT": 4,
+        "card/FRIENDSHIP": 2,
+        "card/NEUROSURGE": 4,
+        "player power/NEUROSURGE": 17,
+        "player power/DOOM": 16,
+        "card/DRAIN_POWER": 4,
+        "card/MISERY": 3,
+        "disabled wax relic": 35,
+        "player power/FREE_SKILL": 5,
+        "card/MIRAGE": 8,
+        "card/TRACKING": 1,
+        "player power/TRACKING": 20,
+        "card/STRANGLE": 5,
+        "enemy power/STRANGLE": 1,
+        "card/BURY": 5,
+        "card/PHOTON_CUT": 1,
+        "card/CELESTIAL_MIGHT": 3,
+        "card/HELLO_WORLD": 11,
+        "card/REAP": 7,
+        "player power/BORROWED_TIME": 3,
+        "card/CAPTURE_SPIRIT": 7,
+        "player power/REPTILE_TRINKET": 1,
+        "relic/THE_ABACUS": 16,
+        "relic/RAINBOW_RING": 9,
+        "card/SOLAR_STRIKE": 3,
+        "card/DARK_SHACKLES": 1,
+        "enemy power/DARK_SHACKLES": 3,
+        "card/SPEEDSTER": 5,
+        "enemy power/DOOM": 13,
+        "card/PIERCING_WAIL": 3,
+        "card/SCULPTING_STRIKE": 2
+      },
+      "kaiser_median_enemy_hp_deaths": 276.0,
+      "kaiser_median_exit_hp": 0,
+      "kaiser_mean_exit_hp": 0.4444444444444444,
+      "kaiser_clear_exit_hp": [
+        2,
+        3,
+        15
+      ],
+      "latency_samples": 14172,
+      "p50_ms": 2.89,
+      "p95_ms": 63.142
+    },
+    "rage-ablation": {
+      "n": 45,
+      "mean_floor": 33.24444444444445,
+      "act1_clears": 45,
+      "act2_entries": 45,
+      "act2_clears": 1,
+      "act3_entries": 0,
+      "full_wins": 0,
+      "native": {
+        "match": 9517,
+        "unresolved": 986
+      },
+      "zero_comparable": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": {
+          "clears": 1,
+          "entries": 45
+        },
+        "KNOWLEDGE_DEMON": {
+          "clears": 0,
+          "entries": 0
+        },
+        "THE_INSATIABLE": {
+          "clears": 0,
+          "entries": 0
+        }
+      },
+      "kaiser_covered": 421,
+      "kaiser_eligible": 1179,
+      "kaiser_coverage_pct": 35.708227311280744,
+      "fallback": {
+        "card/EXTERMINATE": 21,
+        "covered": 421,
+        "champion continuation unresolved": 76,
+        "selection operation": 16,
+        "no certified survival": 255,
+        "uncertified root at cap": 31,
+        "card/BLOOD_WALL": 2,
+        "unreconciled prompt": 31,
+        "card/FIGHT_ME": 3,
+        "vambrace triggered block ordering": 1,
+        "card/DELAY": 5,
+        "card/METAMORPHOSIS": 9,
+        "card/REAVE": 3,
+        "relic/BEATING_REMNANT": 32,
+        "player power/NEUROSURGE": 17,
+        "player power/DOOM": 16,
+        "card/NEUROSURGE": 2,
+        "card/DRAIN_POWER": 4,
+        "card/MISERY": 3,
+        "disabled wax relic": 35,
+        "player power/FREE_SKILL": 5,
+        "card/MIRAGE": 8,
+        "card/ENVENOM": 4,
+        "card/TRACKING": 1,
+        "player power/TRACKING": 20,
+        "card/STRANGLE": 9,
+        "card/BURY": 5,
+        "card/PHOTON_CUT": 1,
+        "card/CELESTIAL_MIGHT": 3,
+        "card/HELLO_WORLD": 11,
+        "relic/CAULDRON": 21,
+        "player power/BORROWED_TIME": 3,
+        "card/CAPTURE_SPIRIT": 7,
+        "player power/REPTILE_TRINKET": 1,
+        "relic/THE_ABACUS": 16,
+        "relic/GHOST_SEED": 33,
+        "relic/RAINBOW_RING": 9,
+        "card/SOLAR_STRIKE": 3,
+        "card/DARK_SHACKLES": 1,
+        "enemy power/DARK_SHACKLES": 3,
+        "card/SPEEDSTER": 5,
+        "enemy power/DOOM": 13,
+        "card/PIERCING_WAIL": 4,
+        "enemy power/PIERCING_WAIL": 2,
+        "card/SCULPTING_STRIKE": 8
+      },
+      "kaiser_median_enemy_hp_deaths": 263.0,
+      "kaiser_median_exit_hp": 0,
+      "kaiser_mean_exit_hp": 0.3333333333333333,
+      "kaiser_clear_exit_hp": [
+        15
+      ],
+      "latency_samples": 13916,
+      "p50_ms": 2.883,
+      "p95_ms": 62.452
+    },
+    "paired": {
+      "n": 45,
+      "delta_floor": 0.5111111111111111,
+      "ci95": [
+        0.0,
+        1.3777777777777778
+      ],
+      "wins": 2,
+      "losses": 0,
+      "ties": 43,
+      "sign_p": 0.5,
+      "same_openings": 45,
+      "changed_commands": 35,
+      "changed_by_boss": {
+        "CRUSHER+ROCKET": 35
+      },
+      "paired_floor_changes": {
+        "AUDIT384_DEFAULT_0078": 16,
+        "AUDIT384_DEFAULT_0120": 7
+      }
+    },
+    "rage_paired": {
+      "n": 45,
+      "delta_floor": 0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 0,
+      "ties": 45,
+      "sign_p": 1,
+      "same_openings": 45,
+      "changed_commands": 1,
+      "changed_by_boss": {
+        "CRUSHER+ROCKET": 1
+      },
+      "paired_floor_changes": {}
+    },
+    "control_turn_evidence": {
+      "targeted_both": 45,
+      "first_kill": {
+        "both on last public board": {
+          "entries": 41,
+          "clears": 0
+        },
+        "Crusher first": {
+          "entries": 3,
+          "clears": 1
+        },
+        "Rocket first": {
+          "entries": 1,
+          "clears": 0
+        }
+      },
+      "kill_candidate_roots": {
+        "('covered', False)": 2,
+        "('uncertified root at cap', True)": 1,
+        "('covered', True)": 9,
+        "('champion continuation unresolved', False)": 3
+      },
+      "round3_both_took_damage": 43,
+      "round3_median_hp_lost": [
+        55,
+        27
+      ],
+      "rounds": {
+        "1": {
+          "end_turns": 45,
+          "player_hp_median": 58,
+          "enemy_hp_median": 385,
+          "facing": {
+            "heavier": 45
+          }
+        },
+        "2": {
+          "end_turns": 45,
+          "player_hp_median": 47,
+          "enemy_hp_median": 362,
+          "facing": {
+            "heavier": 42,
+            "lighter": 3
+          }
+        },
+        "3": {
+          "end_turns": 43,
+          "player_hp_median": 30,
+          "enemy_hp_median": 325,
+          "facing": {
+            "heavier": 41,
+            "lighter": 1,
+            "equal": 1
+          }
+        },
+        "4": {
+          "end_turns": 42,
+          "player_hp_median": 27.0,
+          "enemy_hp_median": 291.5,
+          "facing": {
+            "heavier": 41,
+            "lighter": 1
+          }
+        },
+        "5": {
+          "end_turns": 23,
+          "player_hp_median": 14,
+          "enemy_hp_median": 228,
+          "facing": {
+            "heavier": 21,
+            "single_or_unknown": 2
+          }
+        },
+        "6": {
+          "end_turns": 17,
+          "player_hp_median": 8,
+          "enemy_hp_median": 185,
+          "facing": {
+            "heavier": 15,
+            "single_or_unknown": 2
+          }
+        },
+        "7": {
+          "end_turns": 8,
+          "player_hp_median": 6.5,
+          "enemy_hp_median": 142.0,
+          "facing": {
+            "heavier": 6,
+            "single_or_unknown": 2
+          }
+        },
+        "8": {
+          "end_turns": 2,
+          "player_hp_median": 7.5,
+          "enemy_hp_median": 105.5,
+          "facing": {
+            "single_or_unknown": 1,
+            "heavier": 1
+          }
+        }
+      }
+    },
+    "forensic_boundaries": {
+      "fatal_majorities": {
+        "search_certification": 8,
+        "mixed": 7,
+        "covered": 16,
+        "mechanic_or_scope": 13
+      },
+      "majority_mechanic_reasons": {
+        "card/DELAY": 5,
+        "card/METAMORPHOSIS": 7,
+        "card/REAVE": 3,
+        "relic/BEATING_REMNANT": 32,
+        "unreconciled prompt": 16,
+        "player power/NEUROSURGE": 17,
+        "player power/DOOM": 16,
+        "selection operation": 6,
+        "card/NEUROSURGE": 2,
+        "disabled wax relic": 35,
+        "card/TRACKING": 1,
+        "player power/TRACKING": 20,
+        "card/PHOTON_CUT": 1,
+        "card/CELESTIAL_MIGHT": 3,
+        "card/HELLO_WORLD": 11,
+        "relic/CAULDRON": 21,
+        "player power/BORROWED_TIME": 3,
+        "card/CAPTURE_SPIRIT": 7,
+        "relic/THE_ABACUS": 16,
+        "relic/GHOST_SEED": 33,
+        "relic/RAINBOW_RING": 9,
+        "card/SPEEDSTER": 5,
+        "enemy power/DOOM": 13
+      },
+      "no_survival_leaf_kinds": {
+        "unresolved": 126,
+        "dead+unresolved": 59,
+        "dead": 70
+      },
+      "all_failed_boundaries": {
+        "pocketwatch card limit": 12,
+        "ambiguous attack preview": 38,
+        "card selection/SEEKER_STRIKE": 3,
+        "outbreak": 8,
+        "potion/FLEX_POTION": 5,
+        "potion/LUCKY_TONIC": 2,
+        "belt buckle last potion": 3,
+        "draw": 61,
+        "parrying shield target": 9,
+        "potion/ATTACK_POTION": 9,
+        "potion/SNECKO_OIL": 2,
+        "stone calendar activation": 4,
+        "vigor consumption timing": 2,
+        "pounce": 12,
+        "crab rage area hit ordering": 3,
+        "ricochet": 4,
+        "potion/FRUIT_JUICE": 6,
+        "kusarigama random target": 6,
+        "reptile trinket temporary strength": 16,
+        "joss paper exhaust counter": 3,
+        "potion/OROBIC_ACID": 3,
+        "finisher": 8,
+        "potion/POWDERED_DEMISE": 3,
+        "automatic fairy potion": 10,
+        "potion/GAMBLERS_BREW": 25,
+        "up_my_sleeve": 6,
+        "centennial puzzle draw": 69,
+        "potion/FORTIFIER": 24,
+        "potion/POWER_POTION": 3,
+        "memento_mori": 3,
+        "pen nib damage ordering": 3,
+        "potion/POTION_SHAPED_ROCK": 2,
+        "potion/DROPLET_OF_PRECOGNITION": 11,
+        "potion/FOUL_POTION": 7,
+        "toasty mittens start turn ordering": 23,
+        "toasty mittens delayed start triggers": 24,
+        "bouncing flask random target": 5,
+        "phantom blades shiv trigger": 9,
+        "phantom blades retained shiv": 4,
+        "vambrace first card block": 1,
+        "potion/CUNNING_POTION": 3,
+        "tingsha discard target": 3
+      },
+      "no_survival_boundaries": {
+        "pocketwatch card limit": 1,
+        "outbreak": 4,
+        "stone calendar activation": 4,
+        "ambiguous attack preview": 18,
+        "draw": 40,
+        "pounce": 5,
+        "crab rage area hit ordering": 1,
+        "ricochet": 1,
+        "parrying shield target": 6,
+        "reptile trinket temporary strength": 12,
+        "finisher": 5,
+        "automatic fairy potion": 10,
+        "centennial puzzle draw": 65,
+        "potion/FORTIFIER": 21,
+        "potion/POWER_POTION": 1,
+        "up_my_sleeve": 5,
+        "memento_mori": 3,
+        "potion/DROPLET_OF_PRECOGNITION": 8,
+        "card selection/SEEKER_STRIKE": 2,
+        "potion/FOUL_POTION": 7,
+        "potion/GAMBLERS_BREW": 21,
+        "toasty mittens start turn ordering": 22,
+        "toasty mittens delayed start triggers": 24,
+        "bouncing flask random target": 4,
+        "phantom blades retained shiv": 4,
+        "phantom blades shiv trigger": 8,
+        "tingsha discard target": 3
+      },
+      "ambiguous_roots": 38,
+      "ambiguous_trials": {
+        "resolved": 1191
+      },
+      "all_ambiguous_trials_resolved_roots": 38
+    }
+  },
+  "dev": {
+    "control": {
+      "n": 384,
+      "mean_floor": 24.580729166666668,
+      "act1_clears": 235,
+      "act2_entries": 112,
+      "act2_clears": 27,
+      "act3_entries": 12,
+      "full_wins": 0,
+      "native": {
+        "match": 69632,
+        "unresolved": 6151
+      },
+      "zero_comparable": 1,
+      "bosses": {
+        "CRUSHER+ROCKET": {
+          "clears": 4,
+          "entries": 40
+        },
+        "KNOWLEDGE_DEMON": {
+          "clears": 10,
+          "entries": 35
+        },
+        "THE_INSATIABLE": {
+          "clears": 13,
+          "entries": 37
+        }
+      },
+      "kaiser_covered": 426,
+      "kaiser_eligible": 1038,
+      "kaiser_coverage_pct": 41.040462427745666,
+      "fallback": {
+        "champion continuation unresolved": 83,
+        "covered": 426,
+        "no certified survival": 207,
+        "card/REAVE": 13,
+        "card/SOUL": 10,
+        "card/EXTERMINATE": 19,
+        "uncertified root at cap": 29,
+        "card/DRAIN_POWER": 2,
+        "card/BANSHEES_CRY": 4,
+        "card/BURY": 1,
+        "card/REAP": 18,
+        "card/TURBO": 1,
+        "player power/SETUP_STRIKE": 8,
+        "unreconciled prompt": 12,
+        "selection operation": 12,
+        "card/STRANGLE": 6,
+        "card/METAMORPHOSIS": 3,
+        "card/PIERCING_WAIL": 2,
+        "enemy power/PIERCING_WAIL": 2,
+        "card/UNTOUCHABLE": 7,
+        "card/BLADE_OF_INK": 2,
+        "card/OFFERING": 2,
+        "player power/REPTILE_TRINKET": 12,
+        "card/STORM_OF_STEEL": 6,
+        "card/SPEEDSTER": 2,
+        "disabled wax relic": 52,
+        "card/BALL_LIGHTNING": 5,
+        "active orb": 28,
+        "relic/SCREAMING_FLAGON": 37,
+        "player power/FREE_SKILL": 11,
+        "card/SUNDER": 3,
+        "card/ERADICATE": 2,
+        "card/DEFILE": 7,
+        "card/DEMESNE": 2,
+        "card/MELANCHOLY": 2
+      },
+      "kaiser_median_enemy_hp_deaths": 232.0,
+      "kaiser_median_exit_hp": 0.0,
+      "kaiser_mean_exit_hp": 1.65,
+      "kaiser_clear_exit_hp": [
+        1,
+        7,
+        8,
+        50
+      ],
+      "latency_samples": 97237,
+      "p50_ms": 2.886,
+      "p95_ms": 57.33
+    },
+    "treatment": {
+      "n": 384,
+      "mean_floor": 24.640625,
+      "act1_clears": 235,
+      "act2_entries": 112,
+      "act2_clears": 29,
+      "act3_entries": 13,
+      "full_wins": 0,
+      "native": {
+        "match": 69800,
+        "unresolved": 6120
+      },
+      "zero_comparable": 1,
+      "bosses": {
+        "CRUSHER+ROCKET": {
+          "clears": 6,
+          "entries": 40
+        },
+        "KNOWLEDGE_DEMON": {
+          "clears": 10,
+          "entries": 35
+        },
+        "THE_INSATIABLE": {
+          "clears": 13,
+          "entries": 37
+        }
+      },
+      "kaiser_covered": 542,
+      "kaiser_eligible": 1046,
+      "kaiser_coverage_pct": 51.81644359464627,
+      "fallback": {
+        "champion continuation unresolved": 60,
+        "covered": 542,
+        "no certified survival": 177,
+        "card/REAVE": 10,
+        "card/SOUL": 9,
+        "card/DRAIN_POWER": 3,
+        "card/BANSHEES_CRY": 4,
+        "card/BURY": 1,
+        "card/REAP": 18,
+        "card/TURBO": 1,
+        "player power/SETUP_STRIKE": 8,
+        "unreconciled prompt": 8,
+        "selection operation": 11,
+        "card/STRANGLE": 4,
+        "enemy power/STRANGLE": 3,
+        "card/FEED": 2,
+        "card/METAMORPHOSIS": 3,
+        "card/PIERCING_WAIL": 2,
+        "enemy power/PIERCING_WAIL": 2,
+        "card/UNTOUCHABLE": 7,
+        "card/BLADE_OF_INK": 2,
+        "card/OFFERING": 2,
+        "player power/REPTILE_TRINKET": 12,
+        "card/STORM_OF_STEEL": 6,
+        "card/SPEEDSTER": 2,
+        "disabled wax relic": 52,
+        "card/BALL_LIGHTNING": 5,
+        "active orb": 28,
+        "relic/SCREAMING_FLAGON": 37,
+        "player power/FREE_SKILL": 10,
+        "card/SUNDER": 2,
+        "card/ERADICATE": 2,
+        "card/DEFILE": 5,
+        "card/DEMESNE": 2,
+        "card/MELANCHOLY": 4
+      },
+      "kaiser_median_enemy_hp_deaths": 240.5,
+      "kaiser_median_exit_hp": 0.0,
+      "kaiser_mean_exit_hp": 2.875,
+      "kaiser_clear_exit_hp": [
+        2,
+        4,
+        7,
+        7,
+        45,
+        50
+      ],
+      "latency_samples": 97387,
+      "p50_ms": 2.896,
+      "p95_ms": 57.09
+    },
+    "paired": {
+      "n": 384,
+      "delta_floor": 0.059895833333333336,
+      "ci95": [
+        -0.0234375,
+        0.17708333333333334
+      ],
+      "wins": 3,
+      "losses": 1,
+      "ties": 380,
+      "sign_p": 0.625,
+      "same_openings": 40,
+      "changed_commands": 33,
+      "changed_by_boss": {
+        "KNOWLEDGE_DEMON": 0,
+        "CRUSHER+ROCKET": 33,
+        "THE_INSATIABLE": 0
+      },
+      "paired_floor_changes": {
+        "CSV7DEV_DEFAULT_0044": 16,
+        "CSV7DEV_DEFAULT_0047": 6,
+        "CSV7DEV_DEFAULT_0112": -7,
+        "CSV7DEV_SEEDED_0118": 8
+      }
+    }
+  },
+  "cohort-proof": {
+    "sha256": "3647cc5d3327c94feb6cd7d4704205c7975c60872438ad556cfccc88ee8eafe5",
+    "count": 384,
+    "historical_names": 63682,
+    "expanded_prefixes": 34,
+    "fetched_tip_count": 24,
+    "scanned_git_objects": 999,
+    "tip_set_sha256": "4f4a76b356bd048aa246bcd38f6b28993f558b94a6abc09c4a03ae11c832d419",
+    "official": 896,
+    "name_overlaps": 0,
+    "xxhash64_overlaps": 0
+  },
+  "qualification": {
+    "frozen_commit": "5f5e9b15e06a489e58c551a01fb79ccbf3acf535",
+    "base": "6e6d3c2dc44c2fcef7990d7c18fbe0f09701e4aa",
+    "release": {
+      "combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+      "combat_value_v2.npz": "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b",
+      "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+      "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+      "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+      "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+      "policy.json": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+      "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+      "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+      "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+    },
+    "baselines": {
+      "off": {
+        "exact_historical_receipts": 24,
+        "native": {}
+      },
+      "active": {
+        "exact_historical_receipts": 24,
+        "native": {
+          "unresolved": 171,
+          "match": 2126
+        }
+      },
+      "shadow": {
+        "exact_historical_receipts": 24,
+        "native": {
+          "unresolved": 351,
+          "match": 3534
+        }
+      }
+    },
+    "audit_control_matching_historical_episodes": 45,
+    "pinned_host_sha256": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+    "pinned_game_sha256": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+    "pytest": "615 passed, 1 skipped in 290.46s (0:04:50)",
+    "ruff": "All checks passed!",
+    "ruff_files": 113
+  },
+  "discovery": {
+    "audit-control": {
+      "n": 45,
+      "act2_clears": 1,
+      "kaiser_eligible": 1184,
+      "kaiser_covered": 427,
+      "kaiser_mean_exit_hp": 0.3333333333333333,
+      "kaiser_median_enemy_hp_deaths": 263.0,
+      "native": {
+        "match": 9524,
+        "unresolved": 985
+      }
+    },
+    "ablation": {
+      "n": 45,
+      "act2_clears": 1,
+      "kaiser_eligible": 1179,
+      "kaiser_covered": 421,
+      "kaiser_mean_exit_hp": 0.3333333333333333,
+      "kaiser_median_enemy_hp_deaths": 263.0,
+      "native": {
+        "match": 9517,
+        "unresolved": 986
+      }
+    },
+    "audit-v1": {
+      "n": 45,
+      "act2_clears": 1,
+      "kaiser_eligible": 1080,
+      "kaiser_covered": 458,
+      "kaiser_mean_exit_hp": 0.3333333333333333,
+      "kaiser_median_enemy_hp_deaths": 281.0,
+      "native": {
+        "match": 9494,
+        "unresolved": 943
+      }
+    },
+    "audit-v2": {
+      "n": 45,
+      "act2_clears": 2,
+      "kaiser_eligible": 1161,
+      "kaiser_covered": 524,
+      "kaiser_mean_exit_hp": 0.37777777777777777,
+      "kaiser_median_enemy_hp_deaths": 274,
+      "native": {
+        "match": 9633,
+        "unresolved": 969
+      }
+    },
+    "audit-v3": {
+      "n": 45,
+      "act2_clears": 1,
+      "kaiser_eligible": 1168,
+      "kaiser_covered": 604,
+      "kaiser_mean_exit_hp": 0.4444444444444444,
+      "kaiser_median_enemy_hp_deaths": 277.5,
+      "native": {
+        "match": 9658,
+        "unresolved": 925
+      }
+    },
+    "audit-v4": {
+      "n": 45,
+      "act2_clears": 2,
+      "kaiser_eligible": 1160,
+      "kaiser_covered": 534,
+      "kaiser_mean_exit_hp": 0.37777777777777777,
+      "kaiser_median_enemy_hp_deaths": 274,
+      "native": {
+        "match": 9664,
+        "unresolved": 985
+      }
+    },
+    "audit-v5": {
+      "n": 45,
+      "act2_clears": 3,
+      "kaiser_eligible": 1177,
+      "kaiser_covered": 574,
+      "kaiser_mean_exit_hp": 0.4444444444444444,
+      "kaiser_median_enemy_hp_deaths": 276.0,
+      "native": {
+        "match": 9722,
+        "unresolved": 994
+      }
+    }
+  }
+}
