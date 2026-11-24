@@ -1,5 +1,10 @@
 from collections import Counter
 from dataclasses import replace
+import gzip
+import json
+from pathlib import Path
+
+import pytest
 
 from sts2rl.combat_search_v2 import two_turn
 from sts2rl.combat_search_v2.planner import Config, Line, Result, _Search
@@ -61,7 +66,7 @@ def test_forecast_resets_preview_anchors_and_rejects_unknown_draws():
         assert two_turn.prepare(bad)[0] is None
 
 
-def test_common_world_averages_and_immediate_victory_or_single_root(monkeypatch):
+def rerank_with_world_scores(monkeypatch, scores):
     first = _Search((Move("play_card", 0), END_TURN), 0, Config(), None, False, False, None)
     a = completed(draw=(card("DEFEND_SILENT"),) * 5)
     b = replace(a, hp=24, spent=1)
@@ -70,7 +75,7 @@ def test_common_world_averages_and_immediate_victory_or_single_root(monkeypatch)
     first.certified = lines
     control = Result(first.root_moves[0], lines[0])
     observed = []
-    outcomes = iter([(SURVIVED, 1000), (DEAD, -3), (DEAD, -4), (DEAD, -5)] + [(SURVIVED, 8)] * 4)
+    outcomes = iter(scores)
 
     def result(search, world):
         observed.append(world.spent)
@@ -80,9 +85,48 @@ def test_common_world_averages_and_immediate_victory_or_single_root(monkeypatch)
 
     monkeypatch.setattr(_Search, "run", result)
     selected = two_turn.rerank(a, first, control)
-    assert selected.choice == END_TURN and selected.pilot["scores"] == ((0.25, 247), (1, 8))
     assert observed == [0] * 4 + [1] * 4
+    return first, control, selected
+
+
+def test_common_world_averages_and_immediate_victory_or_single_root(monkeypatch):
+    worlds = [(SURVIVED, 1000), (DEAD, -3), (DEAD, -4), (DEAD, -5)] + [(SURVIVED, 8)] * 4
+    first, control, selected = rerank_with_world_scores(monkeypatch, worlds)
+    assert selected.choice == END_TURN and selected.pilot["scores"] == ((0.25, 0, 247), (1, 0, 8))
+    lines = first.certified
+    a = control.line.state
     for other in (None, replace(lines[1], state=a), replace(lines[1], score=(VICTORY, 0)),
                   replace(lines[1], score=(DEAD, -5))):
         first.certified = [lines[0], other]
         assert two_turn.rerank(a, first, control) is control
+
+
+@pytest.mark.parametrize(("encounter", "index", "example", "control", "pilot"), [
+    ("LAGAVULIN_MATRIARCH_BOSS", 1, 0, "DASH@3", "DEFLECT@2"),
+    ("SOUL_FYSH_BOSS", 2, 0, "DASH@2", "DEFLECT@5"),
+    ("SOUL_FYSH_BOSS", 2, 1, "DEADLY_POISON@2", "end_turn"),
+    ("TUNNELER_WEAK", 7, 0, "POISONED_STAB@4", "BLUR@2"),
+    ("SHRINKER_BEETLE_WEAK", 3, 0, "POISONED_STAB@2", "AFTERIMAGE@1"),
+])
+def test_recorded_four_world_victories(monkeypatch, encounter, index, example, control, pilot):
+    receipts = Path(__file__).resolve().parents[1] / "docs/combat-search-v2/two-turn-pilot-receipts.jsonl.gz"
+    with gzip.open(receipts) as stream:
+        row = next(r for r in map(json.loads, stream) if r["pilot"] and r["encounter"] == encounter
+                   and r["index"] == index)
+    decision = row["examples"][example]
+    assert (decision["control"], decision["pilot"]) == (control, pilot)
+    win, ongoing = decision["candidates"]
+    assert win["two_turn"] < ongoing["two_turn"]
+    _, original, selected = rerank_with_world_scores(monkeypatch, win["worlds"] + ongoing["worlds"])
+    a, b = selected.pilot["scores"]
+    assert a[:2] == (1, 1) and b[:2] == (1, 0)
+    assert selected.choice == original.choice
+
+
+def test_mixed_worlds_prioritize_survival_then_kills_then_utility():
+    score = two_turn._world_score
+    win, live, dead = (VICTORY, 1), (SURVIVED, 500), (DEAD, 0)
+    assert score([live] * 4) > score([win] * 3 + [dead])
+    assert score([win, win, live, live]) > score([live, live, live, win])
+    assert score([win, win, live, live]) == score([live, win, live, win])
+    assert score([(VICTORY, 2), win, live, live]) > score([win, win, live, live])

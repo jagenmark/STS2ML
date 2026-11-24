@@ -15,6 +15,7 @@ from sts2rl.combat_search_v2.next_intent import next_intent
 from sts2rl.combat_search_v2.state import END_TURN, project
 from sts2rl.combat_search_v2.transitions import advance
 from sts2rl.combat_search_v2.two_turn import prepare
+from sts2rl.combat_search_v2.value import VICTORY
 from sts2rl.deployed_controller import DeployedController
 from sts2rl.native import NativeSession, ReplayFork, digest
 from test_combat_search_v2_native import Oracle, ROOT
@@ -47,6 +48,18 @@ def label(state, kind, slot):
     if kind == "play_card":
         return state["hand"][slot]["id"].split(".")[-1] + f"@{slot}"
     return f"{kind}@{slot}" if slot >= 0 else kind
+
+
+def archive_fallback(record, diag, decision):
+    if diag.get("reason"):
+        return "/".join(filter(None, [diag["reason"], diag.get("detail")]))
+    if not record:
+        return f"outside encounter controller/{decision}"
+    if record["fallback"]:
+        return record["fallback"]
+    if any(score and score[0] == VICTORY for score in (record["no_potion"], record["with_potion"])):
+        return "certified one-turn victory"
+    return "fewer than two distinct surviving continuations"
 
 
 def fight(job):
@@ -88,6 +101,8 @@ def fight(job):
             counts["changed"] += diag.get("changed", False)
             if diag.get("reason"):
                 counts["gate/" + diag["reason"]] += 1
+            if archive and pilot and not active:
+                counts["archive/" + archive_fallback(rec, diag, before["decision"])] += 1
             if diag.get("changed") and len(examples) < 5:
                 ctrl = diag["control"]
                 examples.append(dict(round=before["round"], root_hp=before["player"]["hp"],

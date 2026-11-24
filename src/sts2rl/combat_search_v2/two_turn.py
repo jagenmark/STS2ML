@@ -76,14 +76,17 @@ def prepare(state):
         return None, "turn boundary"
     if not 0 <= state.boundary.count <= min(HAND_CAP - len(state.hand), len(state.draw) + len(state.discard)):
         return None, "draw count"
-    if any(r.name not in _RELICS for r in state.relics) or any(
-            name in _BLOCKED_POWERS or (name == "INFINITE_BLADES" and not state.late) for name, _ in state.powers):
-        return None, "start trigger"
+    for relic in state.relics:
+        if relic.name not in _RELICS:
+            return None, f"start trigger/relic {relic.name}"
+    for name, _ in state.powers:
+        if name in _BLOCKED_POWERS or (name == "INFINITE_BLADES" and not state.late):
+            return None, f"start trigger/power {name}"
     for v in (*state.draw, *state.discard, *(c.variant for c in state.hand)):
         if (not card_supported(v, state.late) or v.name not in _FIXED.get(v.cost, ()) or v.modifier
                 or any(f != "retain_this_turn" or "Retain" not in v.keywords for f in v.flags)
                 or v.name in late_encounters.CARDS and not state.late):
-            return None, "card or cost"
+            return None, f"card or cost/{v.name} (cost {v.cost})"
     enemies = []
     for e in state.enemies:
         intents = next_intent(state, e) if e.hp else ()
@@ -94,6 +97,14 @@ def prepare(state):
     return replace(state, enemies=tuple(enemies), preview_vulnerable=power(state.powers, "VULNERABLE") > 0,
                    preview_intangible=power(state.powers, "INTANGIBLE") > 0, preview_facing=state.facing,
                    bound_used=False, tender_plays=0), ""
+
+
+def _world_score(worlds):
+    # Compare utility only between candidates with the same outcome counts.
+    n = len(worlds)
+    return (sum(category >= SURVIVED for category, _ in worlds) / n,
+            sum(category == VICTORY for category, _ in worlds) / n,
+            sum(value for _, value in worlds) / n)
 
 
 def rerank(root, first, control):
@@ -113,7 +124,8 @@ def rerank(root, first, control):
     info = {"eligible": True, "active": False}
 
     def skip(reason):
-        return replace(control, pilot={**info, "reason": reason})
+        gate, _, detail = reason.partition("/")
+        return replace(control, pilot={**info, "reason": gate, **({"detail": detail} if detail else {})})
 
     if any(e.name not in COVERED for e in root.enemies if e.hp):
         return skip("formation")
@@ -145,7 +157,7 @@ def rerank(root, first, control):
             if best is None or (best.score[0] < SURVIVED and any(v is None for v in search.certified)):
                 return skip("uncertified sampled world")
             worlds.append(best.score)
-        scores.append((sum(c >= SURVIVED for c, _ in worlds) / 4, sum(v for _, v in worlds) / 4))
+        scores.append(_world_score(worlds))
         if first.record_timing:
             details.append({"root": line.root, "one_turn": line.score, "two_turn": scores[-1], "worlds": worlds,
                             "hp": state.hp, "enemy_hp": [e.hp for e in state.enemies],
