@@ -1,0 +1,4628 @@
+{
+  "manifest": {
+    "commit": "decf295baa57d5f0d9ba80e0c60f682e38d29603",
+    "base": "a584f1b79b944ce2d46ee32c0cd378e54b380ef6",
+    "host": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+    "game": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+    "workers": 12,
+    "openblas_threads": 1,
+    "omp_threads": 1,
+    "cohort": [
+      [
+        0,
+        "CSV12DEV_DEFAULT_0000",
+        "default"
+      ],
+      [
+        0,
+        "CSV12DEV_SEEDED_0000",
+        "seeded"
+      ],
+      [
+        1,
+        "CSV12DEV_DEFAULT_0001",
+        "default"
+      ],
+      [
+        1,
+        "CSV12DEV_SEEDED_0001",
+        "seeded"
+      ],
+      [
+        2,
+        "CSV12DEV_DEFAULT_0002",
+        "default"
+      ],
+      [
+        2,
+        "CSV12DEV_SEEDED_0002",
+        "seeded"
+      ],
+      [
+        3,
+        "CSV12DEV_DEFAULT_0003",
+        "default"
+      ],
+      [
+        3,
+        "CSV12DEV_SEEDED_0003",
+        "seeded"
+      ],
+      [
+        4,
+        "CSV12DEV_DEFAULT_0004",
+        "default"
+      ],
+      [
+        4,
+        "CSV12DEV_SEEDED_0004",
+        "seeded"
+      ],
+      [
+        5,
+        "CSV12DEV_DEFAULT_0005",
+        "default"
+      ],
+      [
+        5,
+        "CSV12DEV_SEEDED_0005",
+        "seeded"
+      ],
+      [
+        6,
+        "CSV12DEV_DEFAULT_0006",
+        "default"
+      ],
+      [
+        6,
+        "CSV12DEV_SEEDED_0006",
+        "seeded"
+      ],
+      [
+        7,
+        "CSV12DEV_DEFAULT_0007",
+        "default"
+      ],
+      [
+        7,
+        "CSV12DEV_SEEDED_0007",
+        "seeded"
+      ],
+      [
+        8,
+        "CSV12DEV_DEFAULT_0008",
+        "default"
+      ],
+      [
+        8,
+        "CSV12DEV_SEEDED_0008",
+        "seeded"
+      ],
+      [
+        9,
+        "CSV12DEV_DEFAULT_0009",
+        "default"
+      ],
+      [
+        9,
+        "CSV12DEV_SEEDED_0009",
+        "seeded"
+      ],
+      [
+        10,
+        "CSV12DEV_DEFAULT_0010",
+        "default"
+      ],
+      [
+        10,
+        "CSV12DEV_SEEDED_0010",
+        "seeded"
+      ],
+      [
+        11,
+        "CSV12DEV_DEFAULT_0011",
+        "default"
+      ],
+      [
+        11,
+        "CSV12DEV_SEEDED_0011",
+        "seeded"
+      ],
+      [
+        12,
+        "CSV12DEV_DEFAULT_0012",
+        "default"
+      ],
+      [
+        12,
+        "CSV12DEV_SEEDED_0012",
+        "seeded"
+      ],
+      [
+        13,
+        "CSV12DEV_DEFAULT_0013",
+        "default"
+      ],
+      [
+        13,
+        "CSV12DEV_SEEDED_0013",
+        "seeded"
+      ],
+      [
+        14,
+        "CSV12DEV_DEFAULT_0014",
+        "default"
+      ],
+      [
+        14,
+        "CSV12DEV_SEEDED_0014",
+        "seeded"
+      ],
+      [
+        15,
+        "CSV12DEV_DEFAULT_0015",
+        "default"
+      ],
+      [
+        15,
+        "CSV12DEV_SEEDED_0015",
+        "seeded"
+      ],
+      [
+        16,
+        "CSV12DEV_DEFAULT_0016",
+        "default"
+      ],
+      [
+        16,
+        "CSV12DEV_SEEDED_0016",
+        "seeded"
+      ],
+      [
+        17,
+        "CSV12DEV_DEFAULT_0017",
+        "default"
+      ],
+      [
+        17,
+        "CSV12DEV_SEEDED_0017",
+        "seeded"
+      ],
+      [
+        18,
+        "CSV12DEV_DEFAULT_0018",
+        "default"
+      ],
+      [
+        18,
+        "CSV12DEV_SEEDED_0018",
+        "seeded"
+      ],
+      [
+        19,
+        "CSV12DEV_DEFAULT_0019",
+        "default"
+      ],
+      [
+        19,
+        "CSV12DEV_SEEDED_0019",
+        "seeded"
+      ],
+      [
+        20,
+        "CSV12DEV_DEFAULT_0020",
+        "default"
+      ],
+      [
+        20,
+        "CSV12DEV_SEEDED_0020",
+        "seeded"
+      ],
+      [
+        21,
+        "CSV12DEV_DEFAULT_0021",
+        "default"
+      ],
+      [
+        21,
+        "CSV12DEV_SEEDED_0021",
+        "seeded"
+      ],
+      [
+        22,
+        "CSV12DEV_DEFAULT_0022",
+        "default"
+      ],
+      [
+        22,
+        "CSV12DEV_SEEDED_0022",
+        "seeded"
+      ],
+      [
+        23,
+        "CSV12DEV_DEFAULT_0023",
+        "default"
+      ],
+      [
+        23,
+        "CSV12DEV_SEEDED_0023",
+        "seeded"
+      ],
+      [
+        24,
+        "CSV12DEV_DEFAULT_0024",
+        "default"
+      ],
+      [
+        24,
+        "CSV12DEV_SEEDED_0024",
+        "seeded"
+      ],
+      [
+        25,
+        "CSV12DEV_DEFAULT_0025",
+        "default"
+      ],
+      [
+        25,
+        "CSV12DEV_SEEDED_0025",
+        "seeded"
+      ],
+      [
+        26,
+        "CSV12DEV_DEFAULT_0026",
+        "default"
+      ],
+      [
+        26,
+        "CSV12DEV_SEEDED_0026",
+        "seeded"
+      ],
+      [
+        27,
+        "CSV12DEV_DEFAULT_0027",
+        "default"
+      ],
+      [
+        27,
+        "CSV12DEV_SEEDED_0027",
+        "seeded"
+      ],
+      [
+        28,
+        "CSV12DEV_DEFAULT_0028",
+        "default"
+      ],
+      [
+        28,
+        "CSV12DEV_SEEDED_0028",
+        "seeded"
+      ],
+      [
+        29,
+        "CSV12DEV_DEFAULT_0029",
+        "default"
+      ],
+      [
+        29,
+        "CSV12DEV_SEEDED_0029",
+        "seeded"
+      ],
+      [
+        30,
+        "CSV12DEV_DEFAULT_0030",
+        "default"
+      ],
+      [
+        30,
+        "CSV12DEV_SEEDED_0030",
+        "seeded"
+      ],
+      [
+        31,
+        "CSV12DEV_DEFAULT_0031",
+        "default"
+      ],
+      [
+        31,
+        "CSV12DEV_SEEDED_0031",
+        "seeded"
+      ],
+      [
+        32,
+        "CSV12DEV_DEFAULT_0032",
+        "default"
+      ],
+      [
+        32,
+        "CSV12DEV_SEEDED_0032",
+        "seeded"
+      ],
+      [
+        33,
+        "CSV12DEV_DEFAULT_0033",
+        "default"
+      ],
+      [
+        33,
+        "CSV12DEV_SEEDED_0033",
+        "seeded"
+      ],
+      [
+        34,
+        "CSV12DEV_DEFAULT_0034",
+        "default"
+      ],
+      [
+        34,
+        "CSV12DEV_SEEDED_0034",
+        "seeded"
+      ],
+      [
+        35,
+        "CSV12DEV_DEFAULT_0035",
+        "default"
+      ],
+      [
+        35,
+        "CSV12DEV_SEEDED_0035",
+        "seeded"
+      ],
+      [
+        36,
+        "CSV12DEV_DEFAULT_0036",
+        "default"
+      ],
+      [
+        36,
+        "CSV12DEV_SEEDED_0036",
+        "seeded"
+      ],
+      [
+        37,
+        "CSV12DEV_DEFAULT_0037",
+        "default"
+      ],
+      [
+        37,
+        "CSV12DEV_SEEDED_0037",
+        "seeded"
+      ],
+      [
+        38,
+        "CSV12DEV_DEFAULT_0038",
+        "default"
+      ],
+      [
+        38,
+        "CSV12DEV_SEEDED_0038",
+        "seeded"
+      ],
+      [
+        39,
+        "CSV12DEV_DEFAULT_0039",
+        "default"
+      ],
+      [
+        39,
+        "CSV12DEV_SEEDED_0039",
+        "seeded"
+      ],
+      [
+        40,
+        "CSV12DEV_DEFAULT_0040",
+        "default"
+      ],
+      [
+        40,
+        "CSV12DEV_SEEDED_0040",
+        "seeded"
+      ],
+      [
+        41,
+        "CSV12DEV_DEFAULT_0041",
+        "default"
+      ],
+      [
+        41,
+        "CSV12DEV_SEEDED_0041",
+        "seeded"
+      ],
+      [
+        42,
+        "CSV12DEV_DEFAULT_0042",
+        "default"
+      ],
+      [
+        42,
+        "CSV12DEV_SEEDED_0042",
+        "seeded"
+      ],
+      [
+        43,
+        "CSV12DEV_DEFAULT_0043",
+        "default"
+      ],
+      [
+        43,
+        "CSV12DEV_SEEDED_0043",
+        "seeded"
+      ],
+      [
+        44,
+        "CSV12DEV_DEFAULT_0044",
+        "default"
+      ],
+      [
+        44,
+        "CSV12DEV_SEEDED_0044",
+        "seeded"
+      ],
+      [
+        45,
+        "CSV12DEV_DEFAULT_0045",
+        "default"
+      ],
+      [
+        45,
+        "CSV12DEV_SEEDED_0045",
+        "seeded"
+      ],
+      [
+        46,
+        "CSV12DEV_DEFAULT_0046",
+        "default"
+      ],
+      [
+        46,
+        "CSV12DEV_SEEDED_0046",
+        "seeded"
+      ],
+      [
+        47,
+        "CSV12DEV_DEFAULT_0047",
+        "default"
+      ],
+      [
+        47,
+        "CSV12DEV_SEEDED_0047",
+        "seeded"
+      ],
+      [
+        48,
+        "CSV12DEV_DEFAULT_0048",
+        "default"
+      ],
+      [
+        48,
+        "CSV12DEV_SEEDED_0048",
+        "seeded"
+      ],
+      [
+        49,
+        "CSV12DEV_DEFAULT_0049",
+        "default"
+      ],
+      [
+        49,
+        "CSV12DEV_SEEDED_0049",
+        "seeded"
+      ],
+      [
+        50,
+        "CSV12DEV_DEFAULT_0050",
+        "default"
+      ],
+      [
+        50,
+        "CSV12DEV_SEEDED_0050",
+        "seeded"
+      ],
+      [
+        51,
+        "CSV12DEV_DEFAULT_0051",
+        "default"
+      ],
+      [
+        51,
+        "CSV12DEV_SEEDED_0051",
+        "seeded"
+      ],
+      [
+        52,
+        "CSV12DEV_DEFAULT_0052",
+        "default"
+      ],
+      [
+        52,
+        "CSV12DEV_SEEDED_0052",
+        "seeded"
+      ],
+      [
+        53,
+        "CSV12DEV_DEFAULT_0053",
+        "default"
+      ],
+      [
+        53,
+        "CSV12DEV_SEEDED_0053",
+        "seeded"
+      ],
+      [
+        54,
+        "CSV12DEV_DEFAULT_0054",
+        "default"
+      ],
+      [
+        54,
+        "CSV12DEV_SEEDED_0054",
+        "seeded"
+      ],
+      [
+        55,
+        "CSV12DEV_DEFAULT_0055",
+        "default"
+      ],
+      [
+        55,
+        "CSV12DEV_SEEDED_0055",
+        "seeded"
+      ],
+      [
+        56,
+        "CSV12DEV_DEFAULT_0056",
+        "default"
+      ],
+      [
+        56,
+        "CSV12DEV_SEEDED_0056",
+        "seeded"
+      ],
+      [
+        57,
+        "CSV12DEV_DEFAULT_0057",
+        "default"
+      ],
+      [
+        57,
+        "CSV12DEV_SEEDED_0057",
+        "seeded"
+      ],
+      [
+        58,
+        "CSV12DEV_DEFAULT_0058",
+        "default"
+      ],
+      [
+        58,
+        "CSV12DEV_SEEDED_0058",
+        "seeded"
+      ],
+      [
+        59,
+        "CSV12DEV_DEFAULT_0059",
+        "default"
+      ],
+      [
+        59,
+        "CSV12DEV_SEEDED_0059",
+        "seeded"
+      ],
+      [
+        60,
+        "CSV12DEV_DEFAULT_0060",
+        "default"
+      ],
+      [
+        60,
+        "CSV12DEV_SEEDED_0060",
+        "seeded"
+      ],
+      [
+        61,
+        "CSV12DEV_DEFAULT_0061",
+        "default"
+      ],
+      [
+        61,
+        "CSV12DEV_SEEDED_0061",
+        "seeded"
+      ],
+      [
+        62,
+        "CSV12DEV_DEFAULT_0062",
+        "default"
+      ],
+      [
+        62,
+        "CSV12DEV_SEEDED_0062",
+        "seeded"
+      ],
+      [
+        63,
+        "CSV12DEV_DEFAULT_0063",
+        "default"
+      ],
+      [
+        63,
+        "CSV12DEV_SEEDED_0063",
+        "seeded"
+      ],
+      [
+        64,
+        "CSV12DEV_DEFAULT_0064",
+        "default"
+      ],
+      [
+        64,
+        "CSV12DEV_SEEDED_0064",
+        "seeded"
+      ],
+      [
+        65,
+        "CSV12DEV_DEFAULT_0065",
+        "default"
+      ],
+      [
+        65,
+        "CSV12DEV_SEEDED_0065",
+        "seeded"
+      ],
+      [
+        66,
+        "CSV12DEV_DEFAULT_0066",
+        "default"
+      ],
+      [
+        66,
+        "CSV12DEV_SEEDED_0066",
+        "seeded"
+      ],
+      [
+        67,
+        "CSV12DEV_DEFAULT_0067",
+        "default"
+      ],
+      [
+        67,
+        "CSV12DEV_SEEDED_0067",
+        "seeded"
+      ],
+      [
+        68,
+        "CSV12DEV_DEFAULT_0068",
+        "default"
+      ],
+      [
+        68,
+        "CSV12DEV_SEEDED_0068",
+        "seeded"
+      ],
+      [
+        69,
+        "CSV12DEV_DEFAULT_0069",
+        "default"
+      ],
+      [
+        69,
+        "CSV12DEV_SEEDED_0069",
+        "seeded"
+      ],
+      [
+        70,
+        "CSV12DEV_DEFAULT_0070",
+        "default"
+      ],
+      [
+        70,
+        "CSV12DEV_SEEDED_0070",
+        "seeded"
+      ],
+      [
+        71,
+        "CSV12DEV_DEFAULT_0071",
+        "default"
+      ],
+      [
+        71,
+        "CSV12DEV_SEEDED_0071",
+        "seeded"
+      ],
+      [
+        72,
+        "CSV12DEV_DEFAULT_0072",
+        "default"
+      ],
+      [
+        72,
+        "CSV12DEV_SEEDED_0072",
+        "seeded"
+      ],
+      [
+        73,
+        "CSV12DEV_DEFAULT_0073",
+        "default"
+      ],
+      [
+        73,
+        "CSV12DEV_SEEDED_0073",
+        "seeded"
+      ],
+      [
+        74,
+        "CSV12DEV_DEFAULT_0074",
+        "default"
+      ],
+      [
+        74,
+        "CSV12DEV_SEEDED_0074",
+        "seeded"
+      ],
+      [
+        75,
+        "CSV12DEV_DEFAULT_0075",
+        "default"
+      ],
+      [
+        75,
+        "CSV12DEV_SEEDED_0075",
+        "seeded"
+      ],
+      [
+        76,
+        "CSV12DEV_DEFAULT_0076",
+        "default"
+      ],
+      [
+        76,
+        "CSV12DEV_SEEDED_0076",
+        "seeded"
+      ],
+      [
+        77,
+        "CSV12DEV_DEFAULT_0077",
+        "default"
+      ],
+      [
+        77,
+        "CSV12DEV_SEEDED_0077",
+        "seeded"
+      ],
+      [
+        78,
+        "CSV12DEV_DEFAULT_0078",
+        "default"
+      ],
+      [
+        78,
+        "CSV12DEV_SEEDED_0078",
+        "seeded"
+      ],
+      [
+        79,
+        "CSV12DEV_DEFAULT_0079",
+        "default"
+      ],
+      [
+        79,
+        "CSV12DEV_SEEDED_0079",
+        "seeded"
+      ],
+      [
+        80,
+        "CSV12DEV_DEFAULT_0080",
+        "default"
+      ],
+      [
+        80,
+        "CSV12DEV_SEEDED_0080",
+        "seeded"
+      ],
+      [
+        81,
+        "CSV12DEV_DEFAULT_0081",
+        "default"
+      ],
+      [
+        81,
+        "CSV12DEV_SEEDED_0081",
+        "seeded"
+      ],
+      [
+        82,
+        "CSV12DEV_DEFAULT_0082",
+        "default"
+      ],
+      [
+        82,
+        "CSV12DEV_SEEDED_0082",
+        "seeded"
+      ],
+      [
+        83,
+        "CSV12DEV_DEFAULT_0083",
+        "default"
+      ],
+      [
+        83,
+        "CSV12DEV_SEEDED_0083",
+        "seeded"
+      ],
+      [
+        84,
+        "CSV12DEV_DEFAULT_0084",
+        "default"
+      ],
+      [
+        84,
+        "CSV12DEV_SEEDED_0084",
+        "seeded"
+      ],
+      [
+        85,
+        "CSV12DEV_DEFAULT_0085",
+        "default"
+      ],
+      [
+        85,
+        "CSV12DEV_SEEDED_0085",
+        "seeded"
+      ],
+      [
+        86,
+        "CSV12DEV_DEFAULT_0086",
+        "default"
+      ],
+      [
+        86,
+        "CSV12DEV_SEEDED_0086",
+        "seeded"
+      ],
+      [
+        87,
+        "CSV12DEV_DEFAULT_0087",
+        "default"
+      ],
+      [
+        87,
+        "CSV12DEV_SEEDED_0087",
+        "seeded"
+      ],
+      [
+        88,
+        "CSV12DEV_DEFAULT_0088",
+        "default"
+      ],
+      [
+        88,
+        "CSV12DEV_SEEDED_0088",
+        "seeded"
+      ],
+      [
+        89,
+        "CSV12DEV_DEFAULT_0089",
+        "default"
+      ],
+      [
+        89,
+        "CSV12DEV_SEEDED_0089",
+        "seeded"
+      ],
+      [
+        90,
+        "CSV12DEV_DEFAULT_0090",
+        "default"
+      ],
+      [
+        90,
+        "CSV12DEV_SEEDED_0090",
+        "seeded"
+      ],
+      [
+        91,
+        "CSV12DEV_DEFAULT_0091",
+        "default"
+      ],
+      [
+        91,
+        "CSV12DEV_SEEDED_0091",
+        "seeded"
+      ],
+      [
+        92,
+        "CSV12DEV_DEFAULT_0092",
+        "default"
+      ],
+      [
+        92,
+        "CSV12DEV_SEEDED_0092",
+        "seeded"
+      ],
+      [
+        93,
+        "CSV12DEV_DEFAULT_0093",
+        "default"
+      ],
+      [
+        93,
+        "CSV12DEV_SEEDED_0093",
+        "seeded"
+      ],
+      [
+        94,
+        "CSV12DEV_DEFAULT_0094",
+        "default"
+      ],
+      [
+        94,
+        "CSV12DEV_SEEDED_0094",
+        "seeded"
+      ],
+      [
+        95,
+        "CSV12DEV_DEFAULT_0095",
+        "default"
+      ],
+      [
+        95,
+        "CSV12DEV_SEEDED_0095",
+        "seeded"
+      ],
+      [
+        96,
+        "CSV12DEV_DEFAULT_0096",
+        "default"
+      ],
+      [
+        96,
+        "CSV12DEV_SEEDED_0096",
+        "seeded"
+      ],
+      [
+        97,
+        "CSV12DEV_DEFAULT_0097",
+        "default"
+      ],
+      [
+        97,
+        "CSV12DEV_SEEDED_0097",
+        "seeded"
+      ],
+      [
+        98,
+        "CSV12DEV_DEFAULT_0098",
+        "default"
+      ],
+      [
+        98,
+        "CSV12DEV_SEEDED_0098",
+        "seeded"
+      ],
+      [
+        99,
+        "CSV12DEV_DEFAULT_0099",
+        "default"
+      ],
+      [
+        99,
+        "CSV12DEV_SEEDED_0099",
+        "seeded"
+      ],
+      [
+        100,
+        "CSV12DEV_DEFAULT_0100",
+        "default"
+      ],
+      [
+        100,
+        "CSV12DEV_SEEDED_0100",
+        "seeded"
+      ],
+      [
+        101,
+        "CSV12DEV_DEFAULT_0101",
+        "default"
+      ],
+      [
+        101,
+        "CSV12DEV_SEEDED_0101",
+        "seeded"
+      ],
+      [
+        102,
+        "CSV12DEV_DEFAULT_0102",
+        "default"
+      ],
+      [
+        102,
+        "CSV12DEV_SEEDED_0102",
+        "seeded"
+      ],
+      [
+        103,
+        "CSV12DEV_DEFAULT_0103",
+        "default"
+      ],
+      [
+        103,
+        "CSV12DEV_SEEDED_0103",
+        "seeded"
+      ],
+      [
+        104,
+        "CSV12DEV_DEFAULT_0104",
+        "default"
+      ],
+      [
+        104,
+        "CSV12DEV_SEEDED_0104",
+        "seeded"
+      ],
+      [
+        105,
+        "CSV12DEV_DEFAULT_0105",
+        "default"
+      ],
+      [
+        105,
+        "CSV12DEV_SEEDED_0105",
+        "seeded"
+      ],
+      [
+        106,
+        "CSV12DEV_DEFAULT_0106",
+        "default"
+      ],
+      [
+        106,
+        "CSV12DEV_SEEDED_0106",
+        "seeded"
+      ],
+      [
+        107,
+        "CSV12DEV_DEFAULT_0107",
+        "default"
+      ],
+      [
+        107,
+        "CSV12DEV_SEEDED_0107",
+        "seeded"
+      ],
+      [
+        108,
+        "CSV12DEV_DEFAULT_0108",
+        "default"
+      ],
+      [
+        108,
+        "CSV12DEV_SEEDED_0108",
+        "seeded"
+      ],
+      [
+        109,
+        "CSV12DEV_DEFAULT_0109",
+        "default"
+      ],
+      [
+        109,
+        "CSV12DEV_SEEDED_0109",
+        "seeded"
+      ],
+      [
+        110,
+        "CSV12DEV_DEFAULT_0110",
+        "default"
+      ],
+      [
+        110,
+        "CSV12DEV_SEEDED_0110",
+        "seeded"
+      ],
+      [
+        111,
+        "CSV12DEV_DEFAULT_0111",
+        "default"
+      ],
+      [
+        111,
+        "CSV12DEV_SEEDED_0111",
+        "seeded"
+      ],
+      [
+        112,
+        "CSV12DEV_DEFAULT_0112",
+        "default"
+      ],
+      [
+        112,
+        "CSV12DEV_SEEDED_0112",
+        "seeded"
+      ],
+      [
+        113,
+        "CSV12DEV_DEFAULT_0113",
+        "default"
+      ],
+      [
+        113,
+        "CSV12DEV_SEEDED_0113",
+        "seeded"
+      ],
+      [
+        114,
+        "CSV12DEV_DEFAULT_0114",
+        "default"
+      ],
+      [
+        114,
+        "CSV12DEV_SEEDED_0114",
+        "seeded"
+      ],
+      [
+        115,
+        "CSV12DEV_DEFAULT_0115",
+        "default"
+      ],
+      [
+        115,
+        "CSV12DEV_SEEDED_0115",
+        "seeded"
+      ],
+      [
+        116,
+        "CSV12DEV_DEFAULT_0116",
+        "default"
+      ],
+      [
+        116,
+        "CSV12DEV_SEEDED_0116",
+        "seeded"
+      ],
+      [
+        117,
+        "CSV12DEV_DEFAULT_0117",
+        "default"
+      ],
+      [
+        117,
+        "CSV12DEV_SEEDED_0117",
+        "seeded"
+      ],
+      [
+        118,
+        "CSV12DEV_DEFAULT_0118",
+        "default"
+      ],
+      [
+        118,
+        "CSV12DEV_SEEDED_0118",
+        "seeded"
+      ],
+      [
+        119,
+        "CSV12DEV_DEFAULT_0119",
+        "default"
+      ],
+      [
+        119,
+        "CSV12DEV_SEEDED_0119",
+        "seeded"
+      ],
+      [
+        120,
+        "CSV12DEV_DEFAULT_0120",
+        "default"
+      ],
+      [
+        120,
+        "CSV12DEV_SEEDED_0120",
+        "seeded"
+      ],
+      [
+        121,
+        "CSV12DEV_DEFAULT_0121",
+        "default"
+      ],
+      [
+        121,
+        "CSV12DEV_SEEDED_0121",
+        "seeded"
+      ],
+      [
+        122,
+        "CSV12DEV_DEFAULT_0122",
+        "default"
+      ],
+      [
+        122,
+        "CSV12DEV_SEEDED_0122",
+        "seeded"
+      ],
+      [
+        123,
+        "CSV12DEV_DEFAULT_0123",
+        "default"
+      ],
+      [
+        123,
+        "CSV12DEV_SEEDED_0123",
+        "seeded"
+      ],
+      [
+        124,
+        "CSV12DEV_DEFAULT_0124",
+        "default"
+      ],
+      [
+        124,
+        "CSV12DEV_SEEDED_0124",
+        "seeded"
+      ],
+      [
+        125,
+        "CSV12DEV_DEFAULT_0125",
+        "default"
+      ],
+      [
+        125,
+        "CSV12DEV_SEEDED_0125",
+        "seeded"
+      ],
+      [
+        126,
+        "CSV12DEV_DEFAULT_0126",
+        "default"
+      ],
+      [
+        126,
+        "CSV12DEV_SEEDED_0126",
+        "seeded"
+      ],
+      [
+        127,
+        "CSV12DEV_DEFAULT_0127",
+        "default"
+      ],
+      [
+        127,
+        "CSV12DEV_SEEDED_0127",
+        "seeded"
+      ],
+      [
+        128,
+        "CSV12DEV_DEFAULT_0128",
+        "default"
+      ],
+      [
+        128,
+        "CSV12DEV_SEEDED_0128",
+        "seeded"
+      ],
+      [
+        129,
+        "CSV12DEV_DEFAULT_0129",
+        "default"
+      ],
+      [
+        129,
+        "CSV12DEV_SEEDED_0129",
+        "seeded"
+      ],
+      [
+        130,
+        "CSV12DEV_DEFAULT_0130",
+        "default"
+      ],
+      [
+        130,
+        "CSV12DEV_SEEDED_0130",
+        "seeded"
+      ],
+      [
+        131,
+        "CSV12DEV_DEFAULT_0131",
+        "default"
+      ],
+      [
+        131,
+        "CSV12DEV_SEEDED_0131",
+        "seeded"
+      ],
+      [
+        132,
+        "CSV12DEV_DEFAULT_0132",
+        "default"
+      ],
+      [
+        132,
+        "CSV12DEV_SEEDED_0132",
+        "seeded"
+      ],
+      [
+        133,
+        "CSV12DEV_DEFAULT_0133",
+        "default"
+      ],
+      [
+        133,
+        "CSV12DEV_SEEDED_0133",
+        "seeded"
+      ],
+      [
+        134,
+        "CSV12DEV_DEFAULT_0134",
+        "default"
+      ],
+      [
+        134,
+        "CSV12DEV_SEEDED_0134",
+        "seeded"
+      ],
+      [
+        135,
+        "CSV12DEV_DEFAULT_0135",
+        "default"
+      ],
+      [
+        135,
+        "CSV12DEV_SEEDED_0135",
+        "seeded"
+      ],
+      [
+        136,
+        "CSV12DEV_DEFAULT_0136",
+        "default"
+      ],
+      [
+        136,
+        "CSV12DEV_SEEDED_0136",
+        "seeded"
+      ],
+      [
+        137,
+        "CSV12DEV_DEFAULT_0137",
+        "default"
+      ],
+      [
+        137,
+        "CSV12DEV_SEEDED_0137",
+        "seeded"
+      ],
+      [
+        138,
+        "CSV12DEV_DEFAULT_0138",
+        "default"
+      ],
+      [
+        138,
+        "CSV12DEV_SEEDED_0138",
+        "seeded"
+      ],
+      [
+        139,
+        "CSV12DEV_DEFAULT_0139",
+        "default"
+      ],
+      [
+        139,
+        "CSV12DEV_SEEDED_0139",
+        "seeded"
+      ],
+      [
+        140,
+        "CSV12DEV_DEFAULT_0140",
+        "default"
+      ],
+      [
+        140,
+        "CSV12DEV_SEEDED_0140",
+        "seeded"
+      ],
+      [
+        141,
+        "CSV12DEV_DEFAULT_0141",
+        "default"
+      ],
+      [
+        141,
+        "CSV12DEV_SEEDED_0141",
+        "seeded"
+      ],
+      [
+        142,
+        "CSV12DEV_DEFAULT_0142",
+        "default"
+      ],
+      [
+        142,
+        "CSV12DEV_SEEDED_0142",
+        "seeded"
+      ],
+      [
+        143,
+        "CSV12DEV_DEFAULT_0143",
+        "default"
+      ],
+      [
+        143,
+        "CSV12DEV_SEEDED_0143",
+        "seeded"
+      ],
+      [
+        144,
+        "CSV12DEV_DEFAULT_0144",
+        "default"
+      ],
+      [
+        144,
+        "CSV12DEV_SEEDED_0144",
+        "seeded"
+      ],
+      [
+        145,
+        "CSV12DEV_DEFAULT_0145",
+        "default"
+      ],
+      [
+        145,
+        "CSV12DEV_SEEDED_0145",
+        "seeded"
+      ],
+      [
+        146,
+        "CSV12DEV_DEFAULT_0146",
+        "default"
+      ],
+      [
+        146,
+        "CSV12DEV_SEEDED_0146",
+        "seeded"
+      ],
+      [
+        147,
+        "CSV12DEV_DEFAULT_0147",
+        "default"
+      ],
+      [
+        147,
+        "CSV12DEV_SEEDED_0147",
+        "seeded"
+      ],
+      [
+        148,
+        "CSV12DEV_DEFAULT_0148",
+        "default"
+      ],
+      [
+        148,
+        "CSV12DEV_SEEDED_0148",
+        "seeded"
+      ],
+      [
+        149,
+        "CSV12DEV_DEFAULT_0149",
+        "default"
+      ],
+      [
+        149,
+        "CSV12DEV_SEEDED_0149",
+        "seeded"
+      ],
+      [
+        150,
+        "CSV12DEV_DEFAULT_0150",
+        "default"
+      ],
+      [
+        150,
+        "CSV12DEV_SEEDED_0150",
+        "seeded"
+      ],
+      [
+        151,
+        "CSV12DEV_DEFAULT_0151",
+        "default"
+      ],
+      [
+        151,
+        "CSV12DEV_SEEDED_0151",
+        "seeded"
+      ],
+      [
+        152,
+        "CSV12DEV_DEFAULT_0152",
+        "default"
+      ],
+      [
+        152,
+        "CSV12DEV_SEEDED_0152",
+        "seeded"
+      ],
+      [
+        153,
+        "CSV12DEV_DEFAULT_0153",
+        "default"
+      ],
+      [
+        153,
+        "CSV12DEV_SEEDED_0153",
+        "seeded"
+      ],
+      [
+        154,
+        "CSV12DEV_DEFAULT_0154",
+        "default"
+      ],
+      [
+        154,
+        "CSV12DEV_SEEDED_0154",
+        "seeded"
+      ],
+      [
+        155,
+        "CSV12DEV_DEFAULT_0155",
+        "default"
+      ],
+      [
+        155,
+        "CSV12DEV_SEEDED_0155",
+        "seeded"
+      ],
+      [
+        156,
+        "CSV12DEV_DEFAULT_0156",
+        "default"
+      ],
+      [
+        156,
+        "CSV12DEV_SEEDED_0156",
+        "seeded"
+      ],
+      [
+        157,
+        "CSV12DEV_DEFAULT_0157",
+        "default"
+      ],
+      [
+        157,
+        "CSV12DEV_SEEDED_0157",
+        "seeded"
+      ],
+      [
+        158,
+        "CSV12DEV_DEFAULT_0158",
+        "default"
+      ],
+      [
+        158,
+        "CSV12DEV_SEEDED_0158",
+        "seeded"
+      ],
+      [
+        159,
+        "CSV12DEV_DEFAULT_0159",
+        "default"
+      ],
+      [
+        159,
+        "CSV12DEV_SEEDED_0159",
+        "seeded"
+      ],
+      [
+        160,
+        "CSV12DEV_DEFAULT_0160",
+        "default"
+      ],
+      [
+        160,
+        "CSV12DEV_SEEDED_0160",
+        "seeded"
+      ],
+      [
+        161,
+        "CSV12DEV_DEFAULT_0161",
+        "default"
+      ],
+      [
+        161,
+        "CSV12DEV_SEEDED_0161",
+        "seeded"
+      ],
+      [
+        162,
+        "CSV12DEV_DEFAULT_0162",
+        "default"
+      ],
+      [
+        162,
+        "CSV12DEV_SEEDED_0162",
+        "seeded"
+      ],
+      [
+        163,
+        "CSV12DEV_DEFAULT_0163",
+        "default"
+      ],
+      [
+        163,
+        "CSV12DEV_SEEDED_0163",
+        "seeded"
+      ],
+      [
+        164,
+        "CSV12DEV_DEFAULT_0164",
+        "default"
+      ],
+      [
+        164,
+        "CSV12DEV_SEEDED_0164",
+        "seeded"
+      ],
+      [
+        165,
+        "CSV12DEV_DEFAULT_0165",
+        "default"
+      ],
+      [
+        165,
+        "CSV12DEV_SEEDED_0165",
+        "seeded"
+      ],
+      [
+        166,
+        "CSV12DEV_DEFAULT_0166",
+        "default"
+      ],
+      [
+        166,
+        "CSV12DEV_SEEDED_0166",
+        "seeded"
+      ],
+      [
+        167,
+        "CSV12DEV_DEFAULT_0167",
+        "default"
+      ],
+      [
+        167,
+        "CSV12DEV_SEEDED_0167",
+        "seeded"
+      ],
+      [
+        168,
+        "CSV12DEV_DEFAULT_0168",
+        "default"
+      ],
+      [
+        168,
+        "CSV12DEV_SEEDED_0168",
+        "seeded"
+      ],
+      [
+        169,
+        "CSV12DEV_DEFAULT_0169",
+        "default"
+      ],
+      [
+        169,
+        "CSV12DEV_SEEDED_0169",
+        "seeded"
+      ],
+      [
+        170,
+        "CSV12DEV_DEFAULT_0170",
+        "default"
+      ],
+      [
+        170,
+        "CSV12DEV_SEEDED_0170",
+        "seeded"
+      ],
+      [
+        171,
+        "CSV12DEV_DEFAULT_0171",
+        "default"
+      ],
+      [
+        171,
+        "CSV12DEV_SEEDED_0171",
+        "seeded"
+      ],
+      [
+        172,
+        "CSV12DEV_DEFAULT_0172",
+        "default"
+      ],
+      [
+        172,
+        "CSV12DEV_SEEDED_0172",
+        "seeded"
+      ],
+      [
+        173,
+        "CSV12DEV_DEFAULT_0173",
+        "default"
+      ],
+      [
+        173,
+        "CSV12DEV_SEEDED_0173",
+        "seeded"
+      ],
+      [
+        174,
+        "CSV12DEV_DEFAULT_0174",
+        "default"
+      ],
+      [
+        174,
+        "CSV12DEV_SEEDED_0174",
+        "seeded"
+      ],
+      [
+        175,
+        "CSV12DEV_DEFAULT_0175",
+        "default"
+      ],
+      [
+        175,
+        "CSV12DEV_SEEDED_0175",
+        "seeded"
+      ],
+      [
+        176,
+        "CSV12DEV_DEFAULT_0176",
+        "default"
+      ],
+      [
+        176,
+        "CSV12DEV_SEEDED_0176",
+        "seeded"
+      ],
+      [
+        177,
+        "CSV12DEV_DEFAULT_0177",
+        "default"
+      ],
+      [
+        177,
+        "CSV12DEV_SEEDED_0177",
+        "seeded"
+      ],
+      [
+        178,
+        "CSV12DEV_DEFAULT_0178",
+        "default"
+      ],
+      [
+        178,
+        "CSV12DEV_SEEDED_0178",
+        "seeded"
+      ],
+      [
+        179,
+        "CSV12DEV_DEFAULT_0179",
+        "default"
+      ],
+      [
+        179,
+        "CSV12DEV_SEEDED_0179",
+        "seeded"
+      ],
+      [
+        180,
+        "CSV12DEV_DEFAULT_0180",
+        "default"
+      ],
+      [
+        180,
+        "CSV12DEV_SEEDED_0180",
+        "seeded"
+      ],
+      [
+        181,
+        "CSV12DEV_DEFAULT_0181",
+        "default"
+      ],
+      [
+        181,
+        "CSV12DEV_SEEDED_0181",
+        "seeded"
+      ],
+      [
+        182,
+        "CSV12DEV_DEFAULT_0182",
+        "default"
+      ],
+      [
+        182,
+        "CSV12DEV_SEEDED_0182",
+        "seeded"
+      ],
+      [
+        183,
+        "CSV12DEV_DEFAULT_0183",
+        "default"
+      ],
+      [
+        183,
+        "CSV12DEV_SEEDED_0183",
+        "seeded"
+      ],
+      [
+        184,
+        "CSV12DEV_DEFAULT_0184",
+        "default"
+      ],
+      [
+        184,
+        "CSV12DEV_SEEDED_0184",
+        "seeded"
+      ],
+      [
+        185,
+        "CSV12DEV_DEFAULT_0185",
+        "default"
+      ],
+      [
+        185,
+        "CSV12DEV_SEEDED_0185",
+        "seeded"
+      ],
+      [
+        186,
+        "CSV12DEV_DEFAULT_0186",
+        "default"
+      ],
+      [
+        186,
+        "CSV12DEV_SEEDED_0186",
+        "seeded"
+      ],
+      [
+        187,
+        "CSV12DEV_DEFAULT_0187",
+        "default"
+      ],
+      [
+        187,
+        "CSV12DEV_SEEDED_0187",
+        "seeded"
+      ],
+      [
+        188,
+        "CSV12DEV_DEFAULT_0188",
+        "default"
+      ],
+      [
+        188,
+        "CSV12DEV_SEEDED_0188",
+        "seeded"
+      ],
+      [
+        189,
+        "CSV12DEV_DEFAULT_0189",
+        "default"
+      ],
+      [
+        189,
+        "CSV12DEV_SEEDED_0189",
+        "seeded"
+      ],
+      [
+        190,
+        "CSV12DEV_DEFAULT_0190",
+        "default"
+      ],
+      [
+        190,
+        "CSV12DEV_SEEDED_0190",
+        "seeded"
+      ],
+      [
+        191,
+        "CSV12DEV_DEFAULT_0191",
+        "default"
+      ],
+      [
+        191,
+        "CSV12DEV_SEEDED_0191",
+        "seeded"
+      ]
+    ],
+    "stress": [
+      [
+        0,
+        "CSV12DEV_DEFAULT_0000",
+        "default"
+      ],
+      [
+        0,
+        "CSV12DEV_SEEDED_0000",
+        "seeded"
+      ],
+      [
+        1,
+        "CSV12DEV_DEFAULT_0001",
+        "default"
+      ],
+      [
+        1,
+        "CSV12DEV_SEEDED_0001",
+        "seeded"
+      ],
+      [
+        2,
+        "CSV12DEV_DEFAULT_0002",
+        "default"
+      ],
+      [
+        2,
+        "CSV12DEV_SEEDED_0002",
+        "seeded"
+      ],
+      [
+        3,
+        "CSV12DEV_DEFAULT_0003",
+        "default"
+      ],
+      [
+        3,
+        "CSV12DEV_SEEDED_0003",
+        "seeded"
+      ],
+      [
+        4,
+        "CSV12DEV_DEFAULT_0004",
+        "default"
+      ],
+      [
+        4,
+        "CSV12DEV_SEEDED_0004",
+        "seeded"
+      ],
+      [
+        5,
+        "CSV12DEV_DEFAULT_0005",
+        "default"
+      ],
+      [
+        5,
+        "CSV12DEV_SEEDED_0005",
+        "seeded"
+      ],
+      [
+        6,
+        "CSV12DEV_DEFAULT_0006",
+        "default"
+      ],
+      [
+        6,
+        "CSV12DEV_SEEDED_0006",
+        "seeded"
+      ],
+      [
+        7,
+        "CSV12DEV_DEFAULT_0007",
+        "default"
+      ],
+      [
+        7,
+        "CSV12DEV_SEEDED_0007",
+        "seeded"
+      ],
+      [
+        8,
+        "CSV12DEV_DEFAULT_0008",
+        "default"
+      ],
+      [
+        8,
+        "CSV12DEV_SEEDED_0008",
+        "seeded"
+      ],
+      [
+        9,
+        "CSV12DEV_DEFAULT_0009",
+        "default"
+      ],
+      [
+        9,
+        "CSV12DEV_SEEDED_0009",
+        "seeded"
+      ],
+      [
+        10,
+        "CSV12DEV_DEFAULT_0010",
+        "default"
+      ],
+      [
+        10,
+        "CSV12DEV_SEEDED_0010",
+        "seeded"
+      ],
+      [
+        11,
+        "CSV12DEV_DEFAULT_0011",
+        "default"
+      ],
+      [
+        11,
+        "CSV12DEV_SEEDED_0011",
+        "seeded"
+      ],
+      [
+        12,
+        "CSV12DEV_DEFAULT_0012",
+        "default"
+      ],
+      [
+        12,
+        "CSV12DEV_SEEDED_0012",
+        "seeded"
+      ],
+      [
+        13,
+        "CSV12DEV_DEFAULT_0013",
+        "default"
+      ],
+      [
+        13,
+        "CSV12DEV_SEEDED_0013",
+        "seeded"
+      ],
+      [
+        14,
+        "CSV12DEV_DEFAULT_0014",
+        "default"
+      ],
+      [
+        14,
+        "CSV12DEV_SEEDED_0014",
+        "seeded"
+      ],
+      [
+        15,
+        "CSV12DEV_DEFAULT_0015",
+        "default"
+      ],
+      [
+        15,
+        "CSV12DEV_SEEDED_0015",
+        "seeded"
+      ],
+      [
+        16,
+        "CSV12DEV_DEFAULT_0016",
+        "default"
+      ],
+      [
+        16,
+        "CSV12DEV_SEEDED_0016",
+        "seeded"
+      ],
+      [
+        17,
+        "CSV12DEV_DEFAULT_0017",
+        "default"
+      ],
+      [
+        17,
+        "CSV12DEV_SEEDED_0017",
+        "seeded"
+      ],
+      [
+        18,
+        "CSV12DEV_DEFAULT_0018",
+        "default"
+      ],
+      [
+        18,
+        "CSV12DEV_SEEDED_0018",
+        "seeded"
+      ],
+      [
+        19,
+        "CSV12DEV_DEFAULT_0019",
+        "default"
+      ],
+      [
+        19,
+        "CSV12DEV_SEEDED_0019",
+        "seeded"
+      ],
+      [
+        20,
+        "CSV12DEV_DEFAULT_0020",
+        "default"
+      ],
+      [
+        20,
+        "CSV12DEV_SEEDED_0020",
+        "seeded"
+      ],
+      [
+        21,
+        "CSV12DEV_DEFAULT_0021",
+        "default"
+      ],
+      [
+        21,
+        "CSV12DEV_SEEDED_0021",
+        "seeded"
+      ],
+      [
+        22,
+        "CSV12DEV_DEFAULT_0022",
+        "default"
+      ],
+      [
+        22,
+        "CSV12DEV_SEEDED_0022",
+        "seeded"
+      ],
+      [
+        23,
+        "CSV12DEV_DEFAULT_0023",
+        "default"
+      ],
+      [
+        23,
+        "CSV12DEV_SEEDED_0023",
+        "seeded"
+      ],
+      [
+        24,
+        "CSV12DEV_DEFAULT_0024",
+        "default"
+      ],
+      [
+        24,
+        "CSV12DEV_SEEDED_0024",
+        "seeded"
+      ],
+      [
+        25,
+        "CSV12DEV_DEFAULT_0025",
+        "default"
+      ],
+      [
+        25,
+        "CSV12DEV_SEEDED_0025",
+        "seeded"
+      ],
+      [
+        26,
+        "CSV12DEV_DEFAULT_0026",
+        "default"
+      ],
+      [
+        26,
+        "CSV12DEV_SEEDED_0026",
+        "seeded"
+      ],
+      [
+        27,
+        "CSV12DEV_DEFAULT_0027",
+        "default"
+      ],
+      [
+        27,
+        "CSV12DEV_SEEDED_0027",
+        "seeded"
+      ],
+      [
+        28,
+        "CSV12DEV_DEFAULT_0028",
+        "default"
+      ],
+      [
+        28,
+        "CSV12DEV_SEEDED_0028",
+        "seeded"
+      ],
+      [
+        29,
+        "CSV12DEV_DEFAULT_0029",
+        "default"
+      ],
+      [
+        29,
+        "CSV12DEV_SEEDED_0029",
+        "seeded"
+      ],
+      [
+        30,
+        "CSV12DEV_DEFAULT_0030",
+        "default"
+      ],
+      [
+        30,
+        "CSV12DEV_SEEDED_0030",
+        "seeded"
+      ],
+      [
+        31,
+        "CSV12DEV_DEFAULT_0031",
+        "default"
+      ],
+      [
+        31,
+        "CSV12DEV_SEEDED_0031",
+        "seeded"
+      ]
+    ],
+    "name_check": {
+      "namespace": "CSV12DEV_",
+      "historical_locks": {
+        "csv7dev-lock": "3647cc5d3327c94feb6cd7d4704205c7975c60872438ad556cfccc88ee8eafe5",
+        "csv9dev-lock": "afe45cafa3e320e120f5bea8752e3fb89122f8aa7c98fcb7032e05153cd5d777",
+        "csv10dev-lock": "6b30bfddc5f1a9883b3cfbd63351b8c55d3c23de6217d84e480cf46caf20164f",
+        "v6-dev-lock": "96d62dae6b90dd1086b387a64e721c35a47ae2aab17a5f2420fb6a7a2ca63964",
+        "v6-audit384-lock": "69e364e20fc73853d65388367711345cc448a9b1d6a094407882cb928a83bdb2",
+        "v62-dev-lock": "3f166462911e3a53b863cf48bbcae7ee5fae8796abde68bc44ee4993183b4c04"
+      },
+      "csv11dev": 192,
+      "prior_generator_mentions": 0,
+      "reserved_prefixes": [
+        "FINAL768",
+        "POOLED896",
+        "VAL256",
+        "SEEDED128",
+        "TRUE_SEEDED",
+        "REP512"
+      ],
+      "overlaps": 0
+    },
+    "bundles": {
+      "control": "06a872bb52638c366b80e866f14ade44e75e5a65be738c19ba85a8dde7c69b64",
+      "treatment": "395422f472a0e04e1a82096b1423a9b8aae2ceb1ab2266b47ec8f369320b74b1",
+      "stress": "dd8ef63b971e70f348025753e4fe28f988cb8a3b91a8e7b5a5a0bf27e0477605"
+    }
+  },
+  "arms": {
+    "control": {
+      "n": 384,
+      "mean_floor": 25.091145833333332,
+      "a1_clears": 257,
+      "a2_entries": 118,
+      "a2_clears": 23,
+      "a3_entries": 12,
+      "wins": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": [
+          6,
+          46
+        ],
+        "THE_INSATIABLE": [
+          12,
+          39
+        ],
+        "KNOWLEDGE_DEMON": [
+          5,
+          33
+        ]
+      },
+      "native": {
+        "match": 72902,
+        "mismatch": 21,
+        "unresolved": 6715
+      },
+      "p50_ms": 3.337,
+      "p95_ms": 67.467,
+      "latency_n": 100050,
+      "a1_entries": 347,
+      "matches_per_100": 72.86556721639181,
+      "p99_ms": 97.063,
+      "modes": {
+        "default": {
+          "n": 192,
+          "mean_floor": 24.609375,
+          "a1_clears": 123,
+          "a2_entries": 59,
+          "a2_clears": 12,
+          "a3_entries": 5,
+          "wins": 0,
+          "bosses": {
+            "CRUSHER+ROCKET": [
+              4,
+              23
+            ],
+            "KNOWLEDGE_DEMON": [
+              1,
+              19
+            ],
+            "THE_INSATIABLE": [
+              7,
+              17
+            ]
+          },
+          "native": {
+            "match": 36582,
+            "mismatch": 21,
+            "unresolved": 3477
+          },
+          "p50_ms": 3.575,
+          "p95_ms": 68.349,
+          "latency_n": 48941,
+          "a1_entries": 170,
+          "matches_per_100": 74.7471445209538,
+          "p99_ms": 96.605
+        },
+        "seeded": {
+          "n": 192,
+          "mean_floor": 25.572916666666668,
+          "a1_clears": 134,
+          "a2_entries": 59,
+          "a2_clears": 11,
+          "a3_entries": 7,
+          "wins": 0,
+          "bosses": {
+            "THE_INSATIABLE": [
+              5,
+              22
+            ],
+            "CRUSHER+ROCKET": [
+              2,
+              23
+            ],
+            "KNOWLEDGE_DEMON": [
+              4,
+              14
+            ]
+          },
+          "native": {
+            "match": 36320,
+            "mismatch": 0,
+            "unresolved": 3238
+          },
+          "p50_ms": 3.124,
+          "p95_ms": 66.603,
+          "latency_n": 51109,
+          "a1_entries": 177,
+          "matches_per_100": 71.06380480932908,
+          "p99_ms": 97.911
+        }
+      }
+    },
+    "treatment": {
+      "n": 384,
+      "mean_floor": 25.4453125,
+      "a1_clears": 258,
+      "a2_entries": 120,
+      "a2_clears": 27,
+      "a3_entries": 15,
+      "wins": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": [
+          6,
+          43
+        ],
+        "THE_INSATIABLE": [
+          12,
+          43
+        ],
+        "KNOWLEDGE_DEMON": [
+          9,
+          34
+        ]
+      },
+      "native": {
+        "match": 78530,
+        "mismatch": 0,
+        "unresolved": 5906
+      },
+      "p50_ms": 5.002,
+      "p95_ms": 90.216,
+      "latency_n": 101225,
+      "a1_entries": 356,
+      "matches_per_100": 77.5796492961225,
+      "p99_ms": 116.377,
+      "modes": {
+        "default": {
+          "n": 192,
+          "mean_floor": 25.1875,
+          "a1_clears": 124,
+          "a2_entries": 62,
+          "a2_clears": 13,
+          "a3_entries": 7,
+          "wins": 0,
+          "bosses": {
+            "CRUSHER+ROCKET": [
+              3,
+              23
+            ],
+            "THE_INSATIABLE": [
+              7,
+              19
+            ],
+            "KNOWLEDGE_DEMON": [
+              3,
+              20
+            ]
+          },
+          "native": {
+            "match": 40258,
+            "mismatch": 0,
+            "unresolved": 3138
+          },
+          "p50_ms": 5.615,
+          "p95_ms": 91.122,
+          "latency_n": 49942,
+          "a1_entries": 177,
+          "matches_per_100": 80.60950702815266,
+          "p99_ms": 115.541
+        },
+        "seeded": {
+          "n": 192,
+          "mean_floor": 25.703125,
+          "a1_clears": 134,
+          "a2_entries": 58,
+          "a2_clears": 14,
+          "a3_entries": 8,
+          "wins": 0,
+          "bosses": {
+            "THE_INSATIABLE": [
+              5,
+              24
+            ],
+            "CRUSHER+ROCKET": [
+              3,
+              20
+            ],
+            "KNOWLEDGE_DEMON": [
+              6,
+              14
+            ]
+          },
+          "native": {
+            "match": 38272,
+            "mismatch": 0,
+            "unresolved": 2768
+          },
+          "p50_ms": 4.399,
+          "p95_ms": 89.114,
+          "latency_n": 51283,
+          "a1_entries": 179,
+          "matches_per_100": 74.62901936314178,
+          "p99_ms": 117.141
+        }
+      }
+    },
+    "stress": {
+      "n": 64,
+      "mean_floor": 24.265625,
+      "a1_clears": 37,
+      "a2_entries": 21,
+      "a2_clears": 3,
+      "a3_entries": 1,
+      "wins": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": [
+          1,
+          6
+        ],
+        "KNOWLEDGE_DEMON": [
+          2,
+          8
+        ],
+        "THE_INSATIABLE": [
+          0,
+          7
+        ]
+      },
+      "native": {
+        "match": 13129,
+        "mismatch": 0,
+        "unresolved": 1325
+      },
+      "p50_ms": 5.005,
+      "p95_ms": 90.817,
+      "latency_n": 17692,
+      "a1_entries": 60,
+      "matches_per_100": 74.20868189011983,
+      "p99_ms": 119.397,
+      "modes": {
+        "default": {
+          "n": 32,
+          "mean_floor": 24.4375,
+          "a1_clears": 18,
+          "a2_entries": 12,
+          "a2_clears": 2,
+          "a3_entries": 1,
+          "wins": 0,
+          "bosses": {
+            "CRUSHER+ROCKET": [
+              1,
+              4
+            ],
+            "KNOWLEDGE_DEMON": [
+              1,
+              4
+            ],
+            "THE_INSATIABLE": [
+              0,
+              4
+            ]
+          },
+          "native": {
+            "match": 6624,
+            "mismatch": 0,
+            "unresolved": 650
+          },
+          "p50_ms": 5.68,
+          "p95_ms": 96.164,
+          "latency_n": 8574,
+          "a1_entries": 28,
+          "matches_per_100": 77.25682295311407,
+          "p99_ms": 125.186
+        },
+        "seeded": {
+          "n": 32,
+          "mean_floor": 24.09375,
+          "a1_clears": 19,
+          "a2_entries": 9,
+          "a2_clears": 1,
+          "a3_entries": 0,
+          "wins": 0,
+          "bosses": {
+            "CRUSHER+ROCKET": [
+              0,
+              2
+            ],
+            "KNOWLEDGE_DEMON": [
+              1,
+              4
+            ],
+            "THE_INSATIABLE": [
+              0,
+              3
+            ]
+          },
+          "native": {
+            "match": 6505,
+            "mismatch": 0,
+            "unresolved": 675
+          },
+          "p50_ms": 4.36,
+          "p95_ms": 85.439,
+          "latency_n": 9118,
+          "a1_entries": 32,
+          "matches_per_100": 71.34239964904584,
+          "p99_ms": 114.789
+        }
+      }
+    }
+  },
+  "paired": {
+    "delta": 0.3541666666666667,
+    "ci95": [
+      -0.1484375,
+      0.8619791666666666
+    ],
+    "w": 55,
+    "l": 44,
+    "t": 285,
+    "sign_p": 0.31487989103762243
+  },
+  "stress_paired_subset": {
+    "delta": 0.140625,
+    "ci95": [
+      -1.859375,
+      2.171875
+    ],
+    "w": 19,
+    "l": 22,
+    "t": 23,
+    "sign_p": 0.755228657504631
+  },
+  "cards": {
+    "control": {
+      "EXPERTISE": {
+        "plays": 1,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "MASTER_PLANNER": {
+        "plays": 1,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "MIRAGE": {
+        "plays": 1,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "NIGHTMARE": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "SUPPRESS": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "UNTOUCHABLE": {
+        "plays": 9,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "WRAITH_FORM": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      }
+    },
+    "treatment": {
+      "EXPERTISE": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "MASTER_PLANNER": {
+        "plays": 1,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "MIRAGE": {
+        "plays": 1,
+        "match": 1,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "NIGHTMARE": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "SUPPRESS": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "UNTOUCHABLE": {
+        "plays": 7,
+        "match": 5,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "WRAITH_FORM": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      }
+    },
+    "stress": {
+      "EXPERTISE": {
+        "plays": 4,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 4
+      },
+      "MASTER_PLANNER": {
+        "plays": 4,
+        "match": 4,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "MIRAGE": {
+        "plays": 5,
+        "match": 3,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "NIGHTMARE": {
+        "plays": 2,
+        "match": 2,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "SUPPRESS": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "UNTOUCHABLE": {
+        "plays": 2,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      },
+      "WRAITH_FORM": {
+        "plays": 0,
+        "match": 0,
+        "mismatch": 0,
+        "unresolved": 0
+      }
+    }
+  },
+  "inventory": [
+    {
+      "card": "ABRASIVE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Abrasive",
+      "model_sha256": "843912702bf205461319e5d85fc5dafe230134f9f8af5359097f79b7880fa1ba",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ACCELERANT",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Accelerant",
+      "model_sha256": "812902f32beb6e515bc51372b1ab3734e67bf17027ddf75a09e6bb060c6ce2cb",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ACCURACY",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Accuracy",
+      "model_sha256": "1b3831369faab98080eb841161ea57eb53cc0e24cfd8451d0290e516819362e3",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ACROBATICS",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Acrobatics",
+      "model_sha256": "3ee3ccd097acd1f4593ab643653b0f283d114e11b7a3bb62c77dc84d73d17c2a",
+      "note": "Hidden mid-turn draw.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ADRENALINE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Adrenaline",
+      "model_sha256": "596def70723291255840c345b0be949a930fe14713560034bd25cae2abd1de92",
+      "note": "Hidden mid-turn draw.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "AFTERIMAGE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Afterimage",
+      "model_sha256": "d12345eee2d43210d2610b9189a88f906d22a32b8bd1361af03802955b435e09",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ANTICIPATE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Anticipate",
+      "model_sha256": "1b3120385031170f411a841a04ff1d66d9c04bb842eba752211a42df25b31d37",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ASSASSINATE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Assassinate",
+      "model_sha256": "2787240f10839458c9199a1bd91371fed857f853f637221362238c7f1e9ec87c",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BACKFLIP",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Backflip",
+      "model_sha256": "af5ff7bc9381a70cbc39af78a55f5ca845855bafb90e62292365fc086ee10f10",
+      "note": "Hidden mid-turn draw.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BACKSTAB",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Backstab",
+      "model_sha256": "6a26f646b66728684b269f962aed3b8f4db791fdd320e25929c56839d39372e5",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BLADE_DANCE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "BladeDance",
+      "model_sha256": "54bcb906b97d99882db1a72781208faf47bdc8c4bab3ba1e0b4898f590323931",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BLADE_OF_INK",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "BladeOfInk",
+      "model_sha256": "5a26ad70ae161d588dcd0257819d200e09f9b018ac5f6f878864d4a6d581b585",
+      "note": "Existing Phantom Blades first-Shiv history can require a witness when playing the generated Shiv.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BLADE_SYMPHONY",
+      "group": "Multiplayer",
+      "rarity": "Uncommon",
+      "status": "EXCLUDED_MULTIPLAYER",
+      "model": "BladeSymphony",
+      "model_sha256": "4085214ad653df4586c1cf6fd706ae8a94d2891146c7550778190262a6c5d7d2",
+      "note": "Multiplayer. Create two Shivs for each living player teammate. Upgrade reduces cost from 2 to 1.",
+      "root_admission": [
+        false,
+        false
+      ]
+    },
+    {
+      "card": "BLUR",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Blur",
+      "model_sha256": "d9db2f6fb8620fa36edc5ab1aa64f518eb677a533b7273f895e34a8a0bc14cb0",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BOUNCING_FLASK",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "BouncingFlask",
+      "model_sha256": "d132898b17d72bb666e1a033a44061a3aa32954d5d66a803d492c76d02163b62",
+      "note": "Multiple living targets.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BUBBLE_BUBBLE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "BubbleBubble",
+      "model_sha256": "3bc3410b6ca0ff74d243e2de1748b9af1b6b31db9a6ecff717789813c01483de",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BULLET_TIME",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "BulletTime",
+      "model_sha256": "7ff652e8714818299f9d80606b79be2787e85757c7e517205e5fa0e99dcffd64",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "BURST",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Burst",
+      "model_sha256": "fbc7c872bb7edeff969c5b852c6a5cfd2e65b22a4f77559433fd275617b7a9b1",
+      "note": "A repeated Skill can suspend on a draw or selection.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "CALCULATED_GAMBLE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "CalculatedGamble",
+      "model_sha256": "a6a430cc9751d56b6b25ebe14fb6b434beccaa544c9d712307b51bb70db1f3e0",
+      "note": "Hidden mid-turn draw.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "CLOAK_AND_DAGGER",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "CloakAndDagger",
+      "model_sha256": "a3718a26288db1ebad580dd390d0877f2cd92e95635d9f0348785b16af1533b3",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "CONCOCT",
+      "group": "Multiplayer",
+      "rarity": "Uncommon",
+      "status": "EXCLUDED_MULTIPLAYER",
+      "model": "Concoct",
+      "model_sha256": "87f5334ca4bbdd20286e93cb23867156efc8e8b5238dddd803967caa8649ab3d",
+      "note": "Multiplayer. Give an ally 3/4 Concoct. Its unblocked powered hits apply that much Poison until the end of the opposing side\u2019s turn.",
+      "root_admission": [
+        false,
+        false
+      ]
+    },
+    {
+      "card": "CORROSIVE_WAVE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "CorrosiveWave",
+      "model_sha256": "709fd2df850eb1e285f6b4868f61cca3b9cba9f680a60ecab69a13d11dec6556",
+      "note": "Poison after extra draws. A mixed hidden draw suspends the play.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "DAGGER_SPRAY",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "DaggerSpray",
+      "model_sha256": "420de09f592c433731bd9b3feadeec1589027f86abf16793ddc045f3f2aaf3ec",
+      "note": "Multi-hit Curl Up ordering.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "DAGGER_THROW",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "DaggerThrow",
+      "model_sha256": "9623df581636215e872c1f833d2ca7e3fb83ee86e6a694f928a45b5edade8536",
+      "note": "Hidden mid-turn draw.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "DASH",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Dash",
+      "model_sha256": "5f901ee9665a1023ec7a1e50f54b5cd94bc4afa89e66717b7fb6de13b6668d80",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "DEADLY_POISON",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "DeadlyPoison",
+      "model_sha256": "343c9c6496d1fec6e8c353c9e971fdfa1419c738a6d549fc816fc41e7b32b049",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "DEFEND_SILENT",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_FULL",
+      "model": "DefendSilent",
+      "model_sha256": "25e86818896023e41d83487a01b026b686cbbe9234540cd67606c990574e5087",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "DEFLECT",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Deflect",
+      "model_sha256": "e8a6861b7493f848458bc45d5f8bfbd66bcd1a49f97ea4075153cd32c0dab828",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "DODGE_AND_ROLL",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "DodgeAndRoll",
+      "model_sha256": "563426cc9f6e184ae58491a315e5bbfad9634f870aaf987748d5bbbf42ca3b10",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ECHOING_SLASH",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "EchoingSlash",
+      "model_sha256": "e6659a3f6e016f19e06e136899726d43cfbf1d7f614f4892bcf1677844ddbfcd",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ENVENOM",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Envenom",
+      "model_sha256": "a844d07c07afee5265ddc070cfbd5fb37451e52444228702b687d54a6bb5ea39",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "ESCAPE_PLAN",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "EscapePlan",
+      "model_sha256": "f0fdedc7e8317b534002ba6a1e3ee56ec787b539f3a1dacbd20848255fde30c5",
+      "note": "Known Skill draw gains Block. A mixed hidden draw suspends before reveal.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "EXPERTISE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Expertise",
+      "model_sha256": "5a20da04a7749b2e65a455d6492c7a4985808b32695854e6751efcb039818cbf",
+      "note": "Draw 2/3 and retain the drawn copies this turn. A mixed hidden pile suspends before spending energy.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "EXPOSE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Expose",
+      "model_sha256": "7058ee0ce84c962487eb54b179119a5dcb628df7964b19851b07d0f3b19d267b",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "FADE",
+      "group": "Multiplayer",
+      "rarity": "Uncommon",
+      "status": "EXCLUDED_MULTIPLAYER",
+      "model": "Fade",
+      "model_sha256": "84aad00b4fd8afd2f26259c8e8b1a206d5b8fc091431ed026e6a9a28285a74aa",
+      "note": "Multiplayer. Retain. Give an ally 6/9 temporary Dexterity until the end of its side\u2019s turn.",
+      "root_admission": [
+        false,
+        false
+      ]
+    },
+    {
+      "card": "FAN_OF_KNIVES",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "FanOfKnives",
+      "model_sha256": "e8e04760f12b49980d1d3bebcbca9a533da9cf187d0f37847aa32fc380b8f1d4",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "FINISHER",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Finisher",
+      "model_sha256": "22e772b1f25d5be3ad598f031365f99c407a05ee985eed33364d2927b0ee7c51",
+      "note": "Use the public calculated hit count, otherwise suspend on unwitnessed attack history.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "FLANKING",
+      "group": "Multiplayer",
+      "rarity": "Rare",
+      "status": "EXCLUDED_MULTIPLAYER",
+      "model": "Flanking",
+      "model_sha256": "e11c5e972b1690f32346baf615ffaaf491c8b69c9c0e71cf86fc1030cc8d1833",
+      "note": "Multiplayer. Other attackers\u2019 powered hits on the target deal double damage until the end of its side\u2019s turn. Upgrade reduces cost from 2 to 1.",
+      "root_admission": [
+        false,
+        false
+      ]
+    },
+    {
+      "card": "FLECHETTES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Flechettes",
+      "model_sha256": "49fae53776dc2c759d635ea459e57318b871e1b6cda52aa7ac4a3c72b163bf38",
+      "note": "Multi-hit Curl Up ordering.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "FLICK_FLACK",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "FlickFlack",
+      "model_sha256": "53b4b64d032cbb696b6196a12661ef08b7c923765cdcdfae62e869bfc2ff3630",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "FOOTWORK",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Footwork",
+      "model_sha256": "03c45f76eb2ac123d7211be498fec4b4598084360f31a670740e138a584a0e47",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "GRAND_FINALE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "GrandFinale",
+      "model_sha256": "198440930b9972d827592735a0a173a97d8865fd1cb0c20377fc2f50099d82c0",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "HAND_TRICK",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "HandTrick",
+      "model_sha256": "6a1e1cb1d3a1b1bbd2a0eb0ac513af90c28ed66364f2b344b0a3ab73cf0cd9ef",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "HAZE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Haze",
+      "model_sha256": "afacd0a18b5f037d9513f99d80cf3589e7de3574917dccd46afefc1b00663724",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "HIDDEN_DAGGERS",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "HiddenDaggers",
+      "model_sha256": "fa912b7557d5ec253b9f522b1cbee24b8fd0d231499e56d14f4eb53e1fafa191",
+      "note": "Discard selection may auto-play Sly cards with multiple targets.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "INFINITE_BLADES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "InfiniteBlades",
+      "model_sha256": "ec83b9606e634e3d0217b894b66962aecf704fc407ad1e3e025262ff5ec17349",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "KNIFE_TRAP",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "KnifeTrap",
+      "model_sha256": "f3c10f7c0a7640198af13f8fc323e6bd181b02f0e86880c470fb477a3a0b6ecb",
+      "note": "Replays exhausted Shivs. Mixed exhaust order or a dead replay target can suspend.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "LEADING_STRIKE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "LeadingStrike",
+      "model_sha256": "5e237e023e4d772e1a0a6f2a355d855faf64c204727c6454152c085e04fa649a",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "LEG_SWEEP",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "LegSweep",
+      "model_sha256": "55f1343a3695ae050255c37ba05f206d9e6fbaa806692bfc1f2399c932999273",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "MALAISE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Malaise",
+      "model_sha256": "bc019caf7edfffcf25a95346ad140e36df2cad298a7f36ebf62d7ed25035b3c7",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "MASTER_PLANNER",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "MasterPlanner",
+      "model_sha256": "baeffbc86a2ea03730c1ac517999c16f889ba6bb5156820552bb142456187ef3",
+      "note": "After a Skill finishes playing, that combat copy gains permanent Sly, including before a replay.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "MEMENTO_MORI",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "MementoMori",
+      "model_sha256": "e108d35442f8fb245112a65ab5cfe3824ff494cdf9183d166bc37df06ed282c3",
+      "note": "Infer discarded-card count from an unambiguous public preview.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "MIRAGE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Mirage",
+      "model_sha256": "33c95dfa21caac6c890f0e55e72065fe3e31bdb83a00c7d21c73913908f1acdf",
+      "note": "Modified Block from total Poison on living enemies. Only the base version Exhausts.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "MURDER",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Murder",
+      "model_sha256": "712fc0550a22905b11f768df0a48d3d933df2c599dbc6f845624bb9af63025d9",
+      "note": "Infer combat draw count from an unambiguous public preview.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "NEUTRALIZE",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_FULL",
+      "model": "Neutralize",
+      "model_sha256": "38b9cc6992763593881c0122148dbf8e7dadf38b0754c85770227bf3e07ca66b",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "NIGHTMARE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Nightmare",
+      "model_sha256": "53c6eaadb61f6cc3064f4e3a3aed7070445e5d8e80dafdc3ce8297e13ddff958",
+      "note": "Witness the selected copy and create three before hand draw. Multiple instances, modified clones, overflow or competing generation can suspend.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "NOXIOUS_FUMES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "NoxiousFumes",
+      "model_sha256": "ebffac99f31337c8e236db34fccdc228e354efb5743ff4549390669973d40909",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "OUTBREAK",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Outbreak",
+      "model_sha256": "eb95609efb354c63c9e0f38e532fb84af50cbb47c22a03b08f8a83cd51f3793b",
+      "note": "Poison tick can wake an enemy whose new move is hidden.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "PHANTOM_BLADES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "PhantomBlades",
+      "model_sha256": "3f3dcd26011d47aa228a612b0cb4df77e24996341c8614e97ab440a68245370b",
+      "note": "Retain applies to existing and future Shivs. First-Shiv bonus needs a witness.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "PIERCING_WAIL",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "PiercingWail",
+      "model_sha256": "4e8d6589796661beeb40b1951585c619c545a4dc2b64aa37fb45e3e33db8d5bd",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "PINPOINT",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Pinpoint",
+      "model_sha256": "27183262c1b9138ecfa5e8924e4c5827b44dee8c02254ce6dc46306406abd5c4",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "POISONED_STAB",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "PoisonedStab",
+      "model_sha256": "4d5f2ce1c671afd42e64cb02c903105e6de2bc160d68e3f9504580c87b754fef",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "POUNCE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Pounce",
+      "model_sha256": "a14433af2d1f6090a2cea3fee4ce0e92bab62ddd2396e316486670043b9aef70",
+      "note": "The final Free Skill stack can conceal the underlying costs of other hand cards.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "PRECISE_CUT",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "PreciseCut",
+      "model_sha256": "4a266f816872f40f8948f9dac965ec8526a1f91dafc5cfb2ebd79ee84d463ccc",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "PREDATOR",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Predator",
+      "model_sha256": "24d3a62a9064487ca42f315a84f455995fc4263e8df637cf4347c32b7016ae0b",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "PREPARED",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Prepared",
+      "model_sha256": "55f51600963dd8a97a7320265e58d3b11d2072272da5737c06f837be4dfb15b6",
+      "note": "Hidden mid-turn draw.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "REFLEX",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Reflex",
+      "model_sha256": "9da35e8290ad693e532dbc718e9f03c937d8a21703bdaa96d893b75441411690",
+      "note": "Hidden mid-turn draw.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "RICOCHET",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Ricochet",
+      "model_sha256": "94ecf31f64c61c587e5a756a78c0944bd58006be1581b352907b536eba49c8ea",
+      "note": "One living target resolves all 4/5 hits. Multiple targets require native RNG.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SERPENT_FORM",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "SerpentForm",
+      "model_sha256": "588fe81c3cfbc57b1fa0ec7d4648e7b50e6f546abe52bad2ca80fa807e48bc1e",
+      "note": "After a subsequent card, deal 4/6 damage to one random enemy. A sole target resolves locally.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SHADOWMELD",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Shadowmeld",
+      "model_sha256": "4dde9d38e58455ac734468c98ea3140fbb609c1422bb5df2fcb83ead612fff29",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SHADOW_STEP",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "ShadowStep",
+      "model_sha256": "c5997898c8af2c90b99a2a077bedf1db1f0487068f5aa379e1d043d3286ec9e2",
+      "note": "All-hand discard can auto-play Sly cards with hidden targets.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SIDESTEP",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Sidestep",
+      "model_sha256": "273d9b9ebf97663ecad80714aa2a1bba6304422818c046c4fd7bb80e455e7da3",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SKEWER",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Skewer",
+      "model_sha256": "39cd5fd45f34dac86c1ec8d1b6dcde9639031b814f5e194b8560aebcadd842dc",
+      "note": "Multi-hit Curl Up ordering.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SLICE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Slice",
+      "model_sha256": "30e4f9008ce59dbb0062eb27473ba79d32c0750a18096b7d1417994d2fc9c112",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SNAKEBITE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Snakebite",
+      "model_sha256": "8f6957b96c1ba47877fd7957158e739a921d4a7e7e4bbcd13c6e3fcf46b013ec",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SNEAKY",
+      "group": "Multiplayer",
+      "rarity": "Rare",
+      "status": "EXCLUDED_MULTIPLAYER",
+      "model": "Sneaky",
+      "model_sha256": "cd141755e2780c4accb2d026396cd8510e36560debf98b67fadfe45017a10e10",
+      "note": "Multiplayer. Sly. Gain 1/2 unpowered Block each time another player finishes playing an Attack.",
+      "root_admission": [
+        false,
+        false
+      ]
+    },
+    {
+      "card": "SPEEDSTER",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Speedster",
+      "model_sha256": "72f77a1d35d8682dd692482301ae73fa5294e26618534c37f508773825f54192",
+      "note": "Extra draws hit each enemy. A mixed hidden draw suspends the play.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "STORM_OF_STEEL",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "StormOfSteel",
+      "model_sha256": "859016a4e80c8d4c587dc3687b8ef456fad4a4bed2fce84d0e606005b42bb975",
+      "note": "All-hand discard can auto-play Sly cards before Shiv creation.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "STRANGLE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Strangle",
+      "model_sha256": "e55f7a806bae97e93d37293ac3355a732d5f95117531f545aa66dc8fe1440c34",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "STRIKE_SILENT",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_FULL",
+      "model": "StrikeSilent",
+      "model_sha256": "8f34c5db7a842da7c727f456c23556657ef320efb33d3198a7f68a72bc3be77f",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SUCKER_PUNCH",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "SuckerPunch",
+      "model_sha256": "e81e4e7532b7f13ab51b725394d489172b7ea6896f5ecaf1131dc911e66f5df1",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SUPPRESS",
+      "group": "Ancient",
+      "rarity": "Ancient",
+      "status": "SUPPORTED_FULL",
+      "model": "Suppress",
+      "model_sha256": "7774f2dbef9ca091dca7f6947c06166cf55734154153258f5af79ae72158a0a4",
+      "note": "Innate. Deal 11/17 damage, then apply 3/5 Weak.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "SURVIVOR",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Survivor",
+      "model_sha256": "caf7dba79c93a1eb1afd6b1e583644009fd2adf3845581f283405182f0f3daf0",
+      "note": "Discarded Sly attack can require a random target.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "TACTICIAN",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Tactician",
+      "model_sha256": "c08e162652f37088de6be037ac0120c18bb3ac374b7094bfc5097328d069275d",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "THE_HUNT",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "TheHunt",
+      "model_sha256": "19c7889f70e2f0cefafe3c40b8ca418762ba557c02dd6c16252a16efc735a0bd",
+      "note": "A fatal hit can require special monster death eligibility.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "TOOLS_OF_THE_TRADE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "ToolsOfTheTrade",
+      "model_sha256": "4d24692c24b6d2926b8b8a71cda7f90473f99ef298a84ef6499a4fd5f7e07fd7",
+      "note": "Ordinary end turn certifies at next-hand reveal. Interacting start-turn prompts can suspend.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "TRACKING",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Tracking",
+      "model_sha256": "ad1de28a92f9b4d37da3e589ac76fc5da36722defea526db99bdc51259f8e84b",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "UNTOUCHABLE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Untouchable",
+      "model_sha256": "5dcd00a2acc555cae537fd8300fb57d42f3536fc38384cf6615153f58dc30534",
+      "note": "Sly. Gain 6/9 modified Block on manual play or automatic discard play.",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "UP_MY_SLEEVE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "UpMySleeve",
+      "model_sha256": "f393be8684d4ac67f89d097a4c99b495e7781da2342719a63e0ce77a87cbeb79",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "WELL_LAID_PLANS",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "WellLaidPlans",
+      "model_sha256": "dbbfaefef7994066a7ec76c98ae2745010e8b5f33830b7b330033e0a42af008a",
+      "note": "",
+      "root_admission": [
+        true,
+        true
+      ]
+    },
+    {
+      "card": "WRAITH_FORM",
+      "group": "Ancient",
+      "rarity": "Ancient",
+      "status": "SUPPORTED_FULL",
+      "model": "WraithForm",
+      "model_sha256": "08a69b811b6892c62554792df30c5f3e15d33b917e72404508de98724c9534a8",
+      "note": "Gain 2/3 Intangible. The separate debuff applies negative Dexterity after player-side turn start.",
+      "root_admission": [
+        true,
+        true
+      ]
+    }
+  ],
+  "qualification": {
+    "profiles": {
+      "survival": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "9ac1e583cb354b380980d346d376ee5d4583acd7146ecb0dc320a1408cdad3d6",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "6fcc9f4eda1b954adc7e75394638854f910ab5943cd88bc83124c4ef89a73ccc",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "scorer": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "9ef3d9448bbbbf4d18a6caee18ff1a409c2848514a065ca02b736b8f61a5d612",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "dc1d62c46166f378f445fa50c37f524667dad6e0e21f219047d1a0202683e9bb",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "shop": {
+        "deck_model.json": "dfdc2442df6de387b4e29cf717d4f02276fe7da2b3cd4d2f1b9822ff726ff3c3",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "9d6b70d38cbf1161aa90e7e08cf06daa9a4c945b07747c777ce5eab5e78bbf59",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all": {
+        "deck_model.json": "dfdc2442df6de387b4e29cf717d4f02276fe7da2b3cd4d2f1b9822ff726ff3c3",
+        "encounter_model.json": "dbbe35d4b89f9927bea81cb60542714054bf4dc5673c1ca2936643f435245bbd",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "c4826d98bccb51aad4f3e60306c5484ee3bb2c98b6d6637861560a23e3cb239e",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "route": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "bb8d6ed5b1510cabd65793c19ac7ffa2ebf86f654c824a6cce90d1b53526c7b4",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "draft": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "975a879d7712bfc6858a3630ff6fa5b0c1ac4bca64c162fe52944a460b0c31fc",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "batch2": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "de15992ab6727d1eab2bd2f0fbf2ef91e993a05a474fd76c98b095f887c7de8f",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2": {
+        "deck_model.json": "dfdc2442df6de387b4e29cf717d4f02276fe7da2b3cd4d2f1b9822ff726ff3c3",
+        "encounter_model.json": "dbbe35d4b89f9927bea81cb60542714054bf4dc5673c1ca2936643f435245bbd",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "f509f829ed779b5f4f8b9ade78a48b763f945a7303bffc178bb6cd84f836f896",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_clean": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "9801bff601d28eeccbd0e00116f5952dd9c7acbf43c710a172e4ba8233d4441a",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "6996d1f963c9af3f7aebf347570f5e1fc3ec73154863ed04a6749bbc75814212",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_tactics": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "f629626ec66adfb32c79cf8427144cc084f66bd4f9fe7c78d999a0cba4e014bb",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "768db8b1e973070706feafefa718289d213c469b9651cad078a49c6a1caac816",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_mech": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "0c885df8a5845703f3ed61e4b9e71e504814da416593ddee1c717aa8cba84e8f",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "3561464f0d17bb18bcc11b48c724fec1a956a90a96aa9c82abda950d16ca72f1",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_mech_v3": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "6ebdf92be19b4d39f5373c401c30bea114ae3da5eb06f4445c015c47fbdb8ae8",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "0ccf0136312c48e8b02f1268518f003827f1305b78235373bb613cb51ca8fc5d",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_p1_v4": {
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_search_v5": {
+        "combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+        "combat_value_v2.npz": "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_search_heur_v5": {
+        "combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "85de8c968e2b973a2928719bedab2697ddd305e0c55c2654064fcf5f9ebd93c4",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_search_v6": {
+        "combat_search_v2_config.json": "3b94e11296f28c71f25a9958bfb65004547c8cab1fdda4de58eee3828539249a",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "4b5fe32e78a96ca656cca805f316410b19baa9c4f2c227d25b77a6d1306c93a9",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "v64_control": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "373f54a8deb95fbe6e24829e2503e841677fe7427fd565a9939ba09e3560dd1c",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "unified_size_165": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "f1951bf589637a49fc2598bb697a2a18d0e5422a29940500d588da16a4e1d5ee",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "4fb08d7a9faa68f2a244c200f48823c83515f26c3d28090c1b15751dd716b53c",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "unified_size_0": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "3f6fdc8ed8e431a59e45ffb898458bd650ee6741845db87746ac0e673e6f4f69",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "c02aac38bf0b55481e476e8719a90398e615d335baf5ace14aab844284e531b4",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "trap_cleanup_v65": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "fdab7bc60d98771f8d8c1668d1d2dae588161fe168717c541f97ef039eabf341",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "06a872bb52638c366b80e866f14ade44e75e5a65be738c19ba85a8dde7c69b64",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "240183661bf1943f43d42a2cce361801c40aed74c79a9936b8bc2045ce9b18f0",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "unified_draft_v65": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "cd6e48ffd04cc9861ed36d2816bc6e86ceb1cac03e84291c9823c6af6d7f9901",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "938e72343c9295672057befa5d8ae08f84b3991bedb12f7511d578ba5733b1cf",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      }
+    },
+    "frozen": {
+      "releases/silent-a10-v2-tactics/challenger/combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+      "releases/silent-a10-v2-tactics/challenger/combat_value_v2.npz": "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b",
+      "releases/silent-a10-v2-tactics/challenger/deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+      "releases/silent-a10-v2-tactics/challenger/encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+      "releases/silent-a10-v2-tactics/challenger/late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+      "releases/silent-a10-v2-tactics/challenger/offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+      "releases/silent-a10-v2-tactics/challenger/policy.json": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+      "releases/silent-a10-v2-tactics/challenger/room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+      "releases/silent-a10-v2-tactics/challenger/strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+      "releases/silent-a10-v2-tactics/challenger/weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+    },
+    "csv2dev": {
+      "off": {
+        "n": 24,
+        "sha256": "23efeda3632d6db289b591984b80cf900dae24fcc032bc2c61fb3fcb02117eca"
+      },
+      "active": {
+        "n": 24,
+        "sha256": "e3f30a6a2b45a98f3697ba72f835f5928c38be5b8e2fc83c8cd793a82200da05"
+      },
+      "shadow": {
+        "n": 24,
+        "sha256": "a8578f1a8bef2c7c30ac85ae4fb2479eb5610a991a11dc6212e90940a52424a7"
+      },
+      "v5": {
+        "n": 24,
+        "sha256": "6680f64f8fd23799a1955a0b197420f8d265a622b4532fdaecf33176045ccdcc"
+      },
+      "kaiser": {
+        "n": 24,
+        "sha256": "355abaf4cd36bf954a3059a0ee6346684d59826d1fba1cd96d995756e8670b2b"
+      }
+    },
+    "v66_replays": {
+      "arm1/CSV11DEV_DEFAULT_0000": "c70651fc8e596020d9c2587f8bb36dd59c5c8908223d7ebb46de207633d962f5",
+      "arm2/CSV11DEV_DEFAULT_0000": "b78d1d7014a32657a7494f0d625834ec0567e258e8caf2b9d956e17debd10011",
+      "arm1/CSV11DEV_SEEDED_0000": "d98bf37847c3486de1b879ae6cb9196f6458e3884f45aacc66a6271d036dd718",
+      "arm2/CSV11DEV_SEEDED_0000": "d98bf37847c3486de1b879ae6cb9196f6458e3884f45aacc66a6271d036dd718",
+      "arm1/CSV11DEV_DEFAULT_0001": "79d469d42cf2b725c6d96902a638e91de0ddd61641df910ba3e5e91019386c87",
+      "arm2/CSV11DEV_DEFAULT_0001": "8bcfabbcdf137eed3e0954bd9b7fbec7007ec36006f4a1f590e9ae444d3605e9",
+      "arm1/CSV11DEV_SEEDED_0001": "5d96de5b5d032c61ca6974fb42d35f0bdc0ef87c1975dc65ad9a99ac9ee3d82e",
+      "arm2/CSV11DEV_SEEDED_0001": "da1108078c1187abc28f84ea36a2acb695ffba766ce6afb7affcf5d9ed3faca5",
+      "arm1/CSV11DEV_DEFAULT_0002": "c0aa0d2909fda7ad05c73fa77ddeb2836bf0c90ae01e55195fce7fa73a79a527",
+      "arm2/CSV11DEV_DEFAULT_0002": "728ce734327bfa992c114c388f923d8007cbf40c35aca2df26f006e3dc600206",
+      "arm1/CSV11DEV_SEEDED_0002": "1c839dcd9c1ce7d125ebccde42d4a7df7e6851b1822a44654e89aaf13acfd69d",
+      "arm2/CSV11DEV_SEEDED_0002": "83f071a7162dd33095356e43f081223d2310d116c86e179eb593fd904d577e3f",
+      "arm1/CSV11DEV_DEFAULT_0003": "466db56c2b86040051431b0e3a0b81c8fd77aa600f93954e3fde346f713711ed",
+      "arm2/CSV11DEV_DEFAULT_0003": "b5fdf459e2a8a95a861b6e3e61ab25b1234cc6afda66ed9b69e32df1fcc8e6e6",
+      "arm1/CSV11DEV_SEEDED_0003": "e137d2b8f861114b83cca54da9bdd3e390e981eba42f862ea19e8715e03ed780",
+      "arm2/CSV11DEV_SEEDED_0003": "9db122dbcbb276c7377fa10618ba7e3843eb10966517f2e1340999f964865519",
+      "arm1/CSV11DEV_DEFAULT_0004": "f032325733ef9c41ee09536311281b1006dfe809ad68eb9bcbc4ac7c2c207b01",
+      "arm2/CSV11DEV_DEFAULT_0004": "9449f8aca66769732140f8b4901810253e917262585c553960b972b79f08f1d4",
+      "arm1/CSV11DEV_SEEDED_0004": "74d5d481b0b66de5d94bf1ed88d5705f772e868c3d2078b9ff0edae178f04bba",
+      "arm2/CSV11DEV_SEEDED_0004": "69354f3123560be46a97092e6ba829ab28386ab8ebe23ae2b6327153384289e8",
+      "arm1/CSV11DEV_DEFAULT_0005": "f52ab41f8c1111da9115863a524b1dff407a3c1eaba7360b5e91a81b5b29da64",
+      "arm2/CSV11DEV_DEFAULT_0005": "b4e50d3aba5e35bb9483028fdadfe02b71a4e3375224585810f44d673236d4a5",
+      "arm1/CSV11DEV_SEEDED_0005": "712ba44f2958a49ce34e4d1946f524406311d585905544297eab4bbc348d4680",
+      "arm2/CSV11DEV_SEEDED_0005": "e170d339a6216c812b7883c2b8678b0cf421dbe7a393b5571834b2155eba8430",
+      "arm1/CSV11DEV_DEFAULT_0006": "1aa40f8971a712d75d57f57ffd9256278ae17c804aa04e4e7ab3c5add89a236d",
+      "arm2/CSV11DEV_DEFAULT_0006": "4e3f5ed3bab12b91b3c238a4a1a241337c40d14a3beff0d9c284ebf6f3d744da",
+      "arm1/CSV11DEV_SEEDED_0006": "092236e2565bbbc5df713d048cc37614e8292f5b2daaab8259540864aafbd093",
+      "arm2/CSV11DEV_SEEDED_0006": "bf7d929bb97fa97cee734b3ba71ceebecc754040bb3b39d1608c9142f76d207f",
+      "arm1/CSV11DEV_DEFAULT_0007": "859dbf7d3014f1884c1a06eba74943ef1a813bbb693860b3723c1f64996ec045",
+      "arm2/CSV11DEV_DEFAULT_0007": "8a2445cc341543078d3ecf50be98ccedadb8f7c419486a68cbf0855da91155b7",
+      "arm1/CSV11DEV_SEEDED_0007": "331f97b753e3c6b5d4db4e9bf6462f1f84c280ad0db57b0a26374121f7622316",
+      "arm2/CSV11DEV_SEEDED_0007": "01a675bf299ac0f87dc362fa813be1921850a505435934165b697f5dba9b39df",
+      "arm1/CSV11DEV_DEFAULT_0008": "6347add69917151298a0c8fbd90160c91756fc0c0839bfe398d53a999e304716",
+      "arm2/CSV11DEV_DEFAULT_0008": "fd272c20c9519b6ff49b775c8783c3efccf59e4ad3b99383a8ebd59871221a02",
+      "arm1/CSV11DEV_SEEDED_0008": "b9d5a898719584488a2079a0ab2f6e88bc99f0a2103f04303a3a45fd0e9286bc",
+      "arm2/CSV11DEV_SEEDED_0008": "d8cc8511bc3cb6f0fcf4affb2f68288b0c6256c4ec17d3d8506ec9b86e6ced14",
+      "arm1/CSV11DEV_DEFAULT_0009": "1ca8743beb54779de64dacd97e3c953267c56098d25267550a1747bcc0ba78a2",
+      "arm2/CSV11DEV_DEFAULT_0009": "52f6cc80b93bd007636562e008c4098ef7a06bfa1d64dda0cd48174fa1905620",
+      "arm1/CSV11DEV_SEEDED_0009": "218e161db18201c610bd574a96ad3643786d853bc0176b074291f467cf4440cf",
+      "arm2/CSV11DEV_SEEDED_0009": "04ab1ae52d059036a6f9e57a9ec778cb679353c53fb88a620b42fdc728195ec6",
+      "arm1/CSV11DEV_DEFAULT_0010": "4665c2e20a4e116d6c15297023228cf6c106437eaafe1003bb51250ab0422f98",
+      "arm2/CSV11DEV_DEFAULT_0010": "837e0f5c9554f25537901e50b58b7081ac75d14c6e3ab9cbd9f2937eed5d23d0",
+      "arm1/CSV11DEV_SEEDED_0010": "6f83fa5ff5a4a9132523de6087c2fc5eefac9b42060888c2b2f677aee2c3c8c0",
+      "arm2/CSV11DEV_SEEDED_0010": "218e2ff81bb18bd0b6dd40b62734c8253de35f9ea1dd5a7af6c9a203578e1f73",
+      "arm1/CSV11DEV_DEFAULT_0011": "8f6325438bf870a11289bbb707dcb1478509e4936ced970cf5eea9259fe31fe9",
+      "arm2/CSV11DEV_DEFAULT_0011": "96b83fe0ff4d03297bf4bc5d3584433f7c06e7a8e200c84c0de8823f06a2afb5",
+      "arm1/CSV11DEV_SEEDED_0011": "b22b0b6ae20800e61058bb15befd19248d3f1fe65674f3226d4eaabf4c914657",
+      "arm2/CSV11DEV_SEEDED_0011": "c541dcd062ecfff9e59cc4f2388d9c5f0ce0faac0d33058aaa2a4f2201d1bdf1",
+      "arm1/CSV11DEV_DEFAULT_0012": "5f18444127e96b681892cfdf7f274407d0aa724bce18c017406c4d9192f8cc81",
+      "arm2/CSV11DEV_DEFAULT_0012": "aada4965a3ad1acbe6205667242ae33387d5780f539511bc8087435a9292a374",
+      "arm1/CSV11DEV_SEEDED_0012": "c222d83c85d3b76f02298efc6bc7e33fbfe18f7c5299f01113a5aeb2451e38ed",
+      "arm2/CSV11DEV_SEEDED_0012": "893e116f573a9c98fa80cf0c5f22e45647a2adc6fe0a773ca914bb79e58a3485",
+      "arm1/CSV11DEV_DEFAULT_0013": "a3a68086cda36bc1436a6e02e92115c4716515ab32396c5390151bae0a25aeed",
+      "arm2/CSV11DEV_DEFAULT_0013": "96c85d6e9b1dbda78c293c0adf2aa8b8483da620d33e1019476e4e06ba6eecc4",
+      "arm1/CSV11DEV_SEEDED_0013": "3dc650652f47816bcbda007440e8691102e6d14acc86ec5bba4e34a2a90da6bb",
+      "arm2/CSV11DEV_SEEDED_0013": "d182db53e06a2f09a2125e725ae2000ab1040dfec506ee6ea3493d4f22e4b1dc",
+      "arm1/CSV11DEV_DEFAULT_0014": "7eaf35a92a582ab2a4b3a15c045357f59aa2d26d326c0dcec444804c97d205be",
+      "arm2/CSV11DEV_DEFAULT_0014": "17a54d8a683bbca705f6a0bd419b045a326588c8935dbee0c890023ad1b8e503",
+      "arm1/CSV11DEV_SEEDED_0014": "298e3b5ffa5ebf61091fec26135d41dcd7f651e4b225d8e1dbe946a13a8889f1",
+      "arm2/CSV11DEV_SEEDED_0014": "23a245ceaab27e069f4ddb25107ba7d71ade5be10d7e59a5c88ddc76536b8958",
+      "arm1/CSV11DEV_DEFAULT_0015": "53f69d0776663b1f6c298fbcc4906293844acb99c6b8f3672f9a8ff6e231b3ba",
+      "arm2/CSV11DEV_DEFAULT_0015": "0dd8e2a7f2a9546d6f3cd4bae728643cc8c7717819640765e3ec27514282285c",
+      "arm1/CSV11DEV_SEEDED_0015": "905fb455e6c89985fa2d0b606b0dd16a729e4719e31107fbec9c2d22e298b355",
+      "arm2/CSV11DEV_SEEDED_0015": "7d0c953acb2cf3f6c399fa9209ad48bd2ac72ba743ed919ea3c08d92bf8404f3",
+      "arm1/CSV11DEV_DEFAULT_0016": "ab15427741d1bb3a143d1d3009d44b562e9efae88fee0f5145d78fc2665d6a21",
+      "arm2/CSV11DEV_DEFAULT_0016": "f5fe567f8c6040265245316d77d03351051664dbdbffbf1ec9ce178ccceae2a6",
+      "arm1/CSV11DEV_SEEDED_0016": "5f20484fd1c981d63604b3a9a323852ce74f7c2d964920a3036d2776978425c6",
+      "arm2/CSV11DEV_SEEDED_0016": "7d9fc42a0330ad9d78b8298d2dfb39a08d69b6827a369a7698b1cb9e809d70e9",
+      "arm1/CSV11DEV_DEFAULT_0017": "68234ea25d166e1b9e97123caa21b773be8bf4d2e6cdb14ef734c19f6091ae1a",
+      "arm2/CSV11DEV_DEFAULT_0017": "f3ed3fb34e6979250aab60194557bac73aac6fa21208d410b2acc3beb77ecb65",
+      "arm1/CSV11DEV_SEEDED_0017": "e3350cd839d507f3705451ba9db537136b954362b7e083eccfe398f47bcee040",
+      "arm2/CSV11DEV_SEEDED_0017": "0e419bbd1248057a8e24ece8a7ad6536f360b5c7f5a05f5962db02d54cba2214",
+      "arm1/CSV11DEV_DEFAULT_0018": "74d7a4f352ed905790cdea7e483078e929281ff2591449a1a4508b0884ae2367",
+      "arm2/CSV11DEV_DEFAULT_0018": "831aff0582f55747a16ba3d24cf7ad1b591ca78882eb9db7a400117b602ef40c",
+      "arm1/CSV11DEV_SEEDED_0018": "1583c0769aac5ec0ef0cf4f97b4d2c7790b7d69d4926730ea17dcf6fbfbb03f9",
+      "arm2/CSV11DEV_SEEDED_0018": "1c03f3a26a6df79cec87f38267e8b2802b7fcfba1d1f9e496916f147b9e21f6c",
+      "arm1/CSV11DEV_DEFAULT_0019": "c74c8491989182c6bb5b95b76a3dc716655f0d763adcbf737c0aed4b44f643f9",
+      "arm2/CSV11DEV_DEFAULT_0019": "323c94c4dd9ca232bc812b7115a6a4f76325e6f2df5433cfcc11932505bc3611",
+      "arm1/CSV11DEV_SEEDED_0019": "d0eb6ada073a7d2506d1ba865786d6071f7e163f02df3f101f6633d9e7d7455c",
+      "arm2/CSV11DEV_SEEDED_0019": "d268ef2eae89db6e110922712f88284aa9572b493f918a30d0940ef161d0a3c2",
+      "arm1/CSV11DEV_DEFAULT_0020": "ae7ab85303e10dab5d81ccb5d7a8f2c768ffee50f4ca750e0f043c143e7b3338",
+      "arm2/CSV11DEV_DEFAULT_0020": "3414aac6df6149cfe5eb9741ccbe5f238bac0623d93b3ffe367c94f603758091",
+      "arm1/CSV11DEV_SEEDED_0020": "b0c8d46423a08ddc73bcfa1d3a9dc8b63f3bf2530071e18b8e2b1db9a1675148",
+      "arm2/CSV11DEV_SEEDED_0020": "5c9b76d582097774585437ca9bad72a6bc5c18d6abc6b2488c334bcbfbbaf263",
+      "arm1/CSV11DEV_DEFAULT_0021": "bc32ceaecaa85440b42c51f626e82633ebd6e1628a1ab08c5181b22fab560e0d",
+      "arm2/CSV11DEV_DEFAULT_0021": "fbc668d8091a6a365503455ec62d0e35ab1305294a5a3d828cd8d59818f7e5ad",
+      "arm1/CSV11DEV_SEEDED_0021": "6cb06a26aa90bc49c269dd187a780908859537e1aa12dcc4aaf77e19bae05151",
+      "arm2/CSV11DEV_SEEDED_0021": "db6450cf4edcc4d9ff3b42e130a37c7db282edacac2cf501b8d80c5f82f90d23",
+      "arm1/CSV11DEV_DEFAULT_0022": "66eb36fa72d4f8079977c116531d53d47255befef5184ff03ba9c2bb1328ee0c",
+      "arm2/CSV11DEV_DEFAULT_0022": "8bd21c9dc3732774cb0590efba39ab469aeb409a515cf06461b2e7a823518a90",
+      "arm1/CSV11DEV_SEEDED_0022": "b6296e362eaafdec7ad2f48dfab540cf8bca7c53f099c01dcf69e403c892b1f2",
+      "arm2/CSV11DEV_SEEDED_0022": "488424bc7910cc5bab0749b2919957696abd6fc8324b3992d142287d4bedda2d",
+      "arm1/CSV11DEV_DEFAULT_0023": "4289ac479c2828bfa47c38af9aadac01e51f77304b4aa4514ddaf7bfbd225240",
+      "arm2/CSV11DEV_DEFAULT_0023": "339f31df72db8d2b05636421017f5a356f375d1ffd64de130aef8f339d8d04c3",
+      "arm1/CSV11DEV_SEEDED_0023": "5a8f76f09146e96f19b040a2a12394443ab18a8bf8ba122df0b7a7d1208a6c69",
+      "arm2/CSV11DEV_SEEDED_0023": "22a33e18f20bee80967443e2f9d44aec19045ebe375123312c0177fc5cdc75f1",
+      "arm1/CSV11DEV_DEFAULT_0024": "710db2a975ab0bef983136d423aeacae9c0472056b53c862be2c3cfaaf6bf86d",
+      "arm2/CSV11DEV_DEFAULT_0024": "34beadf7b709b8fda4bcf949bf844862b817f13ae2a065129feadcc433f62635",
+      "arm1/CSV11DEV_SEEDED_0024": "0fe1eabf9cbe8fde0db43f50d8eb8260db1878ce430f622b31ef1aced8439464",
+      "arm2/CSV11DEV_SEEDED_0024": "2d3832a4e71be21bc9ac043faea341e04a9bbbf00c63b02cb2f63007f2095419",
+      "arm1/CSV11DEV_DEFAULT_0025": "34afb96ea7d5e0e1fdd41fd09a72df88e6341e3eef1d1ec6ef7520fa33b396f3",
+      "arm2/CSV11DEV_DEFAULT_0025": "2f7464e23b4af1132c01c234b9feccbf14eae8ce6c998701940c2695e6666bc2",
+      "arm1/CSV11DEV_SEEDED_0025": "ab967b7d568fc6722ec2c762ddb325cc10e18790f616f12a43f7de59573771c6",
+      "arm2/CSV11DEV_SEEDED_0025": "0777321c937ffd74375b95fa3143669d97cae83d01e7e05d47f0d98fccc1c765",
+      "arm1/CSV11DEV_DEFAULT_0026": "e5dea433fd2fb6fd1fe05cbc1c1f9b65c97fd79e0c62ec19fdaa9317f026f955",
+      "arm2/CSV11DEV_DEFAULT_0026": "e4ad2933ea6c0b191958e8b5f51d25c30e5552d6c924af69e847c976ad912031",
+      "arm1/CSV11DEV_SEEDED_0026": "dc774837c085577ef39def577d3ceaf2e02ed349e90b5d6a98078645db55f674",
+      "arm2/CSV11DEV_SEEDED_0026": "fe1e5b8e43270e11537545ad4000dfc62d2ecc1178941b9c1410fb376fefc75b",
+      "arm1/CSV11DEV_DEFAULT_0027": "049bfa584ca771241879500ac08f067d6e8cd5b457df80920ac63a218058222a",
+      "arm2/CSV11DEV_DEFAULT_0027": "4f6090f60274b6cabd4ebdd5c024c4d189fdfbe7963f1203009a1645bc8a55d5",
+      "arm1/CSV11DEV_SEEDED_0027": "d58a9b39f1bd30a6e8e5a8dfc29e0765217f746d2b1ccf01d88c7494c1d516b1",
+      "arm2/CSV11DEV_SEEDED_0027": "6ca409df50249dd4998e6a9ea7f3a846fce04aefe3a5e13c25ca450e7f67701f",
+      "arm1/CSV11DEV_DEFAULT_0028": "8c72101416562b89a940cd7432491cecad6c16334b2d1f44294b1a9823c9e1f6",
+      "arm2/CSV11DEV_DEFAULT_0028": "baafb3572ebd4db391aaa4b4c1868528c3a539f40037597de2a6642c67aff408",
+      "arm1/CSV11DEV_SEEDED_0028": "8357187a604cb6a8231a6c416fda7da483040be50db237de3f08b8ee045b9a22",
+      "arm2/CSV11DEV_SEEDED_0028": "82c706e4303d1e3fe1420f79b45a64dbf1beb9d652d6902b0eed59a03edcf161",
+      "arm1/CSV11DEV_DEFAULT_0029": "5c81cca05ade6e0cda83ce27bbbb1e881dd108050dacb1379c4cf7d5e86c62d3",
+      "arm2/CSV11DEV_DEFAULT_0029": "bf457c39291b4d6b5e285894f5b426b5291a3fce7198af144680bcfb2d9f82d0",
+      "arm1/CSV11DEV_SEEDED_0029": "f387117a93961dcf84edfee03ffaad050d656c5714ac103b7698f508fb0e67a7",
+      "arm2/CSV11DEV_SEEDED_0029": "85489ebc7e744380a5f1d56ce401a2cd4835f9ae0ffaed372525c24387365239",
+      "arm1/CSV11DEV_DEFAULT_0030": "bbf5c9ce74b26456f518ee5fe7228da57a770dd7ffb0df1e594fa9ac5279a818",
+      "arm2/CSV11DEV_DEFAULT_0030": "c2d8e610090265a2a8d2ecd01c066b91f003024f03497e183a7d57ba36a5d527",
+      "arm1/CSV11DEV_SEEDED_0030": "08cc4fcef257f6fbe278a678b13fe4489a7f762f2a3d245cb43348c657731895",
+      "arm2/CSV11DEV_SEEDED_0030": "19aded2da4104a315a78c0b0ccf8b096522dca6f05499eb705e40214bea04527",
+      "arm1/CSV11DEV_DEFAULT_0031": "ed042f795920b23bd839ec50f3cf29d4a8c85ff9920cd3f385ace1ce13fb2f93",
+      "arm2/CSV11DEV_DEFAULT_0031": "87d8fc5e7ce819fba66e97bdc04b9ed2086a2582e8ec716e9826992d589b0b1e",
+      "arm1/CSV11DEV_SEEDED_0031": "ce2845bc7c8670629a4ae5cfdd3f2d0659cbb97da77e0b838411d53fe0bd2875",
+      "arm2/CSV11DEV_SEEDED_0031": "d8f0b08baa46efa4091de815181b18b56c3fc331415191b6fcaf794d2956fadc",
+      "arm1/CSV11DEV_DEFAULT_0032": "0d9f585a3a8750122192611dce58e27cc903104064502e679d124313a228e87b",
+      "arm2/CSV11DEV_DEFAULT_0032": "5513452242a239fac9d0406b7cd69d34e18e8cc2ea75517f7141cd34350f685c",
+      "arm1/CSV11DEV_SEEDED_0032": "27ab23081e22d8366a27d91e39dc35df83fb26136299c08a39db278a001bb776",
+      "arm2/CSV11DEV_SEEDED_0032": "c0e9858ef03aee34331e8e0f83d80a73833b30a34b7875130218031cfa270f4d",
+      "arm1/CSV11DEV_DEFAULT_0033": "4b8f3b2560e8799fcdc0f986d773901a8875a38e7c433847a15f36eb89994a16",
+      "arm2/CSV11DEV_DEFAULT_0033": "e9582b338a2112a53e6a7a95bfb7cf208c1675c84bda9264e37afbe783eb1bec",
+      "arm1/CSV11DEV_SEEDED_0033": "306872f3b393155bcc6512a0f87bcc455c8ffb3ddf3c02987933643424936519",
+      "arm2/CSV11DEV_SEEDED_0033": "0ff8b75ce19912ae8cae5f34c93f0809c4f3109539510d44b6a1c44fbe51300f",
+      "arm1/CSV11DEV_DEFAULT_0034": "0b3171ae4a28ccc8285663a38daa8a5e4e250666a6f9681d7429aecc23f42322",
+      "arm2/CSV11DEV_DEFAULT_0034": "c56d9d444bda12f69bffe2fa3586f69880d24911bcaafd91435f119c9306c691",
+      "arm1/CSV11DEV_SEEDED_0034": "b0955aefab22bd2018d3dbbd4e0c40816578f41d1101996a650bb1a19684e8d2",
+      "arm2/CSV11DEV_SEEDED_0034": "3974a67b3701e45c2f9fd5d6ba91b46be806182d786e68e9e86e451a5d1dd8ed",
+      "arm1/CSV11DEV_DEFAULT_0035": "488cec9852c5524d49006c48a54b983dc09a03bb0e0fd60055e8c0af570a4db9",
+      "arm2/CSV11DEV_DEFAULT_0035": "3b80ddba47b5a61591dd21c101fe289492f683f1cb21cf211041cfdff3bee23a",
+      "arm1/CSV11DEV_SEEDED_0035": "dd8e7253802356b6f9af9150f8af398cf7be053b3f88bafc55b696e7eb8f3398",
+      "arm2/CSV11DEV_SEEDED_0035": "da683faeeda440415f6b64c3a57d7d212673752981bcdbaca800ca213aa056c3",
+      "arm1/CSV11DEV_DEFAULT_0036": "f4a4bcfc3bf804ed63d770b168b50b3f594550f9a3043b68015d08030f8cb764",
+      "arm2/CSV11DEV_DEFAULT_0036": "4347a3106dab825776ae4970a7a119646f39ea118441a745efc2e9280c995ecd",
+      "arm1/CSV11DEV_SEEDED_0036": "51978670477628b24e89d5ebc49fef17457c4fdc60f5ef45fba3c8501171debe",
+      "arm2/CSV11DEV_SEEDED_0036": "2b2055b39538727f5b20b68f02afcd9bc71757bcb311aabf8e859a0afab34b75",
+      "arm1/CSV11DEV_DEFAULT_0037": "2026f6cfa228d0105c8599c4ee7dc7fa5fba7e41724cca9efa42ff62ce72caae",
+      "arm2/CSV11DEV_DEFAULT_0037": "8a48294f7baad82c14943c8d71a88cff01186c41c0aab469ca09da121f390c54",
+      "arm1/CSV11DEV_SEEDED_0037": "0079cc6e4af1e96ddad9f6692eff826776305f10254dd0a4d3880ac5d3144727",
+      "arm2/CSV11DEV_SEEDED_0037": "f7fa680b80477d208e0c3e75889eb4830da70bbe9d6ab2efbed9038c263c6b75",
+      "arm1/CSV11DEV_DEFAULT_0038": "f38ebf1ed359822a99fa7771a83cd584457b684c4bdc30ac53230cebdd6dd7d2",
+      "arm2/CSV11DEV_DEFAULT_0038": "356c82664a24d5da3648ce161dc17877547e027c5ecf89b4f31c52c41dc38273",
+      "arm1/CSV11DEV_SEEDED_0038": "d53fade6925f89d9af17b2af5d3520c40691406ec4e5f1bc096f79d2ecf0805f",
+      "arm2/CSV11DEV_SEEDED_0038": "67864971babfa1b3b8c808f7f436961fbeca3216cce9f89b456918c6d8cf4173",
+      "arm1/CSV11DEV_DEFAULT_0039": "8a0fbb0236904adb6505a2885a7f3b6909f1450f79b9207ac458edde226d3535",
+      "arm2/CSV11DEV_DEFAULT_0039": "78a7adc40910fe0578b1317e63feee097667ce7201daee8f0f12e57fd522344b",
+      "arm1/CSV11DEV_SEEDED_0039": "b554c13da27109b7e1183a47c841cce70c4be14630af564d304e30e9cbacd94c",
+      "arm2/CSV11DEV_SEEDED_0039": "4b990091225f5b9e27add4cd6c0caecfb1451a9262fa40a6616eedaa91abac7e",
+      "arm1/CSV11DEV_DEFAULT_0040": "ec48e4d4eb0476888b4c69be728b97a92b4aaef707e36dc31158a2e1edb292d4",
+      "arm2/CSV11DEV_DEFAULT_0040": "b6914661011be04ba19277717a0f7c96abbe14843ff6df5547c650fad3a2463c",
+      "arm1/CSV11DEV_SEEDED_0040": "8e5d7779fae0343d331255512614285d31ba8bc6e4f29fa1ce828b1e7d12112e",
+      "arm2/CSV11DEV_SEEDED_0040": "620395225a060a20dac81feae53f49a157bbb3aff13c1f67e9b11c36b132fceb",
+      "arm1/CSV11DEV_DEFAULT_0041": "e39b1fd1f3872e17ac9a3f64328ba12bc1444d3eab40c476cac3ca167eb1945a",
+      "arm2/CSV11DEV_DEFAULT_0041": "4712f581bfd30b98f9a38397ab4b1c6e4fe4d90dc880f7fdf6030b628c2dd809",
+      "arm1/CSV11DEV_SEEDED_0041": "f9f1309996031f356c46deaf745376e6e127d303debe047d0f690960812137fe",
+      "arm2/CSV11DEV_SEEDED_0041": "dc80c189ab3eab073e196bd628255622e6836293b416062cd1586cd28ba8b8c1",
+      "arm1/CSV11DEV_DEFAULT_0042": "ca0b83f3fae28094c5a2f64367349d4665da77beeb3267292c750601b953c2a4",
+      "arm2/CSV11DEV_DEFAULT_0042": "d322e1ef2f322e77cde89270dff99d5f24531e2624f6e0e4e80f5bef9ab46601",
+      "arm1/CSV11DEV_SEEDED_0042": "5462d7ddbdaf05edf2d1abdabfbdae5df2d938fdf1fc77e2dcf2773044b70320",
+      "arm2/CSV11DEV_SEEDED_0042": "109a373c1d599cae5e1e5ee70302f7f4bf93340f362cc77b60062f381a200db5",
+      "arm1/CSV11DEV_DEFAULT_0043": "b6758bce3f346ba0eabafb251af054219b9472ded63557d0229eb2025d10c33e",
+      "arm2/CSV11DEV_DEFAULT_0043": "654fe52feeff99533ebcc6b6e3d9f9f0db94330a8c1a482aa5abc47084d21744",
+      "arm1/CSV11DEV_SEEDED_0043": "75345c872e68755d2fd8e44b9488723d78cbd903efd8aaa280d723100d9e97fc",
+      "arm2/CSV11DEV_SEEDED_0043": "0d5f38c1cad2bbbbd771fb3d8a24fa2f477f31083f5d14c515f7b8f5c718fb65",
+      "arm1/CSV11DEV_DEFAULT_0044": "d1c8734d38e2804b4ecd3e66e2d8841ecc0efe1672bbd6ac9a8ad45f22aae855",
+      "arm2/CSV11DEV_DEFAULT_0044": "a2583753b95a4b5c4ff28199d2c8ffe2c6285c60c1a570b5d36926c4414d22fe",
+      "arm1/CSV11DEV_SEEDED_0044": "bc2886f79a038c83ac29bf5eaa0478f1d6998bee63084b9bfdacc5ff89f1185f",
+      "arm2/CSV11DEV_SEEDED_0044": "54dfd538eb1ad82b3f191c1e94b92f061ee8516be9f17c847cd865088eeb98d5",
+      "arm1/CSV11DEV_DEFAULT_0045": "508959c083e03d824f9eac954be4b26caf7c365d9b9019b759a496b060f1d08a",
+      "arm2/CSV11DEV_DEFAULT_0045": "df6ad195a2b7af46a14bd53b4db9ca05ae9763b1f343b9c0ef2a72726ab04469",
+      "arm1/CSV11DEV_SEEDED_0045": "207dff1bce79e397324a97da90f7ee226a60b5059abea0a96b0883b9ecb7c2e0",
+      "arm2/CSV11DEV_SEEDED_0045": "8510d46d871621e532039fd212fb31e342148c4cf248fcd4114c2d5bfa650a94",
+      "arm1/CSV11DEV_DEFAULT_0046": "2d710837866eb0ab7aadc8d720dc56005dc92805489a2a21ac7584c90d073023",
+      "arm2/CSV11DEV_DEFAULT_0046": "e7ad4e21e4348a5dca1333dffe72f45674b0ddb180f1e14a4267b7d4b319ba17",
+      "arm1/CSV11DEV_SEEDED_0046": "e29d9a5012eb52784814ecff2487e9c3501db754e42cba5da115644ad0c7b65d",
+      "arm2/CSV11DEV_SEEDED_0046": "f0be4092b02253aaa455c510586339c0d7f31f03dd90ead1739dd24cd1dca374",
+      "arm1/CSV11DEV_DEFAULT_0047": "6541e26f880c32eae769b54a6c01ddd3b385cd630b59605422b5a5693dab42f9",
+      "arm2/CSV11DEV_DEFAULT_0047": "d0565cdada25fbd46ff1ede23fac9d33499dc89f4be5cc6cd609c9810ff13d6b",
+      "arm1/CSV11DEV_SEEDED_0047": "566607bf65c123f93dce8f85e1ef477651078844629d8b673244e73e5a831926",
+      "arm2/CSV11DEV_SEEDED_0047": "61faab44ce094acec02fe7ffab38e3893cb7cbf3e9703ca40f8ceae4deac7ae3",
+      "arm1/CSV11DEV_DEFAULT_0048": "1f8f3590d9777fb001f41fa0152be85ccf8828a8bc7b6c2ffb8c054bd0be3ccc",
+      "arm2/CSV11DEV_DEFAULT_0048": "62a234277514723d127eba4bc8962b69061c9f39e1a97ca2da3d8cc2963d9342",
+      "arm1/CSV11DEV_SEEDED_0048": "180782aa82c8f8698f8e866128231d47cdea4d74e4f295109740c6085aab800b",
+      "arm2/CSV11DEV_SEEDED_0048": "f81ea6ffb0efdd0e50ba969ac9df8766a378e92a0c44654866392ff55be7f235",
+      "arm1/CSV11DEV_DEFAULT_0049": "f64345e485793ec0874ce645b720b6ec97f10f9b4f4d3ba3d4b3abf9d637b8ad",
+      "arm2/CSV11DEV_DEFAULT_0049": "31e953b6054af94d97580b388b7c420a98b12195e40d9106a0c58edd936b00b4",
+      "arm1/CSV11DEV_SEEDED_0049": "4de3ad2db5e3d3a2144536e36d32e713ecc08bfe47563e36f6994529fada4263",
+      "arm2/CSV11DEV_SEEDED_0049": "92ea7793e0b12493d63ea8c500a90d295b9dce1334049345982a38d4c2080d29",
+      "arm1/CSV11DEV_DEFAULT_0050": "9a4a4f6bd16c2a9d7a5ccd9d48462e3470756076d618e169895bd29135205d54",
+      "arm2/CSV11DEV_DEFAULT_0050": "95d9a65c7559f6c782f707b7ebe69ce8bbde2af48ebcff81a2c0cff0ece4f168",
+      "arm1/CSV11DEV_SEEDED_0050": "4913a6ad9a331ab4a11be1ae17779c102a87847fd98e8306d122af3fa8997a7a",
+      "arm2/CSV11DEV_SEEDED_0050": "26ea3cb5cf836dd6212c7d554953985c2f2e2d9a50da6d2ae164f43366d2351b",
+      "arm1/CSV11DEV_DEFAULT_0051": "a002bb6b0316ae78eb16aa65a60039d2c443d8fbb4eeec01e69e104543605ab2",
+      "arm2/CSV11DEV_DEFAULT_0051": "1e67ed7a9722a5c2c774fdc213db17725c0c40ff412f8102a64421a9e15782b6",
+      "arm1/CSV11DEV_SEEDED_0051": "6473646f9d0551d7c5566f24e81cede51745a9c8b5e18edefcf53a05ba3fd169",
+      "arm2/CSV11DEV_SEEDED_0051": "39adae7daf1bb782aa9d23b1610d697e75ba90b66792703a76ae9df3ab628878",
+      "arm1/CSV11DEV_DEFAULT_0052": "75554b5d6b9d1610897ee0a6a9c23f280bb3828a424f81362a6437d95337c49a",
+      "arm2/CSV11DEV_DEFAULT_0052": "98bad246a17c58cf6f2418ed56baeb3e20cd91f3b3bd851aa13cae1bce0cdfb3",
+      "arm1/CSV11DEV_SEEDED_0052": "8f0565bbb9308212e7864fddbd7a9e96aaf50b50d4fd773fd938dbbb2773094e",
+      "arm2/CSV11DEV_SEEDED_0052": "088e6c5a08f325bcd4eecb39e64130546fb0d322180ad8c5f54cfa9e0ce99eb3",
+      "arm1/CSV11DEV_DEFAULT_0053": "c9c630f562940ee38c4692d8d6e89315b0cd23042374e2416eae0470d31d3ef6",
+      "arm2/CSV11DEV_DEFAULT_0053": "aa28bcfdb5d63a8d8069c4e4297a78b19d6809dad410494a437f4a94e0d7efd0",
+      "arm1/CSV11DEV_SEEDED_0053": "9641ba71b9c29404f0ef9e079719566e73df8c0aec57c61eb7267f48f8ecc8b6",
+      "arm2/CSV11DEV_SEEDED_0053": "0ad046d587753b4605098763e74a52f13591e2e2c3bc0074e2e202bb70914dde",
+      "arm1/CSV11DEV_DEFAULT_0054": "547ad9a5f1911fd2d1ee659f898e9b4c6df5648ce0f77c29bb22624fa4420c37",
+      "arm2/CSV11DEV_DEFAULT_0054": "a512eacd959f7be8b437ac07492afa47db223956ff3bf732e654f11bbe7064f7",
+      "arm1/CSV11DEV_SEEDED_0054": "bfcecc1b4255c5189b1f9c7541393c8071ef36c35dcf600020b331af7508ad4e",
+      "arm2/CSV11DEV_SEEDED_0054": "cb05b166d871b517bc8d4b00fdec76beae46640319e3e9aa59f680adcb4825ab",
+      "arm1/CSV11DEV_DEFAULT_0055": "3d93dda4960e1d4be01ae714dae374ed1d85955f0005a9deb15e4cf45bdb2860",
+      "arm2/CSV11DEV_DEFAULT_0055": "01fa81744eaf121d845486db6ca1657ad542521db5204895a7c376cfd5ad7843",
+      "arm1/CSV11DEV_SEEDED_0055": "7bc2c3f98955881372aad5d1c5c683c76bd00226ab3caaa9f1fc468ef96ac213",
+      "arm2/CSV11DEV_SEEDED_0055": "aa408f778eb58473cc4e20929927a2f1d1264ab2e1b2764a4d2712fddeb22497",
+      "arm1/CSV11DEV_DEFAULT_0056": "6ed4672469a3b12353b9defabe1188621b4da1b5f512ac4f63f35d131300ab97",
+      "arm2/CSV11DEV_DEFAULT_0056": "bf186284d87abcd147bf88ce55cbb3368b464925e55205c46255e3c228863edd",
+      "arm1/CSV11DEV_SEEDED_0056": "08d1693f87d6f6bfd1e0cf931e8c86923d440843481beda3f6bef1c5334b087a",
+      "arm2/CSV11DEV_SEEDED_0056": "e11a28a269a345d6ccefbba858144decaa82da0aceac08f6e0fb69748842df9c",
+      "arm1/CSV11DEV_DEFAULT_0057": "5ed8ac51369ce395fd1b59f8146ebf465e26a30bafb4d434ba5b6cce6dd7af61",
+      "arm2/CSV11DEV_DEFAULT_0057": "2757aef99eff68a21f5313aeeb6466493b2631eeb82f828d3ca69e812249bf64",
+      "arm1/CSV11DEV_SEEDED_0057": "d657f13c76559fcff365750d2593a1ed594c4c4c3efa22490ba5a4477f5c1291",
+      "arm2/CSV11DEV_SEEDED_0057": "9105a0609ce3687bd83b8a37b01a222ded76aaa4b08de61f757ea6b568b1889c",
+      "arm1/CSV11DEV_DEFAULT_0058": "e84d20019c22235e10a70420eb233fe7d4a3bd5b2093c4e09a5ab10f4005033c",
+      "arm2/CSV11DEV_DEFAULT_0058": "76333069e2198ee396c0ad4067b8c9aba60c68b6476fa2fa7da300247fb0084b",
+      "arm1/CSV11DEV_SEEDED_0058": "5d05fb1986b097a7d99ebfc5d5c5acbb940c1e436c6ce6810343f336fc8a8c49",
+      "arm2/CSV11DEV_SEEDED_0058": "35f35b2e53ee08dd36ef21c81d3d14e86956159b068a3b34a1f54f7aa47dc7f7",
+      "arm1/CSV11DEV_DEFAULT_0059": "e891314bb8487ef53346d6402c0764e86b1a9e67dac51a9a221b492fe2f33ed2",
+      "arm2/CSV11DEV_DEFAULT_0059": "2e4bfaf5ce962b22ea6cba1746266e6475a559a450e17e30865728ed34a904c9",
+      "arm1/CSV11DEV_SEEDED_0059": "ebd3e8be474291102c432ed8366e31fddf0a3b140d970838afd9f6e184e40591",
+      "arm2/CSV11DEV_SEEDED_0059": "106f88ea2a29d9aa8ed0d586f426f643b0774e9d14ad2907e926226f5e74394a",
+      "arm1/CSV11DEV_DEFAULT_0060": "59d515ae289df34711a76f7c748f2468ae3f81f188b6e3d8a7d1631600afbda4",
+      "arm2/CSV11DEV_DEFAULT_0060": "5a1037a4e651d0d1800ca81f0167f1d030459318d2dbb43f72e27065312fa7a7",
+      "arm1/CSV11DEV_SEEDED_0060": "0a4707478914526795821d7d1af9ba7ec721d20572189885013d16f9bc22d003",
+      "arm2/CSV11DEV_SEEDED_0060": "76f32f1e167bfb983bd6c279d132977144976762904d1303e298f676356a4ed6",
+      "arm1/CSV11DEV_DEFAULT_0061": "a09a4738f33919fb9c3c2fd9e27edc89676fba5264476435505e1c61befc13d4",
+      "arm2/CSV11DEV_DEFAULT_0061": "3122d96c577a0ce5aea9404a8ba7e74e2449f331ce38cb69a96570c19461c2fb",
+      "arm1/CSV11DEV_SEEDED_0061": "11b1be7b2a0ec69d270950adcf6b7c205b1efb6626d343c44f97b21151b7ecad",
+      "arm2/CSV11DEV_SEEDED_0061": "69a024f434650c894b2018b3ec3b51f2e8c4c2dd487262c6d8c6a2191ac460cb",
+      "arm1/CSV11DEV_DEFAULT_0062": "99321c851d0550e7cd31e0f84e46e50bb8dc8c9bad74f268a27e7a5950541f87",
+      "arm2/CSV11DEV_DEFAULT_0062": "0d16a7995accff1797cfe63b1941588f8572f6e43c842b402f2385398b338c16",
+      "arm1/CSV11DEV_SEEDED_0062": "689961c32b50b32d290310886c40e6c90b003abe7694ecf4fcc3a3973e1979c9",
+      "arm2/CSV11DEV_SEEDED_0062": "e50e2df2d48385d4d660a50b5667018ab09958e7f2473d705cff4f8558f5690d",
+      "arm1/CSV11DEV_DEFAULT_0063": "1c0770f90d61baca4a5d9810b4b5436085434c40bfed7b66d34b509c14a4e7d5",
+      "arm2/CSV11DEV_DEFAULT_0063": "e49ca25fa4a4a03692a38b4083b39e869a33a780449c340be4d08f2611e4aff5",
+      "arm1/CSV11DEV_SEEDED_0063": "83db5850ea154ac1f8c92311b70ca4bfd418b827db0064d551a5edd97691ed44",
+      "arm2/CSV11DEV_SEEDED_0063": "33bd5b7afb10ee4ecb5a90edf1a6150b08519d561b2454ee9120301ee6f901c8",
+      "arm1/CSV11DEV_DEFAULT_0064": "a53ddb093703f7eaf782250557b56ce1302e209d6ef2f4ee67b1231ff4e08c2a",
+      "arm2/CSV11DEV_DEFAULT_0064": "4c5a46c95a1df41cfce7e71277e8894bbd84b3d02014ba19d29adc8704d69306",
+      "arm1/CSV11DEV_SEEDED_0064": "139a99e09eefc2e59d74e057c12ec9995bf8efe3d897fc3b158ec3078067475c",
+      "arm2/CSV11DEV_SEEDED_0064": "2f73c9ee1ca21987a33228145f64130d187a121e874946a2ac865f91117aad0e",
+      "arm1/CSV11DEV_DEFAULT_0065": "b106a6179af4d2d1a24534d0833bd256adaface0d75ad5871cf5994f7422ce04",
+      "arm2/CSV11DEV_DEFAULT_0065": "24c02d44caaa1054ee625084b117f95d7247eb9417ee4e8147edccb6cde84eee",
+      "arm1/CSV11DEV_SEEDED_0065": "2afa9139a47caa34401b9be06e02ec301de7adcc659230c7fbd3d2c8dba12004",
+      "arm2/CSV11DEV_SEEDED_0065": "2a65c490e512922aebcfa7e1a582af2b1e422df5f26d5384de67b201e77891cc",
+      "arm1/CSV11DEV_DEFAULT_0066": "10eaa66155d4592723ddfbee85b61f6a4a18f9edc63325448e8584210c67e535",
+      "arm2/CSV11DEV_DEFAULT_0066": "ea6110586f02274a25d2337b03e0aa3a882ff2669845fd277242c90ea8a169bc",
+      "arm1/CSV11DEV_SEEDED_0066": "e7960a47d921008ca5ba4a5dfec0d037f418488ee719c81ce21a5560a65f186a",
+      "arm2/CSV11DEV_SEEDED_0066": "f38d551cabb511d48bc3fd8dcca54a2c3105706e7c4d049f72808187bde2c240",
+      "arm1/CSV11DEV_DEFAULT_0067": "edd37bbd67830eba6f9660186bf4629ae51916b54bf4ef6f06d7b49c75118013",
+      "arm2/CSV11DEV_DEFAULT_0067": "0a54119051b912b1c430c8c22ea5a14b3299a35ba719495858d4eebb731e3210",
+      "arm1/CSV11DEV_SEEDED_0067": "5e757b382874af1bddc84dcc22e6f66b19e33b165ff8755fe6dde464398fd0b3",
+      "arm2/CSV11DEV_SEEDED_0067": "82ecf5187d92703593cb7e1173d5e6912c534300d08d69ad30cc9693238701e0",
+      "arm1/CSV11DEV_DEFAULT_0068": "9bc71cb3806b0da14c917cda6c34c28e79514d30d71cf2dafdba1aa3ed380cfd",
+      "arm2/CSV11DEV_DEFAULT_0068": "a3e874a4ae61c261460aee196adc40659cd6335b7ae02d1c3e39532921a42249",
+      "arm1/CSV11DEV_SEEDED_0068": "71859d8741317ca9e90e43d629a477f1f2ebfacff0dc0fe2d25b90b586bb4d27",
+      "arm2/CSV11DEV_SEEDED_0068": "612d2bf20f181bd1707e7c0a0f40c317d109611933600a51e528c27644bc6291",
+      "arm1/CSV11DEV_DEFAULT_0069": "065455d3649a0d93879141c7ce528a3ec0ec6212718ec056f29e192a7af174c4",
+      "arm2/CSV11DEV_DEFAULT_0069": "d3943f6e695637538394aaf8d833fa4513e70f2896de64f46b37b0e4bd95fb02",
+      "arm1/CSV11DEV_SEEDED_0069": "bb2b222acae28db1fd72fe76fd978a79ac7c09782207ef2b6ef4707aad065528",
+      "arm2/CSV11DEV_SEEDED_0069": "8ed040b137449ac68e2a917dbd5a94abb99eaeba223fb98e357e0efbbc38be5c",
+      "arm1/CSV11DEV_DEFAULT_0070": "a07a59a7f33fc900df0c6909efbbaf8439ef181e929812f975620a2b84123e3e",
+      "arm2/CSV11DEV_DEFAULT_0070": "4329604384450f269c32f3cc49f18679df8052992ecce40225441c860c7116aa",
+      "arm1/CSV11DEV_SEEDED_0070": "a66a10c7ac45dcb89e5f034f3654bcb800aa1fe256556e458f458476e9a41aa6",
+      "arm2/CSV11DEV_SEEDED_0070": "6e4681c1085891badd20ce2ce7bffb3a68f281fd8969d89eff00ab16ce3d3ecf",
+      "arm1/CSV11DEV_DEFAULT_0071": "fa0867df02feb00e562c2f9dfe9eb76922951cbf7d7a180f753d30bf125f2a83",
+      "arm2/CSV11DEV_DEFAULT_0071": "b1e384db3cb8f0a7a89da6d8cc48f7963e722483fc3d1940c1ea05ad8b5ccc26",
+      "arm1/CSV11DEV_SEEDED_0071": "dc1cfbc6c1b9420dc055b5eaecd4052b05e07c2820dde123355505c92e06d8e9",
+      "arm2/CSV11DEV_SEEDED_0071": "41e8392f6a2510ef132c96d72a53a4c221d95a205ae1d18bfb06bea71898a1d5",
+      "arm1/CSV11DEV_DEFAULT_0072": "a2b17fe8b4939c7200c54028525f7624ea4dc468b598dc33d8283ccb7ae08efb",
+      "arm2/CSV11DEV_DEFAULT_0072": "ef49ae7e6a79e44c3f7cfab5756f40f2757913a0e8154284a8a561fcd220c80d",
+      "arm1/CSV11DEV_SEEDED_0072": "d75130c9868d9404d8e4450a447822fe12656172deb055ebce7e1a378dafd530",
+      "arm2/CSV11DEV_SEEDED_0072": "2103523823230381cb80b305af0324062d846d0e8e3a38fb7e95432165af502a",
+      "arm1/CSV11DEV_DEFAULT_0073": "4b5be40ffea57d74898db77d57127881776c3545eeaa75499bcec13a093476eb",
+      "arm2/CSV11DEV_DEFAULT_0073": "c895f364de75a4d3d47621649aec8fe80dafb6a4483e6bc0b616a73a582609b3",
+      "arm1/CSV11DEV_SEEDED_0073": "e55b6d4c6f61a8480d12c3421a76f146d15f985c34fda9460feefe88f9703307",
+      "arm2/CSV11DEV_SEEDED_0073": "1ae78b2062cb5d6f58ffcb664f665aaad16d4b31fd0eb0848ad907cf69a33834",
+      "arm1/CSV11DEV_DEFAULT_0074": "c4b4e4cf2e86e846d9513de12d6e475e88032646d3416b323690a6c6dacba0c0",
+      "arm2/CSV11DEV_DEFAULT_0074": "e505b14d58f04bd3e5bbeed0a9daf81c5c8d8cac95c80f767850db971405f440",
+      "arm1/CSV11DEV_SEEDED_0074": "59dd442895d2bd51f4ccdd3f37e8cc9203dccc9862a9f888159d378b0f2a0c3a",
+      "arm2/CSV11DEV_SEEDED_0074": "ea3b7e7c70b27e8e4639d582305c2b42e9840c9a2fcc2ae0b5b3ff74e51029d8",
+      "arm1/CSV11DEV_DEFAULT_0075": "2015996c58b2a9618eebefd7757797752220499750c3cdd618d99d204375fd13",
+      "arm2/CSV11DEV_DEFAULT_0075": "f05a9be97ced906deeb3570e23272d6fe773c862675ced50486ee96f10244d9a",
+      "arm1/CSV11DEV_SEEDED_0075": "6803a58b1dd3a03730320a3c845706a3ada6de93aba0e3964064d6e9821a436c",
+      "arm2/CSV11DEV_SEEDED_0075": "e5fe64605a633ba29c01186c64b61aa48dbfddc82d8c2cf100fdb0df2591ab7e",
+      "arm1/CSV11DEV_DEFAULT_0076": "b310180b0c1a1a2c9d3ebaa229368766864bc1a00d0d64fc416297c09d66bf58",
+      "arm2/CSV11DEV_DEFAULT_0076": "58200efa90475b0f70b0fa1ec5fca52e5f31871f81a0a384594ab52a3e38ac51",
+      "arm1/CSV11DEV_SEEDED_0076": "d6c71c7b55339c83fa97c6e98d6bb365fb9e1fb9277928e546b20eec04a73805",
+      "arm2/CSV11DEV_SEEDED_0076": "706b2504c3d1b0ccc97b8d4f039079ac9e02fa085f6e971b6075ab85eb3cfa96",
+      "arm1/CSV11DEV_DEFAULT_0077": "c100db40ce94a854e78cc764370fccbb9b5bd250e2b4a749beaa57d16189d4ed",
+      "arm2/CSV11DEV_DEFAULT_0077": "af4b582e49bcb59518b1a36efc7f0f1b4870956ce023aed5eb6d08126ec8846f",
+      "arm1/CSV11DEV_SEEDED_0077": "202424903f192b195c8ed2a8be5bb8a7ae4ecc7673b86c41eb5706fff20353b7",
+      "arm2/CSV11DEV_SEEDED_0077": "338bc32d50a3976ab6008f8e871dcea5911b494da9001936fb79c6d4a5150523",
+      "arm1/CSV11DEV_DEFAULT_0078": "0a39093a77e2a0d68583a7e61585328416ec900e4dc46baf37b63fd849fb0f14",
+      "arm2/CSV11DEV_DEFAULT_0078": "f162188b8c321415cfdbd8aab9e3820a892037a39847559403f9c9c7a5828367",
+      "arm1/CSV11DEV_SEEDED_0078": "feb0a80063345d66a6cf2ba55ef37477582090434afdef5a53d256cf5226315a",
+      "arm2/CSV11DEV_SEEDED_0078": "5fd45dca4fdc927b72d738e099786238ea797543ea2e56800e6573ddf7f4e2d7",
+      "arm1/CSV11DEV_DEFAULT_0079": "e9a82e2122e07e9ea00e2d95bd9e813da4788b141ff6d14657739e88866d25eb",
+      "arm2/CSV11DEV_DEFAULT_0079": "8fb1b2ef575572139f4a931a6384d3a87b2f16d5c71b31f0d2d7526688a3b2d7",
+      "arm1/CSV11DEV_SEEDED_0079": "610071552629858d828ac876c2e09fa12f51d67e511169579b069714ee153b88",
+      "arm2/CSV11DEV_SEEDED_0079": "b5de2809630527d063f81b8a23b0457c3359813313869130841e1e5272fea7c4",
+      "arm1/CSV11DEV_DEFAULT_0080": "c7cb7c82874490c4dae7cc49cf060c4f4c7fe0bb2453609d2799c70e21ec9f79",
+      "arm2/CSV11DEV_DEFAULT_0080": "c074ca0ba7dfaabe8000bf21cb0f910dc61fe27d7b899b8d303841d8e6709e61",
+      "arm1/CSV11DEV_SEEDED_0080": "23a70ef2c3e1e07a019a0a5361d9b58fb855fb536b078c0183fe86f1ef6ec477",
+      "arm2/CSV11DEV_SEEDED_0080": "8a3a71e6b63729337c6d4bb2b4167ba34b049b3d679e9ea59c59102c6283ff8d",
+      "arm1/CSV11DEV_DEFAULT_0081": "f60a405ea6ddde401f8acfaf58af858ce0cb0f503c8f508a191a190c3a52bb06",
+      "arm2/CSV11DEV_DEFAULT_0081": "1b5bed82f4430fb4205f32e3fe4fcec2ddf7cd5e19fc35fb06ebe7c71e95cfb9",
+      "arm1/CSV11DEV_SEEDED_0081": "0116007b0d01e5da9c168135411e9a9736d5f4bd98f3ffbd9a43c749fda5f8ac",
+      "arm2/CSV11DEV_SEEDED_0081": "85e66714683527b36e943425cfb6fcb7bd34b0b3a8da78180b94aaa5a20abce6",
+      "arm1/CSV11DEV_DEFAULT_0082": "cf49a307504959634287220b106a62f337ed8fd4086f35db6d5ad8d4a8a79141",
+      "arm2/CSV11DEV_DEFAULT_0082": "1562f29ac7a4a971b209b7d210cabd1b2a6f49f26039f33f97d7e12ee696481b",
+      "arm1/CSV11DEV_SEEDED_0082": "e17ac9545948973e24b8f083a74872f9de50ef97cbc1e6d34ad714b0a84ca195",
+      "arm2/CSV11DEV_SEEDED_0082": "ed18c4c6abc20b8a8c4c0fe522aa4c9c5e7a16707410a75f0407f998813715d0",
+      "arm1/CSV11DEV_DEFAULT_0083": "f43e07886b6290952878ef23d45e1d06bd1d9f224c6a604fb0d41b911d2b970d",
+      "arm2/CSV11DEV_DEFAULT_0083": "4923b3d829f1b812cce6d5e708ac1b66f612284041eeae38402ddaf59c19aa75",
+      "arm1/CSV11DEV_SEEDED_0083": "5a0c8ae07120ba9c247fdac003536d12585f34e2146db430cf56422dfcc599dc",
+      "arm2/CSV11DEV_SEEDED_0083": "823653076d61de9ad7bc0c72ec3f92627a01c302ca627587bd321e70512f080f",
+      "arm1/CSV11DEV_DEFAULT_0084": "24fa962d9d5f715e59ff957624e72e026f7a11d51bbf1634408512089474e3a2",
+      "arm2/CSV11DEV_DEFAULT_0084": "5cc9a1101dceac2520615bbeae197b81f094fc761afd792676de48898560e872",
+      "arm1/CSV11DEV_SEEDED_0084": "b16681b3df197cf4bb0b85a3baf64d49cccb6f391560ed4fd4770142033baf9f",
+      "arm2/CSV11DEV_SEEDED_0084": "ea4220f8b0a7ecd1f986f1e34309f026017ac0668c74fb7524bd07fd4588f6df",
+      "arm1/CSV11DEV_DEFAULT_0085": "8deef62da87ee8bb294ad024810debd91d1e2189fb0bfbee6d00a31661c031e5",
+      "arm2/CSV11DEV_DEFAULT_0085": "5c964fa329936d6f2d8682fcd22007e96732d9af1b3df3ab392912fb86254751",
+      "arm1/CSV11DEV_SEEDED_0085": "9da530b9dceb8b9681f26709ba02fc98ed3e7c0ff3bdfc019180f4df2ac9ab83",
+      "arm2/CSV11DEV_SEEDED_0085": "c05d529c1d951f798ad48cac87a02cbbf7656de0068f5f194424143f13dbd383",
+      "arm1/CSV11DEV_DEFAULT_0086": "2d99a152508dc0c59f0f8c9b759b435b71414a09db93ef694834e5f3fd95252b",
+      "arm2/CSV11DEV_DEFAULT_0086": "d6034b440ece0891df4741d6eab11ccee41319873cfe0cdb80eedff204efa542",
+      "arm1/CSV11DEV_SEEDED_0086": "d83ad207cf266d840c879733a36cffbe8b8015bd3fac229906703bee58c75f5c",
+      "arm2/CSV11DEV_SEEDED_0086": "fa7f58628bc8212a2afac6999594ab8e2eae9d70c7b063a981f16026c27e78f3",
+      "arm1/CSV11DEV_DEFAULT_0087": "0a708cae4f22345d771fab9fab907bdd9ddc6cb832b5957b5f62e4730e9c5ed7",
+      "arm2/CSV11DEV_DEFAULT_0087": "24422ed7aa4c55f7d099e8ff3da23e9f07b63dca9db3cdc5d280f1fe0572e919",
+      "arm1/CSV11DEV_SEEDED_0087": "da5e994558e24d34d18739d8d3a0f76dac3a2b63426bbe40bd6811f5fb204dda",
+      "arm2/CSV11DEV_SEEDED_0087": "936ef29facc31f699c54d18d7149bfdd63e60767db95b4aae204e9236aa56757",
+      "arm1/CSV11DEV_DEFAULT_0088": "a90cc3e0884a4fdde3e3a67e524b716b050758edbe43edbc4cf28fd34db1927a",
+      "arm2/CSV11DEV_DEFAULT_0088": "34cd74fcbff8e78e13b4d04f8c08cbf317b60ae9c752d473fbe3489243a4d95a",
+      "arm1/CSV11DEV_SEEDED_0088": "38b8f812847cbf7ad75142973241fa08eeb956a67ef702b46f22b427e36f521e",
+      "arm2/CSV11DEV_SEEDED_0088": "dd8f162987bd211c947253a04f8a1e70693b18b7b5d5e277b92838226b783c47",
+      "arm1/CSV11DEV_DEFAULT_0089": "ef2459dd38e73fe8430de273549afa8f4ef1e63c5bd10830ac0cc9bd4e87579b",
+      "arm2/CSV11DEV_DEFAULT_0089": "6e49a18eb2c00fa75db0874aeb44ac9d7eb37b96dcccc7d38472235ba57f775c",
+      "arm1/CSV11DEV_SEEDED_0089": "12fbf7fbda159211ea2635e632c9e8b1d48f1671966eb4f31febda257c04b4b9",
+      "arm2/CSV11DEV_SEEDED_0089": "869fdd8f3682a1b383699d85d9f63821dcc83d29c6eb48b7c4f6926d259805c2",
+      "arm1/CSV11DEV_DEFAULT_0090": "09cc6fcc3e540f0c5831528ce3d1dfb0e978c8f51e5ba4d19e7fee00af4ffc20",
+      "arm2/CSV11DEV_DEFAULT_0090": "42cd87228a2cb5c4b6f34191b5bfc1c0faff276321dbd40bda3b91e324f572c8",
+      "arm1/CSV11DEV_SEEDED_0090": "628cdf1c2380928339937c6815f944db33a392f4255836cf3e3bddd8c0bb69a5",
+      "arm2/CSV11DEV_SEEDED_0090": "61b26064520daf169a2d6a8bea66db41ec272e225baa4a0505898967451d6ac1",
+      "arm1/CSV11DEV_DEFAULT_0091": "aea916d40f16ee04ba3aa632f3b3333b9345fcba23915e92137df2f96a1b4959",
+      "arm2/CSV11DEV_DEFAULT_0091": "b2a93c407b15357ad17dac402b5e4620eadec1da5e1288da9ccd2ab8b997586c",
+      "arm1/CSV11DEV_SEEDED_0091": "8b554a2489323b89d4f536cee96b8f4afa06225ae907e67b7d20b0d26540087a",
+      "arm2/CSV11DEV_SEEDED_0091": "38913cfba001586049c2652b895d5cceed2f9d4b4c8d1488c23b65a712f06334",
+      "arm1/CSV11DEV_DEFAULT_0092": "5e66c63e8e9f3440ac79bc850d9d0c6c69e35111f3588bbb42fee772e6908c8a",
+      "arm2/CSV11DEV_DEFAULT_0092": "34cfe1ab0e3da8dd0e631fd4c51750fd1791758f2388447a861b5db5a103e39f",
+      "arm1/CSV11DEV_SEEDED_0092": "f44f0a77ee667de7129bb69e7717d0032a8961e023b3b873271cb8652d749730",
+      "arm2/CSV11DEV_SEEDED_0092": "ecb58842c93894db0723b2de5b2aeca2b24d5ac17d67e344b34e3c9c7ad83f86",
+      "arm1/CSV11DEV_DEFAULT_0093": "bdaa18ecfe512f35446dda030c6549eb3618231881c9eecac59977dbdb861fb7",
+      "arm2/CSV11DEV_DEFAULT_0093": "2b8be38cb0c953fbe99eccff3cdf3232e73350493fdb950feae6d3e7171f690d",
+      "arm1/CSV11DEV_SEEDED_0093": "ffb16eb74be424b39fcf2e26d7a79b574d2fa4f8f8523c6ac0206818722fbb58",
+      "arm2/CSV11DEV_SEEDED_0093": "62551fac3b778339d30dac44996325bf60f3a7ec2101bd014ff560d26789e2e3",
+      "arm1/CSV11DEV_DEFAULT_0094": "848397a8b4e2a200c10c3b87214de708cd921342adaca1f723ef953fcc8e46fa",
+      "arm2/CSV11DEV_DEFAULT_0094": "37e4b5d56bf1fce4a1bf0fd823836d10be452b12f0e387f3ee84708b6cccefcc",
+      "arm1/CSV11DEV_SEEDED_0094": "db80d82c00e0d13106a3b4202b1af3850b9b6ad0df8f01e79ea052d226253b02",
+      "arm2/CSV11DEV_SEEDED_0094": "9b4e3c377d19c92c002d3dbde266ce51e2667b9f624ef1ded6c0dfee3072a4aa",
+      "arm1/CSV11DEV_DEFAULT_0095": "737bead1a74917946f13c9df31fef752bcdd73e7c7df95b6377b43f9ff6c5625",
+      "arm2/CSV11DEV_DEFAULT_0095": "24301489acaf2f9a1f56ebfc7bfc62cdae9a2adff23255ca76492b68c99e45fc",
+      "arm1/CSV11DEV_SEEDED_0095": "da1d48ed6ad1d0645a8bd7ea966dc41de5c33c5e9dfdcc6bbca80944b7799032",
+      "arm2/CSV11DEV_SEEDED_0095": "15c8712f1dd8395ad54734e329c08808ea24a3907fb458834133e1f0cc2e1004"
+    },
+    "scaling": {
+      "metric": "median elapsed microseconds per call",
+      "repeats": 7,
+      "calls_per_repeat": 256,
+      "pile_sizes": {
+        "32": {
+          "expertise": 119.13,
+          "planner_value": 9.29
+        },
+        "128": {
+          "expertise": 143.13,
+          "planner_value": 22.78
+        },
+        "512": {
+          "expertise": 251.16,
+          "planner_value": 76.07
+        }
+      }
+    },
+    "pytest": "898 passed in 120.38s (0:02:00)",
+    "ruff": "All checks passed!"
+  },
+  "decompiled_models": {
+    "Cards/Expertise": "5a20da04a7749b2e65a455d6492c7a4985808b32695854e6751efcb039818cbf",
+    "Cards/MasterPlanner": "baeffbc86a2ea03730c1ac517999c16f889ba6bb5156820552bb142456187ef3",
+    "Cards/Mirage": "33c95dfa21caac6c890f0e55e72065fe3e31bdb83a00c7d21c73913908f1acdf",
+    "Cards/Nightmare": "53c6eaadb61f6cc3064f4e3a3aed7070445e5d8e80dafdc3ce8297e13ddff958",
+    "Cards/Suppress": "7774f2dbef9ca091dca7f6947c06166cf55734154153258f5af79ae72158a0a4",
+    "Cards/Untouchable": "5dcd00a2acc555cae537fd8300fb57d42f3536fc38384cf6615153f58dc30534",
+    "Cards/WraithForm": "08a69b811b6892c62554792df30c5f3e15d33b917e72404508de98724c9534a8",
+    "Powers/NightmarePower": "69df2d1b0c7bb926e8439ba9041b1e505e7c470b1388cd6298f294dce39ffbdd",
+    "Powers/MasterPlannerPower": "c983c56fa42610b95d28a0e72bfe65793fc24bde028efe0d549e9a232e098190",
+    "Powers/WraithFormPower": "252ebf8da61188051a2d40c4c6a69e920c08f721f0e066705d765cc2e3e45287",
+    "Powers/IntangiblePower": "c8ee7d74fd6a57933769dd2a7a0dd0000ad198df68cf9a4255f42bcfaa334238",
+    "Powers/ArtifactPower": "d2b7f2c1bfc36466e5ab0bd4e4581697c8299ce579c6f978a4fe7a1535c9eb3a",
+    "Powers/DexterityPower": "f6b561122838f50bda6bb7c3e9e42a54d738ad2f7b8ca6009963896107bac1e9",
+    "Powers/EnvenomPower": "e972c436d96962037b6308d9f0d2a74e4d2bb19052a53c166dd7845b6f0c3087",
+    "Powers/AfterimagePower": "aacf9bdecfa201588ed428bcaefad02990103066112aeeef52a73a9ffdec7d98",
+    "Relics/Pocketwatch": "3edba3e227bd844eea5e98b3db8c2cbe1864f8df22ad341e07003a6f7c040908",
+    "Relics/ToastyMittens": "b7076b2a7aa0882df33889adc2613f78322edb3fda7a1ad724d2a96ee04514f1",
+    "Relics/Kunai": "bb48d7cf19478b640767541970003600c6fb2a63e8024ca302b5ca8d6a1303a3",
+    "Relics/ToyBox": "158b608354cc1dee4bb7248175d3917b7112561c4edd9b5342da7c407284111d",
+    "CardPools/SilentCardPool": "cff0964c2b8a6d0d107018d4a70429b8c0d941ac99d757f9fde9058df9e26397",
+    "Combat/CombatState": "a0ab5891ae79c8f21b376e8bd13de71c1a1bf3f1f3017af633605a533785bb84",
+    "Combat/CombatManager": "a0441c5ae77e13fc082ce0fcac51d38484631f3da273c600869e7871717606d6",
+    "Commands/CardPileCmd": "ca465668dbd7e89134598da4ea2732939b14e76bdc2d04f7e0bab8ec5cd66758",
+    "Commands/PowerCmd": "d9364552ef5fce1e9dbf4e478d7a41cd9d7475162e9bf6c152c2ef9b0330d3c4",
+    "Models/CardModel": "252da2ff276149bfb22933670566cf0bdb47f7d46f4169e05a40f5ef5bfbba33"
+  }
+}

@@ -43,10 +43,11 @@ def stats(rows):
     hist = Counter()
     for r in rows:
         hist.update({int(k): v for k, v in r["latency_us"].items()})
+    rank99 = ceil(hist.total() * 0.99)
     cumulative = 0
     for us, n in sorted(hist.items()):
         cumulative += n
-        if cumulative >= ceil(hist.total() * 0.99):
+        if cumulative >= rank99:
             result["p99_ms"] = us / 1000
             break
     return result
