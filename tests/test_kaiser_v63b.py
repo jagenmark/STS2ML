@@ -5,7 +5,7 @@ import pytest
 
 from sts2rl.combat_search_v2 import planner
 from sts2rl.combat_search_v2.kaiser_future import future_defense
-from sts2rl.combat_search_v2.state import END_TURN, Move, Relic, project, set_power
+from sts2rl.combat_search_v2.state import END_TURN, Intent, Move, Relic, project, set_power
 from sts2rl.combat_search_v2.transitions import advance, legal
 from sts2rl.combat_search_v2.value import interim
 from test_combat_search_v2 import STRIKE, card, enemy, powers, view
@@ -76,3 +76,26 @@ def test_focus_survives_early_chip_and_switches_for_a_near_kill():
     crusher, rocket = p.state.enemies
     near = replace(p, state=replace(p.state, enemies=(replace(crusher, hp=15), rocket)))
     assert choose(near).choice.target == 0
+
+
+def test_turns_back_to_crusher_before_recharge_and_values_delayed_laser():
+    p = fight(armor=90, block=70)
+    crusher, rocket = p.state.enemies
+    crusher = replace(crusher, intents=(Intent("Buff"),))
+    rocket = replace(rocket, intents=(Intent("Attack", 38),), powers=(("STRENGTH", 3),), preview_strength=3)
+    p = replace(p, state=replace(p.state, round=4, facing=1, preview_facing=1, enemies=(crusher, rocket)))
+    assert choose(p, False).line.state.facing == 1
+    assert choose(p).line.state.facing == 0
+
+    # Precision Beam -> Charge Up -> Laser. One remaining Weak expires on the
+    # buff. A second stack covers the later 35+3 head-on hit.
+    p = fight()
+    crusher, rocket = p.state.enemies
+    crusher = replace(crusher, intents=(Intent("Attack", 6),))
+    rocket = replace(rocket, intents=(Intent("Attack", 20),))
+    leaf = advance(replace(p.state, round=2, facing=1, preview_facing=1, enemies=(crusher, rocket)), END_TURN)
+    crusher, rocket = leaf.enemies
+    one = replace(rocket, powers=(("WEAK", 1),))
+    two = replace(rocket, powers=(("WEAK", 2),))
+    assert future_defense(replace(leaf, enemies=(crusher, one))) == future_defense(leaf)
+    assert future_defense(replace(leaf, enemies=(crusher, two))) - future_defense(leaf) == .5 * .25 * 38
