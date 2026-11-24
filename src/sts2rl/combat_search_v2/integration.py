@@ -256,6 +256,8 @@ class CombatSearchV2:
                                                              aeon_plays=self._aeon_plays, tender_plays=plays,
                                                              remnant_floor=floor, v61_rules=self.config.v61_act2_hallways_act3
                                                              or self.config.v61_boss_safe))
+                if self.config.silent_cards_v66:
+                    self._played_from = projected.state
             if projected.state.prompt:
                 if previous_prompt is None or _difference(previous_prompt, projected.state):
                     if self.config.v61_boss_safe and state.act == 2 and state.room == "Boss" and state.curse_options:
@@ -367,9 +369,19 @@ class CombatSearchV2:
                 elif self._remnant_start_hp is not None and (uncertain or prior is None or
                         action.kind == "use_potion" or view["player"]["hp"] != prior.hp):
                     self._remnant_start_hp = None
+            tender_count = None
+            if (self.config.silent_cards_v66 and prior and prior.hallway and dict(prior.powers).get("TENDER")
+                    and action.kind == "play_card" and after.get("decision") == "combat_play" and key == self._round_key):
+                card = prior.hand[action.args["card_index"]].variant
+                if card.name in ("PREPARED", "ACROBATICS", "DAGGER_THROW"):
+                    from .silent_cards import tender_discard_plays
+                    tender_count = tender_discard_plays(prior, view)
             if key != self._round_key:
                 self._plays = 0
                 self._bound_used = False
+            elif tender_count is not None:
+                if self._plays >= 0:
+                    self._plays += tender_count
             elif (self.config.silent_cards_v66 and prior and prior.prompt and
                   prior.prompt.operation == "TOOLS_OF_THE_TRADE" and action.kind == "select_cards"):
                 selected = [prior.hand[int(i)].variant for i in action.args["indices"].split(",")]

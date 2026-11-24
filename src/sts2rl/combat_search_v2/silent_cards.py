@@ -54,6 +54,20 @@ def history_counts(hand, state):
     return result
 
 
+def tender_discard_plays(state, view):
+    # Tender removes one Strength per finished card. On an uninterrupted draw/discard
+    # with only these automatic plays, the public Strength delta counts them exactly.
+    allowed = {"TACTICIAN", "REFLEX", "RICOCHET", "ABRASIVE", "FLICK_FLACK", "UNTOUCHABLE"}
+    if any(r.name in ("SHURIKEN", "REPTILE_TRINKET") for r in state.relics):
+        return None
+    cards = (*state.draw, *state.discard, *(c.variant for c in state.hand))
+    if any(v.name not in allowed for v in cards if "Sly" in v.keywords or "sly_this_turn" in v.flags):
+        return None
+    strength = next((p["amount"] for p in view.get("player_powers") or () if p["id"] == "POWER.STRENGTH_POWER"), 0)
+    finished = power(state.powers, "STRENGTH") - strength
+    return finished if finished > 0 else None
+
+
 def hand_trick_slots(state):
     return tuple(c.slot for c in state.hand if c.variant.kind == "Skill" and
                  "Sly" not in c.variant.keywords and "sly_this_turn" not in c.variant.flags)
@@ -66,7 +80,8 @@ def grant_sly(state, slot):
 
 def retain_shivs(state):
     def retain(v):
-        return replace(v, keywords=tuple(sorted((*v.keywords, "Retain")))) if (
+        return replace(v, keywords=tuple(sorted((*v.keywords, "Retain"))),
+                       flags=tuple(sorted(set((*v.flags, "retain_this_turn"))))) if (
             v.name == "SHIV" and "Retain" not in v.keywords) else v
     return replace(state, hand=tuple(replace(c, variant=retain(c.variant)) for c in state.hand),
                    **{z: tuple(sorted(retain(v) for v in getattr(state, z))) for z in ("draw", "discard", "exhaust")})
@@ -104,7 +119,7 @@ def draw_known(state, count, escape_plan):
         if escape_plan and drawn.kind == "Skill":
             if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
                 return boundary(initial, "vambrace first card block")
-            state = replace(state, block=state.block + block_gain(3 + 2 * escape_plan.upgrade, state.powers))
+            state = replace(state, block=state.block + block_gain(3 + 2 * escape_plan.upgrade + nimble(escape_plan), state.powers))
     return state
 
 
@@ -163,6 +178,10 @@ def consume_free_skill(state):
     return replace(state, hand=tuple(hand))
 
 
+def nimble(v):
+    return sum(amount for kind, name, amount in v.modifier if kind == "enchantment_state" and name == "NIMBLE")
+
+
 def card_effect(state, play, slots):
     from .transitions import (_add_player_power, _debuff, _enemy_change, _queue, _shiv,
                               block_gain, boundary, draw)
@@ -180,7 +199,7 @@ def card_effect(state, play, slots):
     if name == "DODGE_AND_ROLL":
         if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
             return boundary(state, "vambrace first card block")
-        block = block_gain(4 + 2 * up, state.powers)
+        block = block_gain(4 + 2 * up + nimble(v), state.powers)
         return _add_player_power(replace(state, block=state.block + block), "BLOCK_NEXT_TURN", block)
     if name == "EXPOSE":
         state = _enemy_change(state, play.target, lambda e: replace(e, block=0, powers=set_power(e.powers, "ARTIFACT", 0)))

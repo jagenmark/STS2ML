@@ -358,7 +358,8 @@ def _shiv(state, count, upgrade=0, modifier=()):
     in_hand = min(count, HAND_CAP - len(state.hand))
     target = "AllEnemies" if power(state.powers, "FAN_OF_KNIVES") else "AnyEnemy"
     keywords = ("Exhaust", "Retain") if state.silent_cards_v66 and power(state.powers, "PHANTOM_BLADES") else ("Exhaust",)
-    variant = Variant("SHIV", "Attack", 0, target, upgrade, keywords=keywords, modifier=modifier)
+    variant = Variant("SHIV", "Attack", 0, target, upgrade, keywords=keywords, modifier=modifier,
+                      flags=("retain_this_turn",) if "Retain" in keywords else ())
     return replace(state, hand=(*state.hand, *(Card(state.next_slot + i, variant) for i in range(in_hand))),
                    discard=tuple(sorted((*state.discard, *((variant,) * (count - in_hand))))),
                    next_slot=state.next_slot + in_hand)
@@ -483,7 +484,7 @@ def _card_effect(state, play):
             damage += sum(power(r.stats, "damage") for r in state.relics if r.name == "MYSTIC_LIGHTER" and not r.used)
         if name == "PRECISE_CUT":
             damage -= 2 * len(state.hand)
-            if not state.v61_rules:
+            if not (state.v61_rules or state.silent_cards_v66):
                 damage = max(0, damage)
         if power(state.powers, "VIGOR"):
             return boundary(state, "vigor consumption timing")
@@ -540,7 +541,7 @@ def _card_effect(state, play):
         if name == "HAND_TRICK":
             if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
                 return boundary(state, "vambrace first card block")
-            state = replace(state, block=state.block + block_gain(7 + 3 * up, state.powers))
+            state = replace(state, block=state.block + block_gain(7 + 3 * up + silent_cards.nimble(v), state.powers))
             choices = silent_cards.hand_trick_slots(state)
             if len(choices) > 1:
                 return replace(state, prompt=Prompt("HAND_TRICK", choices, 1, 1))

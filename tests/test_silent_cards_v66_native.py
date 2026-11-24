@@ -148,6 +148,7 @@ def test_artifact(tmp_path, name):
     ("MEMENTO_MORI", ["SURVIVOR", "SLICE", "MEMENTO_MORI"]),
     ("KNIFE_TRAP", ["SHIV", "KNIFE_TRAP"]),
     ("PHANTOM_BLADES", ["PHANTOM_BLADES", "SHIV", "SHIV"]),
+    ("PHANTOM_BLADES", ["PHANTOM_BLADES", "BLADE_DANCE"]),
     ("SHADOW_STEP", ["SHADOW_STEP", "ABRASIVE"]),
     ("DODGE_AND_ROLL", ["FOOTWORK", "DODGE_AND_ROLL"]),
     ("ABRASIVE", ["ABRASIVE", "DEFEND_SILENT"]),
@@ -172,6 +173,19 @@ def test_witnessed_triggers(tmp_path, name, deck):
                 source = check(o, action(o, "play_card", card))
         if o.public["decision"] == "combat_play":
             check(o, action(o, "end_turn"))
+
+
+def test_well_laid_plans_runway(tmp_path):
+    from sts2rl.combat_search_v2.value import _power_value
+
+    with NativeSession(ROOT, tmp_path / "engine", host_path=HOST) as game:
+        o = Oracle(game)
+        o.start("PLANS", ["WELL_LAID_PLANS"], encounter="WATERFALL_GIANT_BOSS", seed="CSV11FIX_PLANS")
+        state = check(o, action(o, "play_card"))
+        enemy, = state.enemies
+        assert _power_value(state) > 4
+        assert _power_value(replace(state, enemies=(replace(enemy, hp=10),))) == 0
+        assert _power_value(replace(state, silent_cards_v66=False)) == 0
 
 
 @pytest.mark.parametrize("power_name", ["CORROSIVE_WAVE", "SPEEDSTER"])

@@ -29,6 +29,9 @@ def unbind(v):
 def untracked_plays(state, card):
     from .transitions import card_supported
 
+    if state.silent_cards_v66 and card.name in ("PREPARED", "ACROBATICS", "DAGGER_THROW") and any(
+            "Sly" in v.keywords for v in (*state.draw, *state.discard)):
+        return True
     if state.silent_cards_v66 and card.name == "KNIFE_TRAP" and any(v.name == "SHIV" for v in state.exhaust):
         return True
     if not card_supported(card, True, silent_cards_v66=state.silent_cards_v66) or power(state.powers, "DUPLICATION"):

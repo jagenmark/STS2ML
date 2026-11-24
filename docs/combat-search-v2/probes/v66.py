@@ -2,6 +2,7 @@
 import argparse
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from dataclasses import replace
 import gzip
 import hashlib
 import json
@@ -12,7 +13,8 @@ import subprocess
 from unittest.mock import patch
 
 from sts2rl.combat_search_v2 import transitions
-from sts2rl.combat_search_v2.integration import CombatSearchV2
+from sts2rl.combat_search_v2.integration import CombatSearchV2, _difference
+from sts2rl.combat_search_v2.state import project, root_move
 from sts2rl.run_bundle import freeze_bundle, load_bundle
 from v64 import ROOT, episode
 
@@ -55,6 +57,8 @@ def run_arm(folder, bundle, row):
     original_observe = CombatSearchV2.observe
     original_effect, original_damage = transitions._card_effect, transitions._damage
     bodies, hits = Counter(), Counter()
+    independent = Counter()
+    pocketwatch_checks = []
 
     def observe(mode, action, after, enumerate_actions):
         executions, strikes = Counter(), Counter()
@@ -73,17 +77,38 @@ def run_arm(folder, bundle, row):
             source = None
             return result
 
+        context = mode._decision
         with patch.object(transitions, "_card_effect", effect), patch.object(transitions, "_damage", damage):
             original_observe(mode, action, after, enumerate_actions)
-        if mode.records and mode.records[-1].get("oracle", [None, None])[1] == "match":
+        oracle = mode.records[-1].get("oracle") if mode.records else None
+        if oracle and oracle[1] == "match":
             bodies.update(executions)
             hits.update(strikes)
+        if folder.name == "control" and oracle:
+            verdict = oracle[1]
+            if context and action.kind == "end_turn" and verdict in ("match", "mismatch"):
+                prior = context[0].state
+                watch = next((r for r in prior.relics if r.name == "POCKETWATCH"), None)
+                if prior.late and watch and any(r.name == "TOASTY_MITTENS" for r in prior.relics):
+                    # The original observer refreshes status inside the paused Mittens
+                    # prompt. The pinned Pocketwatch model refreshes after that prompt.
+                    fixed = transitions.advance(prior, root_move(context[0], action.kind, action.args))
+                    if fixed.outcome == "completed" and after.get("decision") == "card_select":
+                        actual = project(after, late_prompts=True).state
+                        if actual.prompt.operation == "TOASTY_MITTENS":
+                            fixed = replace(fixed, relics=tuple(replace(r, status=watch.status)
+                                            if r.name == "POCKETWATCH" else r for r in fixed.relics))
+                            verdict = "mismatch" if _difference(fixed, actual) else "match"
+                            pocketwatch_checks.append([prior.act, prior.floor, prior.round, oracle[1], verdict])
+            independent[verdict] += 1
 
     with patch.object(CombatSearchV2, "observe", observe):
         episode(folder, bundle, row, card_counts=True)
     path = folder / (row[1] + ".json.gz")
     data = json.loads(gzip.decompress(path.read_bytes()))
     data.update(matched_card_bodies=bodies, matched_attack_hits=hits)
+    if folder.name == "control":
+        data.update(independent_native=independent, pocketwatch_checks=pocketwatch_checks)
     path.write_bytes(gzip.compress(json.dumps(data, separators=(",", ":")).encode(), mtime=0))
 
 

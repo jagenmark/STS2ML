@@ -32,6 +32,9 @@ def _poison_damage(enemy, poison, accelerant):
 
 _SHIV_SOURCES = {"BLADE_DANCE", "CLOAK_AND_DAGGER", "HIDDEN_DAGGERS", "LEADING_STRIKE", "INFINITE_BLADES"}
 _POISON_SOURCES = {"DEADLY_POISON", "POISONED_STAB", "SNAKEBITE", "BOUNCING_FLASK", "NOXIOUS_FUMES", "ENVENOM"}
+_DRAW_SOURCES = {"ACROBATICS", "ADRENALINE", "BACKFLIP", "CALCULATED_GAMBLE", "DAGGER_THROW", "ESCAPE_PLAN", "PREPARED"}
+_BLOCK_SOURCES = {"DEFEND_SILENT", "DEFLECT", "BACKFLIP", "BLUR", "DASH", "DODGE_AND_ROLL", "HAND_TRICK",
+                  "CLOAK_AND_DAGGER", "SURVIVOR", "LEG_SWEEP"}
 _SCALING = {"ACCELERANT", "NOXIOUS_FUMES", "ACCURACY", "PHANTOM_BLADES", "INFINITE_BLADES",
             "ENVENOM", "THORNS", "A_THOUSAND_CUTS", "SERPENT_FORM", "TOOLS_OF_THE_TRADE", "BLUR",
             "AFTERIMAGE", "DEXTERITY"}
@@ -51,8 +54,17 @@ def _power_value(state):
     # One ordinary damage turn has little setup runway. Cap the discounted
     # horizon so a boss's large health pool cannot justify arbitrary HP loss.
     turns = min(4.0, max(0, remaining - 14) / 22)
+    immediate = 0.0
+    if state.silent_cards_v66:
+        immediate += 0.6 * p.get("BLOCK_NEXT_TURN", 0) + 2 * p.get("FREE_SKILL", 0)
+        immediate += 3 * (p.get("DOUBLE_DAMAGE", 0) + p.get("SHADOW_STEP", 0))
+        if state.energy >= 0:
+            playable = [c.variant for c in state.hand if 0 <= c.variant.cost <= state.energy]
+            extra_draw = sum(c.name in _DRAW_SOURCES for c in playable) if not p.get("NO_DRAW") else 0
+            immediate += 0.7 * p.get("CORROSIVE_WAVE", 0) * min(3, extra_draw) * len(living)
+            immediate += p.get("SHADOWMELD", 0) * min(4, 2 * sum(c.name in _BLOCK_SOURCES for c in playable))
     if not turns:
-        return 0.0
+        return immediate
     cards = (*state.draw, *state.discard, *(c.variant for c in state.hand))
     fraction = 5 / max(5, len(cards))
     shivs = min(3, p.get("INFINITE_BLADES", 0) + fraction * sum(
@@ -71,7 +83,7 @@ def _power_value(state):
         per_turn += (2.2 * bool(p.get("WELL_LAID_PLANS")) + 0.025 * p.get("TRACKING", 0)
                      * min(2, sum(bool(power(e.powers, "WEAK")) for e in living))
                      + 0.6 * p.get("SPEEDSTER", 0))
-    return turns * per_turn + min(turns, p.get("BLUR", 0)) * min(2, 0.2 * state.block)
+    return immediate + turns * per_turn + min(turns, p.get("BLUR", 0)) * min(2, 0.2 * state.block)
 
 
 def _progress(state, power_leaf_v62=False):
@@ -89,6 +101,9 @@ def _progress(state, power_leaf_v62=False):
                 pressure += sum((i.damage or 0) * i.hits for i in enemy.intents)
             if sandpit := power(enemy.powers, "SANDPIT"):
                 deadline += 9 / sandpit
+            if state.silent_cards_v66 and (strangle := power(enemy.powers, "STRANGLE")):
+                plays = sum(0 <= c.variant.cost <= state.energy for c in state.hand)
+                progress += 0.6 * min(enemy.hp, strangle * min(3, plays))
             progress -= enemy.block * 0.08
         progress += _damage_progress(enemy)
     return progress, pressure, deadline
@@ -150,8 +165,6 @@ def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=Fa
     ))
     if state.silent_cards_v66:
         persistent -= 4 * power(state.powers, "WELL_LAID_PLANS")
-        persistent += (0.6 * power(state.powers, "BLOCK_NEXT_TURN") + 2 * power(state.powers, "FREE_SKILL")
-                       + 3 * (power(state.powers, "DOUBLE_DAMAGE") + power(state.powers, "SHADOW_STEP")))
     if power_leaf_v62 or state.silent_cards_v66:
         persistent += _power_value(state) - 3.5 * power(state.powers, "AFTERIMAGE") - 1.5 * power(state.powers, "DEXTERITY")
     category = {"victory": VICTORY, "completed": SURVIVED, "dead": DEAD}.get(
