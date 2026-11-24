@@ -127,6 +127,13 @@ def _difference(predicted, actual):
         if expected != observed:
             return f"board/{name}"
     if predicted.outcome == "completed":
+        if predicted.silent_cards_v67 and predicted.nightmare_card:
+            # BeforeHandDraw puts the three clones immediately after retained cards.
+            # Check their location as well as the ordinary conservation of pile contents.
+            start = len(predicted.hand) - 3
+            observed = tuple(_variant_key(c.variant, True) for c in actual.hand[start:start + 3])
+            if observed != (_variant_key(predicted.nightmare_card, True),) * 3:
+                return "nightmare hand copies"
         if predicted.late and (chains := dict(predicted.powers).get("CHAINS_OF_BINDING")):
             count = sum(late_encounters.bound(c.variant) for c in actual.hand)
             if count != min(chains, predicted.boundary.count):
@@ -235,7 +242,7 @@ class CombatSearchV2:
             projected = project(public, late_prompts=late_root, silent_cards_v66=self.config.silent_cards_v66,
                                 silent_cards_v67=self.config.silent_cards_v67)
             state = projected.state
-            if self._nightmare:
+            if self.config.silent_cards_v67 and self._nightmare:
                 key, card = self._nightmare
                 if key == (state.act, state.floor, state.round) and dict(state.powers).get("NIGHTMARE") == 3:
                     state = replace(state, nightmare_card=card)
@@ -495,7 +502,7 @@ class CombatSearchV2:
                     if native != legal(actual.state) or expected != _normalized_legal(actual.state):
                         reason = "legality"
                 evidence = "mismatch" if reason else "match"
-                if not reason and predicted.nightmare_card:
+                if not reason and not predicted.outcome and predicted.nightmare_card:
                     self._nightmare = (predicted.act, predicted.floor, predicted.round), predicted.nightmare_card
                 if (not reason and predicted.silent_cards_v66 and not predicted.outcome and
                         any(c.variant.free_skill_cost >= 0 for c in predicted.hand)):

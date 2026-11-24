@@ -1,5 +1,10 @@
 """Batch 2 differentials on the immutable v0.111.0 host."""
 from dataclasses import replace
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
 
 import pytest
 
@@ -78,13 +83,59 @@ def test_expertise_retain(oracle, upgraded):
     state = check(oracle, "play_card", "EXPERTISE")
     drawn = state.hand[before - 1:]
     assert len(drawn) == 2 + upgraded and all(c.variant.flags == ("retain_this_turn",) for c in drawn)
-    check(oracle, "end_turn")
+    a = next(a for a in legal_actions(oracle.public) if a.kind == "play_card" and
+             oracle.public["hand"][a.args["card_index"]]["retain_this_turn"])
+    projection = project(oracle.public, silent_cards_v67=True)
+    play = advance(projection.state, root_move(projection, a.kind, a.args))
+    oracle.public = oracle.command(**a.command())
+    assert not _difference(play, project(oracle.public, silent_cards_v67=True).state)
+    assert any("retain_this_turn" in v.flags for v in play.discard)
+    assert any(c["retain_this_turn"] for c in oracle.public["discard_pile"])
+    end = check(oracle, "end_turn")
+    assert all("retain_this_turn" not in c.variant.flags for c in end.hand)
     assert all(not c.get("retain_this_turn") for c in oracle.public["hand"])
+
+
+def test_expertise_no_draw_and_known_reshuffle(oracle):
+    start(oracle, "EXPERTISE", ["DEFLECT", "EXPERTISE"])
+    check(oracle, "play_card", "DEFLECT")
+    state = check(oracle, "play_card", "EXPERTISE")
+    assert [c.variant.flags for c in state.hand] == [("retain_this_turn",)]
+    start(oracle, "EXPERTISE", ["EXPERTISE", "BULLET_TIME", "DEFLECT"], potions=["ENERGY_POTION"])
+    check(oracle, "use_potion")
+    check(oracle, "play_card", "DEFLECT")
+    check(oracle, "play_card", "BULLET_TIME")
+    state = check(oracle, "play_card", "EXPERTISE")
+    assert not state.hand and len(state.discard) == 3
 
 
 def test_expertise_hidden_draw_precedes_spend(oracle):
     start(oracle, "EXPERTISE", ["EXPERTISE", "SLICE", "DEFLECT"] * 7)
     check(oracle, "play_card", "EXPERTISE", boundary="expertise draw")
+
+
+def test_master_planner_marks_copy_before_burst_replay(oracle):
+    start(oracle, "MASTER_PLANNER", ["MASTER_PLANNER", "BURST", "SURVIVOR", "DEFLECT", "SLICE", "STRIKE_SILENT"],
+          potions=["ENERGY_POTION"])
+    check(oracle, "use_potion")
+    check(oracle, "play_card", "MASTER_PLANNER")
+    check(oracle, "play_card", "BURST")
+    first = check(oracle, "play_card", "SURVIVOR")
+    second = check(oracle, "select_cards", selected="SLICE", prior=first)
+    assert second.prompt and "Sly" in second.play[0].keywords
+    assert "Sly" in oracle.public["combat_state"]["play_pile"][0]["keywords"]
+    result = check(oracle, "select_cards", selected="STRIKE_SILENT", prior=second)
+    assert next(v for v in result.discard if v.name == "SURVIVOR").keywords == ("Sly",)
+
+
+def test_master_planner_duplicate_amount(oracle):
+    start(oracle, "MASTER_PLANNER", ["MASTER_PLANNER"] * 2 + ["DEFLECT"], potions=["ENERGY_POTION"])
+    check(oracle, "use_potion")
+    for count in (1, 2):
+        state = check(oracle, "play_card", "MASTER_PLANNER")
+        assert power(state.powers, "MASTER_PLANNER") == count
+    state = check(oracle, "play_card", "DEFLECT")
+    assert state.discard[0].keywords == ("Sly",) and state.discard[0].flags == ("sly_this_turn",)
 
 
 def test_master_planner_persistent_sly(oracle):
@@ -126,6 +177,13 @@ def test_mirage_modifiers(oracle, upgraded):
     assert any(v.name == "MIRAGE" for v in (state.discard if upgraded else state.exhaust))
 
 
+def test_mirage_sums_living_targets(oracle):
+    start(oracle, "MIRAGE", ["MIRAGE", "HAZE"], encounter="NIBBITS_NORMAL")
+    before = check(oracle, "play_card", "HAZE")
+    assert [power(e.powers, "POISON") for e in before.enemies] == [4, 4]
+    assert check(oracle, "play_card", "MIRAGE").block == 8
+
+
 def test_suppress_artifact(oracle):
     start(oracle, "SUPPRESS", ["SUPPRESS"], encounter="PUNCH_CONSTRUCT_NORMAL")
     assert power(project(oracle.public).state.enemies[0].powers, "ARTIFACT") == 1
@@ -149,6 +207,47 @@ def test_suppress_combined_modifiers(oracle):
     state = check(oracle, "play_card", "SUPPRESS", late=True)
     assert state.block == before.block + 1
     assert power(state.enemies[0].powers, "POISON") and power(state.enemies[0].powers, "WEAK") == 3
+
+
+def test_wraith_artifact_native(tmp_path):
+    from sts2rl.combat_search_v2.state import END_TURN, Move
+
+    host = Path(HOST).resolve()
+    lib = ROOT / "artifacts/upstreams/sts2-cli/lib"
+    dotnet = ROOT / "artifacts/tools/dotnet" / ("dotnet.exe" if os.name == "nt" else "dotnet")
+    project_dir = tmp_path / "project"
+    shutil.copytree(ROOT / "tests/native-silent-v67", project_dir)
+    env = {**os.environ, "STS2_GAME_DIR": str(lib), "STS2_LIB": str(lib), "APPDATA": str(tmp_path),
+           "LOCALAPPDATA": str(tmp_path), "XDG_DATA_HOME": str(tmp_path), "XDG_CONFIG_HOME": str(tmp_path)}
+    subprocess.run([dotnet, "build", project_dir / "Artifact.csproj", "-o", tmp_path / "bin",
+                    f"-p:PinnedHost={host}", f"-p:HostDir={host.parent}", f"-p:GameLib={lib}"],
+                   env=env, cwd=tmp_path, check=True)
+    for timing in ("before", "after"):
+        output = subprocess.check_output([dotnet, tmp_path / "bin/Artifact.dll", timing],
+                                         env=env, cwd=tmp_path, text=True)
+        views = json.loads(output.splitlines()[-1])
+        before = project(views["before"], silent_cards_v67=True).state
+        assert power(before.powers, "ARTIFACT") == 1
+        predicted = advance(before, Move("play_card", 0) if timing == "before" else END_TURN)
+        actual = project(views["after"], silent_cards_v67=True).state
+        assert not _difference(predicted, actual)
+        assert power(actual.powers, "INTANGIBLE") == (2 if timing == "before" else 1)
+        assert power(actual.powers, "WRAITH_FORM") == (0 if timing == "before" else 1)
+        assert not power(actual.powers, "ARTIFACT") and not power(actual.powers, "DEXTERITY")
+
+
+def test_power_setup_scores(oracle):
+    from sts2rl.combat_search_v2.state import set_power
+    from sts2rl.combat_search_v2.value import _power_value
+
+    start(oracle, "MASTER_PLANNER", ["MASTER_PLANNER", "ACROBATICS", "SURVIVOR", "DEFLECT"])
+    state = check(oracle, "play_card", "MASTER_PLANNER")
+    assert _power_value(state) > _power_value(replace(state, silent_cards_v67=False))
+    assert _power_value(replace(state, enemies=(replace(state.enemies[0], hp=1),))) == 0
+    start(oracle, "WRAITH_FORM", ["WRAITH_FORM"])
+    state = check(oracle, "play_card", "WRAITH_FORM")
+    protected = replace(state, powers=set_power(state.powers, "WRAITH_FORM", 0))
+    assert _power_value(protected) > _power_value(state) > 0
 
 
 def test_wraith_turns(oracle):
@@ -178,7 +277,8 @@ def test_nightmare_witnessed_copy_at_reveal(oracle, upgraded, options):
         oracle.public = oracle.command(**a.command())
         mode.observe(a, oracle.public, legal_actions)
         assert mode.records[-1].get("oracle", [None, None])[1] == "match", mode.records[-1]
-    assert [c["id"] for c in oracle.public["hand"]].count("CARD.DEFLECT") == 4
+    hand = [c["id"] for c in oracle.public["hand"]]
+    assert hand[:3] == ["CARD.DEFLECT"] * 3 and hand.count("CARD.DEFLECT") == 4
 
 
 def test_pocketwatch_reset_and_refresh_around_mittens(oracle, tmp_path):

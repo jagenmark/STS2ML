@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Sts2Headless" HintPath="$(PinnedHost)" />
+    <Reference Include="GodotSharp" HintPath="$(HostDir)/GodotSharp.dll" />
+    <Reference Include="sts2" HintPath="$(GameLib)/sts2.dll" Private="false" />
+  </ItemGroup>
+</Project>

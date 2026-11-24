@@ -98,12 +98,15 @@ def draw_known(state, count, escape_plan, *, expertise=False):
         if not state.draw:
             state = replace(state, draw=state.discard, discard=())
         card = state.draw[0]
-        if (any(v != card for v in state.draw) or card.flags or card.modifier or
+        unknown_flags = card.flags and (not state.silent_cards_v67 or
+                                        any(f not in ("retain_this_turn", "sly_this_turn") for f in card.flags))
+        if (any(v != card for v in state.draw) or unknown_flags or card.modifier or
                 card.name in ("PINPOINT", "VOID", "FRANTIC_ESCAPE", "UP_MY_SLEEVE") or
                 power(state.powers, "CONFUSED") or power(state.powers, "FREE_SKILL") or
                 card.free_skill_cost >= 0):
             return boundary(initial, "draw", count, shuffled)
-        drawn = replace(card, stats=(), flags=("retain_this_turn",) if expertise else card.flags)
+        drawn = replace(card, stats=(), flags=tuple(sorted(set((*card.flags, "retain_this_turn"))))
+                        if expertise else card.flags)
         state = replace(state, hand=(*state.hand, Card(state.next_slot, drawn)), next_slot=state.next_slot + 1,
                         draw=state.draw[1:], draws_this_combat=(
                             state.draws_this_combat + 1 if state.draws_this_combat >= 0 else -1))

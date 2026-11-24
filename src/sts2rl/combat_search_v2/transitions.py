@@ -182,7 +182,8 @@ def admission_reasons(projected):
             yield f"relic/{relic.name}"
     for card, playable in zip(state.hand, projected.playable):
         v = card.variant
-        if not card_supported(v, state.late, kaiser=state.kaiser_v63, silent_cards_v66=state.silent_cards_v66, silent_cards_v67=state.silent_cards_v67):
+        if not card_supported(v, state.late, kaiser=state.kaiser_v63, silent_cards_v66=state.silent_cards_v66,
+                              silent_cards_v67=state.silent_cards_v67):
             yield f"card/{v.name}"
         elif v.modifier and v.modifier[0][:2] == ("affliction_state", "TAINTED") and not any(
             e.name == "INFESTED_PRISM" and power(e.powers, "VITAL_SPARK") == v.modifier[0][2]
@@ -238,17 +239,19 @@ def draw(state, count, *, escape_plan=None, expertise=False):
     return state
 
 
-def outside_hand(variant):
+def outside_hand(variant, *, keep_turn_flags=False):
     if variant.free_skill_cost >= 0:
         variant = replace(variant, cost=variant.free_skill_cost, free_skill_cost=-1)
-    # Hand-only metadata does not persist; explicit Retain/Exhaust keywords do.
+    if keep_turn_flags:
+        return variant
+    # Historical projection discards temporary hand metadata at the pile boundary.
     flags = tuple(flag for flag in variant.flags
                   if flag not in ("exhaust_on_next_play", "retain_this_turn", "sly_this_turn"))
     return replace(variant, flags=flags) if flags != variant.flags else variant
 
 
 def _put(state, zone, variant):
-    variant = outside_hand(variant)
+    variant = outside_hand(variant, keep_turn_flags=state.silent_cards_v67)
     return replace(state, **{zone: tuple(sorted((*getattr(state, zone), variant)))})
 
 
@@ -408,7 +411,7 @@ def _card_effect(state, play):
                 return replace(result, boundary=replace(result.boundary, reason="expertise draw"))
             return result
         if name == "MASTER_PLANNER":
-            return replace(state, powers=silent_cards.set_power(state.powers, name, 1))
+            return _add_player_power(state, name, 1)
         if name in ("MIRAGE", "UNTOUCHABLE"):
             if any(r.name == "VAMBRACE" and r.status == "Active" for r in state.relics):
                 return boundary(state, "vambrace first card block")
@@ -718,7 +721,8 @@ def _after_play(state, play, afterimage):
     if state.silent_cards_v67 and v.kind == "Skill" and power(state.powers, "MASTER_PLANNER") and "Sly" not in v.keywords:
         # AfterCardPlayed changes the physical copy while it is still in the play pile.
         # A queued replay (and its selection prompt) must see the new keyword.
-        sly = replace(v, keywords=tuple(sorted((*v.keywords, "Sly"))))
+        sly = replace(v, keywords=tuple(sorted((*v.keywords, "Sly"))),
+                      flags=tuple(dict.fromkeys((*v.flags, "sly_this_turn"))))
         pile = list(state.play)
         pile[pile.index(v)] = sly
         state = replace(state, play=tuple(pile), queue=tuple(
@@ -857,13 +861,14 @@ def _sly(state, card):
     v = card.variant
     if state.v61_rules and power(state.powers, "SLOTH"):
         return boundary(state, "sloth automatic discard play")
-    if not card_supported(v, silent_cards_v66=state.silent_cards_v66, silent_cards_v67=state.silent_cards_v67) or "costs_x" in v.flags:
+    if "costs_x" in v.flags or not card_supported(v, silent_cards_v66=state.silent_cards_v66,
+                                                  silent_cards_v67=state.silent_cards_v67):
         return boundary(state, "sly modifier")
     candidates = targets(state, v.target)
     if len(candidates) != 1 or (v.target == "RandomEnemy" and not (state.silent_cards_v66 and v.name == "RICOCHET")):
         return boundary(state, "sly target")
     discarded = list(state.discard)
-    discarded.remove(outside_hand(v))
+    discarded.remove(outside_hand(v, keep_turn_flags=state.silent_cards_v67))
     return _queue(replace(state, discard=tuple(discarded), play=(*state.play, v)),
                   Effect("play", play=Play(card, candidates[0])))
 
@@ -894,6 +899,8 @@ def _finish_card(state, play, plays=1):
         if state.silent_cards_v66 and v.free_skill_cost >= 0:
             v = replace(v, cost=v.free_skill_cost, free_skill_cost=-1)
         exhausted = "Exhaust" in v.keywords or "exhaust_on_next_play" in v.flags
+        if state.silent_cards_v67 and "exhaust_on_next_play" in v.flags:
+            v = replace(v, flags=tuple(f for f in v.flags if f != "exhaust_on_next_play"))
         if exhausted and any(r.name == "JOSS_PAPER" for r in state.relics):
             return boundary(state, "joss paper exhaust counter")
         if state.silent_cards_v66 and v.name == "UP_MY_SLEEVE":
@@ -1047,6 +1054,8 @@ def _advance(state, move):
         return resolve(state)
     if move.kind == "select_cards":
         if state.silent_cards_v67 and state.prompt.operation == "NIGHTMARE":
+            if not state.queue:
+                return boundary(state, "nightmare selection continuation")
             return _drain(silent_cards.choose_nightmare(replace(state, prompt=None), move.selection[0]))
         if state.silent_cards_v66 and state.prompt.operation == "HAND_TRICK":
             return _drain(silent_cards.grant_sly(replace(state, prompt=None), move.selection[0]))
@@ -1101,7 +1110,8 @@ def _advance(state, move):
             if late_encounters.untracked_plays(state, v):
                 return boundary(state, "sloth automatic play count")
             state = replace(state, sloth_plays=state.sloth_plays + 1)
-    if not card_supported(v, state.late, kaiser=state.kaiser_v63, silent_cards_v66=state.silent_cards_v66, silent_cards_v67=state.silent_cards_v67):
+    if not card_supported(v, state.late, kaiser=state.kaiser_v63, silent_cards_v66=state.silent_cards_v66,
+                          silent_cards_v67=state.silent_cards_v67):
         return boundary(state, f"card/{v.name}")
     x = state.energy if "costs_x" in v.flags else 0
     state = replace(state, energy=state.energy - (x if "costs_x" in v.flags else v.cost),

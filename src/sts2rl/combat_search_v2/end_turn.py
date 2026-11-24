@@ -3,7 +3,7 @@ from dataclasses import replace
 from . import late_encounters
 
 from .encounters import STRANGLER, STUN, after_damage, after_move, before_move, encounter_reason
-from .state import Boundary, HAND_CAP, add_power, power, set_power
+from .state import Boundary, Card, HAND_CAP, add_power, power, set_power
 from .transitions import boundary, lose_hp, outside_hand, unpowered_block
 
 _HAND_DAMAGE = {"BURN": 2, "WITHER": 3, "INFECTION": 3, "TOXIC": 5, "BECKON": 6}
@@ -121,11 +121,11 @@ def _hand_end(state):
             if state.outcome or state.boundary:
                 return state
         if "Ethereal" in v.keywords:
-            exhaust.append(outside_hand(v))
+            exhaust.append(outside_hand(v, keep_turn_flags=state.silent_cards_v67))
         elif retain or "Retain" in v.keywords or "retain_this_turn" in v.flags:
             (status_keep if amount else remaining).append(c)
         else:
-            discard.append(outside_hand(v))
+            discard.append(outside_hand(v, keep_turn_flags=state.silent_cards_v67))
     powers = _tick(state.powers, ("RETAIN_HAND",)) if state.late or state.silent_cards_v66 else state.powers
     if state.silent_cards_v66:
         powers = set_power(set_power(set_power(powers, "SHADOWMELD", 0), "CORROSIVE_WAVE", 0), "NO_DRAW", 0)
@@ -137,6 +137,22 @@ def _hand_end(state):
     for name in ("SPEED_POTION", "ANTICIPATE"):
         if temporary := power(powers, name):
             powers = add_power(set_power(powers, name, 0), "DEXTERITY", -temporary)
+    if state.silent_cards_v67:
+        # PlayerCombatState.EndOfTurnCleanup clears temporary flags across all piles.
+        def clean(v):
+            if not v.flags:
+                return v
+            flags = tuple(f for f in v.flags if f != "exhaust_on_next_play" and
+                          (f != "retain_this_turn" or "Retain" in v.keywords) and
+                          (f != "sly_this_turn" or "Sly" in v.keywords))
+            return replace(v, flags=flags) if flags != v.flags else v
+
+        remaining = [replace(c, variant=clean(c.variant)) if c.variant.flags else c for c in remaining]
+        status_keep = [replace(c, variant=clean(c.variant)) if c.variant.flags else c for c in status_keep]
+        discard = [clean(v) for v in discard]
+        exhaust = [clean(v) for v in exhaust]
+        if any(v.flags for v in state.draw):
+            state = replace(state, draw=tuple(sorted(clean(v) for v in state.draw)))
     # End-of-turn status actions move retained cards after the ordinary hand.
     return replace(state, hand=(*remaining, *status_keep),
                    discard=tuple(sorted(discard)), exhaust=tuple(sorted(exhaust)),
@@ -467,11 +483,10 @@ def _start_player(state, prior_powers):
                  (*state.draw, *state.discard, *(c.variant for c in state.hand))))):
             return boundary(state, "tools automatic discard ordering")
     if state.silent_cards_v67 and state.nightmare_card and (copies := power(powers, "NIGHTMARE")):
-        from .state import Card
         if len(state.hand) + copies > HAND_CAP or power(powers, "INFINITE_BLADES"):
             return boundary(state, "nightmare generated hand ordering")
         generated = tuple(Card(state.next_slot + i, state.nightmare_card) for i in range(copies))
-        state = replace(state, hand=(*state.hand, *generated), next_slot=state.next_slot + copies, nightmare_card=None)
+        state = replace(state, hand=(*state.hand, *generated), next_slot=state.next_slot + copies)
         powers = set_power(powers, "NIGHTMARE", 0)
     for name in (("NIGHTMARE",) if state.silent_cards_v66 else ("NIGHTMARE", "TOOLS_OF_THE_TRADE")):
         if hp and power(powers, name):
