@@ -267,3 +267,51 @@ def test_surgical_profile_uses_control_scorers(tmp_path):
         potions=[],
     )
     assert arm.choose(shop, None).kind == "leave_room"
+
+
+def test_hidden_top_autoplay_requires_mixed_unordered_draw():
+    from types import SimpleNamespace
+    from sts2rl.combat_search_v2.episode_summary import hidden_end_turn_autoplay
+
+    end = SimpleNamespace(kind="end_turn")
+    draw = [card("I_AM_INVINCIBLE"), card("DEFEND_SILENT")]
+    state = {"draw_pile": draw, "pile_order": "unordered"}
+    assert hidden_end_turn_autoplay(state, end)[1] == "unresolved"
+    assert hidden_end_turn_autoplay(state, SimpleNamespace(kind="play_card")) is None
+    assert hidden_end_turn_autoplay(dict(state, draw_pile=draw[:1]), end) is None
+    assert hidden_end_turn_autoplay(dict(state, draw_pile=draw[1:]), end) is None
+    assert hidden_end_turn_autoplay(dict(state, draw_pile=[]), end) is None
+
+
+@pytest.mark.parametrize("on_top,expected_hp", [(True, 49), (False, 43)])
+def test_unordered_autoplay_native(tmp_path, on_top, expected_hp):
+    import gzip
+    import json
+    import os
+    from pathlib import Path
+    from sts2rl.native import NativeSession, digest, legal_actions
+    from sts2rl.combat_search_v2.episode_summary import hidden_end_turn_autoplay
+
+    host = os.getenv("CSV2DEV_HOST")
+    if not host:
+        pytest.skip("requires pinned v0.111.0 host")
+    root = Path(__file__).resolve().parents[1]
+    fixture = json.loads(
+        gzip.decompress((root / "tests/fixtures/v65-unordered-autoplay.json.gz").read_bytes())
+    )
+    with NativeSession(root, tmp_path / "game", host_path=host) as game:
+        state = game.reset(fixture["seed"])
+        for command in fixture["history"]:
+            state = game._request(command)
+        assert digest(state) == fixture["root"]
+        (end,) = legal_actions(state)
+        assert hidden_end_turn_autoplay(state, end)[1] == "unresolved"
+        order = sorted(
+            (c["id"].split(".")[-1] for c in state["draw_pile"]),
+            key=lambda n: (n != "I_AM_INVINCIBLE", n),
+            reverse=not on_top,
+        )
+        game._request({"cmd": "set_draw_order", "cards": order})
+        after = game._request(end.command())
+        assert after["player"]["hp"] == expected_hp
+        assert any(c["id"] == "CARD.I_AM_INVINCIBLE" for c in after["discard_pile"]) == on_top

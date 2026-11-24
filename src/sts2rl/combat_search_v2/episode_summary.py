@@ -2,6 +2,16 @@
 from collections import Counter, defaultdict
 
 
+def hidden_end_turn_autoplay(state, action):
+    """Classify the public pre-step boundary before requesting the native successor."""
+    if action.kind != "end_turn" or state.get("pile_order") != "unordered":
+        return None
+    ids = {card["id"] for card in state.get("draw_pile", ())}
+    if "CARD.I_AM_INVINCIBLE" in ids and len(ids) > 1:
+        return ["end_turn", "unresolved", "I Am Invincible on unordered draw pile"]
+    return None
+
+
 class EpisodeSummary:
     def __init__(self):
         self.coverage = defaultdict(Counter)

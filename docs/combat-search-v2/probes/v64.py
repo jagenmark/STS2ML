@@ -34,7 +34,7 @@ def cohort():
     return rows
 
 
-def episode(folder, bundle, triple, *, offer_context=False):
+def episode(folder, bundle, triple, *, offer_context=False, audit_draw_order=False):
     i, seed, mode = triple
     role, opts = load_bundle(bundle)
     events, deck_size = [], {}
@@ -97,6 +97,7 @@ def episode(folder, bundle, triple, *, offer_context=False):
                     "compact_combat_summary": True,
                     "time_combat_decisions": True,
                     "audit_compact": True,
+                    **({"audit_draw_order_v65": True} if audit_draw_order else {}),
                 },
             ),
             decision_hook=log,
@@ -128,6 +129,9 @@ def episode(folder, bundle, triple, *, offer_context=False):
     )
     if offer_context:
         receipt["acquisition_context"] = acquisition_context
+    if audit_draw_order:
+        receipt["independent_native"] = row["independent_native"]
+        receipt["draw_order_boundaries"] = row.get("draw_order_boundaries", [])
     if receipt["mismatches"]:
         receipt["history"] = history
     path = folder / (seed + ".json.gz")
@@ -137,11 +141,11 @@ def episode(folder, bundle, triple, *, offer_context=False):
 
 
 def run_triple(job):
-    out, bundles, triple, offer_context = job
+    out, bundles, triple, offer_context, audit_draw_order = job
     arms = tuple(bundles)
     shift = (2 * triple[0] + int(triple[2] == "seeded")) % 3
     for arm in arms[shift:] + arms[:shift]:
-        episode(out / arm, bundles[arm], triple, offer_context=offer_context)
+        episode(out / arm, bundles[arm], triple, offer_context=offer_context, audit_draw_order=audit_draw_order)
     return triple[1]
 
 
@@ -149,6 +153,8 @@ def main(arms=ARMS, locked_cohort=cohort, lock_sha=LOCK_SHA, description=__doc__
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("out", type=Path)
     parser.add_argument("--workers", type=int, choices=[12], required=True)
+    if offer_context:
+        parser.add_argument("--audit-draw-order", action="store_true")
     args = parser.parse_args()
     protocol = runpy.run_path(str(ROOT / "scripts/verify-silent-v6.py"))
     for filename, checksum in (
@@ -174,10 +180,11 @@ def main(arms=ARMS, locked_cohort=cohort, lock_sha=LOCK_SHA, description=__doc__
         host=protocol["HOST_SHA"],
         game=protocol["GAME_SHA"],
         workers=args.workers,
+        **({"audit_draw_order_v65": True} if getattr(args, "audit_draw_order", False) else {}),
     )
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
     with ProcessPoolExecutor(args.workers) as pool:
-        futures = [pool.submit(run_triple, (out, bundles, triple, offer_context)) for triple in locked_cohort()]
+        futures = [pool.submit(run_triple, (out, bundles, triple, offer_context, getattr(args, "audit_draw_order", False))) for triple in locked_cohort()]
         for f in as_completed(futures):
             print(f.result(), flush=True)
 

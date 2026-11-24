@@ -416,6 +416,10 @@ def _play_episode(task, ascension, decision_hook):
                 if deck_model is not None:
                     deck_model.observe(state, action)
                 before = state
+                draw_order_boundary = None
+                if options.get("audit_draw_order_v65"):
+                    from .combat_search_v2.episode_summary import hidden_end_turn_autoplay
+                    draw_order_boundary = hidden_end_turn_autoplay(before, action)
                 state = game.step(action)
                 if compact is not None:
                     fallback = None
@@ -432,7 +436,13 @@ def _play_episode(task, ascension, decision_hook):
                                     if options.get("audit_frozen_right_hand") else None)
                     combat_v2.observe(action, state, legal_actions)
                     if compact is not None and options.get("audit_compact") and combat_v2.records:
-                        compact.audit(combat_v2.records.pop(), second_audit)
+                        record = combat_v2.records.pop()
+                        if draw_order_boundary and record.get("oracle"):
+                            row.setdefault("draw_order_boundaries", []).append(
+                                [step, record["oracle"], draw_order_boundary]
+                            )
+                            second_audit = draw_order_boundary
+                        compact.audit(record, second_audit)
                 paid_relics.observe(before, action, state)
                 if act == 3 and action.kind == "select_map_node":
                     draws_normal = (state.get("context") or {}).get("room_type") == "Monster"
@@ -464,7 +474,7 @@ def _play_episode(task, ascension, decision_hook):
         row.update(coverage=compact.coverage, death=compact.death)
         if options.get("audit_compact"):
             row.update(native=compact.native, mismatches=compact.mismatches, late_fights=compact.exits)
-            if options.get("audit_frozen_right_hand"):
+            if options.get("audit_frozen_right_hand") or options.get("audit_draw_order_v65"):
                 row["independent_native"] = compact.independent_native
     if options.get("explain_drafts"):
         with gzip.open(folder / "draft-scores.jsonl.gz", "wt", encoding="utf-8") as stream:
