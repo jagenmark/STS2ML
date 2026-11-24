@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 
 from .native import legal_actions
+from .deck_policy import DeckPolicy, deck_context
 from .encounter_draft import matchup_features
 from .offer_policy import OfferModel, draft_prior, draft_prior_parts, offer_features, offer_type
 from .run_policy import IDENTITY, INFERENCE_IDENTITY, _card_id, _cost, _hits, _shiv_count
@@ -37,6 +38,24 @@ def _deck_strength(deck):
         discards += "Discard" in (card.get("description") or "")
         sly += "Sly" in (card.get("keywords") or [])
     return attacks, block, poison, shivs, discards, sly
+
+
+def _first_power_scaling(card, ctx, info, deck, mode):
+    name = _card_id(card)
+    if name != "ACCELERANT" and (mode != "scaling_powers_4" or name not in ("ACCURACY", "PHANTOM_BLADES", "INFINITE_BLADES")):
+        return 0.0
+    counts, copies = info
+    if copies.get(name):
+        return 0.0
+    if name == "ACCELERANT" and not any(
+        _card_id(c) != "BUBBLE_BUBBLE" and (
+            (c.get("stats") or {}).get("poisonpower") or (c.get("stats") or {}).get("poisonperturn")
+        ) for c in deck
+    ):
+        return 0.0
+    if name in ("ACCURACY", "PHANTOM_BLADES") and not counts["shiv"]:
+        return 0.0
+    return DeckPolicy.terms(card, ctx, info)["scaling"]
 
 
 def _event_terms(option, hp, maximum, gold, *, event_fixes_v4=False):
@@ -119,6 +138,7 @@ def strategy_arms(
     unified_draft=False,
     deck_size_penalty=0.12,
     event_fixes_v4=False,
+    power_draft=None,
 ):
     kind = strategy_kind(state)
     if not kind or state.get("runtime_identity") != INFERENCE_IDENTITY.get():
@@ -130,6 +150,7 @@ def strategy_arms(
     floor = state["context"]["floor"]
     boss = (state["context"].get("boss") or {}).get("id", "")
     attacks, blocks, poison, shivs, discards, sly = _deck_strength(deck)
+    info = deck_context(deck) if power_draft and kind == "card" and unified_draft else None
     arms = []
     for action in legal_actions(state):
         features = {}
@@ -217,6 +238,8 @@ def strategy_arms(
                 stats = card.get("stats") or {}
                 copies = sum(_card_id(c) == cid for c in deck)
                 value = policy.card_value(card, deck=deck)
+                if info is not None:
+                    value += _first_power_scaling(card, state["context"], info, deck, power_draft)
                 cost = _cost(card)
                 attack = stats.get("calculateddamage", stats.get("damage", 0)) * _hits(card) / 10
                 block = stats.get("calculatedblock", stats.get("block", 0)) / 8
@@ -306,6 +329,7 @@ class StrategyModel(OfferModel):
         deck_size_penalty=0.12,
         offset_scale=1.0,
         event_fixes_v4=False,
+        power_draft=None,
     ):
         super().__init__(weights)
         self.kinds = frozenset(kinds)
@@ -318,6 +342,9 @@ class StrategyModel(OfferModel):
         self.deck_size_penalty = float(deck_size_penalty)
         self.offset_scale = float(offset_scale)
         self.event_fixes_v4 = bool(event_fixes_v4)
+        if power_draft not in (None, "accelerant_only", "scaling_powers_4"):
+            raise ValueError("Unknown scaling-power draft mode")
+        self.power_draft = power_draft
         self.uses_matchups = any(k.startswith("matchup/") for k in weights)
 
     def choose(self, state, policy, opening=None, *, group_probability=None, explanation=None):
@@ -330,6 +357,7 @@ class StrategyModel(OfferModel):
             unified_draft=self.unified_draft,
             deck_size_penalty=self.deck_size_penalty,
             event_fixes_v4=self.event_fixes_v4,
+            power_draft=self.power_draft,
         )
         kind = strategy_kind(state)
         strength = self.strengths_by_kind.get(kind, self.strength)
@@ -368,6 +396,9 @@ class StrategyModel(OfferModel):
                             "size": -self.deck_size_penalty * max(0, len(deck_cards) - 12),
                             "threshold": -0.35 * policy.weights.draft_threshold,
                         }
+                        if self.power_draft:
+                            base_parts["power_scaling"] = 0.35 * _first_power_scaling(
+                                card, state["context"], deck_context(deck_cards), deck_cards, self.power_draft)
                 else:
                     if opening is not None and offer_type(state):
                         base, opening_features = offer_features(state, action, policy)
@@ -413,6 +444,8 @@ class StrategyModel(OfferModel):
             payload["offset_scale"] = self.offset_scale
         if self.event_fixes_v4:
             payload["event_fixes_v4"] = True
+        if self.power_draft:
+            payload["power_draft"] = self.power_draft
         with Path(path).open("x", encoding="utf-8") as stream:
             json.dump(payload, stream, indent=2)
 
@@ -431,6 +464,7 @@ class StrategyModel(OfferModel):
             deck_size_penalty=copied.get("deck_size_penalty", 0.12),
             offset_scale=copied.get("offset_scale", 1.0),
             event_fixes_v4=copied.get("event_fixes_v4", False),
+            power_draft=copied.get("power_draft"),
         )
 
     @classmethod

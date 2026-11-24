@@ -17,13 +17,66 @@ def _damage_progress(enemy):
     return enemy.max_hp - enemy.hp
 
 
-def _progress(state):
+def _poison_damage(enemy, poison, accelerant):
+    """Next enemy-side start, with diminishing ticks and the public HP cap."""
+    ticks = min(poison, 1 + accelerant)
+    if ticks and any(name in ("INTANGIBLE", "SLIPPERY", "HARD_TO_KILL", "BUFFER") for name, _ in enemy.powers):
+        from .transitions import lose_hp
+
+        hp, block, powers = enemy.hp, enemy.block, enemy.powers
+        for i in range(ticks):
+            hp, block, powers = lose_hp(hp, block, powers, poison - i, bypass=True)
+        return enemy.hp - hp
+    return min(enemy.hp, ticks * poison - ticks * (ticks - 1) // 2)
+
+
+_SHIV_SOURCES = {"BLADE_DANCE", "CLOAK_AND_DAGGER", "HIDDEN_DAGGERS", "LEADING_STRIKE", "INFINITE_BLADES"}
+_POISON_SOURCES = {"DEADLY_POISON", "POISONED_STAB", "SNAKEBITE", "BOUNCING_FLASK", "NOXIOUS_FUMES", "ENVENOM"}
+_SCALING = {"ACCELERANT", "NOXIOUS_FUMES", "ACCURACY", "PHANTOM_BLADES", "INFINITE_BLADES",
+            "ENVENOM", "THORNS", "A_THOUSAND_CUTS", "SERPENT_FORM", "TOOLS_OF_THE_TRADE", "BLUR",
+            "AFTERIMAGE", "DEXTERITY"}
+
+
+def _power_value(state):
+    """Discount future uses by public HP remaining and density in the live piles."""
+    if not any(name in _SCALING for name, _ in state.powers):
+        return 0.0
+    p = dict(state.powers)
+    living = [e for e in state.enemies if e.hp > 0]
+    poison = sum(power(e.powers, "POISON") for e in living)
+    remaining = sum(min(180, e.hp - _poison_damage(e, power(e.powers, "POISON"), p.get("ACCELERANT", 0)))
+                    for e in living)
+    # One ordinary damage turn has little setup runway. Cap the discounted
+    # horizon so a boss's large health pool cannot justify arbitrary HP loss.
+    turns = min(4.0, max(0, remaining - 14) / 22)
+    if not turns:
+        return 0.0
+    cards = (*state.draw, *state.discard, *(c.variant for c in state.hand))
+    fraction = 5 / max(5, len(cards))
+    shivs = min(3, p.get("INFINITE_BLADES", 0) + fraction * sum(
+        2 if c.name in _SHIV_SOURCES else int(c.name == "SHIV") for c in cards))
+    fumes = p.get("NOXIOUS_FUMES", 0)
+    venom = p.get("ENVENOM", 0)
+    supply = min(4, poison / 3 + fumes + venom + 4 * fraction * sum(c.name in _POISON_SOURCES for c in cards))
+    per_turn = (0.65 * fumes * len(living) + 0.65 * p.get("ACCELERANT", 0) * supply
+                + 0.35 * (p.get("ACCURACY", 0) * shivs + p.get("PHANTOM_BLADES", 0) * min(1, shivs))
+                + 1.4 * p.get("INFINITE_BLADES", 0)
+                + 0.65 * venom * min(3, fraction * sum(c.kind == "Attack" for c in cards))
+                + 0.5 * p.get("THORNS", 0) + 1.05 * p.get("A_THOUSAND_CUTS", 0) * len(living)
+                + 1.05 * p.get("SERPENT_FORM", 0) + p.get("TOOLS_OF_THE_TRADE", 0)
+                + 1.6 * p.get("AFTERIMAGE", 0) + 0.8 * p.get("DEXTERITY", 0))
+    return turns * per_turn + min(turns, p.get("BLUR", 0)) * min(2, 0.2 * state.block)
+
+
+def _progress(state, power_leaf_v62=False):
     progress = 0
     pressure = 0
     deadline = 0
     for enemy in state.enemies:
         if enemy.hp > 0:
             poison = power(enemy.powers, "POISON")
+            if power_leaf_v62:
+                poison = _poison_damage(enemy, poison, power(state.powers, "ACCELERANT"))
             # Leaving a foe already doomed by the next poison tick is valuable.
             progress += min(enemy.hp, poison) * 0.8
             if poison < enemy.hp:
@@ -60,17 +113,19 @@ def _boss_adjustment(state):
     return value
 
 
-def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=False):
+def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=False, power_leaf_v62=False):
     adjustment = _boss_adjustment(state) if boss_safe and state.outcome == "completed" else 0
     if model is not None and state.outcome == "completed":
         win_probability, win_hp_fraction = model.leaf(state)
         value = win_probability * (state.max_hp * win_hp_fraction + win_weight)
         return SURVIVED, round(value - reserve_price * state.spent + adjustment, 8)
-    progress, pressure, deadline = _progress(state)
+    progress, pressure, deadline = _progress(state, power_leaf_v62)
     persistent = sum(power(state.powers, name) * weight for name, weight in (
         ("AFTERIMAGE", 3.5), ("WELL_LAID_PLANS", 4), ("STRENGTH", 1.5),
         ("DEXTERITY", 1.5), ("INTANGIBLE", 3), ("BUFFER", 2),
     ))
+    if power_leaf_v62:
+        persistent += _power_value(state) - 3.5 * power(state.powers, "AFTERIMAGE") - 1.5 * power(state.powers, "DEXTERITY")
     category = {"victory": VICTORY, "completed": SURVIVED, "dead": DEAD}.get(
         state.outcome, UNRESOLVED)
     utility = state.hp - reserve_price * state.spent
@@ -81,7 +136,7 @@ def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=Fa
     return category, round(utility + adjustment, 8)
 
 
-def interim(state, reserve_price, *, boss_safe=False):
+def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False):
     """Cheap beam sorting for stable states and compulsory prompts."""
     progress = 0
     pressure = 0
@@ -97,5 +152,14 @@ def interim(state, reserve_price, *, boss_safe=False):
     setup = 2 * state.energy + 4 * power(state.powers, "BURST") + 3 * power(state.powers, "DUPLICATION")
     safety = state.hp - max(0, pressure - state.block) + 0.6 * setup
     development = progress + setup - reserve_price * state.spent + 0.2 * min(state.block, pressure)
+    if power_leaf_v62:
+        # Development uses damage units, whereas completed leaves price damage
+        # at 0.35 HP. Keep the independent safety quota exactly as before.
+        development += _power_value(state) / 0.35
+        for enemy in state.enemies:
+            poison = power(enemy.powers, "POISON")
+            if enemy.hp > 0 and poison:
+                development += 0.8 * (_poison_damage(enemy, poison, power(state.powers, "ACCELERANT"))
+                                      - min(enemy.hp, poison))
     adjustment = _boss_adjustment(state) if boss_safe else 0
     return safety - reserve_price * state.spent + adjustment, development + adjustment

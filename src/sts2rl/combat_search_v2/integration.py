@@ -194,7 +194,8 @@ class CombatSearchV2:
         if self.records is None:
             return
         config = asdict(self.config)
-        for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe"):
+        for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
+                       "power_leaf_v62", "early_escape_v62"):
             if not config[switch]:
                 del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
@@ -443,6 +444,16 @@ def choose_encounter(mode, encounter, public, policy, enumerate_actions):
         action = mode.choose(public, champion, enumerate_actions, facing=original_facing)
     else:
         action = mode.choose(public, champion, enumerate_actions)
+    if (mode.config.early_escape_v62 and not mode.shadow and mode.last_fallback
+            and mode.last_fallback != "sandpit deadline" and public["decision"] == "combat_play"
+            and public["context"]["act"] == 2 and public["context"]["room_type"] == "Boss"
+            and tactics is not None and tactics.plan.get("escape") == "cheap"
+            and any(c["id"] == "CARD.FRANTIC_ESCAPE" and c["can_play"] for c in public["hand"])):
+        # Keep the original champion inside search. Re-run legacy survival
+        # planning with the earlier reservation only on an executed fallback.
+        action = encounter.choose(public, policy, bank_earlier=True)
+        if mode.records:
+            mode.records[-1]["changed"] = action != champion
     if tactics is not None and action is not champion:
         tactics.facing = original_facing
         tactics.observe(action)

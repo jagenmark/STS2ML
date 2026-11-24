@@ -109,7 +109,8 @@ class DeckPolicy:
     def load(cls, path):
         return cls.from_data(json.loads(Path(path).read_text(encoding="utf-8")))
 
-    def terms(self, card, ctx, deck_info):
+    @staticmethod
+    def terms(card, ctx, deck_info):
         counts, copies = deck_info
         name = _card_id(card)
         st = card.get("stats") or {}

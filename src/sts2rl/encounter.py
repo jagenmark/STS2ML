@@ -1385,7 +1385,7 @@ class EncounterModel:
             )
             self.key = key
 
-    def choose(self, state, base_policy):
+    def choose(self, state, base_policy, *, bank_earlier=False):
         from .turn_planning import choose_turn, choose_turn_survival
 
         if state["decision"] != "combat_play":
@@ -1434,7 +1434,8 @@ class EncounterModel:
             action = self.actor.mecha_tactics.rank(state, actions, action, self.actor)
         fixes_v4 = bool(getattr(self.actor, "combat_fixes_v4", False))
         if fixes_v4 and self.sandpit_threshold and ctx["room_type"] == "Boss":
-            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
+            threshold = (self.boss_tactics.escape_threshold(state, self.sandpit_threshold, bank_earlier=bank_earlier)
+                         if self.boss_tactics else self.sandpit_threshold)
             action = escape_action(state, actions, action, threshold)
         if self.survival_search and (actor_act2_mech or not facing_plan):
             action = choose_turn_survival(
@@ -1445,7 +1446,8 @@ class EncounterModel:
                 score_adjust=focus_adjust,
             )
         if (not fixes_v4) and self.sandpit_threshold and ctx["room_type"] == "Boss":
-            threshold = self.boss_tactics.escape_threshold(state, self.sandpit_threshold) if self.boss_tactics else self.sandpit_threshold
+            threshold = (self.boss_tactics.escape_threshold(state, self.sandpit_threshold, bank_earlier=bank_earlier)
+                         if self.boss_tactics else self.sandpit_threshold)
             action = escape_action(state, actions, action, threshold)
         if self.boss_tactics:
             self.boss_tactics.observe(action)

@@ -20,6 +20,8 @@ class Config:
     v6_late_coverage: bool = False
     v61_act2_hallways_act3: bool = False
     v61_boss_safe: bool = False
+    power_leaf_v62: bool = False
+    early_escape_v62: bool = False
 
     def late_root(self, act, room):
         if act == 3:
@@ -31,7 +33,7 @@ class Config:
     def __post_init__(self):
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
                 or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
-                                                      self.v61_boss_safe))
+                                                      self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
@@ -114,7 +116,7 @@ class _Search:
         started = (perf_counter_ns() if self.record_timing and self.leaf_ns is None
                    and state.outcome == "completed" else None)
         score = leaf_value(state, self.config.potion_reserve, self.model, self.config.value_win_weight,
-                           boss_safe=self.boss_safe)
+                           boss_safe=self.boss_safe, power_leaf_v62=self.config.power_leaf_v62)
         if started is not None:
             self.leaf_ns = perf_counter_ns() - started
         line = Line(state, path, score, root)
@@ -145,7 +147,9 @@ class _Search:
         if successor.boundary or successor.outcome:
             self.leaf(successor, path, root)
             return None
-        return _Node(successor, path, root, interim(successor, self.config.potion_reserve, boss_safe=self.boss_safe))
+        priority = interim(successor, self.config.potion_reserve, boss_safe=self.boss_safe,
+                           power_leaf_v62=self.config.power_leaf_v62)
+        return _Node(successor, path, root, priority)
 
     def finish(self, node):
         if node.state.prompt is None:
