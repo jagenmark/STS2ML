@@ -26,7 +26,7 @@ from pathlib import Path
 from sts2rl.act1 import save_json
 from sts2rl.run_bundle import freeze_bundle, load_bundle
 
-SEARCH_PROFILES = ("all_v2_search_v5", "all_v2_search_heur_v5")
+SEARCH_PROFILES = ("all_v2_search_v5", "all_v2_search_heur_v5", "all_v2_search_v6")
 MODEL_SHA256 = "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b"
 
 PROFILES = (
@@ -66,11 +66,14 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
     if profile not in PROFILES:
         raise ValueError(f"Unknown Batch 1/2 profile: {profile!r}")
     role, opts = load_bundle(base)
+    arm4 = profile == "all_v2_search_v6"
     if profile in SEARCH_PROFILES:
         if any(opts.get(k) for k in ("combat_search_v2", "combat_search_v2_shadow", "combat_search_v2_config", "combat_value_v2")):
-            raise ValueError("Start from a search-free base for the v5 profiles")
+            raise ValueError("Start from a search-free base for the search profiles")
         models = Path(__file__).resolve().parents[1] / "docs/combat-search-v2/models"
         opts.update(combat_search_v2=True, combat_search_v2_config=models / "v5-search.json")
+        if arm4:
+            opts["combat_search_v2_config"] = models / "v6-search.json"
         if profile == "all_v2_search_v5":
             checkpoint = models / "combat_value_v3.npz"
             if hashlib.sha256(checkpoint.read_bytes()).hexdigest() != MODEL_SHA256:
@@ -203,6 +206,8 @@ def build_batch1_bundle(base: Path, output: Path, *, profile: str = "all") -> Pa
         strategy["offset_scale"] = 0.0
         if profile == "all_v2_p1_v4":
             strategy["event_fixes_v4"] = True
+        if arm4:
+            strategy["power_draft"] = "accelerant_only"
 
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)

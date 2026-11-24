@@ -224,7 +224,8 @@ class CombatSearchV2:
             late_root = self.config.late_root(ctx.get("act"), ctx.get("room_type"))
             projected = project(public, late_prompts=late_root)
             state = projected.state
-            if (late_root or self.config.v6_late_coverage) and any(v.name == "RIGHT_HAND_HAND" for v in state.discard):
+            if (late_root or self.config.v6_late_coverage or self.config.v61_boss_safe
+                    or self.config.v61_act2_hallways_act3) and any(v.name == "RIGHT_HAND_HAND" for v in state.discard):
                 state = replace(state, right_hand_return=True)
                 projected = replace(projected, state=state)
             if late_root:
@@ -324,6 +325,13 @@ class CombatSearchV2:
             if key != self._round_key:
                 self._plays = 0
                 self._bound_used = False
+            elif ((self.config.v61_boss_safe or self.config.v61_act2_hallways_act3)
+                  and prior and prior.prompt and action.kind == "select_cards"
+                  and prior.prompt.operation in ("ACROBATICS", "PREPARED", "SURVIVOR", "DAGGER_THROW", "HIDDEN_DAGGERS")
+                  and any("Sly" in c.variant.keywords or "sly_this_turn" in c.variant.flags for c in prior.hand)):
+                # A newly drawn Sly card can auto-play inside this selection.
+                # Resume count-dependent mechanics at their next witnessed reset.
+                self._plays = self._aeon_plays = -1
             elif action.kind == "play_card" and self._plays >= 0:
                 # Automatic plays and replays may count towards Sloth. Resume at
                 # the next observed turn start if their count was not witnessed.

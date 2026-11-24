@@ -146,6 +146,8 @@ def move(state, enemy, kinds):
         if kinds == {"Defend"}:
             return _update(state, enemy.slot, block=33)
         if kinds == {"StatusCard", "Buff"}:
+            if state.v61_rules:
+                return replace(state, boundary=Boundary("aeonglass increasing intensity level"))
             return add_cards(_strength(state, enemy, 4), "discard", WITHER, 2)
     if name == "AXEBOT" and kinds == {"Debuff"}:
         return player_debuff(player_debuff(state, "WEAK", 2), "FRAIL", 2)

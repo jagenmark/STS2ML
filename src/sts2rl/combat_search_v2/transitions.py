@@ -392,7 +392,9 @@ def _card_effect(state, play):
                 damage += 3
             damage += sum(power(r.stats, "damage") for r in state.relics if r.name == "MYSTIC_LIGHTER" and not r.used)
         if name == "PRECISE_CUT":
-            damage = max(0, damage - 2 * len(state.hand))
+            damage -= 2 * len(state.hand)
+            if not state.v61_rules:
+                damage = max(0, damage)
         if power(state.powers, "VIGOR"):
             return boundary(state, "vigor consumption timing")
         if any(r.name == "PEN_NIB" and r.counter == 9 for r in state.relics):
@@ -665,6 +667,8 @@ def _discard_cards(state, slots):
 
 def _sly(state, card):
     v = card.variant
+    if state.v61_rules and power(state.powers, "SLOTH"):
+        return boundary(state, "sloth automatic discard play")
     if not card_supported(v) or "costs_x" in v.flags:
         return boundary(state, "sly modifier")
     candidates = targets(state, v.target)

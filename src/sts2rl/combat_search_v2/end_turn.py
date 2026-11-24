@@ -38,6 +38,11 @@ def _puzzle(state):
 
 def _hand_end(state):
     hand = state.hand
+    if (state.v61_rules and any(e.name == "AEONGLASS" for e in state.enemies)
+            and any(c.variant.name == "WITHER" for c in hand)):
+        # Increasing Intensity changes Wither's damage independently of its
+        # ordinary upgrade level. The projected variant cannot distinguish it.
+        return boundary(state, "aeonglass wither damage level")
     if state.late:
         if any(r.name == "STONE_CALENDAR" and r.counter == 7 for r in state.relics):
             return boundary(state, "stone calendar damage")
@@ -284,7 +289,10 @@ def _start_player(state, prior_powers):
     for name in ("BURST", "DUPLICATION", "NO_DRAW", "TAINTED", "DRAW_CARDS_NEXT_TURN"):
         powers = set_power(powers, name, 0)
     mittens = state.late and any(r.name == "TOASTY_MITTENS" for r in state.relics)
-    if mittens and state.v61_rules and (power(powers, "CLARITY") or any(r.name == "HAPPY_FLOWER" for r in state.relics)):
+    if mittens and state.v61_rules and (
+        any(power(state.powers, name) for name in ("CLARITY", "DRAW_CARDS_NEXT_TURN", "BLUR"))
+        or any(r.name == "HAPPY_FLOWER" or (r.name == "LETTER_OPENER" and r.counter) for r in state.relics)
+    ):
         return boundary(state, "toasty mittens delayed start triggers")
     if not mittens:
         powers = _tick(powers, ("PLATING",))

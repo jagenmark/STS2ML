@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "width": 16,
+  "depth": 10,
+  "children": 512,
+  "potion_reserve": 7.0,
+  "value_win_weight": 0.0,
+  "v61_act2_hallways_act3": true,
+  "v61_boss_safe": true,
+  "power_leaf_v62": true
+}
