@@ -34,10 +34,11 @@ def cohort():
     return rows
 
 
-def episode(folder, bundle, triple):
+def episode(folder, bundle, triple, *, offer_context=False):
     i, seed, mode = triple
     role, opts = load_bundle(bundle)
     events, deck_size = [], {}
+    acquisition_context = []
     commands = hashlib.sha256()
     history = []
 
@@ -65,6 +66,14 @@ def episode(folder, bundle, triple):
                 if kind == "bundle_select"
                 else [offer(c) for c in state["cards"] if c.get("is_stocked", True)]
             )
+            if offer_context:
+                from sts2rl.draft_v65 import generator
+                from sts2rl.unified_draft import public_context
+
+                acquisition_context.append([
+                    public_context(state)["max_energy"],
+                    sum(generator(normalize(c)) for c in deck),
+                ])
             events.append(
                 [act, floor, kind, cards, action.kind, action.args, bool(state.get("can_skip"))]
             )
@@ -117,6 +126,8 @@ def episode(folder, bundle, triple):
         commands=commands.hexdigest(),
         latency_us=Counter((ns + 500) // 1000 for ns in timings),
     )
+    if offer_context:
+        receipt["acquisition_context"] = acquisition_context
     if receipt["mismatches"]:
         receipt["history"] = history
     path = folder / (seed + ".json.gz")
@@ -126,15 +137,16 @@ def episode(folder, bundle, triple):
 
 
 def run_triple(job):
-    out, bundles, triple = job
+    out, bundles, triple, offer_context = job
+    arms = tuple(bundles)
     shift = (2 * triple[0] + int(triple[2] == "seeded")) % 3
-    for arm in ARMS[shift:] + ARMS[:shift]:
-        episode(out / arm, bundles[arm], triple)
+    for arm in arms[shift:] + arms[:shift]:
+        episode(out / arm, bundles[arm], triple, offer_context=offer_context)
     return triple[1]
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+def main(arms=ARMS, locked_cohort=cohort, lock_sha=LOCK_SHA, description=__doc__, *, offer_context=False):
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument("out", type=Path)
     parser.add_argument("--workers", type=int, choices=[12], required=True)
     args = parser.parse_args()
@@ -151,13 +163,13 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     build = runpy.run_path(str(ROOT / "scripts/build-batch1-challengers.py"))["build_batch1_bundle"]
     bundles = {}
-    for arm in ARMS:
+    for arm in arms:
         bundles[arm] = build(
             ROOT / "releases/silent-a10-mecha-knight/challenger/policy.json", out / arm, profile=arm
         )
     manifest = dict(
         commit=subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
-        lock=LOCK_SHA,
+        lock=lock_sha,
         bundles={k: hashlib.sha256(p.read_bytes()).hexdigest() for k, p in bundles.items()},
         host=protocol["HOST_SHA"],
         game=protocol["GAME_SHA"],
@@ -165,7 +177,7 @@ def main():
     )
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
     with ProcessPoolExecutor(args.workers) as pool:
-        futures = [pool.submit(run_triple, (out, bundles, triple)) for triple in cohort()]
+        futures = [pool.submit(run_triple, (out, bundles, triple, offer_context)) for triple in locked_cohort()]
         for f in as_completed(futures):
             print(f.result(), flush=True)
 

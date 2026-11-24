@@ -158,7 +158,7 @@ ENERGY_RELICS = frozenset(
 )
 
 
-def public_context(state):
+def public_context(state, *, v65=False):
     p = state["player"]
     relics = {
         r.get("id", "").removeprefix("RELIC."): r
@@ -171,6 +171,7 @@ def public_context(state):
     ctx = state["context"]
     return {
         **ctx,
+        **({"paper_krane": "PAPER_KRANE" in relics} if v65 else {}),
         "max_energy": state.get("max_energy", p.get("max_energy", ctx.get("max_energy", energy))),
         "stone_dex": int("ODDLY_SMOOTH_STONE" in relics),
     }
@@ -179,9 +180,17 @@ def public_context(state):
 FORCE_SKIP = {"GRAND_FINALE", "THE_GAMBIT", "PANIC_BUTTON", "CLASH"}
 
 
-def raw_grade(card, ctx, info, *, size_penalty, threshold, duplicate):
+def raw_grade(card, ctx, info, *, size_penalty, threshold, duplicate, v65=False):
     c = normalize(card)
     name, s, keys = c["id"], c["stats"], c["keywords"]
+    if v65:
+        from .draft_v65 import marginal_adjustment, prohibited, wave_value
+
+        counts, copies = info
+        if prohibited(c, ctx.get("max_energy", 3), counts["generators"]):
+            return -1_000_000.0
+        if name == "CORROSIVE_WAVE":
+            return wave_value(c, counts, copies[name])
     if name in FORCE_SKIP or c["multiplayer_only"] or (c["star_cost"] or 0) > 0 or c["stars_x"]:
         return -100.0
     if c["type"] in ("Curse", "Status", "Quest"):
@@ -330,6 +339,8 @@ def raw_grade(card, ctx, info, *, size_penalty, threshold, duplicate):
         "METEOR_STRIKE": 14,
     }
     value += bonuses.get(name, 0)
+    if v65:
+        value += marginal_adjustment(c, ctx, info, e, damage, aoe)
     value += 2 if "Retain" in keys else 0
     value += 1.5 if "Innate" in keys and value > 0 else 0
     value /= max(1, cost) ** 0.78

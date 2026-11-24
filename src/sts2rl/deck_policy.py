@@ -102,7 +102,13 @@ class DeckPolicy:
         )
         self.unified_draft_v64 = data.get("unified_draft_v64", False)
         self.size_penalty = data.get("size_penalty", -1.65)
-        if self.unified_draft_v64:
+        self.unified_draft_v65 = data.get("unified_draft_v65", False)
+        self.trap_cleanup_v65 = data.get("trap_cleanup_v65", False)
+        if self.unified_draft_v65:
+            self.size_penalty = 0.0
+        if self.trap_cleanup_v65:
+            self.scope |= {"bundle_select"}
+        if self.unified_draft_v64 or self.unified_draft_v65:
             self.scope |= {"card_reward", "shop", "bundle_select"}
         self.to_upgrade = False
         self.act2_final_rest_threshold = data.get("act2_final_rest_threshold")
@@ -255,15 +261,20 @@ class DeckPolicy:
         from .unified_draft import raw_grade
 
         return raw_grade(card, ctx, info, size_penalty=self.size_penalty,
-                         duplicate=self.duplicate, threshold=self.threshold)
+                         duplicate=self.duplicate, threshold=self.threshold, v65=self.unified_draft_v65)
 
     def _unified_choice(self, state):
         from .unified_draft import public_context
         from .merchant import merchant_choice
 
         deck = state["player"]["deck"]
-        ctx = public_context(state)
-        context = deck_context(deck, unified_draft_v64=True)
+        ctx = public_context(state, v65=self.unified_draft_v65)
+        def context_for(cards):
+            if self.unified_draft_v65:
+                from .draft_v65 import role_context
+                return role_context(cards, ctx["max_energy"])
+            return deck_context(cards, unified_draft_v64=True)
+        context = context_for(deck)
 
         def grade(card):
             return self.raw_card_value(card, ctx, context)
@@ -281,12 +292,12 @@ class DeckPolicy:
                 current = list(deck)
                 total = 0.0
                 for card in state["bundles"][action.args["bundle_index"]]["cards"]:
-                    total += self.raw_card_value(card, ctx, deck_context(current, unified_draft_v64=True))
+                    total += self.raw_card_value(card, ctx, context_for(current))
                     current.append(card)
                 return total
             return max(actions, key=marginal)
         settings = self.merchant or {"reserve": 1.0, "permanent": 1.0}
-        return merchant_choice(state, grade, unified_card_values=True, **settings)
+        return merchant_choice(state, grade, unified_card_values=True, positive_cards_only=self.unified_draft_v65, **settings)
 
     def observe(self, state, action):
         if self.prompt_aware and not state.get("in_combat") and state["decision"] != "card_select":
@@ -294,7 +305,7 @@ class DeckPolicy:
 
     def choose(self, state, base):
         d = state["decision"]
-        if self.unified_draft_v64 and d in ("card_reward", "shop", "bundle_select"):
+        if (self.unified_draft_v64 or self.unified_draft_v65) and d in ("card_reward", "shop", "bundle_select"):
             self.to_upgrade = False
             return self._unified_choice(state)
         ctx = state["context"]
@@ -305,6 +316,19 @@ class DeckPolicy:
         def grade(c):
             return self.grade(c, ctx, info)
 
+        if self.trap_cleanup_v65 and d in ("shop", "bundle_select"):
+            from .draft_v65 import cleanup, role_context
+            from .unified_draft import public_context
+            view = public_context(state)
+            roles = role_context(deck, view["max_energy"])
+            def adjust(card, score):
+                return cleanup(card, score, view, roles)
+            self.to_upgrade = False
+            if d == "bundle_select":
+                base.selection = None
+                return base.macro(state, legal_actions(state), bundle_adjust=adjust)
+            from .merchant import merchant_choice
+            return merchant_choice(state, grade, card_adjust=adjust, **self.merchant)
         if d == "card_select" and (self.to_upgrade or self.prompt):
             self.to_upgrade = False
 

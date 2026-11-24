@@ -70,6 +70,8 @@ def merchant_choice(
     potion_capacity=False,
     shop_fixes_v4=False,
     unified_card_values=False,
+    positive_cards_only=False,
+    card_adjust=None,
 ):
     player = state["player"]
     gold = player["gold"]
@@ -116,7 +118,10 @@ def merchant_choice(
             name = item.get("name", "")
             if kind == "buy_card":
                 if unified_card_values:
-                    value = 1.4 + grade(item)
+                    raw = grade(item)
+                    if positive_cards_only and raw <= 0:
+                        continue
+                    value = 1.4 + raw
                 elif shop_fixes_v4:
                     raw_cid = item.get("id") or item.get("name") or ""
                     cid = raw_cid.removeprefix("CARD.").upper().replace(" ", "_") if isinstance(raw_cid, str) else ""
@@ -128,6 +133,8 @@ def merchant_choice(
                         value = 1.4 + max(-6, grade(item))
                 else:
                     value = 1.4 + max(-6, grade(item))
+                if card_adjust is not None:
+                    value = card_adjust(item, value)
             elif kind == "buy_potion":
                 empty_bonus = 2.7 if (not shop_fixes_v4 and not player["potions"]) else 0.0
                 value = (

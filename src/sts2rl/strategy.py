@@ -330,12 +330,14 @@ class StrategyModel(OfferModel):
         offset_scale=1.0,
         event_fixes_v4=False,
         power_draft=None,
+        trap_cleanup_v65=False,
     ):
         super().__init__(weights)
         self.kinds = frozenset(kinds)
         self.strength = strength
         self.strengths_by_kind = strengths_by_kind or {}
         self.card_offsets = card_offsets or {}
+        self.trap_cleanup_v65 = trap_cleanup_v65
         self.unified_draft = bool(unified_draft)
         if deck_size_penalty < 0:
             raise ValueError("deck_size_penalty must be nonnegative")
@@ -370,6 +372,13 @@ class StrategyModel(OfferModel):
                 values = self.card_offsets.get(key, self.card_offsets.get(name))
                 if values is not None:
                     offsets[card["index"]] = self.offset_scale * values[act]
+        cleanup_cards = {}
+        if self.trap_cleanup_v65 and kind == "card":
+            from .draft_v65 import cleanup, role_context
+            from .unified_draft import public_context
+            cleanup_ctx = public_context(state)
+            cleanup_info = role_context(state["player"]["deck"], cleanup_ctx["max_energy"])
+            cleanup_cards = {c["index"]: c for c in state["cards"]}
         totals = []
         options = []
         for action, prior, features in arms:
@@ -377,6 +386,8 @@ class StrategyModel(OfferModel):
             offset = offsets.get(index, 0.0)
             strategy_score = strength * self.predict(0.0, features)
             total = prior + strategy_score + offset
+            if index in cleanup_cards:
+                total = cleanup(cleanup_cards[index], total, cleanup_ctx, cleanup_info, scale=0.35)
             totals.append(total)
             if explanation is not None and kind == "card":
                 card = next((c for c in state["cards"] if c["index"] == index), None)
@@ -442,6 +453,8 @@ class StrategyModel(OfferModel):
             payload["deck_size_penalty"] = self.deck_size_penalty
         if self.offset_scale != 1.0:
             payload["offset_scale"] = self.offset_scale
+        if self.trap_cleanup_v65:
+            payload["trap_cleanup_v65"] = True
         if self.event_fixes_v4:
             payload["event_fixes_v4"] = True
         if self.power_draft:
@@ -460,6 +473,7 @@ class StrategyModel(OfferModel):
             copied["strength"],
             copied.get("strengths_by_kind"),
             copied.get("card_offsets"),
+            trap_cleanup_v65=copied.get("trap_cleanup_v65", False),
             unified_draft=copied.get("unified_draft", False),
             deck_size_penalty=copied.get("deck_size_penalty", 0.12),
             offset_scale=copied.get("offset_scale", 1.0),

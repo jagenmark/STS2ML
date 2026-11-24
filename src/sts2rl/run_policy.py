@@ -291,7 +291,7 @@ class RunPolicy:
                 breakdown["free_bonus"] = free_bonus
         return value / divisor + free_bonus
 
-    def macro(self, state, actions):
+    def macro(self, state, actions, *, bundle_adjust=None):
         decision = state["decision"]
         player = state["player"]
         deck = player["deck"]
@@ -301,6 +301,11 @@ class RunPolicy:
                 return self.card_value(card, deck=deck) - 1.5 * copies
             threshold = self.weights.draft_threshold + .35 * max(0, len(deck) - 12)
             if decision == "bundle_select":
+                if bundle_adjust is not None:
+                    return max(actions, key=lambda a: sum(
+                        bundle_adjust(c, draft(c) - threshold)
+                        for c in state["bundles"][a.args["bundle_index"]]["cards"]
+                    ))
                 return max(actions, key=lambda a: sum(draft(c) - threshold for c in state["bundles"][a.args["bundle_index"]]["cards"]))
             if decision == "card_reward":
                 cards = {c["index"]: c for c in state["cards"]}
