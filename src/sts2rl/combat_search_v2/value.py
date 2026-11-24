@@ -1,4 +1,5 @@
 """Frozen Phase 1 utilities in HP-equivalent units."""
+from .kaiser_future import focused_progress, future_defense
 from .state import power
 
 VICTORY = 3
@@ -94,6 +95,7 @@ def _boss_adjustment(state):
         # Value concentrated damage and poison's next several ticks. Early removal
         # cuts the number of incoming attacks even after the survivor gains rage.
         focus = 0.0
+        rocket_progress = rocket_hp = crusher_hp = 0
         value = 4.0 * state.hp + 14.0 * power(state.powers, "DEXTERITY")
         value += 15.0 * power(state.powers, "AFTERIMAGE") + 10.0 * power(state.powers, "NOXIOUS_FUMES")
         for e in state.enemies:
@@ -101,11 +103,22 @@ def _boss_adjustment(state):
             ticks = min(5, poison, 3 * (1 + power(state.powers, "ACCELERANT"))) if e.hp > 0 else 0
             future = min(e.hp, ticks * poison - ticks * (ticks - 1) // 2)
             progress = e.max_hp - e.hp + future
-            focus = max(focus, progress * (1.15 if e.name == "ROCKET" else 1))
+            if state.kaiser_v63b:
+                if e.name == "ROCKET":
+                    rocket_progress, rocket_hp = progress, e.hp - future
+                else:
+                    crusher_hp = e.hp - future
+            else:
+                focus = max(focus, progress * (1.15 if e.name == "ROCKET" else 1))
             if e.hp:
-                value += 1.5 * future + 6 * min(3, power(e.powers, "WEAK")) - 6 * power(e.powers, "STRENGTH")
+                value += 1.5 * future - 6 * power(e.powers, "STRENGTH")
+                if not state.kaiser_v63b:
+                    value += 6 * min(3, power(e.powers, "WEAK"))
             else:
                 value += 18
+        if state.kaiser_v63b:
+            focus = focused_progress(rocket_progress, rocket_hp, crusher_hp)
+            value += future_defense(state)
         value += 5 * power(state.powers, "INTANGIBLE") + 4 * power(state.powers, "BUFFER")
         return value + 0.45 * focus + 4 * power(state.powers, "THORNS")
     value = 0.0

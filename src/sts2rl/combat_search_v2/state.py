@@ -199,6 +199,7 @@ class State:
     remnant_floor: int | None = None
     v61_rules: bool = False
     kaiser_v63: bool = False
+    kaiser_v63b: bool = False
     puzzle_triggered: bool = False
 
     @property

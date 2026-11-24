@@ -47,7 +47,7 @@ def locked(panel):
     return rows
 
 
-def episode(job):
+def episode(job, *, kaiser_metrics=None):
     bundle, out, triple, audit, arm = job
     index, seed, mode = triple
     role, opts = load_bundle(bundle)
@@ -59,6 +59,8 @@ def episode(job):
         planner._Search.result,
     )
     transcript = hashlib.sha256()
+    public_boards = hashlib.sha256()
+    metrics = Counter()
     history, turns, errors = [], [], []
     opening = facing = current = alternative = None
     coverage = Counter()
@@ -76,6 +78,8 @@ def episode(job):
     def step(host, action):
         nonlocal current
         current = action
+        if kaiser_metrics:
+            public_boards.update(action.snapshot.encode())
         history.append(action.command())
         transcript.update(json.dumps(action.command(), sort_keys=True).encode() + b"\n")
         return native_step(host, action)
@@ -155,6 +159,8 @@ def episode(job):
                     )
                 if eligible:
                     coverage[fallback or "covered"] += 1
+                if kaiser_metrics:
+                    kaiser_metrics(view, current, facing, eligible, fallback, metrics)
                 if audit or after["decision"] == "game_over":
                     turns.append(
                         dict(
@@ -196,7 +202,7 @@ def episode(job):
             if (record.get("oracle") or [None, None])[1] == "mismatch":
                 errors.append([len(history) - 1, record])
 
-    with TemporaryDirectory(dir=out) as tmp, ExitStack() as stack:
+    with TemporaryDirectory(dir=None if kaiser_metrics else out) as tmp, ExitStack() as stack:
         stack.enter_context(patch.object(episode_summary, "EpisodeSummary", Summary))
         stack.enter_context(patch.object(NativeSession, "step", step))
         stack.enter_context(patch.object(CombatSearchV2, "observe", observe_native))
@@ -211,8 +217,9 @@ def episode(job):
             stack.enter_context(patch.object(value, "_boss_adjustment", no_rage))
         if arm == "preview-audit":
             stack.enter_context(patch.object(end_turn, "attack_amount", diagnose_amount))
-        if audit:
+        if audit or kaiser_metrics:
             stack.enter_context(patch.object(CombatSearchV2, "choose", choose_facing))
+        if audit:
             stack.enter_context(patch.object(planner._Search, "result", compare))
         folder = Path(tmp) / "run"
         row = play_episode(
@@ -263,6 +270,10 @@ def episode(job):
         latency=latency,
         commands=transcript.hexdigest(),
     )
+    if kaiser_metrics:
+        receipt.update(kaiser_metrics=metrics, public_boards=public_boards.hexdigest())
+        if opening:
+            receipt["kaiser_replay"] = history
     if errors:
         receipt.update(errors=errors, history=history[: errors[-1][0] + 1])
     (out / (seed + ".json.gz")).write_bytes(

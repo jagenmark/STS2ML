@@ -196,7 +196,7 @@ class CombatSearchV2:
             return
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
-                       "power_leaf_v62", "early_escape_v62", "kaiser_v63"):
+                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "kaiser_v63b"):
             if not config[switch]:
                 del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
@@ -235,9 +235,10 @@ class CombatSearchV2:
                 if len(state.enemies) == 1 and state.enemies[0].name in ("CRUSHER", "ROCKET"):
                     side = 0
                 plays = self._plays if self._round_key == key else -1
-                if (self.config.kaiser_v63 and state.act == 2 and state.room == "Boss" and state.enemies
+                if ((self.config.kaiser_v63 or self.config.kaiser_v63b) and state.act == 2 and state.room == "Boss" and state.enemies
                         and all(e.name in ("CRUSHER", "ROCKET") for e in state.enemies)):
-                    state = replace(state, kaiser_v63=True, puzzle_triggered=self._puzzle_triggered_at == key[:2])
+                    state = replace(state, kaiser_v63=True, kaiser_v63b=self.config.kaiser_v63b,
+                                    puzzle_triggered=self._puzzle_triggered_at == key[:2])
                 self._played_from = state
                 floor = None
                 if (self._round_key == key and self._remnant_start_hp is not None and
@@ -254,6 +255,7 @@ class CombatSearchV2:
                         raise Unsupported("champion knowledge curse")
                     raise Unsupported("unreconciled prompt")
                 projected = replace(projected, state=replace(previous_prompt, spent=0, kaiser_v63=state.kaiser_v63,
+                                                             kaiser_v63b=state.kaiser_v63b,
                                                              puzzle_triggered=state.puzzle_triggered))
             actions = enumerate_actions(public)
             moves = _native_legal(projected, actions)

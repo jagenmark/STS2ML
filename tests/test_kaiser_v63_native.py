@@ -55,7 +55,8 @@ def test_kaiser_rounded_preview_and_relics(tmp_path):
         assert predicted.outcome == "completed" and not _difference(predicted, projected(o.public, facing).state)
 
 
-def test_kaiser_puzzle_witness_and_native_draw_order(tmp_path):
+@pytest.mark.parametrize("v63b", (False, True))
+def test_kaiser_puzzle_witness_and_native_draw_order(tmp_path, v63b):
     results, hands = [], []
     for rev in (False, True):
         folder = tmp_path / str(rev)
@@ -64,7 +65,7 @@ def test_kaiser_puzzle_witness_and_native_draw_order(tmp_path):
             o = Oracle(host)
             load_relics(o, folder, {"CENTENNIAL_PUZZLE"}, ["STRIKE_SILENT"] * 20 + ["DEFEND_SILENT"] * 20,
                         "KAISER_CRAB_BOSS")
-            mode = CombatSearchV2(planner.Config(v61_boss_safe=True, kaiser_v63=True), record=True)
+            mode = CombatSearchV2(planner.Config(v61_boss_safe=True, kaiser_v63=True, kaiser_v63b=v63b), record=True)
             public = kaiser_public(o.public)
             end = action(o, "end_turn")
             mode.choose(public, end, legal_actions, facing=1)
@@ -144,3 +145,25 @@ def test_kaiser_poison_kill_before_defend_on_development_fixture(tmp_path):
             o.public = o.command(**action(o, "end_turn").command())
             assert not _difference(predicted, projected(o.public, 1).state)
         assert [(e["id"], e["block"]) for e in o.public["enemies"]] == [("MONSTER.CRUSHER", 117)]
+
+
+def test_kaiser_v63b_public_cycle_on_pinned_host(tmp_path):
+    # With the player facing Rocket, native previews include the rear multiplier
+    # on Crusher, and (from round four) the public three-Strength buffs.
+    expected = (
+        ((21, 1), (4, 1)), ((6, 1), (20, 1)), ((10, 2), ("Buff",)),
+        (("Buff",), (38, 1)), ((25, 1), ("Sleep",)), ((25, 1), (7, 1)),
+    )
+    with NativeSession(ROOT, tmp_path / "game", host_path=HOST) as host:
+        o = Oracle(host)
+        o.start("CYCLE", ["DEFEND_SILENT"] * 16, hp=350, encounter="KAISER_CRAB_BOSS", seed="CSV8FIX_CYCLE")
+        for turn, arms in enumerate(expected, 1):
+            state = projected(o.public, 1, kaiser_v63b=True).state
+            assert state.round == turn
+            for enemy, signature in zip(state.enemies, arms, strict=True):
+                first = enemy.intents[0]
+                assert ((first.damage, first.hits) if first.damage is not None else (first.kind,)) == signature
+            predicted = advance(state, END_TURN)
+            o.public = o.command(**action(o, "end_turn").command())
+            assert predicted.outcome == "completed"
+            assert not _difference(predicted, projected(o.public, 1, kaiser_v63b=True).state)
