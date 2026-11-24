@@ -1,0 +1,3245 @@
+{
+  "manifest": {
+    "commit": "1f48b17aed67fceccf5e9394c41f597111ad52c6",
+    "base": "8c27ce5ddf5348f88b1cedb3c3cd5b24bd5c40b1",
+    "host": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+    "game": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+    "workers": 12,
+    "cohort": [
+      [
+        0,
+        "CSV11DEV_DEFAULT_0000",
+        "default"
+      ],
+      [
+        0,
+        "CSV11DEV_SEEDED_0000",
+        "seeded"
+      ],
+      [
+        1,
+        "CSV11DEV_DEFAULT_0001",
+        "default"
+      ],
+      [
+        1,
+        "CSV11DEV_SEEDED_0001",
+        "seeded"
+      ],
+      [
+        2,
+        "CSV11DEV_DEFAULT_0002",
+        "default"
+      ],
+      [
+        2,
+        "CSV11DEV_SEEDED_0002",
+        "seeded"
+      ],
+      [
+        3,
+        "CSV11DEV_DEFAULT_0003",
+        "default"
+      ],
+      [
+        3,
+        "CSV11DEV_SEEDED_0003",
+        "seeded"
+      ],
+      [
+        4,
+        "CSV11DEV_DEFAULT_0004",
+        "default"
+      ],
+      [
+        4,
+        "CSV11DEV_SEEDED_0004",
+        "seeded"
+      ],
+      [
+        5,
+        "CSV11DEV_DEFAULT_0005",
+        "default"
+      ],
+      [
+        5,
+        "CSV11DEV_SEEDED_0005",
+        "seeded"
+      ],
+      [
+        6,
+        "CSV11DEV_DEFAULT_0006",
+        "default"
+      ],
+      [
+        6,
+        "CSV11DEV_SEEDED_0006",
+        "seeded"
+      ],
+      [
+        7,
+        "CSV11DEV_DEFAULT_0007",
+        "default"
+      ],
+      [
+        7,
+        "CSV11DEV_SEEDED_0007",
+        "seeded"
+      ],
+      [
+        8,
+        "CSV11DEV_DEFAULT_0008",
+        "default"
+      ],
+      [
+        8,
+        "CSV11DEV_SEEDED_0008",
+        "seeded"
+      ],
+      [
+        9,
+        "CSV11DEV_DEFAULT_0009",
+        "default"
+      ],
+      [
+        9,
+        "CSV11DEV_SEEDED_0009",
+        "seeded"
+      ],
+      [
+        10,
+        "CSV11DEV_DEFAULT_0010",
+        "default"
+      ],
+      [
+        10,
+        "CSV11DEV_SEEDED_0010",
+        "seeded"
+      ],
+      [
+        11,
+        "CSV11DEV_DEFAULT_0011",
+        "default"
+      ],
+      [
+        11,
+        "CSV11DEV_SEEDED_0011",
+        "seeded"
+      ],
+      [
+        12,
+        "CSV11DEV_DEFAULT_0012",
+        "default"
+      ],
+      [
+        12,
+        "CSV11DEV_SEEDED_0012",
+        "seeded"
+      ],
+      [
+        13,
+        "CSV11DEV_DEFAULT_0013",
+        "default"
+      ],
+      [
+        13,
+        "CSV11DEV_SEEDED_0013",
+        "seeded"
+      ],
+      [
+        14,
+        "CSV11DEV_DEFAULT_0014",
+        "default"
+      ],
+      [
+        14,
+        "CSV11DEV_SEEDED_0014",
+        "seeded"
+      ],
+      [
+        15,
+        "CSV11DEV_DEFAULT_0015",
+        "default"
+      ],
+      [
+        15,
+        "CSV11DEV_SEEDED_0015",
+        "seeded"
+      ],
+      [
+        16,
+        "CSV11DEV_DEFAULT_0016",
+        "default"
+      ],
+      [
+        16,
+        "CSV11DEV_SEEDED_0016",
+        "seeded"
+      ],
+      [
+        17,
+        "CSV11DEV_DEFAULT_0017",
+        "default"
+      ],
+      [
+        17,
+        "CSV11DEV_SEEDED_0017",
+        "seeded"
+      ],
+      [
+        18,
+        "CSV11DEV_DEFAULT_0018",
+        "default"
+      ],
+      [
+        18,
+        "CSV11DEV_SEEDED_0018",
+        "seeded"
+      ],
+      [
+        19,
+        "CSV11DEV_DEFAULT_0019",
+        "default"
+      ],
+      [
+        19,
+        "CSV11DEV_SEEDED_0019",
+        "seeded"
+      ],
+      [
+        20,
+        "CSV11DEV_DEFAULT_0020",
+        "default"
+      ],
+      [
+        20,
+        "CSV11DEV_SEEDED_0020",
+        "seeded"
+      ],
+      [
+        21,
+        "CSV11DEV_DEFAULT_0021",
+        "default"
+      ],
+      [
+        21,
+        "CSV11DEV_SEEDED_0021",
+        "seeded"
+      ],
+      [
+        22,
+        "CSV11DEV_DEFAULT_0022",
+        "default"
+      ],
+      [
+        22,
+        "CSV11DEV_SEEDED_0022",
+        "seeded"
+      ],
+      [
+        23,
+        "CSV11DEV_DEFAULT_0023",
+        "default"
+      ],
+      [
+        23,
+        "CSV11DEV_SEEDED_0023",
+        "seeded"
+      ],
+      [
+        24,
+        "CSV11DEV_DEFAULT_0024",
+        "default"
+      ],
+      [
+        24,
+        "CSV11DEV_SEEDED_0024",
+        "seeded"
+      ],
+      [
+        25,
+        "CSV11DEV_DEFAULT_0025",
+        "default"
+      ],
+      [
+        25,
+        "CSV11DEV_SEEDED_0025",
+        "seeded"
+      ],
+      [
+        26,
+        "CSV11DEV_DEFAULT_0026",
+        "default"
+      ],
+      [
+        26,
+        "CSV11DEV_SEEDED_0026",
+        "seeded"
+      ],
+      [
+        27,
+        "CSV11DEV_DEFAULT_0027",
+        "default"
+      ],
+      [
+        27,
+        "CSV11DEV_SEEDED_0027",
+        "seeded"
+      ],
+      [
+        28,
+        "CSV11DEV_DEFAULT_0028",
+        "default"
+      ],
+      [
+        28,
+        "CSV11DEV_SEEDED_0028",
+        "seeded"
+      ],
+      [
+        29,
+        "CSV11DEV_DEFAULT_0029",
+        "default"
+      ],
+      [
+        29,
+        "CSV11DEV_SEEDED_0029",
+        "seeded"
+      ],
+      [
+        30,
+        "CSV11DEV_DEFAULT_0030",
+        "default"
+      ],
+      [
+        30,
+        "CSV11DEV_SEEDED_0030",
+        "seeded"
+      ],
+      [
+        31,
+        "CSV11DEV_DEFAULT_0031",
+        "default"
+      ],
+      [
+        31,
+        "CSV11DEV_SEEDED_0031",
+        "seeded"
+      ],
+      [
+        32,
+        "CSV11DEV_DEFAULT_0032",
+        "default"
+      ],
+      [
+        32,
+        "CSV11DEV_SEEDED_0032",
+        "seeded"
+      ],
+      [
+        33,
+        "CSV11DEV_DEFAULT_0033",
+        "default"
+      ],
+      [
+        33,
+        "CSV11DEV_SEEDED_0033",
+        "seeded"
+      ],
+      [
+        34,
+        "CSV11DEV_DEFAULT_0034",
+        "default"
+      ],
+      [
+        34,
+        "CSV11DEV_SEEDED_0034",
+        "seeded"
+      ],
+      [
+        35,
+        "CSV11DEV_DEFAULT_0035",
+        "default"
+      ],
+      [
+        35,
+        "CSV11DEV_SEEDED_0035",
+        "seeded"
+      ],
+      [
+        36,
+        "CSV11DEV_DEFAULT_0036",
+        "default"
+      ],
+      [
+        36,
+        "CSV11DEV_SEEDED_0036",
+        "seeded"
+      ],
+      [
+        37,
+        "CSV11DEV_DEFAULT_0037",
+        "default"
+      ],
+      [
+        37,
+        "CSV11DEV_SEEDED_0037",
+        "seeded"
+      ],
+      [
+        38,
+        "CSV11DEV_DEFAULT_0038",
+        "default"
+      ],
+      [
+        38,
+        "CSV11DEV_SEEDED_0038",
+        "seeded"
+      ],
+      [
+        39,
+        "CSV11DEV_DEFAULT_0039",
+        "default"
+      ],
+      [
+        39,
+        "CSV11DEV_SEEDED_0039",
+        "seeded"
+      ],
+      [
+        40,
+        "CSV11DEV_DEFAULT_0040",
+        "default"
+      ],
+      [
+        40,
+        "CSV11DEV_SEEDED_0040",
+        "seeded"
+      ],
+      [
+        41,
+        "CSV11DEV_DEFAULT_0041",
+        "default"
+      ],
+      [
+        41,
+        "CSV11DEV_SEEDED_0041",
+        "seeded"
+      ],
+      [
+        42,
+        "CSV11DEV_DEFAULT_0042",
+        "default"
+      ],
+      [
+        42,
+        "CSV11DEV_SEEDED_0042",
+        "seeded"
+      ],
+      [
+        43,
+        "CSV11DEV_DEFAULT_0043",
+        "default"
+      ],
+      [
+        43,
+        "CSV11DEV_SEEDED_0043",
+        "seeded"
+      ],
+      [
+        44,
+        "CSV11DEV_DEFAULT_0044",
+        "default"
+      ],
+      [
+        44,
+        "CSV11DEV_SEEDED_0044",
+        "seeded"
+      ],
+      [
+        45,
+        "CSV11DEV_DEFAULT_0045",
+        "default"
+      ],
+      [
+        45,
+        "CSV11DEV_SEEDED_0045",
+        "seeded"
+      ],
+      [
+        46,
+        "CSV11DEV_DEFAULT_0046",
+        "default"
+      ],
+      [
+        46,
+        "CSV11DEV_SEEDED_0046",
+        "seeded"
+      ],
+      [
+        47,
+        "CSV11DEV_DEFAULT_0047",
+        "default"
+      ],
+      [
+        47,
+        "CSV11DEV_SEEDED_0047",
+        "seeded"
+      ],
+      [
+        48,
+        "CSV11DEV_DEFAULT_0048",
+        "default"
+      ],
+      [
+        48,
+        "CSV11DEV_SEEDED_0048",
+        "seeded"
+      ],
+      [
+        49,
+        "CSV11DEV_DEFAULT_0049",
+        "default"
+      ],
+      [
+        49,
+        "CSV11DEV_SEEDED_0049",
+        "seeded"
+      ],
+      [
+        50,
+        "CSV11DEV_DEFAULT_0050",
+        "default"
+      ],
+      [
+        50,
+        "CSV11DEV_SEEDED_0050",
+        "seeded"
+      ],
+      [
+        51,
+        "CSV11DEV_DEFAULT_0051",
+        "default"
+      ],
+      [
+        51,
+        "CSV11DEV_SEEDED_0051",
+        "seeded"
+      ],
+      [
+        52,
+        "CSV11DEV_DEFAULT_0052",
+        "default"
+      ],
+      [
+        52,
+        "CSV11DEV_SEEDED_0052",
+        "seeded"
+      ],
+      [
+        53,
+        "CSV11DEV_DEFAULT_0053",
+        "default"
+      ],
+      [
+        53,
+        "CSV11DEV_SEEDED_0053",
+        "seeded"
+      ],
+      [
+        54,
+        "CSV11DEV_DEFAULT_0054",
+        "default"
+      ],
+      [
+        54,
+        "CSV11DEV_SEEDED_0054",
+        "seeded"
+      ],
+      [
+        55,
+        "CSV11DEV_DEFAULT_0055",
+        "default"
+      ],
+      [
+        55,
+        "CSV11DEV_SEEDED_0055",
+        "seeded"
+      ],
+      [
+        56,
+        "CSV11DEV_DEFAULT_0056",
+        "default"
+      ],
+      [
+        56,
+        "CSV11DEV_SEEDED_0056",
+        "seeded"
+      ],
+      [
+        57,
+        "CSV11DEV_DEFAULT_0057",
+        "default"
+      ],
+      [
+        57,
+        "CSV11DEV_SEEDED_0057",
+        "seeded"
+      ],
+      [
+        58,
+        "CSV11DEV_DEFAULT_0058",
+        "default"
+      ],
+      [
+        58,
+        "CSV11DEV_SEEDED_0058",
+        "seeded"
+      ],
+      [
+        59,
+        "CSV11DEV_DEFAULT_0059",
+        "default"
+      ],
+      [
+        59,
+        "CSV11DEV_SEEDED_0059",
+        "seeded"
+      ],
+      [
+        60,
+        "CSV11DEV_DEFAULT_0060",
+        "default"
+      ],
+      [
+        60,
+        "CSV11DEV_SEEDED_0060",
+        "seeded"
+      ],
+      [
+        61,
+        "CSV11DEV_DEFAULT_0061",
+        "default"
+      ],
+      [
+        61,
+        "CSV11DEV_SEEDED_0061",
+        "seeded"
+      ],
+      [
+        62,
+        "CSV11DEV_DEFAULT_0062",
+        "default"
+      ],
+      [
+        62,
+        "CSV11DEV_SEEDED_0062",
+        "seeded"
+      ],
+      [
+        63,
+        "CSV11DEV_DEFAULT_0063",
+        "default"
+      ],
+      [
+        63,
+        "CSV11DEV_SEEDED_0063",
+        "seeded"
+      ],
+      [
+        64,
+        "CSV11DEV_DEFAULT_0064",
+        "default"
+      ],
+      [
+        64,
+        "CSV11DEV_SEEDED_0064",
+        "seeded"
+      ],
+      [
+        65,
+        "CSV11DEV_DEFAULT_0065",
+        "default"
+      ],
+      [
+        65,
+        "CSV11DEV_SEEDED_0065",
+        "seeded"
+      ],
+      [
+        66,
+        "CSV11DEV_DEFAULT_0066",
+        "default"
+      ],
+      [
+        66,
+        "CSV11DEV_SEEDED_0066",
+        "seeded"
+      ],
+      [
+        67,
+        "CSV11DEV_DEFAULT_0067",
+        "default"
+      ],
+      [
+        67,
+        "CSV11DEV_SEEDED_0067",
+        "seeded"
+      ],
+      [
+        68,
+        "CSV11DEV_DEFAULT_0068",
+        "default"
+      ],
+      [
+        68,
+        "CSV11DEV_SEEDED_0068",
+        "seeded"
+      ],
+      [
+        69,
+        "CSV11DEV_DEFAULT_0069",
+        "default"
+      ],
+      [
+        69,
+        "CSV11DEV_SEEDED_0069",
+        "seeded"
+      ],
+      [
+        70,
+        "CSV11DEV_DEFAULT_0070",
+        "default"
+      ],
+      [
+        70,
+        "CSV11DEV_SEEDED_0070",
+        "seeded"
+      ],
+      [
+        71,
+        "CSV11DEV_DEFAULT_0071",
+        "default"
+      ],
+      [
+        71,
+        "CSV11DEV_SEEDED_0071",
+        "seeded"
+      ],
+      [
+        72,
+        "CSV11DEV_DEFAULT_0072",
+        "default"
+      ],
+      [
+        72,
+        "CSV11DEV_SEEDED_0072",
+        "seeded"
+      ],
+      [
+        73,
+        "CSV11DEV_DEFAULT_0073",
+        "default"
+      ],
+      [
+        73,
+        "CSV11DEV_SEEDED_0073",
+        "seeded"
+      ],
+      [
+        74,
+        "CSV11DEV_DEFAULT_0074",
+        "default"
+      ],
+      [
+        74,
+        "CSV11DEV_SEEDED_0074",
+        "seeded"
+      ],
+      [
+        75,
+        "CSV11DEV_DEFAULT_0075",
+        "default"
+      ],
+      [
+        75,
+        "CSV11DEV_SEEDED_0075",
+        "seeded"
+      ],
+      [
+        76,
+        "CSV11DEV_DEFAULT_0076",
+        "default"
+      ],
+      [
+        76,
+        "CSV11DEV_SEEDED_0076",
+        "seeded"
+      ],
+      [
+        77,
+        "CSV11DEV_DEFAULT_0077",
+        "default"
+      ],
+      [
+        77,
+        "CSV11DEV_SEEDED_0077",
+        "seeded"
+      ],
+      [
+        78,
+        "CSV11DEV_DEFAULT_0078",
+        "default"
+      ],
+      [
+        78,
+        "CSV11DEV_SEEDED_0078",
+        "seeded"
+      ],
+      [
+        79,
+        "CSV11DEV_DEFAULT_0079",
+        "default"
+      ],
+      [
+        79,
+        "CSV11DEV_SEEDED_0079",
+        "seeded"
+      ],
+      [
+        80,
+        "CSV11DEV_DEFAULT_0080",
+        "default"
+      ],
+      [
+        80,
+        "CSV11DEV_SEEDED_0080",
+        "seeded"
+      ],
+      [
+        81,
+        "CSV11DEV_DEFAULT_0081",
+        "default"
+      ],
+      [
+        81,
+        "CSV11DEV_SEEDED_0081",
+        "seeded"
+      ],
+      [
+        82,
+        "CSV11DEV_DEFAULT_0082",
+        "default"
+      ],
+      [
+        82,
+        "CSV11DEV_SEEDED_0082",
+        "seeded"
+      ],
+      [
+        83,
+        "CSV11DEV_DEFAULT_0083",
+        "default"
+      ],
+      [
+        83,
+        "CSV11DEV_SEEDED_0083",
+        "seeded"
+      ],
+      [
+        84,
+        "CSV11DEV_DEFAULT_0084",
+        "default"
+      ],
+      [
+        84,
+        "CSV11DEV_SEEDED_0084",
+        "seeded"
+      ],
+      [
+        85,
+        "CSV11DEV_DEFAULT_0085",
+        "default"
+      ],
+      [
+        85,
+        "CSV11DEV_SEEDED_0085",
+        "seeded"
+      ],
+      [
+        86,
+        "CSV11DEV_DEFAULT_0086",
+        "default"
+      ],
+      [
+        86,
+        "CSV11DEV_SEEDED_0086",
+        "seeded"
+      ],
+      [
+        87,
+        "CSV11DEV_DEFAULT_0087",
+        "default"
+      ],
+      [
+        87,
+        "CSV11DEV_SEEDED_0087",
+        "seeded"
+      ],
+      [
+        88,
+        "CSV11DEV_DEFAULT_0088",
+        "default"
+      ],
+      [
+        88,
+        "CSV11DEV_SEEDED_0088",
+        "seeded"
+      ],
+      [
+        89,
+        "CSV11DEV_DEFAULT_0089",
+        "default"
+      ],
+      [
+        89,
+        "CSV11DEV_SEEDED_0089",
+        "seeded"
+      ],
+      [
+        90,
+        "CSV11DEV_DEFAULT_0090",
+        "default"
+      ],
+      [
+        90,
+        "CSV11DEV_SEEDED_0090",
+        "seeded"
+      ],
+      [
+        91,
+        "CSV11DEV_DEFAULT_0091",
+        "default"
+      ],
+      [
+        91,
+        "CSV11DEV_SEEDED_0091",
+        "seeded"
+      ],
+      [
+        92,
+        "CSV11DEV_DEFAULT_0092",
+        "default"
+      ],
+      [
+        92,
+        "CSV11DEV_SEEDED_0092",
+        "seeded"
+      ],
+      [
+        93,
+        "CSV11DEV_DEFAULT_0093",
+        "default"
+      ],
+      [
+        93,
+        "CSV11DEV_SEEDED_0093",
+        "seeded"
+      ],
+      [
+        94,
+        "CSV11DEV_DEFAULT_0094",
+        "default"
+      ],
+      [
+        94,
+        "CSV11DEV_SEEDED_0094",
+        "seeded"
+      ],
+      [
+        95,
+        "CSV11DEV_DEFAULT_0095",
+        "default"
+      ],
+      [
+        95,
+        "CSV11DEV_SEEDED_0095",
+        "seeded"
+      ]
+    ],
+    "bundles": {
+      "control": "06a872bb52638c366b80e866f14ade44e75e5a65be738c19ba85a8dde7c69b64",
+      "arm1": "9f4cbc37b41b0b06af9b034b1a31942f864b40bbd85a45737a090e4a39c9e710",
+      "arm2": "fc15db2e76e0054b81edf3e84b4cc4c6a932c59678ca4c9c765e93b6939ed3e0"
+    }
+  },
+  "totals": {
+    "control": {
+      "n": 192,
+      "mean_floor": 26.020833333333332,
+      "a1_clears": 130,
+      "a2_entries": 69,
+      "a2_clears": 15,
+      "a3_entries": 7,
+      "wins": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": [
+          1,
+          33
+        ],
+        "KNOWLEDGE_DEMON": [
+          9,
+          21
+        ],
+        "THE_INSATIABLE": [
+          5,
+          15
+        ]
+      },
+      "native": {
+        "match": 36381,
+        "mismatch": 1,
+        "unresolved": 3689
+      },
+      "p50_ms": 3.158,
+      "p95_ms": 65.445,
+      "latency_n": 51062,
+      "matches_per_100": 71.24867807763111,
+      "a1_entries": 181,
+      "modes": {
+        "default": {
+          "starts": 96,
+          "mean_floor": 25.53125,
+          "matches_per_100": 73.53401565322095
+        },
+        "seeded": {
+          "starts": 96,
+          "mean_floor": 26.510416666666668,
+          "matches_per_100": 69.07102153210694
+        }
+      }
+    },
+    "arm1": {
+      "n": 192,
+      "mean_floor": 26.302083333333332,
+      "a1_clears": 131,
+      "a2_entries": 73,
+      "a2_clears": 17,
+      "a3_entries": 8,
+      "wins": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": [
+          5,
+          35
+        ],
+        "KNOWLEDGE_DEMON": [
+          8,
+          22
+        ],
+        "THE_INSATIABLE": [
+          4,
+          16
+        ]
+      },
+      "native": {
+        "match": 38778,
+        "mismatch": 0,
+        "unresolved": 3206
+      },
+      "p50_ms": 4.488,
+      "p95_ms": 84.467,
+      "latency_n": 51293,
+      "matches_per_100": 75.60095919521183,
+      "a1_entries": 182,
+      "modes": {
+        "default": {
+          "starts": 96,
+          "mean_floor": 25.354166666666668,
+          "matches_per_100": 78.25271229300922
+        },
+        "seeded": {
+          "starts": 96,
+          "mean_floor": 27.25,
+          "matches_per_100": 73.17273576097105
+        }
+      }
+    },
+    "arm2": {
+      "n": 192,
+      "mean_floor": 24.1875,
+      "a1_clears": 112,
+      "a2_entries": 57,
+      "a2_clears": 5,
+      "a3_entries": 1,
+      "wins": 0,
+      "bosses": {
+        "CRUSHER+ROCKET": [
+          3,
+          26
+        ],
+        "THE_INSATIABLE": [
+          2,
+          17
+        ],
+        "KNOWLEDGE_DEMON": [
+          0,
+          14
+        ]
+      },
+      "native": {
+        "match": 38082,
+        "mismatch": 0,
+        "unresolved": 4046
+      },
+      "p50_ms": 4.523,
+      "p95_ms": 82.133,
+      "latency_n": 51665,
+      "matches_per_100": 73.70947449917739,
+      "a1_entries": 185,
+      "modes": {
+        "default": {
+          "starts": 96,
+          "mean_floor": 24.21875,
+          "matches_per_100": 76.80227573844596
+        },
+        "seeded": {
+          "starts": 96,
+          "mean_floor": 24.15625,
+          "matches_per_100": 70.65723185786256
+        }
+      }
+    }
+  },
+  "paired": {
+    "arm1": {
+      "delta": 0.28125,
+      "ci95": [
+        -0.4114583333333333,
+        0.984375
+      ],
+      "w": 21,
+      "l": 14,
+      "t": 157,
+      "sign_p": 0.31050465907901525
+    },
+    "arm2": {
+      "delta": -1.8333333333333333,
+      "ci95": [
+        -3.3958333333333335,
+        -0.2916666666666667
+      ],
+      "w": 60,
+      "l": 70,
+      "t": 62,
+      "sign_p": 0.43002088397534205
+    },
+    "arm2_minus_arm1": {
+      "delta": -2.1145833333333335,
+      "ci95": [
+        -3.6302083333333335,
+        -0.6354166666666666
+      ],
+      "w": 54,
+      "l": 66,
+      "t": 72,
+      "sign_p": 0.3153033008322578
+    }
+  },
+  "per_card": {
+    "control": {
+      "ABRASIVE": {
+        "played": 2,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "ACCURACY": {
+        "played": 16,
+        "match": 8,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 8,
+        "hits": 0
+      },
+      "ASSASSINATE": {
+        "played": 129,
+        "match": 69,
+        "unresolved": 17,
+        "mismatch": 0,
+        "bodies": 69,
+        "hits": 69
+      },
+      "BLADE_OF_INK": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "BOUNCING_FLASK": {
+        "played": 48,
+        "match": 13,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 13,
+        "hits": 0
+      },
+      "BULLET_TIME": {
+        "played": 0,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "CORROSIVE_WAVE": {
+        "played": 0,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "DODGE_AND_ROLL": {
+        "played": 8,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "ECHOING_SLASH": {
+        "played": 386,
+        "match": 103,
+        "unresolved": 213,
+        "mismatch": 0,
+        "bodies": 104,
+        "hits": 171
+      },
+      "ENVENOM": {
+        "played": 9,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "ESCAPE_PLAN": {
+        "played": 2,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "EXPOSE": {
+        "played": 10,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "EXTERMINATE": {
+        "played": 35,
+        "match": 2,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 2,
+        "hits": 12
+      },
+      "FINISHER": {
+        "played": 46,
+        "match": 0,
+        "unresolved": 34,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "HAND_TRICK": {
+        "played": 30,
+        "match": 0,
+        "unresolved": 14,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "HIDDEN_DAGGERS": {
+        "played": 126,
+        "match": 43,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 43,
+        "hits": 0
+      },
+      "INFINITE_BLADES": {
+        "played": 41,
+        "match": 22,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 22,
+        "hits": 0
+      },
+      "KNIFE_TRAP": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "MEMENTO_MORI": {
+        "played": 47,
+        "match": 0,
+        "unresolved": 38,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "MURDER": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "OUTBREAK": {
+        "played": 47,
+        "match": 1,
+        "unresolved": 29,
+        "mismatch": 0,
+        "bodies": 1,
+        "hits": 0
+      },
+      "PHANTOM_BLADES": {
+        "played": 35,
+        "match": 13,
+        "unresolved": 10,
+        "mismatch": 0,
+        "bodies": 13,
+        "hits": 0
+      },
+      "PIERCING_WAIL": {
+        "played": 10,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "PINPOINT": {
+        "played": 69,
+        "match": 17,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 17,
+        "hits": 17
+      },
+      "POUNCE": {
+        "played": 119,
+        "match": 0,
+        "unresolved": 91,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "RICOCHET": {
+        "played": 64,
+        "match": 0,
+        "unresolved": 59,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "SERPENT_FORM": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "SHADOWMELD": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "SHADOW_STEP": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "SIDESTEP": {
+        "played": 22,
+        "match": 10,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 10,
+        "hits": 0
+      },
+      "SPEEDSTER": {
+        "played": 3,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "STORM_OF_STEEL": {
+        "played": 2,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "STRANGLE": {
+        "played": 30,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "THE_HUNT": {
+        "played": 45,
+        "match": 28,
+        "unresolved": 6,
+        "mismatch": 0,
+        "bodies": 28,
+        "hits": 28
+      },
+      "TOOLS_OF_THE_TRADE": {
+        "played": 5,
+        "match": 0,
+        "unresolved": 4,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "TRACKING": {
+        "played": 2,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "UP_MY_SLEEVE": {
+        "played": 46,
+        "match": 0,
+        "unresolved": 35,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "WELL_LAID_PLANS": {
+        "played": 53,
+        "match": 50,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 50,
+        "hits": 0
+      }
+    },
+    "arm1": {
+      "ABRASIVE": {
+        "played": 1,
+        "match": 1,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 1,
+        "hits": 0
+      },
+      "ACCURACY": {
+        "played": 16,
+        "match": 9,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 9,
+        "hits": 0
+      },
+      "ASSASSINATE": {
+        "played": 140,
+        "match": 91,
+        "unresolved": 21,
+        "mismatch": 0,
+        "bodies": 91,
+        "hits": 91
+      },
+      "BLADE_OF_INK": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "BOUNCING_FLASK": {
+        "played": 33,
+        "match": 17,
+        "unresolved": 10,
+        "mismatch": 0,
+        "bodies": 17,
+        "hits": 0
+      },
+      "BULLET_TIME": {
+        "played": 0,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "CORROSIVE_WAVE": {
+        "played": 0,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "DODGE_AND_ROLL": {
+        "played": 6,
+        "match": 6,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 6,
+        "hits": 0
+      },
+      "ECHOING_SLASH": {
+        "played": 378,
+        "match": 309,
+        "unresolved": 9,
+        "mismatch": 0,
+        "bodies": 309,
+        "hits": 589
+      },
+      "ENVENOM": {
+        "played": 9,
+        "match": 6,
+        "unresolved": 2,
+        "mismatch": 0,
+        "bodies": 6,
+        "hits": 0
+      },
+      "ESCAPE_PLAN": {
+        "played": 3,
+        "match": 0,
+        "unresolved": 2,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "EXPOSE": {
+        "played": 10,
+        "match": 9,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 9,
+        "hits": 0
+      },
+      "EXTERMINATE": {
+        "played": 28,
+        "match": 26,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 26,
+        "hits": 152
+      },
+      "FINISHER": {
+        "played": 60,
+        "match": 50,
+        "unresolved": 2,
+        "mismatch": 0,
+        "bodies": 51,
+        "hits": 117
+      },
+      "HAND_TRICK": {
+        "played": 36,
+        "match": 29,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 29,
+        "hits": 0
+      },
+      "HIDDEN_DAGGERS": {
+        "played": 104,
+        "match": 82,
+        "unresolved": 5,
+        "mismatch": 0,
+        "bodies": 82,
+        "hits": 0
+      },
+      "INFINITE_BLADES": {
+        "played": 38,
+        "match": 24,
+        "unresolved": 5,
+        "mismatch": 0,
+        "bodies": 24,
+        "hits": 0
+      },
+      "KNIFE_TRAP": {
+        "played": 3,
+        "match": 3,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 3,
+        "hits": 0
+      },
+      "MEMENTO_MORI": {
+        "played": 52,
+        "match": 39,
+        "unresolved": 6,
+        "mismatch": 0,
+        "bodies": 39,
+        "hits": 39
+      },
+      "MURDER": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "OUTBREAK": {
+        "played": 52,
+        "match": 32,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 32,
+        "hits": 0
+      },
+      "PHANTOM_BLADES": {
+        "played": 32,
+        "match": 26,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 26,
+        "hits": 0
+      },
+      "PIERCING_WAIL": {
+        "played": 10,
+        "match": 10,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 10,
+        "hits": 0
+      },
+      "PINPOINT": {
+        "played": 83,
+        "match": 77,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 77,
+        "hits": 77
+      },
+      "POUNCE": {
+        "played": 177,
+        "match": 154,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 154,
+        "hits": 154
+      },
+      "RICOCHET": {
+        "played": 75,
+        "match": 49,
+        "unresolved": 21,
+        "mismatch": 0,
+        "bodies": 77,
+        "hits": 315
+      },
+      "SERPENT_FORM": {
+        "played": 2,
+        "match": 1,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 1,
+        "hits": 0
+      },
+      "SHADOWMELD": {
+        "played": 3,
+        "match": 3,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 3,
+        "hits": 0
+      },
+      "SHADOW_STEP": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "SIDESTEP": {
+        "played": 20,
+        "match": 18,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 18,
+        "hits": 0
+      },
+      "SPEEDSTER": {
+        "played": 4,
+        "match": 2,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 2,
+        "hits": 0
+      },
+      "STORM_OF_STEEL": {
+        "played": 2,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "STRANGLE": {
+        "played": 30,
+        "match": 21,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 21,
+        "hits": 21
+      },
+      "THE_HUNT": {
+        "played": 41,
+        "match": 25,
+        "unresolved": 7,
+        "mismatch": 0,
+        "bodies": 25,
+        "hits": 25
+      },
+      "TOOLS_OF_THE_TRADE": {
+        "played": 6,
+        "match": 4,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 4,
+        "hits": 0
+      },
+      "TRACKING": {
+        "played": 3,
+        "match": 3,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 3,
+        "hits": 0
+      },
+      "UP_MY_SLEEVE": {
+        "played": 53,
+        "match": 45,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 45,
+        "hits": 0
+      },
+      "WELL_LAID_PLANS": {
+        "played": 40,
+        "match": 36,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 36,
+        "hits": 0
+      }
+    },
+    "arm2": {
+      "ABRASIVE": {
+        "played": 3,
+        "match": 3,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 4,
+        "hits": 0
+      },
+      "ACCURACY": {
+        "played": 101,
+        "match": 78,
+        "unresolved": 4,
+        "mismatch": 0,
+        "bodies": 78,
+        "hits": 0
+      },
+      "ASSASSINATE": {
+        "played": 55,
+        "match": 45,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 45,
+        "hits": 45
+      },
+      "BLADE_OF_INK": {
+        "played": 26,
+        "match": 18,
+        "unresolved": 4,
+        "mismatch": 0,
+        "bodies": 18,
+        "hits": 0
+      },
+      "BOUNCING_FLASK": {
+        "played": 56,
+        "match": 30,
+        "unresolved": 15,
+        "mismatch": 0,
+        "bodies": 30,
+        "hits": 0
+      },
+      "BULLET_TIME": {
+        "played": 9,
+        "match": 8,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 8,
+        "hits": 0
+      },
+      "CORROSIVE_WAVE": {
+        "played": 0,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "DODGE_AND_ROLL": {
+        "played": 171,
+        "match": 151,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 153,
+        "hits": 0
+      },
+      "ECHOING_SLASH": {
+        "played": 370,
+        "match": 318,
+        "unresolved": 9,
+        "mismatch": 0,
+        "bodies": 318,
+        "hits": 572
+      },
+      "ENVENOM": {
+        "played": 13,
+        "match": 11,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 11,
+        "hits": 0
+      },
+      "ESCAPE_PLAN": {
+        "played": 86,
+        "match": 3,
+        "unresolved": 64,
+        "mismatch": 0,
+        "bodies": 3,
+        "hits": 0
+      },
+      "EXPOSE": {
+        "played": 208,
+        "match": 163,
+        "unresolved": 4,
+        "mismatch": 0,
+        "bodies": 163,
+        "hits": 0
+      },
+      "EXTERMINATE": {
+        "played": 33,
+        "match": 27,
+        "unresolved": 3,
+        "mismatch": 0,
+        "bodies": 27,
+        "hits": 149
+      },
+      "FINISHER": {
+        "played": 153,
+        "match": 134,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 134,
+        "hits": 297
+      },
+      "HAND_TRICK": {
+        "played": 14,
+        "match": 14,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 14,
+        "hits": 0
+      },
+      "HIDDEN_DAGGERS": {
+        "played": 225,
+        "match": 167,
+        "unresolved": 5,
+        "mismatch": 0,
+        "bodies": 167,
+        "hits": 0
+      },
+      "INFINITE_BLADES": {
+        "played": 134,
+        "match": 100,
+        "unresolved": 9,
+        "mismatch": 0,
+        "bodies": 100,
+        "hits": 0
+      },
+      "KNIFE_TRAP": {
+        "played": 11,
+        "match": 4,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 4,
+        "hits": 0
+      },
+      "MEMENTO_MORI": {
+        "played": 82,
+        "match": 61,
+        "unresolved": 6,
+        "mismatch": 0,
+        "bodies": 61,
+        "hits": 61
+      },
+      "MURDER": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "OUTBREAK": {
+        "played": 37,
+        "match": 29,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 30,
+        "hits": 0
+      },
+      "PHANTOM_BLADES": {
+        "played": 122,
+        "match": 86,
+        "unresolved": 7,
+        "mismatch": 0,
+        "bodies": 86,
+        "hits": 0
+      },
+      "PIERCING_WAIL": {
+        "played": 168,
+        "match": 115,
+        "unresolved": 25,
+        "mismatch": 0,
+        "bodies": 116,
+        "hits": 0
+      },
+      "PINPOINT": {
+        "played": 93,
+        "match": 84,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 85,
+        "hits": 85
+      },
+      "POUNCE": {
+        "played": 183,
+        "match": 154,
+        "unresolved": 2,
+        "mismatch": 0,
+        "bodies": 154,
+        "hits": 154
+      },
+      "RICOCHET": {
+        "played": 110,
+        "match": 72,
+        "unresolved": 27,
+        "mismatch": 0,
+        "bodies": 152,
+        "hits": 606
+      },
+      "SERPENT_FORM": {
+        "played": 9,
+        "match": 6,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 6,
+        "hits": 0
+      },
+      "SHADOWMELD": {
+        "played": 26,
+        "match": 25,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 25,
+        "hits": 0
+      },
+      "SHADOW_STEP": {
+        "played": 60,
+        "match": 45,
+        "unresolved": 4,
+        "mismatch": 0,
+        "bodies": 45,
+        "hits": 0
+      },
+      "SIDESTEP": {
+        "played": 0,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "SPEEDSTER": {
+        "played": 24,
+        "match": 21,
+        "unresolved": 1,
+        "mismatch": 0,
+        "bodies": 21,
+        "hits": 0
+      },
+      "STORM_OF_STEEL": {
+        "played": 1,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "STRANGLE": {
+        "played": 309,
+        "match": 271,
+        "unresolved": 5,
+        "mismatch": 0,
+        "bodies": 271,
+        "hits": 271
+      },
+      "THE_HUNT": {
+        "played": 0,
+        "match": 0,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 0,
+        "hits": 0
+      },
+      "TOOLS_OF_THE_TRADE": {
+        "played": 36,
+        "match": 29,
+        "unresolved": 2,
+        "mismatch": 0,
+        "bodies": 29,
+        "hits": 0
+      },
+      "TRACKING": {
+        "played": 1,
+        "match": 1,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 1,
+        "hits": 0
+      },
+      "UP_MY_SLEEVE": {
+        "played": 46,
+        "match": 37,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 37,
+        "hits": 0
+      },
+      "WELL_LAID_PLANS": {
+        "played": 17,
+        "match": 16,
+        "unresolved": 0,
+        "mismatch": 0,
+        "bodies": 16,
+        "hits": 0
+      }
+    }
+  },
+  "inventory": [
+    {
+      "card": "ABRASIVE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Abrasive",
+      "model_sha256": "843912702bf205461319e5d85fc5dafe230134f9f8af5359097f79b7880fa1ba",
+      "note": ""
+    },
+    {
+      "card": "ACCELERANT",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Accelerant",
+      "model_sha256": "812902f32beb6e515bc51372b1ab3734e67bf17027ddf75a09e6bb060c6ce2cb",
+      "note": ""
+    },
+    {
+      "card": "ACCURACY",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Accuracy",
+      "model_sha256": "1b3831369faab98080eb841161ea57eb53cc0e24cfd8451d0290e516819362e3",
+      "note": ""
+    },
+    {
+      "card": "ACROBATICS",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Acrobatics",
+      "model_sha256": "3ee3ccd097acd1f4593ab643653b0f283d114e11b7a3bb62c77dc84d73d17c2a",
+      "note": "Hidden mid-turn draw."
+    },
+    {
+      "card": "ADRENALINE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Adrenaline",
+      "model_sha256": "596def70723291255840c345b0be949a930fe14713560034bd25cae2abd1de92",
+      "note": "Hidden mid-turn draw."
+    },
+    {
+      "card": "AFTERIMAGE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Afterimage",
+      "model_sha256": "d12345eee2d43210d2610b9189a88f906d22a32b8bd1361af03802955b435e09",
+      "note": ""
+    },
+    {
+      "card": "ANTICIPATE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Anticipate",
+      "model_sha256": "1b3120385031170f411a841a04ff1d66d9c04bb842eba752211a42df25b31d37",
+      "note": ""
+    },
+    {
+      "card": "ASSASSINATE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Assassinate",
+      "model_sha256": "2787240f10839458c9199a1bd91371fed857f853f637221362238c7f1e9ec87c",
+      "note": ""
+    },
+    {
+      "card": "BACKFLIP",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Backflip",
+      "model_sha256": "af5ff7bc9381a70cbc39af78a55f5ca845855bafb90e62292365fc086ee10f10",
+      "note": "Hidden mid-turn draw."
+    },
+    {
+      "card": "BACKSTAB",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Backstab",
+      "model_sha256": "6a26f646b66728684b269f962aed3b8f4db791fdd320e25929c56839d39372e5",
+      "note": ""
+    },
+    {
+      "card": "BLADE_DANCE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "BladeDance",
+      "model_sha256": "54bcb906b97d99882db1a72781208faf47bdc8c4bab3ba1e0b4898f590323931",
+      "note": ""
+    },
+    {
+      "card": "BLADE_OF_INK",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "BladeOfInk",
+      "model_sha256": "5a26ad70ae161d588dcd0257819d200e09f9b018ac5f6f878864d4a6d581b585",
+      "note": "Existing Phantom Blades first-Shiv history can require a witness when playing the generated Shiv."
+    },
+    {
+      "card": "BLADE_SYMPHONY",
+      "group": "Multiplayer",
+      "rarity": "Uncommon",
+      "status": "REMAINING_BATCH2",
+      "model": "BladeSymphony",
+      "model_sha256": "4085214ad653df4586c1cf6fd706ae8a94d2891146c7550778190262a6c5d7d2",
+      "note": "Multiplayer. Create two Shivs for each living player teammate. Upgrade reduces cost from 2 to 1."
+    },
+    {
+      "card": "BLUR",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Blur",
+      "model_sha256": "d9db2f6fb8620fa36edc5ab1aa64f518eb677a533b7273f895e34a8a0bc14cb0",
+      "note": ""
+    },
+    {
+      "card": "BOUNCING_FLASK",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "BouncingFlask",
+      "model_sha256": "d132898b17d72bb666e1a033a44061a3aa32954d5d66a803d492c76d02163b62",
+      "note": "Multiple living targets."
+    },
+    {
+      "card": "BUBBLE_BUBBLE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "BubbleBubble",
+      "model_sha256": "3bc3410b6ca0ff74d243e2de1748b9af1b6b31db9a6ecff717789813c01483de",
+      "note": ""
+    },
+    {
+      "card": "BULLET_TIME",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "BulletTime",
+      "model_sha256": "7ff652e8714818299f9d80606b79be2787e85757c7e517205e5fa0e99dcffd64",
+      "note": ""
+    },
+    {
+      "card": "BURST",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Burst",
+      "model_sha256": "fbc7c872bb7edeff969c5b852c6a5cfd2e65b22a4f77559433fd275617b7a9b1",
+      "note": "A repeated Skill can suspend on a draw or selection."
+    },
+    {
+      "card": "CALCULATED_GAMBLE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "CalculatedGamble",
+      "model_sha256": "a6a430cc9751d56b6b25ebe14fb6b434beccaa544c9d712307b51bb70db1f3e0",
+      "note": "Hidden mid-turn draw."
+    },
+    {
+      "card": "CLOAK_AND_DAGGER",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "CloakAndDagger",
+      "model_sha256": "a3718a26288db1ebad580dd390d0877f2cd92e95635d9f0348785b16af1533b3",
+      "note": ""
+    },
+    {
+      "card": "CONCOCT",
+      "group": "Multiplayer",
+      "rarity": "Uncommon",
+      "status": "REMAINING_BATCH2",
+      "model": "Concoct",
+      "model_sha256": "87f5334ca4bbdd20286e93cb23867156efc8e8b5238dddd803967caa8649ab3d",
+      "note": "Multiplayer. Give an ally 3/4 Concoct. Its unblocked powered hits apply that much Poison until the end of the opposing side\u2019s turn."
+    },
+    {
+      "card": "CORROSIVE_WAVE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "CorrosiveWave",
+      "model_sha256": "709fd2df850eb1e285f6b4868f61cca3b9cba9f680a60ecab69a13d11dec6556",
+      "note": "Poison after extra draws. A mixed hidden draw suspends the play."
+    },
+    {
+      "card": "DAGGER_SPRAY",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "DaggerSpray",
+      "model_sha256": "420de09f592c433731bd9b3feadeec1589027f86abf16793ddc045f3f2aaf3ec",
+      "note": "Multi-hit Curl Up ordering."
+    },
+    {
+      "card": "DAGGER_THROW",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "DaggerThrow",
+      "model_sha256": "9623df581636215e872c1f833d2ca7e3fb83ee86e6a694f928a45b5edade8536",
+      "note": "Hidden mid-turn draw."
+    },
+    {
+      "card": "DASH",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Dash",
+      "model_sha256": "5f901ee9665a1023ec7a1e50f54b5cd94bc4afa89e66717b7fb6de13b6668d80",
+      "note": ""
+    },
+    {
+      "card": "DEADLY_POISON",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "DeadlyPoison",
+      "model_sha256": "343c9c6496d1fec6e8c353c9e971fdfa1419c738a6d549fc816fc41e7b32b049",
+      "note": ""
+    },
+    {
+      "card": "DEFEND_SILENT",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_FULL",
+      "model": "DefendSilent",
+      "model_sha256": "25e86818896023e41d83487a01b026b686cbbe9234540cd67606c990574e5087",
+      "note": ""
+    },
+    {
+      "card": "DEFLECT",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Deflect",
+      "model_sha256": "e8a6861b7493f848458bc45d5f8bfbd66bcd1a49f97ea4075153cd32c0dab828",
+      "note": ""
+    },
+    {
+      "card": "DODGE_AND_ROLL",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "DodgeAndRoll",
+      "model_sha256": "563426cc9f6e184ae58491a315e5bbfad9634f870aaf987748d5bbbf42ca3b10",
+      "note": ""
+    },
+    {
+      "card": "ECHOING_SLASH",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "EchoingSlash",
+      "model_sha256": "e6659a3f6e016f19e06e136899726d43cfbf1d7f614f4892bcf1677844ddbfcd",
+      "note": ""
+    },
+    {
+      "card": "ENVENOM",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Envenom",
+      "model_sha256": "a844d07c07afee5265ddc070cfbd5fb37451e52444228702b687d54a6bb5ea39",
+      "note": ""
+    },
+    {
+      "card": "ESCAPE_PLAN",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "EscapePlan",
+      "model_sha256": "f0fdedc7e8317b534002ba6a1e3ee56ec787b539f3a1dacbd20848255fde30c5",
+      "note": "Known Skill draw gains Block. A mixed hidden draw suspends before reveal."
+    },
+    {
+      "card": "EXPERTISE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "REMAINING_BATCH2",
+      "model": "Expertise",
+      "model_sha256": "5a20da04a7749b2e65a455d6492c7a4985808b32695854e6751efcb039818cbf",
+      "note": "Draw 2/3 cards and give each drawn card Retain for this turn."
+    },
+    {
+      "card": "EXPOSE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Expose",
+      "model_sha256": "7058ee0ce84c962487eb54b179119a5dcb628df7964b19851b07d0f3b19d267b",
+      "note": ""
+    },
+    {
+      "card": "FADE",
+      "group": "Multiplayer",
+      "rarity": "Uncommon",
+      "status": "REMAINING_BATCH2",
+      "model": "Fade",
+      "model_sha256": "84aad00b4fd8afd2f26259c8e8b1a206d5b8fc091431ed026e6a9a28285a74aa",
+      "note": "Multiplayer. Retain. Give an ally 6/9 temporary Dexterity until the end of its side\u2019s turn."
+    },
+    {
+      "card": "FAN_OF_KNIVES",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "FanOfKnives",
+      "model_sha256": "e8e04760f12b49980d1d3bebcbca9a533da9cf187d0f37847aa32fc380b8f1d4",
+      "note": ""
+    },
+    {
+      "card": "FINISHER",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Finisher",
+      "model_sha256": "22e772b1f25d5be3ad598f031365f99c407a05ee985eed33364d2927b0ee7c51",
+      "note": "Use the public calculated hit count, otherwise suspend on unwitnessed attack history."
+    },
+    {
+      "card": "FLANKING",
+      "group": "Multiplayer",
+      "rarity": "Rare",
+      "status": "REMAINING_BATCH2",
+      "model": "Flanking",
+      "model_sha256": "e11c5e972b1690f32346baf615ffaaf491c8b69c9c0e71cf86fc1030cc8d1833",
+      "note": "Multiplayer. Other attackers\u2019 powered hits on the target deal double damage until the end of its side\u2019s turn. Upgrade reduces cost from 2 to 1."
+    },
+    {
+      "card": "FLECHETTES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Flechettes",
+      "model_sha256": "49fae53776dc2c759d635ea459e57318b871e1b6cda52aa7ac4a3c72b163bf38",
+      "note": "Multi-hit Curl Up ordering."
+    },
+    {
+      "card": "FLICK_FLACK",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "FlickFlack",
+      "model_sha256": "53b4b64d032cbb696b6196a12661ef08b7c923765cdcdfae62e869bfc2ff3630",
+      "note": ""
+    },
+    {
+      "card": "FOOTWORK",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Footwork",
+      "model_sha256": "03c45f76eb2ac123d7211be498fec4b4598084360f31a670740e138a584a0e47",
+      "note": ""
+    },
+    {
+      "card": "GRAND_FINALE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "GrandFinale",
+      "model_sha256": "198440930b9972d827592735a0a173a97d8865fd1cb0c20377fc2f50099d82c0",
+      "note": ""
+    },
+    {
+      "card": "HAND_TRICK",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "HandTrick",
+      "model_sha256": "6a1e1cb1d3a1b1bbd2a0eb0ac513af90c28ed66364f2b344b0a3ab73cf0cd9ef",
+      "note": ""
+    },
+    {
+      "card": "HAZE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Haze",
+      "model_sha256": "afacd0a18b5f037d9513f99d80cf3589e7de3574917dccd46afefc1b00663724",
+      "note": ""
+    },
+    {
+      "card": "HIDDEN_DAGGERS",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "HiddenDaggers",
+      "model_sha256": "fa912b7557d5ec253b9f522b1cbee24b8fd0d231499e56d14f4eb53e1fafa191",
+      "note": "Discard selection may auto-play Sly cards with multiple targets."
+    },
+    {
+      "card": "INFINITE_BLADES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "InfiniteBlades",
+      "model_sha256": "ec83b9606e634e3d0217b894b66962aecf704fc407ad1e3e025262ff5ec17349",
+      "note": ""
+    },
+    {
+      "card": "KNIFE_TRAP",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "KnifeTrap",
+      "model_sha256": "f3c10f7c0a7640198af13f8fc323e6bd181b02f0e86880c470fb477a3a0b6ecb",
+      "note": "Replays exhausted Shivs. Mixed exhaust order or a dead replay target can suspend."
+    },
+    {
+      "card": "LEADING_STRIKE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "LeadingStrike",
+      "model_sha256": "5e237e023e4d772e1a0a6f2a355d855faf64c204727c6454152c085e04fa649a",
+      "note": ""
+    },
+    {
+      "card": "LEG_SWEEP",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "LegSweep",
+      "model_sha256": "55f1343a3695ae050255c37ba05f206d9e6fbaa806692bfc1f2399c932999273",
+      "note": ""
+    },
+    {
+      "card": "MALAISE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Malaise",
+      "model_sha256": "bc019caf7edfffcf25a95346ad140e36df2cad298a7f36ebf62d7ed25035b3c7",
+      "note": ""
+    },
+    {
+      "card": "MASTER_PLANNER",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "REMAINING_BATCH2",
+      "model": "MasterPlanner",
+      "model_sha256": "baeffbc86a2ea03730c1ac517999c16f889ba6bb5156820552bb142456187ef3",
+      "note": "After the owner plays a Skill, permanently give that combat copy Sly. Upgrade reduces cost from 2 to 1."
+    },
+    {
+      "card": "MEMENTO_MORI",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "MementoMori",
+      "model_sha256": "e108d35442f8fb245112a65ab5cfe3824ff494cdf9183d166bc37df06ed282c3",
+      "note": "Infer discarded-card count from an unambiguous public preview."
+    },
+    {
+      "card": "MIRAGE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "REMAINING_BATCH2",
+      "model": "Mirage",
+      "model_sha256": "33c95dfa21caac6c890f0e55e72065fe3e31bdb83a00c7d21c73913908f1acdf",
+      "note": "Gain modified Block with base equal to total Poison on living enemies. Exhaust. Upgrade removes Exhaust."
+    },
+    {
+      "card": "MURDER",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Murder",
+      "model_sha256": "712fc0550a22905b11f768df0a48d3d933df2c599dbc6f845624bb9af63025d9",
+      "note": "Infer combat draw count from an unambiguous public preview."
+    },
+    {
+      "card": "NEUTRALIZE",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_FULL",
+      "model": "Neutralize",
+      "model_sha256": "38b9cc6992763593881c0122148dbf8e7dadf38b0754c85770227bf3e07ca66b",
+      "note": ""
+    },
+    {
+      "card": "NIGHTMARE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Nightmare",
+      "model_sha256": "53c6eaadb61f6cc3064f4e3a3aed7070445e5d8e80dafdc3ce8297e13ddff958",
+      "note": "Root-admitted legacy play boundary. Batch 2 can model choosing a hand card and creating three copies next turn."
+    },
+    {
+      "card": "NOXIOUS_FUMES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "NoxiousFumes",
+      "model_sha256": "ebffac99f31337c8e236db34fccdc228e354efb5743ff4549390669973d40909",
+      "note": ""
+    },
+    {
+      "card": "OUTBREAK",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Outbreak",
+      "model_sha256": "eb95609efb354c63c9e0f38e532fb84af50cbb47c22a03b08f8a83cd51f3793b",
+      "note": "Poison tick can wake an enemy whose new move is hidden."
+    },
+    {
+      "card": "PHANTOM_BLADES",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "PhantomBlades",
+      "model_sha256": "3f3dcd26011d47aa228a612b0cb4df77e24996341c8614e97ab440a68245370b",
+      "note": "Retain applies to existing and future Shivs. First-Shiv bonus needs a witness."
+    },
+    {
+      "card": "PIERCING_WAIL",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "PiercingWail",
+      "model_sha256": "4e8d6589796661beeb40b1951585c619c545a4dc2b64aa37fb45e3e33db8d5bd",
+      "note": ""
+    },
+    {
+      "card": "PINPOINT",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Pinpoint",
+      "model_sha256": "27183262c1b9138ecfa5e8924e4c5827b44dee8c02254ce6dc46306406abd5c4",
+      "note": ""
+    },
+    {
+      "card": "POISONED_STAB",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "PoisonedStab",
+      "model_sha256": "4d5f2ce1c671afd42e64cb02c903105e6de2bc160d68e3f9504580c87b754fef",
+      "note": ""
+    },
+    {
+      "card": "POUNCE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Pounce",
+      "model_sha256": "a14433af2d1f6090a2cea3fee4ce0e92bab62ddd2396e316486670043b9aef70",
+      "note": "The final Free Skill stack can conceal the underlying costs of other hand cards."
+    },
+    {
+      "card": "PRECISE_CUT",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "PreciseCut",
+      "model_sha256": "4a266f816872f40f8948f9dac965ec8526a1f91dafc5cfb2ebd79ee84d463ccc",
+      "note": ""
+    },
+    {
+      "card": "PREDATOR",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Predator",
+      "model_sha256": "24d3a62a9064487ca42f315a84f455995fc4263e8df637cf4347c32b7016ae0b",
+      "note": ""
+    },
+    {
+      "card": "PREPARED",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Prepared",
+      "model_sha256": "55f51600963dd8a97a7320265e58d3b11d2072272da5737c06f837be4dfb15b6",
+      "note": "Hidden mid-turn draw."
+    },
+    {
+      "card": "REFLEX",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Reflex",
+      "model_sha256": "9da35e8290ad693e532dbc718e9f03c937d8a21703bdaa96d893b75441411690",
+      "note": "Hidden mid-turn draw."
+    },
+    {
+      "card": "RICOCHET",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Ricochet",
+      "model_sha256": "94ecf31f64c61c587e5a756a78c0944bd58006be1581b352907b536eba49c8ea",
+      "note": "One living target resolves all 4/5 hits. Multiple targets require native RNG."
+    },
+    {
+      "card": "SERPENT_FORM",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "SerpentForm",
+      "model_sha256": "588fe81c3cfbc57b1fa0ec7d4648e7b50e6f546abe52bad2ca80fa807e48bc1e",
+      "note": "After a subsequent card, deal 4/6 damage to one random enemy. A sole target resolves locally."
+    },
+    {
+      "card": "SHADOWMELD",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Shadowmeld",
+      "model_sha256": "4dde9d38e58455ac734468c98ea3140fbb609c1422bb5df2fcb83ead612fff29",
+      "note": ""
+    },
+    {
+      "card": "SHADOW_STEP",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "ShadowStep",
+      "model_sha256": "c5997898c8af2c90b99a2a077bedf1db1f0487068f5aa379e1d043d3286ec9e2",
+      "note": "All-hand discard can auto-play Sly cards with hidden targets."
+    },
+    {
+      "card": "SIDESTEP",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Sidestep",
+      "model_sha256": "273d9b9ebf97663ecad80714aa2a1bba6304422818c046c4fd7bb80e455e7da3",
+      "note": ""
+    },
+    {
+      "card": "SKEWER",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Skewer",
+      "model_sha256": "39cd5fd45f34dac86c1ec8d1b6dcde9639031b814f5e194b8560aebcadd842dc",
+      "note": "Multi-hit Curl Up ordering."
+    },
+    {
+      "card": "SLICE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Slice",
+      "model_sha256": "30e4f9008ce59dbb0062eb27473ba79d32c0750a18096b7d1417994d2fc9c112",
+      "note": ""
+    },
+    {
+      "card": "SNAKEBITE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "Snakebite",
+      "model_sha256": "8f6957b96c1ba47877fd7957158e739a921d4a7e7e4bbcd13c6e3fcf46b013ec",
+      "note": ""
+    },
+    {
+      "card": "SNEAKY",
+      "group": "Multiplayer",
+      "rarity": "Rare",
+      "status": "REMAINING_BATCH2",
+      "model": "Sneaky",
+      "model_sha256": "cd141755e2780c4accb2d026396cd8510e36560debf98b67fadfe45017a10e10",
+      "note": "Multiplayer. Sly. Gain 1/2 unpowered Block each time another player finishes playing an Attack."
+    },
+    {
+      "card": "SPEEDSTER",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Speedster",
+      "model_sha256": "72f77a1d35d8682dd692482301ae73fa5294e26618534c37f508773825f54192",
+      "note": "Extra draws hit each enemy. A mixed hidden draw suspends the play."
+    },
+    {
+      "card": "STORM_OF_STEEL",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "StormOfSteel",
+      "model_sha256": "859016a4e80c8d4c587dc3687b8ef456fad4a4bed2fce84d0e606005b42bb975",
+      "note": "All-hand discard can auto-play Sly cards before Shiv creation."
+    },
+    {
+      "card": "STRANGLE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Strangle",
+      "model_sha256": "e55f7a806bae97e93d37293ac3355a732d5f95117531f545aa66dc8fe1440c34",
+      "note": ""
+    },
+    {
+      "card": "STRIKE_SILENT",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_FULL",
+      "model": "StrikeSilent",
+      "model_sha256": "8f34c5db7a842da7c727f456c23556657ef320efb33d3198a7f68a72bc3be77f",
+      "note": ""
+    },
+    {
+      "card": "SUCKER_PUNCH",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "SUPPORTED_FULL",
+      "model": "SuckerPunch",
+      "model_sha256": "e81e4e7532b7f13ab51b725394d489172b7ea6896f5ecaf1131dc911e66f5df1",
+      "note": ""
+    },
+    {
+      "card": "SUPPRESS",
+      "group": "Ancient",
+      "rarity": "Ancient",
+      "status": "REMAINING_BATCH2",
+      "model": "Suppress",
+      "model_sha256": "7774f2dbef9ca091dca7f6947c06166cf55734154153258f5af79ae72158a0a4",
+      "note": "Ancient. Innate. Deal 11/17 damage and apply 3/5 Weak to one enemy for zero energy."
+    },
+    {
+      "card": "SURVIVOR",
+      "group": "Basic",
+      "rarity": "Basic",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "Survivor",
+      "model_sha256": "caf7dba79c93a1eb1afd6b1e583644009fd2adf3845581f283405182f0f3daf0",
+      "note": "Discarded Sly attack can require a random target."
+    },
+    {
+      "card": "TACTICIAN",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "Tactician",
+      "model_sha256": "c08e162652f37088de6be037ac0120c18bb3ac374b7094bfc5097328d069275d",
+      "note": ""
+    },
+    {
+      "card": "THE_HUNT",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "TheHunt",
+      "model_sha256": "19c7889f70e2f0cefafe3c40b8ca418762ba557c02dd6c16252a16efc735a0bd",
+      "note": "A fatal hit can require special monster death eligibility."
+    },
+    {
+      "card": "TOOLS_OF_THE_TRADE",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_BOUNDARY",
+      "model": "ToolsOfTheTrade",
+      "model_sha256": "4d24692c24b6d2926b8b8a71cda7f90473f99ef298a84ef6499a4fd5f7e07fd7",
+      "note": "Ordinary end turn certifies at next-hand reveal. Interacting start-turn prompts can suspend."
+    },
+    {
+      "card": "TRACKING",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "Tracking",
+      "model_sha256": "ad1de28a92f9b4d37da3e589ac76fc5da36722defea526db99bdc51259f8e84b",
+      "note": ""
+    },
+    {
+      "card": "UNTOUCHABLE",
+      "group": "Reward",
+      "rarity": "Common",
+      "status": "REMAINING_BATCH2",
+      "model": "Untouchable",
+      "model_sha256": "5dcd00a2acc555cae537fd8300fb57d42f3536fc38384cf6615153f58dc30534",
+      "note": "Sly. Gain 6/9 modified Block for two energy."
+    },
+    {
+      "card": "UP_MY_SLEEVE",
+      "group": "Reward",
+      "rarity": "Uncommon",
+      "status": "SUPPORTED_FULL",
+      "model": "UpMySleeve",
+      "model_sha256": "f393be8684d4ac67f89d097a4c99b495e7781da2342719a63e0ce77a87cbeb79",
+      "note": ""
+    },
+    {
+      "card": "WELL_LAID_PLANS",
+      "group": "Reward",
+      "rarity": "Rare",
+      "status": "SUPPORTED_FULL",
+      "model": "WellLaidPlans",
+      "model_sha256": "dbbfaefef7994066a7ec76c98ae2745010e8b5f33830b7b330033e0a42af008a",
+      "note": ""
+    },
+    {
+      "card": "WRAITH_FORM",
+      "group": "Ancient",
+      "rarity": "Ancient",
+      "status": "REMAINING_BATCH2",
+      "model": "WraithForm",
+      "model_sha256": "08a69b811b6892c62554792df30c5f3e15d33b917e72404508de98724c9534a8",
+      "note": "Ancient. Gain 2/3 Intangible and a debuff that removes one Dexterity at each subsequent player-side turn start."
+    }
+  ],
+  "qualification": {
+    "profiles": {
+      "survival": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "9ac1e583cb354b380980d346d376ee5d4583acd7146ecb0dc320a1408cdad3d6",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "6fcc9f4eda1b954adc7e75394638854f910ab5943cd88bc83124c4ef89a73ccc",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "scorer": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "9ef3d9448bbbbf4d18a6caee18ff1a409c2848514a065ca02b736b8f61a5d612",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "dc1d62c46166f378f445fa50c37f524667dad6e0e21f219047d1a0202683e9bb",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "shop": {
+        "deck_model.json": "dfdc2442df6de387b4e29cf717d4f02276fe7da2b3cd4d2f1b9822ff726ff3c3",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "9d6b70d38cbf1161aa90e7e08cf06daa9a4c945b07747c777ce5eab5e78bbf59",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all": {
+        "deck_model.json": "dfdc2442df6de387b4e29cf717d4f02276fe7da2b3cd4d2f1b9822ff726ff3c3",
+        "encounter_model.json": "dbbe35d4b89f9927bea81cb60542714054bf4dc5673c1ca2936643f435245bbd",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "c4826d98bccb51aad4f3e60306c5484ee3bb2c98b6d6637861560a23e3cb239e",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "route": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "bb8d6ed5b1510cabd65793c19ac7ffa2ebf86f654c824a6cce90d1b53526c7b4",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "819b6ca23497f48f5ae6d1a6a415979faa5f3051f6851e98f2d813e3b76efb38",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "draft": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "ef866bdd309b3fe087635a47991b595c921cb9c6942d78c8c8a84fadd81783dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "975a879d7712bfc6858a3630ff6fa5b0c1ac4bca64c162fe52944a460b0c31fc",
+        "room_model.json": "d10259506728d8cff99ba1c558803067719c03b39ca46c2478d14bf5f9dd852e",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "batch2": {
+        "deck_model.json": "f6e6a3086500098f991c08c661927bf1c9c2e081731b32b5c32eb9cd5b35c7ca",
+        "encounter_model.json": "1252a8f75349ef6d5a91d9360656d156a1617854fb4160ccbe8819eca16a1376",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "de15992ab6727d1eab2bd2f0fbf2ef91e993a05a474fd76c98b095f887c7de8f",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2": {
+        "deck_model.json": "dfdc2442df6de387b4e29cf717d4f02276fe7da2b3cd4d2f1b9822ff726ff3c3",
+        "encounter_model.json": "dbbe35d4b89f9927bea81cb60542714054bf4dc5673c1ca2936643f435245bbd",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "f509f829ed779b5f4f8b9ade78a48b763f945a7303bffc178bb6cd84f836f896",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_clean": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "9801bff601d28eeccbd0e00116f5952dd9c7acbf43c710a172e4ba8233d4441a",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "6996d1f963c9af3f7aebf347570f5e1fc3ec73154863ed04a6749bbc75814212",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_tactics": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "f629626ec66adfb32c79cf8427144cc084f66bd4f9fe7c78d999a0cba4e014bb",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "768db8b1e973070706feafefa718289d213c469b9651cad078a49c6a1caac816",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_mech": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "0c885df8a5845703f3ed61e4b9e71e504814da416593ddee1c717aa8cba84e8f",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "3561464f0d17bb18bcc11b48c724fec1a956a90a96aa9c82abda950d16ca72f1",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_mech_v3": {
+        "deck_model.json": "69e634722a007d210d05124ff2406e8df231c60ea559570501e46f0205f88cf1",
+        "encounter_model.json": "6ebdf92be19b4d39f5373c401c30bea114ae3da5eb06f4445c015c47fbdb8ae8",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "0ccf0136312c48e8b02f1268518f003827f1305b78235373bb613cb51ca8fc5d",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "5a14a56c1dbcf37902e323b75857729da7cb9d0d75c09df31d61b6081a8b0f11",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_p1_v4": {
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "8636337a6082264bffffe9a79b50528bdf30ed9096b74ff33fd20a8e844fa51b",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_search_v5": {
+        "combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+        "combat_value_v2.npz": "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_search_heur_v5": {
+        "combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "85de8c968e2b973a2928719bedab2697ddd305e0c55c2654064fcf5f9ebd93c4",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "all_v2_search_v6": {
+        "combat_search_v2_config.json": "3b94e11296f28c71f25a9958bfb65004547c8cab1fdda4de58eee3828539249a",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "4b5fe32e78a96ca656cca805f316410b19baa9c4f2c227d25b77a6d1306c93a9",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "v64_control": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "373f54a8deb95fbe6e24829e2503e841677fe7427fd565a9939ba09e3560dd1c",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "unified_size_165": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "f1951bf589637a49fc2598bb697a2a18d0e5422a29940500d588da16a4e1d5ee",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "4fb08d7a9faa68f2a244c200f48823c83515f26c3d28090c1b15751dd716b53c",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      },
+      "unified_size_0": {
+        "combat_search_v2_config.json": "a4b0477151ec4d8a372f20b8ca9206c9151b33741e49e15cde5ee70d66b0a71e",
+        "deck_model.json": "3f6fdc8ed8e431a59e45ffb898458bd650ee6741845db87746ac0e673e6f4f69",
+        "encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+        "late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+        "offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+        "policy.json": "c02aac38bf0b55481e476e8719a90398e615d335baf5ace14aab844284e531b4",
+        "room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+        "strategy_model.json": "0e13e0e3e97d5cdd232af6c020088eb55798b8cb825f25b44607f3b021ac68c5",
+        "weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+      }
+    },
+    "frozen": {
+      "releases/silent-a10-v2-tactics/challenger/combat_search_v2_config.json": "8cc8defc128969c9af058e1a2a8c702025ab7d0df4d29573b86fc5fb455bf4ed",
+      "releases/silent-a10-v2-tactics/challenger/combat_value_v2.npz": "24debeaaa81c0095cf252807e05e858cf53b8dcbf23ed2e9eb274f267112cb0b",
+      "releases/silent-a10-v2-tactics/challenger/deck_model.json": "4fa2cd68fcc1d0ad38b24d0ff649e40d7352aeae39b718457a43c0b5e801380f",
+      "releases/silent-a10-v2-tactics/challenger/encounter_model.json": "0bf93c667802a6595440e8091e14d0cd50be258f6ddbf35c3911c665260e1e29",
+      "releases/silent-a10-v2-tactics/challenger/late_room_model.json": "14b9dd3a1858b8fdce4bb9cfb05aeb292d4761d8af50851b815522c6d2f773dd",
+      "releases/silent-a10-v2-tactics/challenger/offer_model.json": "e06e0681ae8e72b41f97c039d7dec1661b55d3bb6301d26338072e248e329ae4",
+      "releases/silent-a10-v2-tactics/challenger/policy.json": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+      "releases/silent-a10-v2-tactics/challenger/room_model.json": "cb4f55b753d7e056d2320aa0f2fd3243ee7d7e470b8e1d4fabb5f81f1bfaa192",
+      "releases/silent-a10-v2-tactics/challenger/strategy_model.json": "c793f0bd3926dcfab5f0db5913047334cf96a72b3e03cac320282f5e307b980f",
+      "releases/silent-a10-v2-tactics/challenger/weights.json": "462e5f2e1c1e7eea93766cc4ff6bb50de273aa91f02ec74bb2173c0dc1677ecb"
+    },
+    "compat": {
+      "off": {
+        "exact": true,
+        "expected": "23efeda3632d6db289b591984b80cf900dae24fcc032bc2c61fb3fcb02117eca",
+        "actual": "23efeda3632d6db289b591984b80cf900dae24fcc032bc2c61fb3fcb02117eca",
+        "episodes": 24
+      },
+      "active": {
+        "exact": true,
+        "expected": "e3f30a6a2b45a98f3697ba72f835f5928c38be5b8e2fc83c8cd793a82200da05",
+        "actual": "e3f30a6a2b45a98f3697ba72f835f5928c38be5b8e2fc83c8cd793a82200da05",
+        "episodes": 24
+      },
+      "shadow": {
+        "exact": true,
+        "expected": "a8578f1a8bef2c7c30ac85ae4fb2479eb5610a991a11dc6212e90940a52424a7",
+        "actual": "a8578f1a8bef2c7c30ac85ae4fb2479eb5610a991a11dc6212e90940a52424a7",
+        "episodes": 24
+      },
+      "v5-candidate": {
+        "exact": true,
+        "expected": "6680f64f8fd23799a1955a0b197420f8d265a622b4532fdaecf33176045ccdcc",
+        "actual": "6680f64f8fd23799a1955a0b197420f8d265a622b4532fdaecf33176045ccdcc",
+        "episodes": 24
+      },
+      "kaiser-candidate": {
+        "exact": true,
+        "expected": "355abaf4cd36bf954a3059a0ee6346684d59826d1fba1cd96d995756e8670b2b",
+        "actual": "355abaf4cd36bf954a3059a0ee6346684d59826d1fba1cd96d995756e8670b2b",
+        "episodes": 24
+      }
+    },
+    "decompiled_model_hashes": {
+      "CardPools/SilentCardPool": "cff0964c2b8a6d0d107018d4a70429b8c0d941ac99d757f9fde9058df9e26397",
+      "Cards/Abrasive": "843912702bf205461319e5d85fc5dafe230134f9f8af5359097f79b7880fa1ba",
+      "Cards/Accuracy": "1b3831369faab98080eb841161ea57eb53cc0e24cfd8451d0290e516819362e3",
+      "Cards/Assassinate": "2787240f10839458c9199a1bd91371fed857f853f637221362238c7f1e9ec87c",
+      "Cards/BladeOfInk": "5a26ad70ae161d588dcd0257819d200e09f9b018ac5f6f878864d4a6d581b585",
+      "Cards/BouncingFlask": "d132898b17d72bb666e1a033a44061a3aa32954d5d66a803d492c76d02163b62",
+      "Cards/BulletTime": "7ff652e8714818299f9d80606b79be2787e85757c7e517205e5fa0e99dcffd64",
+      "Cards/CorrosiveWave": "709fd2df850eb1e285f6b4868f61cca3b9cba9f680a60ecab69a13d11dec6556",
+      "Cards/DodgeAndRoll": "563426cc9f6e184ae58491a315e5bbfad9634f870aaf987748d5bbbf42ca3b10",
+      "Cards/EchoingSlash": "e6659a3f6e016f19e06e136899726d43cfbf1d7f614f4892bcf1677844ddbfcd",
+      "Cards/Envenom": "a844d07c07afee5265ddc070cfbd5fb37451e52444228702b687d54a6bb5ea39",
+      "Cards/EscapePlan": "f0fdedc7e8317b534002ba6a1e3ee56ec787b539f3a1dacbd20848255fde30c5",
+      "Cards/Expose": "7058ee0ce84c962487eb54b179119a5dcb628df7964b19851b07d0f3b19d267b",
+      "Cards/Exterminate": "307cf98977f462c7d7dc66f0f9fbd2275b7bd108f2aa37ca3f0b43ed1c9ba3d9",
+      "Cards/Finisher": "22e772b1f25d5be3ad598f031365f99c407a05ee985eed33364d2927b0ee7c51",
+      "Cards/HandTrick": "6a1e1cb1d3a1b1bbd2a0eb0ac513af90c28ed66364f2b344b0a3ab73cf0cd9ef",
+      "Cards/HiddenDaggers": "fa912b7557d5ec253b9f522b1cbee24b8fd0d231499e56d14f4eb53e1fafa191",
+      "Cards/InfiniteBlades": "ec83b9606e634e3d0217b894b66962aecf704fc407ad1e3e025262ff5ec17349",
+      "Cards/IAmInvincible": "945e46c1024e31f14b7972e879b9184fff56cb111df2b071a4abe49bd735c600",
+      "Cards/KnifeTrap": "f3c10f7c0a7640198af13f8fc323e6bd181b02f0e86880c470fb477a3a0b6ecb",
+      "Cards/MementoMori": "e108d35442f8fb245112a65ab5cfe3824ff494cdf9183d166bc37df06ed282c3",
+      "Cards/Murder": "712fc0550a22905b11f768df0a48d3d933df2c599dbc6f845624bb9af63025d9",
+      "Cards/Outbreak": "eb95609efb354c63c9e0f38e532fb84af50cbb47c22a03b08f8a83cd51f3793b",
+      "Cards/PhantomBlades": "3f3dcd26011d47aa228a612b0cb4df77e24996341c8614e97ab440a68245370b",
+      "Cards/PiercingWail": "4e8d6589796661beeb40b1951585c619c545a4dc2b64aa37fb45e3e33db8d5bd",
+      "Cards/Pinpoint": "27183262c1b9138ecfa5e8924e4c5827b44dee8c02254ce6dc46306406abd5c4",
+      "Cards/Pounce": "a14433af2d1f6090a2cea3fee4ce0e92bab62ddd2396e316486670043b9aef70",
+      "Cards/Ricochet": "94ecf31f64c61c587e5a756a78c0944bd58006be1581b352907b536eba49c8ea",
+      "Cards/SerpentForm": "588fe81c3cfbc57b1fa0ec7d4648e7b50e6f546abe52bad2ca80fa807e48bc1e",
+      "Cards/Shadowmeld": "4dde9d38e58455ac734468c98ea3140fbb609c1422bb5df2fcb83ead612fff29",
+      "Cards/ShadowStep": "c5997898c8af2c90b99a2a077bedf1db1f0487068f5aa379e1d043d3286ec9e2",
+      "Cards/Shiv": "da5a8049d8b44ebdf894524efc78faed563bb2927dee25f704d6501b34c1ef66",
+      "Cards/Sidestep": "273d9b9ebf97663ecad80714aa2a1bba6304422818c046c4fd7bb80e455e7da3",
+      "Cards/Speedster": "72f77a1d35d8682dd692482301ae73fa5294e26618534c37f508773825f54192",
+      "Cards/StormOfSteel": "859016a4e80c8d4c587dc3687b8ef456fad4a4bed2fce84d0e606005b42bb975",
+      "Cards/Strangle": "e55f7a806bae97e93d37293ac3355a732d5f95117531f545aa66dc8fe1440c34",
+      "Cards/TheHunt": "19c7889f70e2f0cefafe3c40b8ca418762ba557c02dd6c16252a16efc735a0bd",
+      "Cards/ToolsOfTheTrade": "4d24692c24b6d2926b8b8a71cda7f90473f99ef298a84ef6499a4fd5f7e07fd7",
+      "Cards/Tracking": "ad1de28a92f9b4d37da3e589ac76fc5da36722defea526db99bdc51259f8e84b",
+      "Cards/UpMySleeve": "f393be8684d4ac67f89d097a4c99b495e7781da2342719a63e0ce77a87cbeb79",
+      "Cards/WellLaidPlans": "dbbfaefef7994066a7ec76c98ae2745010e8b5f33830b7b330033e0a42af008a",
+      "Powers/AccuracyPower": "bfb40918d391d578ac78f26ce6ee6d61ceb4177ebbe2881d057ff2d8e31486ab",
+      "Powers/BlockNextTurnPower": "666bbdba0697277a65cb9b07bdb7da5f48a98e0f27fe6cd678a698f69b05ee8f",
+      "Powers/CorrosiveWavePower": "47283a084a098d9bb761228c78f0c6a17b3d54c53ace7ae92358a03931dcd79a",
+      "Powers/DoubleDamagePower": "cb99c7e5a9db8d2d2bf2b755aebf10a5d18ad3ba2b725a6a21b5b8e1ef852880",
+      "Powers/EnvenomPower": "e972c436d96962037b6308d9f0d2a74e4d2bb19052a53c166dd7845b6f0c3087",
+      "Powers/FreeSkillPower": "d96f9dc2b22a6cce4da15fa7c363f590f2d3579ffce59bcba908aa6f2e447353",
+      "Powers/InfiniteBladesPower": "fbd4967937fe8cbda153b7b2be97b01c74cb999ff197917477e28b56bc95249a",
+      "Powers/NoDrawPower": "6e53b8ff5cd97e40d9377cd5b3ba8fdcc2366b03b485a6a63f32cb148ba07a19",
+      "Powers/PhantomBladesPower": "3cce75d463c09b6ae0a49c218e572fef29e30ba8bf4ff96f4804512685cec431",
+      "Powers/PiercingWailPower": "8a41636924a082abe7e2d97323ce2a59f04de778141828c4724a18378d39d491",
+      "Powers/RetainHandPower": "7c1e6c6c9b6368b87a9be81a3d5c0d3bc07bda781416846a82c6d5e212c03055",
+      "Powers/SerpentFormPower": "292de719a744eac3c5f4b08d80b88ec193faef62a3e12f6df20d602de2d89476",
+      "Powers/ShadowmeldPower": "b7a9bb1846f338ef0dfa821f9e74efa7622b486ce863d9c5dc5b50cfa0afaf58",
+      "Powers/ShadowStepPower": "abd1b909f56bef10c159c92ec61e5d01ac36db83f81d9703e5ec587b23511562",
+      "Powers/SpeedsterPower": "3a003be1204548f581d2b5416aa433fd06d34b2370fa12a82ed4613a5f2da70f",
+      "Powers/StranglePower": "d85fcc6d0f03bf04a2ad2ae424678ced7c00baea035601dbf3512024b3671709",
+      "Powers/TheHuntPower": "43374cbcafc861297ef38c1bafc927c14e62bd231ce1a8a4265760e062955486",
+      "Powers/ThornsPower": "851d217876c36be8ba65b093986fa6aaa7ae6046f219ee27ef0eb2964af6a741",
+      "Powers/ToolsOfTheTradePower": "3c05022444fb9e9b92c3848a61e52937c3150c6a6db094ec4b77537f6f696488",
+      "Powers/TrackingPower": "61643588b7b8b701319e5ec37b03a2417aea333439b0075215830fb91faa5215",
+      "Powers/WellLaidPlansPower": "170b9f7435f09cf0eec9e6ec2fa668da998931db43b30f782f439710514466a5",
+      "Powers/WeakPower": "6837912329f1c723a52362d87a0ba64a1eb03a27cd6d1e26ae707393145a5d4a",
+      "Powers/VulnerablePower": "8349fb671f3729b1da0d117b547be6b82adfddbfa10757876a2f106d01960d7a",
+      "Powers/ArtifactPower": "d2b7f2c1bfc36466e5ab0bd4e4581697c8299ce579c6f978a4fe7a1535c9eb3a",
+      "Powers/DexterityPower": "f6b561122838f50bda6bb7c3e9e42a54d738ad2f7b8ca6009963896107bac1e9",
+      "Powers/StrengthPower": "70eb670ee85e6d4c92c68f9e20f869035de8f299880e1c49a97ce45a52437a69",
+      "Enchantments/Inky": "0171bc9e4dcdb92623bd76f580b5c29547988bc1456f074033006f5f4e1e3c5b"
+    },
+    "tests": "858 passed in 258.55s (0:04:18)",
+    "ruff": "All checks passed!",
+    "base_control_transcripts": 192,
+    "control_independent_native": {
+      "match": 36382,
+      "unresolved": 3689
+    },
+    "control_pocketwatch": [
+      [
+        "CSV11DEV_SEEDED_0014",
+        2,
+        2,
+        1,
+        "mismatch",
+        "match"
+      ],
+      [
+        "CSV11DEV_SEEDED_0014",
+        2,
+        2,
+        2,
+        "match",
+        "match"
+      ],
+      [
+        "CSV11DEV_SEEDED_0014",
+        2,
+        3,
+        1,
+        "match",
+        "match"
+      ],
+      [
+        "CSV11DEV_SEEDED_0014",
+        2,
+        3,
+        2,
+        "match",
+        "match"
+      ]
+    ]
+  }
+}

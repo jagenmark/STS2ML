@@ -75,6 +75,22 @@ def inventory(decompiled):
     return sorted(result, key=lambda r: r["card"])
 
 
+def model_hashes(root):
+    cards = PROMOTED | WAVE | {"TOOLS_OF_THE_TRADE", "WELL_LAID_PLANS", "I_AM_INVINCIBLE", "SHIV"}
+    powers = """Accuracy BlockNextTurn CorrosiveWave DoubleDamage Envenom FreeSkill InfiniteBlades NoDraw
+                PhantomBlades PiercingWail RetainHand SerpentForm Shadowmeld ShadowStep Speedster Strangle
+                TheHunt Thorns ToolsOfTheTrade Tracking WellLaidPlans Weak Vulnerable Artifact Dexterity Strength""".split()
+    models = {
+        "CardPools": ["SilentCardPool"],
+        "Cards": ["".join(w.title() for w in name.split("_")) for name in sorted(cards)],
+        "Powers": [name + "Power" for name in powers],
+        "Enchantments": ["Inky"],
+    }
+    return {f"{group}/{name}": hashlib.sha256(
+        (root / ("MegaCrit.Sts2.Core.Models." + group) / (name + ".cs")).read_bytes()).hexdigest()
+        for group, names in models.items() for name in names}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for arg in ("run", "decompiled", "qualification"):
@@ -94,6 +110,12 @@ def main():
         totals[arm] = {k: details[k] for k in ("n", "mean_floor", "a1_clears", "a2_entries", "a2_clears",
                        "a3_entries", "wins", "bosses", "native", "p50_ms", "p95_ms", "latency_n")}
         totals[arm]["matches_per_100"] = 100 * details["native"]["match"] / details["latency_n"]
+        totals[arm]["a1_entries"] = sum(any(act == 1 for act, _ in r["boss_fights"]) for r in rows)
+        totals[arm]["modes"] = {}
+        for mode in ("default", "seeded"):
+            subset = summarize([r for r in rows if r["act_list"] == mode])
+            totals[arm]["modes"][mode] = dict(starts=subset["n"], mean_floor=subset["mean_floor"],
+                matches_per_100=100 * subset["native"]["match"] / subset["latency_n"])
         counts[arm] = {}
         for name in sorted(PROMOTED | WAVE | {"TOOLS_OF_THE_TRADE", "WELL_LAID_PLANS"}):
             verdicts = Counter()
@@ -109,10 +131,13 @@ def main():
     comparisons["arm2_minus_arm1"] = paired(records["arm1"], records["arm2"])
     pool = inventory(args.decompiled)
     qualification = json.loads((args.qualification / "qualification.json").read_bytes())
+    qualification["decompiled_model_hashes"] = model_hashes(args.decompiled)
     qualification["tests"] = (args.qualification / "pytest.log").read_text(encoding="utf-8").strip().splitlines()[-1]
     qualification["ruff"] = (args.qualification / "ruff.log").read_text(encoding="utf-8").strip()
     qualification["base_control_transcripts"] = len(json.loads((args.qualification / "control-replay.json").read_bytes()))
     assert qualification["base_control_transcripts"] == len(cohort())
+    assert re.fullmatch(r"\d+ passed in .+", qualification["tests"])
+    assert qualification["ruff"] == "All checks passed!"
     quality = Counter()
     pocketwatch = []
     for row in records["control"]:
@@ -145,6 +170,12 @@ def report(data, path):
         f"{a['delta']:+.2f} floors (95% paired interval {a['ci95'][0]:+.2f} to {a['ci95'][1]:+.2f}). "
         f"Arm B with the same rules finished {b['delta']:+.2f} floors relative to the v6.5 Arm A control. "
         "Both v6.6 arms recorded zero native mismatches.", "",
+        f"Arm A gained {totals['arm1']['matches_per_100'] - totals['control']['matches_per_100']:.2f} native matches "
+        f"per 100 combat decisions. Its floor interval spans zero. Arm B's floor interval was "
+        f"{b['ci95'][0]:+.2f} to {b['ci95'][1]:+.2f}. Its Act 2 boss clears fell from "
+        f"{totals['control']['a2_clears']} in control to {totals['arm2']['a2_clears']}. "
+        f"The p95 combat decision took {totals['arm1']['p95_ms']:.1f} ms in Arm 1 and {totals['arm2']['p95_ms']:.1f} ms "
+        f"in Arm 2, compared with {totals['control']['p95_ms']:.1f} ms in control.", "",
         "## Paired development results", "",
         "| Metric | Control · v6.5 A | Arm 1 · v6.6 A | Arm 2 · v6.6 B |",
         "|---|---:|---:|---:|",
@@ -153,12 +184,15 @@ def report(data, path):
         lines.append("| " + " | ".join([label, *(str(fn(totals[arm])) for arm in ARMS)]) + " |")
     row("Starts", lambda r: r["n"])
     row("Mean global floor", lambda r: f"{r['mean_floor']:.3f}")
-    row("Act 1 clears", lambda r: r["a1_clears"])
+    row("Act 1 boss clears / entries", lambda r: f"{r['a1_clears']} / {r['a1_entries']}")
     row("Act 2 boss clears / entries", lambda r: f"{r['a2_clears']} / {r['a2_entries']}")
     for boss in sorted(set().union(*(r["bosses"] for r in totals.values()))):
         row(boss + " clears / entries", lambda r: " / ".join(map(str, r["bosses"].get(boss, (0, 0)))))
     row("Act 3 boss entries", lambda r: r["a3_entries"])
     row("Full wins", lambda r: r["wins"])
+    for mode in ("default", "seeded"):
+        row(mode.capitalize() + " mean floor", lambda r: f"{r['modes'][mode]['mean_floor']:.3f}")
+        row(mode.capitalize() + " native matches per 100", lambda r: f"{r['modes'][mode]['matches_per_100']:.2f}")
     row("Combat decisions", lambda r: f"{r['latency_n']:,}")
     row("Native match / mismatch / unresolved", lambda r: " / ".join(f"{r['native'][k]:,}" for k in ("match", "mismatch", "unresolved")))
     row("Native matches per 100 combat decisions", lambda r: f"{r['matches_per_100']:.2f}")
@@ -196,8 +230,9 @@ def report(data, path):
                   "discounted future turn, capped at four turns. Remaining enemy HP after projected poison determines that horizon. "
                   "The native card rules and this search heuristic are tested separately.", "",
                   f"Helmer ran the CPU Python environment against host SHA-256 `{data['manifest']['host']}` and game "
-                  f"SHA-256 `{data['manifest']['game']}`. Native fixtures cover both upgrades of the Wave 1 and promoted cards, "
-                  "hidden-target and draw branches, prompt continuation, and replays of the original failing commands.", "",
+                  f"SHA-256 `{data['manifest']['game']}`. Native fixtures cover the base and upgraded forms of every Wave 1 and promoted card, "
+                  "hidden-target and draw branches, prompt continuation, and replays of the original failing commands. "
+                  "The JSON fingerprints the decompiled card, power, enchantment and pool models.", "",
                   f"Pytest reported **{q['tests']}**. Ruff reported **{q['ruff']}** across src and tests. "
                   "All 19 historical builder outputs, all ten v5 challenger files at efd9877, and 120 CSV2DEV receipts "
                   "matched their reference bytes. Each of off, active, shadow, frozen v5 and Kaiser contributed 24 receipts. "
@@ -206,7 +241,7 @@ def report(data, path):
                   "## Per-card triggers and hits", "",
                   "Each cell gives physical plays / native-matched card executions / attack hits in those executions. "
                   "Executions include replays and automatic plays. Hits count individual living targets struck, including blocked hits. "
-                  "The JSON also distinguishes per-play native matches, unresolved transitions and mismatches. Zero can mean a card was never acquired.", "",
+                  "The JSON also distinguishes per-play native matches, unresolved transitions and mismatches. Corrosive Wave saw no physical play in this cohort. Murder and Storm of Steel had no matched executions in either treatment. Dedicated native fixtures cover all three.", "",
                   "| Card | Control | Arm 1 | Arm 2 |", "|---|---:|---:|---:|"])
     for name in sorted(data["per_card"]["control"]):
         values = []
