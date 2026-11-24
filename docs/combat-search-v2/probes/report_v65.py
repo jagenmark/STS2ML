@@ -63,6 +63,42 @@ def audit(rows, arm):
     }
 
 
+def replay_audit(original, replay):
+    totals, reclassified = Counter(), Counter()
+    differing_steps = []
+    for first, second in zip(original, replay, strict=True):
+        # Both physical runs use the frozen acting policy and its original oracle.
+        # Timing and the second observer's annotations are the only new information.
+        def deterministic(row):
+            data = {
+                k: v
+                for k, v in row.items()
+                if k not in ("latency_us", "independent_native", "draw_order_boundaries")
+            }
+            data["mismatches"] = [
+                {k: v for k, v in m.items() if k not in ("ns", "independent_oracle")}
+                for m in row["mismatches"]
+            ]
+            return data
+
+        assert deterministic(first) == deterministic(second), first["seed"]
+        expected = Counter(first["native"])
+        for step, before, after in second["draw_order_boundaries"]:
+            assert before[0] == after[0] == "end_turn" and after[1] == "unresolved"
+            expected[before[1]] -= 1
+            expected[after[1]] += 1
+            reclassified[before[1]] += 1
+            differing_steps.append([first["seed"], step, before, after])
+        assert expected == Counter(second["independent_native"]), first["seed"]
+        totals.update(expected)
+    return dict(
+        native={k: totals[k] for k in ("match", "mismatch", "unresolved")},
+        deterministic_receipts=len(original),
+        boundaries=dict(reclassified),
+        steps=differing_steps,
+    )
+
+
 def analyze(archive):
     with zipfile.ZipFile(archive) as z:
         manifest = json.loads(z.read("manifest.json"))
@@ -74,9 +110,31 @@ def analyze(archive):
                 map(json.loads, gzip.decompress(z.read(arm + ".jsonl.gz")).splitlines())
             )
             assert [(r["seed"], r["act_list"]) for r in rows[arm]] == expected
+        replay = {}
+        if "reaudit/manifest.json" in z.namelist():
+            replay_manifest = json.loads(z.read("reaudit/manifest.json"))
+            for key in ("bundles", "lock", "workers", "host", "game"):
+                assert replay_manifest[key] == manifest[key]
+            assert replay_manifest["audit_draw_order_v65"]
+            for arm in ARMS:
+                repeat = list(
+                    map(
+                        json.loads,
+                        gzip.decompress(z.read("reaudit/" + arm + ".jsonl.gz")).splitlines(),
+                    )
+                )
+                replay[arm] = replay_audit(rows[arm], repeat)
         preflight = json.loads(z.read("qualification/preflight.json"))
         qualification = json.loads(z.read("qualification/qualification.json"))
         qualification["cohort"] = json.loads(z.read("qualification/cohort-proof.json"))
+        qualification["registered_pytest"] = (
+            z.read("qualification/registered-tests.log").decode().splitlines()[-1]
+        )
+        if replay:
+            qualification["final_pytest"] = (
+                z.read("qualification/final-tests.log").decode().splitlines()[-1]
+            )
+            qualification["final_ruff"] = z.read("qualification/final-ruff.log").decode().strip()
     results = {}
     for arm, episodes in rows.items():
         result = summarize(episodes)
@@ -88,6 +146,8 @@ def analyze(archive):
         results[arm] = result
     previous = json.loads((DOC / "v64-unified-draft.json").read_bytes())["arms"]["unified_size_0"]
     return dict(
+        independent_audit=replay,
+        audit_manifest=replay_manifest if replay else None,
         historical_csv9dev_b=previous,
         manifest=manifest,
         qualification=qualification,
