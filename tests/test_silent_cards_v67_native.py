@@ -251,6 +251,26 @@ def test_power_setup_scores(oracle):
     assert _power_value(protected) > _power_value(state) > 0
 
 
+@pytest.mark.parametrize("prompt", ("TOOLS_OF_THE_TRADE", "TOASTY_MITTENS"))
+def test_wraith_loss_follows_start_turn_selection(oracle, tmp_path, prompt):
+    deck = ["WRAITH_FORM", "DEFLECT", "DEFLECT", "DEFLECT"]
+    mittens = prompt == "TOASTY_MITTENS"
+    if mittens:
+        load_relics(oracle, tmp_path, {prompt}, deck, "SLIMED_BERSERKER_NORMAL")
+        a = next(a for a in legal_actions(oracle.public)
+                 if oracle.public["cards"][int(a.args["indices"])]["id"] == "CARD.DEFLECT")
+        oracle.public = oracle.command(**a.command())
+    else:
+        start(oracle, "WRAITH_FORM", [*deck, prompt], potions=["ENERGY_POTION"])
+        check(oracle, "use_potion")
+        check(oracle, "play_card", prompt)
+    check(oracle, "play_card", "WRAITH_FORM", late=mittens)
+    end = check(oracle, "end_turn", late=mittens)
+    assert oracle.public["decision"] == "card_select" and power(end.powers, "DEXTERITY") == 0
+    result = check(oracle, "select_cards", late=mittens)
+    assert power(result.powers, "DEXTERITY") == -1
+
+
 def test_wraith_turns(oracle):
     start(oracle, "WRAITH_FORM", ["WRAITH_FORM"], encounter="SHRINKER_BEETLE_WEAK")
     before = check(oracle, "play_card", "WRAITH_FORM")
@@ -280,6 +300,14 @@ def test_nightmare_witnessed_copy_at_reveal(oracle, upgraded, options):
         assert mode.records[-1].get("oracle", [None, None])[1] == "match", mode.records[-1]
     hand = [c["id"] for c in oracle.public["hand"]]
     assert hand[:3] == ["CARD.DEFLECT"] * 3 and hand.count("CARD.DEFLECT") == 4
+
+
+def test_nightmare_preserves_chosen_upgrade(oracle):
+    start(oracle, "DEFLECT", ["NIGHTMARE", "DEFLECT"], upgraded=True)
+    witness = check(oracle, "play_card", "NIGHTMARE")
+    assert witness.nightmare_card.upgrade == 1
+    check(oracle, "end_turn", prior=witness)
+    assert [(c["id"], c["upgrades"]) for c in oracle.public["hand"][:3]] == [("CARD.DEFLECT", 1)] * 3
 
 
 def test_pocketwatch_reset_and_refresh_around_mittens(oracle, tmp_path):

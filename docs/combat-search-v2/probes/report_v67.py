@@ -12,6 +12,9 @@ import zipfile
 from report_v64 import paired, summarize
 from report_v66 import inventory
 from sts2rl.combat_search_v2.silent_cards import BATCH2
+from sts2rl.combat_search_v2.state import Variant
+from sts2rl.combat_search_v2.transitions import card_supported
+from sts2rl.unified_draft import catalog
 from v64 import DOC
 from v67 import ARMS, BASE, cohort
 
@@ -57,6 +60,14 @@ def pool_inventory(decompiled):
         if r["card"] in NOTES:
             boundary = r["card"] in ("EXPERTISE", "NIGHTMARE")
             r.update(status="SUPPORTED_BOUNDARY" if boundary else "SUPPORTED_FULL", note=NOTES[r["card"]])
+        r["root_admission"] = []
+        for up, model in enumerate(catalog()[r["card"]]["variants"]):
+            card = Variant(r["card"], model["card_type"], model["cost"], model["target_type"], up,
+                           tuple(model["keywords"]), ("costs_x",) if model["costs_x"] else ())
+            admitted = card_supported(card, silent_cards_v67=True)
+            assert admitted == (r["group"] != "Multiplayer"), (card, r)
+            r["root_admission"].append(admitted)
+        assert len(r["root_admission"]) == 2
     assert Counter(r["group"] for r in rows) == {"Reward": 80, "Basic": 4, "Ancient": 2, "Multiplayer": 5}
     assert sum(r["status"].startswith("SUPPORTED_") for r in rows) == 86
     return rows
@@ -112,8 +123,23 @@ def report(result):
               "CombatState omits the relic from combat hooks. The corrected projection preserves the displayed "
               "relic for comparison and excludes its hooks after a witnessed melt. A permanent fixture replays "
               "all 12 originally failing treatment commands, including the Louse Progenitor and Insatiable "
-              "encounters. The table uses a fresh complete run with the corrected production oracle.",
-              "", "## Card evidence in the two v6.7 arms", "",
+              "encounters. The table uses a fresh complete run with the corrected production oracle."]
+    prior = json.loads((DOC / "v66-silent-cards-batch1.json").read_bytes())["totals"]["arm1"]
+    lines += ["", f"Treatment p95 was {t['p95_ms']:.2f} ms versus {a['p95_ms']:.2f} ms on the same lobbies. "
+              f"The earlier v6.6 A run measured {prior['p95_ms']:.2f} ms on CSV11DEV. "
+              "Expertise checks pile homogeneity at most three times per play. Master Planner scans the pending "
+              "play queue when a Skill first gains Sly. Mirage sums living enemy stacks once, and Nightmare creates "
+              "a fixed three copies."]
+    if scaling := result["qualification"].get("scaling"):
+        times = scaling["pile_sizes"]
+        lines += ["", "In a fixed-root timing check, increasing the draw pile from 32 to 512 cards changed "
+                  f"median Expertise transition time from {times['32']['expertise']:.1f} to "
+                  f"{times['512']['expertise']:.1f} µs. Master Planner setup scoring changed from "
+                  f"{times['32']['planner_value']:.1f} to {times['512']['planner_value']:.1f} µs. "
+                  "Each median uses seven batches of 256 calls."]
+    if pair["ci95"][0] <= 0 <= pair["ci95"][1]:
+        lines += ["", "The paired floor interval spans zero, so this cohort does not establish a progression gain."]
+    lines += ["", "## Card evidence in the two v6.7 arms", "",
               "Counts are physical plays / directly matched play transitions. An automatic Sly play can occur within "
               "another command. Pinned scenarios exercise each base and upgraded form independently of cohort acquisition.",
               "", "| Card | v6.7 A | v6.7 B |", "|---|---:|---:|"]
@@ -185,6 +211,8 @@ def main(run, qualification, decompiled):
             cards[arm][name] = dict(plays=sum(r["played"].get(name, 0) for r in records[arm]),
                                     **{k: verdicts[k] for k in ("match", "mismatch", "unresolved")})
     q = json.loads((qualification / "compatibility.json").read_bytes())
+    if (qualification / "scaling.json").is_file():
+        q["scaling"] = json.loads((qualification / "scaling.json").read_bytes())
     q["pytest"] = (qualification / "pytest.log").read_text().strip().splitlines()[-1]
     q["ruff"] = (qualification / "ruff.log").read_text().strip()
     assert re.fullmatch(r"\d+ passed in .+", q["pytest"]) and q["ruff"] == "All checks passed!"
