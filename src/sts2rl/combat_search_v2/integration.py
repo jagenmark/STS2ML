@@ -98,7 +98,8 @@ def _after_draw_prompt(suspended, public):
     if (suspended.boundary.reason != "draw" or public.get("decision") != "card_select"
             or not suspended.queue or suspended.queue[0].kind != "prompt"):
         return None
-    current = project(public, late_prompts=suspended.late, silent_cards_v66=suspended.silent_cards_v66).state
+    current = project(public, late_prompts=suspended.late, silent_cards_v66=suspended.silent_cards_v66,
+                      silent_cards_v67=suspended.silent_cards_v67).state
     event, *tail = suspended.queue
     if (current.prompt.operation != event.play.card.variant.name or not tail
             or any(op.kind not in ("after_play", "finish") for op in tail)
@@ -162,6 +163,7 @@ class CombatSearchV2:
         self.model_sha256 = model_sha256
         self.last_fallback = None
         self._prompt = None
+        self._nightmare = None
         self._decision = None
         self._round_key = None
         self._plays = -1
@@ -202,7 +204,7 @@ class CombatSearchV2:
             return
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
-                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64", "silent_cards_v66"):
+                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64", "silent_cards_v66", "silent_cards_v67"):
             if not config[switch]:
                 del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
@@ -230,8 +232,16 @@ class CombatSearchV2:
                 raise Unsupported("runtime")
             ctx = public.get("combat_state", public).get("context") or {}
             late_root = self.config.late_root(ctx.get("act"), ctx.get("room_type"))
-            projected = project(public, late_prompts=late_root, silent_cards_v66=self.config.silent_cards_v66)
+            projected = project(public, late_prompts=late_root, silent_cards_v66=self.config.silent_cards_v66,
+                                silent_cards_v67=self.config.silent_cards_v67)
             state = projected.state
+            if self._nightmare:
+                key, card = self._nightmare
+                if key == (state.act, state.floor, state.round) and dict(state.powers).get("NIGHTMARE") == 3:
+                    state = replace(state, nightmare_card=card)
+                    projected = replace(projected, state=state)
+                else:
+                    self._nightmare = None
             if free_hand and self.config.silent_cards_v66:
                 key, hand = free_hand
                 if key == (state.act, state.floor, state.round) and (
@@ -467,11 +477,12 @@ class CombatSearchV2:
                        if predicted.outcome == "dead" else not after.get("in_combat"))
             evidence = "match" if matches else "mismatch"
             reason = "" if matches else "outcome"
-        elif (self.records is not None or predicted.prompt or (predicted.silent_cards_v66 and
+        elif (self.records is not None or predicted.prompt or predicted.nightmare_card or (predicted.silent_cards_v66 and
               dict(predicted.powers).get("FREE_SKILL")) or ((predicted.late or predicted.silent_cards_v66) and predicted.outcome == "completed"
                 and after.get("decision") == "card_select")):
             try:
-                actual = project(after, late_prompts=predicted.late, silent_cards_v66=predicted.silent_cards_v66)
+                actual = project(after, late_prompts=predicted.late, silent_cards_v66=predicted.silent_cards_v66,
+                                silent_cards_v67=predicted.silent_cards_v67)
                 if predicted.late:
                     actual = replace(actual, state=replace(actual.state, late=True, facing=predicted.facing,
                                      preview_facing=predicted.facing, sloth_plays=self._plays,
@@ -484,6 +495,8 @@ class CombatSearchV2:
                     if native != legal(actual.state) or expected != _normalized_legal(actual.state):
                         reason = "legality"
                 evidence = "mismatch" if reason else "match"
+                if not reason and predicted.nightmare_card:
+                    self._nightmare = (predicted.act, predicted.floor, predicted.round), predicted.nightmare_card
                 if (not reason and predicted.silent_cards_v66 and not predicted.outcome and
                         any(c.variant.free_skill_cost >= 0 for c in predicted.hand)):
                     self._free_skill_hand = (predicted.act, predicted.floor, predicted.round), predicted.hand

@@ -34,7 +34,7 @@ def untracked_plays(state, card):
         return True
     if state.silent_cards_v66 and card.name == "KNIFE_TRAP" and any(v.name == "SHIV" for v in state.exhaust):
         return True
-    if not card_supported(card, True, silent_cards_v66=state.silent_cards_v66) or power(state.powers, "DUPLICATION"):
+    if not card_supported(card, True, silent_cards_v66=state.silent_cards_v66, silent_cards_v67=state.silent_cards_v67) or power(state.powers, "DUPLICATION"):
         return True
     if card.kind == "Skill" and power(state.powers, "BURST"):
         return True

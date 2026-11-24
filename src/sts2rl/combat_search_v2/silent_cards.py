@@ -3,6 +3,8 @@ from dataclasses import replace
 
 from .state import Card, Effect, Play, add_power, power, set_power
 
+BATCH2 = {"EXPERTISE", "MASTER_PLANNER", "MIRAGE", "SUPPRESS", "UNTOUCHABLE", "WRAITH_FORM"}
+
 PROMOTED = {
     "ACCURACY", "ASSASSINATE", "BOUNCING_FLASK", "ECHOING_SLASH", "ENVENOM",
     "EXTERMINATE", "HAND_TRICK", "HIDDEN_DAGGERS", "INFINITE_BLADES", "OUTBREAK",
@@ -87,7 +89,7 @@ def retain_shivs(state):
                    **{z: tuple(sorted(retain(v) for v in getattr(state, z))) for z in ("draw", "discard", "exhaust")})
 
 
-def draw_known(state, count, escape_plan):
+def draw_known(state, count, escape_plan, *, expertise=False):
     from .transitions import _damage, _debuff, block_gain, boundary
 
     initial = state
@@ -101,7 +103,7 @@ def draw_known(state, count, escape_plan):
                 power(state.powers, "CONFUSED") or power(state.powers, "FREE_SKILL") or
                 card.free_skill_cost >= 0):
             return boundary(initial, "draw", count, shuffled)
-        drawn = replace(card, stats=())
+        drawn = replace(card, stats=(), flags=("retain_this_turn",) if expertise else card.flags)
         state = replace(state, hand=(*state.hand, Card(state.next_slot, drawn)), next_slot=state.next_slot + 1,
                         draw=state.draw[1:], draws_this_combat=(
                             state.draws_this_combat + 1 if state.draws_this_combat >= 0 else -1))
@@ -123,6 +125,26 @@ def draw_known(state, count, escape_plan):
     return state
 
 
+def player_debuff(powers, name, amount):
+    if power(powers, "ARTIFACT"):
+        return add_power(powers, "ARTIFACT", -1)
+    return add_power(powers, name, amount)
+
+
+def choose_nightmare(state, slot):
+    from .transitions import boundary
+
+    v = next(c.variant for c in state.hand if c.slot == slot)
+    if v.flags or v.modifier or v.free_skill_cost >= 0:
+        return boundary(state, "nightmare modified clone")
+    return replace(state, powers=add_power(state.powers, "NIGHTMARE", 3), nightmare_card=v)
+
+
+def wraith_turn_start(powers):
+    amount = power(powers, "WRAITH_FORM")
+    return player_debuff(powers, "DEXTERITY", -amount) if amount else powers
+
+
 def finish_tools_start(state):
     from .transitions import _debuff
 
@@ -130,6 +152,8 @@ def finish_tools_start(state):
     for name in ("PLATING", "CLARITY"):
         if power(powers, name):
             powers = add_power(powers, name, -1)
+    if state.silent_cards_v67:
+        powers = wraith_turn_start(powers)
     state = replace(state, powers=powers)
     relics = list(state.relics)
     for i, r in enumerate(relics):

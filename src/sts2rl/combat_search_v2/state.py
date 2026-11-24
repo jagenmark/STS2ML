@@ -203,10 +203,12 @@ class State:
     puzzle_triggered: bool = False
     melted_fan: bool = False
     silent_cards_v66: bool = False
+    silent_cards_v67: bool = False
     attacks_this_turn: int = -1
     discards_this_turn: int = -1
     draws_this_combat: int = -1
     shivs_this_turn: int = -1
+    nightmare_card: Variant | None = None
 
     @property
     def hallway(self):
@@ -260,8 +262,9 @@ def _indices(rows):
     return indices
 
 
-def project(public, *, late_prompts=False, silent_cards_v66=False):
+def project(public, *, late_prompts=False, silent_cards_v66=False, silent_cards_v67=False):
     """Read explicit fields only, with stable local slots and unordered piles."""
+    silent_cards_v66 = silent_cards_v66 or silent_cards_v67
     decision = public["decision"]
     is_prompt = decision == "card_select"
     if is_prompt and public.get("in_combat"):
@@ -314,7 +317,7 @@ def project(public, *, late_prompts=False, silent_cards_v66=False):
                   seal_gold=integer(player["gold"]) if any(r.name == "SEAL_OF_GOLD" for r in relics) else 0)
     if silent_cards_v66:
         from .silent_cards import history_counts
-        state = replace(state, silent_cards_v66=True, **history_counts(hand, state))
+        state = replace(state, silent_cards_v66=True, silent_cards_v67=silent_cards_v67, **history_counts(hand, state))
     prompt_indices = ()
     if late_prompts and state.act == 2 and state.room == "Elite" and any(
             e.name.startswith("DECIMILLIPEDE_SEGMENT_") for e in enemies):
@@ -370,7 +373,8 @@ def _public_prompt(public, state, late_prompts=False):
         card = "TOASTY_MITTENS"
     elif source.get("kind") != "play_card" or (card not in ("SURVIVOR", "ACROBATICS", "PREPARED", "DAGGER_THROW")
                                               and not ((late_prompts or state.silent_cards_v66) and card == "HIDDEN_DAGGERS")
-                                              and not (state.silent_cards_v66 and card == "HAND_TRICK")):
+                                              and not (state.silent_cards_v66 and card == "HAND_TRICK")
+                                              and not (state.silent_cards_v67 and card == "NIGHTMARE")):
         raise Unsupported("selection operation")
     if not mittens and not tools and (len(state.play) != 1 or state.play[0].name != card):
         raise Unsupported("selection continuation")

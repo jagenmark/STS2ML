@@ -44,6 +44,8 @@ def _power_value(state):
     """Discount future uses by public HP remaining and density in the live piles."""
     extra = {"WELL_LAID_PLANS", "TRACKING", "SPEEDSTER", "BLOCK_NEXT_TURN", "SHADOW_STEP",
              "DOUBLE_DAMAGE", "FREE_SKILL", "CORROSIVE_WAVE", "SHADOWMELD"} if state.silent_cards_v66 else ()
+    if state.silent_cards_v67:
+        extra = {*extra, "MASTER_PLANNER", "WRAITH_FORM", "INTANGIBLE"}
     if not any(name in _SCALING or name in extra for name, _ in state.powers):
         return 0.0
     p = dict(state.powers)
@@ -83,6 +85,14 @@ def _power_value(state):
         per_turn += (2.2 * bool(p.get("WELL_LAID_PLANS")) + 0.025 * p.get("TRACKING", 0)
                      * min(2, sum(bool(power(e.powers, "WEAK")) for e in living))
                      + 0.6 * p.get("SPEEDSTER", 0))
+    if state.silent_cards_v67:
+        if p.get("MASTER_PLANNER"):
+            discarders = sum(c.name in {"SURVIVOR", "PREPARED", "ACROBATICS", "DAGGER_THROW", "CALCULATED_GAMBLE",
+                                        "HIDDEN_DAGGERS", "STORM_OF_STEEL"} for c in cards)
+            per_turn += min(2, fraction * (discarders + p.get("TOOLS_OF_THE_TRADE", 0))) * min(
+                2, fraction * sum(c.kind == "Skill" and "Sly" not in c.keywords for c in cards))
+        immediate += 2.5 * min(turns, p.get("INTANGIBLE", 0))
+        per_turn -= 0.7 * p.get("WRAITH_FORM", 0)
     return immediate + turns * per_turn + min(turns, p.get("BLUR", 0)) * min(2, 0.2 * state.block)
 
 

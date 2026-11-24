@@ -399,7 +399,7 @@ def _start_player(state, prior_powers):
                 energy += power(relic.stats, "energy")
                 additional_public_energy += power(relic.stats, "energy")
             if relic.name == "POCKETWATCH":
-                if relic.status == "Active":
+                if ((relic.counter or 0) <= 3 if state.silent_cards_v67 else relic.status == "Active"):
                     bonus_draw += power(relic.stats, "cards")
                 relic = replace(relic, counter=0, status="Active")
             if relic.name == "VELVET_CHOKER":
@@ -466,6 +466,13 @@ def _start_player(state, prior_powers):
                  power(powers, "TOOLS_OF_THE_TRADE") and any("Sly" in v.keywords for v in
                  (*state.draw, *state.discard, *(c.variant for c in state.hand))))):
             return boundary(state, "tools automatic discard ordering")
+    if state.silent_cards_v67 and state.nightmare_card and (copies := power(powers, "NIGHTMARE")):
+        from .state import Card
+        if len(state.hand) + copies > HAND_CAP or power(powers, "INFINITE_BLADES"):
+            return boundary(state, "nightmare generated hand ordering")
+        generated = tuple(Card(state.next_slot + i, state.nightmare_card) for i in range(copies))
+        state = replace(state, hand=(*state.hand, *generated), next_slot=state.next_slot + copies, nightmare_card=None)
+        powers = set_power(powers, "NIGHTMARE", 0)
     for name in (("NIGHTMARE",) if state.silent_cards_v66 else ("NIGHTMARE", "TOOLS_OF_THE_TRADE")):
         if hp and power(powers, name):
             reveal, outcome = Boundary(f"start/{name}"), ""
@@ -503,6 +510,9 @@ def _start_player(state, prior_powers):
                     additional_public_energy -= power(relic.stats, "energy")
                 if relic.name == "LETTER_OPENER":
                     relics[i] = state.relics[i]
+    if state.silent_cards_v67 and not tools_prompt and not mittens:
+        from .silent_cards import wraith_turn_start
+        powers = wraith_turn_start(powers)
     if not tools_prompt and (fumes := power(powers, "NOXIOUS_FUMES")):
         from .transitions import _debuff
 
