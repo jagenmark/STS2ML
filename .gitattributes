@@ -2,6 +2,7 @@
 docs/combat-search-v2/models/v5-search.json text eol=lf
 docs/combat-search-v2/models/v6-search.json text eol=lf
 docs/combat-search-v2/v6-final768-lock.json text eol=lf
+docs/combat-search-v2/v6-audit384-lock.json text eol=lf
 docs/combat-search-v2/v6-dev-lock.json text eol=lf
 docs/combat-search-v2/v62-dev-lock.json text eol=lf
 releases/silent-a10-encounter-draft/** -text

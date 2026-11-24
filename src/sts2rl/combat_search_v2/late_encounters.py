@@ -84,7 +84,8 @@ def move(state, enemy, kinds):
         if name == "CRUSHER" and kinds == {"Debuff"}:
             return player_debuff(player_debuff(state, "WEAK", 2), "FRAIL", 2)
         if name == "CRUSHER" and kinds == {"Defend"}:
-            return _update(state, enemy.slot, block=18)
+            # Poison can kill Rocket after block clears but before Crusher acts.
+            return _update(state, enemy.slot, block=enemy.block + 18)
         if name == "ROCKET" and kinds == {"Sleep"}:
             return state
     if name == "KNOWLEDGE_DEMON":

@@ -1,0 +1,5668 @@
+{
+  "analysis": {
+    "bosses": {
+      "CRUSHER+ROCKET": {
+        "clears": 1,
+        "entries": 45
+      },
+      "KNOWLEDGE_DEMON": {
+        "clears": 19,
+        "entries": 42
+      },
+      "THE_INSATIABLE": {
+        "clears": 9,
+        "entries": 37
+      }
+    },
+    "by_mode": {
+      "default": {
+        "a1_clears": 128,
+        "a2_boss_entries": 66,
+        "a2_clears": 14,
+        "a3_boss_entries": 5,
+        "full_wins": 0,
+        "mean_floor": 25.677083333333332,
+        "n": 192
+      },
+      "seeded": {
+        "a1_clears": 124,
+        "a2_boss_entries": 58,
+        "a2_clears": 15,
+        "a3_boss_entries": 6,
+        "full_wins": 0,
+        "mean_floor": 25.401041666666668,
+        "n": 192
+      }
+    },
+    "coverage": {
+      "act1": {
+        "classes": {
+          "covered": 39660,
+          "mechanic_or_scope": 14381,
+          "search_certification": 6657
+        },
+        "covered": 39660,
+        "eligible": 60698,
+        "pct": 65.34,
+        "reasons": {
+          "active orb": 27,
+          "card/ABRASIVE": 5,
+          "card/ACCURACY": 8,
+          "card/ASSASSINATE": 8,
+          "card/ASTRAL_PULSE": 57,
+          "card/AUTOMATION": 1,
+          "card/BACKFLIP": 10,
+          "card/BALL_LIGHTNING": 43,
+          "card/BLADE_OF_INK": 5,
+          "card/BLIGHT_STRIKE": 68,
+          "card/BLOODLETTING": 66,
+          "card/BOLAS": 9,
+          "card/BOUNCING_FLASK": 220,
+          "card/BURY": 28,
+          "card/CELESTIAL_MIGHT": 16,
+          "card/CHARGE_BATTERY": 34,
+          "card/CINDER": 27,
+          "card/CLASH": 11,
+          "card/CLOAK_AND_DAGGER": 47,
+          "card/COLLISION_COURSE": 3,
+          "card/DARK_SHACKLES": 25,
+          "card/DEADLY_POISON": 19,
+          "card/DEBRIS": 10,
+          "card/DEFILE": 15,
+          "card/DEVASTATE": 39,
+          "card/DISTRACTION": 23,
+          "card/DRAIN_POWER": 12,
+          "card/DRAMATIC_ENTRANCE": 89,
+          "card/ENTROPY": 2,
+          "card/ENVENOM": 6,
+          "card/EQUILIBRIUM": 2,
+          "card/EXPOSE": 6,
+          "card/FIGHT_ME": 15,
+          "card/FINESSE": 25,
+          "card/FISTICUFFS": 81,
+          "card/FLAME_BARRIER": 27,
+          "card/FLASH_OF_STEEL": 3,
+          "card/FOCUSED_STRIKE": 9,
+          "card/GUNK_UP": 29,
+          "card/HAND_TRICK": 44,
+          "card/HEADBUTT": 20,
+          "card/HEGEMONY": 12,
+          "card/HELLO_WORLD": 56,
+          "card/HIDDEN_DAGGERS": 229,
+          "card/INFINITE_BLADES": 2,
+          "card/IRON_WAVE": 17,
+          "card/LEAP": 31,
+          "card/LEG_SWEEP": 22,
+          "card/MASTER_PLANNER": 59,
+          "card/OMNISLICE": 16,
+          "card/OUTMANEUVER": 4,
+          "card/PANACHE": 1,
+          "card/PATTER": 20,
+          "card/PHANTOM_BLADES": 9,
+          "card/PHOTON_CUT": 32,
+          "card/PIERCING_WAIL": 19,
+          "card/PINPOINT": 406,
+          "card/PRODUCTION": 26,
+          "card/PURITY": 1,
+          "card/REBOUND": 17,
+          "card/REFRACT": 28,
+          "card/REND": 2,
+          "card/RESTLESSNESS": 82,
+          "card/RIGHT_HAND_HAND": 89,
+          "card/RIP_AND_TEAR": 23,
+          "card/SALVO": 25,
+          "card/SCULPTING_STRIKE": 16,
+          "card/SEEKER_STRIKE": 108,
+          "card/SHADOW_STEP": 3,
+          "card/SHIV": 9,
+          "card/SHRUG_IT_OFF": 4,
+          "card/SIDESTEP": 2,
+          "card/SOLAR_STRIKE": 46,
+          "card/SOW": 18,
+          "card/SPEEDSTER": 45,
+          "card/SPITE": 11,
+          "card/SPORE_MIND": 63,
+          "card/STACK": 8,
+          "card/STRANGLE": 123,
+          "card/SURVIVOR": 408,
+          "card/THE_GAMBIT": 2,
+          "card/THE_HUNT": 28,
+          "card/THRUMMING_HATCHET": 22,
+          "card/ULTIMATE_DEFEND": 40,
+          "card/ULTIMATE_STRIKE": 31,
+          "card/UNRELENTING": 16,
+          "card/UNTOUCHABLE": 11,
+          "card/UPPERCUT": 28,
+          "card/VOLLEY": 47,
+          "champion continuation unresolved": 2511,
+          "covered": 39660,
+          "enemy power/DARK_SHACKLES": 33,
+          "enemy power/DEMISE": 266,
+          "enemy power/DOOM": 145,
+          "enemy power/PIERCING_WAIL": 7,
+          "enemy power/SHACKLING_POTION": 20,
+          "enemy power/SHRINK": 49,
+          "enemy power/STRANGLE": 71,
+          "fogmog hidden revival state": 56,
+          "no certified survival": 2731,
+          "no no-potion comparison": 4,
+          "player power/AMBERGRIS": 95,
+          "player power/AUTOMATION": 41,
+          "player power/BLOCK_NEXT_TURN": 21,
+          "player power/DOUBLE_DAMAGE": 1,
+          "player power/ENTROPY": 23,
+          "player power/ENVENOM": 173,
+          "player power/FLAME_BARRIER": 2,
+          "player power/FLEX_POTION": 228,
+          "player power/FOCUS": 12,
+          "player power/FREE_ATTACK": 5,
+          "player power/FREE_SKILL": 225,
+          "player power/HELICAL_DART": 7,
+          "player power/INFINITE_BLADES": 81,
+          "player power/MASTER_PLANNER": 49,
+          "player power/NO_BLOCK": 85,
+          "player power/PANACHE": 13,
+          "player power/REBOUND": 2,
+          "player power/REPTILE_TRINKET": 70,
+          "player power/RETAIN_HAND": 46,
+          "player power/RINGING": 153,
+          "player power/SHADOW_STEP": 1,
+          "player power/SPEEDSTER": 36,
+          "player power/TANGLED": 254,
+          "player power/THE_GAMBIT": 20,
+          "profile/BYGONE_EFFIGY": 734,
+          "profile/FAT_GREMLIN": 55,
+          "profile/FOSSIL_STALKER": 457,
+          "profile/GAS_BOMB": 105,
+          "profile/GREMLIN_MERC": 423,
+          "profile/LIVING_FOG": 468,
+          "profile/PHANTASMAL_GARDENER": 374,
+          "profile/SKULKING_COLONY": 210,
+          "profile/SNEAKY_GREMLIN": 121,
+          "profile/TERROR_EEL": 164,
+          "relic/BEATING_REMNANT": 113,
+          "relic/BELT_BUCKLE": 87,
+          "relic/BREAD": 231,
+          "relic/CHEMICAL_X": 113,
+          "relic/DRAGON_FRUIT": 29,
+          "relic/GHOST_SEED": 140,
+          "relic/HELICAL_DART": 149,
+          "relic/ICE_CREAM": 321,
+          "relic/KUNAI": 382,
+          "relic/MEAT_ON_THE_BONE": 310,
+          "relic/MERCURY_HOURGLASS": 607,
+          "relic/RAINBOW_RING": 272,
+          "relic/RAZOR_TOOTH": 471,
+          "relic/ROYAL_STAMP": 53,
+          "relic/SHURIKEN": 204,
+          "relic/SLING_OF_COURAGE": 46,
+          "relic/STONE_CALENDAR": 148,
+          "relic/TOOLBOX": 47,
+          "relic/TUNGSTEN_ROD": 126,
+          "selection continuation": 1,
+          "selection operation": 541,
+          "uncertified root at cap": 1411,
+          "unreconciled prompt": 966,
+          "waterfall post-knockout eruption": 112
+        }
+      },
+      "act2": {
+        "classes": {
+          "champion_or_deadline": 142,
+          "covered": 15904,
+          "mechanic_or_scope": 4695,
+          "search_certification": 6946
+        },
+        "covered": 15904,
+        "eligible": 27687,
+        "pct": 57.442,
+        "reasons": {
+          "active orb": 7,
+          "card/ABRASIVE": 5,
+          "card/ASTRAL_PULSE": 8,
+          "card/BALL_LIGHTNING": 23,
+          "card/BANSHEES_CRY": 26,
+          "card/BLIGHT_STRIKE": 13,
+          "card/BLOODLETTING": 26,
+          "card/BLOOD_WALL": 10,
+          "card/BLUDGEON": 5,
+          "card/BOLAS": 18,
+          "card/BORROWED_TIME": 4,
+          "card/BOUNCING_FLASK": 16,
+          "card/BREAKTHROUGH": 6,
+          "card/BUBBLE_BUBBLE": 11,
+          "card/BULLET_TIME": 4,
+          "card/BURY": 41,
+          "card/CAPTURE_SPIRIT": 15,
+          "card/CELESTIAL_MIGHT": 25,
+          "card/CHARGE_BATTERY": 15,
+          "card/CINDER": 47,
+          "card/CLASH": 21,
+          "card/CLOAK_AND_DAGGER": 3,
+          "card/CLOAK_OF_STARS": 7,
+          "card/CORROSIVE_WAVE": 9,
+          "card/CRASH_LANDING": 2,
+          "card/DARK_SHACKLES": 12,
+          "card/DEADLY_POISON": 10,
+          "card/DEBILITATE": 2,
+          "card/DEBRIS": 7,
+          "card/DEFILE": 39,
+          "card/DEFY": 8,
+          "card/DELAY": 12,
+          "card/DEMESNE": 6,
+          "card/DEVASTATE": 8,
+          "card/DODGE_AND_ROLL": 1,
+          "card/DOUBT": 1,
+          "card/DRAIN_POWER": 28,
+          "card/DYING_STAR": 4,
+          "card/ENVENOM": 7,
+          "card/EQUILIBRIUM": 6,
+          "card/ESCAPE_PLAN": 12,
+          "card/EXPERTISE": 22,
+          "card/EXTERMINATE": 175,
+          "card/FIGHT_ME": 11,
+          "card/FISTICUFFS": 52,
+          "card/FLAME_BARRIER": 13,
+          "card/FRIENDSHIP": 21,
+          "card/GUNK_UP": 6,
+          "card/HAZE": 14,
+          "card/HEADBUTT": 5,
+          "card/HEAVENLY_DRILL": 1,
+          "card/HEGEMONY": 13,
+          "card/HELLO_WORLD": 55,
+          "card/HIDDEN_DAGGERS": 6,
+          "card/HYPERBEAM": 15,
+          "card/IMPERVIOUS": 7,
+          "card/INFLAME": 13,
+          "card/KNIFE_TRAP": 2,
+          "card/LEG_SWEEP": 3,
+          "card/MASTER_PLANNER": 27,
+          "card/MELANCHOLY": 9,
+          "card/METAMORPHOSIS": 244,
+          "card/MIRAGE": 13,
+          "card/MISERY": 19,
+          "card/MURDER": 2,
+          "card/NEUROSURGE": 14,
+          "card/OUTBREAK": 3,
+          "card/OUTMANEUVER": 39,
+          "card/PACTS_END": 1,
+          "card/PARTICLE_WALL": 3,
+          "card/PATTER": 22,
+          "card/PHOTON_CUT": 30,
+          "card/PIERCING_WAIL": 12,
+          "card/PRODUCTION": 7,
+          "card/PROWESS": 1,
+          "card/PURITY": 1,
+          "card/REAP": 66,
+          "card/REAVE": 19,
+          "card/REBOUND": 13,
+          "card/RESTLESSNESS": 51,
+          "card/RIGHT_HAND_HAND": 6,
+          "card/SALVO": 18,
+          "card/SCULPTING_STRIKE": 77,
+          "card/SERPENT_FORM": 3,
+          "card/SETUP_STRIKE": 16,
+          "card/SEVERANCE": 6,
+          "card/SHADOWMELD": 3,
+          "card/SHADOW_STEP": 1,
+          "card/SNAKEBITE": 17,
+          "card/SOLAR_STRIKE": 39,
+          "card/SOUL": 17,
+          "card/SOW": 25,
+          "card/SPEEDSTER": 18,
+          "card/SPITE": 2,
+          "card/SPORE_MIND": 2,
+          "card/SQUEEZE": 15,
+          "card/STACK": 11,
+          "card/STORM_OF_STEEL": 8,
+          "card/STRANGLE": 39,
+          "card/STRATAGEM": 1,
+          "card/SURVIVOR": 17,
+          "card/THE_GAMBIT": 2,
+          "card/THRUMMING_HATCHET": 21,
+          "card/TRACKING": 9,
+          "card/ULTIMATE_DEFEND": 9,
+          "card/UNDEATH": 31,
+          "card/UNTOUCHABLE": 26,
+          "card/VOLLEY": 14,
+          "champion continuation unresolved": 1900,
+          "champion knowledge curse": 95,
+          "covered": 15904,
+          "disabled wax relic": 212,
+          "enemy power/DARK_SHACKLES": 10,
+          "enemy power/DEBILITATE": 7,
+          "enemy power/DOOM": 21,
+          "enemy power/PIERCING_WAIL": 12,
+          "enemy power/SHACKLING_POTION": 13,
+          "enemy power/SHRINK": 10,
+          "enemy power/STRANGLE": 36,
+          "living Osty": 7,
+          "no certified survival": 3969,
+          "no no-potion comparison": 4,
+          "obscura hidden revival state": 111,
+          "player power/BLOCK_NEXT_TURN": 19,
+          "player power/BORROWED_TIME": 10,
+          "player power/CORROSIVE_WAVE": 1,
+          "player power/DOOM": 78,
+          "player power/DOUBLE_DAMAGE": 4,
+          "player power/FLAME_BARRIER": 3,
+          "player power/FOCUS": 11,
+          "player power/FREE_SKILL": 100,
+          "player power/FRIENDSHIP": 113,
+          "player power/HELICAL_DART": 35,
+          "player power/MASTER_PLANNER": 13,
+          "player power/NEUROSURGE": 74,
+          "player power/REPTILE_TRINKET": 48,
+          "player power/SERPENT_FORM": 24,
+          "player power/SETUP_STRIKE": 45,
+          "player power/SHADOWMELD": 14,
+          "player power/SHADOW_STEP": 5,
+          "player power/SHROUD": 5,
+          "player power/STRATAGEM": 15,
+          "player power/THE_GAMBIT": 9,
+          "player power/TRACKING": 43,
+          "relic/BEATING_REMNANT": 92,
+          "relic/BURNING_STICKS": 37,
+          "relic/CAULDRON": 21,
+          "relic/CHEMICAL_X": 52,
+          "relic/GHOST_SEED": 132,
+          "relic/RAINBOW_RING": 171,
+          "relic/ROYAL_STAMP": 149,
+          "relic/THE_ABACUS": 60,
+          "sandpit deadline": 47,
+          "selection continuation": 4,
+          "selection operation": 338,
+          "spent toy box wax relic": 84,
+          "uncertified root at cap": 1073,
+          "unreconciled prompt": 328,
+          "unwitnessed remnant damage": 31,
+          "unwitnessed sloth count": 19,
+          "unwitnessed tender count or artifact": 25,
+          "vambrace triggered block ordering": 31
+        }
+      },
+      "act2_boss": {
+        "classes": {
+          "champion_or_deadline": 142,
+          "covered": 1816,
+          "mechanic_or_scope": 1074,
+          "search_certification": 869
+        },
+        "covered": 1816,
+        "eligible": 3901,
+        "pct": 46.552,
+        "reasons": {
+          "card/BANSHEES_CRY": 1,
+          "card/BLOODLETTING": 4,
+          "card/BLOOD_WALL": 2,
+          "card/BLUDGEON": 5,
+          "card/BREAKTHROUGH": 6,
+          "card/BURY": 12,
+          "card/CAPTURE_SPIRIT": 7,
+          "card/CELESTIAL_MIGHT": 6,
+          "card/CHARGE_BATTERY": 5,
+          "card/CINDER": 2,
+          "card/DARK_SHACKLES": 1,
+          "card/DEBILITATE": 2,
+          "card/DEFILE": 5,
+          "card/DEFY": 3,
+          "card/DELAY": 7,
+          "card/DRAIN_POWER": 4,
+          "card/ENVENOM": 4,
+          "card/ESCAPE_PLAN": 7,
+          "card/EXPERTISE": 5,
+          "card/EXTERMINATE": 41,
+          "card/FIGHT_ME": 3,
+          "card/FISTICUFFS": 7,
+          "card/FLAME_BARRIER": 6,
+          "card/FRIENDSHIP": 2,
+          "card/HEGEMONY": 4,
+          "card/HELLO_WORLD": 17,
+          "card/IMPERVIOUS": 2,
+          "card/MASTER_PLANNER": 7,
+          "card/MELANCHOLY": 4,
+          "card/METAMORPHOSIS": 69,
+          "card/MIRAGE": 8,
+          "card/MISERY": 7,
+          "card/MURDER": 2,
+          "card/NEUROSURGE": 4,
+          "card/OUTBREAK": 3,
+          "card/OUTMANEUVER": 3,
+          "card/PATTER": 5,
+          "card/PHOTON_CUT": 5,
+          "card/PIERCING_WAIL": 4,
+          "card/PURITY": 1,
+          "card/REAP": 42,
+          "card/REAVE": 5,
+          "card/REBOUND": 1,
+          "card/RESTLESSNESS": 5,
+          "card/SCULPTING_STRIKE": 33,
+          "card/SETUP_STRIKE": 4,
+          "card/SOLAR_STRIKE": 3,
+          "card/SPEEDSTER": 7,
+          "card/SQUEEZE": 1,
+          "card/STRANGLE": 10,
+          "card/TRACKING": 1,
+          "card/UNDEATH": 11,
+          "card/UNTOUCHABLE": 5,
+          "champion continuation unresolved": 237,
+          "champion knowledge curse": 95,
+          "covered": 1816,
+          "disabled wax relic": 57,
+          "enemy power/DARK_SHACKLES": 3,
+          "enemy power/DEBILITATE": 7,
+          "enemy power/DOOM": 13,
+          "enemy power/PIERCING_WAIL": 2,
+          "enemy power/STRANGLE": 3,
+          "no certified survival": 544,
+          "no no-potion comparison": 1,
+          "player power/BORROWED_TIME": 3,
+          "player power/DOOM": 40,
+          "player power/FREE_SKILL": 21,
+          "player power/FRIENDSHIP": 13,
+          "player power/HELICAL_DART": 6,
+          "player power/MASTER_PLANNER": 13,
+          "player power/NEUROSURGE": 23,
+          "player power/REPTILE_TRINKET": 7,
+          "player power/SETUP_STRIKE": 20,
+          "player power/TRACKING": 20,
+          "relic/BEATING_REMNANT": 92,
+          "relic/BURNING_STICKS": 37,
+          "relic/CAULDRON": 21,
+          "relic/GHOST_SEED": 33,
+          "relic/RAINBOW_RING": 9,
+          "relic/ROYAL_STAMP": 41,
+          "relic/THE_ABACUS": 16,
+          "sandpit deadline": 47,
+          "selection operation": 53,
+          "uncertified root at cap": 87,
+          "unreconciled prompt": 69,
+          "unwitnessed sloth count": 19,
+          "vambrace triggered block ordering": 13
+        }
+      },
+      "act2_boss/CRUSHER+ROCKET": {
+        "classes": {
+          "covered": 427,
+          "mechanic_or_scope": 396,
+          "search_certification": 361
+        },
+        "covered": 427,
+        "eligible": 1184,
+        "pct": 36.064,
+        "reasons": {
+          "card/BLOOD_WALL": 2,
+          "card/BURY": 5,
+          "card/CAPTURE_SPIRIT": 7,
+          "card/CELESTIAL_MIGHT": 3,
+          "card/DARK_SHACKLES": 1,
+          "card/DELAY": 5,
+          "card/DRAIN_POWER": 4,
+          "card/ENVENOM": 4,
+          "card/EXTERMINATE": 21,
+          "card/FIGHT_ME": 3,
+          "card/HELLO_WORLD": 11,
+          "card/METAMORPHOSIS": 9,
+          "card/MIRAGE": 8,
+          "card/MISERY": 3,
+          "card/NEUROSURGE": 2,
+          "card/PHOTON_CUT": 1,
+          "card/PIERCING_WAIL": 4,
+          "card/REAVE": 3,
+          "card/SCULPTING_STRIKE": 8,
+          "card/SOLAR_STRIKE": 3,
+          "card/SPEEDSTER": 5,
+          "card/STRANGLE": 9,
+          "card/TRACKING": 1,
+          "champion continuation unresolved": 75,
+          "covered": 427,
+          "disabled wax relic": 35,
+          "enemy power/DARK_SHACKLES": 3,
+          "enemy power/DOOM": 13,
+          "enemy power/PIERCING_WAIL": 2,
+          "no certified survival": 255,
+          "player power/BORROWED_TIME": 3,
+          "player power/DOOM": 16,
+          "player power/FREE_SKILL": 5,
+          "player power/NEUROSURGE": 17,
+          "player power/REPTILE_TRINKET": 1,
+          "player power/TRACKING": 20,
+          "relic/BEATING_REMNANT": 32,
+          "relic/CAULDRON": 21,
+          "relic/GHOST_SEED": 33,
+          "relic/RAINBOW_RING": 9,
+          "relic/THE_ABACUS": 16,
+          "selection operation": 16,
+          "uncertified root at cap": 31,
+          "unreconciled prompt": 31,
+          "vambrace triggered block ordering": 1
+        }
+      },
+      "act2_boss/KNOWLEDGE_DEMON": {
+        "classes": {
+          "champion_or_deadline": 95,
+          "covered": 805,
+          "mechanic_or_scope": 366,
+          "search_certification": 266
+        },
+        "covered": 805,
+        "eligible": 1532,
+        "pct": 52.546,
+        "reasons": {
+          "card/BANSHEES_CRY": 1,
+          "card/BLOODLETTING": 4,
+          "card/BURY": 5,
+          "card/CELESTIAL_MIGHT": 3,
+          "card/CHARGE_BATTERY": 5,
+          "card/CINDER": 2,
+          "card/DEBILITATE": 2,
+          "card/DEFILE": 3,
+          "card/DELAY": 2,
+          "card/ESCAPE_PLAN": 7,
+          "card/EXTERMINATE": 16,
+          "card/FISTICUFFS": 3,
+          "card/FLAME_BARRIER": 6,
+          "card/FRIENDSHIP": 2,
+          "card/HEGEMONY": 4,
+          "card/HELLO_WORLD": 6,
+          "card/IMPERVIOUS": 2,
+          "card/METAMORPHOSIS": 38,
+          "card/MURDER": 2,
+          "card/NEUROSURGE": 2,
+          "card/OUTMANEUVER": 3,
+          "card/PATTER": 5,
+          "card/PHOTON_CUT": 4,
+          "card/REAP": 3,
+          "card/REBOUND": 1,
+          "card/RESTLESSNESS": 5,
+          "card/SCULPTING_STRIKE": 8,
+          "card/SETUP_STRIKE": 3,
+          "card/SPEEDSTER": 2,
+          "card/UNDEATH": 5,
+          "card/UNTOUCHABLE": 5,
+          "champion continuation unresolved": 87,
+          "champion knowledge curse": 95,
+          "covered": 805,
+          "enemy power/DEBILITATE": 7,
+          "no certified survival": 148,
+          "no no-potion comparison": 1,
+          "player power/DOOM": 24,
+          "player power/FREE_SKILL": 9,
+          "player power/FRIENDSHIP": 6,
+          "player power/HELICAL_DART": 6,
+          "player power/NEUROSURGE": 6,
+          "player power/REPTILE_TRINKET": 1,
+          "player power/SETUP_STRIKE": 14,
+          "relic/BEATING_REMNANT": 41,
+          "relic/ROYAL_STAMP": 20,
+          "selection operation": 22,
+          "uncertified root at cap": 30,
+          "unreconciled prompt": 20,
+          "unwitnessed sloth count": 19,
+          "vambrace triggered block ordering": 12
+        }
+      },
+      "act2_boss/THE_INSATIABLE": {
+        "classes": {
+          "champion_or_deadline": 47,
+          "covered": 584,
+          "mechanic_or_scope": 312,
+          "search_certification": 242
+        },
+        "covered": 584,
+        "eligible": 1185,
+        "pct": 49.283,
+        "reasons": {
+          "card/BLUDGEON": 5,
+          "card/BREAKTHROUGH": 6,
+          "card/BURY": 2,
+          "card/DEFILE": 2,
+          "card/DEFY": 3,
+          "card/EXPERTISE": 5,
+          "card/EXTERMINATE": 4,
+          "card/FISTICUFFS": 4,
+          "card/MASTER_PLANNER": 7,
+          "card/MELANCHOLY": 4,
+          "card/METAMORPHOSIS": 22,
+          "card/MISERY": 4,
+          "card/OUTBREAK": 3,
+          "card/PURITY": 1,
+          "card/REAP": 39,
+          "card/REAVE": 2,
+          "card/SCULPTING_STRIKE": 17,
+          "card/SETUP_STRIKE": 1,
+          "card/SQUEEZE": 1,
+          "card/STRANGLE": 1,
+          "card/UNDEATH": 6,
+          "champion continuation unresolved": 75,
+          "covered": 584,
+          "disabled wax relic": 22,
+          "enemy power/STRANGLE": 3,
+          "no certified survival": 141,
+          "player power/FREE_SKILL": 7,
+          "player power/FRIENDSHIP": 7,
+          "player power/MASTER_PLANNER": 13,
+          "player power/REPTILE_TRINKET": 5,
+          "player power/SETUP_STRIKE": 6,
+          "relic/BEATING_REMNANT": 19,
+          "relic/BURNING_STICKS": 37,
+          "relic/ROYAL_STAMP": 21,
+          "sandpit deadline": 47,
+          "selection operation": 15,
+          "uncertified root at cap": 26,
+          "unreconciled prompt": 18
+        }
+      },
+      "act2_elite": {
+        "classes": {
+          "covered": 1056,
+          "mechanic_or_scope": 573,
+          "search_certification": 819
+        },
+        "covered": 1056,
+        "eligible": 2448,
+        "pct": 43.137,
+        "reasons": {
+          "card/BALL_LIGHTNING": 3,
+          "card/BANSHEES_CRY": 8,
+          "card/BLIGHT_STRIKE": 3,
+          "card/BLOODLETTING": 3,
+          "card/BOLAS": 1,
+          "card/BUBBLE_BUBBLE": 6,
+          "card/BULLET_TIME": 2,
+          "card/BURY": 2,
+          "card/CHARGE_BATTERY": 2,
+          "card/CINDER": 10,
+          "card/CLOAK_AND_DAGGER": 3,
+          "card/DEFILE": 4,
+          "card/DEMESNE": 3,
+          "card/EXTERMINATE": 33,
+          "card/FISTICUFFS": 8,
+          "card/FLAME_BARRIER": 2,
+          "card/HAZE": 3,
+          "card/HEADBUTT": 5,
+          "card/HIDDEN_DAGGERS": 6,
+          "card/HYPERBEAM": 3,
+          "card/INFLAME": 3,
+          "card/LEG_SWEEP": 3,
+          "card/MELANCHOLY": 1,
+          "card/METAMORPHOSIS": 41,
+          "card/MISERY": 2,
+          "card/NEUROSURGE": 4,
+          "card/OUTMANEUVER": 4,
+          "card/PATTER": 1,
+          "card/PHOTON_CUT": 3,
+          "card/REAVE": 2,
+          "card/RESTLESSNESS": 11,
+          "card/RIGHT_HAND_HAND": 6,
+          "card/SALVO": 4,
+          "card/SCULPTING_STRIKE": 6,
+          "card/SETUP_STRIKE": 2,
+          "card/SOUL": 8,
+          "card/SOW": 10,
+          "card/SPEEDSTER": 6,
+          "card/STORM_OF_STEEL": 1,
+          "card/STRANGLE": 1,
+          "card/SURVIVOR": 17,
+          "card/THE_GAMBIT": 1,
+          "card/THRUMMING_HATCHET": 8,
+          "card/TRACKING": 1,
+          "card/ULTIMATE_DEFEND": 2,
+          "card/UNDEATH": 2,
+          "champion continuation unresolved": 167,
+          "covered": 1056,
+          "disabled wax relic": 86,
+          "enemy power/DOOM": 8,
+          "enemy power/SHACKLING_POTION": 6,
+          "enemy power/STRANGLE": 2,
+          "no certified survival": 578,
+          "player power/DOOM": 26,
+          "player power/FOCUS": 1,
+          "player power/FREE_SKILL": 10,
+          "player power/FRIENDSHIP": 4,
+          "player power/NEUROSURGE": 18,
+          "player power/SETUP_STRIKE": 3,
+          "player power/THE_GAMBIT": 5,
+          "player power/TRACKING": 23,
+          "relic/RAINBOW_RING": 14,
+          "relic/ROYAL_STAMP": 14,
+          "selection continuation": 1,
+          "selection operation": 37,
+          "uncertified root at cap": 74,
+          "unreconciled prompt": 44,
+          "unwitnessed remnant damage": 11
+        }
+      },
+      "act2_monster": {
+        "classes": {
+          "covered": 13032,
+          "mechanic_or_scope": 3048,
+          "search_certification": 5258
+        },
+        "covered": 13032,
+        "eligible": 21338,
+        "pct": 61.074,
+        "reasons": {
+          "active orb": 7,
+          "card/ABRASIVE": 5,
+          "card/ASTRAL_PULSE": 8,
+          "card/BALL_LIGHTNING": 20,
+          "card/BANSHEES_CRY": 17,
+          "card/BLIGHT_STRIKE": 10,
+          "card/BLOODLETTING": 19,
+          "card/BLOOD_WALL": 8,
+          "card/BOLAS": 17,
+          "card/BORROWED_TIME": 4,
+          "card/BOUNCING_FLASK": 16,
+          "card/BUBBLE_BUBBLE": 5,
+          "card/BULLET_TIME": 2,
+          "card/BURY": 27,
+          "card/CAPTURE_SPIRIT": 8,
+          "card/CELESTIAL_MIGHT": 19,
+          "card/CHARGE_BATTERY": 8,
+          "card/CINDER": 35,
+          "card/CLASH": 21,
+          "card/CLOAK_OF_STARS": 7,
+          "card/CORROSIVE_WAVE": 9,
+          "card/CRASH_LANDING": 2,
+          "card/DARK_SHACKLES": 11,
+          "card/DEADLY_POISON": 10,
+          "card/DEBRIS": 7,
+          "card/DEFILE": 30,
+          "card/DEFY": 5,
+          "card/DELAY": 5,
+          "card/DEMESNE": 3,
+          "card/DEVASTATE": 8,
+          "card/DODGE_AND_ROLL": 1,
+          "card/DOUBT": 1,
+          "card/DRAIN_POWER": 24,
+          "card/DYING_STAR": 4,
+          "card/ENVENOM": 3,
+          "card/EQUILIBRIUM": 6,
+          "card/ESCAPE_PLAN": 5,
+          "card/EXPERTISE": 17,
+          "card/EXTERMINATE": 101,
+          "card/FIGHT_ME": 8,
+          "card/FISTICUFFS": 37,
+          "card/FLAME_BARRIER": 5,
+          "card/FRIENDSHIP": 19,
+          "card/GUNK_UP": 6,
+          "card/HAZE": 11,
+          "card/HEAVENLY_DRILL": 1,
+          "card/HEGEMONY": 9,
+          "card/HELLO_WORLD": 38,
+          "card/HYPERBEAM": 12,
+          "card/IMPERVIOUS": 5,
+          "card/INFLAME": 10,
+          "card/KNIFE_TRAP": 2,
+          "card/MASTER_PLANNER": 20,
+          "card/MELANCHOLY": 4,
+          "card/METAMORPHOSIS": 134,
+          "card/MIRAGE": 5,
+          "card/MISERY": 10,
+          "card/NEUROSURGE": 6,
+          "card/OUTMANEUVER": 32,
+          "card/PACTS_END": 1,
+          "card/PARTICLE_WALL": 3,
+          "card/PATTER": 16,
+          "card/PHOTON_CUT": 22,
+          "card/PIERCING_WAIL": 8,
+          "card/PRODUCTION": 7,
+          "card/PROWESS": 1,
+          "card/REAP": 24,
+          "card/REAVE": 12,
+          "card/REBOUND": 12,
+          "card/RESTLESSNESS": 35,
+          "card/SALVO": 14,
+          "card/SCULPTING_STRIKE": 38,
+          "card/SERPENT_FORM": 3,
+          "card/SETUP_STRIKE": 10,
+          "card/SEVERANCE": 6,
+          "card/SHADOWMELD": 3,
+          "card/SHADOW_STEP": 1,
+          "card/SNAKEBITE": 17,
+          "card/SOLAR_STRIKE": 36,
+          "card/SOUL": 9,
+          "card/SOW": 15,
+          "card/SPEEDSTER": 5,
+          "card/SPITE": 2,
+          "card/SPORE_MIND": 2,
+          "card/SQUEEZE": 14,
+          "card/STACK": 11,
+          "card/STORM_OF_STEEL": 7,
+          "card/STRANGLE": 28,
+          "card/STRATAGEM": 1,
+          "card/THE_GAMBIT": 1,
+          "card/THRUMMING_HATCHET": 13,
+          "card/TRACKING": 7,
+          "card/ULTIMATE_DEFEND": 7,
+          "card/UNDEATH": 18,
+          "card/UNTOUCHABLE": 21,
+          "card/VOLLEY": 14,
+          "champion continuation unresolved": 1496,
+          "covered": 13032,
+          "disabled wax relic": 69,
+          "enemy power/DARK_SHACKLES": 7,
+          "enemy power/PIERCING_WAIL": 10,
+          "enemy power/SHACKLING_POTION": 7,
+          "enemy power/SHRINK": 10,
+          "enemy power/STRANGLE": 31,
+          "living Osty": 7,
+          "no certified survival": 2847,
+          "no no-potion comparison": 3,
+          "obscura hidden revival state": 111,
+          "player power/BLOCK_NEXT_TURN": 19,
+          "player power/BORROWED_TIME": 7,
+          "player power/CORROSIVE_WAVE": 1,
+          "player power/DOOM": 12,
+          "player power/DOUBLE_DAMAGE": 4,
+          "player power/FLAME_BARRIER": 3,
+          "player power/FOCUS": 10,
+          "player power/FREE_SKILL": 69,
+          "player power/FRIENDSHIP": 96,
+          "player power/HELICAL_DART": 29,
+          "player power/NEUROSURGE": 33,
+          "player power/REPTILE_TRINKET": 41,
+          "player power/SERPENT_FORM": 24,
+          "player power/SETUP_STRIKE": 22,
+          "player power/SHADOWMELD": 14,
+          "player power/SHADOW_STEP": 5,
+          "player power/SHROUD": 5,
+          "player power/STRATAGEM": 15,
+          "player power/THE_GAMBIT": 4,
+          "relic/CHEMICAL_X": 52,
+          "relic/GHOST_SEED": 99,
+          "relic/RAINBOW_RING": 148,
+          "relic/ROYAL_STAMP": 94,
+          "relic/THE_ABACUS": 44,
+          "selection continuation": 3,
+          "selection operation": 248,
+          "spent toy box wax relic": 84,
+          "uncertified root at cap": 912,
+          "unreconciled prompt": 215,
+          "unwitnessed remnant damage": 20,
+          "unwitnessed tender count or artifact": 25,
+          "vambrace triggered block ordering": 18
+        }
+      },
+      "act3": {
+        "classes": {
+          "covered": 805,
+          "mechanic_or_scope": 1510,
+          "search_certification": 492
+        },
+        "covered": 805,
+        "eligible": 2807,
+        "pct": 28.678,
+        "reasons": {
+          "card/ACCELERANT": 2,
+          "card/BANSHEES_CRY": 22,
+          "card/BLOODLETTING": 22,
+          "card/CELESTIAL_MIGHT": 14,
+          "card/CHARGE_BATTERY": 3,
+          "card/DELAY": 8,
+          "card/DYING_STAR": 3,
+          "card/ENTHRALLED": 1,
+          "card/ENVENOM": 1,
+          "card/ESCAPE_PLAN": 3,
+          "card/EXPOSE": 6,
+          "card/EXTERMINATE": 11,
+          "card/FISTICUFFS": 6,
+          "card/FLAME_BARRIER": 21,
+          "card/GLITTERSTREAM": 5,
+          "card/HEGEMONY": 1,
+          "card/MAD_SCIENCE": 5,
+          "card/METAMORPHOSIS": 37,
+          "card/MURDER": 2,
+          "card/PATTER": 7,
+          "card/PHOTON_CUT": 8,
+          "card/REAVE": 8,
+          "card/REGRET": 6,
+          "card/SCULPTING_STRIKE": 27,
+          "card/SETUP_STRIKE": 6,
+          "card/SHAME": 2,
+          "champion continuation unresolved": 133,
+          "covered": 805,
+          "legality/SNAKEBITE": 2,
+          "no certified survival": 289,
+          "player power/FREE_SKILL": 23,
+          "player power/HELICAL_DART": 16,
+          "player power/NO_BLOCK": 2,
+          "player power/REPTILE_TRINKET": 14,
+          "player power/SETUP_STRIKE": 6,
+          "profile/BATTLE_FRIEND_V3": 65,
+          "profile/GUARDBOT": 43,
+          "profile/SOUL_NEXUS": 79,
+          "profile/STABBOT": 78,
+          "relic/BEATING_REMNANT": 60,
+          "relic/BEAUTIFUL_BRACELET": 82,
+          "relic/BURNING_STICKS": 87,
+          "relic/CLAWS": 93,
+          "relic/FUR_COAT": 55,
+          "relic/ROYAL_STAMP": 83,
+          "relic/SAI": 105,
+          "relic/WHISPERING_EARRING": 137,
+          "selection operation": 33,
+          "uncertified root at cap": 70,
+          "unreconciled prompt": 83,
+          "unwitnessed wither count": 116,
+          "vambrace triggered block ordering": 11
+        }
+      }
+    },
+    "encounters": {
+      "2": {
+        "BOWLBUG_ROCK+BOWLBUG_EGG": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 61,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 10.98360655737705,
+                "block_cards": 6.819672131147541,
+                "cards": 22.459016393442624,
+                "powers": 0.6229508196721312,
+                "upgraded": 3.2950819672131146
+              },
+              "mean_hp": 63.85245901639344,
+              "mean_hp_fraction": 0.8712175494142966,
+              "n": 61
+            }
+          },
+          "failed_boundary_roots": {
+            "ambiguous attack preview": 1,
+            "belt buckle last potion": 2,
+            "card selection/SEEKER_STRIKE": 4,
+            "centennial puzzle draw": 8,
+            "draw": 39,
+            "finisher": 6,
+            "kusarigama random target": 1,
+            "lethal player thorns": 6,
+            "memento_mori": 9,
+            "outbreak": 6,
+            "potion/ATTACK_POTION": 4,
+            "potion/BLESSING_OF_THE_FORGE": 3,
+            "potion/COLORLESS_POTION": 4,
+            "potion/CUNNING_POTION": 4,
+            "potion/CURE_ALL": 3,
+            "potion/FLEX_POTION": 3,
+            "potion/FORTIFIER": 6,
+            "potion/FOUL_POTION": 2,
+            "potion/GAMBLERS_BREW": 2,
+            "potion/LIQUID_MEMORIES": 2,
+            "potion/MAZALETHS_GIFT": 2,
+            "potion/POTION_OF_BINDING": 1,
+            "potion/POWDERED_DEMISE": 1,
+            "potion/POWER_POTION": 5,
+            "potion/RADIANT_TINCTURE": 6,
+            "potion/REGEN_POTION": 6,
+            "potion/SKILL_POTION": 4,
+            "pounce": 13,
+            "reptile trinket temporary strength": 3,
+            "ricochet": 8,
+            "sly target": 3,
+            "start turn damage death or wake": 3,
+            "toasty mittens delayed start triggers": 17,
+            "up_my_sleeve": 5,
+            "vigor consumption timing": 3
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 63.85245901639344,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 18
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_EGG+BOWLBUG_NECTAR": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 14,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 11,
+                "block_cards": 7,
+                "cards": 25,
+                "powers": 1,
+                "upgraded": 1
+              },
+              "mean_hp": 29,
+              "mean_hp_fraction": 0.4142857142857143,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 13.461538461538462,
+                "block_cards": 7.3076923076923075,
+                "cards": 26.153846153846153,
+                "powers": 0.9230769230769231,
+                "upgraded": 4.769230769230769
+              },
+              "mean_hp": 51.30769230769231,
+              "mean_hp_fraction": 0.6592159383826051,
+              "n": 13
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic lizard tail": 2,
+            "belt buckle last potion": 11,
+            "bouncing flask random target": 3,
+            "centennial puzzle draw": 15,
+            "draw": 27,
+            "echoing slash repeats after kill": 1,
+            "gremlin horn death trigger": 11,
+            "lethal player thorns": 7,
+            "parrying shield target": 7,
+            "phantom blades existing shiv": 1,
+            "phantom blades retained shiv": 3,
+            "phantom blades shiv trigger": 4,
+            "potion/ATTACK_POTION": 6,
+            "potion/BLESSING_OF_THE_FORGE": 13,
+            "potion/FLEX_POTION": 7,
+            "potion/POWER_POTION": 5,
+            "potion/RADIANT_TINCTURE": 1,
+            "pounce": 7,
+            "ricochet": 1,
+            "unsettling lamp first debuff": 2,
+            "vambrace first card block": 2,
+            "velvet choker cap": 3
+          },
+          "fatal_fight_decisions": {
+            "covered": 9,
+            "mechanic_or_scope": 2,
+            "search_certification": 11
+          },
+          "fatal_fight_majorities": {
+            "mixed": 1
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 49.714285714285715,
+          "mean_entry_hp_deaths": 29,
+          "median_death_round": 3,
+          "median_enemy_hp_at_death": 34,
+          "no_survival_leaf_kinds": {
+            "dead+unresolved": 7,
+            "unresolved": 24
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_EGG+BOWLBUG_SILK": {
+          "death_hp_source": {
+            "last_public": 3
+          },
+          "deaths": 3,
+          "entries": 9,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.666666666666666,
+                "block_cards": 6.666666666666667,
+                "cards": 25,
+                "powers": 0.3333333333333333,
+                "upgraded": 4
+              },
+              "mean_hp": 39.666666666666664,
+              "mean_hp_fraction": 0.5666666666666667,
+              "n": 3
+            },
+            "survived": {
+              "deck": {
+                "attacks": 13.166666666666666,
+                "block_cards": 6.666666666666667,
+                "cards": 25.666666666666668,
+                "powers": 0.3333333333333333,
+                "upgraded": 5
+              },
+              "mean_hp": 54.333333333333336,
+              "mean_hp_fraction": 0.7345508658008658,
+              "n": 6
+            }
+          },
+          "failed_boundary_roots": {
+            "bouncing flask random target": 2,
+            "draw": 15,
+            "finisher": 1,
+            "lethal player thorns": 4,
+            "outbreak": 1,
+            "potion/BLESSING_OF_THE_FORGE": 3,
+            "potion/FLEX_POTION": 7,
+            "potion/GAMBLERS_BREW": 6,
+            "potion/LIQUID_MEMORIES": 4,
+            "potion/POTION_SHAPED_ROCK": 3,
+            "potion/SKILL_POTION": 5,
+            "ricochet": 2,
+            "sly target": 2,
+            "tingsha discard target": 1,
+            "velvet choker cap": 2,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 29,
+            "mechanic_or_scope": 1,
+            "search_certification": 26
+          },
+          "fatal_fight_majorities": {
+            "covered": 2,
+            "search_certification": 1
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 49.44444444444444,
+          "mean_entry_hp_deaths": 39.666666666666664,
+          "median_death_round": 4,
+          "median_enemy_hp_at_death": 32,
+          "no_survival_leaf_kinds": {
+            "dead": 15,
+            "dead+unresolved": 1
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_NECTAR": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 66,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 11.318181818181818,
+                "block_cards": 6.348484848484849,
+                "cards": 22.40909090909091,
+                "powers": 0.6818181818181818,
+                "upgraded": 3.106060606060606
+              },
+              "mean_hp": 67.8030303030303,
+              "mean_hp_fraction": 0.9054444609982426,
+              "n": 66
+            }
+          },
+          "failed_boundary_roots": {
+            "bouncing flask random target": 1,
+            "card selection/SEEKER_STRIKE": 2,
+            "centennial puzzle draw": 13,
+            "draw": 29,
+            "echoing slash repeats after kill": 5,
+            "finisher": 3,
+            "gremlin horn death trigger": 7,
+            "joss paper exhaust counter": 10,
+            "lethal player thorns": 6,
+            "memento_mori": 2,
+            "outbreak": 7,
+            "parrying shield target": 2,
+            "pen nib damage ordering": 1,
+            "pocketwatch card limit": 4,
+            "potion/ATTACK_POTION": 12,
+            "potion/BLESSING_OF_THE_FORGE": 11,
+            "potion/BOTTLED_POTENTIAL": 4,
+            "potion/CLARITY": 4,
+            "potion/COLORLESS_POTION": 27,
+            "potion/CURE_ALL": 6,
+            "potion/FLEX_POTION": 13,
+            "potion/FOUL_POTION": 4,
+            "potion/FYSH_OIL": 3,
+            "potion/GAMBLERS_BREW": 7,
+            "potion/POTION_SHAPED_ROCK": 5,
+            "potion/RADIANT_TINCTURE": 4,
+            "potion/REGEN_POTION": 9,
+            "potion/SKILL_POTION": 1,
+            "pounce": 15,
+            "power-triggered relic": 4,
+            "razor tooth upgrade": 16,
+            "ricochet": 5,
+            "sly target": 1,
+            "start turn damage death or wake": 1,
+            "up_my_sleeve": 10,
+            "vambrace first card block": 4,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 67.8030303030303,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 15
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_NECTAR+BOWLBUG_EGG": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 12,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13,
+                "block_cards": 9,
+                "cards": 29,
+                "powers": 3,
+                "upgraded": 2
+              },
+              "mean_hp": 1,
+              "mean_hp_fraction": 0.012345679012345678,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.272727272727273,
+                "block_cards": 7.363636363636363,
+                "cards": 26.181818181818183,
+                "powers": 1,
+                "upgraded": 3
+              },
+              "mean_hp": 55,
+              "mean_hp_fraction": 0.729502445300128,
+              "n": 11
+            }
+          },
+          "failed_boundary_roots": {
+            "centennial puzzle draw": 11,
+            "draw": 7,
+            "joss paper ethereal exhaust": 3,
+            "joss paper exhaust counter": 6,
+            "kusarigama random target": 2,
+            "outbreak": 3,
+            "potion/FLEX_POTION": 8,
+            "potion/RADIANT_TINCTURE": 3,
+            "potion/SKILL_POTION": 11,
+            "pounce": 2,
+            "ricochet": 1,
+            "sly target": 1,
+            "up_my_sleeve": 2
+          },
+          "fatal_fight_decisions": {
+            "search_certification": 7
+          },
+          "fatal_fight_majorities": {
+            "search_certification": 1
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 50.5,
+          "mean_entry_hp_deaths": 1,
+          "median_death_round": 1,
+          "median_enemy_hp_at_death": 103,
+          "no_survival_leaf_kinds": {
+            "dead": 7,
+            "unresolved": 10
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_NECTAR+BOWLBUG_SILK": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 8,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 14,
+                "block_cards": 7,
+                "cards": 26,
+                "powers": 0,
+                "upgraded": 5
+              },
+              "mean_hp": 2,
+              "mean_hp_fraction": 0.02857142857142857,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.428571428571429,
+                "block_cards": 6.714285714285714,
+                "cards": 23.571428571428573,
+                "powers": 0.5714285714285714,
+                "upgraded": 3.2857142857142856
+              },
+              "mean_hp": 54,
+              "mean_hp_fraction": 0.711155924820521,
+              "n": 7
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic fairy potion": 3,
+            "belt buckle last potion": 3,
+            "draw": 6,
+            "kusarigama random target": 1,
+            "memento_mori": 2,
+            "pocketwatch card limit": 5,
+            "potion/POTION_OF_BINDING": 1,
+            "razor tooth upgrade": 4,
+            "reptile trinket temporary strength": 2,
+            "ricochet": 2,
+            "sly target": 1
+          },
+          "fatal_fight_decisions": {
+            "search_certification": 4
+          },
+          "fatal_fight_majorities": {
+            "search_certification": 1
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 47.5,
+          "mean_entry_hp_deaths": 2,
+          "median_death_round": 1,
+          "median_enemy_hp_at_death": 101,
+          "no_survival_leaf_kinds": {
+            "dead+unresolved": 4,
+            "unresolved": 3
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_SILK+BOWLBUG_EGG": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 6,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 15,
+                "block_cards": 6,
+                "cards": 29,
+                "powers": 0,
+                "upgraded": 3
+              },
+              "mean_hp": 70,
+              "mean_hp_fraction": 1.0,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 13.2,
+                "block_cards": 7,
+                "cards": 25,
+                "powers": 0.6,
+                "upgraded": 5.2
+              },
+              "mean_hp": 68,
+              "mean_hp_fraction": 0.839695366362033,
+              "n": 5
+            }
+          },
+          "failed_boundary_roots": {
+            "bouncing flask random target": 2,
+            "draw": 5,
+            "echoing slash repeats after kill": 2,
+            "outbreak": 2,
+            "phantom blades retained shiv": 12,
+            "phantom blades shiv trigger": 14,
+            "potion/COLORLESS_POTION": 11,
+            "potion/TOUCH_OF_INSANITY": 5,
+            "pounce": 3,
+            "toasty mittens delayed start triggers": 2,
+            "velvet choker cap": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 8,
+            "mechanic_or_scope": 6,
+            "search_certification": 9
+          },
+          "fatal_fight_majorities": {
+            "mixed": 1
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 68.33333333333333,
+          "mean_entry_hp_deaths": 70,
+          "median_death_round": 3,
+          "median_enemy_hp_at_death": 22,
+          "no_survival_leaf_kinds": {
+            "unresolved": 10
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_SILK+BOWLBUG_NECTAR": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 6,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 14,
+                "block_cards": 7,
+                "cards": 27,
+                "powers": 2,
+                "upgraded": 6
+              },
+              "mean_hp": 1,
+              "mean_hp_fraction": 0.014285714285714285,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.8,
+                "block_cards": 7.2,
+                "cards": 26.4,
+                "powers": 1,
+                "upgraded": 4.4
+              },
+              "mean_hp": 53.2,
+              "mean_hp_fraction": 0.74,
+              "n": 5
+            }
+          },
+          "failed_boundary_roots": {
+            "draw": 11,
+            "outbreak": 1,
+            "pounce": 5,
+            "power-triggered relic": 1,
+            "reptile trinket temporary strength": 6
+          },
+          "fatal_fight_decisions": {
+            "covered": 2,
+            "search_certification": 7
+          },
+          "fatal_fight_majorities": {
+            "search_certification": 1
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 44.5,
+          "mean_entry_hp_deaths": 1,
+          "median_death_round": 2,
+          "median_enemy_hp_at_death": 128,
+          "no_survival_leaf_kinds": {
+            "dead": 4,
+            "dead+unresolved": 1
+          }
+        },
+        "BOWLBUG_ROCK+BOWLBUG_SILK+SLUMBERING_BEETLE": {
+          "death_hp_source": {
+            "last_public": 17
+          },
+          "deaths": 17,
+          "entries": 54,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 11.705882352941176,
+                "block_cards": 6.823529411764706,
+                "cards": 25.058823529411764,
+                "powers": 1.2352941176470589,
+                "upgraded": 4.823529411764706
+              },
+              "mean_hp": 32.8235294117647,
+              "mean_hp_fraction": 0.4399391261206677,
+              "n": 17
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.64864864864865,
+                "block_cards": 7.243243243243243,
+                "cards": 25.54054054054054,
+                "powers": 0.9459459459459459,
+                "upgraded": 4.891891891891892
+              },
+              "mean_hp": 59.16216216216216,
+              "mean_hp_fraction": 0.7676336298248873,
+              "n": 37
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic fairy potion": 3,
+            "belt buckle last potion": 1,
+            "bouncing flask random target": 4,
+            "card selection/HAND_TRICK": 2,
+            "card selection/SEEKER_STRIKE": 1,
+            "centennial puzzle draw": 16,
+            "demise lethal or intangible": 4,
+            "draw": 76,
+            "echoing slash repeats after kill": 1,
+            "finisher": 6,
+            "joss paper ethereal exhaust": 8,
+            "joss paper exhaust counter": 8,
+            "kusarigama random target": 7,
+            "lethal player thorns": 1,
+            "memento_mori": 16,
+            "outbreak": 7,
+            "pen nib damage ordering": 3,
+            "phantom blades existing shiv": 4,
+            "phantom blades retained shiv": 6,
+            "phantom blades shiv trigger": 11,
+            "pocketwatch card limit": 14,
+            "potion/ATTACK_POTION": 1,
+            "potion/BLESSING_OF_THE_FORGE": 10,
+            "potion/COLORLESS_POTION": 7,
+            "potion/CURE_ALL": 4,
+            "potion/DROPLET_OF_PRECOGNITION": 2,
+            "potion/FLEX_POTION": 28,
+            "potion/FORTIFIER": 2,
+            "potion/FOUL_POTION": 9,
+            "potion/GAMBLERS_BREW": 10,
+            "potion/POWER_POTION": 9,
+            "potion/RADIANT_TINCTURE": 2,
+            "potion/SKILL_POTION": 17,
+            "pounce": 10,
+            "power-triggered relic": 2,
+            "razor tooth upgrade": 28,
+            "reptile trinket temporary strength": 16,
+            "ricochet": 13,
+            "slumber wake countdown": 4,
+            "slumber wake on damage": 148,
+            "sly target": 4,
+            "start turn damage death or wake": 2,
+            "stone calendar activation": 5,
+            "toasty mittens delayed start triggers": 9,
+            "up_my_sleeve": 11,
+            "vambrace first card block": 1,
+            "velvet choker cap": 4,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 147,
+            "mechanic_or_scope": 31,
+            "search_certification": 159
+          },
+          "fatal_fight_majorities": {
+            "covered": 4,
+            "mechanic_or_scope": 1,
+            "mixed": 3,
+            "search_certification": 9
+          },
+          "low_entry_deaths": 7,
+          "mean_entry_hp": 50.870370370370374,
+          "mean_entry_hp_deaths": 32.8235294117647,
+          "median_death_round": 4,
+          "median_enemy_hp_at_death": 69,
+          "no_survival_leaf_kinds": {
+            "dead": 23,
+            "dead+unresolved": 41,
+            "unresolved": 157
+          }
+        },
+        "CHOMPER+CHOMPER": {
+          "death_hp_source": {
+            "last_public": 7
+          },
+          "deaths": 7,
+          "entries": 61,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 11.857142857142858,
+                "block_cards": 6.857142857142857,
+                "cards": 24.714285714285715,
+                "powers": 0.8571428571428571,
+                "upgraded": 4.571428571428571
+              },
+              "mean_hp": 24.285714285714285,
+              "mean_hp_fraction": 0.33316602405896795,
+              "n": 7
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.148148148148149,
+                "block_cards": 7.333333333333333,
+                "cards": 25,
+                "powers": 0.8703703703703703,
+                "upgraded": 5.037037037037037
+              },
+              "mean_hp": 54.166666666666664,
+              "mean_hp_fraction": 0.7042692985982794,
+              "n": 54
+            }
+          },
+          "failed_boundary_roots": {
+            "bouncing flask random target": 4,
+            "card selection/HAND_TRICK": 4,
+            "card selection/SEEKER_STRIKE": 5,
+            "centennial puzzle draw": 47,
+            "draw": 74,
+            "echoing slash repeats after kill": 2,
+            "finisher": 8,
+            "helical dart temporary dexterity": 2,
+            "joss paper ethereal exhaust": 8,
+            "joss paper exhaust counter": 4,
+            "kusarigama random target": 9,
+            "lethal player thorns": 4,
+            "memento_mori": 4,
+            "outbreak": 15,
+            "parrying shield target": 7,
+            "pocketwatch card limit": 8,
+            "potion/ATTACK_POTION": 9,
+            "potion/BEETLE_JUICE": 9,
+            "potion/BLESSING_OF_THE_FORGE": 5,
+            "potion/COLORLESS_POTION": 13,
+            "potion/CURE_ALL": 2,
+            "potion/DROPLET_OF_PRECOGNITION": 3,
+            "potion/FLEX_POTION": 16,
+            "potion/FOUL_POTION": 2,
+            "potion/GAMBLERS_BREW": 24,
+            "potion/POTION_SHAPED_ROCK": 5,
+            "potion/SHIP_IN_A_BOTTLE": 1,
+            "potion/SKILL_POTION": 29,
+            "potion/TOUCH_OF_INSANITY": 16,
+            "pounce": 12,
+            "power-triggered relic": 5,
+            "razor tooth upgrade": 10,
+            "ricochet": 15,
+            "seal of gold insufficient funds": 25,
+            "sly target": 3,
+            "start turn damage death or wake": 1,
+            "start/TOOLS_OF_THE_TRADE": 8,
+            "toasty mittens delayed start triggers": 21,
+            "tools_of_the_trade": 2,
+            "up_my_sleeve": 13,
+            "vambrace first card block": 2,
+            "velvet choker cap": 1,
+            "vigor consumption timing": 4
+          },
+          "fatal_fight_decisions": {
+            "covered": 72,
+            "mechanic_or_scope": 9,
+            "search_certification": 56
+          },
+          "fatal_fight_majorities": {
+            "covered": 2,
+            "mixed": 1,
+            "search_certification": 4
+          },
+          "low_entry_deaths": 4,
+          "mean_entry_hp": 50.73770491803279,
+          "mean_entry_hp_deaths": 24.285714285714285,
+          "median_death_round": 3,
+          "median_enemy_hp_at_death": 39,
+          "no_survival_leaf_kinds": {
+            "dead": 16,
+            "dead+unresolved": 8,
+            "unresolved": 100
+          }
+        },
+        "CRUSHER+ROCKET": {
+          "death_hp_source": {
+            "last_public": 44
+          },
+          "deaths": 44,
+          "entries": 45,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.727272727272727,
+                "block_cards": 7.204545454545454,
+                "cards": 27.977272727272727,
+                "powers": 1.0681818181818181,
+                "upgraded": 5.5227272727272725
+              },
+              "mean_hp": 56.27272727272727,
+              "mean_hp_fraction": 0.7182531097295258,
+              "n": 44
+            },
+            "survived": {
+              "deck": {
+                "attacks": 15,
+                "block_cards": 8,
+                "cards": 33,
+                "powers": 2,
+                "upgraded": 5
+              },
+              "mean_hp": 47,
+              "mean_hp_fraction": 0.5875,
+              "n": 1
+            }
+          },
+          "failed_boundary_roots": {
+            "ambiguous attack preview": 38,
+            "automatic fairy potion": 10,
+            "belt buckle last potion": 3,
+            "bouncing flask random target": 5,
+            "card selection/SEEKER_STRIKE": 3,
+            "centennial puzzle draw": 69,
+            "crab rage area hit ordering": 3,
+            "draw": 61,
+            "finisher": 8,
+            "joss paper exhaust counter": 3,
+            "kusarigama random target": 6,
+            "memento_mori": 3,
+            "outbreak": 8,
+            "parrying shield target": 9,
+            "pen nib damage ordering": 3,
+            "phantom blades retained shiv": 4,
+            "phantom blades shiv trigger": 9,
+            "pocketwatch card limit": 12,
+            "potion/ATTACK_POTION": 9,
+            "potion/CUNNING_POTION": 3,
+            "potion/DROPLET_OF_PRECOGNITION": 11,
+            "potion/FLEX_POTION": 5,
+            "potion/FORTIFIER": 24,
+            "potion/FOUL_POTION": 7,
+            "potion/FRUIT_JUICE": 6,
+            "potion/GAMBLERS_BREW": 25,
+            "potion/LUCKY_TONIC": 2,
+            "potion/OROBIC_ACID": 3,
+            "potion/POTION_SHAPED_ROCK": 2,
+            "potion/POWDERED_DEMISE": 3,
+            "potion/POWER_POTION": 3,
+            "potion/SNECKO_OIL": 2,
+            "pounce": 12,
+            "reptile trinket temporary strength": 16,
+            "ricochet": 4,
+            "stone calendar activation": 4,
+            "tingsha discard target": 3,
+            "toasty mittens delayed start triggers": 24,
+            "toasty mittens start turn ordering": 23,
+            "up_my_sleeve": 6,
+            "vambrace first card block": 1,
+            "vigor consumption timing": 2
+          },
+          "fatal_fight_decisions": {
+            "covered": 414,
+            "mechanic_or_scope": 393,
+            "search_certification": 336
+          },
+          "fatal_fight_majorities": {
+            "covered": 16,
+            "mechanic_or_scope": 13,
+            "mixed": 7,
+            "search_certification": 8
+          },
+          "low_entry_deaths": 2,
+          "mean_entry_hp": 56.06666666666667,
+          "mean_entry_hp_deaths": 56.27272727272727,
+          "median_death_round": 4.5,
+          "median_enemy_hp_at_death": 263.0,
+          "no_survival_leaf_kinds": {
+            "dead": 70,
+            "dead+unresolved": 59,
+            "unresolved": 126
+          }
+        },
+        "DECIMILLIPEDE_SEGMENT_FRONT+DECIMILLIPEDE_SEGMENT_MIDDLE+DECIMILLIPEDE_SEGMENT_BACK": {
+          "death_hp_source": {
+            "last_public": 16
+          },
+          "deaths": 16,
+          "entries": 34,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.0625,
+                "block_cards": 7.6875,
+                "cards": 26.4375,
+                "powers": 1,
+                "upgraded": 4.3125
+              },
+              "mean_hp": 48.375,
+              "mean_hp_fraction": 0.6544350680592941,
+              "n": 16
+            },
+            "survived": {
+              "deck": {
+                "attacks": 13.166666666666666,
+                "block_cards": 7.388888888888889,
+                "cards": 26.5,
+                "powers": 0.8888888888888888,
+                "upgraded": 4.277777777777778
+              },
+              "mean_hp": 59.5,
+              "mean_hp_fraction": 0.7948416235180941,
+              "n": 18
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic fairy potion": 7,
+            "belt buckle last potion": 1,
+            "card selection/SEEKER_STRIKE": 1,
+            "centennial puzzle draw": 19,
+            "demise lethal or intangible": 5,
+            "draw": 59,
+            "echoing slash repeats after kill": 3,
+            "finisher": 13,
+            "gremlin horn death trigger": 6,
+            "joss paper ethereal exhaust": 6,
+            "joss paper exhaust counter": 34,
+            "kusarigama random target": 10,
+            "lethal player thorns": 7,
+            "memento_mori": 6,
+            "outbreak": 3,
+            "parrying shield target": 12,
+            "pen nib damage ordering": 1,
+            "pocketwatch card limit": 17,
+            "potion/BLESSING_OF_THE_FORGE": 11,
+            "potion/COLORLESS_POTION": 11,
+            "potion/FLEX_POTION": 1,
+            "potion/FOUL_POTION": 5,
+            "potion/GAMBLERS_BREW": 31,
+            "potion/OROBIC_ACID": 1,
+            "potion/POWER_POTION": 2,
+            "potion/RADIANT_TINCTURE": 10,
+            "potion/SKILL_POTION": 14,
+            "pounce": 4,
+            "seal of gold insufficient funds": 11,
+            "segment due to reattach": 212,
+            "start turn damage death or wake": 2,
+            "stone calendar activation": 2,
+            "tingsha discard target": 5,
+            "toasty mittens delayed start triggers": 8,
+            "toasty mittens start turn ordering": 4,
+            "up_my_sleeve": 2,
+            "vigor consumption timing": 9
+          },
+          "fatal_fight_decisions": {
+            "covered": 108,
+            "mechanic_or_scope": 61,
+            "search_certification": 200
+          },
+          "fatal_fight_majorities": {
+            "covered": 2,
+            "mechanic_or_scope": 1,
+            "mixed": 6,
+            "search_certification": 7
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 54.26470588235294,
+          "mean_entry_hp_deaths": 48.375,
+          "median_death_round": 4.5,
+          "median_enemy_hp_at_death": 69.0,
+          "no_survival_leaf_kinds": {
+            "dead": 16,
+            "dead+unresolved": 12,
+            "unresolved": 273
+          }
+        },
+        "ENTOMANCER": {
+          "death_hp_source": {
+            "last_public": 7
+          },
+          "deaths": 7,
+          "entries": 34,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 11.857142857142858,
+                "block_cards": 6.571428571428571,
+                "cards": 26.142857142857142,
+                "powers": 2.2857142857142856,
+                "upgraded": 3.857142857142857
+              },
+              "mean_hp": 32.285714285714285,
+              "mean_hp_fraction": 0.4377799900447984,
+              "n": 7
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.518518518518519,
+                "block_cards": 6.925925925925926,
+                "cards": 26.25925925925926,
+                "powers": 1.2592592592592593,
+                "upgraded": 4.518518518518518
+              },
+              "mean_hp": 63.48148148148148,
+              "mean_hp_fraction": 0.8326056027026677,
+              "n": 27
+            }
+          },
+          "failed_boundary_roots": {
+            "card selection/SEEKER_STRIKE": 3,
+            "centennial puzzle draw": 14,
+            "demise lethal or intangible": 1,
+            "draw": 27,
+            "gremlin horn death trigger": 3,
+            "infinite blades hand ordering": 1,
+            "joss paper ethereal exhaust": 13,
+            "joss paper exhaust counter": 7,
+            "outbreak": 3,
+            "potion/BLESSING_OF_THE_FORGE": 5,
+            "potion/COLORLESS_POTION": 2,
+            "potion/FLEX_POTION": 1,
+            "potion/FOUL_POTION": 1,
+            "potion/MAZALETHS_GIFT": 2,
+            "potion/POWDERED_DEMISE": 1,
+            "potion/POWER_POTION": 5,
+            "potion/RADIANT_TINCTURE": 1,
+            "potion/REGEN_POTION": 4,
+            "potion/SHACKLING_POTION": 1,
+            "potion/SKILL_POTION": 5,
+            "pounce": 4,
+            "power-triggered relic": 2,
+            "razor tooth upgrade": 9,
+            "reptile trinket temporary strength": 5,
+            "ricochet": 7,
+            "sly target": 5,
+            "start/TOOLS_OF_THE_TRADE": 19,
+            "tools_of_the_trade": 1,
+            "up_my_sleeve": 4,
+            "velvet choker cap": 1,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 56,
+            "mechanic_or_scope": 2,
+            "search_certification": 42
+          },
+          "fatal_fight_majorities": {
+            "covered": 3,
+            "mixed": 1,
+            "search_certification": 3
+          },
+          "low_entry_deaths": 3,
+          "mean_entry_hp": 57.05882352941177,
+          "mean_entry_hp_deaths": 32.285714285714285,
+          "median_death_round": 4,
+          "median_enemy_hp_at_death": 104,
+          "no_survival_leaf_kinds": {
+            "dead": 8,
+            "dead+unresolved": 11,
+            "unresolved": 45
+          }
+        },
+        "EXOSKELETON+EXOSKELETON+EXOSKELETON": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 107,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 11.644859813084112,
+                "block_cards": 6.738317757009346,
+                "cards": 22.97196261682243,
+                "powers": 0.6728971962616822,
+                "upgraded": 3.457943925233645
+              },
+              "mean_hp": 65.8411214953271,
+              "mean_hp_fraction": 0.8910327329818379,
+              "n": 107
+            }
+          },
+          "failed_boundary_roots": {
+            "bouncing flask random target": 8,
+            "card selection/HAND_TRICK": 5,
+            "card selection/SEEKER_STRIKE": 3,
+            "centennial puzzle draw": 19,
+            "draw": 71,
+            "echoing slash repeats after kill": 2,
+            "finisher": 11,
+            "gremlin horn death trigger": 14,
+            "joss paper ethereal exhaust": 6,
+            "joss paper exhaust counter": 2,
+            "kusarigama random target": 3,
+            "lethal player thorns": 24,
+            "memento_mori": 14,
+            "outbreak": 11,
+            "parrying shield target": 1,
+            "pen nib damage ordering": 3,
+            "phantom blades retained shiv": 4,
+            "phantom blades shiv trigger": 9,
+            "pocketwatch card limit": 4,
+            "potion/ATTACK_POTION": 29,
+            "potion/BLESSING_OF_THE_FORGE": 19,
+            "potion/CLARITY": 6,
+            "potion/COLORLESS_POTION": 37,
+            "potion/DISTILLED_CHAOS": 10,
+            "potion/DROPLET_OF_PRECOGNITION": 5,
+            "potion/ENTROPIC_BREW": 3,
+            "potion/FLEX_POTION": 18,
+            "potion/FORTIFIER": 6,
+            "potion/FOUL_POTION": 3,
+            "potion/POTION_SHAPED_ROCK": 6,
+            "potion/POWDERED_DEMISE": 1,
+            "potion/POWER_POTION": 19,
+            "potion/REGEN_POTION": 3,
+            "potion/SKILL_POTION": 13,
+            "potion/TOUCH_OF_INSANITY": 12,
+            "pounce": 10,
+            "razor tooth upgrade": 16,
+            "remnant heal ordering": 4,
+            "reptile trinket temporary strength": 3,
+            "ricochet": 14,
+            "sly target": 4,
+            "start turn damage death or wake": 2,
+            "start/TOOLS_OF_THE_TRADE": 9,
+            "tingsha discard target": 4,
+            "toasty mittens delayed start triggers": 10,
+            "tools_of_the_trade": 1,
+            "up_my_sleeve": 6,
+            "vambrace first card block": 1,
+            "velvet choker cap": 2,
+            "vigor consumption timing": 5
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 65.8411214953271,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 49
+          }
+        },
+        "EXOSKELETON+EXOSKELETON+EXOSKELETON+EXOSKELETON": {
+          "death_hp_source": {
+            "last_public": 2
+          },
+          "deaths": 2,
+          "entries": 52,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.5,
+                "block_cards": 7.5,
+                "cards": 28.5,
+                "powers": 2,
+                "upgraded": 4.5
+              },
+              "mean_hp": 6.5,
+              "mean_hp_fraction": 0.08506493506493507,
+              "n": 2
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.8,
+                "block_cards": 7.16,
+                "cards": 25.62,
+                "powers": 0.92,
+                "upgraded": 3.84
+              },
+              "mean_hp": 46.72,
+              "mean_hp_fraction": 0.6137464554457445,
+              "n": 50
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic fairy potion": 5,
+            "belt buckle last potion": 1,
+            "bouncing flask random target": 3,
+            "card selection/HAND_TRICK": 2,
+            "centennial puzzle draw": 16,
+            "draw": 35,
+            "echoing slash repeats after kill": 3,
+            "finisher": 4,
+            "gremlin horn death trigger": 17,
+            "kusarigama random target": 4,
+            "lethal player thorns": 6,
+            "memento_mori": 3,
+            "outbreak": 11,
+            "parrying shield target": 15,
+            "pen nib damage ordering": 1,
+            "phantom blades existing shiv": 1,
+            "phantom blades retained shiv": 2,
+            "phantom blades shiv trigger": 4,
+            "potion/ATTACK_POTION": 11,
+            "potion/BLESSING_OF_THE_FORGE": 17,
+            "potion/COLORLESS_POTION": 5,
+            "potion/CUNNING_POTION": 8,
+            "potion/CURE_ALL": 6,
+            "potion/FLEX_POTION": 3,
+            "potion/FORTIFIER": 9,
+            "potion/GAMBLERS_BREW": 5,
+            "potion/POTION_OF_BINDING": 2,
+            "potion/POTION_SHAPED_ROCK": 2,
+            "potion/POWER_POTION": 5,
+            "potion/REGEN_POTION": 2,
+            "potion/SKILL_POTION": 6,
+            "potion/TOUCH_OF_INSANITY": 2,
+            "pounce": 9,
+            "power-triggered relic": 6,
+            "razor tooth upgrade": 3,
+            "replay target died": 2,
+            "reptile trinket temporary strength": 2,
+            "ricochet": 6,
+            "sly target": 3,
+            "start turn damage death or wake": 10,
+            "tingsha discard target": 1,
+            "toasty mittens delayed start triggers": 29,
+            "toasty mittens start turn ordering": 8,
+            "up_my_sleeve": 2,
+            "vambrace first card block": 4,
+            "vigor consumption timing": 6
+          },
+          "fatal_fight_decisions": {
+            "covered": 6,
+            "mechanic_or_scope": 9,
+            "search_certification": 8
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 1,
+            "mixed": 1
+          },
+          "low_entry_deaths": 2,
+          "mean_entry_hp": 45.17307692307692,
+          "mean_entry_hp_deaths": 6.5,
+          "median_death_round": 2.5,
+          "median_enemy_hp_at_death": 39.5,
+          "no_survival_leaf_kinds": {
+            "dead": 4,
+            "dead+unresolved": 6,
+            "unresolved": 74
+          }
+        },
+        "HUNTER_KILLER": {
+          "death_hp_source": {
+            "last_public": 11
+          },
+          "deaths": 11,
+          "entries": 61,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 11.818181818181818,
+                "block_cards": 7.090909090909091,
+                "cards": 24.727272727272727,
+                "powers": 1.2727272727272727,
+                "upgraded": 4.181818181818182
+              },
+              "mean_hp": 22.454545454545453,
+              "mean_hp_fraction": 0.3098179621646852,
+              "n": 11
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.44,
+                "block_cards": 7.28,
+                "cards": 26.2,
+                "powers": 1.02,
+                "upgraded": 4.62
+              },
+              "mean_hp": 56.62,
+              "mean_hp_fraction": 0.7487833887478912,
+              "n": 50
+            }
+          },
+          "failed_boundary_roots": {
+            "card selection/HAND_TRICK": 1,
+            "card selection/SEEKER_STRIKE": 1,
+            "centennial puzzle draw": 29,
+            "demise lethal or intangible": 1,
+            "draw": 51,
+            "finisher": 2,
+            "gremlin horn death trigger": 1,
+            "lethal player thorns": 1,
+            "memento_mori": 4,
+            "outbreak": 8,
+            "pen nib damage ordering": 1,
+            "phantom blades retained shiv": 9,
+            "phantom blades shiv trigger": 11,
+            "potion/ATTACK_POTION": 8,
+            "potion/BLESSING_OF_THE_FORGE": 9,
+            "potion/COLORLESS_POTION": 13,
+            "potion/CURE_ALL": 2,
+            "potion/ENTROPIC_BREW": 4,
+            "potion/FLEX_POTION": 3,
+            "potion/GAMBLERS_BREW": 15,
+            "potion/POTION_OF_BINDING": 3,
+            "potion/POTION_SHAPED_ROCK": 2,
+            "potion/POWDERED_DEMISE": 4,
+            "potion/POWER_POTION": 6,
+            "potion/RADIANT_TINCTURE": 3,
+            "potion/REGEN_POTION": 2,
+            "potion/SKILL_POTION": 28,
+            "potion/TOUCH_OF_INSANITY": 7,
+            "pounce": 11,
+            "power-triggered relic": 3,
+            "razor tooth upgrade": 4,
+            "reptile trinket temporary strength": 4,
+            "ricochet": 6,
+            "sly target": 2,
+            "start/TOOLS_OF_THE_TRADE": 3,
+            "tender automatic play count": 6,
+            "tingsha discard target": 1,
+            "tools_of_the_trade": 1,
+            "up_my_sleeve": 18,
+            "vambrace first card block": 1,
+            "vigor consumption timing": 2
+          },
+          "fatal_fight_decisions": {
+            "covered": 104,
+            "mechanic_or_scope": 14,
+            "search_certification": 48
+          },
+          "fatal_fight_majorities": {
+            "covered": 8,
+            "mixed": 2,
+            "search_certification": 1
+          },
+          "low_entry_deaths": 6,
+          "mean_entry_hp": 50.459016393442624,
+          "mean_entry_hp_deaths": 22.454545454545453,
+          "median_death_round": 3,
+          "median_enemy_hp_at_death": 60,
+          "no_survival_leaf_kinds": {
+            "dead": 22,
+            "dead+unresolved": 28,
+            "unresolved": 39
+          }
+        },
+        "INFESTED_PRISM": {
+          "death_hp_source": {
+            "last_public": 15
+          },
+          "deaths": 15,
+          "entries": 39,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.6,
+                "block_cards": 7.2,
+                "cards": 26.6,
+                "powers": 1.4,
+                "upgraded": 5.466666666666667
+              },
+              "mean_hp": 32.53333333333333,
+              "mean_hp_fraction": 0.43500474278695694,
+              "n": 15
+            },
+            "survived": {
+              "deck": {
+                "attacks": 13.125,
+                "block_cards": 6.833333333333333,
+                "cards": 26.166666666666668,
+                "powers": 0.9166666666666666,
+                "upgraded": 4.333333333333333
+              },
+              "mean_hp": 63.041666666666664,
+              "mean_hp_fraction": 0.8255997283874268,
+              "n": 24
+            }
+          },
+          "failed_boundary_roots": {
+            "ambiguous attack preview": 66,
+            "centennial puzzle draw": 39,
+            "draw": 28,
+            "finisher": 3,
+            "lethal player thorns": 4,
+            "memento_mori": 4,
+            "outbreak": 4,
+            "phantom blades existing shiv": 1,
+            "phantom blades retained shiv": 8,
+            "phantom blades shiv trigger": 11,
+            "potion/ATTACK_POTION": 3,
+            "potion/COLORLESS_POTION": 8,
+            "potion/CURE_ALL": 4,
+            "potion/FLEX_POTION": 15,
+            "potion/FOUL_POTION": 21,
+            "potion/FRUIT_JUICE": 9,
+            "potion/FYSH_OIL": 2,
+            "potion/MAZALETHS_GIFT": 4,
+            "potion/POTION_SHAPED_ROCK": 4,
+            "potion/POWER_POTION": 1,
+            "potion/REGEN_POTION": 3,
+            "potion/SKILL_POTION": 6,
+            "pounce": 1,
+            "power-triggered relic": 3,
+            "razor tooth upgrade": 9,
+            "ricochet": 2,
+            "sly target": 1,
+            "start/TOOLS_OF_THE_TRADE": 18,
+            "tools_of_the_trade": 3,
+            "up_my_sleeve": 8,
+            "vigor consumption timing": 1,
+            "vital spark reapplies skill afflictions": 96
+          },
+          "fatal_fight_decisions": {
+            "covered": 96,
+            "mechanic_or_scope": 57,
+            "search_certification": 128
+          },
+          "fatal_fight_majorities": {
+            "covered": 4,
+            "mechanic_or_scope": 3,
+            "mixed": 4,
+            "search_certification": 4
+          },
+          "low_entry_deaths": 4,
+          "mean_entry_hp": 51.30769230769231,
+          "mean_entry_hp_deaths": 32.53333333333333,
+          "median_death_round": 3,
+          "median_enemy_hp_at_death": 84,
+          "no_survival_leaf_kinds": {
+            "dead": 19,
+            "dead+unresolved": 33,
+            "unresolved": 161
+          }
+        },
+        "KNOWLEDGE_DEMON": {
+          "death_hp_source": {
+            "last_public": 23
+          },
+          "deaths": 23,
+          "entries": 42,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.869565217391305,
+                "block_cards": 7.869565217391305,
+                "cards": 28.391304347826086,
+                "powers": 1.3478260869565217,
+                "upgraded": 6.217391304347826
+              },
+              "mean_hp": 50.73913043478261,
+              "mean_hp_fraction": 0.6547845210665836,
+              "n": 23
+            },
+            "survived": {
+              "deck": {
+                "attacks": 13.473684210526315,
+                "block_cards": 7.842105263157895,
+                "cards": 28.526315789473685,
+                "powers": 1.2105263157894737,
+                "upgraded": 5.684210526315789
+              },
+              "mean_hp": 68.78947368421052,
+              "mean_hp_fraction": 0.8851209520423883,
+              "n": 19
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic fairy potion": 3,
+            "belt buckle last potion": 5,
+            "card selection/HAND_TRICK": 5,
+            "card selection/SEEKER_STRIKE": 7,
+            "centennial puzzle draw": 60,
+            "draw": 55,
+            "helical dart temporary dexterity": 3,
+            "memento_mori": 1,
+            "outbreak": 8,
+            "pen nib damage ordering": 1,
+            "phantom blades existing shiv": 3,
+            "phantom blades retained shiv": 25,
+            "phantom blades shiv trigger": 30,
+            "potion/ATTACK_POTION": 1,
+            "potion/FLEX_POTION": 4,
+            "potion/FOUL_POTION": 12,
+            "potion/GAMBLERS_BREW": 10,
+            "potion/MAZALETHS_GIFT": 4,
+            "potion/POTION_SHAPED_ROCK": 2,
+            "potion/POWDERED_DEMISE": 1,
+            "potion/SKILL_POTION": 14,
+            "potion/TOUCH_OF_INSANITY": 13,
+            "pounce": 14,
+            "reptile trinket temporary strength": 1,
+            "ricochet": 9,
+            "sloth automatic play count": 4,
+            "sly target": 1,
+            "tingsha discard target": 6,
+            "toasty mittens delayed start triggers": 16,
+            "unwitnessed knowledge curse sequence": 5,
+            "up_my_sleeve": 6,
+            "vambrace first card block": 5,
+            "velvet choker cap": 4,
+            "vigor consumption timing": 3
+          },
+          "fatal_fight_decisions": {
+            "champion_or_deadline": 50,
+            "covered": 339,
+            "mechanic_or_scope": 227,
+            "search_certification": 141
+          },
+          "fatal_fight_majorities": {
+            "covered": 11,
+            "mechanic_or_scope": 4,
+            "mixed": 6,
+            "search_certification": 2
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 58.904761904761905,
+          "mean_entry_hp_deaths": 50.73913043478261,
+          "median_death_round": 7,
+          "median_enemy_hp_at_death": 211,
+          "no_survival_leaf_kinds": {
+            "dead": 26,
+            "dead+unresolved": 17,
+            "unresolved": 105
+          }
+        },
+        "LOUSE_PROGENITOR": {
+          "death_hp_source": {
+            "last_public": 11
+          },
+          "deaths": 11,
+          "entries": 69,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 12.636363636363637,
+                "block_cards": 6.818181818181818,
+                "cards": 24.363636363636363,
+                "powers": 0.9090909090909091,
+                "upgraded": 3.6363636363636362
+              },
+              "mean_hp": 22.727272727272727,
+              "mean_hp_fraction": 0.31143829432599485,
+              "n": 11
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.448275862068966,
+                "block_cards": 7.5,
+                "cards": 25.482758620689655,
+                "powers": 1.1724137931034482,
+                "upgraded": 4.258620689655173
+              },
+              "mean_hp": 54,
+              "mean_hp_fraction": 0.7119596645065736,
+              "n": 58
+            }
+          },
+          "failed_boundary_roots": {
+            "belt buckle last potion": 1,
+            "card selection/HAND_TRICK": 1,
+            "card selection/SEEKER_STRIKE": 6,
+            "centennial puzzle draw": 45,
+            "draw": 64,
+            "finisher": 2,
+            "joss paper ethereal exhaust": 1,
+            "joss paper exhaust counter": 12,
+            "memento_mori": 5,
+            "multi-hit curl up ordering": 19,
+            "outbreak": 15,
+            "pen nib damage ordering": 2,
+            "phantom blades existing shiv": 2,
+            "phantom blades retained shiv": 5,
+            "phantom blades shiv trigger": 7,
+            "pocketwatch card limit": 18,
+            "potion/ATTACK_POTION": 6,
+            "potion/BLESSING_OF_THE_FORGE": 3,
+            "potion/CLARITY": 3,
+            "potion/COLORLESS_POTION": 16,
+            "potion/ENTROPIC_BREW": 2,
+            "potion/FLEX_POTION": 71,
+            "potion/FORTIFIER": 14,
+            "potion/FRUIT_JUICE": 4,
+            "potion/FYSH_OIL": 4,
+            "potion/POTION_SHAPED_ROCK": 3,
+            "potion/POWER_POTION": 8,
+            "potion/REGEN_POTION": 3,
+            "potion/SKILL_POTION": 1,
+            "potion/TOUCH_OF_INSANITY": 12,
+            "pounce": 13,
+            "power-triggered relic": 3,
+            "razor tooth upgrade": 20,
+            "ricochet": 6,
+            "sly target": 6,
+            "toasty mittens delayed start triggers": 27,
+            "toasty mittens start turn ordering": 10,
+            "up_my_sleeve": 1,
+            "vambrace first card block": 9,
+            "velvet choker cap": 5,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 110,
+            "mechanic_or_scope": 26,
+            "search_certification": 55
+          },
+          "fatal_fight_majorities": {
+            "covered": 8,
+            "mechanic_or_scope": 1,
+            "mixed": 1,
+            "search_certification": 1
+          },
+          "low_entry_deaths": 6,
+          "mean_entry_hp": 49.01449275362319,
+          "mean_entry_hp_deaths": 22.727272727272727,
+          "median_death_round": 4,
+          "median_enemy_hp_at_death": 75,
+          "no_survival_leaf_kinds": {
+            "dead": 31,
+            "dead+unresolved": 14,
+            "unresolved": 79
+          }
+        },
+        "MYTE+MYTE": {
+          "death_hp_source": {
+            "last_public": 10
+          },
+          "deaths": 10,
+          "entries": 49,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.7,
+                "block_cards": 6.5,
+                "cards": 26.3,
+                "powers": 0.9,
+                "upgraded": 2.6
+              },
+              "mean_hp": 12.2,
+              "mean_hp_fraction": 0.1666112672253023,
+              "n": 10
+            },
+            "survived": {
+              "deck": {
+                "attacks": 13.051282051282051,
+                "block_cards": 7.358974358974359,
+                "cards": 25.897435897435898,
+                "powers": 0.8461538461538461,
+                "upgraded": 4.384615384615385
+              },
+              "mean_hp": 52.97435897435897,
+              "mean_hp_fraction": 0.7073177914907486,
+              "n": 39
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic fairy potion": 5,
+            "automatic lizard tail": 2,
+            "bouncing flask random target": 3,
+            "card selection/HAND_TRICK": 3,
+            "card selection/SEEKER_STRIKE": 1,
+            "centennial puzzle draw": 10,
+            "draw": 34,
+            "echoing slash repeats after kill": 1,
+            "finisher": 5,
+            "gremlin horn death trigger": 8,
+            "kusarigama random target": 3,
+            "lethal player thorns": 2,
+            "memento_mori": 1,
+            "outbreak": 8,
+            "pen nib damage ordering": 2,
+            "phantom blades existing shiv": 4,
+            "plating and hand or shield ordering": 15,
+            "pocketwatch card limit": 9,
+            "potion/ATTACK_POTION": 3,
+            "potion/BLESSING_OF_THE_FORGE": 3,
+            "potion/CLARITY": 4,
+            "potion/COLORLESS_POTION": 7,
+            "potion/DROPLET_OF_PRECOGNITION": 3,
+            "potion/FLEX_POTION": 25,
+            "potion/FORTIFIER": 14,
+            "potion/FOUL_POTION": 10,
+            "potion/FYSH_OIL": 3,
+            "potion/GAMBLERS_BREW": 8,
+            "potion/POTION_SHAPED_ROCK": 4,
+            "power-triggered relic": 2,
+            "razor tooth upgrade": 7,
+            "replay target died": 1,
+            "reptile trinket temporary strength": 3,
+            "ricochet": 7,
+            "sly target": 1,
+            "start turn damage death or wake": 4,
+            "tingsha discard target": 2,
+            "unsettling lamp first debuff": 1,
+            "up_my_sleeve": 4,
+            "vambrace first card block": 1,
+            "velvet choker cap": 1,
+            "vigor consumption timing": 4
+          },
+          "fatal_fight_decisions": {
+            "covered": 54,
+            "mechanic_or_scope": 54,
+            "search_certification": 46
+          },
+          "fatal_fight_majorities": {
+            "covered": 3,
+            "mechanic_or_scope": 3,
+            "mixed": 2,
+            "search_certification": 2
+          },
+          "low_entry_deaths": 10,
+          "mean_entry_hp": 44.6530612244898,
+          "mean_entry_hp_deaths": 12.2,
+          "median_death_round": 3.0,
+          "median_enemy_hp_at_death": 47.0,
+          "no_survival_leaf_kinds": {
+            "dead": 6,
+            "dead+unresolved": 24,
+            "unresolved": 24
+          }
+        },
+        "OVICOPTER": {
+          "death_hp_source": {
+            "last_public": 7
+          },
+          "deaths": 7,
+          "entries": 62,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 12,
+                "block_cards": 7.571428571428571,
+                "cards": 26.714285714285715,
+                "powers": 2,
+                "upgraded": 3.857142857142857
+              },
+              "mean_hp": 25.428571428571427,
+              "mean_hp_fraction": 0.36122448979591837,
+              "n": 7
+            },
+            "survived": {
+              "deck": {
+                "attacks": 11.927272727272728,
+                "block_cards": 6.909090909090909,
+                "cards": 24.745454545454546,
+                "powers": 1.018181818181818,
+                "upgraded": 3.909090909090909
+              },
+              "mean_hp": 54.81818181818182,
+              "mean_hp_fraction": 0.7291052807817644,
+              "n": 55
+            }
+          },
+          "failed_boundary_roots": {
+            "bouncing flask random target": 3,
+            "card selection/HAND_TRICK": 3,
+            "card selection/SEEKER_STRIKE": 2,
+            "centennial puzzle draw": 7,
+            "demise lethal or intangible": 4,
+            "draw": 80,
+            "echoing slash repeats after kill": 5,
+            "enemy intent/OVICOPTER/Summon": 391,
+            "enemy intent/TOUGH_EGG/Summon": 247,
+            "finisher": 2,
+            "kusarigama random target": 2,
+            "lethal player thorns": 4,
+            "memento_mori": 12,
+            "outbreak": 10,
+            "phantom blades created shiv": 3,
+            "phantom blades existing shiv": 5,
+            "phantom blades retained shiv": 6,
+            "phantom blades shiv trigger": 15,
+            "pocketwatch card limit": 13,
+            "potion/ATTACK_POTION": 55,
+            "potion/BLESSING_OF_THE_FORGE": 14,
+            "potion/FLEX_POTION": 20,
+            "potion/POTION_SHAPED_ROCK": 5,
+            "potion/POWDERED_DEMISE": 4,
+            "potion/POWER_POTION": 3,
+            "potion/SKILL_POTION": 14,
+            "potion/TOUCH_OF_INSANITY": 13,
+            "pounce": 22,
+            "power-triggered relic": 3,
+            "ricochet": 24,
+            "sly target": 14,
+            "start/TOOLS_OF_THE_TRADE": 7,
+            "the hunt fatal eligibility": 5,
+            "toasty mittens delayed start triggers": 3,
+            "tools_of_the_trade": 1,
+            "up_my_sleeve": 21,
+            "vambrace first card block": 10,
+            "velvet choker cap": 5,
+            "vigor consumption timing": 5
+          },
+          "fatal_fight_decisions": {
+            "covered": 13,
+            "mechanic_or_scope": 37,
+            "search_certification": 79
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 1,
+            "search_certification": 6
+          },
+          "low_entry_deaths": 3,
+          "mean_entry_hp": 51.5,
+          "mean_entry_hp_deaths": 25.428571428571427,
+          "median_death_round": 5,
+          "median_enemy_hp_at_death": 98,
+          "no_survival_leaf_kinds": {
+            "dead": 3,
+            "dead+unresolved": 9,
+            "unresolved": 640
+          }
+        },
+        "SPINY_TOAD": {
+          "death_hp_source": {
+            "last_public": 5
+          },
+          "deaths": 5,
+          "entries": 46,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.4,
+                "block_cards": 6,
+                "cards": 23.8,
+                "powers": 0.6,
+                "upgraded": 5
+              },
+              "mean_hp": 19.4,
+              "mean_hp_fraction": 0.24901974262038418,
+              "n": 5
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.878048780487806,
+                "block_cards": 7.317073170731708,
+                "cards": 25.341463414634145,
+                "powers": 0.926829268292683,
+                "upgraded": 4.560975609756097
+              },
+              "mean_hp": 54.09756097560975,
+              "mean_hp_fraction": 0.7155553095013132,
+              "n": 41
+            }
+          },
+          "failed_boundary_roots": {
+            "card selection/HAND_TRICK": 1,
+            "card selection/SEEKER_STRIKE": 2,
+            "centennial puzzle draw": 8,
+            "demise lethal or intangible": 2,
+            "draw": 41,
+            "finisher": 3,
+            "gremlin horn death trigger": 3,
+            "joss paper ethereal exhaust": 3,
+            "joss paper exhaust counter": 6,
+            "lethal thorns ordering": 34,
+            "outbreak": 8,
+            "pen nib damage ordering": 4,
+            "phantom blades existing shiv": 1,
+            "phantom blades retained shiv": 11,
+            "phantom blades shiv trigger": 13,
+            "pocketwatch card limit": 5,
+            "potion/BLESSING_OF_THE_FORGE": 2,
+            "potion/COLORLESS_POTION": 14,
+            "potion/CURE_ALL": 6,
+            "potion/DISTILLED_CHAOS": 2,
+            "potion/DROPLET_OF_PRECOGNITION": 4,
+            "potion/FLEX_POTION": 11,
+            "potion/FORTIFIER": 2,
+            "potion/FOUL_POTION": 5,
+            "potion/GAMBLERS_BREW": 8,
+            "potion/POTION_SHAPED_ROCK": 1,
+            "potion/POWDERED_DEMISE": 2,
+            "potion/POWER_POTION": 1,
+            "potion/SKILL_POTION": 7,
+            "potion/TOUCH_OF_INSANITY": 9,
+            "pounce": 4,
+            "power-triggered relic": 1,
+            "ricochet": 9,
+            "sly target": 3,
+            "toasty mittens delayed start triggers": 6,
+            "up_my_sleeve": 5,
+            "vambrace first card block": 1,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 25,
+            "mechanic_or_scope": 31,
+            "search_certification": 21
+          },
+          "fatal_fight_majorities": {
+            "covered": 2,
+            "mechanic_or_scope": 1,
+            "mixed": 2
+          },
+          "low_entry_deaths": 4,
+          "mean_entry_hp": 50.32608695652174,
+          "mean_entry_hp_deaths": 19.4,
+          "median_death_round": 3,
+          "median_enemy_hp_at_death": 53,
+          "no_survival_leaf_kinds": {
+            "dead": 6,
+            "dead+unresolved": 6,
+            "unresolved": 53
+          }
+        },
+        "THE_INSATIABLE": {
+          "death_hp_source": {
+            "last_public": 28
+          },
+          "deaths": 28,
+          "entries": 37,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.821428571428571,
+                "block_cards": 7.821428571428571,
+                "cards": 28.142857142857142,
+                "powers": 1.25,
+                "upgraded": 4.464285714285714
+              },
+              "mean_hp": 55.214285714285715,
+              "mean_hp_fraction": 0.7300756634736173,
+              "n": 28
+            },
+            "survived": {
+              "deck": {
+                "attacks": 14.333333333333334,
+                "block_cards": 7.888888888888889,
+                "cards": 29.444444444444443,
+                "powers": 1.1111111111111112,
+                "upgraded": 5
+              },
+              "mean_hp": 72.33333333333333,
+              "mean_hp_fraction": 0.8596271326309157,
+              "n": 9
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic fairy potion": 5,
+            "card selection/HAND_TRICK": 1,
+            "centennial puzzle draw": 10,
+            "draw": 46,
+            "memento_mori": 7,
+            "outbreak": 5,
+            "pen nib damage ordering": 2,
+            "phantom blades created shiv": 1,
+            "phantom blades existing shiv": 3,
+            "phantom blades retained shiv": 16,
+            "phantom blades shiv trigger": 25,
+            "potion/ATTACK_POTION": 3,
+            "potion/BLESSING_OF_THE_FORGE": 7,
+            "potion/CLARITY": 1,
+            "potion/COLORLESS_POTION": 5,
+            "potion/FLEX_POTION": 3,
+            "potion/FORTIFIER": 26,
+            "potion/POTION_SHAPED_ROCK": 2,
+            "potion/POWER_POTION": 3,
+            "potion/SKILL_POTION": 12,
+            "potion/TOUCH_OF_INSANITY": 4,
+            "pounce": 11,
+            "power-triggered relic": 9,
+            "razor tooth upgrade": 20,
+            "ricochet": 9,
+            "sly target": 4,
+            "toasty mittens start turn ordering": 19,
+            "up_my_sleeve": 8,
+            "vambrace first card block": 1
+          },
+          "fatal_fight_decisions": {
+            "champion_or_deadline": 28,
+            "covered": 436,
+            "mechanic_or_scope": 188,
+            "search_certification": 209
+          },
+          "fatal_fight_majorities": {
+            "covered": 15,
+            "mechanic_or_scope": 3,
+            "mixed": 6,
+            "search_certification": 4
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 59.37837837837838,
+          "mean_entry_hp_deaths": 55.214285714285715,
+          "median_death_round": 6.0,
+          "median_enemy_hp_at_death": 152.0,
+          "no_survival_leaf_kinds": {
+            "dead": 69,
+            "dead+unresolved": 24,
+            "unresolved": 48
+          }
+        },
+        "THE_OBSCURA": {
+          "death_hp_source": {
+            "last_public": 11
+          },
+          "deaths": 11,
+          "entries": 57,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 12.272727272727273,
+                "block_cards": 7.454545454545454,
+                "cards": 24.454545454545453,
+                "powers": 0.8181818181818182,
+                "upgraded": 3.727272727272727
+              },
+              "mean_hp": 30.636363636363637,
+              "mean_hp_fraction": 0.41346573397098935,
+              "n": 11
+            },
+            "survived": {
+              "deck": {
+                "attacks": 12.456521739130435,
+                "block_cards": 7.195652173913044,
+                "cards": 25.456521739130434,
+                "powers": 1,
+                "upgraded": 4.369565217391305
+              },
+              "mean_hp": 55.73913043478261,
+              "mean_hp_fraction": 0.7389212506193941,
+              "n": 46
+            }
+          },
+          "failed_boundary_roots": {
+            "automatic lizard tail": 1,
+            "bouncing flask random target": 6,
+            "card selection/HAND_TRICK": 3,
+            "card selection/SEEKER_STRIKE": 1,
+            "centennial puzzle draw": 12,
+            "draw": 76,
+            "enemy intent/THE_OBSCURA/Summon": 266,
+            "finisher": 4,
+            "illusion revival": 214,
+            "joss paper exhaust counter": 6,
+            "kusarigama random target": 6,
+            "lethal player thorns": 4,
+            "memento_mori": 12,
+            "outbreak": 8,
+            "parrying shield target": 23,
+            "pen nib damage ordering": 7,
+            "phantom blades existing shiv": 4,
+            "phantom blades retained shiv": 9,
+            "phantom blades shiv trigger": 20,
+            "pocketwatch card limit": 13,
+            "potion/ATTACK_POTION": 8,
+            "potion/BLESSING_OF_THE_FORGE": 10,
+            "potion/COLORLESS_POTION": 7,
+            "potion/CURE_ALL": 4,
+            "potion/DISTILLED_CHAOS": 3,
+            "potion/FLEX_POTION": 56,
+            "potion/FOUL_POTION": 25,
+            "potion/MAZALETHS_GIFT": 2,
+            "potion/OROBIC_ACID": 2,
+            "potion/POTION_SHAPED_ROCK": 8,
+            "potion/SNECKO_OIL": 3,
+            "potion/TOUCH_OF_INSANITY": 5,
+            "pounce": 4,
+            "power-triggered relic": 2,
+            "razor tooth upgrade": 12,
+            "reptile trinket temporary strength": 11,
+            "ricochet": 8,
+            "sly target": 1,
+            "start turn damage death or wake": 3,
+            "toasty mittens delayed start triggers": 11,
+            "up_my_sleeve": 14,
+            "vambrace first card block": 1,
+            "velvet choker cap": 6,
+            "vigor consumption timing": 2
+          },
+          "fatal_fight_decisions": {
+            "covered": 81,
+            "mechanic_or_scope": 40,
+            "search_certification": 121
+          },
+          "fatal_fight_majorities": {
+            "covered": 2,
+            "mixed": 3,
+            "search_certification": 6
+          },
+          "low_entry_deaths": 4,
+          "mean_entry_hp": 50.89473684210526,
+          "mean_entry_hp_deaths": 30.636363636363637,
+          "median_death_round": 4,
+          "median_enemy_hp_at_death": 57,
+          "no_survival_leaf_kinds": {
+            "dead": 10,
+            "dead+unresolved": 40,
+            "unresolved": 389
+          }
+        },
+        "THIEVING_HOPPER": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 134,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 11.313432835820896,
+                "block_cards": 6.701492537313433,
+                "cards": 22.850746268656717,
+                "powers": 0.753731343283582,
+                "upgraded": 3.388059701492537
+              },
+              "mean_hp": 64.55970149253731,
+              "mean_hp_fraction": 0.8816579364193068,
+              "n": 134
+            }
+          },
+          "failed_boundary_roots": {
+            "belt buckle last potion": 2,
+            "card selection/HAND_TRICK": 4,
+            "card selection/SEEKER_STRIKE": 3,
+            "centennial puzzle draw": 61,
+            "demise lethal or intangible": 2,
+            "draw": 93,
+            "finisher": 3,
+            "flutter stun transition": 61,
+            "joss paper ethereal exhaust": 8,
+            "joss paper exhaust counter": 17,
+            "memento_mori": 4,
+            "outbreak": 11,
+            "parrying shield target": 1,
+            "pen nib damage ordering": 9,
+            "phantom blades existing shiv": 1,
+            "phantom blades retained shiv": 2,
+            "phantom blades shiv trigger": 3,
+            "pocketwatch card limit": 12,
+            "potion/ATTACK_POTION": 14,
+            "potion/BLESSING_OF_THE_FORGE": 25,
+            "potion/CLARITY": 12,
+            "potion/COLORLESS_POTION": 44,
+            "potion/CUNNING_POTION": 3,
+            "potion/FLEX_POTION": 96,
+            "potion/FORTIFIER": 4,
+            "potion/FOUL_POTION": 14,
+            "potion/FRUIT_JUICE": 6,
+            "potion/FYSH_OIL": 8,
+            "potion/GAMBLERS_BREW": 15,
+            "potion/LIQUID_MEMORIES": 12,
+            "potion/POTION_OF_BINDING": 20,
+            "potion/POTION_SHAPED_ROCK": 7,
+            "potion/POWDERED_DEMISE": 2,
+            "potion/POWER_POTION": 5,
+            "potion/RADIANT_TINCTURE": 5,
+            "potion/REGEN_POTION": 8,
+            "potion/SHIP_IN_A_BOTTLE": 3,
+            "potion/SKILL_POTION": 21,
+            "potion/TOUCH_OF_INSANITY": 26,
+            "pounce": 19,
+            "power-triggered relic": 9,
+            "razor tooth upgrade": 41,
+            "ricochet": 29,
+            "sly target": 7,
+            "start turn damage death or wake": 2,
+            "thieving hopper departure": 22,
+            "thieving hopper steal or escape": 694,
+            "tingsha discard target": 2,
+            "up_my_sleeve": 7,
+            "vambrace first card block": 1,
+            "velvet choker cap": 2,
+            "vigor consumption timing": 16
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 64.55970149253731,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 766
+          }
+        },
+        "TUNNELER": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 135,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 11,
+                "block_cards": 7,
+                "cards": 25,
+                "powers": 1,
+                "upgraded": 2
+              },
+              "mean_hp": 41,
+              "mean_hp_fraction": 0.5857142857142857,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 11.201492537313433,
+                "block_cards": 6.67910447761194,
+                "cards": 22.34328358208955,
+                "powers": 0.5895522388059702,
+                "upgraded": 3.388059701492537
+              },
+              "mean_hp": 67.31343283582089,
+              "mean_hp_fraction": 0.9157205114830782,
+              "n": 134
+            }
+          },
+          "failed_boundary_roots": {
+            "belt buckle last potion": 10,
+            "card selection/HAND_TRICK": 2,
+            "card selection/SEEKER_STRIKE": 4,
+            "centennial puzzle draw": 27,
+            "demise lethal or intangible": 1,
+            "draw": 109,
+            "finisher": 12,
+            "gremlin horn death trigger": 11,
+            "joss paper ethereal exhaust": 12,
+            "joss paper exhaust counter": 19,
+            "lethal player thorns": 1,
+            "memento_mori": 5,
+            "outbreak": 14,
+            "pen nib damage ordering": 4,
+            "player thorns changed enemy move": 2,
+            "potion/ATTACK_POTION": 16,
+            "potion/BLESSING_OF_THE_FORGE": 11,
+            "potion/BOTTLED_POTENTIAL": 1,
+            "potion/COLORLESS_POTION": 17,
+            "potion/DROPLET_OF_PRECOGNITION": 7,
+            "potion/FLEX_POTION": 16,
+            "potion/FORTIFIER": 3,
+            "potion/FOUL_POTION": 12,
+            "potion/FRUIT_JUICE": 5,
+            "potion/FYSH_OIL": 4,
+            "potion/GAMBLERS_BREW": 22,
+            "potion/LUCKY_TONIC": 1,
+            "potion/MAZALETHS_GIFT": 4,
+            "potion/POTION_SHAPED_ROCK": 2,
+            "potion/POWDERED_DEMISE": 3,
+            "potion/POWER_POTION": 5,
+            "potion/RADIANT_TINCTURE": 1,
+            "potion/REGEN_POTION": 14,
+            "potion/SHACKLING_POTION": 3,
+            "potion/SHIP_IN_A_BOTTLE": 1,
+            "potion/SKILL_POTION": 15,
+            "pounce": 19,
+            "razor tooth upgrade": 21,
+            "reptile trinket temporary strength": 4,
+            "ricochet": 16,
+            "sly target": 5,
+            "tingsha discard target": 1,
+            "toasty mittens delayed start triggers": 19,
+            "up_my_sleeve": 14,
+            "vambrace first card block": 1,
+            "vigor consumption timing": 2
+          },
+          "fatal_fight_decisions": {
+            "covered": 20,
+            "search_certification": 5
+          },
+          "fatal_fight_majorities": {
+            "covered": 1
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 67.11851851851851,
+          "mean_entry_hp_deaths": 41,
+          "median_death_round": 5,
+          "median_enemy_hp_at_death": 30,
+          "no_survival_leaf_kinds": {
+            "dead": 1,
+            "dead+unresolved": 1,
+            "unresolved": 59
+          }
+        }
+      },
+      "3": {
+        "AEONGLASS": {
+          "death_hp_source": {
+            "last_public": 3
+          },
+          "deaths": 3,
+          "entries": 4,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 14.333333333333334,
+                "block_cards": 9,
+                "cards": 33,
+                "powers": 2,
+                "upgraded": 8
+              },
+              "mean_hp": 73,
+              "mean_hp_fraction": 0.9464041095890411,
+              "n": 3
+            },
+            "survived": {
+              "deck": {
+                "attacks": 17,
+                "block_cards": 11,
+                "cards": 34,
+                "powers": 1,
+                "upgraded": 9
+              },
+              "mean_hp": 73,
+              "mean_hp_fraction": 0.948051948051948,
+              "n": 1
+            }
+          },
+          "failed_boundary_roots": {
+            "potion/FLEX_POTION": 1,
+            "ricochet": 1,
+            "withering presence creates wither": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 8,
+            "mechanic_or_scope": 99,
+            "search_certification": 3
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 3
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 73,
+          "mean_entry_hp_deaths": 73,
+          "median_death_round": 5,
+          "median_enemy_hp_at_death": 300,
+          "no_survival_leaf_kinds": {}
+        },
+        "AXEBOT": {
+          "death_hp_source": {
+            "last_public": 5
+          },
+          "deaths": 5,
+          "entries": 7,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 14.8,
+                "block_cards": 8.6,
+                "cards": 31.8,
+                "powers": 1.2,
+                "upgraded": 5.8
+              },
+              "mean_hp": 27.6,
+              "mean_hp_fraction": 0.36672260323945716,
+              "n": 5
+            },
+            "survived": {
+              "deck": {
+                "attacks": 15,
+                "block_cards": 8.5,
+                "cards": 32.5,
+                "powers": 1,
+                "upgraded": 9.5
+              },
+              "mean_hp": 75.5,
+              "mean_hp_fraction": 0.7980725623582767,
+              "n": 2
+            }
+          },
+          "failed_boundary_roots": {
+            "axebot stock": 21,
+            "belt buckle last potion": 10,
+            "card selection/HAND_TRICK": 1,
+            "draw": 14,
+            "enemy intent/AXEBOT/Buff+Defend": 32,
+            "gremlin horn death trigger": 15,
+            "helical dart temporary dexterity": 11,
+            "memento_mori": 4,
+            "outbreak": 7,
+            "potion/FLEX_POTION": 1,
+            "potion/LUCKY_TONIC": 1,
+            "pounce": 12,
+            "reptile trinket temporary strength": 1,
+            "ricochet": 4,
+            "sly target": 4,
+            "tingsha discard target": 7,
+            "up_my_sleeve": 1,
+            "vambrace first card block": 2,
+            "velvet choker cap": 19
+          },
+          "fatal_fight_decisions": {
+            "covered": 22,
+            "mechanic_or_scope": 66,
+            "search_certification": 58
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 2,
+            "search_certification": 3
+          },
+          "low_entry_deaths": 2,
+          "mean_entry_hp": 41.285714285714285,
+          "mean_entry_hp_deaths": 27.6,
+          "median_death_round": 7,
+          "median_enemy_hp_at_death": 53,
+          "no_survival_leaf_kinds": {
+            "dead": 8,
+            "dead+unresolved": 12,
+            "unresolved": 68
+          }
+        },
+        "BATTLE_FRIEND_V3": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 4,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 14.5,
+                "block_cards": 7.25,
+                "cards": 30.5,
+                "powers": 1.25,
+                "upgraded": 5.75
+              },
+              "mean_hp": 38,
+              "mean_hp_fraction": 0.47697335400424645,
+              "n": 4
+            }
+          },
+          "failed_boundary_roots": {},
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 38,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {}
+        },
+        "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 1,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 15,
+                "block_cards": 8,
+                "cards": 36,
+                "powers": 2,
+                "upgraded": 7
+              },
+              "mean_hp": 61,
+              "mean_hp_fraction": 0.7011494252873564,
+              "n": 1
+            }
+          },
+          "failed_boundary_roots": {},
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 61,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {}
+        },
+        "DEVOTED_SCULPTOR": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 16,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 14,
+                "block_cards": 7.9375,
+                "cards": 30.0625,
+                "powers": 1.3125,
+                "upgraded": 6.375
+              },
+              "mean_hp": 73.125,
+              "mean_hp_fraction": 0.9285054758055579,
+              "n": 16
+            }
+          },
+          "failed_boundary_roots": {
+            "belt buckle last potion": 5,
+            "card selection/SEEKER_STRIKE": 1,
+            "centennial puzzle draw": 6,
+            "draw": 12,
+            "gremlin horn death trigger": 1,
+            "outbreak": 4,
+            "phantom blades existing shiv": 2,
+            "potion/FORTIFIER": 1,
+            "potion/FOUL_POTION": 2,
+            "potion/TOUCH_OF_INSANITY": 9,
+            "pounce": 5,
+            "ricochet": 1,
+            "vambrace first card block": 1,
+            "velvet choker cap": 6
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 73.125,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 6
+          }
+        },
+        "FABRICATOR": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 9,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 15.222222222222221,
+                "block_cards": 7.777777777777778,
+                "cards": 32.22222222222222,
+                "powers": 1.3333333333333333,
+                "upgraded": 6.222222222222222
+              },
+              "mean_hp": 57.55555555555556,
+              "mean_hp_fraction": 0.7540999205472889,
+              "n": 9
+            }
+          },
+          "failed_boundary_roots": {
+            "death phase/NOISEBOT": 2,
+            "death phase/ZAPBOT": 5,
+            "draw": 10,
+            "enemy intent/FABRICATOR/Summon": 15,
+            "phantom blades existing shiv": 1,
+            "phantom blades retained shiv": 10,
+            "phantom blades shiv trigger": 9,
+            "potion/FLEX_POTION": 2,
+            "potion/POTION_SHAPED_ROCK": 1,
+            "pounce": 5,
+            "velvet choker cap": 5
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 57.55555555555556,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "dead+unresolved": 3,
+            "unresolved": 23
+          }
+        },
+        "FLAIL_KNIGHT+SPECTRAL_KNIGHT+MAGI_KNIGHT": {
+          "death_hp_source": {
+            "last_public": 4
+          },
+          "deaths": 4,
+          "entries": 4,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 16.25,
+                "block_cards": 9.25,
+                "cards": 36,
+                "powers": 2.25,
+                "upgraded": 8.5
+              },
+              "mean_hp": 48.5,
+              "mean_hp_fraction": 0.6557442182442182,
+              "n": 4
+            },
+            "survived": null
+          },
+          "failed_boundary_roots": {
+            "centennial puzzle draw": 2,
+            "death phase/FLAIL_KNIGHT": 1,
+            "death phase/SPECTRAL_KNIGHT": 5,
+            "draw": 8,
+            "enemy intent/MAGI_KNIGHT/Debuff": 8,
+            "enemy intent/SPECTRAL_KNIGHT/Debuff": 15,
+            "hexed created shiv": 1,
+            "phantom blades existing shiv": 2,
+            "phantom blades retained shiv": 1,
+            "phantom blades shiv trigger": 1,
+            "potion/ATTACK_POTION": 6,
+            "potion/DROPLET_OF_PRECOGNITION": 15,
+            "pounce": 4,
+            "velvet choker cap": 2
+          },
+          "fatal_fight_decisions": {
+            "covered": 7,
+            "mechanic_or_scope": 55,
+            "search_certification": 37
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 2,
+            "search_certification": 2
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 48.5,
+          "mean_entry_hp_deaths": 48.5,
+          "median_death_round": 3.5,
+          "median_enemy_hp_at_death": 150.0,
+          "no_survival_leaf_kinds": {
+            "dead+unresolved": 6,
+            "unresolved": 29
+          }
+        },
+        "FROG_KNIGHT": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 3,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 14.666666666666666,
+                "block_cards": 6.333333333333333,
+                "cards": 29.666666666666668,
+                "powers": 0.3333333333333333,
+                "upgraded": 7
+              },
+              "mean_hp": 63,
+              "mean_hp_fraction": 0.7814527516458528,
+              "n": 3
+            }
+          },
+          "failed_boundary_roots": {
+            "draw": 2,
+            "gremlin horn death trigger": 2,
+            "outbreak": 3,
+            "potion/TOUCH_OF_INSANITY": 15,
+            "velvet choker cap": 2
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 63,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 1
+          }
+        },
+        "GLOBE_HEAD": {
+          "death_hp_source": {
+            "last_public": 2
+          },
+          "deaths": 2,
+          "entries": 6,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 13.5,
+                "block_cards": 6.5,
+                "cards": 31,
+                "powers": 2.5,
+                "upgraded": 5
+              },
+              "mean_hp": 16.5,
+              "mean_hp_fraction": 0.2199367088607595,
+              "n": 2
+            },
+            "survived": {
+              "deck": {
+                "attacks": 14.5,
+                "block_cards": 7.25,
+                "cards": 31.5,
+                "powers": 1.25,
+                "upgraded": 8.5
+              },
+              "mean_hp": 64,
+              "mean_hp_fraction": 0.6908653846153846,
+              "n": 4
+            }
+          },
+          "failed_boundary_roots": {
+            "draw": 1,
+            "gremlin horn death trigger": 6,
+            "outbreak": 1,
+            "pounce": 1,
+            "velvet choker cap": 6,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {
+            "mechanic_or_scope": 35
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 2
+          },
+          "low_entry_deaths": 2,
+          "mean_entry_hp": 48.166666666666664,
+          "mean_entry_hp_deaths": 16.5,
+          "median_death_round": 3.5,
+          "median_enemy_hp_at_death": 24.5,
+          "no_survival_leaf_kinds": {
+            "unresolved": 5
+          }
+        },
+        "LIVING_SHIELD+TURRET_OPERATOR": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 21,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 14.285714285714286,
+                "block_cards": 8.047619047619047,
+                "cards": 30.095238095238095,
+                "powers": 1.4761904761904763,
+                "upgraded": 5.904761904761905
+              },
+              "mean_hp": 74.04761904761905,
+              "mean_hp_fraction": 0.9325519434796754,
+              "n": 21
+            }
+          },
+          "failed_boundary_roots": {
+            "belt buckle last potion": 4,
+            "bouncing flask random target": 2,
+            "draw": 17,
+            "enemy intent/LIVING_SHIELD/Buff": 7,
+            "helical dart temporary dexterity": 3,
+            "kusarigama random target": 4,
+            "lethal player thorns": 8,
+            "memento_mori": 2,
+            "outbreak": 1,
+            "parrying shield target": 3,
+            "phantom blades existing shiv": 4,
+            "phantom blades retained shiv": 7,
+            "phantom blades shiv trigger": 9,
+            "potion/FLEX_POTION": 3,
+            "potion/POTION_SHAPED_ROCK": 5,
+            "potion/POWER_POTION": 6,
+            "pounce": 5,
+            "power-triggered relic": 1,
+            "ricochet": 1,
+            "stacked fan of knives": 1,
+            "velvet choker cap": 5,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 74.04761904761905,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 15
+          }
+        },
+        "MECHA_KNIGHT": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 4,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 16,
+                "block_cards": 7,
+                "cards": 33,
+                "powers": 0,
+                "upgraded": 8
+              },
+              "mean_hp": 67,
+              "mean_hp_fraction": 0.7052631578947368,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 14,
+                "block_cards": 9.333333333333334,
+                "cards": 29.666666666666668,
+                "powers": 1.3333333333333333,
+                "upgraded": 9.333333333333334
+              },
+              "mean_hp": 91,
+              "mean_hp_fraction": 0.9826839826839827,
+              "n": 3
+            }
+          },
+          "failed_boundary_roots": {
+            "draw": 2,
+            "enemy intent/MECHA_KNIGHT/StatusCard": 27,
+            "mecha reattach": 2,
+            "plating and hand or shield ordering": 6,
+            "potion/ATTACK_POTION": 1,
+            "pounce": 3,
+            "velvet choker cap": 20
+          },
+          "fatal_fight_decisions": {
+            "covered": 16,
+            "search_certification": 28
+          },
+          "fatal_fight_majorities": {
+            "search_certification": 1
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 85,
+          "mean_entry_hp_deaths": 67,
+          "median_death_round": 7,
+          "median_enemy_hp_at_death": 183,
+          "no_survival_leaf_kinds": {
+            "dead": 6,
+            "unresolved": 35
+          }
+        },
+        "OWL_MAGISTRATE": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 1,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 14,
+                "block_cards": 6,
+                "cards": 34,
+                "powers": 3,
+                "upgraded": 7
+              },
+              "mean_hp": 38,
+              "mean_hp_fraction": 0.4810126582278481,
+              "n": 1
+            }
+          },
+          "failed_boundary_roots": {},
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 38,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {}
+        },
+        "PUNCH_CONSTRUCT+CUBEX_CONSTRUCT+CUBEX_CONSTRUCT": {
+          "death_hp_source": {
+            "last_public": 2
+          },
+          "deaths": 2,
+          "entries": 6,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 15.5,
+                "block_cards": 10,
+                "cards": 32.5,
+                "powers": 1,
+                "upgraded": 8
+              },
+              "mean_hp": 55.5,
+              "mean_hp_fraction": 0.5575471698113208,
+              "n": 2
+            },
+            "survived": {
+              "deck": {
+                "attacks": 15,
+                "block_cards": 8,
+                "cards": 30.5,
+                "powers": 0.75,
+                "upgraded": 9.75
+              },
+              "mean_hp": 55.75,
+              "mean_hp_fraction": 0.6993217172918001,
+              "n": 4
+            }
+          },
+          "failed_boundary_roots": {
+            "draw": 4,
+            "joss paper ethereal exhaust": 4,
+            "joss paper exhaust counter": 4,
+            "lethal player thorns": 4,
+            "outbreak": 2,
+            "panic_button": 1,
+            "potion/COLORLESS_POTION": 4,
+            "power-triggered relic": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 21,
+            "mechanic_or_scope": 1,
+            "search_certification": 13
+          },
+          "fatal_fight_majorities": {
+            "covered": 1,
+            "mixed": 1
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 55.666666666666664,
+          "mean_entry_hp_deaths": 55.5,
+          "median_death_round": 4.5,
+          "median_enemy_hp_at_death": 75.0,
+          "no_survival_leaf_kinds": {
+            "dead": 2,
+            "dead+unresolved": 5,
+            "unresolved": 4
+          }
+        },
+        "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 19,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 14.736842105263158,
+                "block_cards": 7.842105263157895,
+                "cards": 30.05263157894737,
+                "powers": 1.105263157894737,
+                "upgraded": 6
+              },
+              "mean_hp": 76.42105263157895,
+              "mean_hp_fraction": 0.903013021152631,
+              "n": 19
+            }
+          },
+          "failed_boundary_roots": {
+            "bouncing flask random target": 2,
+            "card selection/HAND_TRICK": 1,
+            "card selection/SEEKER_STRIKE": 1,
+            "draw": 3,
+            "joss paper ethereal exhaust": 3,
+            "kusarigama random target": 4,
+            "lethal player thorns": 1,
+            "memento_mori": 1,
+            "outbreak": 2,
+            "parrying shield target": 4,
+            "potion/CUNNING_POTION": 3,
+            "potion/POTION_SHAPED_ROCK": 2,
+            "potion/TOUCH_OF_INSANITY": 4,
+            "pounce": 3,
+            "power-triggered relic": 1,
+            "replay target died": 1,
+            "vigor consumption timing": 3
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 76.42105263157895,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 3
+          }
+        },
+        "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+          "death_hp_source": {
+            "last_public": 1
+          },
+          "deaths": 1,
+          "entries": 9,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 15,
+                "block_cards": 6,
+                "cards": 30,
+                "powers": 0,
+                "upgraded": 7
+              },
+              "mean_hp": 8,
+              "mean_hp_fraction": 0.08888888888888889,
+              "n": 1
+            },
+            "survived": {
+              "deck": {
+                "attacks": 15.875,
+                "block_cards": 7.375,
+                "cards": 33.375,
+                "powers": 2,
+                "upgraded": 6.75
+              },
+              "mean_hp": 58.5,
+              "mean_hp_fraction": 0.7041724954239783,
+              "n": 8
+            }
+          },
+          "failed_boundary_roots": {
+            "draw": 4,
+            "echoing slash repeats after kill": 2,
+            "kusarigama random target": 2,
+            "lethal player thorns": 3,
+            "parrying shield target": 3,
+            "phantom blades existing shiv": 1,
+            "potion/DROPLET_OF_PRECOGNITION": 3,
+            "potion/FLEX_POTION": 3,
+            "potion/FOUL_POTION": 5,
+            "pounce": 1,
+            "vigor consumption timing": 3
+          },
+          "fatal_fight_decisions": {
+            "mechanic_or_scope": 16
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 1
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 52.888888888888886,
+          "mean_entry_hp_deaths": 8,
+          "median_death_round": 2,
+          "median_enemy_hp_at_death": 79,
+          "no_survival_leaf_kinds": {
+            "unresolved": 3
+          }
+        },
+        "SLIMED_BERSERKER": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 6,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 15.833333333333334,
+                "block_cards": 9,
+                "cards": 34.166666666666664,
+                "powers": 2,
+                "upgraded": 7.666666666666667
+              },
+              "mean_hp": 50.833333333333336,
+              "mean_hp_fraction": 0.6900532338032338,
+              "n": 6
+            }
+          },
+          "failed_boundary_roots": {
+            "draw": 6,
+            "phantom blades existing shiv": 1,
+            "phantom blades retained shiv": 7,
+            "phantom blades shiv trigger": 11,
+            "potion/FOUL_POTION": 5,
+            "potion/POTION_SHAPED_ROCK": 5,
+            "ricochet": 2,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 50.833333333333336,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 7
+          }
+        },
+        "SOUL_NEXUS": {
+          "death_hp_source": {
+            "last_public": 3
+          },
+          "deaths": 3,
+          "entries": 3,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 19.666666666666668,
+                "block_cards": 8,
+                "cards": 34.333333333333336,
+                "powers": 1.6666666666666667,
+                "upgraded": 9.666666666666666
+              },
+              "mean_hp": 91.66666666666667,
+              "mean_hp_fraction": 0.9933993399339934,
+              "n": 3
+            },
+            "survived": null
+          },
+          "failed_boundary_roots": {},
+          "fatal_fight_decisions": {
+            "mechanic_or_scope": 87
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 3
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 91.66666666666667,
+          "mean_entry_hp_deaths": 91.66666666666667,
+          "median_death_round": 5,
+          "median_enemy_hp_at_death": 48,
+          "no_survival_leaf_kinds": {}
+        },
+        "TEST_SUBJECT": {
+          "death_hp_source": {
+            "last_public": 5
+          },
+          "deaths": 5,
+          "entries": 5,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 14.8,
+                "block_cards": 9,
+                "cards": 32.6,
+                "powers": 1.8,
+                "upgraded": 11
+              },
+              "mean_hp": 57.8,
+              "mean_hp_fraction": 0.5918142324436525,
+              "n": 5
+            },
+            "survived": null
+          },
+          "failed_boundary_roots": {
+            "ambiguous attack preview": 5,
+            "automatic fairy potion": 6,
+            "card selection/HAND_TRICK": 1,
+            "death phase/TEST_SUBJECT": 6,
+            "draw": 2,
+            "memento_mori": 6,
+            "outbreak": 3,
+            "pounce": 4,
+            "start turn damage death or wake": 2,
+            "vambrace first card block": 2
+          },
+          "fatal_fight_decisions": {
+            "covered": 48,
+            "mechanic_or_scope": 22,
+            "search_certification": 34
+          },
+          "fatal_fight_majorities": {
+            "covered": 1,
+            "mechanic_or_scope": 1,
+            "mixed": 3
+          },
+          "low_entry_deaths": 1,
+          "mean_entry_hp": 57.8,
+          "mean_entry_hp_deaths": 57.8,
+          "median_death_round": 5,
+          "median_enemy_hp_at_death": 102,
+          "no_survival_leaf_kinds": {
+            "dead": 5,
+            "dead+unresolved": 9,
+            "unresolved": 11
+          }
+        },
+        "THE_LOST+THE_FORGOTTEN": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 5,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 14.6,
+                "block_cards": 8,
+                "cards": 33,
+                "powers": 1.6,
+                "upgraded": 7.8
+              },
+              "mean_hp": 49.8,
+              "mean_hp_fraction": 0.6576120583284619,
+              "n": 5
+            }
+          },
+          "failed_boundary_roots": {
+            "centennial puzzle draw": 6,
+            "death phase/THE_FORGOTTEN": 3,
+            "death phase/THE_LOST": 8,
+            "draw": 5,
+            "gremlin horn death trigger": 8,
+            "outbreak": 8,
+            "pounce": 1,
+            "velvet choker cap": 7,
+            "vigor consumption timing": 1
+          },
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 49.8,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {
+            "unresolved": 20
+          }
+        },
+        "TORCH_HEAD_AMALGAM+QUEEN": {
+          "death_hp_source": {
+            "last_public": 3
+          },
+          "deaths": 3,
+          "entries": 3,
+          "entry_profiles": {
+            "fatal": {
+              "deck": {
+                "attacks": 17.333333333333332,
+                "block_cards": 7.666666666666667,
+                "cards": 36.333333333333336,
+                "powers": 2.3333333333333335,
+                "upgraded": 9
+              },
+              "mean_hp": 69.66666666666667,
+              "mean_hp_fraction": 0.89896004378763,
+              "n": 3
+            },
+            "survived": null
+          },
+          "failed_boundary_roots": {
+            "draw": 1,
+            "potion/POTION_SHAPED_ROCK": 3,
+            "sly modifier": 1
+          },
+          "fatal_fight_decisions": {
+            "covered": 9,
+            "mechanic_or_scope": 41,
+            "search_certification": 7
+          },
+          "fatal_fight_majorities": {
+            "mechanic_or_scope": 2,
+            "mixed": 1
+          },
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 69.66666666666667,
+          "mean_entry_hp_deaths": 69.66666666666667,
+          "median_death_round": 5,
+          "median_enemy_hp_at_death": 421,
+          "no_survival_leaf_kinds": {
+            "dead": 2,
+            "dead+unresolved": 1
+          }
+        },
+        "TURRET_OPERATOR": {
+          "death_hp_source": {},
+          "deaths": 0,
+          "entries": 1,
+          "entry_profiles": {
+            "fatal": null,
+            "survived": {
+              "deck": {
+                "attacks": 16,
+                "block_cards": 6,
+                "cards": 32,
+                "powers": 3,
+                "upgraded": 2
+              },
+              "mean_hp": 78,
+              "mean_hp_fraction": 0.9629629629629629,
+              "n": 1
+            }
+          },
+          "failed_boundary_roots": {},
+          "fatal_fight_decisions": {},
+          "fatal_fight_majorities": {},
+          "low_entry_deaths": 0,
+          "mean_entry_hp": 78,
+          "mean_entry_hp_deaths": null,
+          "median_death_round": null,
+          "median_enemy_hp_at_death": null,
+          "no_survival_leaf_kinds": {}
+        }
+      }
+    },
+    "entry": {
+      "act2_boss": {
+        "mean_hp": 58.016129032258064,
+        "median_hp": 62.0,
+        "n": 124
+      },
+      "act3": {
+        "mean_hp": 68.24137931034483,
+        "median_hp": 67,
+        "n": 29
+      }
+    },
+    "headroom": {
+      "act1": {
+        "counts": {
+          "attack_density": 4769,
+          "block_density": 4555,
+          "both_lines_reshuffle": 4707,
+          "certified_victory": 5936,
+          "composition": 6145,
+          "covered": 39660,
+          "graph_t1": 12454,
+          "live_attack_density": 1861,
+          "live_block_density": 1713,
+          "pile": 10814,
+          "power_location": 591,
+          "reshuffle_possible": 4669,
+          "t1": 12454,
+          "t1_shift": 5900,
+          "t2_attack_switch": 4486,
+          "t2_shape": 9335,
+          "trade10": 15537,
+          "trade5": 13921,
+          "two_completed_roots": 31918,
+          "verified_table_t1": 2592
+        },
+        "pct_covered": {
+          "trade10": 39.175,
+          "trade5": 35.101,
+          "two_completed_roots": 80.479
+        },
+        "pct_trade10": {
+          "attack_density": 30.694,
+          "block_density": 29.317,
+          "both_lines_reshuffle": 30.295,
+          "composition": 39.551,
+          "graph_t1": 80.157,
+          "live_attack_density": 11.978,
+          "live_block_density": 11.025,
+          "pile": 69.602,
+          "power_location": 3.804,
+          "reshuffle_possible": 30.051,
+          "t1": 80.157,
+          "t1_shift": 37.974,
+          "t2_attack_switch": 28.873,
+          "t2_shape": 60.082,
+          "verified_table_t1": 16.683
+        }
+      },
+      "act2_boss": {
+        "counts": {
+          "attack_density": 154,
+          "block_density": 151,
+          "both_lines_reshuffle": 65,
+          "certified_victory": 51,
+          "composition": 366,
+          "covered": 1816,
+          "graph_t1": 303,
+          "live_attack_density": 48,
+          "live_block_density": 54,
+          "pile": 436,
+          "power_location": 227,
+          "reshuffle_possible": 70,
+          "t1": 303,
+          "t1_shift": 235,
+          "t2_attack_switch": 137,
+          "t2_shape": 224,
+          "trade10": 616,
+          "trade5": 448,
+          "two_completed_roots": 1739,
+          "verified_table_t1": 116
+        },
+        "pct_covered": {
+          "trade10": 33.921,
+          "trade5": 24.67,
+          "two_completed_roots": 95.76
+        },
+        "pct_trade10": {
+          "attack_density": 25.0,
+          "block_density": 24.513,
+          "both_lines_reshuffle": 10.552,
+          "composition": 59.416,
+          "graph_t1": 49.188,
+          "live_attack_density": 7.792,
+          "live_block_density": 8.766,
+          "pile": 70.779,
+          "power_location": 36.851,
+          "reshuffle_possible": 11.364,
+          "t1": 49.188,
+          "t1_shift": 38.149,
+          "t2_attack_switch": 22.24,
+          "t2_shape": 36.364,
+          "verified_table_t1": 18.831
+        }
+      },
+      "act2_boss/CRUSHER+ROCKET": {
+        "counts": {
+          "attack_density": 79,
+          "block_density": 66,
+          "both_lines_reshuffle": 25,
+          "certified_victory": 6,
+          "composition": 150,
+          "covered": 427,
+          "live_attack_density": 14,
+          "live_block_density": 17,
+          "pile": 175,
+          "power_location": 89,
+          "reshuffle_possible": 25,
+          "trade10": 258,
+          "trade5": 185,
+          "two_completed_roots": 408
+        },
+        "pct_covered": {
+          "trade10": 60.422,
+          "trade5": 43.326,
+          "two_completed_roots": 95.55
+        },
+        "pct_trade10": {
+          "attack_density": 30.62,
+          "block_density": 25.581,
+          "both_lines_reshuffle": 9.69,
+          "composition": 58.14,
+          "graph_t1": 0.0,
+          "live_attack_density": 5.426,
+          "live_block_density": 6.589,
+          "pile": 67.829,
+          "power_location": 34.496,
+          "reshuffle_possible": 9.69,
+          "t1": 0.0,
+          "t1_shift": 0.0,
+          "t2_attack_switch": 0.0,
+          "t2_shape": 0.0,
+          "verified_table_t1": 0.0
+        }
+      },
+      "act2_boss/KNOWLEDGE_DEMON": {
+        "counts": {
+          "attack_density": 54,
+          "block_density": 55,
+          "both_lines_reshuffle": 15,
+          "certified_victory": 35,
+          "composition": 121,
+          "covered": 805,
+          "graph_t1": 138,
+          "live_attack_density": 21,
+          "live_block_density": 25,
+          "pile": 141,
+          "power_location": 77,
+          "reshuffle_possible": 20,
+          "t1": 138,
+          "t1_shift": 111,
+          "t2_shape": 87,
+          "trade10": 190,
+          "trade5": 143,
+          "two_completed_roots": 763
+        },
+        "pct_covered": {
+          "trade10": 23.602,
+          "trade5": 17.764,
+          "two_completed_roots": 94.783
+        },
+        "pct_trade10": {
+          "attack_density": 28.421,
+          "block_density": 28.947,
+          "both_lines_reshuffle": 7.895,
+          "composition": 63.684,
+          "graph_t1": 72.632,
+          "live_attack_density": 11.053,
+          "live_block_density": 13.158,
+          "pile": 74.211,
+          "power_location": 40.526,
+          "reshuffle_possible": 10.526,
+          "t1": 72.632,
+          "t1_shift": 58.421,
+          "t2_attack_switch": 0.0,
+          "t2_shape": 45.789,
+          "verified_table_t1": 0.0
+        }
+      },
+      "act2_boss/THE_INSATIABLE": {
+        "counts": {
+          "attack_density": 21,
+          "block_density": 30,
+          "both_lines_reshuffle": 25,
+          "certified_victory": 10,
+          "composition": 95,
+          "covered": 584,
+          "graph_t1": 165,
+          "live_attack_density": 13,
+          "live_block_density": 12,
+          "pile": 120,
+          "power_location": 61,
+          "reshuffle_possible": 25,
+          "t1": 165,
+          "t1_shift": 124,
+          "t2_attack_switch": 137,
+          "t2_shape": 137,
+          "trade10": 168,
+          "trade5": 120,
+          "two_completed_roots": 568,
+          "verified_table_t1": 116
+        },
+        "pct_covered": {
+          "trade10": 28.767,
+          "trade5": 20.548,
+          "two_completed_roots": 97.26
+        },
+        "pct_trade10": {
+          "attack_density": 12.5,
+          "block_density": 17.857,
+          "both_lines_reshuffle": 14.881,
+          "composition": 56.548,
+          "graph_t1": 98.214,
+          "live_attack_density": 7.738,
+          "live_block_density": 7.143,
+          "pile": 71.429,
+          "power_location": 36.31,
+          "reshuffle_possible": 14.881,
+          "t1": 98.214,
+          "t1_shift": 73.81,
+          "t2_attack_switch": 81.548,
+          "t2_shape": 81.548,
+          "verified_table_t1": 69.048
+        }
+      },
+      "act2_elite": {
+        "counts": {
+          "attack_density": 120,
+          "block_density": 133,
+          "both_lines_reshuffle": 27,
+          "certified_victory": 110,
+          "composition": 253,
+          "covered": 1056,
+          "graph_t1": 372,
+          "live_attack_density": 39,
+          "live_block_density": 40,
+          "pile": 277,
+          "power_location": 140,
+          "reshuffle_possible": 24,
+          "t1": 372,
+          "t1_shift": 104,
+          "t2_attack_switch": 129,
+          "t2_shape": 372,
+          "trade10": 412,
+          "trade5": 317,
+          "two_completed_roots": 933
+        },
+        "pct_covered": {
+          "trade10": 39.015,
+          "trade5": 30.019,
+          "two_completed_roots": 88.352
+        },
+        "pct_trade10": {
+          "attack_density": 29.126,
+          "block_density": 32.282,
+          "both_lines_reshuffle": 6.553,
+          "composition": 61.408,
+          "graph_t1": 90.291,
+          "live_attack_density": 9.466,
+          "live_block_density": 9.709,
+          "pile": 67.233,
+          "power_location": 33.981,
+          "reshuffle_possible": 5.825,
+          "t1": 90.291,
+          "t1_shift": 25.243,
+          "t2_attack_switch": 31.311,
+          "t2_shape": 90.291,
+          "verified_table_t1": 0.0
+        }
+      },
+      "act2_hall_elite": {
+        "counts": {
+          "attack_density": 1407,
+          "block_density": 1390,
+          "both_lines_reshuffle": 695,
+          "certified_victory": 2640,
+          "composition": 2448,
+          "covered": 14088,
+          "graph_t1": 3198,
+          "live_attack_density": 464,
+          "live_block_density": 438,
+          "pile": 3102,
+          "power_location": 1132,
+          "reshuffle_possible": 654,
+          "t1": 3222,
+          "t1_shift": 1499,
+          "t2_attack_switch": 1159,
+          "t2_shape": 2274,
+          "trade10": 4427,
+          "trade5": 3543,
+          "two_completed_roots": 10954,
+          "verified_table_t1": 880
+        },
+        "pct_covered": {
+          "trade10": 31.424,
+          "trade5": 25.149,
+          "two_completed_roots": 77.754
+        },
+        "pct_trade10": {
+          "attack_density": 31.782,
+          "block_density": 31.398,
+          "both_lines_reshuffle": 15.699,
+          "composition": 55.297,
+          "graph_t1": 72.239,
+          "live_attack_density": 10.481,
+          "live_block_density": 9.894,
+          "pile": 70.07,
+          "power_location": 25.57,
+          "reshuffle_possible": 14.773,
+          "t1": 72.781,
+          "t1_shift": 33.86,
+          "t2_attack_switch": 26.18,
+          "t2_shape": 51.367,
+          "verified_table_t1": 19.878
+        }
+      },
+      "act2_monster": {
+        "counts": {
+          "attack_density": 1287,
+          "block_density": 1257,
+          "both_lines_reshuffle": 668,
+          "certified_victory": 2530,
+          "composition": 2195,
+          "covered": 13032,
+          "graph_t1": 2826,
+          "live_attack_density": 425,
+          "live_block_density": 398,
+          "pile": 2825,
+          "power_location": 992,
+          "reshuffle_possible": 630,
+          "t1": 2850,
+          "t1_shift": 1395,
+          "t2_attack_switch": 1030,
+          "t2_shape": 1902,
+          "trade10": 4015,
+          "trade5": 3226,
+          "two_completed_roots": 10021,
+          "verified_table_t1": 880
+        },
+        "pct_covered": {
+          "trade10": 30.809,
+          "trade5": 24.754,
+          "two_completed_roots": 76.895
+        },
+        "pct_trade10": {
+          "attack_density": 32.055,
+          "block_density": 31.308,
+          "both_lines_reshuffle": 16.638,
+          "composition": 54.67,
+          "graph_t1": 70.386,
+          "live_attack_density": 10.585,
+          "live_block_density": 9.913,
+          "pile": 70.361,
+          "power_location": 24.707,
+          "reshuffle_possible": 15.691,
+          "t1": 70.984,
+          "t1_shift": 34.745,
+          "t2_attack_switch": 25.654,
+          "t2_shape": 47.372,
+          "verified_table_t1": 21.918
+        }
+      },
+      "act3": {
+        "counts": {
+          "attack_density": 96,
+          "block_density": 85,
+          "both_lines_reshuffle": 30,
+          "certified_victory": 128,
+          "composition": 199,
+          "covered": 805,
+          "graph_t1": 202,
+          "live_attack_density": 28,
+          "live_block_density": 42,
+          "pile": 222,
+          "power_location": 135,
+          "reshuffle_possible": 23,
+          "t1": 202,
+          "t1_shift": 124,
+          "t2_attack_switch": 46,
+          "t2_shape": 139,
+          "trade10": 280,
+          "trade5": 225,
+          "two_completed_roots": 650
+        },
+        "pct_covered": {
+          "trade10": 34.783,
+          "trade5": 27.95,
+          "two_completed_roots": 80.745
+        },
+        "pct_trade10": {
+          "attack_density": 34.286,
+          "block_density": 30.357,
+          "both_lines_reshuffle": 10.714,
+          "composition": 71.071,
+          "graph_t1": 72.143,
+          "live_attack_density": 10.0,
+          "live_block_density": 15.0,
+          "pile": 79.286,
+          "power_location": 48.214,
+          "reshuffle_possible": 8.214,
+          "t1": 72.143,
+          "t1_shift": 44.286,
+          "t2_attack_switch": 16.429,
+          "t2_shape": 49.643,
+          "verified_table_t1": 0.0
+        }
+      },
+      "all": {
+        "counts": {
+          "attack_density": 6426,
+          "block_density": 6181,
+          "both_lines_reshuffle": 5497,
+          "certified_victory": 8755,
+          "composition": 9158,
+          "covered": 56369,
+          "graph_t1": 16157,
+          "live_attack_density": 2401,
+          "live_block_density": 2247,
+          "pile": 14574,
+          "power_location": 2085,
+          "reshuffle_possible": 5416,
+          "t1": 16181,
+          "t1_shift": 7758,
+          "t2_attack_switch": 5828,
+          "t2_shape": 11972,
+          "trade10": 20860,
+          "trade5": 18137,
+          "two_completed_roots": 45261,
+          "verified_table_t1": 3588
+        },
+        "pct_covered": {
+          "trade10": 37.006,
+          "trade5": 32.175,
+          "two_completed_roots": 80.294
+        },
+        "pct_trade10": {
+          "attack_density": 30.805,
+          "block_density": 29.631,
+          "both_lines_reshuffle": 26.352,
+          "composition": 43.902,
+          "graph_t1": 77.454,
+          "live_attack_density": 11.51,
+          "live_block_density": 10.772,
+          "pile": 69.866,
+          "power_location": 9.995,
+          "reshuffle_possible": 25.964,
+          "t1": 77.57,
+          "t1_shift": 37.191,
+          "t2_attack_switch": 27.939,
+          "t2_shape": 57.392,
+          "verified_table_t1": 17.2
+        }
+      }
+    },
+    "late_fatal_by_act": {
+      "2": {
+        "death_hp_source": {
+          "last_public": 223
+        },
+        "deaths": 223,
+        "entries": 1300,
+        "entry_profiles": {
+          "fatal": {
+            "deck": {
+              "attacks": 13.121076233183857,
+              "block_cards": 7.260089686098655,
+              "cards": 26.668161434977577,
+              "powers": 1.1838565022421526,
+              "upgraded": 4.699551569506727
+            },
+            "mean_hp": 39.964125560538115,
+            "mean_hp_fraction": 0.5279102074637969,
+            "n": 223
+          },
+          "survived": {
+            "deck": {
+              "attacks": 12.024141132776231,
+              "block_cards": 6.976787372330548,
+              "cards": 24.295264623955433,
+              "powers": 0.8347260909935005,
+              "upgraded": 3.935004642525534
+            },
+            "mean_hp": 60.58217270194986,
+            "mean_hp_fraction": 0.8092681819442148,
+            "n": 1077
+          }
+        },
+        "failed_boundary_roots": {
+          "ambiguous attack preview": 105,
+          "automatic fairy potion": 41,
+          "automatic lizard tail": 5,
+          "belt buckle last potion": 40,
+          "bouncing flask random target": 44,
+          "card selection/HAND_TRICK": 37,
+          "card selection/SEEKER_STRIKE": 49,
+          "centennial puzzle draw": 555,
+          "crab rage area hit ordering": 3,
+          "demise lethal or intangible": 20,
+          "draw": 1219,
+          "echoing slash repeats after kill": 25,
+          "enemy intent/OVICOPTER/Summon": 391,
+          "enemy intent/THE_OBSCURA/Summon": 266,
+          "enemy intent/TOUGH_EGG/Summon": 247,
+          "finisher": 96,
+          "flutter stun transition": 61,
+          "gremlin horn death trigger": 81,
+          "helical dart temporary dexterity": 5,
+          "illusion revival": 214,
+          "infinite blades hand ordering": 1,
+          "joss paper ethereal exhaust": 68,
+          "joss paper exhaust counter": 134,
+          "kusarigama random target": 54,
+          "lethal player thorns": 81,
+          "lethal thorns ordering": 34,
+          "memento_mori": 114,
+          "multi-hit curl up ordering": 19,
+          "outbreak": 177,
+          "parrying shield target": 77,
+          "pen nib damage ordering": 44,
+          "phantom blades created shiv": 4,
+          "phantom blades existing shiv": 30,
+          "phantom blades retained shiv": 122,
+          "phantom blades shiv trigger": 186,
+          "plating and hand or shield ordering": 15,
+          "player thorns changed enemy move": 2,
+          "pocketwatch card limit": 134,
+          "potion/ATTACK_POTION": 198,
+          "potion/BEETLE_JUICE": 9,
+          "potion/BLESSING_OF_THE_FORGE": 181,
+          "potion/BOTTLED_POTENTIAL": 5,
+          "potion/CLARITY": 30,
+          "potion/COLORLESS_POTION": 248,
+          "potion/CUNNING_POTION": 18,
+          "potion/CURE_ALL": 37,
+          "potion/DISTILLED_CHAOS": 15,
+          "potion/DROPLET_OF_PRECOGNITION": 35,
+          "potion/ENTROPIC_BREW": 9,
+          "potion/FLEX_POTION": 430,
+          "potion/FORTIFIER": 110,
+          "potion/FOUL_POTION": 132,
+          "potion/FRUIT_JUICE": 30,
+          "potion/FYSH_OIL": 24,
+          "potion/GAMBLERS_BREW": 188,
+          "potion/LIQUID_MEMORIES": 18,
+          "potion/LUCKY_TONIC": 3,
+          "potion/MAZALETHS_GIFT": 18,
+          "potion/OROBIC_ACID": 6,
+          "potion/POTION_OF_BINDING": 27,
+          "potion/POTION_SHAPED_ROCK": 63,
+          "potion/POWDERED_DEMISE": 22,
+          "potion/POWER_POTION": 85,
+          "potion/RADIANT_TINCTURE": 36,
+          "potion/REGEN_POTION": 54,
+          "potion/SHACKLING_POTION": 4,
+          "potion/SHIP_IN_A_BOTTLE": 5,
+          "potion/SKILL_POTION": 223,
+          "potion/SNECKO_OIL": 5,
+          "potion/TOUCH_OF_INSANITY": 124,
+          "pounce": 224,
+          "power-triggered relic": 55,
+          "razor tooth upgrade": 220,
+          "remnant heal ordering": 4,
+          "replay target died": 3,
+          "reptile trinket temporary strength": 76,
+          "ricochet": 203,
+          "seal of gold insufficient funds": 36,
+          "segment due to reattach": 212,
+          "sloth automatic play count": 4,
+          "slumber wake countdown": 4,
+          "slumber wake on damage": 148,
+          "sly target": 72,
+          "start turn damage death or wake": 30,
+          "start/TOOLS_OF_THE_TRADE": 64,
+          "stone calendar activation": 11,
+          "tender automatic play count": 6,
+          "the hunt fatal eligibility": 5,
+          "thieving hopper departure": 22,
+          "thieving hopper steal or escape": 694,
+          "tingsha discard target": 26,
+          "toasty mittens delayed start triggers": 202,
+          "toasty mittens start turn ordering": 64,
+          "tools_of_the_trade": 9,
+          "unsettling lamp first debuff": 3,
+          "unwitnessed knowledge curse sequence": 5,
+          "up_my_sleeve": 167,
+          "vambrace first card block": 46,
+          "velvet choker cap": 37,
+          "vigor consumption timing": 70,
+          "vital spark reapplies skill afflictions": 96
+        },
+        "fatal_fight_decisions": {
+          "champion_or_deadline": 78,
+          "covered": 2129,
+          "mechanic_or_scope": 1188,
+          "search_certification": 1718
+        },
+        "fatal_fight_majorities": {
+          "covered": 83,
+          "mechanic_or_scope": 32,
+          "mixed": 47,
+          "search_certification": 61
+        },
+        "low_entry_deaths": 60,
+        "mean_entry_hp": 57.04538461538461,
+        "mean_entry_hp_deaths": 39.964125560538115,
+        "median_death_round": 4,
+        "median_enemy_hp_at_death": 93,
+        "no_survival_leaf_kinds": {
+          "dead": 356,
+          "dead+unresolved": 346,
+          "unresolved": 3267
+        }
+      },
+      "3": {
+        "death_hp_source": {
+          "last_public": 29
+        },
+        "deaths": 29,
+        "entries": 137,
+        "entry_profiles": {
+          "fatal": {
+            "deck": {
+              "attacks": 15.724137931034482,
+              "block_cards": 8.448275862068966,
+              "cards": 33.3448275862069,
+              "powers": 1.6896551724137931,
+              "upgraded": 8.241379310344827
+            },
+            "mean_hp": 53.206896551724135,
+            "mean_hp_fraction": 0.6303817701880069,
+            "n": 29
+          },
+          "survived": {
+            "deck": {
+              "attacks": 14.722222222222221,
+              "block_cards": 7.898148148148148,
+              "cards": 31.11111111111111,
+              "powers": 1.3888888888888888,
+              "upgraded": 6.703703703703703
+            },
+            "mean_hp": 66.76851851851852,
+            "mean_hp_fraction": 0.8231107307085476,
+            "n": 108
+          }
+        },
+        "failed_boundary_roots": {
+          "ambiguous attack preview": 5,
+          "automatic fairy potion": 6,
+          "axebot stock": 21,
+          "belt buckle last potion": 19,
+          "bouncing flask random target": 4,
+          "card selection/HAND_TRICK": 3,
+          "card selection/SEEKER_STRIKE": 2,
+          "centennial puzzle draw": 14,
+          "death phase/FLAIL_KNIGHT": 1,
+          "death phase/NOISEBOT": 2,
+          "death phase/SPECTRAL_KNIGHT": 5,
+          "death phase/TEST_SUBJECT": 6,
+          "death phase/THE_FORGOTTEN": 3,
+          "death phase/THE_LOST": 8,
+          "death phase/ZAPBOT": 5,
+          "draw": 91,
+          "echoing slash repeats after kill": 2,
+          "enemy intent/AXEBOT/Buff+Defend": 32,
+          "enemy intent/FABRICATOR/Summon": 15,
+          "enemy intent/LIVING_SHIELD/Buff": 7,
+          "enemy intent/MAGI_KNIGHT/Debuff": 8,
+          "enemy intent/MECHA_KNIGHT/StatusCard": 27,
+          "enemy intent/SPECTRAL_KNIGHT/Debuff": 15,
+          "gremlin horn death trigger": 32,
+          "helical dart temporary dexterity": 14,
+          "hexed created shiv": 1,
+          "joss paper ethereal exhaust": 7,
+          "joss paper exhaust counter": 4,
+          "kusarigama random target": 10,
+          "lethal player thorns": 16,
+          "mecha reattach": 2,
+          "memento_mori": 13,
+          "outbreak": 31,
+          "panic_button": 1,
+          "parrying shield target": 10,
+          "phantom blades existing shiv": 11,
+          "phantom blades retained shiv": 25,
+          "phantom blades shiv trigger": 30,
+          "plating and hand or shield ordering": 6,
+          "potion/ATTACK_POTION": 7,
+          "potion/COLORLESS_POTION": 4,
+          "potion/CUNNING_POTION": 3,
+          "potion/DROPLET_OF_PRECOGNITION": 18,
+          "potion/FLEX_POTION": 10,
+          "potion/FORTIFIER": 1,
+          "potion/FOUL_POTION": 12,
+          "potion/LUCKY_TONIC": 1,
+          "potion/POTION_SHAPED_ROCK": 16,
+          "potion/POWER_POTION": 6,
+          "potion/TOUCH_OF_INSANITY": 28,
+          "pounce": 44,
+          "power-triggered relic": 3,
+          "replay target died": 1,
+          "reptile trinket temporary strength": 1,
+          "ricochet": 9,
+          "sly modifier": 1,
+          "sly target": 4,
+          "stacked fan of knives": 1,
+          "start turn damage death or wake": 2,
+          "tingsha discard target": 7,
+          "up_my_sleeve": 1,
+          "vambrace first card block": 5,
+          "velvet choker cap": 72,
+          "vigor consumption timing": 10,
+          "withering presence creates wither": 1
+        },
+        "fatal_fight_decisions": {
+          "covered": 131,
+          "mechanic_or_scope": 422,
+          "search_certification": 180
+        },
+        "fatal_fight_majorities": {
+          "covered": 2,
+          "mechanic_or_scope": 16,
+          "mixed": 5,
+          "search_certification": 6
+        },
+        "low_entry_deaths": 7,
+        "mean_entry_hp": 63.8978102189781,
+        "mean_entry_hp_deaths": 53.206896551724135,
+        "median_death_round": 5,
+        "median_enemy_hp_at_death": 102,
+        "no_survival_leaf_kinds": {
+          "dead": 23,
+          "dead+unresolved": 36,
+          "unresolved": 230
+        }
+      }
+    },
+    "latency": {
+      "p50_ms": 2.771,
+      "p95_ms": 54.63,
+      "samples": 100425
+    },
+    "lobbies": {
+      "a1_clears": 252,
+      "a2_boss_entries": 124,
+      "a2_clears": 29,
+      "a3_boss_entries": 11,
+      "full_wins": 0,
+      "mean_floor": 25.5390625,
+      "n": 384
+    },
+    "native": {
+      "match": 71160,
+      "unresolved": 6512
+    },
+    "no_comparable_steps": [
+      "AUDIT384_DEFAULT_0107"
+    ]
+  },
+  "archive_bytes": 597597,
+  "archive_sha256": "ee2a0eb5cf1de5bccb1913701bc8889ecd0aedcf599764ea7e2ee9ea6c5158ff",
+  "archived_regression_exception": "FINAL768_DEFAULT_0037",
+  "definitions": {
+    "choice_bands": [
+      5,
+      10
+    ],
+    "composition": "draw >=5 and nonempty discard; 25pp draw/discard or 15pp draw/live density difference in attacks or printed block, or distinct Power identity",
+    "coverage": "non-forced physical roots accepting the Arm 4 search choice",
+    "hp_at_death": "last observed public enemy HP when terminal omits enemy board",
+    "material_t1": "zero/positive pressure switch or absolute pressure change >=8",
+    "progress": "3+ points of damage plus capped surviving poison credit, or another in-hand Power played",
+    "safety": "post-EoT HP plus block",
+    "t1": "unique public conditioned forecast on both lines",
+    "t2": "unconditional ordinary intent kinds and hit count, conditional on no intervening death, stun or transformation"
+  },
+  "discovery": {
+    "differences": [
+      {
+        "act_list": "seeded",
+        "index": 74,
+        "mismatches": [
+          {
+            "act": 2,
+            "attempts": 355,
+            "boundaries": {
+              "potion/DROPLET_OF_PRECOGNITION": 59
+            },
+            "changed": true,
+            "child_cap": false,
+            "covered_roots": 5,
+            "decision": "card_select",
+            "dedup": 44,
+            "depth": 6,
+            "depth_cap": false,
+            "difference": {
+              "decision": "combat_play",
+              "expected": {
+                "block": 0,
+                "enemies": [
+                  [
+                    "EXOSKELETON",
+                    5,
+                    0,
+                    [
+                      [
+                        "HARD_TO_KILL",
+                        9
+                      ]
+                    ]
+                  ],
+                  [
+                    "EXOSKELETON",
+                    27,
+                    0,
+                    [
+                      [
+                        "HARD_TO_KILL",
+                        9
+                      ],
+                      [
+                        "STRENGTH",
+                        2
+                      ]
+                    ]
+                  ]
+                ],
+                "hp": 88,
+                "powers": [
+                  [
+                    "STRENGTH",
+                    2
+                  ]
+                ],
+                "relics": [
+                  [
+                    "RING_OF_THE_SNAKE",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "STONE_HUMIDIFIER",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "LANTERN",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "CANDELABRA",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "VENERABLE_TEA_SET",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "TOASTY_MITTENS",
+                    null,
+                    "Normal"
+                  ]
+                ]
+              },
+              "floor": 2,
+              "observed": {
+                "block": 0,
+                "enemies": [
+                  [
+                    "EXOSKELETON",
+                    5,
+                    0,
+                    [
+                      [
+                        "HARD_TO_KILL",
+                        9
+                      ]
+                    ]
+                  ],
+                  [
+                    "EXOSKELETON",
+                    27,
+                    0,
+                    [
+                      [
+                        "HARD_TO_KILL",
+                        9
+                      ],
+                      [
+                        "STRENGTH",
+                        2
+                      ]
+                    ]
+                  ]
+                ],
+                "hp": 88,
+                "powers": [
+                  [
+                    "STRENGTH",
+                    2
+                  ]
+                ],
+                "relics": [
+                  [
+                    "RING_OF_THE_SNAKE",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "STONE_HUMIDIFIER",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "LANTERN",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "CANDELABRA",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "VENERABLE_TEA_SET",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "TOASTY_MITTENS",
+                    null,
+                    "Normal"
+                  ]
+                ]
+              },
+              "root": {
+                "block": 0,
+                "enemies": [
+                  [
+                    "EXOSKELETON",
+                    5,
+                    0,
+                    [
+                      [
+                        "HARD_TO_KILL",
+                        9
+                      ]
+                    ]
+                  ],
+                  [
+                    "EXOSKELETON",
+                    27,
+                    0,
+                    [
+                      [
+                        "HARD_TO_KILL",
+                        9
+                      ],
+                      [
+                        "STRENGTH",
+                        2
+                      ]
+                    ]
+                  ]
+                ],
+                "hp": 88,
+                "powers": [
+                  [
+                    "STRENGTH",
+                    1
+                  ]
+                ],
+                "relics": [
+                  [
+                    "RING_OF_THE_SNAKE",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "STONE_HUMIDIFIER",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "LANTERN",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "CANDELABRA",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "VENERABLE_TEA_SET",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "TOASTY_MITTENS",
+                    null,
+                    "Normal"
+                  ]
+                ]
+              },
+              "round": 2
+            },
+            "fallback": "",
+            "formation": [
+              "EXOSKELETON",
+              "EXOSKELETON"
+            ],
+            "leaf_ns": 6800,
+            "no_potion": [
+              2,
+              104.68
+            ],
+            "ns": 34594700,
+            "oracle": [
+              "TOASTY_MITTENS/discard",
+              "mismatch",
+              "board/energy"
+            ],
+            "roots": 5,
+            "width_pruned": 45,
+            "with_potion": null
+          },
+          {
+            "act": 2,
+            "attempts": 214,
+            "boundaries": {
+              "potion/GAMBLERS_BREW": 44,
+              "toasty mittens delayed start triggers": 24
+            },
+            "changed": false,
+            "child_cap": false,
+            "covered_roots": 5,
+            "decision": "card_select",
+            "dedup": 22,
+            "depth": 5,
+            "depth_cap": false,
+            "difference": {
+              "decision": "combat_play",
+              "expected": {
+                "block": 0,
+                "enemies": [
+                  [
+                    "SPINY_TOAD",
+                    30,
+                    0,
+                    [
+                      [
+                        "POISON",
+                        3
+                      ],
+                      [
+                        "THORNS",
+                        5
+                      ]
+                    ]
+                  ]
+                ],
+                "hp": 75,
+                "powers": [
+                  [
+                    "STRENGTH",
+                    2
+                  ]
+                ],
+                "relics": [
+                  [
+                    "RING_OF_THE_SNAKE",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "STONE_HUMIDIFIER",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "LANTERN",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "CANDELABRA",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "VENERABLE_TEA_SET",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "TOASTY_MITTENS",
+                    null,
+                    "Normal"
+                  ]
+                ]
+              },
+              "floor": 6,
+              "observed": {
+                "block": 0,
+                "enemies": [
+                  [
+                    "SPINY_TOAD",
+                    30,
+                    0,
+                    [
+                      [
+                        "POISON",
+                        3
+                      ],
+                      [
+                        "THORNS",
+                        5
+                      ]
+                    ]
+                  ]
+                ],
+                "hp": 75,
+                "powers": [
+                  [
+                    "STRENGTH",
+                    2
+                  ]
+                ],
+                "relics": [
+                  [
+                    "RING_OF_THE_SNAKE",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "STONE_HUMIDIFIER",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "LANTERN",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "CANDELABRA",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "VENERABLE_TEA_SET",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "TOASTY_MITTENS",
+                    null,
+                    "Normal"
+                  ]
+                ]
+              },
+              "root": {
+                "block": 0,
+                "enemies": [
+                  [
+                    "SPINY_TOAD",
+                    30,
+                    0,
+                    [
+                      [
+                        "POISON",
+                        3
+                      ],
+                      [
+                        "THORNS",
+                        5
+                      ]
+                    ]
+                  ]
+                ],
+                "hp": 75,
+                "powers": [
+                  [
+                    "STRENGTH",
+                    1
+                  ]
+                ],
+                "relics": [
+                  [
+                    "RING_OF_THE_SNAKE",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "STONE_HUMIDIFIER",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "LANTERN",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "CANDELABRA",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "VENERABLE_TEA_SET",
+                    null,
+                    "Normal"
+                  ],
+                  [
+                    "TOASTY_MITTENS",
+                    null,
+                    "Normal"
+                  ]
+                ]
+              },
+              "round": 2
+            },
+            "fallback": "",
+            "formation": [
+              "SPINY_TOAD"
+            ],
+            "leaf_ns": 8400,
+            "no_potion": [
+              2,
+              100.935
+            ],
+            "ns": 21963700,
+            "oracle": [
+              "TOASTY_MITTENS/discard",
+              "mismatch",
+              "board/energy"
+            ],
+            "roots": 5,
+            "width_pruned": 19,
+            "with_potion": null
+          }
+        ],
+        "native": {
+          "match": 284,
+          "mismatch": 2,
+          "unresolved": 18
+        },
+        "seed": "AUDIT384_SEEDED_0074"
+      }
+    ],
+    "discovery_to_clean_decision_digest_changes": [
+      "AUDIT384_DEFAULT_0161",
+      "AUDIT384_SEEDED_0093",
+      "AUDIT384_SEEDED_0139",
+      "AUDIT384_SEEDED_0144"
+    ],
+    "n": 384,
+    "native": {
+      "match": 71158,
+      "mismatch": 2,
+      "unresolved": 6512
+    },
+    "repair": "Apply Candelabra's public turn-two energy grant after the Toasty Mittens choice."
+  },
+  "manifest": {
+    "base": "5e4ddad013793a428e190a0cd29c21eef1a31cfd",
+    "candidate": "all_v2_search_v6",
+    "candidate_sha256": "4b5fe32e78a96ca656cca805f316410b19baa9c4f2c227d25b77a6d1306c93a9",
+    "cohort": {
+      "count": 384,
+      "expanded_prefixes": 32,
+      "fetched_tip_count": 23,
+      "historical_names": 32960,
+      "name_overlaps": 0,
+      "official": 896,
+      "scanned_git_objects": 987,
+      "sha256": "69e364e20fc73853d65388367711345cc448a9b1d6a094407882cb928a83bdb2",
+      "tip_set_sha256": "518318e170874fd9a0ecb58fb06727dc9027eb7f0bf409d803cab51cc4accbde",
+      "xxhash64_overlaps": 0
+    },
+    "game": "14b57dbaee1b58cb919625a662831054fd714b3b75b13b7449eac0e95b98a3e4",
+    "graph_ref": "902623ec3f1515721552bdc672fbda5224b61bbf",
+    "host": "7408d040c28416331279a84e299b52ff35086d80b4cb9711aefd0f91168d8f20",
+    "release_sha256": "a686db12c8b217bd476ea5c8e60cf6f486b060665536ef9354e8f09c21c81fcb",
+    "source_sha256": {
+      "docs/combat-search-v2/probes/audit384.py": "48378b49083eef488845e0f36490783f51b9898846da2f6a6df299be8c926c85",
+      "docs/combat-search-v2/probes/audit_headroom.py": "24aa41303f84298035a6147d489adbf1d46d7634c071a95a8d43c8d1887654db",
+      "src/sts2rl/combat_search_v2/late_encounters.py": "89896643b8b4912cded8015a559b09310e65c744ab7b6e98961ee8253ab978e2",
+      "src/sts2rl/combat_search_v2/transitions.py": "bbdca7a123961d00c0951ebc80204b55ac76d6426684adfcbe67615c90eae327"
+    },
+    "startup_hook_during_collection": null,
+    "threads": {
+      "OMP_NUM_THREADS": 1,
+      "OPENBLAS_NUM_THREADS": 1
+    },
+    "verified_table_ref": "9092ea410524db1a9dfeac52188f358790717942",
+    "workers": 12
+  },
+  "qualification": {
+    "archived_and_development": [
+      {
+        "abandoned": null,
+        "act": 2,
+        "error": null,
+        "floor": 11,
+        "mismatches": [],
+        "native": {
+          "match": 193,
+          "unresolved": 23
+        },
+        "seed": "CSV6DEV_DEFAULT_0007",
+        "status": "complete"
+      },
+      {
+        "abandoned": null,
+        "act": 3,
+        "error": null,
+        "floor": 15,
+        "mismatches": [],
+        "native": {
+          "match": 343,
+          "unresolved": 73
+        },
+        "seed": "CSV6DEV_DEFAULT_0121",
+        "status": "complete"
+      },
+      {
+        "abandoned": null,
+        "act": 2,
+        "error": null,
+        "floor": 16,
+        "mismatches": [],
+        "native": {
+          "match": 280,
+          "unresolved": 13
+        },
+        "seed": "CSV6DEV_SEEDED_0160",
+        "status": "complete"
+      },
+      {
+        "abandoned": null,
+        "act": 2,
+        "error": null,
+        "floor": 14,
+        "mismatches": [],
+        "native": {
+          "match": 292,
+          "unresolved": 24
+        },
+        "seed": "CSV6DEV_SEEDED_0186",
+        "status": "complete"
+      },
+      {
+        "abandoned": null,
+        "act": 2,
+        "error": null,
+        "floor": 16,
+        "mismatches": [],
+        "native": {
+          "match": 388,
+          "unresolved": 32
+        },
+        "seed": "CSV6DEV_SEEDED_0148",
+        "status": "complete"
+      },
+      {
+        "abandoned": null,
+        "act": 2,
+        "error": null,
+        "floor": 12,
+        "mismatches": [],
+        "native": {
+          "match": 124,
+          "unresolved": 32
+        },
+        "seed": "CSV6DEV_SEEDED_0080",
+        "status": "complete"
+      },
+      {
+        "abandoned": null,
+        "act": 1,
+        "error": null,
+        "floor": 17,
+        "mismatches": [],
+        "native": {
+          "match": 161,
+          "unresolved": 10
+        },
+        "seed": "CSV6DEV_DEFAULT_0034",
+        "status": "complete"
+      },
+      {
+        "abandoned": null,
+        "act": 3,
+        "error": null,
+        "floor": 15,
+        "mismatches": [],
+        "native": {
+          "match": 204,
+          "unresolved": 22
+        },
+        "seed": "FINAL768_DEFAULT_0037",
+        "status": "complete"
+      }
+    ],
+    "csv2dev": {
+      "active": {
+        "all_receipts_identical": true,
+        "episodes": 24,
+        "native": {
+          "match": 2126,
+          "unresolved": 171
+        }
+      },
+      "off": {
+        "all_receipts_identical": true,
+        "episodes": 24,
+        "native": {}
+      },
+      "shadow": {
+        "all_receipts_identical": true,
+        "episodes": 24,
+        "native": {
+          "match": 3534,
+          "unresolved": 351
+        }
+      }
+    },
+    "matched_challenger_files": 10,
+    "prior_builder_count": 15
+  },
+  "ranked_next_upgrades": [
+    "Kaiser Crab public coverage and tactical conversion",
+    "One-turn Schema 4 learned leaf with masked graph forecasts and separate unordered piles on Arm 4 trajectories",
+    "Macro/deck and targeted Act 3 work"
+  ],
+  "reserved_panels_opened": [],
+  "sanity": {
+    "independent_clean_pass_digest_matches": 380,
+    "supplemental_command_parity": {
+      "AUDIT384_DEFAULT_0161": {
+        "commands_sha256": "6169ef56a60c73559c3ef0139409f5641311d614093c4fd9513edae669e5681a",
+        "different_snapshots": 0,
+        "independent_identical_command_replay_fields": {
+          "/options/[]/vars/EntrantNumber": 2
+        },
+        "plain_commands_sha256": "6169ef56a60c73559c3ef0139409f5641311d614093c4fd9513edae669e5681a",
+        "steps": 530,
+        "telemetry_commands_sha256": "6169ef56a60c73559c3ef0139409f5641311d614093c4fd9513edae669e5681a"
+      },
+      "AUDIT384_SEEDED_0093": {
+        "commands_sha256": "aa3c240677a782b0e6ca7b07fb36e0a29390ab7de9101c2509621e5023041389",
+        "different_snapshots": 0,
+        "independent_identical_command_replay_fields": {
+          "/options/[]/vars/EntrantNumber": 2
+        },
+        "plain_commands_sha256": "aa3c240677a782b0e6ca7b07fb36e0a29390ab7de9101c2509621e5023041389",
+        "steps": 601,
+        "telemetry_commands_sha256": "aa3c240677a782b0e6ca7b07fb36e0a29390ab7de9101c2509621e5023041389"
+      },
+      "AUDIT384_SEEDED_0139": {
+        "commands_sha256": "ede8ed4cd7b9f34cc37a369a29ff111c6a44ab9601489e425c353be95378251a",
+        "different_snapshots": 0,
+        "independent_identical_command_replay_fields": {
+          "/options/[]/vars/EntrantNumber": 2
+        },
+        "plain_commands_sha256": "ede8ed4cd7b9f34cc37a369a29ff111c6a44ab9601489e425c353be95378251a",
+        "steps": 436,
+        "telemetry_commands_sha256": "ede8ed4cd7b9f34cc37a369a29ff111c6a44ab9601489e425c353be95378251a"
+      },
+      "AUDIT384_SEEDED_0144": {
+        "commands_sha256": "7c3d4fe5db1ead00c06e70b10e6860b98f26a6878ed2703a4e0cfc32d5c2d366",
+        "different_snapshots": 0,
+        "independent_identical_command_replay_fields": {
+          "/options/[]/vars/EntrantNumber": 2
+        },
+        "plain_commands_sha256": "7c3d4fe5db1ead00c06e70b10e6860b98f26a6878ed2703a4e0cfc32d5c2d366",
+        "steps": 398,
+        "telemetry_commands_sha256": "7c3d4fe5db1ead00c06e70b10e6860b98f26a6878ed2703a4e0cfc32d5c2d366"
+      }
+    },
+    "telemetry_on_off": [
+      {
+        "plain": "4de77d2dda980f05efbfadd7291d595a2d1cb0be35aaca7037e1feb556964e1c",
+        "seed": "AUDIT384_DEFAULT_0000",
+        "steps": 139,
+        "telemetry": "4de77d2dda980f05efbfadd7291d595a2d1cb0be35aaca7037e1feb556964e1c"
+      },
+      {
+        "plain": "a6c7543aa5715aaa882da71a51c9e6181b77dc5687506c23f2e63bee2d1031e5",
+        "seed": "AUDIT384_DEFAULT_0025",
+        "steps": 498,
+        "telemetry": "a6c7543aa5715aaa882da71a51c9e6181b77dc5687506c23f2e63bee2d1031e5"
+      },
+      {
+        "plain": "066ab46fa2662ed9ed213178d6b2098fbfc3eaa456969881520df16fb2026138",
+        "seed": "AUDIT384_SEEDED_0000",
+        "steps": 268,
+        "telemetry": "066ab46fa2662ed9ed213178d6b2098fbfc3eaa456969881520df16fb2026138"
+      },
+      {
+        "plain": "5c6d2b8943ed965cefcacdafb017b07763a8231a966807cd802a1337fe37435c",
+        "seed": "AUDIT384_SEEDED_0074",
+        "steps": 448,
+        "telemetry": "5c6d2b8943ed965cefcacdafb017b07763a8231a966807cd802a1337fe37435c"
+      }
+    ]
+  },
+  "tests": {
+    "failed": 0,
+    "passed": 606,
+    "ruff_files": 112,
+    "ruff_findings": 0,
+    "skipped": 0
+  }
+}

@@ -834,6 +834,12 @@ def _advance(state, move):
                 return state
             if power(state.powers, "PLATING"):
                 state = _add_player_power(state, "PLATING", -1)
+            if state.v61_rules and state.round == 2:
+                # Candelabra's start-turn energy follows the post-draw Mittens choice.
+                bonus = sum(power(r.stats, "energy") for r in state.relics
+                            if r.name == "CANDELABRA" and not r.used)
+                if bonus:
+                    state = replace(state, energy=state.energy + bonus)
             return _add_player_power(state, "STRENGTH", 1)
         if not state.queue and state.play:
             v, = state.play
