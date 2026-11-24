@@ -153,6 +153,8 @@ def _load_value(path, sha256):
 
 class CombatSearchV2:
     def __init__(self, config=Config(), *, shadow=False, record=False, model=None, model_sha256=None):
+        if config.two_turn_pilot and model is not None:
+            raise ValueError("Two-turn pilot requires the Arm 3 heuristic")
         self.config = config
         self.shadow = shadow
         self.records = [] if record else None
@@ -195,7 +197,7 @@ class CombatSearchV2:
             return
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
-                       "power_leaf_v62", "early_escape_v62"):
+                       "power_leaf_v62", "early_escape_v62", "two_turn_pilot"):
             if not config[switch]:
                 del config[switch]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
@@ -283,6 +285,12 @@ class CombatSearchV2:
                            width_pruned=result.width_pruned, boundaries=dict(result.boundary_counts),
                            no_potion=result.no_potion.score if result.no_potion else None,
                            with_potion=result.with_potion.score if result.with_potion else None)
+                if result.pilot is not None:
+                    row["pilot"] = dict(result.pilot)
+                    if result.pilot.get("active"):
+                        control = result.pilot["control"]
+                        row["pilot"]["control"] = asdict(control)
+                        row["pilot"]["changed"] = actual != actions[moves.index(control)] and not fallback
                 if result.leaf_ns is not None:
                     row["leaf_ns"] = result.leaf_ns
             self._record(row)

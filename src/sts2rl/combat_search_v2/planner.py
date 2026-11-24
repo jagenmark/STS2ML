@@ -22,6 +22,7 @@ class Config:
     v61_boss_safe: bool = False
     power_leaf_v62: bool = False
     early_escape_v62: bool = False
+    two_turn_pilot: bool = False
 
     def late_root(self, act, room):
         if act == 3:
@@ -33,7 +34,8 @@ class Config:
     def __post_init__(self):
         if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
                 or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
-                                                      self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62))
+                                                      self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62,
+                                                      self.two_turn_pilot))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or type(self.potion_reserve) not in (int, float)
@@ -41,6 +43,11 @@ class Config:
                 or type(self.value_win_weight) not in (int, float)
                 or not math.isfinite(self.value_win_weight) or self.value_win_weight < 0):
             raise ValueError("Invalid combat search v2 configuration")
+        if self.two_turn_pilot and (
+                (self.width, self.children, self.depth, self.potion_reserve) != (16, 512, 10, 7)
+                or not (self.v61_boss_safe and self.v61_act2_hallways_act3 and self.power_leaf_v62)
+                or self.early_escape_v62 or self.v6_late_coverage):
+            raise ValueError("Two-turn pilot requires the frozen Arm 3 control")
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,6 +76,7 @@ class Result:
     fallback: str = ""
     boundary_counts: tuple[tuple[str, int], ...] = ()
     leaf_ns: int | None = None
+    pilot: dict | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -299,4 +307,15 @@ def search(projected, roots, champion, config=Config(), *, model=None, record_ti
         return Result(champion, root_count=len(roots), fallback="forced")
     if len(roots) > config.children:
         return Result(champion, root_count=len(roots), fallback="root exceeds child cap", child_cap=True)
-    return _Search(roots, roots.index(champion), config, model, record_timing, boss_safe, curse_preferences).run(projected.state)
+    first = _Search(roots, roots.index(champion), config, model, record_timing, boss_safe, curse_preferences)
+    control = first.run(projected.state)
+    if not config.two_turn_pilot:
+        return control
+    if model is not None:
+        raise ValueError("Two-turn pilot requires the Arm 3 heuristic")
+    from .two_turn import rerank
+    started = perf_counter_ns() if record_timing else 0
+    result = rerank(projected.state, first, control)
+    if started and result.pilot is not None:
+        result.pilot["pilot_ns"] = perf_counter_ns() - started
+    return result

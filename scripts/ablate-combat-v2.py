@@ -87,6 +87,7 @@ def execute(args, lobbies, arms, role, settings, weights):
         folder.mkdir(parents=True, exist_ok=True)
         config = folder / "config.json"
         payload = asdict(Config(width=arm.width, children=arm.children, value_win_weight=arm.alpha))
+        payload.pop("two_turn_pilot")  # Preserve pre-pilot arm files and resumable runs.
         if config.is_file() and read(config) != payload:
             raise ValueError(f"Existing arm configuration differs: {arm.name}")
         save(config, payload)
