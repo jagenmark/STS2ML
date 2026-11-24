@@ -109,6 +109,17 @@ def main():
     comparisons["arm2_minus_arm1"] = paired(records["arm1"], records["arm2"])
     pool = inventory(args.decompiled)
     qualification = json.loads((args.qualification / "qualification.json").read_bytes())
+    qualification["tests"] = (args.qualification / "pytest.log").read_text(encoding="utf-8").strip().splitlines()[-1]
+    qualification["ruff"] = (args.qualification / "ruff.log").read_text(encoding="utf-8").strip()
+    qualification["base_control_transcripts"] = len(json.loads((args.qualification / "control-replay.json").read_bytes()))
+    assert qualification["base_control_transcripts"] == len(cohort())
+    quality = Counter()
+    pocketwatch = []
+    for row in records["control"]:
+        quality.update(row["independent_native"])
+        pocketwatch.extend([row["seed"], *check] for check in row["pocketwatch_checks"])
+    assert quality["mismatch"] == 0
+    qualification.update(control_independent_native=quality, control_pocketwatch=pocketwatch)
     assert len(qualification["profiles"]) == 19 and len(qualification["frozen"]) == 10
     assert all(r["exact"] for r in qualification["compat"].values())
     result = dict(manifest=manifest, totals=totals, paired=comparisons, per_card=counts,
@@ -160,11 +171,38 @@ def report(data, path):
     for key, label in (("arm1", "Arm 1 vs Control"), ("arm2", "Arm 2 vs Control"), ("arm2_minus_arm1", "Arm 2 vs Arm 1")):
         r = paired[key]
         lines.append(f"| {label} | {r['delta']:+.3f} | {r['ci95'][0]:+.3f} to {r['ci95'][1]:+.3f} | {r['w']} / {r['l']} / {r['t']} |")
+    q = data["qualification"]
+    fix = q["control_independent_native"]
+    lines.extend(["", f"The frozen v6.5 control recorded {totals['control']['native']['mismatch']} mismatch on its own oracle. "
+                  "Pocketwatch resets its counter before hand draw and refreshes its status after the Toasty Mittens prompt. "
+                  f"The independent control audit applies that ordering to the same physical actions and compared "
+                  f"{fix['match']:,} matches, {fix.get('mismatch', 0)} mismatches and {fix['unresolved']:,} unresolved transitions. "
+                  "The two v6.6 arms use their production oracle for every verdict in the table."])
     lines.extend(["", f"Historical v6.5 Arm B recorded 57.95 native matches per 100 decisions and a −2.45 floor gap "
                   f"against its CSV10DEV control. CSV11DEV Arm 2 changed those figures by "
                   f"{totals['arm2']['matches_per_100'] - 57.95:+.2f} matches per 100 and {b['delta'] + 2.45:+.2f} floors. "
                   "The historical comparison uses different seeds and controls. The paired comparison above measures the "
                   "effect of enabling v6.6 for Arm A. There is no v6.5 B arm on these same seeds.", "",
+                  "## Implementation and qualification", "",
+                  f"Rules commit `{data['manifest']['commit']}` descends from `{data['manifest']['base']}`. "
+                  "Set `silent_cards_v66` in the combat search configuration to enable the rules. The default is false. "
+                  "The two treatment bundles preserve their respective v6.5 acquisition policies.", "",
+                  "The pinned Tools of the Trade adds one stack at either upgrade level. Its start-of-turn effect "
+                  "increases hand draw by the stack count and then asks for a discard. The normal end-turn transition "
+                  "certifies enemy resolution before that choice. The discard resumes from the public hand. Effects scheduled "
+                  "after the prompt, including Noxious Fumes, are applied after the selection. Mixed unordered I Am Invincible "
+                  "draw piles suspend before enemy resolution. The two native draw orders reproduce different HP outcomes.", "",
+                  "Well-Laid Plans retains the whole hand in this build. Its new setup value is 2.2 HP-equivalent units per "
+                  "discounted future turn, capped at four turns. Remaining enemy HP after projected poison determines that horizon. "
+                  "The native card rules and this search heuristic are tested separately.", "",
+                  f"Helmer ran the CPU Python environment against host SHA-256 `{data['manifest']['host']}` and game "
+                  f"SHA-256 `{data['manifest']['game']}`. Native fixtures cover both upgrades of the Wave 1 and promoted cards, "
+                  "hidden-target and draw branches, prompt continuation, and replays of the original failing commands.", "",
+                  f"Pytest reported **{q['tests']}**. Ruff reported **{q['ruff']}** across src and tests. "
+                  "All 19 historical builder outputs, all ten v5 challenger files at efd9877, and 120 CSV2DEV receipts "
+                  "matched their reference bytes. Each of off, active, shadow, frozen v5 and Kaiser contributed 24 receipts. "
+                  f"The original v6.5 checkout reproduced all {q['base_control_transcripts']} control command transcripts and deterministic outcomes. "
+                  "The compact archive includes the per-lobby verdicts, latency histograms, test output and compatibility hashes.", "",
                   "## Per-card triggers and hits", "",
                   "Each cell gives physical plays / native-matched card executions / attack hits in those executions. "
                   "Executions include replays and automatic plays. Hits count individual living targets struck, including blocked hits. "
@@ -180,6 +218,10 @@ def report(data, path):
                   "The pinned SilentCardPool.GenerateAllCards() returns 91 distinct models. The ordinary single-player reward pool "
                   "has 80 cards. The other entries are four basics, two Ancient cards and five multiplayer-only cards. "
                   "Exterminate is a separately qualified event card. Shiv is a generated token.", "",
+                  f"Of the 91 models, {sum(r['status'] == 'SUPPORTED_FULL' for r in data['inventory'])} are SUPPORTED_FULL, "
+                  f"{sum(r['status'] == 'SUPPORTED_BOUNDARY' for r in data['inventory'])} are SUPPORTED_BOUNDARY, "
+                  "and 11 remain for Batch 2. The four missing ordinary single-player rewards are Expertise, Master Planner, "
+                  "Mirage and Untouchable.", "",
                   "SUPPORTED_FULL records deterministic card mechanics in the qualified kernel. Shared encounter, enchantment and "
                   "relic boundaries still apply. SUPPORTED_BOUNDARY records root admission with a named conditional or legacy play boundary. "
                   "REMAINING_BATCH2 lists every missing model, including multiplayer-only models outside single-player A10.", "",

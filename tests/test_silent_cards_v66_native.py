@@ -201,6 +201,80 @@ def test_draw_power_known_card(tmp_path, power_name):
         assert after.block - before.block == 3
 
 
+def test_echoing_slash_repeats_after_kill(tmp_path):
+    with NativeSession(ROOT, tmp_path / "engine", host_path=HOST) as game:
+        o = Oracle(game)
+        o.start("ECHO", ["ECHOING_SLASH"] + ["SLICE"] * 6, encounter="NIBBITS_NORMAL", seed="CSV11FIX_ECHO_KILL")
+        while o.public["enemies"][0]["hp"] > 10:
+            check(o, action(o, "play_card", "SLICE"))
+        hp = o.public["enemies"][1]["hp"]
+        check(o, action(o, "play_card", "ECHOING_SLASH"))
+        assert o.public["enemies"][0]["hp"] == hp - 20
+
+
+@pytest.mark.parametrize("up", [False, True])
+def test_knife_trap_exhaust_replay_and_upgrade(tmp_path, up):
+    with NativeSession(ROOT, tmp_path / "engine", host_path=HOST) as game:
+        o = Oracle(game)
+        game.reset("CSV11FIX_KNIFE_UP")
+        o.command(cmd="set_player", deck=["KNIFE_TRAP", "SHIV", "SHIV"])
+        if up:
+            rest = o.command(cmd="enter_room", type="rest")
+            select = o.command(**next(a for a in legal_actions(rest) if a.args["option_index"] == 1).command())
+            slot = next(c["index"] for c in select["cards"] if c["id"] == "CARD.KNIFE_TRAP")
+            o.command(cmd="action", action="select_cards", args={"indices": str(slot)})
+        o.public = o.command(cmd="enter_room", type="monster", encounter="WATERFALL_GIANT_BOSS")
+        for _ in range(2):
+            check(o, action(o, "play_card", "SHIV"))
+        hp = o.public["enemies"][0]["hp"]
+        check(o, action(o, "play_card", "KNIFE_TRAP"))
+        assert o.public["enemies"][0]["hp"] == hp - (12 if up else 8)
+        assert [c["upgrades"] for c in o.public["exhaust_pile"]] == [int(up), int(up)]
+
+
+def test_up_my_sleeve_cost_follows_physical_copy(tmp_path):
+    with NativeSession(ROOT, tmp_path / "engine", host_path=HOST) as game:
+        o = Oracle(game)
+        o.start("SLEEVE", ["UP_MY_SLEEVE"], encounter="WATERFALL_GIANT_BOSS", seed="CSV11FIX_SLEEVE_COST")
+        for cost in (1, 0):
+            predicted = check(o, action(o, "play_card", "UP_MY_SLEEVE"))
+            assert next(v.cost for v in predicted.discard if v.name == "UP_MY_SLEEVE") == cost
+            assert next(c["cost"] for c in o.public["discard_pile"] if c["id"] == "CARD.UP_MY_SLEEVE") == cost
+            check(o, action(o, "end_turn"))
+            assert next(c["cost"] for c in o.public["hand"] if c["id"] == "CARD.UP_MY_SLEEVE") == cost
+
+
+def test_pounce_preserves_up_my_sleeve_combat_cost(tmp_path):
+    from sts2rl.combat_search_v2.integration import CombatSearchV2
+    from sts2rl.combat_search_v2.planner import Config
+
+    with NativeSession(ROOT, tmp_path / "engine", host_path=HOST) as game:
+        o = Oracle(game)
+        o.start("SLEEVE_FREE", ["POUNCE", "UP_MY_SLEEVE"], encounter="WATERFALL_GIANT_BOSS", seed="CSV11FIX_FREE_SLEEVE")
+        mode = CombatSearchV2(Config(silent_cards_v66=True), record=True)
+        for name in ("POUNCE", "UP_MY_SLEEVE"):
+            a = action(o, "play_card", name)
+            mode.choose(o.public, a, legal_actions)
+            p = mode._decision[0]
+            predicted = advance(p.state, root_move(p, a.kind, a.args))
+            o.public = o.command(**a.command())
+            mode.observe(a, o.public, legal_actions)
+            assert mode.records[-1]["oracle"][1] == "match"
+        assert next(v.cost for v in predicted.discard if v.name == "UP_MY_SLEEVE") == 1
+        assert next(c["cost"] for c in o.public["discard_pile"] if c["id"] == "CARD.UP_MY_SLEEVE") == 1
+
+
+def test_retain_hand_act_one(tmp_path):
+    with NativeSession(ROOT, tmp_path / "engine", host_path=HOST) as game:
+        o = Oracle(game)
+        o.start("RETAIN", ["DEFEND_SILENT", "SLICE"], ["STABLE_SERUM"],
+                encounter="WATERFALL_GIANT_BOSS", seed="CSV11FIX_RETAIN")
+        before = [c["id"] for c in o.public["hand"]]
+        check(o, action(o, "use_potion"))
+        check(o, action(o, "end_turn"))
+        assert [c["id"] for c in o.public["hand"]] == before
+
+
 REGRESSIONS = json.loads(gzip.decompress((Path(__file__).parent /
                          "fixtures/v66-csv11-regressions.json.gz").read_bytes()))
 

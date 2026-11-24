@@ -170,6 +170,7 @@ class CombatSearchV2:
         self._aeon_plays = -1
         self._remnant_start_hp = None
         self._puzzle_triggered_at = None
+        self._free_skill_hand = None
         self._wax_queue = ()
         self._toy_counter = None
         self._melted_fan = False
@@ -218,6 +219,7 @@ class CombatSearchV2:
         started = perf_counter_ns() if self.records is not None else 0
         projected = None
         previous_prompt, self._prompt = self._prompt, None
+        free_hand, self._free_skill_hand = self._free_skill_hand, None
         self._decision = None
         result = None
         fallback = ""
@@ -230,6 +232,14 @@ class CombatSearchV2:
             late_root = self.config.late_root(ctx.get("act"), ctx.get("room_type"))
             projected = project(public, late_prompts=late_root, silent_cards_v66=self.config.silent_cards_v66)
             state = projected.state
+            if free_hand and self.config.silent_cards_v66:
+                key, hand = free_hand
+                if key == (state.act, state.floor, state.round) and (
+                    tuple(_variant_key(c.variant) for c in state.hand) == tuple(_variant_key(c.variant) for c in hand)
+                ):
+                    state = replace(state, hand=tuple(replace(c, variant=replace(c.variant,
+                                    free_skill_cost=old.variant.free_skill_cost)) for c, old in zip(state.hand, hand)))
+                    projected = replace(projected, state=state)
             if self.config.wax_fan_v64 and self._melted_fan:
                 state = replace(state, melted_fan=True)
                 projected = replace(projected, state=state)
@@ -457,7 +467,8 @@ class CombatSearchV2:
                        if predicted.outcome == "dead" else not after.get("in_combat"))
             evidence = "match" if matches else "mismatch"
             reason = "" if matches else "outcome"
-        elif (self.records is not None or predicted.prompt or ((predicted.late or predicted.silent_cards_v66) and predicted.outcome == "completed"
+        elif (self.records is not None or predicted.prompt or (predicted.silent_cards_v66 and
+              dict(predicted.powers).get("FREE_SKILL")) or ((predicted.late or predicted.silent_cards_v66) and predicted.outcome == "completed"
                 and after.get("decision") == "card_select")):
             try:
                 actual = project(after, late_prompts=predicted.late, silent_cards_v66=predicted.silent_cards_v66)
@@ -473,6 +484,9 @@ class CombatSearchV2:
                     if native != legal(actual.state) or expected != _normalized_legal(actual.state):
                         reason = "legality"
                 evidence = "mismatch" if reason else "match"
+                if (not reason and predicted.silent_cards_v66 and not predicted.outcome and
+                        any(c.variant.free_skill_cost >= 0 for c in predicted.hand)):
+                    self._free_skill_hand = (predicted.act, predicted.floor, predicted.round), predicted.hand
                 if ((predicted.late or predicted.silent_cards_v66) and predicted.outcome == "completed" and not reason and actual.state.prompt
                         and actual.state.prompt.operation in ("TOASTY_MITTENS", "TOOLS_OF_THE_TRADE")):
                     self._prompt = actual.state

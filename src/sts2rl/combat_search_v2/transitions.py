@@ -236,6 +236,8 @@ def draw(state, count, *, escape_plan=None):
 
 
 def outside_hand(variant):
+    if variant.free_skill_cost >= 0:
+        variant = replace(variant, cost=variant.free_skill_cost, free_skill_cost=-1)
     # Hand-only metadata does not persist; explicit Retain/Exhaust keywords do.
     flags = tuple(flag for flag in variant.flags
                   if flag not in ("exhaust_on_next_play", "retain_this_turn", "sly_this_turn"))
@@ -666,6 +668,8 @@ def _start_play(state, play):
     triggers = []
     if state.silent_cards_v66:
         if v.kind == "Skill" and power(state.powers, "FREE_SKILL"):
+            if v.name == "UP_MY_SLEEVE" and v.free_skill_cost < 0:
+                return boundary(state, "up my sleeve underlying combat cost")
             state = silent_cards.consume_free_skill(state)
             if state.boundary:
                 return state
@@ -844,6 +848,8 @@ def _finish_card(state, play, plays=1):
             state = replace(state, discard=tuple(c for c in state.discard if c.name != "RIGHT_HAND_HAND"),
                             hand=(*state.hand, Card(state.next_slot, returns[0])), next_slot=state.next_slot + 1)
     if v.kind != "Power":
+        if state.silent_cards_v66 and v.free_skill_cost >= 0:
+            v = replace(v, cost=v.free_skill_cost, free_skill_cost=-1)
         exhausted = "Exhaust" in v.keywords or "exhaust_on_next_play" in v.flags
         if exhausted and any(r.name == "JOSS_PAPER" for r in state.relics):
             return boundary(state, "joss paper exhaust counter")
