@@ -104,12 +104,26 @@ class DeckPolicy:
         self.size_penalty = data.get("size_penalty", -1.65)
         self.unified_draft_v65 = data.get("unified_draft_v65", False)
         self.trap_cleanup_v65 = data.get("trap_cleanup_v65", False)
+        self.human_ml_draft_v68 = data.get("human_ml_draft_v68", False)
+        self.human_ml_draft_model = data.get("human_ml_draft_model")
+        self.human_ml_scope = frozenset(
+            data.get("human_ml_scope", ["card_reward", "bundle_select", "shop"])
+        )
+        self.human_ml_skip_bias = float(data.get("human_ml_skip_bias", 0.0))
+        act_bias = data.get("human_ml_act_skip_bias", [0.0, 0.0, 0.0])
+        self.human_ml_act_skip_bias = tuple(float(x) for x in act_bias)
+        self.human_ml_shop_scale = float(data.get("human_ml_shop_scale", 4.5))
+        self.human_ml_a1_offense_boost = float(data.get("human_ml_a1_offense_boost", 0.0))
+        self.human_ml_a1_offense_cap = float(data.get("human_ml_a1_offense_cap", 4.0))
+        self.human_ml_card_reward_min_act = int(data.get("human_ml_card_reward_min_act", 1))
         if self.unified_draft_v65:
             self.size_penalty = 0.0
         if self.trap_cleanup_v65:
             self.scope |= {"bundle_select"}
         if self.unified_draft_v64 or self.unified_draft_v65:
             self.scope |= {"card_reward", "shop", "bundle_select"}
+        if self.human_ml_draft_v68:
+            self.scope |= self.human_ml_scope
         self.to_upgrade = False
         self.act2_final_rest_threshold = data.get("act2_final_rest_threshold")
         if self.act2_final_rest_threshold is not None and not 0 <= self.act2_final_rest_threshold <= 1:
@@ -303,8 +317,75 @@ class DeckPolicy:
         if self.prompt_aware and not state.get("in_combat") and state["decision"] != "card_select":
             self.prompt = selection_goal(state, action, detailed=self.optional_selections)
 
+    def _human_ml_choice(self, state):
+        from .human_ml_draft import HumanMLDraftModel, context_from_state
+        from .merchant import merchant_choice
+
+        model = HumanMLDraftModel.load(self.human_ml_draft_model)
+        deck = state["player"]["deck"]
+        z, ctx = context_from_state(state, deck)
+        sl = model.skip_logit(z)
+        actions = legal_actions(state)
+        score_kw = dict(
+            skip_bias=self.human_ml_skip_bias,
+            act_skip_bias=self.human_ml_act_skip_bias,
+            a1_offense_boost=self.human_ml_a1_offense_boost,
+            a1_offense_cap=self.human_ml_a1_offense_cap,
+        )
+        if state["decision"] == "card_reward":
+            cards = {c["index"]: c for c in state["cards"]}
+
+            def rank(action):
+                if action.kind == "skip_card_reward":
+                    return (0.0, True)
+                margin = model.score_card(
+                    cards[action.args["card_index"]],
+                    z,
+                    ctx,
+                    skip_logit=sl,
+                    **score_kw,
+                )
+                return (margin, False)
+
+            return max(actions, key=rank)
+        if state["decision"] == "bundle_select":
+
+            def marginal(action):
+                current = list(deck)
+                total = 0.0
+                for card in state["bundles"][action.args["bundle_index"]]["cards"]:
+                    cz, cctx = context_from_state(state, current)
+                    total += model.score_card(card, cz, cctx, **score_kw)
+                    current.append(card)
+                return total
+
+            return max(actions, key=marginal)
+
+        def shop_grade(card):
+            margin = model.score_card(card, z, ctx, skip_logit=sl, **score_kw)
+            if margin <= 0.0:
+                return margin
+            return self.human_ml_shop_scale * margin
+
+        settings = self.merchant or {"reserve": 1.0, "permanent": 1.0}
+        return merchant_choice(
+            state, shop_grade, unified_card_values=True, positive_cards_only=True, **settings
+        )
+
     def choose(self, state, base):
         d = state["decision"]
+        act = int((state.get("context") or {}).get("act", 1))
+        if (
+            self.human_ml_draft_v68
+            and d in self.human_ml_scope
+            and not (d == "card_reward" and act < self.human_ml_card_reward_min_act)
+        ):
+            self.to_upgrade = False
+            return self._human_ml_choice(state)
+        if self.human_ml_draft_v68 and d == "card_reward" and act < self.human_ml_card_reward_min_act:
+            # Delegate Act 1 card_reward back to the base StrategyModel/RunPolicy path
+            self.to_upgrade = False
+            return base(state)
         if (self.unified_draft_v64 or self.unified_draft_v65) and d in ("card_reward", "shop", "bundle_select"):
             self.to_upgrade = False
             return self._unified_choice(state)

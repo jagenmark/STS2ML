@@ -208,6 +208,8 @@ def _play_episode(task, ascension, decision_hook):
             and role not in ("baseline", "prior", "original-macro")
             else None
         )
+        if deck_model is not None and options.get("human_ml_draft_model"):
+            deck_model.human_ml_draft_model = Path(options["human_ml_draft_model"])
         encounter = (
             EncounterModel.from_data(_load_cached_json(options["encounter_model"]))
             if options.get("encounter_model")
@@ -342,8 +344,17 @@ def _play_episode(task, ascension, decision_hook):
                 elif encounter is not None and encounter.applies(state) and combat:
                     action = (encounter.choose(state, policy) if combat_v2 is None else
                               choose_encounter(combat_v2, encounter, state, policy, legal_actions))
-                elif deck_model is not None and not combat and (state["decision"] in deck_model.scope or
-                        (state["decision"] == "card_select" and (deck_model.to_upgrade or deck_model.prompt))):
+                elif deck_model is not None and not combat and (
+                    (
+                        state["decision"] in deck_model.scope
+                        and not (
+                            deck_model.human_ml_draft_v68
+                            and state["decision"] == "card_reward"
+                            and act < deck_model.human_ml_card_reward_min_act
+                        )
+                    )
+                    or (state["decision"] == "card_select" and (deck_model.to_upgrade or deck_model.prompt))
+                ):
                     action = deck_model.choose(state, policy)
                 elif strategy is not None and strategy_kind(state) in strategy.kinds:
                     trace = {} if options.get("explain_drafts") and state["decision"] == "card_reward" else None

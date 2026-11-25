@@ -26,6 +26,9 @@ class Config:
     wax_fan_v64: bool = False
     silent_cards_v66: bool = False
     silent_cards_v67: bool = False
+    draw_pimc_v68: bool = False
+    value_v68: bool = False
+    pimc_samples: int = 6
 
     def late_root(self, act, room):
         if act == 3:
@@ -35,12 +38,14 @@ class Config:
         return act == 2 and room in ("Monster", "Elite") and (self.v61_act2_hallways_act3 or self.v61_boss_safe)
 
     def __post_init__(self):
-        if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children))
+        if (any(type(v) is not int for v in (self.version, self.width, self.depth, self.children, self.pimc_samples))
                 or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
                                                       self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62,
-                                                      self.kaiser_v63, self.wax_fan_v64, self.silent_cards_v66, self.silent_cards_v67))
+                                                      self.kaiser_v63, self.wax_fan_v64, self.silent_cards_v66,
+                                                      self.silent_cards_v67, self.draw_pimc_v68, self.value_v68))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
+                or not 2 <= self.pimc_samples <= 16
                 or type(self.potion_reserve) not in (int, float)
                 or not math.isfinite(self.potion_reserve) or self.potion_reserve < 0
                 or type(self.value_win_weight) not in (int, float)
@@ -121,10 +126,28 @@ class _Search:
         if state.boundary and not state.outcome:
             reason = state.boundary.reason
             self.boundaries[reason] = self.boundaries.get(reason, 0) + 1
+            if self.config.draw_pimc_v68 and reason == "draw" and len(path) == 1:
+                from .draw_pimc import evaluate_draw_pimc
+
+                pimc_score = evaluate_draw_pimc(state, root, self.config, self.model, self.boss_safe)
+                if pimc_score is not None:
+                    line = Line(state, path, pimc_score, root)
+                    previous = self.scores[root]
+                    if previous is None or self.key(line) > self.key(previous):
+                        self.scores[root] = line
+                    previous = self.certified[root]
+                    if previous is None or self.key(line) > self.key(previous):
+                        self.certified[root] = line
+                    stratum = int(state.spent > 0)
+                    previous = self.strata[stratum]
+                    if previous is None or self.key(line) > self.key(previous):
+                        self.strata[stratum] = line
+                    return
         started = (perf_counter_ns() if self.record_timing and self.leaf_ns is None
                    and state.outcome == "completed" else None)
         score = leaf_value(state, self.config.potion_reserve, self.model, self.config.value_win_weight,
-                           boss_safe=self.boss_safe, power_leaf_v62=self.config.power_leaf_v62)
+                           boss_safe=self.boss_safe, power_leaf_v62=self.config.power_leaf_v62,
+                           value_v68=self.config.value_v68)
         if started is not None:
             self.leaf_ns = perf_counter_ns() - started
         line = Line(state, path, score, root)
@@ -156,7 +179,7 @@ class _Search:
             self.leaf(successor, path, root)
             return None
         priority = interim(successor, self.config.potion_reserve, boss_safe=self.boss_safe,
-                           power_leaf_v62=self.config.power_leaf_v62)
+                           power_leaf_v62=self.config.power_leaf_v62, value_v68=self.config.value_v68)
         return _Node(successor, path, root, priority)
 
     def finish(self, node):

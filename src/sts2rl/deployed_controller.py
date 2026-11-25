@@ -87,6 +87,11 @@ class DeployedController:
             from .combat_search_v2.integration import CombatSearchV2
 
             combat_v2 = CombatSearchV2.from_options(settings)
+        deck_model = (
+            DeckPolicy.load(settings["deck_model"]) if settings.get("deck_model") else None
+        )
+        if deck_model is not None and settings.get("human_ml_draft_model"):
+            deck_model.human_ml_draft_model = Path(settings["human_ml_draft_model"])
         return cls(
             policy,
             late_weights=RunWeights.load(settings["late_weights"]) if settings.get("late_weights") else None,
@@ -94,7 +99,7 @@ class DeployedController:
             late_router=RoomModel.load(settings["late_room_model"]) if settings.get("late_room_model") else None,
             offers=OfferModel.load(settings["offer_model"]) if settings.get("offer_model") else None,
             strategy=StrategyModel.load(settings["strategy_model"]) if settings.get("strategy_model") else None,
-            deck_model=DeckPolicy.load(settings["deck_model"]) if settings.get("deck_model") else None,
+            deck_model=deck_model,
             encounter=EncounterModel.load(settings["encounter_model"]) if settings.get("encounter_model") else None,
             turn_search=bool(settings.get("turn_search", False)),
             combat_v2=combat_v2,
@@ -145,7 +150,14 @@ class DeployedController:
                 action = choose_encounter(self.combat_v2, self.encounter, state, self.policy, legal_actions)
             self._last_step_used_encounter = True
         elif self.deck_model is not None and not combat and (
-            state["decision"] in self.deck_model.scope
+            (
+                state["decision"] in self.deck_model.scope
+                and not (
+                    self.deck_model.human_ml_draft_v68
+                    and state["decision"] == "card_reward"
+                    and act < self.deck_model.human_ml_card_reward_min_act
+                )
+            )
             or (
                 state["decision"] == "card_select"
                 and (self.deck_model.to_upgrade or self.deck_model.prompt)

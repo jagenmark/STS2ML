@@ -4,11 +4,12 @@ import hashlib
 
 import numpy as np
 
-from .features import FEATURE_NAMES, SCHEMA2_NAMES, VERSION, extract_leaf_features
+from .features import FEATURE_NAMES, SCHEMA2_NAMES, SCHEMA4_NAMES, SCHEMA5_NAMES, VERSION, extract_leaf_features
 
 ARTIFACT_VERSION = 1
 SCHEMA_SHA256 = hashlib.sha256("\n".join(FEATURE_NAMES).encode()).hexdigest()
-WIDTHS = ((), (32, 16), (64, 32))
+WIDTHS = ((), (32, 16), (64, 32), (128, 64), (128, 64, 32), (256, 128, 64))
+_SCHEMA_MAP = {2: SCHEMA2_NAMES, VERSION: FEATURE_NAMES, 4: SCHEMA4_NAMES, 5: SCHEMA5_NAMES}
 
 
 def sigmoid(logits):
@@ -27,7 +28,7 @@ class CombatValueModel:
     def load(cls, path):
         with np.load(path, allow_pickle=False) as data:
             schema = data["schema"].item()
-            names = {2: SCHEMA2_NAMES, VERSION: FEATURE_NAMES}.get(schema)
+            names = _SCHEMA_MAP.get(schema)
             if (data["version"].item() != ARTIFACT_VERSION or names is None
                     or data["schema_sha256"].item() != hashlib.sha256("\n".join(names).encode()).hexdigest()):
                 raise ValueError("Incompatible combat value v2 feature schema")
@@ -65,8 +66,10 @@ class CombatValueModel:
         return float(probability), float(fraction)
 
 
-def export_model(path, mean, scale, layers, calibration, widths):
+def export_model(path, mean, scale, layers, calibration, widths, *, schema=VERSION):
+    names = _SCHEMA_MAP[schema]
+    sha = hashlib.sha256("\n".join(names).encode()).hexdigest()
     arrays = {key: value for i, (w, b) in enumerate(layers) for key, value in ((f"w{i}", w), (f"b{i}", b))}
-    np.savez_compressed(path, version=ARTIFACT_VERSION, schema=VERSION, schema_sha256=SCHEMA_SHA256,
+    np.savez_compressed(path, version=ARTIFACT_VERSION, schema=schema, schema_sha256=sha,
                         widths=np.array(widths, dtype=np.int32), mean=mean, scale=scale,
                         calibration=np.asarray(calibration, dtype=np.float32), **arrays)

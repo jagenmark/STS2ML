@@ -218,9 +218,12 @@ class CombatSearchV2:
             return
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
-                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64", "silent_cards_v66", "silent_cards_v67"):
+                       "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64",
+                       "silent_cards_v66", "silent_cards_v67", "draw_pimc_v68", "value_v68"):
             if not config[switch]:
                 del config[switch]
+        if not self.config.draw_pimc_v68 and "pimc_samples" in config:
+            del config["pimc_samples"]
         canonical = json.dumps(config, sort_keys=True, separators=(",", ":")).encode()
         metadata = {"schema": SCHEMA, "config": config, "config_sha256": hashlib.sha256(canonical).hexdigest(),
                     "mode": "shadow" if self.shadow else "act"}

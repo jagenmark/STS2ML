@@ -1,0 +1,90 @@
+{
+  "corpus": {
+    "clean_runs": 1205,
+    "wins": 268,
+    "strong_players": 10,
+    "decisions": 15567,
+    "strong_decisions": 4192,
+    "elapsed_s": 26.1
+  },
+  "heldout": {
+    "best_epoch": 69,
+    "val_sw_nll": 0.9298,
+    "test_all": {
+      "n": 2083,
+      "nll": 0.9671,
+      "top1": 0.602,
+      "skip_acc": 0.8036,
+      "skip_by_act": {
+        "1": {
+          "actual": 0.1266,
+          "pred_prob": 0.1622,
+          "pred_hard": 0.1148
+        },
+        "2": {
+          "actual": 0.323,
+          "pred_prob": 0.3543,
+          "pred_hard": 0.3506
+        },
+        "3": {
+          "actual": 0.4828,
+          "pred_prob": 0.482,
+          "pred_hard": 0.5361
+        }
+      }
+    },
+    "test_strong": {
+      "n": 460,
+      "nll": 0.8433,
+      "top1": 0.6674,
+      "skip_acc": 0.8261,
+      "skip_by_act": {
+        "1": {
+          "actual": 0.132,
+          "pred_prob": 0.1597,
+          "pred_hard": 0.1218
+        },
+        "2": {
+          "actual": 0.2949,
+          "pred_prob": 0.3511,
+          "pred_hard": 0.3077
+        },
+        "3": {
+          "actual": 0.486,
+          "pred_prob": 0.5039,
+          "pred_hard": 0.5794
+        }
+      }
+    },
+    "test_win": {
+      "n": 889,
+      "nll": 0.8733,
+      "top1": 0.6367,
+      "skip_acc": 0.7818,
+      "skip_by_act": {
+        "1": {
+          "actual": 0.1416,
+          "pred_prob": 0.1627,
+          "pred_hard": 0.1076
+        },
+        "2": {
+          "actual": 0.3497,
+          "pred_prob": 0.3637,
+          "pred_hard": 0.3595
+        },
+        "3": {
+          "actual": 0.5043,
+          "pred_prob": 0.4918,
+          "pred_hard": 0.5435
+        }
+      }
+    }
+  },
+  "production": {
+    "vocab_size": 277,
+    "epochs": 69,
+    "numpy_parity_max_diff": 5.923211574554443e-07,
+    "path": "C:\\Users\\gosee\\.t3\\worktrees\\STS2ML\\codex-a10-v68-human-ml--fe7a6f56de75ee4e\\docs\\combat-search-v2\\models\\human_ml_draft_v1.npz",
+    "sha256": "1138f467b24a47ba46a680b7bc411a6152665262ff9a1d5a37b5c67b08281da4"
+  }
+}

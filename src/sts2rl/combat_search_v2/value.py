@@ -40,7 +40,7 @@ _SCALING = {"ACCELERANT", "NOXIOUS_FUMES", "ACCURACY", "PHANTOM_BLADES", "INFINI
             "AFTERIMAGE", "DEXTERITY"}
 
 
-def _power_value(state):
+def _power_value(state, *, value_v68=False):
     """Discount future uses by public HP remaining and density in the live piles."""
     extra = {"WELL_LAID_PLANS", "TRACKING", "SPEEDSTER", "BLOCK_NEXT_TURN", "SHADOW_STEP",
              "DOUBLE_DAMAGE", "FREE_SKILL", "CORROSIVE_WAVE", "SHADOWMELD"} if state.silent_cards_v66 else ()
@@ -93,7 +93,12 @@ def _power_value(state):
                 2, fraction * sum(c.kind == "Skill" and "Sly" not in c.keywords for c in cards))
         immediate += 2.5 * min(turns, p.get("INTANGIBLE", 0))
         per_turn -= 0.7 * p.get("WRAITH_FORM", 0)
-    return immediate + turns * per_turn + min(turns, p.get("BLUR", 0)) * min(2, 0.2 * state.block)
+    blur_carry = (
+        min(turns, p.get("BLUR", 0)) * min(10.0, 0.45 * state.block)
+        if value_v68
+        else min(turns, p.get("BLUR", 0)) * min(2, 0.2 * state.block)
+    )
+    return immediate + turns * per_turn + blur_carry
 
 
 def _progress(state, power_leaf_v62=False):
@@ -162,7 +167,20 @@ def _boss_adjustment(state):
     return value
 
 
-def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=False, power_leaf_v62=False):
+def _carryover_debuffs(state):
+    """Value Vulnerable and Weak still active on living enemies for upcoming turns."""
+    bonus = 0.0
+    for enemy in state.enemies:
+        if enemy.hp <= 10 or (enemy.name == "WATERFALL_GIANT" and enemy.max_hp == 999_999_999):
+            continue
+        if vuln := power(enemy.powers, "VULNERABLE"):
+            bonus += 1.8 * min(2, vuln) * min(1.0, enemy.hp / 40.0)
+        if weak := power(enemy.powers, "WEAK"):
+            bonus += 1.6 * min(2, weak) * min(1.0, enemy.hp / 35.0)
+    return min(8.0, bonus)
+
+
+def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=False, power_leaf_v62=False, value_v68=False):
     adjustment = _boss_adjustment(state) if boss_safe and state.outcome == "completed" else 0
     if model is not None and state.outcome == "completed":
         win_probability, win_hp_fraction = model.leaf(state)
@@ -176,18 +194,25 @@ def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=Fa
     if state.silent_cards_v66:
         persistent -= 4 * power(state.powers, "WELL_LAID_PLANS")
     if power_leaf_v62 or state.silent_cards_v66:
-        persistent += _power_value(state) - 3.5 * power(state.powers, "AFTERIMAGE") - 1.5 * power(state.powers, "DEXTERITY")
+        persistent += _power_value(state, value_v68=value_v68) - 3.5 * power(state.powers, "AFTERIMAGE") - 1.5 * power(state.powers, "DEXTERITY")
     category = {"victory": VICTORY, "completed": SURVIVED, "dead": DEAD}.get(
         state.outcome, UNRESOLVED)
     utility = state.hp - reserve_price * state.spent
     if category != VICTORY:
         utility += 0.35 * progress - 0.035 * pressure - deadline + persistent
         if category == SURVIVED:
-            utility += 0.35 * state.block + 0.22 * len(state.hand)
+            if value_v68:
+                retain_bonus = sum(
+                    0.50 if c.variant.name not in ("STRIKE_SILENT", "DEFEND_SILENT") and c.variant.kind not in ("Curse", "Status") else 0.15
+                    for c in state.hand
+                )
+                utility += 0.35 * state.block + retain_bonus + _carryover_debuffs(state)
+            else:
+                utility += 0.35 * state.block + 0.22 * len(state.hand)
     return category, round(utility + adjustment, 8)
 
 
-def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False):
+def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False, value_v68=False):
     """Cheap beam sorting for stable states and compulsory prompts."""
     progress = 0
     pressure = 0
@@ -206,7 +231,7 @@ def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False):
     if power_leaf_v62 or state.silent_cards_v66:
         # Development uses damage units, whereas completed leaves price damage
         # at 0.35 HP. Keep the independent safety quota exactly as before.
-        development += _power_value(state) / 0.35
+        development += _power_value(state, value_v68=value_v68) / 0.35
         for enemy in state.enemies:
             poison = power(enemy.powers, "POISON")
             if enemy.hp > 0 and poison:
