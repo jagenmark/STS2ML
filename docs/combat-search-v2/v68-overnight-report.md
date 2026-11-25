@@ -112,3 +112,18 @@ Total wall-clock runtime: **83.9 min**.
 | `v68_s5b_pimc` | **26.319** | **532/768** | **71/268** | **25** | **0** | 5 |
 
 **Paired delta (`v68_s5b_pimc` vs `ctrl_v67`):** `+1.022` floors, 95% CI `[+0.350, +1.694]`, `W/L/T = 256/187/325`, sign `p = 0.001210`.
+
+---
+
+# Part 7 · Schema 5 Iteration 3 Kaiser Crab Focus (`408,065` leaves, `75.0 min`)
+- Fixed 2-arm Kaiser `facing` tracking: new Iter 3 stats `{'total': 98003, 'a1': 56372, 'a2': 37494, 'a3': 4137, 'boss': 19816, 'a2_boss': 6412, 'a3_boss': 284, 'kaiser_all': 4548, 'kaiser_2arm': 4169, 'kaiser_2arm_wins': 451}` (`2400` full + `1578` forks, err=0).
+- Trained on **AMD Radeon RX 9070 XT** in `94.8s` (`kaiser_weight=4.0`): widths `[128, 64]`, test `{'n': 41145, 'win_rate': 0.8929, 'bce': 0.1117, 'brier': 0.0343, 'win_acc': 0.9522, 'hp_mae': 0.059}`, kaiser_2arm `{'n': 457, 'win_rate': 0.1838, 'bce': 0.2613, 'brier': 0.0843, 'win_acc': 0.8775, 'hp_mae': 0.0928}`, parity `2.09e-07`.
+- Exported: `C:\Users\gosee\.t3\worktrees\STS2ML\codex-a10-v68-human-ml--fe7a6f56de75ee4e\docs\combat-search-v2\models\combat_value_v5c.npz` (`sha256=eb5a2f13731bf8758339f6cbf746bdf281c81ba3da8cd152b6d95594f329bdaa`).
+
+## Blind `CSV25DEV` (`N = 256` paired lobbies)
+| Arm | Mean Floor | A1 Clears | A2 Boss | A3 Entries | Wins | Delta vs ctrl_v67 (95% CI) | Delta vs v68_v5b |
+|---|---:|---:|---:|---:|---:|---|---|
+| `ctrl_v67` | 24.785 | 162/256 | 18/80 | 8 | 0 | — | — |
+| `v68_v5b` | 26.551 | 180/256 | 30/100 | 9 | 0 | +1.766 [+0.672, +2.891] (p=0.0416) | — |
+| `v69_v5c_kscale` | 26.383 | 181/256 | 26/95 | 7 | 0 | +1.598 [+0.344, +2.883] (p=0.0750) | -0.168 (p=0.9312) |
+| `v69_v5c_pure` | 26.387 | 181/256 | 26/95 | 6 | 0 | +1.602 [+0.387, +2.848] (p=0.0861) | -0.164 (p=0.8624) |

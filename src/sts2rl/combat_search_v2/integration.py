@@ -219,7 +219,8 @@ class CombatSearchV2:
         config = asdict(self.config)
         for switch in ("v6_late_coverage", "v61_act2_hallways_act3", "v61_boss_safe",
                        "power_leaf_v62", "early_escape_v62", "kaiser_v63", "wax_fan_v64",
-                       "silent_cards_v66", "silent_cards_v67", "draw_pimc_v68", "value_v68"):
+                       "silent_cards_v66", "silent_cards_v67", "draw_pimc_v68", "value_v68",
+                       "kaiser_scaling_v69", "kaiser_pure_neural_v69"):
             if not config[switch]:
                 del config[switch]
         if not self.config.draw_pimc_v68 and "pimc_samples" in config:

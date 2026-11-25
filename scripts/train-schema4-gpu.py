@@ -168,6 +168,11 @@ def evaluate_slices(model: CombatValueModel, x: np.ndarray, yw: np.ndarray, yh: 
         "boss": x[:, ib] > 0.5,
         "a2_boss": (x[:, ia2] > 0.5) & (x[:, ib] > 0.5),
     }
+    if "s5.kaiser_crusher_hp" in names:
+        ic = names.index("s5.kaiser_crusher_hp")
+        ir = names.index("s5.kaiser_rocket_hp")
+        slices["kaiser"] = (x[:, ic] > 0) | (x[:, ir] > 0)
+        slices["kaiser_2arm"] = (x[:, ic] > 0) & (x[:, ir] > 0)
     for key, mask in slices.items():
         if mask.any():
             out[key] = evaluate_np(model, x[mask], yw[mask], yh[mask])
@@ -182,6 +187,7 @@ def main() -> None:
     parser.add_argument("--schema", type=int, choices=(4, 5), default=4)
     parser.add_argument("--epochs", type=int, default=35)
     parser.add_argument("--late-weight", type=float, default=2.0)
+    parser.add_argument("--kaiser-weight", type=float, default=1.0)
     args = parser.parse_args()
 
     names = SCHEMA4_NAMES if args.schema == 4 else SCHEMA5_NAMES
@@ -215,6 +221,11 @@ def main() -> None:
         + (args.late_weight - 1.0) * ((x_all[:, idx_act2] > 0.5) | (x_all[:, idx_act3] > 0.5)).astype(np.float32)
         + (args.late_weight - 1.0) * (x_all[:, idx_boss] > 0.5).astype(np.float32)
     ).astype(np.float32)
+    if args.kaiser_weight > 1.0 and "s5.kaiser_crusher_hp" in names:
+        ic = names.index("s5.kaiser_crusher_hp")
+        ir = names.index("s5.kaiser_rocket_hp")
+        k_mask = ((x_all[:, ic] > 0) | (x_all[:, ir] > 0)).astype(np.float32)
+        sw_all = sw_all * (1.0 + (args.kaiser_weight - 1.0) * k_mask)
 
     # Strict run-disjoint split (80/10/10)
     buckets = (run_ids * 2654435761) % 100

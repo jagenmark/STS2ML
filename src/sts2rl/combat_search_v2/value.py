@@ -124,9 +124,50 @@ def _progress(state, power_leaf_v62=False):
     return progress, pressure, deadline
 
 
-def _boss_adjustment(state):
+def _boss_adjustment(state, *, kaiser_scaling_v69=False):
     """Price public consequences extending beyond this turn for either evaluator."""
     if state.kaiser_v63:
+        if kaiser_scaling_v69:
+            # Concave HP valuation: taking chip damage at high HP (50+) is cheap
+            # compared to bringing scaling powers online early, while low HP (<25)
+            # stays strongly protected and gates future scaling payoff.
+            low_hp = min(state.hp, 25)
+            mid_hp = max(0, min(state.hp, 50) - 25)
+            high_hp = max(0, state.hp - 50)
+            value = 4.5 * low_hp + 2.0 * mid_hp + 1.1 * high_hp
+            living = [e for e in state.enemies if e.hp > 0]
+            rem_hp = sum(e.hp for e in living)
+            survive = min(1.0, max(0.0, state.hp - 5) / 25.0)
+            runway = min(1.0, rem_hp / 160.0) * survive
+            p = dict(state.powers)
+            # Full scaling power credit (Accelerant, Footwork, Afterimage, Fumes,
+            # Envenom, Accuracy, Well-Laid Plans, Infinite Blades, Tools, etc.)
+            value += 1.8 * survive * _power_value(state, value_v68=True)
+            # Extra Turn-1/2 Accelerant credit when poison cards are in the deck
+            if accel := p.get("ACCELERANT", 0):
+                cards = (*state.draw, *state.discard, *(c.variant for c in state.hand))
+                poi_cards = sum(c.name in _POISON_SOURCES for c in cards)
+                if poi_cards or p.get("NOXIOUS_FUMES") or p.get("ENVENOM"):
+                    value += runway * 7.0 * min(3, accel) * min(1.5, 0.5 + 0.25 * poi_cards)
+            value += runway * (
+                7.0 * p.get("DEXTERITY", 0)
+                + 9.0 * p.get("AFTERIMAGE", 0)
+                + 5.5 * p.get("NOXIOUS_FUMES", 0)
+                + 7.0 * bool(p.get("WELL_LAID_PLANS"))
+            )
+            focus = 0.0
+            for e in state.enemies:
+                poison = power(e.powers, "POISON")
+                ticks = min(5, poison, 3 * (1 + p.get("ACCELERANT", 0))) if e.hp > 0 else 0
+                future = min(e.hp, ticks * poison - ticks * (ticks - 1) // 2)
+                progress = e.max_hp - e.hp + future
+                focus = max(focus, progress * (1.15 if e.name == "ROCKET" else 1))
+                if e.hp:
+                    value += 1.5 * future + 6 * min(3, power(e.powers, "WEAK")) - 6 * power(e.powers, "STRENGTH")
+                else:
+                    value += 22
+            value += 6 * p.get("INTANGIBLE", 0) + 5 * p.get("BUFFER", 0) + 4 * p.get("THORNS", 0)
+            return value + 0.55 * focus
         # Value concentrated damage and poison's next several ticks. Early removal
         # cuts the number of incoming attacks even after the survivor gains rage.
         focus = 0.0
@@ -180,12 +221,17 @@ def _carryover_debuffs(state):
     return min(8.0, bonus)
 
 
-def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=False, power_leaf_v62=False, value_v68=False):
-    adjustment = _boss_adjustment(state) if boss_safe and state.outcome == "completed" else 0
+def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=False, power_leaf_v62=False, value_v68=False, kaiser_scaling_v69=False, kaiser_pure_neural_v69=False):
     if model is not None and state.outcome == "completed":
+        adjustment = (
+            0
+            if (kaiser_pure_neural_v69 and state.kaiser_v63)
+            else (_boss_adjustment(state, kaiser_scaling_v69=kaiser_scaling_v69) if boss_safe else 0)
+        )
         win_probability, win_hp_fraction = model.leaf(state)
         value = win_probability * (state.max_hp * win_hp_fraction + win_weight)
         return SURVIVED, round(value - reserve_price * state.spent + adjustment, 8)
+    adjustment = _boss_adjustment(state, kaiser_scaling_v69=kaiser_scaling_v69) if boss_safe and state.outcome == "completed" else 0
     progress, pressure, deadline = _progress(state, power_leaf_v62)
     persistent = sum(power(state.powers, name) * weight for name, weight in (
         ("AFTERIMAGE", 3.5), ("WELL_LAID_PLANS", 4), ("STRENGTH", 1.5),
@@ -212,7 +258,7 @@ def leaf_value(state, reserve_price, model=None, win_weight=0.0, *, boss_safe=Fa
     return category, round(utility + adjustment, 8)
 
 
-def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False, value_v68=False):
+def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False, value_v68=False, kaiser_scaling_v69=False):
     """Cheap beam sorting for stable states and compulsory prompts."""
     progress = 0
     pressure = 0
@@ -237,5 +283,5 @@ def interim(state, reserve_price, *, boss_safe=False, power_leaf_v62=False, valu
             if enemy.hp > 0 and poison:
                 development += 0.8 * (_poison_damage(enemy, poison, power(state.powers, "ACCELERANT"))
                                       - min(enemy.hp, poison))
-    adjustment = _boss_adjustment(state) if boss_safe else 0
+    adjustment = _boss_adjustment(state, kaiser_scaling_v69=kaiser_scaling_v69) if boss_safe else 0
     return safety - reserve_price * state.spent + adjustment, development + adjustment

@@ -197,3 +197,53 @@ def test_kaiser_v68_fallback_is_strictly_opt_in():
     leaf_value(st, 7.0, model=m3, win_weight=25.0, boss_safe=True, value_v68=True)
     assert m3.calls == 1
 
+
+def test_kaiser_scaling_v69_prefers_early_scaling_at_high_hp():
+    class FlatModel:
+        def leaf(self, _state):
+            return 0.15, 0.30
+
+    st = _sample_completed_state()
+    v_poi = Variant("SNAKEBITE", "Skill", 2, "AnyEnemy")
+    e0 = Enemy(0, "CRUSHER", 210, 219, 0, (), (Intent("Attack", 21, 1),), 0, False)
+    e1 = Enemy(1, "ROCKET", 209, 209, 0, (), (Intent("Attack", 4, 1),), 0, False)
+    base = replace(
+        st,
+        hp=77,
+        max_hp=80,
+        block=0,
+        powers=(("SURROUNDED", 1),),
+        enemies=(e0, e1),
+        draw=(v_poi, v_poi),
+        kaiser_v63=True,
+    )
+    # Option A: Defend -> stay at 77 HP, no Accelerant
+    opt_defend = base
+    # Option B: Play Accelerant+ -> take 6 chip damage (71 HP), gain ACCELERANT=2
+    opt_scale = replace(base, hp=71, powers=(("ACCELERANT", 2), ("SURROUNDED", 1)))
+
+    # Legacy Kaiser adjustment (4.0 * hp, 0 * Accelerant) wrongly prefers Defend over Accelerant+!
+    _, s_def_old = leaf_value(opt_defend, 7.0, model=FlatModel(), win_weight=15.0, boss_safe=True, kaiser_scaling_v69=False)
+    _, s_scl_old = leaf_value(opt_scale, 7.0, model=FlatModel(), win_weight=15.0, boss_safe=True, kaiser_scaling_v69=False)
+    assert s_def_old > s_scl_old
+
+    # Opt-in kaiser_scaling_v69 takes 6 chip damage at 77 HP to get Accelerant+ online!
+    _, s_def_new = leaf_value(opt_defend, 7.0, model=FlatModel(), win_weight=15.0, boss_safe=True, kaiser_scaling_v69=True)
+    _, s_scl_new = leaf_value(opt_scale, 7.0, model=FlatModel(), win_weight=15.0, boss_safe=True, kaiser_scaling_v69=True)
+    assert s_scl_new > s_def_new + 10.0
+
+    # At critical low HP (14 HP vs 2 HP), taking 12 damage is still strongly penalized
+    low_safe = replace(base, hp=14)
+    low_risk = replace(base, hp=2, powers=(("ACCELERANT", 2), ("SURROUNDED", 1)))
+    _, s_low_safe = leaf_value(low_safe, 7.0, model=FlatModel(), win_weight=15.0, boss_safe=True, kaiser_scaling_v69=True)
+    _, s_low_risk = leaf_value(low_risk, 7.0, model=FlatModel(), win_weight=15.0, boss_safe=True, kaiser_scaling_v69=True)
+    assert s_low_safe > s_low_risk
+
+    # Opt-in kaiser_pure_neural_v69 omits _boss_adjustment when model is provided on kaiser_v63
+    _, s_pure = leaf_value(
+        opt_defend, 7.0, model=FlatModel(), win_weight=15.0, boss_safe=True, kaiser_pure_neural_v69=True
+    )
+    expected_pure = round(0.15 * (80 * 0.30 + 15.0), 8)
+    assert abs(s_pure - expected_pure) < 1e-6
+
+

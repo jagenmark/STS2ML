@@ -140,6 +140,8 @@ def _mini_beam(start, config, model, boss_safe: bool):
             boss_safe=boss_safe,
             power_leaf_v62=config.power_leaf_v62,
             value_v68=config.value_v68,
+            kaiser_scaling_v69=config.kaiser_scaling_v69,
+            kaiser_pure_neural_v69=config.kaiser_pure_neural_v69,
         )
     if start.boundary:
         return None
@@ -160,6 +162,8 @@ def _mini_beam(start, config, model, boss_safe: bool):
             boss_safe=boss_safe,
             power_leaf_v62=config.power_leaf_v62,
             value_v68=config.value_v68,
+            kaiser_scaling_v69=config.kaiser_scaling_v69,
+            kaiser_pure_neural_v69=config.kaiser_pure_neural_v69,
         )
         if best is None or sc > best:
             best = sc
@@ -204,6 +208,7 @@ def _mini_beam(start, config, model, boss_safe: bool):
                     boss_safe=boss_safe,
                     power_leaf_v62=config.power_leaf_v62,
                     value_v68=config.value_v68,
+                    kaiser_scaling_v69=config.kaiser_scaling_v69,
                 )
                 nxt.append((pr, child))
         if not nxt:

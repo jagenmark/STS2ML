@@ -29,6 +29,8 @@ class Config:
     draw_pimc_v68: bool = False
     value_v68: bool = False
     pimc_samples: int = 6
+    kaiser_scaling_v69: bool = False
+    kaiser_pure_neural_v69: bool = False
 
     def late_root(self, act, room):
         if act == 3:
@@ -42,7 +44,8 @@ class Config:
                 or any(type(v) is not bool for v in (self.v6_late_coverage, self.v61_act2_hallways_act3,
                                                       self.v61_boss_safe, self.power_leaf_v62, self.early_escape_v62,
                                                       self.kaiser_v63, self.wax_fan_v64, self.silent_cards_v66,
-                                                      self.silent_cards_v67, self.draw_pimc_v68, self.value_v68))
+                                                      self.silent_cards_v67, self.draw_pimc_v68, self.value_v68,
+                                                      self.kaiser_scaling_v69, self.kaiser_pure_neural_v69))
                 or self.version != 1 or not 2 <= self.width <= 32 or not 2 <= self.depth <= 10
                 or not self.width <= self.children <= 1024
                 or not 2 <= self.pimc_samples <= 16
@@ -147,7 +150,8 @@ class _Search:
                    and state.outcome == "completed" else None)
         score = leaf_value(state, self.config.potion_reserve, self.model, self.config.value_win_weight,
                            boss_safe=self.boss_safe, power_leaf_v62=self.config.power_leaf_v62,
-                           value_v68=self.config.value_v68)
+                           value_v68=self.config.value_v68, kaiser_scaling_v69=self.config.kaiser_scaling_v69,
+                           kaiser_pure_neural_v69=self.config.kaiser_pure_neural_v69)
         if started is not None:
             self.leaf_ns = perf_counter_ns() - started
         line = Line(state, path, score, root)
@@ -179,7 +183,8 @@ class _Search:
             self.leaf(successor, path, root)
             return None
         priority = interim(successor, self.config.potion_reserve, boss_safe=self.boss_safe,
-                           power_leaf_v62=self.config.power_leaf_v62, value_v68=self.config.value_v68)
+                           power_leaf_v62=self.config.power_leaf_v62, value_v68=self.config.value_v68,
+                           kaiser_scaling_v69=self.config.kaiser_scaling_v69)
         return _Node(successor, path, root, priority)
 
     def finish(self, node):

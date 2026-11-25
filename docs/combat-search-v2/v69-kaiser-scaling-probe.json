@@ -1,0 +1,38 @@
+{
+  "n_seeds": 95,
+  "elapsed_min": 4.32,
+  "arms": {
+    "v68_base": {
+      "mean_floor": 33.663,
+      "kaiser_wins": 6,
+      "kaiser_entries": 95,
+      "kaiser_wr_pct": 6.32,
+      "mm": 0,
+      "k2_leaves_collected": 330,
+      "k1_leaves_collected": 24,
+      "k_rejects": 83
+    },
+    "v68_kscale": {
+      "mean_floor": 33.905,
+      "kaiser_wins": 8,
+      "kaiser_entries": 95,
+      "kaiser_wr_pct": 8.42,
+      "mm": 0,
+      "k2_leaves_collected": 303,
+      "k1_leaves_collected": 29,
+      "k_rejects": 87
+    }
+  },
+  "v68_kscale_vs_base": {
+    "gained": [
+      "CSV24CONF_DEFAULT_0176",
+      "CSV24CONF_DEFAULT_0306",
+      "CSV24CONF_DEFAULT_0335",
+      "CSV24CONF_DEFAULT_0358"
+    ],
+    "lost": [
+      "CSV24CONF_DEFAULT_0109",
+      "CSV24CONF_SEEDED_0059"
+    ]
+  }
+}
