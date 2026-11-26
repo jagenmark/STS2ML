@@ -487,8 +487,9 @@ def main() -> None:
     n_eval_a3 = min(2 if args.smoke else 120, max(1 if args.smoke else 0, len(a3_traces) // 4))
     a3_eval_traces = a3_traces[:n_eval_a3]
     a3_train_traces = a3_traces[n_eval_a3:]
+    eval_uids = {int(Path(p).stem.rsplit("_u", 1)[1]) for p, _, _, _ in a3_eval_traces}
     print(
-        f"  Split Act 3 openings: train={len(a3_train_traces)}, held-out bakeoff={len(a3_eval_traces)}",
+        f"  Split Act 3 openings: train={len(a3_train_traces)}, held-out bakeoff={len(a3_eval_traces)} (strictly excluded from training!)",
         flush=True,
     )
 
@@ -540,6 +541,9 @@ def main() -> None:
     y_win = np.concatenate(all_yw, axis=0)
     y_hp = np.concatenate(all_yh, axis=0)
     run_id = np.concatenate(all_uid, axis=0)
+    if eval_uids and not args.smoke:
+        keep = ~np.isin(run_id, list(eval_uids))
+        X, y_win, y_hp, run_id = X[keep], y_win[keep], y_hp[keep], run_id[keep]
     data_path = c_dir / "schema5_iter4_act3_dataset.npz"
     np.savez_compressed(data_path, X=X, y_win=y_win, y_hp=y_hp, run_id=run_id)
     new_stats = _stats_v70(X, y_win)
